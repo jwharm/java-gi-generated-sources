@@ -42,17 +42,3 @@ out/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# Generated code
-generated/
-src/org/gtk/gdk/
-src/org/gtk/gdkpixbuf/
-src/org/gtk/gio/
-src/org/gtk/glib/
-src/org/cairographics/
-src/org/harfbuzz/
-src/org/pango/
-src/org/gtk/graphene/
-src/org/gtk/gsk/
-src/org/gtk/gtk/
-
