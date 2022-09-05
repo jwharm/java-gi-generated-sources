@@ -39,7 +39,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Sequence getSequence() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_get_sequence(HANDLE());
-        return new Sequence(ProxyFactory.getProxy(RESULT, false));
+        return new Sequence(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter move(int delta) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_move(HANDLE(), delta);
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter next() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_next(HANDLE());
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter prev() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_prev(HANDLE());
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
 }

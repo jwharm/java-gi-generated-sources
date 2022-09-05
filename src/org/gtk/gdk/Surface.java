@@ -34,14 +34,14 @@ public class Surface extends org.gtk.gobject.Object {
      * relative to it using [method@Gdk.Popup.present].
      */
     public Surface(Surface parent, boolean autohide) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_popup(parent.HANDLE(), autohide ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_popup(parent.HANDLE(), autohide ? 1 : 0), true));
     }
     
     /**
      * Creates a new toplevel surface.
      */
     public Surface(Display display) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_toplevel(display.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_toplevel(display.HANDLE()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public CairoContext createCairoContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_cairo_context(HANDLE());
-        return new CairoContext(ProxyFactory.getProxy(RESULT, true));
+        return new CairoContext(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -76,7 +76,7 @@ public class Surface extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new GLContext(ProxyFactory.getProxy(RESULT, true));
+        return new GLContext(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public org.cairographics.Surface createSimilarSurface(org.cairographics.Content content, int width, int height) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_similar_surface(HANDLE(), content.getValue(), width, height);
-        return new org.cairographics.Surface(ProxyFactory.getProxy(RESULT, true));
+        return new org.cairographics.Surface(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -112,7 +112,7 @@ public class Surface extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new VulkanContext(ProxyFactory.getProxy(RESULT, true));
+        return new VulkanContext(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -141,7 +141,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Cursor getCursor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_cursor(HANDLE());
-        return new Cursor(ProxyFactory.getProxy(RESULT, false));
+        return new Cursor(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Cursor getDeviceCursor(Device device) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_device_cursor(HANDLE(), device.HANDLE());
-        return new Cursor(ProxyFactory.getProxy(RESULT, false));
+        return new Cursor(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -163,7 +163,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -174,7 +174,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public FrameClock getFrameClock() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_frame_clock(HANDLE());
-        return new FrameClock(ProxyFactory.getProxy(RESULT, false));
+        return new FrameClock(ProxyFactory.get(RESULT, false));
     }
     
     /**

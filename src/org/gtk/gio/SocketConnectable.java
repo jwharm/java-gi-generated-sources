@@ -71,7 +71,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
      */
     public default SocketAddressEnumerator enumerate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connectable_enumerate(HANDLE());
-        return new SocketAddressEnumerator(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddressEnumerator(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -85,7 +85,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
      */
     public default SocketAddressEnumerator proxyEnumerate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connectable_proxy_enumerate(HANDLE());
-        return new SocketAddressEnumerator(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddressEnumerator(ProxyFactory.get(RESULT, true));
     }
     
     /**

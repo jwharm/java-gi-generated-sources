@@ -86,7 +86,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * Create a new `GtkSizeGroup`.
      */
     public SizeGroup(SizeGroupMode mode) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_new(mode.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_new(mode.getValue()), true));
     }
     
     /**
@@ -119,7 +119,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      */
     public org.gtk.glib.SList getWidgets() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_get_widgets(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
     }
     
     /**

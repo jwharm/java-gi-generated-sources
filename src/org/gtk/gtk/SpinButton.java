@@ -134,7 +134,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Creates a new `GtkSpinButton`.
      */
     public SpinButton(Adjustment adjustment, double climbRate, int digits) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new(adjustment.HANDLE(), climbRate, digits), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new(adjustment.HANDLE(), climbRate, digits), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * [method@Gtk.SpinButton.set_digits] to correct it.
      */
     public SpinButton(double min, double max, double step) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
     }
     
     /**
@@ -171,7 +171,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**

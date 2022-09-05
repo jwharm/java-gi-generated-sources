@@ -38,21 +38,21 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * `/usr/share/applications/kde/foo.desktop`).
      */
     public DesktopAppInfo(java.lang.String desktopId) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.getAllocator().allocateUtf8String(desktopId)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.getAllocator().allocateUtf8String(desktopId)), true));
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
-        return new DesktopAppInfo(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
+        return new DesktopAppInfo(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public DesktopAppInfo(org.gtk.glib.KeyFile keyFile) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.HANDLE()), true));
     }
     
     /**

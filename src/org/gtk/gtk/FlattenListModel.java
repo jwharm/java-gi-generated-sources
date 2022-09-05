@@ -26,7 +26,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * Creates a new `GtkFlattenListModel` that flattens @list.
      */
     public FlattenListModel(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_new(model.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_new(model.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -34,7 +34,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      */
     public org.gtk.gio.ListModel getModelForItem(int position) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_get_model_for_item(HANDLE(), position);
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -22,7 +22,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default DBusInterface getInterface(java.lang.String objectPath, java.lang.String interfaceName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath), Interop.getAllocator().allocateUtf8String(interfaceName));
-        return new DBusInterface.DBusInterfaceImpl(ProxyFactory.getProxy(RESULT, true));
+        return new DBusInterface.DBusInterfaceImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -30,7 +30,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default DBusObject getObject(java.lang.String objectPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_object(HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath));
-        return new DBusObject.DBusObjectImpl(ProxyFactory.getProxy(RESULT, true));
+        return new DBusObject.DBusObjectImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -46,7 +46,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default org.gtk.glib.List getObjects() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_objects(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     @FunctionalInterface

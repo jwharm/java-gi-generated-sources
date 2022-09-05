@@ -22,7 +22,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * that could include printf() escape sequences.
      */
     public Error(Quark domain, int code, java.lang.String message) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_literal(domain.getValue(), code, Interop.getAllocator().allocateUtf8String(message)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_literal(domain.getValue(), code, Interop.getAllocator().allocateUtf8String(message)), true));
     }
     
     /**
@@ -30,7 +30,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * and a message formatted with @format.
      */
     public Error(Quark domain, int code, java.lang.String format, VaList args) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_valist(domain.getValue(), code, Interop.getAllocator().allocateUtf8String(format), args), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_valist(domain.getValue(), code, Interop.getAllocator().allocateUtf8String(format), args), true));
     }
     
     /**
@@ -38,7 +38,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Error copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_copy(HANDLE());
-        return new Error(ProxyFactory.getProxy(RESULT, true));
+        return new Error(ProxyFactory.get(RESULT, true));
     }
     
     /**

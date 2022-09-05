@@ -24,7 +24,7 @@ public class BoolFilter extends Filter {
      * Creates a new bool filter.
      */
     public BoolFilter(Expression expression) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_new(expression.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class BoolFilter extends Filter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.getProxy(RESULT, false));
+        return new Expression(ProxyFactory.get(RESULT, false));
     }
     
     /**

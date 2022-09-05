@@ -44,7 +44,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_find_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
-        return new ParamSpec(ProxyFactory.getProxy(RESULT, false));
+        return new ParamSpec(ProxyFactory.get(RESULT, false));
     }
     
     /**

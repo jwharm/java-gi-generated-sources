@@ -29,7 +29,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default org.gtk.gdk.ContentProvider dragDataGet(TreePath path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_source_drag_data_get(HANDLE(), path.HANDLE());
-        return new org.gtk.gdk.ContentProvider(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(ProxyFactory.get(RESULT, true));
     }
     
     /**

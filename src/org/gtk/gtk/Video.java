@@ -36,14 +36,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new empty `GtkVideo`.
      */
     public Video() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new(), false));
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @file.
      */
     public Video(org.gtk.gio.File file) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_file(file.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_file(file.HANDLE()), false));
     }
     
     /**
@@ -53,14 +53,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * See that function for details.
      */
     public static Video newForFilename(java.lang.String filename) {
-        return new Video(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @stream.
      */
     public Video(MediaStream stream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_media_stream(stream.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_media_stream(stream.HANDLE()), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [ctor@Gtk.Video.new_for_file].
      */
     public static Video newForResource(java.lang.String resourcePath) {
-        return new Video(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public MediaStream getMediaStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_media_stream(HANDLE());
-        return new MediaStream(ProxyFactory.getProxy(RESULT, false));
+        return new MediaStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

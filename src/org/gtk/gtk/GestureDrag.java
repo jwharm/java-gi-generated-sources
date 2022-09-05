@@ -31,7 +31,7 @@ public class GestureDrag extends GestureSingle {
      * Returns a newly created `GtkGesture` that recognizes drags.
      */
     public GestureDrag() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_drag_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_drag_new(), true));
     }
     
     @FunctionalInterface

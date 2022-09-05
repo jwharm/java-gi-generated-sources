@@ -162,7 +162,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * you will have to fill it completely yourself.
      */
     public Pixbuf(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true));
     }
     
     /**
@@ -174,7 +174,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * for language bindings.
      */
     public Pixbuf(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_bytes(data.HANDLE(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_bytes(data.HANDLE(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
     }
     
     /**
@@ -184,7 +184,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * program's C source.
      */
     public Pixbuf(java.lang.String[] data) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data)), true));
     }
     
     /**
@@ -204,7 +204,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf addAlpha(boolean substituteColor, byte r, byte g, byte b) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_add_alpha(HANDLE(), substituteColor ? 1 : 0, r, g, b);
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -221,7 +221,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf applyEmbeddedOrientation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_apply_embedded_orientation(HANDLE());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -268,7 +268,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf compositeColorSimple(int destWidth, int destHeight, InterpType interpType, int overallAlpha, int checkSize, int color1, int color2) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_composite_color_simple(HANDLE(), destWidth, destHeight, interpType.getValue(), overallAlpha, checkSize, color1, color2);
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -280,7 +280,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_copy(HANDLE());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -326,7 +326,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf flip(boolean horizontal) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_flip(HANDLE(), horizontal ? 1 : 0);
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -406,7 +406,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public org.gtk.glib.HashTable getOptions() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_options(HANDLE());
-        return new org.gtk.glib.HashTable(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.HashTable(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -439,7 +439,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf newSubpixbuf(int srcX, int srcY, int width, int height) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_subpixbuf(HANDLE(), srcX, srcY, width, height);
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -451,7 +451,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public org.gtk.glib.Bytes readPixelBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_read_pixel_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -470,7 +470,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf rotateSimple(PixbufRotation angle) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_rotate_simple(HANDLE(), angle.getValue());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -569,7 +569,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Pixbuf scaleSimple(int destWidth, int destHeight, InterpType interpType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_scale_simple(HANDLE(), destWidth, destHeight, interpType.getValue());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, true));
+        return new Pixbuf(ProxyFactory.get(RESULT, true));
     }
     
     /**

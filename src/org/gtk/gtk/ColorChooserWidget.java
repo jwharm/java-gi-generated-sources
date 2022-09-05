@@ -46,7 +46,7 @@ public class ColorChooserWidget extends Widget implements Accessible, Buildable,
      * Creates a new `GtkColorChooserWidget`.
      */
     public ColorChooserWidget() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_widget_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_widget_new(), false));
     }
     
 }

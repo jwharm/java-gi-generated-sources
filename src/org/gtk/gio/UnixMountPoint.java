@@ -28,7 +28,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public UnixMountPoint copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_copy(HANDLE());
-        return new UnixMountPoint(ProxyFactory.getProxy(RESULT, true));
+        return new UnixMountPoint(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Icon guessIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Icon guessSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

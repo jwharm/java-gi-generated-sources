@@ -46,7 +46,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.pango.FontDescription getFontDesc() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_desc(HANDLE());
-        return new org.pango.FontDescription(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.FontDescription(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.pango.FontFace getFontFace() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_face(HANDLE());
-        return new org.pango.FontFace(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.FontFace(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.pango.FontFamily getFontFamily() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_family(HANDLE());
-        return new org.pango.FontFamily(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.FontFamily(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.pango.FontMap getFontMap() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_map(HANDLE());
-        return new org.pango.FontMap(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.FontMap(ProxyFactory.get(RESULT, true));
     }
     
     /**

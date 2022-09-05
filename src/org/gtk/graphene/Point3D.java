@@ -18,7 +18,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * Allocates a #graphene_point3d_t structure.
      */
     public Point3D() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_alloc(), true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point3D init(float x, float y, float z) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init(HANDLE(), x, y, z);
-        return new Point3D(ProxyFactory.getProxy(RESULT, false));
+        return new Point3D(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -73,7 +73,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point3D initFromPoint(Point3D src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init_from_point(HANDLE(), src.HANDLE());
-        return new Point3D(ProxyFactory.getProxy(RESULT, false));
+        return new Point3D(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point3D initFromVec3(Vec3 v) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init_from_vec3(HANDLE(), v.HANDLE());
-        return new Point3D(ProxyFactory.getProxy(RESULT, false));
+        return new Point3D(ProxyFactory.get(RESULT, false));
     }
     
     /**

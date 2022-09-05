@@ -33,7 +33,7 @@ public class CairoRenderer extends Renderer {
      * avoided.
      */
     public CairoRenderer() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_renderer_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_renderer_new(), true));
     }
     
 }

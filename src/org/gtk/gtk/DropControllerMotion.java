@@ -31,7 +31,7 @@ public class DropControllerMotion extends EventController {
      * events during drag and drop.
      */
     public DropControllerMotion() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_new(), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class DropControllerMotion extends EventController {
      */
     public org.gtk.gdk.Drop getDrop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_get_drop(HANDLE());
-        return new org.gtk.gdk.Drop(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Drop(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -37,7 +37,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Event getCurrentEvent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_get_current_event(HANDLE());
-        return new org.gtk.gdk.Event(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Event(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Device getCurrentEventDevice() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_get_current_event_device(HANDLE());
-        return new org.gtk.gdk.Device(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Device(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_get_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

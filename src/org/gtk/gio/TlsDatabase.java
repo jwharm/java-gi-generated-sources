@@ -62,7 +62,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, true));
+        return new TlsCertificate(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -78,7 +78,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, true));
+        return new TlsCertificate(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -109,7 +109,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, true));
+        return new TlsCertificate(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -122,7 +122,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, true));
+        return new TlsCertificate(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -150,7 +150,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -41,7 +41,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Creates a new sort list model that uses the @sorter to sort @model.
      */
     public SortListModel(org.gtk.gio.ListModel model, Sorter sorter) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_new(model.getProxy().unowned().HANDLE(), sorter.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_new(model.getProxy().unowned().HANDLE(), sorter.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.getProxy(RESULT, false));
+        return new Sorter(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -20,7 +20,7 @@ public class GLRenderer extends Renderer {
      * Creates a new `GskRenderer` using the new OpenGL renderer.
      */
     public GLRenderer() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_renderer_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_renderer_new(), true));
     }
     
 }

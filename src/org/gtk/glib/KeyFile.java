@@ -22,7 +22,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * read an existing key file.
      */
     public KeyFile() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_new(), true));
     }
     
     /**
@@ -335,7 +335,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public KeyFile ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_ref(HANDLE());
-        return new KeyFile(ProxyFactory.getProxy(RESULT, true));
+        return new KeyFile(ProxyFactory.get(RESULT, true));
     }
     
     /**

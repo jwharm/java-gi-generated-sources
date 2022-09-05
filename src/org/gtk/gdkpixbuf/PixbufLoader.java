@@ -67,7 +67,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * Creates a new pixbuf loader object.
      */
     public PixbufLoader() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_new(), true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufAnimation getAnimation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_animation(HANDLE());
-        return new PixbufAnimation(ProxyFactory.getProxy(RESULT, false));
+        return new PixbufAnimation(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -117,7 +117,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufFormat getFormat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_format(HANDLE());
-        return new PixbufFormat(ProxyFactory.getProxy(RESULT, false));
+        return new PixbufFormat(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -139,7 +139,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public Pixbuf getPixbuf() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_pixbuf(HANDLE());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, false));
+        return new Pixbuf(ProxyFactory.get(RESULT, false));
     }
     
     /**

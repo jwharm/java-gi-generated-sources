@@ -83,7 +83,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newIdentifier(java.lang.String identifier) {
-        return new TimeZone(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_identifier(Interop.getAllocator().allocateUtf8String(identifier)), true));
+        return new TimeZone(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_identifier(Interop.getAllocator().allocateUtf8String(identifier)), true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newLocal() {
-        return new TimeZone(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_local(), true));
+        return new TimeZone(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_local(), true));
     }
     
     /**
@@ -109,7 +109,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * `[+|-]hh[:mm[:ss]]`.
      */
     public TimeZone(int seconds) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_offset(seconds), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_offset(seconds), true));
     }
     
     /**
@@ -122,7 +122,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newUtc() {
-        return new TimeZone(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_utc(), true));
+        return new TimeZone(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_utc(), true));
     }
     
     /**
@@ -205,7 +205,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TimeZone ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_ref(HANDLE());
-        return new TimeZone(ProxyFactory.getProxy(RESULT, true));
+        return new TimeZone(ProxyFactory.get(RESULT, true));
     }
     
     /**

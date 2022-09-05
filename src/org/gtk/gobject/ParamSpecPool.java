@@ -31,7 +31,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public org.gtk.glib.List listOwned(Type ownerType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_list_owned(HANDLE(), ownerType.getValue());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -39,7 +39,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public ParamSpec lookup(java.lang.String paramName, Type ownerType, boolean walkAncestors) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(paramName), ownerType.getValue(), walkAncestors ? 1 : 0);
-        return new ParamSpec(ProxyFactory.getProxy(RESULT, false));
+        return new ParamSpec(ProxyFactory.get(RESULT, false));
     }
     
     /**

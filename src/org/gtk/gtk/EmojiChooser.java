@@ -50,7 +50,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
      * Creates a new `GtkEmojiChooser`.
      */
     public EmojiChooser() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_emoji_chooser_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_emoji_chooser_new(), false));
     }
     
     @FunctionalInterface

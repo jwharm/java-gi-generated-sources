@@ -24,7 +24,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * Creates a new data input stream for the @base_stream.
      */
     public DataInputStream(InputStream baseStream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_new(baseStream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_new(baseStream.HANDLE()), true));
     }
     
     /**

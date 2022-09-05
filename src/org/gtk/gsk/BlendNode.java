@@ -24,7 +24,7 @@ public class BlendNode extends RenderNode {
      * node onto the @bottom node.
      */
     public BlendNode(RenderNode bottom, RenderNode top, BlendMode blendMode) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_new(bottom.HANDLE(), top.HANDLE(), blendMode.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_new(bottom.HANDLE(), top.HANDLE(), blendMode.getValue()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getBottomChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_get_bottom_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getTopChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_get_top_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
 }

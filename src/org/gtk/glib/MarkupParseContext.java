@@ -71,7 +71,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      */
     public org.gtk.glib.SList getElementStack() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_get_element_stack(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -252,7 +252,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      */
     public MarkupParseContext ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_ref(HANDLE());
-        return new MarkupParseContext(ProxyFactory.getProxy(RESULT, true));
+        return new MarkupParseContext(ProxyFactory.get(RESULT, true));
     }
     
     /**

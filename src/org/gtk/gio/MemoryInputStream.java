@@ -27,14 +27,14 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
      * Creates a new empty #GMemoryInputStream.
      */
     public MemoryInputStream() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new(), true));
     }
     
     /**
      * Creates a new #GMemoryInputStream with data from the given @bytes.
      */
     public MemoryInputStream(org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new_from_bytes(bytes.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new_from_bytes(bytes.HANDLE()), true));
     }
     
     /**

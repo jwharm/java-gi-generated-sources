@@ -60,7 +60,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      */
     public CellArea getArea() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_get_area(HANDLE());
-        return new CellArea(ProxyFactory.getProxy(RESULT, false));
+        return new CellArea(ProxyFactory.get(RESULT, false));
     }
     
     /**

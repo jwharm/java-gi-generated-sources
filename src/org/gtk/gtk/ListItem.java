@@ -47,7 +47,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ListItem extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
     /**

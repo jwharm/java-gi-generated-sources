@@ -87,7 +87,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      */
     public LayoutChild getLayoutChild(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_get_layout_child(HANDLE(), child.HANDLE());
-        return new LayoutChild(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutChild(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_get_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -102,7 +102,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * Creates a new `GtkScale`.
      */
     public Scale(Orientation orientation, Adjustment adjustment) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new(orientation.getValue(), adjustment.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new(orientation.getValue(), adjustment.HANDLE()), false));
     }
     
     /**
@@ -119,7 +119,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * for your needs, use [method@Gtk.Scale.set_digits] to correct it.
      */
     public Scale(Orientation orientation, double min, double max, double step) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_layout(HANDLE());
-        return new org.pango.Layout(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.Layout(ProxyFactory.get(RESULT, false));
     }
     
     /**

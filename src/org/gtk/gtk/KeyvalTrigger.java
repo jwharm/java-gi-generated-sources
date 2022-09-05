@@ -24,7 +24,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * the key with the given @keyval and @modifiers is pressed.
      */
     public KeyvalTrigger(int keyval, int modifiers) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
     }
     
     /**

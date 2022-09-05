@@ -32,7 +32,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**

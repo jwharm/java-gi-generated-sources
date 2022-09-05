@@ -22,7 +22,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rand copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_copy(HANDLE());
-        return new Rand(ProxyFactory.getProxy(RESULT, false));
+        return new Rand(ProxyFactory.get(RESULT, false));
     }
     
     /**

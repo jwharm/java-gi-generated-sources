@@ -31,7 +31,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_lookup_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new DBusInterfaceInfo(ProxyFactory.getProxy(RESULT, false));
+        return new DBusInterfaceInfo(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DBusNodeInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_ref(HANDLE());
-        return new DBusNodeInfo(ProxyFactory.getProxy(RESULT, true));
+        return new DBusNodeInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

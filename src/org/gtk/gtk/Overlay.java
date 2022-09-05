@@ -54,7 +54,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkOverlay`.
      */
     public Overlay() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_new(), false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

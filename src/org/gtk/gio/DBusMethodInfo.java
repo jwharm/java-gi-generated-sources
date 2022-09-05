@@ -20,7 +20,7 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public DBusMethodInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_info_ref(HANDLE());
-        return new DBusMethodInfo(ProxyFactory.getProxy(RESULT, true));
+        return new DBusMethodInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

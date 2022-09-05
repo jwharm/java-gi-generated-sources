@@ -24,7 +24,7 @@ public class ShadowNode extends RenderNode {
      * @shadows below it.
      */
     public ShadowNode(RenderNode child, Shadow[] shadows, long nShadows) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_new(child.HANDLE(), Interop.allocateNativeArray(shadows), nShadows), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_new(child.HANDLE(), Interop.allocateNativeArray(shadows), nShadows), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class ShadowNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class ShadowNode extends RenderNode {
      */
     public Shadow getShadow(long i) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_get_shadow(HANDLE(), i);
-        return new Shadow(ProxyFactory.getProxy(RESULT, false));
+        return new Shadow(ProxyFactory.get(RESULT, false));
     }
     
 }

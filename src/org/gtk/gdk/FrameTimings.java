@@ -107,7 +107,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public FrameTimings ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_ref(HANDLE());
-        return new FrameTimings(ProxyFactory.getProxy(RESULT, true));
+        return new FrameTimings(ProxyFactory.get(RESULT, true));
     }
     
     /**

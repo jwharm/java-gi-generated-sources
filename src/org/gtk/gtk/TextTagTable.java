@@ -45,7 +45,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * The table contains no tags by default.
      */
     public TextTagTable() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      */
     public TextTag lookup(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new TextTag(ProxyFactory.getProxy(RESULT, false));
+        return new TextTag(ProxyFactory.get(RESULT, false));
     }
     
     /**

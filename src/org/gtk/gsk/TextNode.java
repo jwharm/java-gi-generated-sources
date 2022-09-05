@@ -26,7 +26,7 @@ public class TextNode extends RenderNode {
      * color glyphs.
      */
     public TextNode(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_new(font.HANDLE(), glyphs.HANDLE(), color.HANDLE(), offset.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_new(font.HANDLE(), glyphs.HANDLE(), color.HANDLE(), offset.HANDLE()), true));
     }
     
     /**
@@ -34,7 +34,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class TextNode extends RenderNode {
      */
     public org.pango.Font getFont() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_font(HANDLE());
-        return new org.pango.Font(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.Font(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.graphene.Point getOffset() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_offset(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
     }
     
     /**

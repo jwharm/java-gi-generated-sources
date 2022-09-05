@@ -17,7 +17,7 @@ public class PixbufNonAnim extends PixbufAnimation {
     }
     
     public PixbufNonAnim(Pixbuf pixbuf) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_non_anim_new(pixbuf.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_non_anim_new(pixbuf.HANDLE()), true));
     }
     
 }

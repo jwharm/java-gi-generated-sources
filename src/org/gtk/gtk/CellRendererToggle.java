@@ -34,7 +34,7 @@ public class CellRendererToggle extends CellRenderer {
      * the model.
      */
     public CellRendererToggle() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_new(), false));
     }
     
     /**

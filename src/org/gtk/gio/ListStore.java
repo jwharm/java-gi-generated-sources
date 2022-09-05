@@ -28,7 +28,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * must be a subclass of #GObject.
      */
     public ListStore(Type itemType) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_new(itemType.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_new(itemType.getValue()), true));
     }
     
     /**

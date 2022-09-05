@@ -41,7 +41,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * Creates a new `GtkCellAreaBox`.
      */
     public CellAreaBox() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_new(), false));
     }
     
     /**

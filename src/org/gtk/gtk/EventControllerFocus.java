@@ -31,7 +31,7 @@ public class EventControllerFocus extends EventController {
      * Creates a new event controller that will handle focus events.
      */
     public EventControllerFocus() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_new(), true));
     }
     
     /**

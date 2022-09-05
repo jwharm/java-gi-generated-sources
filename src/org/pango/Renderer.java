@@ -154,7 +154,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Color getColor(RenderPart part) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_color(HANDLE(), part.getValue());
-        return new Color(ProxyFactory.getProxy(RESULT, false));
+        return new Color(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_layout(HANDLE());
-        return new Layout(ProxyFactory.getProxy(RESULT, false));
+        return new Layout(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public LayoutLine getLayoutLine() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_layout_line(HANDLE());
-        return new LayoutLine(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutLine(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -193,7 +193,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public Matrix getMatrix() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_matrix(HANDLE());
-        return new Matrix(ProxyFactory.getProxy(RESULT, false));
+        return new Matrix(ProxyFactory.get(RESULT, false));
     }
     
     /**

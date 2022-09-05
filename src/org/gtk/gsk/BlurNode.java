@@ -23,7 +23,7 @@ public class BlurNode extends RenderNode {
      * Creates a render node that blurs the child.
      */
     public BlurNode(RenderNode child, float radius) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_new(child.HANDLE(), radius), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_new(child.HANDLE(), radius), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class BlurNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**

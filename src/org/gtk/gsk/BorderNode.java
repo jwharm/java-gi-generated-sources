@@ -26,7 +26,7 @@ public class BorderNode extends RenderNode {
      * The 4 sides of the border can have different widths and colors.
      */
     public BorderNode(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_new(outline.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_new(outline.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor)), true));
     }
     
     /**
@@ -34,7 +34,7 @@ public class BorderNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColors() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_get_colors(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class BorderNode extends RenderNode {
      */
     public RoundedRect getOutline() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_get_outline(HANDLE());
-        return new RoundedRect(ProxyFactory.getProxy(RESULT, false));
+        return new RoundedRect(ProxyFactory.get(RESULT, false));
     }
     
 }

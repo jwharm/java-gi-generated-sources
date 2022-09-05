@@ -29,7 +29,7 @@ public class BinLayout extends LayoutManager {
      * Creates a new `GtkBinLayout` instance.
      */
     public BinLayout() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bin_layout_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bin_layout_new(), true));
     }
     
 }

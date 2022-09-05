@@ -29,7 +29,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public FontDescription describe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_describe(HANDLE());
-        return new FontDescription(ProxyFactory.getProxy(RESULT, true));
+        return new FontDescription(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class FontFace extends org.gtk.gobject.Object {
      */
     public FontFamily getFamily() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_get_family(HANDLE());
-        return new FontFamily(ProxyFactory.getProxy(RESULT, false));
+        return new FontFamily(ProxyFactory.get(RESULT, false));
     }
     
     /**

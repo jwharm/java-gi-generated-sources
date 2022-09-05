@@ -82,7 +82,7 @@ public class PadController extends EventController {
      * a pad controller to any other type of widget will not have an effect.
      */
     public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_new(group.HANDLE(), pad.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_new(group.HANDLE(), pad.HANDLE()), true));
     }
     
     /**

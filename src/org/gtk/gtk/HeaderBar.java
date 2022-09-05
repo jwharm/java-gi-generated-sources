@@ -93,7 +93,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkHeaderBar` widget.
      */
     public HeaderBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_new(), false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getTitleWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_get_title_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

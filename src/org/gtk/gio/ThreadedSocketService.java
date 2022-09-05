@@ -38,7 +38,7 @@ public class ThreadedSocketService extends SocketService {
      * must be added with one of the #GSocketListener "add" methods.
      */
     public ThreadedSocketService(int maxThreads) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_threaded_socket_service_new(maxThreads), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_threaded_socket_service_new(maxThreads), true));
     }
     
     @FunctionalInterface

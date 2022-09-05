@@ -93,7 +93,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * Creates a new `GtkApplicationWindow`.
      */
     public ApplicationWindow(Application application) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_new(application.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_new(application.HANDLE()), false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      */
     public ShortcutsWindow getHelpOverlay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_get_help_overlay(HANDLE());
-        return new ShortcutsWindow(ProxyFactory.getProxy(RESULT, false));
+        return new ShortcutsWindow(ProxyFactory.get(RESULT, false));
     }
     
     /**

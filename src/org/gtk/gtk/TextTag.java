@@ -40,7 +40,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * Creates a `GtkTextTag`.
      */
     public TextTag(java.lang.String name) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_new(Interop.getAllocator().allocateUtf8String(name)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_new(Interop.getAllocator().allocateUtf8String(name)), true));
     }
     
     /**

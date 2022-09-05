@@ -32,7 +32,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Creates a new `GtkPrintJob`.
      */
     public PrintJob(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_new(Interop.getAllocator().allocateUtf8String(title), printer.HANDLE(), settings.HANDLE(), pageSetup.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_new(Interop.getAllocator().allocateUtf8String(title), printer.HANDLE(), settings.HANDLE(), pageSetup.HANDLE()), true));
     }
     
     /**
@@ -88,7 +88,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public Printer getPrinter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_printer(HANDLE());
-        return new Printer(ProxyFactory.getProxy(RESULT, false));
+        return new Printer(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public PrintSettings getSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.getProxy(RESULT, false));
+        return new PrintSettings(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.cairographics.Surface(ProxyFactory.getProxy(RESULT, false));
+        return new org.cairographics.Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**

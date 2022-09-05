@@ -23,7 +23,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Hmac copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_copy(HANDLE());
-        return new Hmac(ProxyFactory.getProxy(RESULT, false));
+        return new Hmac(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Hmac ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_ref(HANDLE());
-        return new Hmac(ProxyFactory.getProxy(RESULT, false));
+        return new Hmac(ProxyFactory.get(RESULT, false));
     }
     
     /**

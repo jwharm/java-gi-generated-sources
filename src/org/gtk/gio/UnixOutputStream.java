@@ -34,7 +34,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
     }
     
     /**

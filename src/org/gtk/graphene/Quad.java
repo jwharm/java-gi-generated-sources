@@ -23,7 +23,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned instance are undefined.
      */
     public Quad() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_alloc(), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point getPoint(int index) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_get_point(HANDLE(), index);
-        return new Point(ProxyFactory.getProxy(RESULT, false));
+        return new Point(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quad init(Point p1, Point p2, Point p3, Point p4) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_init(HANDLE(), p1.HANDLE(), p2.HANDLE(), p3.HANDLE(), p4.HANDLE());
-        return new Quad(ProxyFactory.getProxy(RESULT, false));
+        return new Quad(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quad initFromPoints(Point[] points) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_init_from_points(HANDLE(), Interop.allocateNativeArray(points));
-        return new Quad(ProxyFactory.getProxy(RESULT, false));
+        return new Quad(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quad initFromRect(Rect r) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quad_init_from_rect(HANDLE(), r.HANDLE());
-        return new Quad(ProxyFactory.getProxy(RESULT, false));
+        return new Quad(ProxyFactory.get(RESULT, false));
     }
     
 }

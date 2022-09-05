@@ -35,7 +35,7 @@ public interface Actionable extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default org.gtk.glib.Variant getActionTargetValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_actionable_get_action_target_value(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
     }
     
     /**

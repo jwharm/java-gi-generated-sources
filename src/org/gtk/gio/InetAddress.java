@@ -33,7 +33,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * care") for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
-        return new InetAddress(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_any(family.getValue()), true));
+        return new InetAddress(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_any(family.getValue()), true));
     }
     
     /**
@@ -42,21 +42,21 @@ public class InetAddress extends org.gtk.gobject.Object {
      * %G_SOCKET_FAMILY_IPV6.
      */
     public InetAddress(byte[] bytes, SocketFamily family) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
     }
     
     /**
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
     public InetAddress(java.lang.String string) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.getAllocator().allocateUtf8String(string)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.getAllocator().allocateUtf8String(string)), true));
     }
     
     /**
      * Creates a #GInetAddress for the loopback address for @family.
      */
     public static InetAddress newLoopback(SocketFamily family) {
-        return new InetAddress(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_loopback(family.getValue()), true));
+        return new InetAddress(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_loopback(family.getValue()), true));
     }
     
     /**

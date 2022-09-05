@@ -31,7 +31,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Creates a new `GtkPrinter`.
      */
     public Printer(java.lang.String name, PrintBackend backend, boolean virtual) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_new(Interop.getAllocator().allocateUtf8String(name), backend.HANDLE(), virtual ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_new(Interop.getAllocator().allocateUtf8String(name), backend.HANDLE(), virtual ? 1 : 0), true));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PrintBackend getBackend() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_backend(HANDLE());
-        return new PrintBackend(ProxyFactory.getProxy(RESULT, false));
+        return new PrintBackend(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PageSetup getDefaultPageSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_default_page_size(HANDLE());
-        return new PageSetup(ProxyFactory.getProxy(RESULT, true));
+        return new PageSetup(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -204,7 +204,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listPapers() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_list_papers(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**

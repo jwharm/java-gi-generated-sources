@@ -64,7 +64,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      */
     public default Paintable getCurrentImage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_current_image(HANDLE());
-        return new Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Paintable.PaintableImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

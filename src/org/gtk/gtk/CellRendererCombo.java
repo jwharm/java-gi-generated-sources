@@ -40,7 +40,7 @@ public class CellRendererCombo extends CellRendererText {
      * a different string in each row of the `GtkTreeView`.
      */
     public CellRendererCombo() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_combo_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_combo_new(), false));
     }
     
     @FunctionalInterface

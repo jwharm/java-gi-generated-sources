@@ -25,7 +25,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * Creates a new filename completer.
      */
     public FilenameCompleter() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_new(), true));
     }
     
     /**

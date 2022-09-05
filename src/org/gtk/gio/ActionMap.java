@@ -80,7 +80,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      */
     public default Action lookupAction(java.lang.String actionName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_lookup_action(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
-        return new Action.ActionImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Action.ActionImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

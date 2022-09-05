@@ -35,7 +35,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public InetAddress getAddress() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_get_address(HANDLE());
-        return new InetAddress(ProxyFactory.getProxy(RESULT, false));
+        return new InetAddress(ProxyFactory.get(RESULT, false));
     }
     
     /**

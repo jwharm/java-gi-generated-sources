@@ -45,7 +45,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new `GtkIconView` widget
      */
     public IconView() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new(), false));
     }
     
     /**
@@ -53,14 +53,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * specified @area to layout cells inside the icons.
      */
     public IconView(CellArea area) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_area(area.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_area(area.HANDLE()), false));
     }
     
     /**
      * Creates a new `GtkIconView` widget with the model @model.
      */
     public IconView(TreeModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_model(model.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_model(model.HANDLE()), false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public org.gtk.gdk.Paintable createDragIcon(TreePath path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_create_drag_icon(HANDLE(), path.HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -208,7 +208,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -216,7 +216,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreePath getPathAtPos(int x, int y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_path_at_pos(HANDLE(), x, y);
-        return new TreePath(ProxyFactory.getProxy(RESULT, true));
+        return new TreePath(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -264,7 +264,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public org.gtk.glib.List getSelectedItems() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_selected_items(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**

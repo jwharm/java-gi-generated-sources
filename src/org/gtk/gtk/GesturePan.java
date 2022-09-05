@@ -36,7 +36,7 @@ public class GesturePan extends GestureDrag {
      * Returns a newly created `GtkGesture` that recognizes pan gestures.
      */
     public GesturePan(Orientation orientation) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_pan_new(orientation.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_pan_new(orientation.getValue()), true));
     }
     
     /**

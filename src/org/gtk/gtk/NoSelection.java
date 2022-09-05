@@ -27,7 +27,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
      * Creates a new selection to handle @model.
      */
     public NoSelection(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_new(model.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_new(model.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

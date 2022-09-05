@@ -42,7 +42,7 @@ public class CellRendererPixbuf extends CellRenderer {
      * `GtkTreeView`.
      */
     public CellRendererPixbuf() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_pixbuf_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_pixbuf_new(), false));
     }
     
 }

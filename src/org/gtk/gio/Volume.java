@@ -109,7 +109,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getActivationRoot() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_activation_root(HANDLE());
-        return new File.FileImpl(ProxyFactory.getProxy(RESULT, true));
+        return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -117,7 +117,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Drive getDrive() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_drive(HANDLE());
-        return new Drive.DriveImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Drive.DriveImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -125,7 +125,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -143,7 +143,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Mount getMount() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_mount(HANDLE());
-        return new Mount.MountImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Mount.MountImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -167,7 +167,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

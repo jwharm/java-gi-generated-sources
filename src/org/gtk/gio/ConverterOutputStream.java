@@ -27,7 +27,7 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
      * Creates a new converter output stream for the @base_stream.
      */
     public ConverterOutputStream(OutputStream baseStream, Converter converter) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_output_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_output_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
      */
     public Converter getConverter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_output_stream_get_converter(HANDLE());
-        return new Converter.ConverterImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Converter.ConverterImpl(ProxyFactory.get(RESULT, false));
     }
     
 }

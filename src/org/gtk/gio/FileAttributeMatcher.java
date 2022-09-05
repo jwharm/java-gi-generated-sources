@@ -36,7 +36,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      *   namespace and all keys in the unix namespace.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_new(Interop.getAllocator().allocateUtf8String(attributes)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_new(Interop.getAllocator().allocateUtf8String(attributes)), true));
     }
     
     /**
@@ -84,7 +84,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      */
     public FileAttributeMatcher ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_ref(HANDLE());
-        return new FileAttributeMatcher(ProxyFactory.getProxy(RESULT, true));
+        return new FileAttributeMatcher(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -99,7 +99,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      */
     public FileAttributeMatcher subtract(FileAttributeMatcher subtract) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_subtract(HANDLE(), subtract.HANDLE());
-        return new FileAttributeMatcher(ProxyFactory.getProxy(RESULT, true));
+        return new FileAttributeMatcher(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -124,7 +124,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Creates a new `GtkGLArea` widget.
      */
     public GLArea() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_new(), false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.gdk.GLContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_context(HANDLE());
-        return new org.gtk.gdk.GLContext(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.GLContext(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -163,7 +163,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -73,7 +73,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public Window getTransientFor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_transient_for(HANDLE());
-        return new Window(ProxyFactory.getProxy(RESULT, false));
+        return new Window(ProxyFactory.get(RESULT, false));
     }
     
     /**

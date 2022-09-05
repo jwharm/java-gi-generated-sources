@@ -27,7 +27,7 @@ public class DebugNode extends RenderNode {
      * Adding this node has no visual effect.
      */
     public DebugNode(RenderNode child, java.lang.String message) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_new(child.HANDLE(), Interop.getAllocator().allocateUtf8String(message)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_new(child.HANDLE(), Interop.getAllocator().allocateUtf8String(message)), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class DebugNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**

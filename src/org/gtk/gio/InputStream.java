@@ -161,7 +161,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -38,7 +38,7 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_monitor_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**

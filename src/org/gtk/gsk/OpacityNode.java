@@ -24,7 +24,7 @@ public class OpacityNode extends RenderNode {
      * @opacity.
      */
     public OpacityNode(RenderNode child, float opacity) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_new(child.HANDLE(), opacity), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_new(child.HANDLE(), opacity), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class OpacityNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**

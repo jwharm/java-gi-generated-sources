@@ -71,7 +71,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Creates a new calendar, with the current date being selected.
      */
     public Calendar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_new(), false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.glib.DateTime getDate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_date(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
     }
     
     /**

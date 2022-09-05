@@ -27,7 +27,7 @@ public class CellRendererAccel extends CellRendererText {
      * Creates a new `GtkCellRendererAccel`.
      */
     public CellRendererAccel() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_accel_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_accel_new(), false));
     }
     
     @FunctionalInterface

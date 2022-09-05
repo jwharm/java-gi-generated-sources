@@ -33,7 +33,7 @@ public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default org.gtk.gio.AppInfo getAppInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_get_app_info(HANDLE());
-        return new org.gtk.gio.AppInfo.AppInfoImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

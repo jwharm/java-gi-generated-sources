@@ -25,7 +25,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec4_init() to initialize the vector.
      */
     public Vec4() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_alloc(), true));
     }
     
     /**
@@ -122,7 +122,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec4 init(float x, float y, float z, float w) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init(HANDLE(), x, y, z, w);
-        return new Vec4(ProxyFactory.getProxy(RESULT, false));
+        return new Vec4(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -130,7 +130,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec4 initFromFloat(float[] src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
-        return new Vec4(ProxyFactory.getProxy(RESULT, false));
+        return new Vec4(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -139,7 +139,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec4 initFromVec2(Vec2 src, float z, float w) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec2(HANDLE(), src.HANDLE(), z, w);
-        return new Vec4(ProxyFactory.getProxy(RESULT, false));
+        return new Vec4(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -148,7 +148,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec4 initFromVec3(Vec3 src, float w) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec3(HANDLE(), src.HANDLE(), w);
-        return new Vec4(ProxyFactory.getProxy(RESULT, false));
+        return new Vec4(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -157,7 +157,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec4 initFromVec4(Vec4 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec4(HANDLE(), src.HANDLE());
-        return new Vec4(ProxyFactory.getProxy(RESULT, false));
+        return new Vec4(ProxyFactory.get(RESULT, false));
     }
     
     /**

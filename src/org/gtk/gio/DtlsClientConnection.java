@@ -22,7 +22,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      */
     public default org.gtk.glib.List getAcceptedCas() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_get_accepted_cas(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -30,7 +30,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_get_server_identity(HANDLE());
-        return new SocketConnectable.SocketConnectableImpl(ProxyFactory.getProxy(RESULT, false));
+        return new SocketConnectable.SocketConnectableImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

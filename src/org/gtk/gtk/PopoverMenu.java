@@ -136,7 +136,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * to control this.
      */
     public PopoverMenu(org.gtk.gio.MenuModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_new_from_model(model.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_new_from_model(model.HANDLE()), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * nested submenus instead of the default sliding submenus.
      */
     public PopoverMenu(org.gtk.gio.MenuModel model, int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_new_from_model_full(model.HANDLE(), flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_new_from_model_full(model.HANDLE(), flags), true));
     }
     
     /**
@@ -172,7 +172,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_get_menu_model(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
     }
     
     /**

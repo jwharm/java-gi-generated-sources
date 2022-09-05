@@ -161,7 +161,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_bind(HANDLE(), target.HANDLE(), Interop.getAllocator().allocateUtf8String(property), this_.HANDLE());
-        return new ExpressionWatch(ProxyFactory.getProxy(RESULT, false));
+        return new ExpressionWatch(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -211,7 +211,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public Expression ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_ref(HANDLE());
-        return new Expression(ProxyFactory.getProxy(RESULT, true));
+        return new Expression(ProxyFactory.get(RESULT, true));
     }
     
     /**

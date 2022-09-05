@@ -118,7 +118,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * Creates a new `GtkTreeModelSort`, with @child_model as the child model.
      */
     public TreeModelSort(TreeModel childModel) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_new_with_model(childModel.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_new_with_model(childModel.HANDLE()), true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_child_path_to_path(HANDLE(), childPath.HANDLE());
-        return new TreePath(ProxyFactory.getProxy(RESULT, true));
+        return new TreePath(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -170,7 +170,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertPathToChildPath(TreePath sortedPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_path_to_child_path(HANDLE(), sortedPath.HANDLE());
-        return new TreePath(ProxyFactory.getProxy(RESULT, true));
+        return new TreePath(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -178,7 +178,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

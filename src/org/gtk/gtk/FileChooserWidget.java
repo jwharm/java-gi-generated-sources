@@ -35,7 +35,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * `GtkFileChooserDialog`.
      */
     public FileChooserWidget(FileChooserAction action) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_widget_new(action.getValue()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_widget_new(action.getValue()), false));
     }
     
     @FunctionalInterface

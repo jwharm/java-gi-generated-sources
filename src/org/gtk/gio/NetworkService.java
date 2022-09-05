@@ -33,7 +33,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * #GSocketConnectable interface to resolve it.
      */
     public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_new(Interop.getAllocator().allocateUtf8String(service), Interop.getAllocator().allocateUtf8String(protocol), Interop.getAllocator().allocateUtf8String(domain)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_new(Interop.getAllocator().allocateUtf8String(service), Interop.getAllocator().allocateUtf8String(protocol), Interop.getAllocator().allocateUtf8String(domain)), true));
     }
     
     /**

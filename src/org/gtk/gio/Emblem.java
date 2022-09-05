@@ -28,14 +28,14 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      * Creates a new emblem for @icon.
      */
     public Emblem(Icon icon) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new(icon.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new(icon.HANDLE()), true));
     }
     
     /**
      * Creates a new emblem for @icon.
      */
     public Emblem(Icon icon, EmblemOrigin origin) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new_with_origin(icon.HANDLE(), origin.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new_with_origin(icon.HANDLE(), origin.getValue()), true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      */
     public Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -23,7 +23,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Bytes getBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_get_bytes(HANDLE());
-        return new Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MappedFile ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_ref(HANDLE());
-        return new MappedFile(ProxyFactory.getProxy(RESULT, true));
+        return new MappedFile(ProxyFactory.get(RESULT, true));
     }
     
     /**

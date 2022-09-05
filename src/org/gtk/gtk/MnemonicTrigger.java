@@ -30,7 +30,7 @@ public class MnemonicTrigger extends ShortcutTrigger {
      * modifiers is detected.
      */
     public MnemonicTrigger(int keyval) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_new(keyval), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_new(keyval), true));
     }
     
     /**

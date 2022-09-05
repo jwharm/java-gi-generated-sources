@@ -29,7 +29,7 @@ public class SignalAction extends ShortcutAction {
      * It will also unpack the args into arguments passed to the signal.
      */
     public SignalAction(java.lang.String signalName) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_new(Interop.getAllocator().allocateUtf8String(signalName)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_new(Interop.getAllocator().allocateUtf8String(signalName)), true));
     }
     
     /**

@@ -36,7 +36,7 @@ public class GridLayout extends LayoutManager {
      * Creates a new `GtkGridLayout`.
      */
     public GridLayout() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_new(), true));
     }
     
     /**

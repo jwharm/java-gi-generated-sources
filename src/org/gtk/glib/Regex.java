@@ -335,7 +335,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Regex ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_ref(HANDLE());
-        return new Regex(ProxyFactory.getProxy(RESULT, true));
+        return new Regex(ProxyFactory.get(RESULT, true));
     }
     
     /**

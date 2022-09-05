@@ -68,7 +68,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Creates a new empty `GtkPicture` widget.
      */
     public Picture() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new(), false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * then create the `GtkPicture` from the texture.
      */
     public Picture(org.gtk.gio.File file) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_file(file.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_file(file.HANDLE()), false));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForFilename(java.lang.String filename) {
-        return new Picture(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * its size and contents in response to it.
      */
     public Picture(org.gtk.gdk.Paintable paintable) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_paintable(paintable.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_paintable(paintable.HANDLE()), false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The pixbuf must not be modified after passing it to this function.
      */
     public Picture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_pixbuf(pixbuf.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_pixbuf(pixbuf.HANDLE()), false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForResource(java.lang.String resourcePath) {
-        return new Picture(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -169,7 +169,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_paintable(HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

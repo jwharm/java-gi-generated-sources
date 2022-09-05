@@ -35,7 +35,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * with a stepping of @step.
      */
     public ScaleButton(double min, double max, double step, java.lang.String[] icons) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons)), false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -53,7 +53,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Button getMinusButton() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_get_minus_button(HANDLE());
-        return new Button(ProxyFactory.getProxy(RESULT, false));
+        return new Button(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Button getPlusButton() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_get_plus_button(HANDLE());
-        return new Button(ProxyFactory.getProxy(RESULT, false));
+        return new Button(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getPopup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_button_get_popup(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

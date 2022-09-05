@@ -105,7 +105,7 @@ public class Binding extends Object {
      */
     public Object dupSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_source(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, true));
+        return new Object(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -117,7 +117,7 @@ public class Binding extends Object {
      */
     public Object dupTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_target(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, true));
+        return new Object(ProxyFactory.get(RESULT, true));
     }
     
     /**

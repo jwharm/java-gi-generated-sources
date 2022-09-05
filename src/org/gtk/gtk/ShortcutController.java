@@ -62,7 +62,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * Creates a new shortcut controller.
      */
     public ShortcutController() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * but you can change the contents of the model.
      */
     public ShortcutController(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new_for_model(model.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new_for_model(model.HANDLE()), true));
     }
     
     /**

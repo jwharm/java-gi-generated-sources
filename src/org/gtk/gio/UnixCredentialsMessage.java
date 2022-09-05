@@ -41,14 +41,14 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      * Creates a new #GUnixCredentialsMessage with credentials matching the current processes.
      */
     public UnixCredentialsMessage() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixCredentialsMessage holding @credentials.
      */
     public UnixCredentialsMessage(Credentials credentials) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new_with_credentials(credentials.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new_with_credentials(credentials.HANDLE()), true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      */
     public Credentials getCredentials() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_get_credentials(HANDLE());
-        return new Credentials(ProxyFactory.getProxy(RESULT, false));
+        return new Credentials(ProxyFactory.get(RESULT, false));
     }
     
 }

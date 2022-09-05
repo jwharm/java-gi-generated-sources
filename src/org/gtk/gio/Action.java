@@ -98,7 +98,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.VariantType getParameterType() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_parameter_type(HANDLE());
-        return new org.gtk.glib.VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -113,7 +113,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.Variant getState() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -138,7 +138,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.Variant getStateHint() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state_hint(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -157,7 +157,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.VariantType getStateType() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state_type(HANDLE());
-        return new org.gtk.glib.VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.VariantType(ProxyFactory.get(RESULT, false));
     }
     
     class ActionImpl extends org.gtk.gobject.Object implements Action {

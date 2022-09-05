@@ -24,7 +24,7 @@ public class ScriptIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Pango.ScriptIter.free].
      */
     public ScriptIter(java.lang.String text, int length) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_new(Interop.getAllocator().allocateUtf8String(text), length), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_new(Interop.getAllocator().allocateUtf8String(text), length), true));
     }
     
     /**

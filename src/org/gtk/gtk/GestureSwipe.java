@@ -34,7 +34,7 @@ public class GestureSwipe extends GestureSingle {
      * Returns a newly created `GtkGesture` that recognizes swipes.
      */
     public GestureSwipe() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_swipe_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_swipe_new(), true));
     }
     
     @FunctionalInterface

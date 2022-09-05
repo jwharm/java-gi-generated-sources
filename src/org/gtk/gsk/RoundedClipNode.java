@@ -24,7 +24,7 @@ public class RoundedClipNode extends RenderNode {
      * given by @clip.
      */
     public RoundedClipNode(RenderNode child, RoundedRect clip) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_new(child.HANDLE(), clip.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_new(child.HANDLE(), clip.HANDLE()), false));
     }
     
     /**
@@ -32,7 +32,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RoundedRect getClip() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_clip(HANDLE());
-        return new RoundedRect(ProxyFactory.getProxy(RESULT, false));
+        return new RoundedRect(ProxyFactory.get(RESULT, false));
     }
     
 }

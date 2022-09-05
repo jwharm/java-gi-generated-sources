@@ -34,7 +34,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkWindowHandle`.
      */
     public WindowHandle() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_new(), false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

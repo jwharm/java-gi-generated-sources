@@ -98,7 +98,7 @@ public class DragSource extends GestureSingle {
      * Creates a new `GtkDragSource` object.
      */
     public DragSource() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_new(), true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.ContentProvider getContent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_content(HANDLE());
-        return new org.gtk.gdk.ContentProvider(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.ContentProvider(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.Drag getDrag() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_drag(HANDLE());
-        return new org.gtk.gdk.Drag(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Drag(ProxyFactory.get(RESULT, false));
     }
     
     /**

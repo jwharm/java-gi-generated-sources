@@ -27,7 +27,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.gdk.Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_display(HANDLE());
-        return new org.gtk.gdk.Display(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Widget getFocus() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_focus(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

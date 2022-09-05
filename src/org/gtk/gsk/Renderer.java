@@ -39,7 +39,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * The renderer will be realized before it is returned.
      */
     public Renderer(org.gtk.gdk.Surface surface) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_renderer_new_for_surface(surface.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_renderer_new_for_surface(surface.HANDLE()), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_renderer_get_surface(HANDLE());
-        return new org.gtk.gdk.Surface(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class Renderer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Texture renderTexture(RenderNode root, org.gtk.graphene.Rect viewport) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_renderer_render_texture(HANDLE(), root.HANDLE(), viewport.HANDLE());
-        return new org.gtk.gdk.Texture(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.Texture(ProxyFactory.get(RESULT, true));
     }
     
     /**

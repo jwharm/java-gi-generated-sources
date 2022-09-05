@@ -34,7 +34,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Optionally, specify initial text to set in the buffer.
      */
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.getAllocator().allocateUtf8String(initialChars), nInitialChars), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.getAllocator().allocateUtf8String(initialChars), nInitialChars), true));
     }
     
     /**

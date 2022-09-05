@@ -42,7 +42,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new widget paintable observing the given widget.
      */
     public WidgetPaintable(Widget widget) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_new(widget.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_new(widget.HANDLE()), true));
     }
     
     /**
@@ -50,7 +50,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_get_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

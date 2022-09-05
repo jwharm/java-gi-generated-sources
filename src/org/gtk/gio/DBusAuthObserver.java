@@ -84,7 +84,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      * Creates a new #GDBusAuthObserver object.
      */
     public DBusAuthObserver() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_auth_observer_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_auth_observer_new(), true));
     }
     
     /**

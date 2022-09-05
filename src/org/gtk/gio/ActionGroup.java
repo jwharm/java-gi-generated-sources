@@ -174,7 +174,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.gtk.glib.VariantType getActionParameterType(java.lang.String actionName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_parameter_type(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
-        return new org.gtk.glib.VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -189,7 +189,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -214,7 +214,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state_hint(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -237,7 +237,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.gtk.glib.VariantType getActionStateType(java.lang.String actionName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state_type(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
-        return new org.gtk.glib.VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**

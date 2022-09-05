@@ -98,7 +98,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default org.gtk.gobject.Object getSourceObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_result_get_source_object(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -37,7 +37,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * a buffer set to the default size (4 kilobytes).
      */
     public BufferedInputStream(InputStream baseStream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new(baseStream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new(baseStream.HANDLE()), true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * with a buffer set to @size.
      */
     public BufferedInputStream(InputStream baseStream, long size) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new_sized(baseStream.HANDLE(), size), true));
     }
     
     /**

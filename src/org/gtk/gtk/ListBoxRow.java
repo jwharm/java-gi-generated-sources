@@ -23,7 +23,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Creates a new `GtkListBoxRow`.
      */
     public ListBoxRow() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_new(), false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getHeader() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_header(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

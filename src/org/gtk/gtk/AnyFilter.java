@@ -31,7 +31,7 @@ public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Bui
      * has been added to it, the filter matches no item.
      */
     public AnyFilter() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_any_filter_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_any_filter_new(), true));
     }
     
 }

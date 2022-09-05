@@ -201,7 +201,7 @@ public interface Editable extends io.github.jwharm.javagi.interop.NativeAddress 
      */
     public default Editable getDelegate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_get_delegate(HANDLE());
-        return new Editable.EditableImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Editable.EditableImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -23,7 +23,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * `end` location.
      */
     public CssSection(org.gtk.gio.File file, CssLocation start, CssLocation end) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_new(file.HANDLE(), start.HANDLE(), end.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_new(file.HANDLE(), start.HANDLE(), end.HANDLE()), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public CssLocation getEndLocation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_end_location(HANDLE());
-        return new CssLocation(ProxyFactory.getProxy(RESULT, false));
+        return new CssLocation(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public CssSection getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_parent(HANDLE());
-        return new CssSection(ProxyFactory.getProxy(RESULT, false));
+        return new CssSection(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public CssLocation getStartLocation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_start_location(HANDLE());
-        return new CssLocation(ProxyFactory.getProxy(RESULT, false));
+        return new CssLocation(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public CssSection ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_ref(HANDLE());
-        return new CssSection(ProxyFactory.getProxy(RESULT, true));
+        return new CssSection(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -23,7 +23,7 @@ public class CrossFadeNode extends RenderNode {
      * Creates a `GskRenderNode` that will do a cross-fade between @start and @end.
      */
     public CrossFadeNode(RenderNode start, RenderNode end, float progress) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_new(start.HANDLE(), end.HANDLE(), progress), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_new(start.HANDLE(), end.HANDLE(), progress), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class CrossFadeNode extends RenderNode {
      */
     public RenderNode getEndChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_get_end_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -47,7 +47,7 @@ public class CrossFadeNode extends RenderNode {
      */
     public RenderNode getStartChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_get_start_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
 }

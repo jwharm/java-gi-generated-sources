@@ -64,7 +64,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * You need to connect signal handlers before you use it.
      */
     public SignalListItemFactory() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_list_item_factory_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_list_item_factory_new(), true));
     }
     
     @FunctionalInterface

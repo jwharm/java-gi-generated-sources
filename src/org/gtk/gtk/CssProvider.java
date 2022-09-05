@@ -51,7 +51,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * Returns a newly created `GtkCssProvider`.
      */
     public CssProvider() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_new(), true));
     }
     
     /**

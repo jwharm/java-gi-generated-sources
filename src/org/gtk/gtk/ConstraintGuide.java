@@ -34,7 +34,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * Creates a new `GtkConstraintGuide` object.
      */
     public ConstraintGuide() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_new(), true));
     }
     
     /**

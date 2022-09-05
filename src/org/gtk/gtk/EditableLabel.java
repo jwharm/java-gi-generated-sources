@@ -50,7 +50,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkEditableLabel` widget.
      */
     public EditableLabel(java.lang.String str) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_new(Interop.getAllocator().allocateUtf8String(str)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_new(Interop.getAllocator().allocateUtf8String(str)), false));
     }
     
     /**

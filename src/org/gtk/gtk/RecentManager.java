@@ -87,7 +87,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * instead.
      */
     public RecentManager() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_new(), true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getItems() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_get_items(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -160,7 +160,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new RecentInfo(ProxyFactory.getProxy(RESULT, true));
+        return new RecentInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

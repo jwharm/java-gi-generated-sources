@@ -59,7 +59,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      * Creates a new lock button which reflects the @permission.
      */
     public LockButton(org.gtk.gio.Permission permission) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_new(permission.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_new(permission.HANDLE()), false));
     }
     
     /**
@@ -67,7 +67,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      */
     public org.gtk.gio.Permission getPermission() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_get_permission(HANDLE());
-        return new org.gtk.gio.Permission(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.Permission(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -56,7 +56,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, false));
+        return new DBusConnection(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public org.gtk.glib.List getConnections() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_connections(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -82,7 +82,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusInterfaceInfo getInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_info(HANDLE());
-        return new DBusInterfaceInfo(ProxyFactory.getProxy(RESULT, false));
+        return new DBusInterfaceInfo(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public org.gtk.glib.Variant getProperties() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_properties(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public DBusInterfaceVTable getVtable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_vtable(HANDLE());
-        return new DBusInterfaceVTable(ProxyFactory.getProxy(RESULT, false));
+        return new DBusInterfaceVTable(ProxyFactory.get(RESULT, false));
     }
     
     /**

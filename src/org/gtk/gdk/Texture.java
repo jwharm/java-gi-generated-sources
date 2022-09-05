@@ -40,7 +40,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public Texture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_for_pixbuf(pixbuf.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_for_pixbuf(pixbuf.HANDLE()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
-        return new Texture(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        return new Texture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -164,7 +164,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
 }

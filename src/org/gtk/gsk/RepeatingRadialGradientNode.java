@@ -27,7 +27,7 @@ public class RepeatingRadialGradientNode extends RenderNode {
      * in vertial orientation.
      */
     public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
 }

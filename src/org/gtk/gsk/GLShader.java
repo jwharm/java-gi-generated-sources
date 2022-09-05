@@ -135,14 +135,14 @@ public class GLShader extends org.gtk.gobject.Object {
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(org.gtk.glib.Bytes sourcecode) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.HANDLE()), true));
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(java.lang.String resourcePath) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
     }
     
     /**
@@ -192,7 +192,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes formatArgsVa(VaList uniforms) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_format_args_va(HANDLE(), uniforms);
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -304,7 +304,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes getSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_source(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
     }
     
     /**

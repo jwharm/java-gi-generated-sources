@@ -43,7 +43,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * Creates a new mount operation.
      */
     public MountOperation() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_operation_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_operation_new(), true));
     }
     
     /**

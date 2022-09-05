@@ -31,7 +31,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * alternative, create a new alternative trigger for each option.
      */
     public AlternativeTrigger(ShortcutTrigger first, ShortcutTrigger second) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_new(first.getProxy().unowned().HANDLE(), second.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_new(first.getProxy().unowned().HANDLE(), second.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getFirst() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_get_first(HANDLE());
-        return new ShortcutTrigger(ProxyFactory.getProxy(RESULT, false));
+        return new ShortcutTrigger(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -55,7 +55,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getSecond() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_get_second(HANDLE());
-        return new ShortcutTrigger(ProxyFactory.getProxy(RESULT, false));
+        return new ShortcutTrigger(ProxyFactory.get(RESULT, false));
     }
     
 }

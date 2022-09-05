@@ -71,7 +71,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new DateTime(ProxyFactory.getProxy(RESULT, false));
+        return new DateTime(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -150,7 +150,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new DateTime(ProxyFactory.getProxy(RESULT, false));
+        return new DateTime(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -190,7 +190,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new DateTime(ProxyFactory.getProxy(RESULT, false));
+        return new DateTime(ProxyFactory.get(RESULT, false));
     }
     
     /**

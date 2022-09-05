@@ -146,7 +146,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_attribute_value(HANDLE(), itemIndex, Interop.getAllocator().allocateUtf8String(attribute), expectedType.HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -158,7 +158,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_link(HANDLE(), itemIndex, Interop.getAllocator().allocateUtf8String(link));
-        return new MenuModel(ProxyFactory.getProxy(RESULT, true));
+        return new MenuModel(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -209,7 +209,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuAttributeIter iterateItemAttributes(int itemIndex) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_iterate_item_attributes(HANDLE(), itemIndex);
-        return new MenuAttributeIter(ProxyFactory.getProxy(RESULT, true));
+        return new MenuAttributeIter(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -220,7 +220,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      */
     public MenuLinkIter iterateItemLinks(int itemIndex) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_iterate_item_links(HANDLE(), itemIndex);
-        return new MenuLinkIter(ProxyFactory.getProxy(RESULT, true));
+        return new MenuLinkIter(ProxyFactory.get(RESULT, true));
     }
     
     @FunctionalInterface

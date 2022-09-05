@@ -24,7 +24,7 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
      * Creates a new #GZlibDecompressor.
      */
     public ZlibDecompressor(ZlibCompressorFormat format) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_new(format.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_new(format.getValue()), true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
      */
     public FileInfo getFileInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_get_file_info(HANDLE());
-        return new FileInfo(ProxyFactory.getProxy(RESULT, false));
+        return new FileInfo(ProxyFactory.get(RESULT, false));
     }
     
 }

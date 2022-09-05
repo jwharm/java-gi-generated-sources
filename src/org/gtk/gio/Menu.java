@@ -32,7 +32,7 @@ public class Menu extends MenuModel {
      * The new menu has no items.
      */
     public Menu() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_new(), true));
     }
     
     /**

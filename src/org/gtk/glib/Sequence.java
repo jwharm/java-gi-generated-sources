@@ -20,7 +20,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter append(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_append(HANDLE(), data);
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -37,7 +37,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter getBeginIter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_begin_iter(HANDLE());
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter getEndIter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_end_iter(HANDLE());
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter getIterAtPos(int pos) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_iter_at_pos(HANDLE(), pos);
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SequenceIter prepend(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_prepend(HANDLE(), data);
-        return new SequenceIter(ProxyFactory.getProxy(RESULT, false));
+        return new SequenceIter(ProxyFactory.get(RESULT, false));
     }
     
 }

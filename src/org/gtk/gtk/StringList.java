@@ -48,7 +48,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Creates a new `GtkStringList` with the given @strings.
      */
     public StringList(java.lang.String[] strings) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
     }
     
     /**

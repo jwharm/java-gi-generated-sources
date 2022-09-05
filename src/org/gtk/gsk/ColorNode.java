@@ -24,7 +24,7 @@ public class ColorNode extends RenderNode {
      * the area given by @bounds.
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_new(rgba.HANDLE(), bounds.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_new(rgba.HANDLE(), bounds.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class ColorNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
     }
     
 }

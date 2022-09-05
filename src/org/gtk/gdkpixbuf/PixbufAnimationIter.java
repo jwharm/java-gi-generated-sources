@@ -83,7 +83,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      */
     public Pixbuf getPixbuf() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_iter_get_pixbuf(HANDLE());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, false));
+        return new Pixbuf(ProxyFactory.get(RESULT, false));
     }
     
     /**

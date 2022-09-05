@@ -39,14 +39,14 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Creates a new font picker widget.
      */
     public FontButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new(), false));
     }
     
     /**
      * Creates a new font picker widget showing the given font.
      */
     public FontButton(java.lang.String fontname) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new_with_font(Interop.getAllocator().allocateUtf8String(fontname)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new_with_font(Interop.getAllocator().allocateUtf8String(fontname)), false));
     }
     
     /**

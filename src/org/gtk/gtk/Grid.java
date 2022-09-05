@@ -104,7 +104,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Creates a new grid widget.
      */
     public Grid() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_new(), false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public Widget getChildAt(int column, int row) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_child_at(HANDLE(), column, row);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -103,7 +103,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * Creates a new drawing area.
      */
     public DrawingArea() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drawing_area_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drawing_area_new(), false));
     }
     
     /**

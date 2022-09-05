@@ -203,7 +203,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * You can pass %NULL to get an empty label widget.
      */
     public Label(java.lang.String str) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.getAllocator().allocateUtf8String(str)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.getAllocator().allocateUtf8String(str)), false));
     }
     
     /**
@@ -223,7 +223,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and be activated by the mnemonic.
      */
     public static Label newWithMnemonic(java.lang.String str) {
-        return new Label(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(str)), false));
+        return new Label(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(str)), false));
     }
     
     /**
@@ -238,7 +238,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_attributes(HANDLE());
-        return new org.pango.AttrList(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.AttrList(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -273,7 +273,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -308,7 +308,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_layout(HANDLE());
-        return new org.pango.Layout(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.Layout(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -352,7 +352,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getMnemonicWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_mnemonic_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -33,7 +33,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Creates a new `GtkAdjustment`.
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
     }
     
     /**

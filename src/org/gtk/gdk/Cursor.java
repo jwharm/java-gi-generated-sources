@@ -71,14 +71,14 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
     public Cursor(java.lang.String name, Cursor fallback) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.getAllocator().allocateUtf8String(name), fallback.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.getAllocator().allocateUtf8String(name), fallback.HANDLE()), true));
     }
     
     /**
      * Creates a new cursor from a `GdkTexture`.
      */
     public Cursor(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_texture(texture.HANDLE(), hotspotX, hotspotY, fallback.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_texture(texture.HANDLE(), hotspotX, hotspotY, fallback.HANDLE()), true));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Cursor getFallback() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_fallback(HANDLE());
-        return new Cursor(ProxyFactory.getProxy(RESULT, false));
+        return new Cursor(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Texture getTexture() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_texture(HANDLE());
-        return new Texture(ProxyFactory.getProxy(RESULT, false));
+        return new Texture(ProxyFactory.get(RESULT, false));
     }
     
 }

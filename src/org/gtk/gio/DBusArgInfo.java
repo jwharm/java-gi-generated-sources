@@ -20,7 +20,7 @@ public class DBusArgInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DBusArgInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_arg_info_ref(HANDLE());
-        return new DBusArgInfo(ProxyFactory.getProxy(RESULT, true));
+        return new DBusArgInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

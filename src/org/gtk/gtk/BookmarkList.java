@@ -30,7 +30,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Creates a new `GtkBookmarkList` with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.getAllocator().allocateUtf8String(filename), Interop.getAllocator().allocateUtf8String(attributes)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.getAllocator().allocateUtf8String(filename), Interop.getAllocator().allocateUtf8String(attributes)), true));
     }
     
     /**

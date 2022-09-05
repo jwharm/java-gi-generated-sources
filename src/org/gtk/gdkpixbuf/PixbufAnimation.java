@@ -77,7 +77,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_iter(HANDLE(), startTime.HANDLE());
-        return new PixbufAnimationIter(ProxyFactory.getProxy(RESULT, true));
+        return new PixbufAnimationIter(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -95,7 +95,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public Pixbuf getStaticImage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_static_image(HANDLE());
-        return new Pixbuf(ProxyFactory.getProxy(RESULT, false));
+        return new Pixbuf(ProxyFactory.get(RESULT, false));
     }
     
     /**

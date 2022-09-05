@@ -48,7 +48,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Creates a new `GtkSwitch` widget.
      */
     public Switch() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_switch_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_switch_new(), false));
     }
     
     /**

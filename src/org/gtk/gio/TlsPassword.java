@@ -23,7 +23,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Create a new #GTlsPassword object.
      */
     public TlsPassword(int flags, java.lang.String description) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.getAllocator().allocateUtf8String(description)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.getAllocator().allocateUtf8String(description)), true));
     }
     
     /**

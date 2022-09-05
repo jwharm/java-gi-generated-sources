@@ -37,7 +37,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkStackSidebar`.
      */
     public StackSidebar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_new(), false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      */
     public Stack getStack() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_get_stack(HANDLE());
-        return new Stack(ProxyFactory.getProxy(RESULT, false));
+        return new Stack(ProxyFactory.get(RESULT, false));
     }
     
     /**

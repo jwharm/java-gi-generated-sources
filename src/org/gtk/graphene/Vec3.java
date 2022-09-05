@@ -25,7 +25,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec3_init() to initialize the vector.
      */
     public Vec3() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec3_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec3_alloc(), true));
     }
     
     /**
@@ -145,7 +145,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec3 init(float x, float y, float z) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec3_init(HANDLE(), x, y, z);
-        return new Vec3(ProxyFactory.getProxy(RESULT, false));
+        return new Vec3(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec3 initFromFloat(float[] src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec3_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
-        return new Vec3(ProxyFactory.getProxy(RESULT, false));
+        return new Vec3(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec3 initFromVec3(Vec3 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec3_init_from_vec3(HANDLE(), src.HANDLE());
-        return new Vec3(ProxyFactory.getProxy(RESULT, false));
+        return new Vec3(ProxyFactory.get(RESULT, false));
     }
     
     /**

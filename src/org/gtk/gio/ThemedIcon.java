@@ -29,14 +29,14 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * Creates a new themed icon for @iconname.
      */
     public ThemedIcon(java.lang.String iconname) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.getAllocator().allocateUtf8String(iconname)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.getAllocator().allocateUtf8String(iconname)), true));
     }
     
     /**
      * Creates a new themed icon for @iconnames.
      */
     public ThemedIcon(java.lang.String[] iconnames, int len) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames), len), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames), len), true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
-        return new ThemedIcon(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.getAllocator().allocateUtf8String(iconname)), true));
+        return new ThemedIcon(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.getAllocator().allocateUtf8String(iconname)), true));
     }
     
     /**

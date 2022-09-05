@@ -37,7 +37,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getConnectedDrives() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_connected_drives(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Mount getMountForUuid(java.lang.String uuid) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_mount_for_uuid(HANDLE(), Interop.getAllocator().allocateUtf8String(uuid));
-        return new Mount.MountImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Mount.MountImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getMounts() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_mounts(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Volume getVolumeForUuid(java.lang.String uuid) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_volume_for_uuid(HANDLE(), Interop.getAllocator().allocateUtf8String(uuid));
-        return new Volume.VolumeImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Volume.VolumeImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getVolumes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_volumes(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     @FunctionalInterface

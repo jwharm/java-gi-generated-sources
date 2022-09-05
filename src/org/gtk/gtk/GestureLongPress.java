@@ -37,7 +37,7 @@ public class GestureLongPress extends GestureSingle {
      * Returns a newly created `GtkGesture` that recognizes long presses.
      */
     public GestureLongPress() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_new(), true));
     }
     
     /**

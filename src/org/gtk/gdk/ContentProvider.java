@@ -32,14 +32,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * the given @mime_type.
      */
     public ContentProvider(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_bytes(Interop.getAllocator().allocateUtf8String(mimeType), bytes.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_bytes(Interop.getAllocator().allocateUtf8String(mimeType), bytes.HANDLE()), true));
     }
     
     /**
      * Create a content provider that provides the given @value.
      */
     public ContentProvider(org.gtk.gobject.Value value) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_value(value.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_value(value.HANDLE()), true));
     }
     
     /**
@@ -60,7 +60,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * ```
      */
     public ContentProvider(ContentProvider[] providers, long nProviders) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -106,7 +106,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refStorableFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_storable_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**

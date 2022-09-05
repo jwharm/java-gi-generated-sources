@@ -25,7 +25,7 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkShortcutLabel` with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.getAllocator().allocateUtf8String(accelerator)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.getAllocator().allocateUtf8String(accelerator)), false));
     }
     
     /**

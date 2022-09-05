@@ -51,7 +51,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Creates a new file info structure.
      */
     public FileInfo() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileInfo dup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_dup(HANDLE());
-        return new FileInfo(ProxyFactory.getProxy(RESULT, true));
+        return new FileInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -87,7 +87,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getAccessDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_access_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -144,7 +144,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_object(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getCreationDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_creation_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -220,7 +220,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getDeletionDate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_deletion_date(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -262,7 +262,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -299,7 +299,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getModificationDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_modification_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -334,7 +334,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

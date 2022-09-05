@@ -31,7 +31,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default TlsDatabase getDefaultDatabase() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_default_database(HANDLE());
-        return new TlsDatabase(ProxyFactory.getProxy(RESULT, true));
+        return new TlsDatabase(ProxyFactory.get(RESULT, true));
     }
     
     /**

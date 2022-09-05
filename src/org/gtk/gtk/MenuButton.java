@@ -88,7 +88,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * should you wish to.
      */
     public MenuButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_new(), false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -144,7 +144,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_menu_model(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public Popover getPopover() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_popover(HANDLE());
-        return new Popover(ProxyFactory.getProxy(RESULT, false));
+        return new Popover(ProxyFactory.get(RESULT, false));
     }
     
     /**

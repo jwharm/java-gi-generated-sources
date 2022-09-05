@@ -55,7 +55,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
      * Create a new `GtkStackSwitcher`.
      */
     public StackSwitcher() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_new(), false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
      */
     public Stack getStack() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_get_stack(HANDLE());
-        return new Stack(ProxyFactory.getProxy(RESULT, false));
+        return new Stack(ProxyFactory.get(RESULT, false));
     }
     
     /**

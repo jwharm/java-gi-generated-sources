@@ -30,7 +30,7 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
      * [class@Gtk.ScaleButton].
      */
     public VolumeButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_volume_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_volume_button_new(), false));
     }
     
 }

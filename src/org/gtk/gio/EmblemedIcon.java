@@ -28,7 +28,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
      * Creates a new emblemed icon for @icon with the emblem @emblem.
      */
     public EmblemedIcon(Icon icon, Emblem emblem) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_new(icon.HANDLE(), emblem.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_new(icon.HANDLE(), emblem.HANDLE()), true));
     }
     
     /**
@@ -50,7 +50,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
      */
     public org.gtk.glib.List getEmblems() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_get_emblems(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
      */
     public Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
     }
     
 }

@@ -30,7 +30,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * Creates a new page setup dialog.
      */
     public PageSetupUnixDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
     }
     
     /**
@@ -38,7 +38,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PageSetup getPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.getProxy(RESULT, false));
+        return new PageSetup(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -46,7 +46,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PrintSettings getPrintSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_print_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.getProxy(RESULT, false));
+        return new PrintSettings(ProxyFactory.get(RESULT, false));
     }
     
     /**

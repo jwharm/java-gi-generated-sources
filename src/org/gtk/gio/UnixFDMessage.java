@@ -36,14 +36,14 @@ public class UnixFDMessage extends SocketControlMessage {
      * list.
      */
     public UnixFDMessage() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixFDMessage containing @list.
      */
     public UnixFDMessage(UnixFDList fdList) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new_with_fd_list(fdList.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new_with_fd_list(fdList.HANDLE()), true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class UnixFDMessage extends SocketControlMessage {
      */
     public UnixFDList getFdList() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_get_fd_list(HANDLE());
-        return new UnixFDList(ProxyFactory.getProxy(RESULT, false));
+        return new UnixFDList(ProxyFactory.get(RESULT, false));
     }
     
 }

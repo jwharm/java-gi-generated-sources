@@ -71,7 +71,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -116,7 +116,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -128,7 +128,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -142,7 +142,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -155,7 +155,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public org.gtk.glib.Variant getCachedProperty(java.lang.String propertyName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_get_cached_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -163,7 +163,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, false));
+        return new DBusConnection(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -193,7 +193,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public DBusInterfaceInfo getInterfaceInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_get_interface_info(HANDLE());
-        return new DBusInterfaceInfo(ProxyFactory.getProxy(RESULT, false));
+        return new DBusInterfaceInfo(ProxyFactory.get(RESULT, false));
     }
     
     /**

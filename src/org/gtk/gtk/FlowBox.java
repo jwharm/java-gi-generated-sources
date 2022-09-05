@@ -68,7 +68,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Creates a `GtkFlowBox`.
      */
     public FlowBox() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_new(), false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtIndex(int idx) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_child_at_index(HANDLE(), idx);
-        return new FlowBoxChild(ProxyFactory.getProxy(RESULT, false));
+        return new FlowBoxChild(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtPos(int x, int y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_child_at_pos(HANDLE(), x, y);
-        return new FlowBoxChild(ProxyFactory.getProxy(RESULT, false));
+        return new FlowBoxChild(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -154,7 +154,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.glib.List getSelectedChildren() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_selected_children(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**

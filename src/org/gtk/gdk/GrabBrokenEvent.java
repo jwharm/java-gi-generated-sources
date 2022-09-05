@@ -24,7 +24,7 @@ public class GrabBrokenEvent extends Event {
      */
     public Surface getGrabSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_grab_broken_event_get_grab_surface(HANDLE());
-        return new Surface(ProxyFactory.getProxy(RESULT, false));
+        return new Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -24,7 +24,7 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
      * Creates a new icon for a file.
      */
     public FileIcon(File file) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_new(file.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_new(file.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
      */
     public File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_get_file(HANDLE());
-        return new File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
 }

@@ -64,7 +64,7 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new scrollbar with the given orientation.
      */
     public Scrollbar(Orientation orientation, Adjustment adjustment) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.HANDLE()), false));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**

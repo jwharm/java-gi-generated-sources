@@ -38,7 +38,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * or g_socket_listener_add_inet_port().
      */
     public SocketListener() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_listener_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_listener_new(), true));
     }
     
     /**
@@ -60,7 +60,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.getProxy(RESULT, true));
+        return new SocketConnection(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.getProxy(RESULT, true));
+        return new SocketConnection(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -97,7 +97,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Socket(ProxyFactory.getProxy(RESULT, true));
+        return new Socket(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -109,7 +109,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Socket(ProxyFactory.getProxy(RESULT, true));
+        return new Socket(ProxyFactory.get(RESULT, true));
     }
     
     /**

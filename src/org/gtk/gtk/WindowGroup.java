@@ -41,7 +41,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * within the same `GtkWindowGroup`.
      */
     public WindowGroup() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_new(), true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listWindows() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_list_windows(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**

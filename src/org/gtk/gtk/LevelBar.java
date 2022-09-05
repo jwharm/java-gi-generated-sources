@@ -119,14 +119,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkLevelBar`.
      */
     public LevelBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new(), false));
     }
     
     /**
      * Creates a new `GtkLevelBar` for the specified interval.
      */
     public LevelBar(double minValue, double maxValue) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
     }
     
     /**

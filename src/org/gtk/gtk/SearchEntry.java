@@ -66,7 +66,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * Creates a `GtkSearchEntry`.
      */
     public SearchEntry() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_new(), false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_get_key_capture_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -20,7 +20,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.interop.Resource
      */
     public DBusAnnotationInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_annotation_info_ref(HANDLE());
-        return new DBusAnnotationInfo(ProxyFactory.getProxy(RESULT, true));
+        return new DBusAnnotationInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

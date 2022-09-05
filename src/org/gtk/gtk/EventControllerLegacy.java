@@ -27,7 +27,7 @@ public class EventControllerLegacy extends EventController {
      * Creates a new legacy event controller.
      */
     public EventControllerLegacy() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_legacy_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_legacy_new(), true));
     }
     
     @FunctionalInterface

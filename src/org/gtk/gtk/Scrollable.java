@@ -55,7 +55,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default Adjustment getHadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_hadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default Adjustment getVadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_vadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**

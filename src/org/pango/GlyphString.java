@@ -22,7 +22,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * Create a new `PangoGlyphString`.
      */
     public GlyphString() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_new(), true));
     }
     
     /**
@@ -30,7 +30,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public GlyphString copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_copy(HANDLE());
-        return new GlyphString(ProxyFactory.getProxy(RESULT, true));
+        return new GlyphString(ProxyFactory.get(RESULT, true));
     }
     
     /**

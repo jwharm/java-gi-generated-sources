@@ -136,7 +136,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public FontMetrics ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_ref(HANDLE());
-        return new FontMetrics(ProxyFactory.getProxy(RESULT, true));
+        return new FontMetrics(ProxyFactory.get(RESULT, true));
     }
     
     /**

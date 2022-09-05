@@ -53,7 +53,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -68,7 +68,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
 }

@@ -20,7 +20,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      */
     public IOExtension getExtensionByName(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extension_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new IOExtension(ProxyFactory.getProxy(RESULT, false));
+        return new IOExtension(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -29,7 +29,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      */
     public org.gtk.glib.List getExtensions() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extensions(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**

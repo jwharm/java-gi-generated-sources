@@ -65,7 +65,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public Display getDefaultDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_get_default_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -73,7 +73,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList listDisplays() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_list_displays(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      */
     public Display openDisplay(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_open_display(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**

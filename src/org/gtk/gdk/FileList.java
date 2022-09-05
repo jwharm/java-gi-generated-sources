@@ -21,7 +21,7 @@ public class FileList extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.SList getFiles() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_file_list_get_files(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
     }
     
 }

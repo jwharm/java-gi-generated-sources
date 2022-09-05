@@ -127,7 +127,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AsyncQueue ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_ref(HANDLE());
-        return new AsyncQueue(ProxyFactory.getProxy(RESULT, false));
+        return new AsyncQueue(ProxyFactory.get(RESULT, false));
     }
     
     /**

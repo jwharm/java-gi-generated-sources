@@ -27,7 +27,7 @@ public class GestureRotate extends Gesture {
      * rotation gestures.
      */
     public GestureRotate() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_rotate_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_rotate_new(), true));
     }
     
     /**

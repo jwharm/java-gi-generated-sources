@@ -93,7 +93,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_drive_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -135,7 +135,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_drive_get_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -146,7 +146,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.List getVolumes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_drive_get_volumes(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**

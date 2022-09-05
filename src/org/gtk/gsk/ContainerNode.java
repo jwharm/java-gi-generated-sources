@@ -25,7 +25,7 @@ public class ContainerNode extends RenderNode {
      * The new node will acquire a reference to each of the children.
      */
     public ContainerNode(RenderNode[] children, int nChildren) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children), nChildren), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children), nChildren), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class ContainerNode extends RenderNode {
      */
     public RenderNode getChild(int idx) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_container_node_get_child(HANDLE(), idx);
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**

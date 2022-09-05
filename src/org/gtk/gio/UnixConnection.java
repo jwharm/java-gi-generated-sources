@@ -56,7 +56,7 @@ public class UnixConnection extends SocketConnection {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Credentials(ProxyFactory.getProxy(RESULT, true));
+        return new Credentials(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public class UnixConnection extends SocketConnection {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Credentials(ProxyFactory.getProxy(RESULT, true));
+        return new Credentials(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -29,7 +29,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Surface getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_parent(HANDLE());
-        return new Surface(ProxyFactory.getProxy(RESULT, false));
+        return new Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**

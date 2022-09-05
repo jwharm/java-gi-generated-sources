@@ -22,7 +22,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_new(), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormats freeToFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_free_to_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormatsBuilder ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_ref(HANDLE());
-        return new ContentFormatsBuilder(ProxyFactory.getProxy(RESULT, false));
+        return new ContentFormatsBuilder(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormats toFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_to_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**

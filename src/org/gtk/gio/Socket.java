@@ -87,7 +87,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Socket(ProxyFactory.getProxy(RESULT, true));
+        return new Socket(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketConnection connectionFactoryCreateConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_factory_create_connection(HANDLE());
-        return new SocketConnection(ProxyFactory.getProxy(RESULT, true));
+        return new SocketConnection(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -310,7 +310,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_create_source(HANDLE(), condition, cancellable.HANDLE());
-        return new org.gtk.glib.Source(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Source(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -379,7 +379,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Credentials(ProxyFactory.getProxy(RESULT, true));
+        return new Credentials(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -431,7 +431,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -472,7 +472,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
     /**

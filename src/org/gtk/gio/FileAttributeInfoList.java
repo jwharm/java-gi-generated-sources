@@ -19,7 +19,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      * Creates a new file attribute info list.
      */
     public FileAttributeInfoList() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_new(), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      */
     public FileAttributeInfoList dup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_dup(HANDLE());
-        return new FileAttributeInfoList(ProxyFactory.getProxy(RESULT, true));
+        return new FileAttributeInfoList(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      */
     public FileAttributeInfo lookup(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new FileAttributeInfo(ProxyFactory.getProxy(RESULT, false));
+        return new FileAttributeInfo(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      */
     public FileAttributeInfoList ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_ref(HANDLE());
-        return new FileAttributeInfoList(ProxyFactory.getProxy(RESULT, true));
+        return new FileAttributeInfoList(ProxyFactory.get(RESULT, true));
     }
     
     /**

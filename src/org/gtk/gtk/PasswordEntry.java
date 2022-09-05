@@ -54,7 +54,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * Creates a `GtkPasswordEntry`.
      */
     public PasswordEntry() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_new(), false));
     }
     
     /**
@@ -62,7 +62,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
     }
     
     /**

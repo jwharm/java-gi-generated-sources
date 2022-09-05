@@ -39,7 +39,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, false));
+        return new TlsCertificate(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsDatabase getDatabase() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_database(HANDLE());
-        return new TlsDatabase(ProxyFactory.getProxy(RESULT, false));
+        return new TlsDatabase(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsInteraction getInteraction() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_interaction(HANDLE());
-        return new TlsInteraction(ProxyFactory.getProxy(RESULT, false));
+        return new TlsInteraction(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getPeerCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_peer_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.getProxy(RESULT, false));
+        return new TlsCertificate(ProxyFactory.get(RESULT, false));
     }
     
     /**

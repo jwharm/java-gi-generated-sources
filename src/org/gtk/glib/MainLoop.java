@@ -19,7 +19,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GMainLoop structure.
      */
     public MainLoop(MainContext context, boolean isRunning) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_new(context.HANDLE(), isRunning ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_new(context.HANDLE(), isRunning ? 1 : 0), true));
     }
     
     /**
@@ -27,7 +27,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MainContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_get_context(HANDLE());
-        return new MainContext(ProxyFactory.getProxy(RESULT, false));
+        return new MainContext(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MainLoop ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_ref(HANDLE());
-        return new MainLoop(ProxyFactory.getProxy(RESULT, true));
+        return new MainLoop(ProxyFactory.get(RESULT, true));
     }
     
     /**

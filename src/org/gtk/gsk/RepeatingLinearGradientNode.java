@@ -25,7 +25,7 @@ public class RepeatingLinearGradientNode extends RenderNode {
      * given by @bounds.
      */
     public RepeatingLinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
 }

@@ -26,7 +26,7 @@ public class StringObject extends org.gtk.gobject.Object {
      * Wraps a string in an object for use with `GListModel`.
      */
     public StringObject(java.lang.String string) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_new(Interop.getAllocator().allocateUtf8String(string)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_new(Interop.getAllocator().allocateUtf8String(string)), true));
     }
     
     /**

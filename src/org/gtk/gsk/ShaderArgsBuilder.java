@@ -19,7 +19,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * chunk.
      */
     public ShaderArgsBuilder(GLShader shader, org.gtk.glib.Bytes initialValues) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_new(shader.HANDLE(), initialValues.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_new(shader.HANDLE(), initialValues.HANDLE()), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      */
     public org.gtk.glib.Bytes freeToArgs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_free_to_args(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -39,7 +39,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      */
     public ShaderArgsBuilder ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_ref(HANDLE());
-        return new ShaderArgsBuilder(ProxyFactory.getProxy(RESULT, true));
+        return new ShaderArgsBuilder(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -120,7 +120,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      */
     public org.gtk.glib.Bytes toArgs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_to_args(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -37,7 +37,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
      * Returns a new spinner widget. Not yet started.
      */
     public Spinner() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_new(), false));
     }
     
     /**

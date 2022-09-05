@@ -42,7 +42,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**

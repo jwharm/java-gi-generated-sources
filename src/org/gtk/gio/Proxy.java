@@ -27,7 +27,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new IOStream(ProxyFactory.getProxy(RESULT, true));
+        return new IOStream(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -39,7 +39,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new IOStream(ProxyFactory.getProxy(RESULT, true));
+        return new IOStream(ProxyFactory.get(RESULT, true));
     }
     
     /**

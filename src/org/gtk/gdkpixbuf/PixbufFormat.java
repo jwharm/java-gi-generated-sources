@@ -23,7 +23,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PixbufFormat copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_copy(HANDLE());
-        return new PixbufFormat(ProxyFactory.getProxy(RESULT, true));
+        return new PixbufFormat(ProxyFactory.get(RESULT, true));
     }
     
     /**

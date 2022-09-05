@@ -29,7 +29,7 @@ public class OverlayLayout extends LayoutManager {
      * Creates a new `GtkOverlayLayout` instance.
      */
     public OverlayLayout() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_new(), true));
     }
     
 }

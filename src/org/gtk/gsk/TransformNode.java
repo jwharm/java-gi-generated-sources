@@ -24,7 +24,7 @@ public class TransformNode extends RenderNode {
      * with the given @transform.
      */
     public TransformNode(RenderNode child, Transform transform) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_new(child.HANDLE(), transform.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_new(child.HANDLE(), transform.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TransformNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class TransformNode extends RenderNode {
      */
     public Transform getTransform() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_transform(HANDLE());
-        return new Transform(ProxyFactory.getProxy(RESULT, false));
+        return new Transform(ProxyFactory.get(RESULT, false));
     }
     
 }

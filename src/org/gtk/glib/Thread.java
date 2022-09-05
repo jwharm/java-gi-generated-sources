@@ -54,7 +54,7 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Thread ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_ref(HANDLE());
-        return new Thread(ProxyFactory.getProxy(RESULT, true));
+        return new Thread(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -26,7 +26,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * executed.
      */
     public Source(SourceFuncs sourceFuncs, int structSize) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_new(sourceFuncs.HANDLE(), structSize), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_new(sourceFuncs.HANDLE(), structSize), true));
     }
     
     /**
@@ -143,7 +143,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MainContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_context(HANDLE());
-        return new MainContext(ProxyFactory.getProxy(RESULT, false));
+        return new MainContext(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -329,7 +329,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Source ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_ref(HANDLE());
-        return new Source(ProxyFactory.getProxy(RESULT, true));
+        return new Source(ProxyFactory.get(RESULT, true));
     }
     
     /**

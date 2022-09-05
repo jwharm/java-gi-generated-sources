@@ -61,7 +61,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object get() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_get(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, true));
+        return new Object(ProxyFactory.get(RESULT, true));
     }
     
     /**

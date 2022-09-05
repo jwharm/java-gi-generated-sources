@@ -24,7 +24,7 @@ public class DNDEvent extends Event {
      */
     public Drop getDrop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_dnd_event_get_drop(HANDLE());
-        return new Drop(ProxyFactory.getProxy(RESULT, false));
+        return new Drop(ProxyFactory.get(RESULT, false));
     }
     
 }

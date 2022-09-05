@@ -77,14 +77,14 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * Creates a new `GtkComboBoxText`.
      */
     public ComboBoxText() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new(), false));
     }
     
     /**
      * Creates a new `GtkComboBoxText` with an entry.
      */
     public static ComboBoxText newWithEntry() {
-        return new ComboBoxText(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new_with_entry(), false));
+        return new ComboBoxText(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new_with_entry(), false));
     }
     
     /**

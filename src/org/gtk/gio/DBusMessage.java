@@ -24,21 +24,21 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Creates a new empty #GDBusMessage.
      */
     public DBusMessage() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new(), true));
     }
     
     /**
      * Creates a new #GDBusMessage for a method call.
      */
     public DBusMessage(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_call(Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(method)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_call(Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(method)), true));
     }
     
     /**
      * Creates a new #GDBusMessage for a signal emission.
      */
     public DBusMessage(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_signal(Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(signal)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_signal(Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(signal)), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new DBusMessage(ProxyFactory.getProxy(RESULT, true));
+        return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -71,7 +71,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getBody() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_get_body(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getHeader(DBusMessageHeaderField headerField) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_get_header(HANDLE(), headerField.getValue());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -214,7 +214,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public UnixFDList getUnixFdList() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_get_unix_fd_list(HANDLE());
-        return new UnixFDList(ProxyFactory.getProxy(RESULT, false));
+        return new UnixFDList(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -229,7 +229,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodErrorLiteral(java.lang.String errorName, java.lang.String errorMessage) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_literal(HANDLE(), Interop.getAllocator().allocateUtf8String(errorName), Interop.getAllocator().allocateUtf8String(errorMessage));
-        return new DBusMessage(ProxyFactory.getProxy(RESULT, true));
+        return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -237,7 +237,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodErrorValist(java.lang.String errorName, java.lang.String errorMessageFormat, VaList varArgs) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_valist(HANDLE(), Interop.getAllocator().allocateUtf8String(errorName), Interop.getAllocator().allocateUtf8String(errorMessageFormat), varArgs);
-        return new DBusMessage(ProxyFactory.getProxy(RESULT, true));
+        return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -245,7 +245,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessage newMethodReply() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_reply(HANDLE());
-        return new DBusMessage(ProxyFactory.getProxy(RESULT, true));
+        return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
     /**

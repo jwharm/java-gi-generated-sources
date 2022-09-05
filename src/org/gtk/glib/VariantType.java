@@ -169,7 +169,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * string.  Use g_variant_type_string_is_valid() if you are unsure.
      */
     public VariantType(java.lang.String typeString) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new(Interop.getAllocator().allocateUtf8String(typeString)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new(Interop.getAllocator().allocateUtf8String(typeString)), true));
     }
     
     /**
@@ -179,7 +179,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newArray(VariantType element) {
-        return new VariantType(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_array(element.HANDLE()), true));
+        return new VariantType(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_array(element.HANDLE()), true));
     }
     
     /**
@@ -189,7 +189,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public VariantType(VariantType key, VariantType value) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_dict_entry(key.HANDLE(), value.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_dict_entry(key.HANDLE(), value.HANDLE()), true));
     }
     
     /**
@@ -199,7 +199,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newMaybe(VariantType element) {
-        return new VariantType(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_maybe(element.HANDLE()), true));
+        return new VariantType(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_maybe(element.HANDLE()), true));
     }
     
     /**
@@ -211,7 +211,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public VariantType(VariantType[] items, int length) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items), length), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items), length), true));
     }
     
     /**
@@ -220,7 +220,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_copy(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, true));
+        return new VariantType(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -240,7 +240,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType element() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_element(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -278,7 +278,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType first() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_first(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -446,7 +446,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType key() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_key(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -480,7 +480,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType next() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_next(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -502,7 +502,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantType value() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_value(HANDLE());
-        return new VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new VariantType(ProxyFactory.get(RESULT, false));
     }
     
 }

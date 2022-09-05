@@ -67,7 +67,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public RenderNode ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_ref(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, true));
+        return new RenderNode(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_serialize(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**

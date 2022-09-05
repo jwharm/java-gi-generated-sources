@@ -26,7 +26,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * instead you instantiate a subclass of this, such as #GdkAppLaunchContext.
      */
     public AppLaunchContext() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_new(), true));
     }
     
     /**

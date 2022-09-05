@@ -23,7 +23,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned value are undefined.
      */
     public Quaternion() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_alloc(), true));
     }
     
     /**
@@ -61,7 +61,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion init(float x, float y, float z, float w) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init(HANDLE(), x, y, z, w);
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromAngleVec3(float angle, Vec3 axis) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_angle_vec3(HANDLE(), angle, axis.HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromAngles(float degX, float degY, float degZ) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_angles(HANDLE(), degX, degY, degZ);
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -90,7 +90,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromEuler(Euler e) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_euler(HANDLE(), e.HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromMatrix(Matrix m) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_matrix(HANDLE(), m.HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromQuaternion(Quaternion src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_quaternion(HANDLE(), src.HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -119,7 +119,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromRadians(float radX, float radY, float radZ) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_radians(HANDLE(), radX, radY, radZ);
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initFromVec4(Vec4 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_vec4(HANDLE(), src.HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -136,7 +136,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Quaternion initIdentity() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_identity(HANDLE());
-        return new Quaternion(ProxyFactory.getProxy(RESULT, false));
+        return new Quaternion(ProxyFactory.get(RESULT, false));
     }
     
     /**

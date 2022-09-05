@@ -168,7 +168,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Creates a new `GtkFileChooserNative`.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE(), action.getValue(), Interop.getAllocator().allocateUtf8String(acceptLabel), Interop.getAllocator().allocateUtf8String(cancelLabel)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE(), action.getValue(), Interop.getAllocator().allocateUtf8String(acceptLabel), Interop.getAllocator().allocateUtf8String(cancelLabel)), true));
     }
     
     /**

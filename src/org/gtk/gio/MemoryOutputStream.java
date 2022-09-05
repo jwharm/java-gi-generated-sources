@@ -28,7 +28,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * for memory allocation.
      */
     public MemoryOutputStream() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_new_resizable(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_new_resizable(), true));
     }
     
     /**
@@ -79,7 +79,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      */
     public org.gtk.glib.Bytes stealAsBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_steal_as_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -72,7 +72,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkListBox` container.
      */
     public ListBox() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_new(), false));
     }
     
     /**
@@ -122,7 +122,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.getProxy(RESULT, false));
+        return new Adjustment(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -133,7 +133,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getRowAtIndex(int index) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_row_at_index(HANDLE(), index);
-        return new ListBoxRow(ProxyFactory.getProxy(RESULT, false));
+        return new ListBoxRow(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getRowAtY(int y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_row_at_y(HANDLE(), y);
-        return new ListBoxRow(ProxyFactory.getProxy(RESULT, false));
+        return new ListBoxRow(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public ListBoxRow getSelectedRow() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_selected_row(HANDLE());
-        return new ListBoxRow(ProxyFactory.getProxy(RESULT, false));
+        return new ListBoxRow(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -161,7 +161,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.glib.List getSelectedRows() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_selected_rows(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**

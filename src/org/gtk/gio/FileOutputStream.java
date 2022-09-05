@@ -67,7 +67,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.getProxy(RESULT, true));
+        return new FileInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -80,7 +80,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.getProxy(RESULT, true));
+        return new FileInfo(ProxyFactory.get(RESULT, true));
     }
     
 }

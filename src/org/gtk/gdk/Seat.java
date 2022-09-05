@@ -33,7 +33,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getDevices(int capabilities) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_devices(HANDLE(), capabilities);
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -41,7 +41,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getKeyboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_keyboard(HANDLE());
-        return new Device(ProxyFactory.getProxy(RESULT, false));
+        return new Device(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getPointer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_pointer(HANDLE());
-        return new Device(ProxyFactory.getProxy(RESULT, false));
+        return new Device(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getTools() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_tools(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     @FunctionalInterface

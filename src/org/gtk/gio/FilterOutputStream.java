@@ -27,7 +27,7 @@ public class FilterOutputStream extends OutputStream {
      */
     public OutputStream getBaseStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_output_stream_get_base_stream(HANDLE());
-        return new OutputStream(ProxyFactory.getProxy(RESULT, false));
+        return new OutputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

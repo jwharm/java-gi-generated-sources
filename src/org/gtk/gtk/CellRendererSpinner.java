@@ -35,7 +35,7 @@ public class CellRendererSpinner extends CellRenderer {
      * activity.
      */
     public CellRendererSpinner() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spinner_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spinner_new(), false));
     }
     
 }

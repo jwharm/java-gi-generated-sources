@@ -59,7 +59,7 @@ public class IMContextSimple extends IMContext {
      * Creates a new `GtkIMContextSimple`.
      */
     public IMContextSimple() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_new(), true));
     }
     
     /**

@@ -38,7 +38,7 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkSeparator` with the given orientation.
      */
     public Separator(Orientation orientation) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_separator_new(orientation.getValue()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_separator_new(orientation.getValue()), false));
     }
     
 }

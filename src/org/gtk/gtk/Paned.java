@@ -89,7 +89,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new `GtkPaned` widget.
      */
     public Paned(Orientation orientation) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_new(orientation.getValue()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_new(orientation.getValue()), false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getEndChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_get_end_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getStartChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_get_start_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

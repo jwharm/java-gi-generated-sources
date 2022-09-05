@@ -24,7 +24,7 @@ public class FixedLayoutChild extends LayoutChild {
      */
     public org.gtk.gsk.Transform getTransform() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_child_get_transform(HANDLE());
-        return new org.gtk.gsk.Transform(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gsk.Transform(ProxyFactory.get(RESULT, false));
     }
     
     /**

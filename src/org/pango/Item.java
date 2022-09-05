@@ -21,7 +21,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new `PangoItem` structure initialized to default values.
      */
     public Item() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_new(), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Item copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_copy(HANDLE());
-        return new Item(ProxyFactory.getProxy(RESULT, true));
+        return new Item(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Item split(int splitIndex, int splitOffset) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_split(HANDLE(), splitIndex, splitOffset);
-        return new Item(ProxyFactory.getProxy(RESULT, true));
+        return new Item(ProxyFactory.get(RESULT, true));
     }
     
 }

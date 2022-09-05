@@ -20,7 +20,7 @@ public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
      * Allocates a new `GtkBorder` struct and initializes its elements to zero.
      */
     public Border() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_new(), true));
     }
     
     /**
@@ -28,7 +28,7 @@ public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Border copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_copy(HANDLE());
-        return new Border(ProxyFactory.getProxy(RESULT, true));
+        return new Border(ProxyFactory.get(RESULT, true));
     }
     
     /**

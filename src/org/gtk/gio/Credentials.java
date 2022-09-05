@@ -60,7 +60,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * the current process.
      */
     public Credentials() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_new(), true));
     }
     
     /**

@@ -53,7 +53,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkActionBar` widget.
      */
     public ActionBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_new(), false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getCenterWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_get_center_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -46,14 +46,14 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * color when the user finishes.
      */
     public ColorButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new(), false));
     }
     
     /**
      * Creates a new color button showing the given color.
      */
     public ColorButton(org.gtk.gdk.RGBA rgba) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new_with_rgba(rgba.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new_with_rgba(rgba.HANDLE()), false));
     }
     
     /**

@@ -48,7 +48,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public StrvBuilder ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_ref(HANDLE());
-        return new StrvBuilder(ProxyFactory.getProxy(RESULT, true));
+        return new StrvBuilder(ProxyFactory.get(RESULT, true));
     }
     
     /**

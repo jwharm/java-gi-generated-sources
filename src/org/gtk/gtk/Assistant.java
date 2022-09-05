@@ -58,7 +58,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Creates a new `GtkAssistant`.
      */
     public Assistant() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_new(), false));
     }
     
     /**
@@ -113,7 +113,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_nth_page(HANDLE(), pageNum);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public AssistantPage getPage(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page(HANDLE(), child.HANDLE());
-        return new AssistantPage(ProxyFactory.getProxy(RESULT, false));
+        return new AssistantPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public org.gtk.gio.ListModel getPages() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_pages(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

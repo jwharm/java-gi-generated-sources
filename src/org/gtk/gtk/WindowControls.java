@@ -72,7 +72,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * Creates a new `GtkWindowControls`.
      */
     public WindowControls(PackType side) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_new(side.getValue()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_new(side.getValue()), false));
     }
     
     /**

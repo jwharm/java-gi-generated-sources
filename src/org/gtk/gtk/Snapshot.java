@@ -34,7 +34,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Creates a new `GtkSnapshot`.
      */
     public Snapshot() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_new(), true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.cairographics.Context appendCairo(org.gtk.graphene.Rect bounds) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_append_cairo(HANDLE(), bounds.HANDLE());
-        return new org.cairographics.Context(ProxyFactory.getProxy(RESULT, true));
+        return new org.cairographics.Context(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -146,7 +146,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gsk.RenderNode freeToNode() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_free_to_node(HANDLE());
-        return new org.gtk.gsk.RenderNode(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gsk.RenderNode(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -155,7 +155,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gdk.Paintable freeToPaintable(org.gtk.graphene.Size size) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_free_to_paintable(HANDLE(), size.HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -436,7 +436,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gsk.RenderNode toNode() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_to_node(HANDLE());
-        return new org.gtk.gsk.RenderNode(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gsk.RenderNode(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -449,7 +449,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      */
     public org.gtk.gdk.Paintable toPaintable(org.gtk.graphene.Size size) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_snapshot_to_paintable(HANDLE(), size.HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

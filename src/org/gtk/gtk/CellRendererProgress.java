@@ -26,7 +26,7 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
      * Creates a new `GtkCellRendererProgress`.
      */
     public CellRendererProgress() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_progress_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_progress_new(), false));
     }
     
 }

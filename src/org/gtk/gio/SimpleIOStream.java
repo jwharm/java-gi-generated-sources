@@ -31,7 +31,7 @@ public class SimpleIOStream extends IOStream {
      * See also #GIOStream.
      */
     public SimpleIOStream(InputStream inputStream, OutputStream outputStream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_io_stream_new(inputStream.HANDLE(), outputStream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_io_stream_new(inputStream.HANDLE(), outputStream.HANDLE()), true));
     }
     
 }

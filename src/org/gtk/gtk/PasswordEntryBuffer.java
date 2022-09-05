@@ -26,7 +26,7 @@ public class PasswordEntryBuffer extends EntryBuffer {
      * Creates a new `GtkEntryBuffer` using secure memory allocations.
      */
     public PasswordEntryBuffer() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_buffer_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_buffer_new(), true));
     }
     
 }

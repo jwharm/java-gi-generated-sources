@@ -185,7 +185,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Creates a new `GtkConstraintLayout` layout manager.
      */
     public ConstraintLayout() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_new(), true));
     }
     
     /**
@@ -292,7 +292,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -321,7 +321,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.gio.ListModel observeConstraints() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_observe_constraints(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -337,7 +337,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.gio.ListModel observeGuides() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_observe_guides(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

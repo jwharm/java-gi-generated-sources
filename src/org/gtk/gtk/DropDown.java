@@ -52,7 +52,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * to set up a way to map its items to widgets.
      */
     public DropDown(org.gtk.gio.ListModel model, Expression expression) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new(model.getProxy().unowned().HANDLE(), expression.getProxy().unowned().HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new(model.getProxy().unowned().HANDLE(), expression.getProxy().unowned().HANDLE()), false));
     }
     
     /**
@@ -60,7 +60,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * the strings.
      */
     public DropDown(java.lang.String[] strings) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings)), false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_expression(HANDLE());
-        return new Expression(ProxyFactory.getProxy(RESULT, false));
+        return new Expression(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -90,7 +90,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public ListItemFactory getFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.getProxy(RESULT, false));
+        return new ListItemFactory(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public ListItemFactory getListFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_list_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.getProxy(RESULT, false));
+        return new ListItemFactory(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -122,7 +122,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_selected_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
     /**

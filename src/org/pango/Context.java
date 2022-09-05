@@ -40,7 +40,7 @@ public class Context extends org.gtk.gobject.Object {
      * `gtk_widget_get_pango_context()`. Use those instead.
      */
     public Context() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_new(), true));
     }
     
     /**
@@ -81,7 +81,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontDescription getFontDescription() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_font_description(HANDLE());
-        return new FontDescription(ProxyFactory.getProxy(RESULT, false));
+        return new FontDescription(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontMap getFontMap() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_font_map(HANDLE());
-        return new FontMap(ProxyFactory.getProxy(RESULT, false));
+        return new FontMap(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Language getLanguage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_language(HANDLE());
-        return new Language(ProxyFactory.getProxy(RESULT, true));
+        return new Language(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -131,7 +131,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Matrix getMatrix() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_matrix(HANDLE());
-        return new Matrix(ProxyFactory.getProxy(RESULT, false));
+        return new Matrix(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -149,7 +149,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public FontMetrics getMetrics(FontDescription desc, Language language) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_metrics(HANDLE(), desc.HANDLE(), language.HANDLE());
-        return new FontMetrics(ProxyFactory.getProxy(RESULT, true));
+        return new FontMetrics(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -186,7 +186,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Font loadFont(FontDescription desc) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_load_font(HANDLE(), desc.HANDLE());
-        return new Font(ProxyFactory.getProxy(RESULT, true));
+        return new Font(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -195,7 +195,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Fontset loadFontset(FontDescription desc, Language language) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_load_fontset(HANDLE(), desc.HANDLE(), language.HANDLE());
-        return new Fontset(ProxyFactory.getProxy(RESULT, true));
+        return new Fontset(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -60,7 +60,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Creates a new `GtkEntryCompletion` object.
      */
     public EntryCompletion() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new(), true));
     }
     
     /**
@@ -71,7 +71,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * `GtkTreeViewColumn` for the drop-down menu.
      */
     public EntryCompletion(CellArea area) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new_with_area(area.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new_with_area(area.HANDLE()), true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public Widget getEntry() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_entry(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -146,7 +146,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

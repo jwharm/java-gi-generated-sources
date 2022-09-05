@@ -61,7 +61,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkTreeExpander`
      */
     public TreeExpander() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_new(), false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -99,7 +99,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public TreeListRow getListRow() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_list_row(HANDLE());
-        return new TreeListRow(ProxyFactory.getProxy(RESULT, false));
+        return new TreeListRow(ProxyFactory.get(RESULT, false));
     }
     
     /**

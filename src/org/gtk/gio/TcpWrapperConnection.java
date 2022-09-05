@@ -27,7 +27,7 @@ public class TcpWrapperConnection extends TcpConnection {
      * Wraps @base_io_stream and @socket together as a #GSocketConnection.
      */
     public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_new(baseIoStream.HANDLE(), socket.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_new(baseIoStream.HANDLE(), socket.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class TcpWrapperConnection extends TcpConnection {
      */
     public IOStream getBaseIoStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_get_base_io_stream(HANDLE());
-        return new IOStream(ProxyFactory.getProxy(RESULT, false));
+        return new IOStream(ProxyFactory.get(RESULT, false));
     }
     
 }

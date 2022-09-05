@@ -24,7 +24,7 @@ public class ClipNode extends RenderNode {
      * given by @clip.
      */
     public ClipNode(RenderNode child, org.gtk.graphene.Rect clip) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_clip_node_new(child.HANDLE(), clip.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_clip_node_new(child.HANDLE(), clip.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class ClipNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_clip_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.getProxy(RESULT, false));
+        return new RenderNode(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class ClipNode extends RenderNode {
      */
     public org.gtk.graphene.Rect getClip() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_clip_node_get_clip(HANDLE());
-        return new org.gtk.graphene.Rect(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.graphene.Rect(ProxyFactory.get(RESULT, false));
     }
     
 }

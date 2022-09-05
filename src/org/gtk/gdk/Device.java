@@ -38,7 +38,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public DeviceTool getDeviceTool() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_device_tool(HANDLE());
-        return new DeviceTool(ProxyFactory.getProxy(RESULT, false));
+        return new DeviceTool(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Seat getSeat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_seat(HANDLE());
-        return new Seat(ProxyFactory.getProxy(RESULT, false));
+        return new Seat(ProxyFactory.get(RESULT, false));
     }
     
     /**

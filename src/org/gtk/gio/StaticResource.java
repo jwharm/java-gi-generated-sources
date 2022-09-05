@@ -35,7 +35,7 @@ public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Resource getResource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_static_resource_get_resource(HANDLE());
-        return new Resource(ProxyFactory.getProxy(RESULT, false));
+        return new Resource(ProxyFactory.get(RESULT, false));
     }
     
     /**

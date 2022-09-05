@@ -97,7 +97,7 @@ public class DropTarget extends EventController {
      * [method@Gtk.DropTarget.set_gtypes].
      */
     public DropTarget(Type type, int actions) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_new(type.getValue(), actions), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_new(type.getValue(), actions), true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gdk.Drop getCurrentDrop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_current_drop(HANDLE());
-        return new org.gtk.gdk.Drop(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Drop(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_formats(HANDLE());
-        return new org.gtk.gdk.ContentFormats(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.ContentFormats(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class DropTarget extends EventController {
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_value(HANDLE());
-        return new org.gtk.gobject.Value(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
     }
     
     /**

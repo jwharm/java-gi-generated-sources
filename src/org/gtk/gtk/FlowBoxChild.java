@@ -25,7 +25,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * This should only be used as a child of a `GtkFlowBox`.
      */
     public FlowBoxChild() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_child_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_child_new(), false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_child_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

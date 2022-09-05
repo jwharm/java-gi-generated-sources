@@ -69,7 +69,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new `GtkStack`.
      */
     public Stack() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_new(), false));
     }
     
     /**
@@ -77,7 +77,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addChild(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_child(HANDLE(), child.HANDLE());
-        return new StackPage(ProxyFactory.getProxy(RESULT, false));
+        return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addNamed(Widget child, java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_named(HANDLE(), child.HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new StackPage(ProxyFactory.getProxy(RESULT, false));
+        return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addTitled(Widget child, java.lang.String name, java.lang.String title) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_titled(HANDLE(), child.HANDLE(), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(title));
-        return new StackPage(ProxyFactory.getProxy(RESULT, false));
+        return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getChildByName(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_child_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -136,7 +136,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage getPage(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_page(HANDLE(), child.HANDLE());
-        return new StackPage(ProxyFactory.getProxy(RESULT, false));
+        return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -148,7 +148,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SelectionModel getPages() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_pages(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -193,7 +193,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getVisibleChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_visible_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

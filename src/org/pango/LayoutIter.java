@@ -32,7 +32,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_copy(HANDLE());
-        return new LayoutIter(ProxyFactory.getProxy(RESULT, true));
+        return new LayoutIter(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -92,7 +92,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_layout(HANDLE());
-        return new Layout(ProxyFactory.getProxy(RESULT, false));
+        return new Layout(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutLine getLine() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_line(HANDLE());
-        return new LayoutLine(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutLine(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutLine getLineReadonly() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_line_readonly(HANDLE());
-        return new LayoutLine(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutLine(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -151,7 +151,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutRun getRun() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run(HANDLE());
-        return new LayoutRun(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutRun(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -191,7 +191,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutRun getRunReadonly() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run_readonly(HANDLE());
-        return new LayoutRun(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutRun(ProxyFactory.get(RESULT, false));
     }
     
     /**

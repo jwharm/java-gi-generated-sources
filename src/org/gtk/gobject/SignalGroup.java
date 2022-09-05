@@ -40,7 +40,7 @@ public class SignalGroup extends Object {
      * Creates a new #GSignalGroup for target instances of @target_type.
      */
     public SignalGroup(Type targetType) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_new(targetType.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_new(targetType.getValue()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class SignalGroup extends Object {
      */
     public Object dupTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_dup_target(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, true));
+        return new Object(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -88,7 +88,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * To delete a `GtkWindow`, call [method@Gtk.Window.destroy].
      */
     public Window() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_new(), false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Application getApplication() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_application(HANDLE());
-        return new Application(ProxyFactory.getProxy(RESULT, false));
+        return new Application(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -171,7 +171,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getDefaultWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_default_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -200,7 +200,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getFocus() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_focus(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -218,7 +218,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public WindowGroup getGroup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_group(HANDLE());
-        return new WindowGroup(ProxyFactory.getProxy(RESULT, false));
+        return new WindowGroup(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -284,7 +284,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Widget getTitlebar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_titlebar(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -292,7 +292,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      */
     public Window getTransientFor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_transient_for(HANDLE());
-        return new Window(ProxyFactory.getProxy(RESULT, false));
+        return new Window(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -211,7 +211,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      */
     public default TreeModel filterNew(TreePath root) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_new(HANDLE(), root.HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -282,7 +282,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      */
     public default TreePath getPath(TreeIter iter) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_path(HANDLE(), iter.HANDLE());
-        return new TreePath(ProxyFactory.getProxy(RESULT, true));
+        return new TreePath(ProxyFactory.get(RESULT, true));
     }
     
     /**

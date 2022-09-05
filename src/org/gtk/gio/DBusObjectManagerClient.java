@@ -98,7 +98,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, false));
+        return new DBusConnection(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -34,7 +34,7 @@ public class StringSorter extends Sorter {
      * compare items as invalid.
      */
     public StringSorter(Expression expression) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_new(expression.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class StringSorter extends Sorter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.getProxy(RESULT, false));
+        return new Expression(ProxyFactory.get(RESULT, false));
     }
     
     /**

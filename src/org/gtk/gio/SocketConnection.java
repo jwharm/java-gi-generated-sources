@@ -67,7 +67,7 @@ public class SocketConnection extends IOStream {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -86,7 +86,7 @@ public class SocketConnection extends IOStream {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.getProxy(RESULT, true));
+        return new SocketAddress(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -96,7 +96,7 @@ public class SocketConnection extends IOStream {
      */
     public Socket getSocket() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_get_socket(HANDLE());
-        return new Socket(ProxyFactory.getProxy(RESULT, false));
+        return new Socket(ProxyFactory.get(RESULT, false));
     }
     
     /**

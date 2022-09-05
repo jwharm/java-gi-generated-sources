@@ -73,21 +73,21 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Creates a new `GtkCheckButton`.
      */
     public CheckButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new(), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text.
      */
     public static CheckButton newWithLabel(java.lang.String label) {
-        return new CheckButton(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new CheckButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text and a mnemonic.
      */
     public static CheckButton newWithMnemonic(java.lang.String label) {
-        return new CheckButton(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new CheckButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**

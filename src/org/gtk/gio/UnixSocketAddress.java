@@ -43,7 +43,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use g_unix_socket_address_new_abstract().
      */
     public UnixSocketAddress(java.lang.String path) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new(Interop.getAllocator().allocateUtf8String(path)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new(Interop.getAllocator().allocateUtf8String(path)), true));
     }
     
     /**
@@ -80,7 +80,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * its listening socket.
      */
     public UnixSocketAddress(byte[] path, int pathLen, UnixSocketAddressType type) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
     }
     
     /**

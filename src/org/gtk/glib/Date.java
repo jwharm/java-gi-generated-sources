@@ -31,7 +31,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * represent an existing day). Free the return value with g_date_free().
      */
     public Date() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new(), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * and valid.
      */
     public Date(DateDay day, DateMonth month, DateYear year) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * valid.
      */
     public Date(int julianDay) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_julian(julianDay), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_julian(julianDay), true));
     }
     
     /**
@@ -123,7 +123,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Date copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_copy(HANDLE());
-        return new Date(ProxyFactory.getProxy(RESULT, true));
+        return new Date(ProxyFactory.get(RESULT, true));
     }
     
     /**

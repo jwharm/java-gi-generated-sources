@@ -54,7 +54,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * To add a child widget to the button, use [method@Gtk.Button.set_child].
      */
     public Button() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new(), false));
     }
     
     /**
@@ -65,14 +65,14 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * will be updated appropriately.
      */
     public static Button newFromIconName(java.lang.String iconName) {
-        return new Button(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_from_icon_name(Interop.getAllocator().allocateUtf8String(iconName)), false));
+        return new Button(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_from_icon_name(Interop.getAllocator().allocateUtf8String(iconName)), false));
     }
     
     /**
      * Creates a `GtkButton` widget with a `GtkLabel` child.
      */
     public static Button newWithLabel(java.lang.String label) {
-        return new Button(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new Button(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * accelerator called a mnemonic. Pressing Alt and that key activates the button.
      */
     public static Button newWithMnemonic(java.lang.String label) {
-        return new Button(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new Button(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

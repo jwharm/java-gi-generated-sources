@@ -58,7 +58,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      */
     public MenuModel getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_link_iter_get_value(HANDLE());
-        return new MenuModel(ProxyFactory.getProxy(RESULT, true));
+        return new MenuModel(ProxyFactory.get(RESULT, true));
     }
     
     /**

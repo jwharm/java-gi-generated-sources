@@ -27,7 +27,7 @@ public class FontsetSimple extends Fontset {
      * Creates a new `PangoFontsetSimple` for the given language.
      */
     public FontsetSimple(Language language) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_new(language.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_new(language.HANDLE()), true));
     }
     
     /**

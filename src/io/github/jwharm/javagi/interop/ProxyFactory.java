@@ -8,39 +8,35 @@ import java.util.WeakHashMap;
 
 public class ProxyFactory {
 
-    public static final Set<Proxy> cache = Collections.newSetFromMap(
+    private static final Set<Proxy> cache = Collections.newSetFromMap(
             new WeakHashMap<Proxy, Boolean>()
     );
 
-    private static Proxy getFromCache(MemoryAddress address) {
-        for (Proxy p : cache) {
-            if (p.HANDLE().equals(address)) return p;
-        }
-        return null;
-    }
-
-    public static Proxy getCachedProxy(MemoryAddress address) {
+    /**
+     * Retrieve the Proxy instance for this memory address from the cache,
+     * or add a new instance to the cache if it did not yet exist. Ownership
+     * of an existing Proxy instance remains unchanged. For new instances,
+     * ownership is set to false.
+     */
+    public static Proxy get(MemoryAddress address) {
         for (Proxy p : cache) {
             if (p.HANDLE().equals(address)) {
                 return p;
             }
         }
-        // Fallback
-        System.out.println("Generating proxy for unknown memory address: " + address);
         Proxy proxy = new Proxy(address, false);
         cache.add(proxy);
         return proxy;
     }
 
-    public static Proxy getProxy(MemoryAddress address, boolean owned) {
-        for (Proxy p : cache) {
-            if (p.HANDLE().equals(address)) {
-                p.setOwnership(owned);
-                return p;
-            }
-        }
-        Proxy proxy = new Proxy(address, owned);
-        cache.add(proxy);
+    /**
+     * Retrieve the Proxy instance for this memory address from the
+     * cache, or add a new instance to the cache if it did not yet exist.
+     * Ownership is updated to the given value.
+     */
+    public static Proxy get(MemoryAddress address, boolean owned) {
+        Proxy proxy = get(address);
+        proxy.setOwnership(owned);
         return proxy;
     }
 }

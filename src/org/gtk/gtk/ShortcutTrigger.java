@@ -48,7 +48,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * `<` and `&gt;` instead of `>`.
      */
     public ShortcutTrigger(java.lang.String string) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_parse_string(Interop.getAllocator().allocateUtf8String(string)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_parse_string(Interop.getAllocator().allocateUtf8String(string)), true));
     }
     
     /**

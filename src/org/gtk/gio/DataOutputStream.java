@@ -24,7 +24,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
      * Creates a new data output stream for @base_stream.
      */
     public DataOutputStream(OutputStream baseStream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_output_stream_new(baseStream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_output_stream_new(baseStream.HANDLE()), true));
     }
     
     /**

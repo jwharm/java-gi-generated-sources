@@ -24,7 +24,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * Creates a new #GInetSocketAddress for @address and @port.
      */
     public InetSocketAddress(InetAddress address, short port) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new(address.HANDLE(), port), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new(address.HANDLE(), port), true));
     }
     
     /**
@@ -34,7 +34,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * (separated from the address by a `%`).
      */
     public InetSocketAddress(java.lang.String address, int port) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new_from_string(Interop.getAllocator().allocateUtf8String(address), port), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new_from_string(Interop.getAllocator().allocateUtf8String(address), port), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      */
     public InetAddress getAddress() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_get_address(HANDLE());
-        return new InetAddress(ProxyFactory.getProxy(RESULT, false));
+        return new InetAddress(ProxyFactory.get(RESULT, false));
     }
     
     /**

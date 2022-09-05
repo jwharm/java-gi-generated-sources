@@ -34,7 +34,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Creates a new `GtkPrintSettings` object.
      */
     public PrintSettings() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new(), true));
     }
     
     /**
@@ -44,7 +44,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * [method@Gtk.PrintSettings.to_gvariant].
      */
     public PrintSettings(org.gtk.glib.Variant variant) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new_from_gvariant(variant.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new_from_gvariant(variant.HANDLE()), true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintSettings copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_copy(HANDLE());
-        return new PrintSettings(ProxyFactory.getProxy(RESULT, true));
+        return new PrintSettings(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -237,7 +237,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PaperSize getPaperSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_paper_size(HANDLE());
-        return new PaperSize(ProxyFactory.getProxy(RESULT, true));
+        return new PaperSize(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -609,7 +609,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_gvariant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -23,7 +23,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      */
     public org.gtk.glib.Variant getDefaultValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_default_value(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -95,7 +95,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      */
     public org.gtk.glib.Variant getRange() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_range(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -123,7 +123,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      */
     public org.gtk.glib.VariantType getValueType() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_value_type(HANDLE());
-        return new org.gtk.glib.VariantType(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.VariantType(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      */
     public SettingsSchemaKey ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_ref(HANDLE());
-        return new SettingsSchemaKey(ProxyFactory.getProxy(RESULT, true));
+        return new SettingsSchemaKey(ProxyFactory.get(RESULT, true));
     }
     
     /**

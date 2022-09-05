@@ -94,7 +94,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * Create a new #GTestDBus object.
      */
     public TestDBus(int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_new(flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_new(flags), true));
     }
     
     /**

@@ -32,7 +32,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * platform.
      */
     public ATContext(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.HANDLE(), display.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.HANDLE(), display.HANDLE()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class ATContext extends org.gtk.gobject.Object {
      */
     public Accessible getAccessible() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_get_accessible(HANDLE());
-        return new Accessible.AccessibleImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Accessible.AccessibleImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -39,7 +39,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.interop.Na
      */
     public default org.gtk.glib.Source createSource(Cancellable cancellable) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pollable_output_stream_create_source(HANDLE(), cancellable.HANDLE());
-        return new org.gtk.glib.Source(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Source(ProxyFactory.get(RESULT, true));
     }
     
     /**

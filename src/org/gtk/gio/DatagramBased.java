@@ -134,7 +134,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_create_source(HANDLE(), condition, cancellable.HANDLE());
-        return new org.gtk.glib.Source(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Source(ProxyFactory.get(RESULT, true));
     }
     
     /**

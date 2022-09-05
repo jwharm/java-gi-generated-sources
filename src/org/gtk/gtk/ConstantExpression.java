@@ -23,7 +23,7 @@ public class ConstantExpression extends Expression {
      * Creates an expression that always evaluates to the given `value`.
      */
     public ConstantExpression(org.gtk.gobject.Value value) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_new_for_value(value.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_new_for_value(value.HANDLE()), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class ConstantExpression extends Expression {
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_get_value(HANDLE());
-        return new org.gtk.gobject.Value(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
     }
     
 }

@@ -84,7 +84,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Creates a new `GtkPrintOperation`.
      */
     public PrintOperation() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_new(), true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PageSetup getDefaultPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_default_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.getProxy(RESULT, false));
+        return new PageSetup(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -178,7 +178,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintSettings getPrintSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_print_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.getProxy(RESULT, false));
+        return new PrintSettings(ProxyFactory.get(RESULT, false));
     }
     
     /**

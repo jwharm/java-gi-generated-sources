@@ -90,7 +90,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * to add columns next.
      */
     public ColumnView(SelectionModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_new(model.getProxy().unowned().HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_new(model.getProxy().unowned().HANDLE()), false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public org.gtk.gio.ListModel getColumns() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_columns(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -186,7 +186,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.getProxy(RESULT, false));
+        return new Sorter(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -65,7 +65,7 @@ public class Display extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new GLContext(ProxyFactory.getProxy(RESULT, true));
+        return new GLContext(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public AppLaunchContext getAppLaunchContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_app_launch_context(HANDLE());
-        return new AppLaunchContext(ProxyFactory.getProxy(RESULT, true));
+        return new AppLaunchContext(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -106,7 +106,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Clipboard getClipboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_clipboard(HANDLE());
-        return new Clipboard(ProxyFactory.getProxy(RESULT, false));
+        return new Clipboard(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -117,7 +117,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Seat getDefaultSeat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_default_seat(HANDLE());
-        return new Seat(ProxyFactory.getProxy(RESULT, false));
+        return new Seat(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Monitor getMonitorAtSurface(Surface surface) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_monitor_at_surface(HANDLE(), surface.HANDLE());
-        return new Monitor(ProxyFactory.getProxy(RESULT, false));
+        return new Monitor(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.ListModel getMonitors() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_monitors(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public Clipboard getPrimaryClipboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_get_primary_clipboard(HANDLE());
-        return new Clipboard(ProxyFactory.getProxy(RESULT, false));
+        return new Clipboard(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -231,7 +231,7 @@ public class Display extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listSeats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_list_seats(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**

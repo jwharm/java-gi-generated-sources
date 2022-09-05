@@ -61,7 +61,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new empty `GtkImage` widget.
      */
     public Image() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new(), false));
     }
     
     /**
@@ -80,7 +80,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * is appropriate for displaying the file.
      */
     public static Image newFromFile(java.lang.String filename) {
-        return new Image(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_file(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_file(Interop.getAllocator().allocateUtf8String(filename)), false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public Image(org.gtk.gio.Icon icon) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_gicon(icon.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_gicon(icon.HANDLE()), false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public static Image newFromIconName(java.lang.String iconName) {
-        return new Image(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_icon_name(Interop.getAllocator().allocateUtf8String(iconName)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_icon_name(Interop.getAllocator().allocateUtf8String(iconName)), false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * its size and contents in response to it.
      */
     public Image(org.gtk.gdk.Paintable paintable) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_paintable(paintable.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_paintable(paintable.HANDLE()), false));
     }
     
     /**
@@ -134,7 +134,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * want that, you should use [ctor@Gtk.Image.new_from_icon_name].
      */
     public Image(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_pixbuf(pixbuf.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_pixbuf(pixbuf.HANDLE()), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * appropriate for displaying the file.
      */
     public static Image newFromResource(java.lang.String resourcePath) {
-        return new Image(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
     }
     
     /**
@@ -173,7 +173,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.Icon getGicon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_gicon(HANDLE());
-        return new org.gtk.gio.Icon.IconImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -207,7 +207,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_paintable(HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

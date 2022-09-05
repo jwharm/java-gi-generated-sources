@@ -25,7 +25,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public org.gtk.glib.HashTable getHashTable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_get_hash_table(HANDLE());
-        return new org.gtk.glib.HashTable(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.HashTable(ProxyFactory.get(RESULT, false));
     }
     
     /**

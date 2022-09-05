@@ -27,7 +27,7 @@ public class ConicGradientNode extends RenderNode {
      * that the gradient points up. Color stops are then added clockwise.
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_new(bounds.HANDLE(), center.HANDLE(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_new(bounds.HANDLE(), center.HANDLE(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class ConicGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getCenter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_center(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
     }
     
     /**

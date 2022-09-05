@@ -49,7 +49,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * Non vararg creation function.  Used primarily by language bindings.
      */
     public static TreeStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new TreeStore(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new TreeStore(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
     }
     
     /**

@@ -22,7 +22,7 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      * The struct is initialized to zero.
      */
     public Requisition() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_new(), true));
     }
     
     /**
@@ -30,7 +30,7 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Requisition copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_copy(HANDLE());
-        return new Requisition(ProxyFactory.getProxy(RESULT, true));
+        return new Requisition(ProxyFactory.get(RESULT, true));
     }
     
     /**

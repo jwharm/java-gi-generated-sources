@@ -55,7 +55,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default Bitset getSelection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_model_get_selection(HANDLE());
-        return new Bitset(ProxyFactory.getProxy(RESULT, true));
+        return new Bitset(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default Bitset getSelectionInRange(int position, int nItems) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_model_get_selection_in_range(HANDLE(), position, nItems);
-        return new Bitset(ProxyFactory.getProxy(RESULT, true));
+        return new Bitset(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -56,7 +56,7 @@ public class EventControllerScroll extends EventController {
      * Creates a new event controller that will handle scroll events.
      */
     public EventControllerScroll(int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_scroll_new(flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_scroll_new(flags), true));
     }
     
     /**

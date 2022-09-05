@@ -26,7 +26,7 @@ public class GestureStylus extends GestureSingle {
      * Creates a new `GtkGestureStylus`.
      */
     public GestureStylus() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_new(), true));
     }
     
     /**
@@ -39,7 +39,7 @@ public class GestureStylus extends GestureSingle {
      */
     public org.gtk.gdk.DeviceTool getDeviceTool() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_get_device_tool(HANDLE());
-        return new org.gtk.gdk.DeviceTool(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.DeviceTool(ProxyFactory.get(RESULT, false));
     }
     
     @FunctionalInterface

@@ -39,7 +39,7 @@ public class FontChooserWidget extends Widget implements Accessible, Buildable, 
      * Creates a new `GtkFontChooserWidget`.
      */
     public FontChooserWidget() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_widget_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_widget_new(), false));
     }
     
 }

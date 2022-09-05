@@ -37,7 +37,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_cancellable(HANDLE());
-        return new org.gtk.gio.Cancellable(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.Cancellable(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gio.OutputStream getOutputStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_output_stream(HANDLE());
-        return new org.gtk.gio.OutputStream(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.OutputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_value(HANDLE());
-        return new org.gtk.gobject.Value(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
     }
     
     /**

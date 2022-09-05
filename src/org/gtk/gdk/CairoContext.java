@@ -36,7 +36,7 @@ public class CairoContext extends DrawContext {
      */
     public org.cairographics.Context cairoCreate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cairo_context_cairo_create(HANDLE());
-        return new org.cairographics.Context(ProxyFactory.getProxy(RESULT, true));
+        return new org.cairographics.Context(ProxyFactory.get(RESULT, true));
     }
     
 }

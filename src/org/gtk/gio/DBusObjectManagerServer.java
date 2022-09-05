@@ -50,7 +50,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_new(Interop.getAllocator().allocateUtf8String(objectPath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_new(Interop.getAllocator().allocateUtf8String(objectPath)), true));
     }
     
     /**
@@ -84,7 +84,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, true));
+        return new DBusConnection(ProxyFactory.get(RESULT, true));
     }
     
     /**

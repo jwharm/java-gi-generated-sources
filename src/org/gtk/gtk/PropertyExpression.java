@@ -32,7 +32,7 @@ public class PropertyExpression extends Expression {
      * The given `this_type` must have a property with `property_name`.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getProxy().unowned().HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getProxy().unowned().HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName)), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class PropertyExpression extends Expression {
      * Otherwise, this expression's evaluation will fail.
      */
     public PropertyExpression(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new_for_pspec(expression.getProxy().unowned().HANDLE(), pspec.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new_for_pspec(expression.getProxy().unowned().HANDLE(), pspec.HANDLE()), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class PropertyExpression extends Expression {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_expression(HANDLE());
-        return new Expression(ProxyFactory.getProxy(RESULT, false));
+        return new Expression(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class PropertyExpression extends Expression {
      */
     public org.gtk.gobject.ParamSpec getPspec() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_pspec(HANDLE());
-        return new org.gtk.gobject.ParamSpec(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, false));
     }
     
 }

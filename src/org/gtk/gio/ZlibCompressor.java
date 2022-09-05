@@ -24,7 +24,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * Creates a new #GZlibCompressor.
      */
     public ZlibCompressor(ZlibCompressorFormat format, int level) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_new(format.getValue(), level), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_new(format.getValue(), level), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      */
     public FileInfo getFileInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_get_file_info(HANDLE());
-        return new FileInfo(ProxyFactory.getProxy(RESULT, false));
+        return new FileInfo(ProxyFactory.get(RESULT, false));
     }
     
     /**

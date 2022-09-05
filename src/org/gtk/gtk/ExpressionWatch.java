@@ -34,7 +34,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      */
     public ExpressionWatch ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_ref(HANDLE());
-        return new ExpressionWatch(ProxyFactory.getProxy(RESULT, true));
+        return new ExpressionWatch(ProxyFactory.get(RESULT, true));
     }
     
     /**

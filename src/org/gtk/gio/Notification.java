@@ -71,7 +71,7 @@ public class Notification extends org.gtk.gobject.Object {
      * resending @notification.
      */
     public Notification(java.lang.String title) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_new(Interop.getAllocator().allocateUtf8String(title)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_new(Interop.getAllocator().allocateUtf8String(title)), true));
     }
     
     /**

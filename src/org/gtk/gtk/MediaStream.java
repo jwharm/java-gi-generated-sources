@@ -99,7 +99,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
     }
     
     /**

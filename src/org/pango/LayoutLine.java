@@ -79,7 +79,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutLine ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_ref(HANDLE());
-        return new LayoutLine(ProxyFactory.getProxy(RESULT, true));
+        return new LayoutLine(ProxyFactory.get(RESULT, true));
     }
     
     /**

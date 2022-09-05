@@ -69,7 +69,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * entry using [method@Gtk.SearchBar.connect_entry].
      */
     public SearchBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_new(), false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_key_capture_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

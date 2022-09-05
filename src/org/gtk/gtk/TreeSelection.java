@@ -85,7 +85,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_selected_rows(HANDLE(), Interop.allocateNativeArray(model));
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public TreeView getTreeView() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_tree_view(HANDLE());
-        return new TreeView(ProxyFactory.getProxy(RESULT, false));
+        return new TreeView(ProxyFactory.get(RESULT, false));
     }
     
     /**

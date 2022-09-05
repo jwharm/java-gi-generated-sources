@@ -24,7 +24,7 @@ public class TextureNode extends RenderNode {
      * @texture into the area given by @bounds.
      */
     public TextureNode(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_new(texture.HANDLE(), bounds.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_new(texture.HANDLE(), bounds.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TextureNode extends RenderNode {
      */
     public org.gtk.gdk.Texture getTexture() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_get_texture(HANDLE());
-        return new org.gtk.gdk.Texture(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Texture(ProxyFactory.get(RESULT, false));
     }
     
 }

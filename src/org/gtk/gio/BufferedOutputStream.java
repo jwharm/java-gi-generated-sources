@@ -36,14 +36,14 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      * Creates a new buffered output stream for a base stream.
      */
     public BufferedOutputStream(OutputStream baseStream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new(baseStream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new(baseStream.HANDLE()), true));
     }
     
     /**
      * Creates a new buffered output stream with a given buffer size.
      */
     public BufferedOutputStream(OutputStream baseStream, long size) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new_sized(baseStream.HANDLE(), size), true));
     }
     
     /**

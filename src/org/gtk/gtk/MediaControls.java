@@ -27,7 +27,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkMediaControls` managing the @stream passed to it.
      */
     public MediaControls(MediaStream stream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_new(stream.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_new(stream.HANDLE()), false));
     }
     
     /**
@@ -35,7 +35,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      */
     public MediaStream getMediaStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_get_media_stream(HANDLE());
-        return new MediaStream(ProxyFactory.getProxy(RESULT, false));
+        return new MediaStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

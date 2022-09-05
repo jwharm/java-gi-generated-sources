@@ -147,7 +147,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * as described above.
      */
     public Dialog() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_new(), false));
     }
     
     /**
@@ -175,7 +175,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_add_button(HANDLE(), Interop.getAllocator().allocateUtf8String(buttonText), responseId);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Box getContentArea() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_content_area(HANDLE());
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -194,7 +194,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public HeaderBar getHeaderBar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_header_bar(HANDLE());
-        return new HeaderBar(ProxyFactory.getProxy(RESULT, false));
+        return new HeaderBar(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -212,7 +212,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget getWidgetForResponse(int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_widget_for_response(HANDLE(), responseId);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

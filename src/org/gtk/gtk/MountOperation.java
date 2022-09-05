@@ -35,7 +35,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * Creates a new `GtkMountOperation`.
      */
     public MountOperation(Window parent) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_new(parent.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_new(parent.HANDLE()), true));
     }
     
     /**
@@ -44,7 +44,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_get_display(HANDLE());
-        return new org.gtk.gdk.Display(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -52,7 +52,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      */
     public Window getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_get_parent(HANDLE());
-        return new Window(ProxyFactory.getProxy(RESULT, false));
+        return new Window(ProxyFactory.get(RESULT, false));
     }
     
     /**

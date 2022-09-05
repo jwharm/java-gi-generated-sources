@@ -23,7 +23,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public TestLogMsg pop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_log_buffer_pop(HANDLE());
-        return new TestLogMsg(ProxyFactory.getProxy(RESULT, false));
+        return new TestLogMsg(ProxyFactory.get(RESULT, false));
     }
     
 }

@@ -78,7 +78,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getCurrentTimings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_clock_get_current_timings(HANDLE());
-        return new FrameTimings(ProxyFactory.getProxy(RESULT, false));
+        return new FrameTimings(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -138,7 +138,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getTimings(long frameCounter) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_clock_get_timings(HANDLE(), frameCounter);
-        return new FrameTimings(ProxyFactory.getProxy(RESULT, false));
+        return new FrameTimings(ProxyFactory.get(RESULT, false));
     }
     
     /**

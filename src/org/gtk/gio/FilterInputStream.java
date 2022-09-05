@@ -27,7 +27,7 @@ public class FilterInputStream extends InputStream {
      */
     public InputStream getBaseStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_input_stream_get_base_stream(HANDLE());
-        return new InputStream(ProxyFactory.getProxy(RESULT, false));
+        return new InputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

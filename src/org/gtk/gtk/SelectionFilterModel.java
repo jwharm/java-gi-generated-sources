@@ -25,7 +25,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * selected items from the underlying selection model.
      */
     public SelectionFilterModel(SelectionModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_new(model.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_new(model.HANDLE()), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

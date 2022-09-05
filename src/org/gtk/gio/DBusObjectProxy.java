@@ -27,7 +27,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      * object path.
      */
     public DBusObjectProxy(DBusConnection connection, java.lang.String objectPath) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_new(connection.HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_new(connection.HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath)), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, false));
+        return new DBusConnection(ProxyFactory.get(RESULT, false));
     }
     
 }

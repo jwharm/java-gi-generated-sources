@@ -24,7 +24,7 @@ public class EventControllerKey extends EventController {
      * Creates a new event controller that will handle key events.
      */
     public EventControllerKey() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_key_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_key_new(), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class EventControllerKey extends EventController {
      */
     public IMContext getImContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_key_get_im_context(HANDLE());
-        return new IMContext(ProxyFactory.getProxy(RESULT, false));
+        return new IMContext(ProxyFactory.get(RESULT, false));
     }
     
     /**

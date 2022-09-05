@@ -60,7 +60,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * - `signal(NAME)`, for a `GtkSignalAction` for the signal `NAME`
      */
     public ShortcutAction(java.lang.String string) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_parse_string(Interop.getAllocator().allocateUtf8String(string)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_parse_string(Interop.getAllocator().allocateUtf8String(string)), true));
     }
     
     /**

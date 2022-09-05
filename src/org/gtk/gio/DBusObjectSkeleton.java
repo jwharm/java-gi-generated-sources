@@ -27,7 +27,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * Creates a new #GDBusObjectSkeleton.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.getAllocator().allocateUtf8String(objectPath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.getAllocator().allocateUtf8String(objectPath)), true));
     }
     
     /**

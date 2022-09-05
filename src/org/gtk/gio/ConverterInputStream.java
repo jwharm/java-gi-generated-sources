@@ -27,7 +27,7 @@ public class ConverterInputStream extends FilterInputStream implements PollableI
      * Creates a new converter input stream for the @base_stream.
      */
     public ConverterInputStream(InputStream baseStream, Converter converter) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class ConverterInputStream extends FilterInputStream implements PollableI
      */
     public Converter getConverter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_get_converter(HANDLE());
-        return new Converter.ConverterImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Converter.ConverterImpl(ProxyFactory.get(RESULT, false));
     }
     
 }

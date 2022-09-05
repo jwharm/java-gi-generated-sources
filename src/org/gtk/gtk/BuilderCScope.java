@@ -42,7 +42,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
      * custom callbacks via [method@Gtk.BuilderCScope.add_callback_symbol].
      */
     public BuilderCScope() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_cscope_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_cscope_new(), true));
     }
     
 }

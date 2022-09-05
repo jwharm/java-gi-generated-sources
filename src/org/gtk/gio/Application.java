@@ -142,7 +142,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * (most notably application uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.getAllocator().allocateUtf8String(applicationId), flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.getAllocator().allocateUtf8String(applicationId), flags), true));
     }
     
     /**
@@ -304,7 +304,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public DBusConnection getDbusConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_get_dbus_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.getProxy(RESULT, false));
+        return new DBusConnection(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -37,7 +37,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_valist(objectType.getValue(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_valist(objectType.getValue(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values)), true));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags);
-        return new Binding(ProxyFactory.getProxy(RESULT, false));
+        return new Binding(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property_with_closures(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags, transformTo.HANDLE(), transformFrom.HANDLE());
-        return new Binding(ProxyFactory.getProxy(RESULT, false));
+        return new Binding(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -284,7 +284,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_ref(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, false));
+        return new Object(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -302,7 +302,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object refSink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_ref_sink(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, false));
+        return new Object(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -468,7 +468,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object takeRef() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_take_ref(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, true));
+        return new Object(ProxyFactory.get(RESULT, true));
     }
     
     /**

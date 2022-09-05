@@ -30,7 +30,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * an action that has state.
      */
     public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new(Interop.getAllocator().allocateUtf8String(name), parameterType.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new(Interop.getAllocator().allocateUtf8String(name), parameterType.HANDLE()), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * If the @state #GVariant is floating, it is consumed.
      */
     public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new_stateful(Interop.getAllocator().allocateUtf8String(name), parameterType.HANDLE(), state.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new_stateful(Interop.getAllocator().allocateUtf8String(name), parameterType.HANDLE(), state.HANDLE()), true));
     }
     
     /**

@@ -321,7 +321,7 @@ public class Settings extends org.gtk.gobject.Object {
      * on the context.  See g_main_context_push_thread_default().
      */
     public Settings(java.lang.String schemaId) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new(Interop.getAllocator().allocateUtf8String(schemaId)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new(Interop.getAllocator().allocateUtf8String(schemaId)), true));
     }
     
     /**
@@ -350,7 +350,7 @@ public class Settings extends org.gtk.gobject.Object {
      * have.
      */
     public Settings(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_full(schema.HANDLE(), backend.HANDLE(), Interop.getAllocator().allocateUtf8String(path)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_full(schema.HANDLE(), backend.HANDLE(), Interop.getAllocator().allocateUtf8String(path)), true));
     }
     
     /**
@@ -364,7 +364,7 @@ public class Settings extends org.gtk.gobject.Object {
      * settings instead of the settings for this user.
      */
     public Settings(java.lang.String schemaId, SettingsBackend backend) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend(Interop.getAllocator().allocateUtf8String(schemaId), backend.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend(Interop.getAllocator().allocateUtf8String(schemaId), backend.HANDLE()), true));
     }
     
     /**
@@ -375,7 +375,7 @@ public class Settings extends org.gtk.gobject.Object {
      * g_settings_new_with_path().
      */
     public Settings(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend_and_path(Interop.getAllocator().allocateUtf8String(schemaId), backend.HANDLE(), Interop.getAllocator().allocateUtf8String(path)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend_and_path(Interop.getAllocator().allocateUtf8String(schemaId), backend.HANDLE(), Interop.getAllocator().allocateUtf8String(path)), true));
     }
     
     /**
@@ -394,7 +394,7 @@ public class Settings extends org.gtk.gobject.Object {
      * characters.
      */
     public Settings(java.lang.String schemaId, java.lang.String path) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_path(Interop.getAllocator().allocateUtf8String(schemaId), Interop.getAllocator().allocateUtf8String(path)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_path(Interop.getAllocator().allocateUtf8String(schemaId), Interop.getAllocator().allocateUtf8String(path)), true));
     }
     
     /**
@@ -474,7 +474,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public Action createAction(java.lang.String key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_create_action(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
-        return new Action.ActionImpl(ProxyFactory.getProxy(RESULT, true));
+        return new Action.ActionImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -512,7 +512,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public Settings getChild(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_child(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new Settings(ProxyFactory.getProxy(RESULT, true));
+        return new Settings(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -540,7 +540,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_default_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -692,7 +692,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getUserValue(java.lang.String key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_user_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -703,7 +703,7 @@ public class Settings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**

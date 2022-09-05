@@ -25,7 +25,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Color copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_copy(HANDLE());
-        return new Color(ProxyFactory.getProxy(RESULT, true));
+        return new Color(ProxyFactory.get(RESULT, true));
     }
     
     /**

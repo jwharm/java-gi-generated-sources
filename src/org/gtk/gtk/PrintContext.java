@@ -93,7 +93,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.Context createPangoContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_create_pango_context(HANDLE());
-        return new org.pango.Context(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.Context(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -102,7 +102,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.Layout createPangoLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_create_pango_layout(HANDLE());
-        return new org.pango.Layout(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.Layout(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.cairographics.Context getCairoContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_cairo_context(HANDLE());
-        return new org.cairographics.Context(ProxyFactory.getProxy(RESULT, false));
+        return new org.cairographics.Context(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -146,7 +146,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public PageSetup getPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.getProxy(RESULT, false));
+        return new PageSetup(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      */
     public org.pango.FontMap getPangoFontmap() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_pango_fontmap(HANDLE());
-        return new org.pango.FontMap(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.FontMap(ProxyFactory.get(RESULT, false));
     }
     
     /**

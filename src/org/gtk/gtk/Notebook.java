@@ -114,7 +114,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkNotebook` widget with no pages.
      */
     public Notebook() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_new(), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getActionWidget(PackType packType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_action_widget(HANDLE(), packType.getValue());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getMenuLabel(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_menu_label(HANDLE(), child.HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -202,7 +202,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_nth_page(HANDLE(), pageNum);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public NotebookPage getPage(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_page(HANDLE(), child.HANDLE());
-        return new NotebookPage(ProxyFactory.getProxy(RESULT, false));
+        return new NotebookPage(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -222,7 +222,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.ListModel getPages() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_pages(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -265,7 +265,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getTabLabel(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_label(HANDLE(), child.HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

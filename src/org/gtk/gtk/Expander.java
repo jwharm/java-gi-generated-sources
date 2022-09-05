@@ -113,7 +113,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Creates a new expander using @label as the text of the label.
      */
     public Expander(java.lang.String label) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.getAllocator().allocateUtf8String(label)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
-        return new Expander(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new Expander(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -167,7 +167,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getLabelWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_label_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

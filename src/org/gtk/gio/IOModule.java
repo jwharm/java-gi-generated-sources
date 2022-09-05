@@ -26,7 +26,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * shared library when in use.
      */
     public IOModule(java.lang.String filename) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_new(Interop.getAllocator().allocateUtf8String(filename)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_new(Interop.getAllocator().allocateUtf8String(filename)), true));
     }
     
     /**

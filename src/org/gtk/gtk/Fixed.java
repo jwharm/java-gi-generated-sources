@@ -59,7 +59,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new `GtkFixed`.
      */
     public Fixed() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_new(), false));
     }
     
     /**
@@ -68,7 +68,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gsk.Transform getChildTransform(Widget widget) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_get_child_transform(HANDLE(), widget.HANDLE());
-        return new org.gtk.gsk.Transform(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gsk.Transform(ProxyFactory.get(RESULT, false));
     }
     
     /**

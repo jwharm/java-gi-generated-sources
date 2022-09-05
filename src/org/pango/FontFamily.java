@@ -28,7 +28,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public FontFace getFace(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_get_face(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new FontFace(ProxyFactory.getProxy(RESULT, false));
+        return new FontFace(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -59,7 +59,7 @@ public class GestureSingle extends Gesture {
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_current_sequence(HANDLE());
-        return new org.gtk.gdk.EventSequence(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gdk.EventSequence(ProxyFactory.get(RESULT, true));
     }
     
     /**

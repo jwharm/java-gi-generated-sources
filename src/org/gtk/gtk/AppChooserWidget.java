@@ -46,7 +46,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * that can handle content of the given type.
      */
     public AppChooserWidget(java.lang.String contentType) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_new(Interop.getAllocator().allocateUtf8String(contentType)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_new(Interop.getAllocator().allocateUtf8String(contentType)), false));
     }
     
     /**

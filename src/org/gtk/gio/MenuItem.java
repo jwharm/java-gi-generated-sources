@@ -31,7 +31,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_detailed_action() for more information.
      */
     public MenuItem(java.lang.String label, java.lang.String detailedAction) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new(Interop.getAllocator().allocateUtf8String(label), Interop.getAllocator().allocateUtf8String(detailedAction)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new(Interop.getAllocator().allocateUtf8String(label), Interop.getAllocator().allocateUtf8String(detailedAction)), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_model_get_n_items() first).
      */
     public MenuItem(MenuModel model, int itemIndex) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_from_model(model.HANDLE(), itemIndex), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_from_model(model.HANDLE(), itemIndex), true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * ]|
      */
     public static MenuItem newSection(java.lang.String label, MenuModel section) {
-        return new MenuItem(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_section(Interop.getAllocator().allocateUtf8String(label), section.HANDLE()), true));
+        return new MenuItem(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_section(Interop.getAllocator().allocateUtf8String(label), section.HANDLE()), true));
     }
     
     /**
@@ -118,7 +118,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_submenu().
      */
     public static MenuItem newSubmenu(java.lang.String label, MenuModel submenu) {
-        return new MenuItem(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_submenu(Interop.getAllocator().allocateUtf8String(label), submenu.HANDLE()), true));
+        return new MenuItem(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_submenu(Interop.getAllocator().allocateUtf8String(label), submenu.HANDLE()), true));
     }
     
     /**
@@ -130,7 +130,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_get_attribute_value(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), expectedType.HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -138,7 +138,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      */
     public MenuModel getLink(java.lang.String link) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_get_link(HANDLE(), Interop.getAllocator().allocateUtf8String(link));
-        return new MenuModel(ProxyFactory.getProxy(RESULT, true));
+        return new MenuModel(ProxyFactory.get(RESULT, true));
     }
     
     /**

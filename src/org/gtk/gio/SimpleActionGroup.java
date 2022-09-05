@@ -24,7 +24,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionG
      * Creates a new, empty, #GSimpleActionGroup.
      */
     public SimpleActionGroup() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_group_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_group_new(), true));
     }
     
 }

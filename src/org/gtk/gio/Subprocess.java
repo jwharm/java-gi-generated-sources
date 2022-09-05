@@ -259,7 +259,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStderrPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stderr_pipe(HANDLE());
-        return new InputStream(ProxyFactory.getProxy(RESULT, false));
+        return new InputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -271,7 +271,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public OutputStream getStdinPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdin_pipe(HANDLE());
-        return new OutputStream(ProxyFactory.getProxy(RESULT, false));
+        return new OutputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStdoutPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdout_pipe(HANDLE());
-        return new InputStream(ProxyFactory.getProxy(RESULT, false));
+        return new InputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

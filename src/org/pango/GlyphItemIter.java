@@ -58,7 +58,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public GlyphItemIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_copy(HANDLE());
-        return new GlyphItemIter(ProxyFactory.getProxy(RESULT, true));
+        return new GlyphItemIter(ProxyFactory.get(RESULT, true));
     }
     
     /**

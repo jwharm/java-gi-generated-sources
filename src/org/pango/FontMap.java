@@ -49,7 +49,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Context createContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_create_context(HANDLE());
-        return new Context(ProxyFactory.getProxy(RESULT, true));
+        return new Context(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public FontFamily getFamily(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_family(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new FontFamily(ProxyFactory.getProxy(RESULT, false));
+        return new FontFamily(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Font loadFont(Context context, FontDescription desc) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_font(HANDLE(), context.HANDLE(), desc.HANDLE());
-        return new Font(ProxyFactory.getProxy(RESULT, true));
+        return new Font(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Fontset loadFontset(Context context, FontDescription desc, Language language) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_fontset(HANDLE(), context.HANDLE(), desc.HANDLE(), language.HANDLE());
-        return new Fontset(ProxyFactory.getProxy(RESULT, true));
+        return new Fontset(ProxyFactory.get(RESULT, true));
     }
     
 }

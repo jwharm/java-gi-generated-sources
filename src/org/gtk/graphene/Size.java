@@ -20,7 +20,7 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned value are undefined.
      */
     public Size() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_alloc(), true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Size init(float width, float height) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_init(HANDLE(), width, height);
-        return new Size(ProxyFactory.getProxy(RESULT, false));
+        return new Size(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -52,7 +52,7 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Size initFromSize(Size src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_init_from_size(HANDLE(), src.HANDLE());
-        return new Size(ProxyFactory.getProxy(RESULT, false));
+        return new Size(ProxyFactory.get(RESULT, false));
     }
     
     /**

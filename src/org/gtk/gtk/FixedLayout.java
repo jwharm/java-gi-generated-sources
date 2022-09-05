@@ -53,7 +53,7 @@ public class FixedLayout extends LayoutManager {
      * Creates a new `GtkFixedLayout`.
      */
     public FixedLayout() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_new(), true));
     }
     
 }

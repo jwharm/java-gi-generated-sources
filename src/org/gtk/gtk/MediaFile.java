@@ -30,14 +30,14 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Creates a new empty media file.
      */
     public MediaFile() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new(), true));
     }
     
     /**
      * Creates a new media file to play @file.
      */
     public MediaFile(org.gtk.gio.File file) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_file(file.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_file(file.HANDLE()), true));
     }
     
     /**
@@ -47,7 +47,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForFilename(java.lang.String filename) {
-        return new MediaFile(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
+        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * the stream should implement the `GSeekable` interface.
      */
     public MediaFile(org.gtk.gio.InputStream stream) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_input_stream(stream.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_input_stream(stream.HANDLE()), true));
     }
     
     /**
@@ -67,7 +67,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForResource(java.lang.String resourcePath) {
-        return new MediaFile(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
     }
     
     /**
@@ -85,7 +85,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_get_input_stream(HANDLE());
-        return new org.gtk.gio.InputStream(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.InputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

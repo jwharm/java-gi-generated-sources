@@ -54,7 +54,7 @@ public class SocketService extends SocketListener {
      * called before.
      */
     public SocketService() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_new(), true));
     }
     
     /**

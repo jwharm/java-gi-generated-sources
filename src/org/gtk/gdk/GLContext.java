@@ -100,7 +100,7 @@ public class GLContext extends DrawContext {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -118,7 +118,7 @@ public class GLContext extends DrawContext {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_surface(HANDLE());
-        return new Surface(ProxyFactory.getProxy(RESULT, false));
+        return new Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**

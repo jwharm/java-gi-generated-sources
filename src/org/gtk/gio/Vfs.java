@@ -24,7 +24,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForPath(java.lang.String path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_path(HANDLE(), Interop.getAllocator().allocateUtf8String(path));
-        return new File.FileImpl(ProxyFactory.getProxy(RESULT, true));
+        return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForUri(java.lang.String uri) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_uri(HANDLE(), Interop.getAllocator().allocateUtf8String(uri));
-        return new File.FileImpl(ProxyFactory.getProxy(RESULT, true));
+        return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -54,7 +54,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File parseName(java.lang.String parseName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_parse_name(HANDLE(), Interop.getAllocator().allocateUtf8String(parseName));
-        return new File.FileImpl(ProxyFactory.getProxy(RESULT, true));
+        return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**

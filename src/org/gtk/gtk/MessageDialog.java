@@ -84,7 +84,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      */
     public Widget getMessageArea() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_get_message_area(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

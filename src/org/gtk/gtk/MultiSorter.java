@@ -32,7 +32,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * items as equal.
      */
     public MultiSorter() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_new(), true));
     }
     
     /**

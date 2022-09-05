@@ -30,7 +30,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * Create a new `GtkAspectFrame`.
      */
     public AspectFrame(float xalign, float yalign, float ratio, boolean obeyChild) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false));
     }
     
     /**
@@ -38,7 +38,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

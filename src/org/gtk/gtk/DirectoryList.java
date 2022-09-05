@@ -47,7 +47,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * with the given @attributes.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.getAllocator().allocateUtf8String(attributes), file.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.getAllocator().allocateUtf8String(attributes), file.HANDLE()), true));
     }
     
     /**
@@ -70,7 +70,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

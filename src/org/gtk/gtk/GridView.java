@@ -65,7 +65,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public GridView(SelectionModel model, ListItemFactory factory) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_new(model.getProxy().unowned().HANDLE(), factory.getProxy().unowned().HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_new(model.getProxy().unowned().HANDLE(), factory.getProxy().unowned().HANDLE()), false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public ListItemFactory getFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.getProxy(RESULT, false));
+        return new ListItemFactory(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -105,7 +105,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

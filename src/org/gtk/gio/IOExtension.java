@@ -48,7 +48,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gobject.TypeClass refClass() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_ref_class(HANDLE());
-        return new org.gtk.gobject.TypeClass(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gobject.TypeClass(ProxyFactory.get(RESULT, true));
     }
     
 }

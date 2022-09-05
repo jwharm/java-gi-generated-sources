@@ -25,7 +25,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrIterator copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_copy(HANDLE());
-        return new AttrIterator(ProxyFactory.getProxy(RESULT, true));
+        return new AttrIterator(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Attribute get(AttrType type) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_get(HANDLE(), type.getValue());
-        return new Attribute(ProxyFactory.getProxy(RESULT, false));
+        return new Attribute(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.SList getAttrs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_get_attrs(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, true));
     }
     
     /**

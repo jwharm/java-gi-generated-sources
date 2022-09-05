@@ -27,7 +27,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      * (for example, if g_loadable_icon_load() is called) if the image is invalid.
      */
     public BytesIcon(org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_new(bytes.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_new(bytes.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_get_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
     }
     
 }

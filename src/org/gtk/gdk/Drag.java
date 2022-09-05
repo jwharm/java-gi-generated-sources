@@ -58,7 +58,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public ContentProvider getContent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_content(HANDLE());
-        return new ContentProvider(ProxyFactory.getProxy(RESULT, false));
+        return new ContentProvider(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_device(HANDLE());
-        return new Device(ProxyFactory.getProxy(RESULT, false));
+        return new Device(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_display(HANDLE());
-        return new Display(ProxyFactory.getProxy(RESULT, false));
+        return new Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Surface getDragSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_drag_surface(HANDLE());
-        return new Surface(ProxyFactory.getProxy(RESULT, false));
+        return new Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, false));
+        return new ContentFormats(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class Drag extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_get_surface(HANDLE());
-        return new Surface(ProxyFactory.getProxy(RESULT, false));
+        return new Surface(ProxyFactory.get(RESULT, false));
     }
     
     /**

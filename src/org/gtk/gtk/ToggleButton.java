@@ -95,14 +95,14 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * A widget should be packed into the button, as in [ctor@Gtk.Button.new].
      */
     public ToggleButton() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new(), false));
     }
     
     /**
      * Creates a new toggle button with a text label.
      */
     public static ToggleButton newWithLabel(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**

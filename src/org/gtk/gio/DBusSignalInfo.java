@@ -20,7 +20,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public DBusSignalInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_signal_info_ref(HANDLE());
-        return new DBusSignalInfo(ProxyFactory.getProxy(RESULT, true));
+        return new DBusSignalInfo(ProxyFactory.get(RESULT, true));
     }
     
     /**

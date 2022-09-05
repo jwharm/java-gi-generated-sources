@@ -115,7 +115,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * using #GVariantDict to construct a #GVariant.
      */
     public VariantDict(Variant fromAsv) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_new(fromAsv.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_new(fromAsv.HANDLE()), true));
     }
     
     /**
@@ -157,7 +157,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Variant end() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_end(HANDLE());
-        return new Variant(ProxyFactory.getProxy(RESULT, false));
+        return new Variant(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -206,7 +206,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_lookup_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key), expectedType.HANDLE());
-        return new Variant(ProxyFactory.getProxy(RESULT, true));
+        return new Variant(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -217,7 +217,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantDict ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_ref(HANDLE());
-        return new VariantDict(ProxyFactory.getProxy(RESULT, true));
+        return new VariantDict(ProxyFactory.get(RESULT, true));
     }
     
     /**

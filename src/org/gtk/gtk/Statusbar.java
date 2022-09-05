@@ -58,7 +58,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkStatusbar` ready for messages.
      */
     public Statusbar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_new(), false));
     }
     
     /**

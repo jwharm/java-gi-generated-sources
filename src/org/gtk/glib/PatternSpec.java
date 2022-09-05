@@ -19,7 +19,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * Compiles a pattern to a #GPatternSpec.
      */
     public PatternSpec(java.lang.String pattern) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.getAllocator().allocateUtf8String(pattern)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.getAllocator().allocateUtf8String(pattern)), true));
     }
     
     /**
@@ -27,7 +27,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PatternSpec copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_copy(HANDLE());
-        return new PatternSpec(ProxyFactory.getProxy(RESULT, true));
+        return new PatternSpec(ProxyFactory.get(RESULT, true));
     }
     
     /**

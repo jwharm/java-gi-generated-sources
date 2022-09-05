@@ -28,7 +28,7 @@ public class IMMulticontext extends IMContext {
      * Creates a new `GtkIMMulticontext`.
      */
     public IMMulticontext() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_new(), true));
     }
     
     /**

@@ -36,7 +36,7 @@ public class CellRendererText extends CellRenderer {
      * of the `GtkTreeView`.
      */
     public CellRendererText() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_text_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_text_new(), false));
     }
     
     /**

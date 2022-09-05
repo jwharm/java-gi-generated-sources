@@ -48,14 +48,14 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * Creates a new `GtkLinkButton` with the URI as its text.
      */
     public LinkButton(java.lang.String uri) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.getAllocator().allocateUtf8String(uri)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.getAllocator().allocateUtf8String(uri)), false));
     }
     
     /**
      * Creates a new `GtkLinkButton` containing a label.
      */
     public LinkButton(java.lang.String uri, java.lang.String label) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(label)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(label)), false));
     }
     
     /**

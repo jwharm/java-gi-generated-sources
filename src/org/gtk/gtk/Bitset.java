@@ -32,14 +32,14 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new empty bitset.
      */
     public Bitset() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_empty(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_empty(), true));
     }
     
     /**
      * Creates a bitset with the given range set.
      */
     public Bitset(int start, int nItems) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_range(start, nItems), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_range(start, nItems), true));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Bitset copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_copy(HANDLE());
-        return new Bitset(ProxyFactory.getProxy(RESULT, true));
+        return new Bitset(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -195,7 +195,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Bitset ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_ref(HANDLE());
-        return new Bitset(ProxyFactory.getProxy(RESULT, false));
+        return new Bitset(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -133,7 +133,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public InputStream getInputStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_get_input_stream(HANDLE());
-        return new InputStream(ProxyFactory.getProxy(RESULT, false));
+        return new InputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -142,7 +142,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public OutputStream getOutputStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_get_output_stream(HANDLE());
-        return new OutputStream(ProxyFactory.getProxy(RESULT, false));
+        return new OutputStream(ProxyFactory.get(RESULT, false));
     }
     
     /**

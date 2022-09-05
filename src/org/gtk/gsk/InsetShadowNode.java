@@ -24,7 +24,7 @@ public class InsetShadowNode extends RenderNode {
      * into the box given by @outline.
      */
     public InsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_new(outline.HANDLE(), color.HANDLE(), dx, dy, spread, blurRadius), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_new(outline.HANDLE(), color.HANDLE(), dx, dy, spread, blurRadius), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class InsetShadowNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class InsetShadowNode extends RenderNode {
      */
     public RoundedRect getOutline() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_outline(HANDLE());
-        return new RoundedRect(ProxyFactory.getProxy(RESULT, false));
+        return new RoundedRect(ProxyFactory.get(RESULT, false));
     }
     
     /**

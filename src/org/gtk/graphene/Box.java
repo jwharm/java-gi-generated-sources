@@ -21,7 +21,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Box() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_alloc(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_alloc(), true));
     }
     
     /**
@@ -156,7 +156,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Box init(Point3D min, Point3D max) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init(HANDLE(), min.HANDLE(), max.HANDLE());
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -165,7 +165,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Box initFromBox(Box src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_box(HANDLE(), src.HANDLE());
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Box initFromPoints(int nPoints, Point3D[] points) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_points(HANDLE(), nPoints, Interop.allocateNativeArray(points));
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -186,7 +186,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Box initFromVec3(Vec3 min, Vec3 max) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_vec3(HANDLE(), min.HANDLE(), max.HANDLE());
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -198,7 +198,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Box initFromVectors(int nVectors, Vec3[] vectors) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_vectors(HANDLE(), nVectors, Interop.allocateNativeArray(vectors));
-        return new Box(ProxyFactory.getProxy(RESULT, false));
+        return new Box(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -161,7 +161,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * Non-vararg creation function.  Used primarily by language bindings.
      */
     public static ListStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new ListStore(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new ListStore(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
     }
     
     /**

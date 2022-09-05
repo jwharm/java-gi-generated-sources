@@ -28,7 +28,7 @@ public class GestureZoom extends Gesture {
      * pinch/zoom gestures.
      */
     public GestureZoom() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_zoom_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_zoom_new(), true));
     }
     
     /**

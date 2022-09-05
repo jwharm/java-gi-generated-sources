@@ -27,7 +27,7 @@ public class ClosureExpression extends Expression {
      * the `params` expressions.
      */
     public ClosureExpression(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.HANDLE(), nParams, Interop.allocateNativeArray(params)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.HANDLE(), nParams, Interop.allocateNativeArray(params)), true));
     }
     
 }

@@ -36,7 +36,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Matrix copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_copy(HANDLE());
-        return new Matrix(ProxyFactory.getProxy(RESULT, true));
+        return new Matrix(ProxyFactory.get(RESULT, true));
     }
     
     /**

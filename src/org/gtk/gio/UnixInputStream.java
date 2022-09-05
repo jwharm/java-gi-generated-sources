@@ -34,7 +34,7 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
      * when the stream is closed.
      */
     public UnixInputStream(int fd, boolean closeFd) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true));
     }
     
     /**

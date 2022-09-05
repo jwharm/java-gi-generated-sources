@@ -36,7 +36,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Creates a new `GtkBoxLayout`.
      */
     public BoxLayout(Orientation orientation) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_new(orientation.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_new(orientation.getValue()), true));
     }
     
     /**

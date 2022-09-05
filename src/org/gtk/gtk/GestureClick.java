@@ -30,7 +30,7 @@ public class GestureClick extends GestureSingle {
      * single and multiple presses.
      */
     public GestureClick() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_click_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_click_new(), true));
     }
     
     @FunctionalInterface

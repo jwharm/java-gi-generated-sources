@@ -31,7 +31,7 @@ public class EventControllerMotion extends EventController {
      * Creates a new event controller that will handle motion events.
      */
     public EventControllerMotion() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_motion_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_motion_new(), true));
     }
     
     /**

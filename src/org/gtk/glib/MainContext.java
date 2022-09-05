@@ -19,14 +19,14 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GMainContext structure.
      */
     public MainContext() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new(), true));
     }
     
     /**
      * Creates a new #GMainContext structure.
      */
     public MainContext(int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new_with_flags(flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new_with_flags(flags), true));
     }
     
     /**
@@ -86,7 +86,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Source findSourceByFuncsUserData(SourceFuncs funcs, jdk.incubator.foreign.MemoryAddress userData) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_funcs_user_data(HANDLE(), funcs.HANDLE(), userData);
-        return new Source(ProxyFactory.getProxy(RESULT, false));
+        return new Source(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -105,7 +105,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Source findSourceById(int sourceId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_id(HANDLE(), sourceId);
-        return new Source(ProxyFactory.getProxy(RESULT, false));
+        return new Source(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Source findSourceByUserData(jdk.incubator.foreign.MemoryAddress userData) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_user_data(HANDLE(), userData);
-        return new Source(ProxyFactory.getProxy(RESULT, false));
+        return new Source(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -213,7 +213,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MainContext ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_ref(HANDLE());
-        return new MainContext(ProxyFactory.getProxy(RESULT, true));
+        return new MainContext(ProxyFactory.get(RESULT, true));
     }
     
     /**

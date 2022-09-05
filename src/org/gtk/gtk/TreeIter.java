@@ -28,7 +28,7 @@ public class TreeIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_iter_copy(HANDLE());
-        return new TreeIter(ProxyFactory.getProxy(RESULT, true));
+        return new TreeIter(ProxyFactory.get(RESULT, true));
     }
     
     /**

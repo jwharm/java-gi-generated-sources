@@ -69,7 +69,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Creates a new `GtkAboutDialog`.
      */
     public AboutDialog() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_new(), false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      */
     public org.gtk.gdk.Paintable getLogo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_logo(HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -68,7 +68,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Creates a new `GtkProgressBar`.
      */
     public ProgressBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_new(), false));
     }
     
     /**

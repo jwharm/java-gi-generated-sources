@@ -23,7 +23,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * Creates a new, empty animation.
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
     }
     
     /**

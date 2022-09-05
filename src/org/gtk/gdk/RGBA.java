@@ -29,7 +29,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RGBA copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_copy(HANDLE());
-        return new RGBA(ProxyFactory.getProxy(RESULT, true));
+        return new RGBA(ProxyFactory.get(RESULT, true));
     }
     
     /**

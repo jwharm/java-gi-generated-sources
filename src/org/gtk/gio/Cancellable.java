@@ -32,7 +32,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_new(), true));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Source sourceNew() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_source_new(HANDLE());
-        return new org.gtk.glib.Source(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.Source(ProxyFactory.get(RESULT, true));
     }
     
     @FunctionalInterface

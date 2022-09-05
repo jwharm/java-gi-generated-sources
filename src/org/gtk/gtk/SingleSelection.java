@@ -29,7 +29,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new selection to handle @model.
      */
     public SingleSelection(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_new(model.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_new(model.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_selected_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
     /**

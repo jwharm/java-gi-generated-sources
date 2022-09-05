@@ -38,7 +38,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute on a source and a layout attribute on a target.
      */
     public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), source.HANDLE(), sourceAttribute.getValue(), multiplier, constant, strength), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), source.HANDLE(), sourceAttribute.getValue(), multiplier, constant, strength), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute on a target and a constant value.
      */
     public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new_constant(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new_constant(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintTarget getSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_source(HANDLE());
-        return new ConstraintTarget.ConstraintTargetImpl(ProxyFactory.getProxy(RESULT, false));
+        return new ConstraintTarget.ConstraintTargetImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintTarget getTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_target(HANDLE());
-        return new ConstraintTarget.ConstraintTargetImpl(ProxyFactory.getProxy(RESULT, false));
+        return new ConstraintTarget.ConstraintTargetImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

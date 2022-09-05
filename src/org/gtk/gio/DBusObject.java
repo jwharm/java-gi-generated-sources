@@ -19,7 +19,7 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default DBusInterface getInterface(java.lang.String interfaceName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_get_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(interfaceName));
-        return new DBusInterface.DBusInterfaceImpl(ProxyFactory.getProxy(RESULT, true));
+        return new DBusInterface.DBusInterfaceImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -27,7 +27,7 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default org.gtk.glib.List getInterfaces() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_get_interfaces(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
     }
     
     /**

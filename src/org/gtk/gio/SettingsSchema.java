@@ -119,7 +119,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_key(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
-        return new SettingsSchemaKey(ProxyFactory.getProxy(RESULT, true));
+        return new SettingsSchemaKey(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public SettingsSchema ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_ref(HANDLE());
-        return new SettingsSchema(ProxyFactory.getProxy(RESULT, true));
+        return new SettingsSchema(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -32,7 +32,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * @filter.
      */
     public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_new(model.getProxy().unowned().HANDLE(), filter.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_new(model.getProxy().unowned().HANDLE(), filter.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Filter getFilter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_filter(HANDLE());
-        return new Filter(ProxyFactory.getProxy(RESULT, false));
+        return new Filter(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**

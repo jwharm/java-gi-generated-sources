@@ -30,7 +30,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * Create a new `PangoCoverage`
      */
     public Coverage() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_new(), true));
     }
     
     /**
@@ -38,7 +38,7 @@ public class Coverage extends org.gtk.gobject.Object {
      */
     public Coverage copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_copy(HANDLE());
-        return new Coverage(ProxyFactory.getProxy(RESULT, true));
+        return new Coverage(ProxyFactory.get(RESULT, true));
     }
     
     /**

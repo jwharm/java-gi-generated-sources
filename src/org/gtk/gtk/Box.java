@@ -54,7 +54,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Creates a new `GtkBox`.
      */
     public Box(Orientation orientation, int spacing) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
     }
     
     /**

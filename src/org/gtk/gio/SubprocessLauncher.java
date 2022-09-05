@@ -34,7 +34,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * and will be used as the environment that the process is launched in.
      */
     public SubprocessLauncher(int flags) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_new(flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_new(flags), true));
     }
     
     /**
@@ -193,7 +193,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Subprocess(ProxyFactory.getProxy(RESULT, true));
+        return new Subprocess(ProxyFactory.get(RESULT, true));
     }
     
     /**

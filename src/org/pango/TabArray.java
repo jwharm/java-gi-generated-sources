@@ -25,7 +25,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * otherwise in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TabArray copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_copy(HANDLE());
-        return new TabArray(ProxyFactory.getProxy(RESULT, true));
+        return new TabArray(ProxyFactory.get(RESULT, true));
     }
     
     /**

@@ -41,7 +41,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * issued, and GLib assumes that it is the file descriptor you mean.
      */
     public IOChannel(int fd) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_unix_new(fd), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_unix_new(fd), true));
     }
     
     /**
@@ -135,7 +135,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOChannel ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_ref(HANDLE());
-        return new IOChannel(ProxyFactory.getProxy(RESULT, true));
+        return new IOChannel(ProxyFactory.get(RESULT, true));
     }
     
     /**

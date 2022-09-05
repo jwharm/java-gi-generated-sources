@@ -46,7 +46,7 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TypeClass peekParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_peek_parent(HANDLE());
-        return new TypeClass(ProxyFactory.getProxy(RESULT, false));
+        return new TypeClass(ProxyFactory.get(RESULT, false));
     }
     
     /**

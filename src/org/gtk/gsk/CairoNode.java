@@ -26,7 +26,7 @@ public class CairoNode extends RenderNode {
      * You can draw to the cairo surface using [method@Gsk.CairoNode.get_draw_context].
      */
     public CairoNode(org.gtk.graphene.Rect bounds) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_new(bounds.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_new(bounds.HANDLE()), true));
     }
     
     /**
@@ -38,7 +38,7 @@ public class CairoNode extends RenderNode {
      */
     public org.cairographics.Context getDrawContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_get_draw_context(HANDLE());
-        return new org.cairographics.Context(ProxyFactory.getProxy(RESULT, true));
+        return new org.cairographics.Context(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class CairoNode extends RenderNode {
      */
     public org.cairographics.Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_get_surface(HANDLE());
-        return new org.cairographics.Surface(ProxyFactory.getProxy(RESULT, false));
+        return new org.cairographics.Surface(ProxyFactory.get(RESULT, false));
     }
     
 }

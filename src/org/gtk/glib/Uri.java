@@ -248,7 +248,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Uri(ProxyFactory.getProxy(RESULT, true));
+        return new Uri(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -256,7 +256,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Uri ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_ref(HANDLE());
-        return new Uri(ProxyFactory.getProxy(RESULT, true));
+        return new Uri(ProxyFactory.get(RESULT, true));
     }
     
     /**

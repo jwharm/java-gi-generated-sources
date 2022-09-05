@@ -29,7 +29,7 @@ public class BindingGroup extends Object {
      * Creates a new #GBindingGroup.
      */
     public BindingGroup() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_new(), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_new(), true));
     }
     
     /**
@@ -65,7 +65,7 @@ public class BindingGroup extends Object {
      */
     public Object dupSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_dup_source(HANDLE());
-        return new Object(ProxyFactory.getProxy(RESULT, false));
+        return new Object(ProxyFactory.get(RESULT, false));
     }
     
     /**

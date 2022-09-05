@@ -26,7 +26,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * struct sockaddr @native.
      */
     public SocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_new_from_native(native_, len), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_new_from_native(native_, len), true));
     }
     
     /**

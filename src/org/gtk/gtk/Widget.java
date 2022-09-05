@@ -589,7 +589,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Context createPangoContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_context(HANDLE());
-        return new org.pango.Context(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.Context(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -604,7 +604,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Layout createPangoLayout(java.lang.String text) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_layout(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
-        return new org.pango.Layout(ProxyFactory.getProxy(RESULT, true));
+        return new org.pango.Layout(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -691,7 +691,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getAncestor(Type widgetType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_ancestor(HANDLE(), widgetType.getValue());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -738,7 +738,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Clipboard getClipboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_clipboard(HANDLE());
-        return new org.gtk.gdk.Clipboard(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Clipboard(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -756,7 +756,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Cursor getCursor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_cursor(HANDLE());
-        return new org.gtk.gdk.Cursor(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Cursor(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -782,7 +782,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_display(HANDLE());
-        return new org.gtk.gdk.Display(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Display(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -792,7 +792,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getFirstChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_first_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -800,7 +800,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getFocusChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_focus_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -831,7 +831,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.FontMap getFontMap() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_font_map(HANDLE());
-        return new org.pango.FontMap(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.FontMap(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -841,7 +841,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.cairographics.FontOptions getFontOptions() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_font_options(HANDLE());
-        return new org.cairographics.FontOptions(ProxyFactory.getProxy(RESULT, false));
+        return new org.cairographics.FontOptions(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -870,7 +870,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.FrameClock getFrameClock() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_frame_clock(HANDLE());
-        return new org.gtk.gdk.FrameClock(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.FrameClock(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -955,7 +955,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getLastChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_last_child(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -965,7 +965,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public LayoutManager getLayoutManager() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_layout_manager(HANDLE());
-        return new LayoutManager(ProxyFactory.getProxy(RESULT, false));
+        return new LayoutManager(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1028,7 +1028,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Native getNative() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_native(HANDLE());
-        return new Native.NativeImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Native.NativeImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1038,7 +1038,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getNextSibling() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_next_sibling(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1072,7 +1072,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.pango.Context getPangoContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_pango_context(HANDLE());
-        return new org.pango.Context(ProxyFactory.getProxy(RESULT, false));
+        return new org.pango.Context(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1080,7 +1080,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_parent(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1110,7 +1110,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget getPrevSibling() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_prev_sibling(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1124,7 +1124,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gdk.Clipboard getPrimaryClipboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_primary_clipboard(HANDLE());
-        return new org.gtk.gdk.Clipboard(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gdk.Clipboard(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1171,7 +1171,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Root getRoot() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_root(HANDLE());
-        return new Root.RootImpl(ProxyFactory.getProxy(RESULT, false));
+        return new Root.RootImpl(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1213,7 +1213,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Settings getSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_settings(HANDLE());
-        return new Settings(ProxyFactory.getProxy(RESULT, false));
+        return new Settings(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1256,7 +1256,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public StyleContext getStyleContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_style_context(HANDLE());
-        return new StyleContext(ProxyFactory.getProxy(RESULT, false));
+        return new StyleContext(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1273,7 +1273,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gobject.Object getTemplateChild(Type widgetType, java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_template_child(HANDLE(), widgetType.getValue(), Interop.getAllocator().allocateUtf8String(name));
-        return new org.gtk.gobject.Object(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1633,7 +1633,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.glib.List listMnemonicLabels() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_list_mnemonic_labels(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.getProxy(RESULT, false));
+        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -1667,7 +1667,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gio.ListModel observeChildren() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_observe_children(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -1683,7 +1683,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public org.gtk.gio.ListModel observeControllers() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_observe_controllers(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.getProxy(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -1704,7 +1704,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Widget pick(double x, double y, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_pick(HANDLE(), x, y, flags);
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

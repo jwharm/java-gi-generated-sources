@@ -95,7 +95,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkInfoBar` object.
      */
     public InfoBar() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_new(), false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_button(HANDLE(), Interop.getAllocator().allocateUtf8String(buttonText), responseId);
-        return new Button(ProxyFactory.getProxy(RESULT, false));
+        return new Button(ProxyFactory.get(RESULT, false));
     }
     
     /**

@@ -54,7 +54,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkCenterBox`.
      */
     public CenterBox() {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_new(), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_new(), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getCenterWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_center_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getEndWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_end_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getStartWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_start_widget(HANDLE());
-        return new Widget(ProxyFactory.getProxy(RESULT, false));
+        return new Widget(ProxyFactory.get(RESULT, false));
     }
     
     /**

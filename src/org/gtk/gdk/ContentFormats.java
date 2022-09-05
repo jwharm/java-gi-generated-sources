@@ -53,14 +53,14 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * this, use [struct@Gdk.ContentFormatsBuilder] instead.
      */
     public ContentFormats(java.lang.String[] mimeTypes, int nMimeTypes) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes), nMimeTypes), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes), nMimeTypes), true));
     }
     
     /**
      * Creates a new `GdkContentFormats` for a given `GType`.
      */
     public ContentFormats(Type type) {
-        super(ProxyFactory.getProxy(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
     }
     
     /**
@@ -124,7 +124,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_ref(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -146,7 +146,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats union(ContentFormats second) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union(HANDLE(), second.HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -155,7 +155,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats unionDeserializeGtypes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_deserialize_gtypes(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -164,7 +164,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats unionDeserializeMimeTypes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_deserialize_mime_types(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats unionSerializeGtypes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_serialize_gtypes(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
@@ -182,7 +182,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ContentFormats unionSerializeMimeTypes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_serialize_mime_types(HANDLE());
-        return new ContentFormats(ProxyFactory.getProxy(RESULT, true));
+        return new ContentFormats(ProxyFactory.get(RESULT, true));
     }
     
     /**
