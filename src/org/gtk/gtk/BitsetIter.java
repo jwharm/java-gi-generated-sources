@@ -1,0 +1,41 @@
+package org.gtk.gtk;
+
+import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.*;
+import jdk.incubator.foreign.*;
+import java.lang.invoke.*;
+
+/**
+ * An opaque, stack-allocated struct for iterating
+ * over the elements of a `GtkBitset`.
+ * 
+ * Before a `GtkBitsetIter` can be used, it needs to be initialized with
+ * [func@Gtk.BitsetIter.init_first], [func@Gtk.BitsetIter.init_last]
+ * or [func@Gtk.BitsetIter.init_at].
+ */
+public class BitsetIter extends io.github.jwharm.javagi.interop.ResourceBase {
+
+    public BitsetIter(io.github.jwharm.javagi.interop.Proxy proxy) {
+        super(proxy);
+    }
+    
+    /**
+     * Gets the current value that @iter points to.
+     * 
+     * If @iter is not valid and [method@Gtk.BitsetIter.is_valid]
+     * returns %FALSE, this function returns 0.
+     */
+    public int getValue() {
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_iter_get_value(HANDLE());
+        return RESULT;
+    }
+    
+    /**
+     * Checks if @iter points to a valid value.
+     */
+    public boolean isValid() {
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_iter_is_valid(HANDLE());
+        return (RESULT != 0);
+    }
+    
+}
