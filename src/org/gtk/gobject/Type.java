@@ -1,0 +1,24 @@
+package org.gtk.gobject;
+
+import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.*;
+import jdk.incubator.foreign.*;
+import java.lang.invoke.*;
+
+/**
+ * A numerical value which represents the unique identifier of a registered
+ * type.
+ */
+public class Type {
+
+    private final long value;
+    
+    public Type(long value) {
+        this.value = value;
+    }
+    
+    public long getValue() {
+        return this.value;
+    }
+    
+}
