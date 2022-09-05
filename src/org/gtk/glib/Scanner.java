@@ -94,7 +94,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Prepares to scan a text buffer.
      */
     public void inputText(java.lang.String text, int textLen) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_input_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text), textLen);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_input_text(HANDLE(), Interop.allocateNativeString(text).HANDLE(), textLen);
     }
     
     /**
@@ -103,7 +103,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * returned.
      */
     public jdk.incubator.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_lookup_symbol(HANDLE(), Interop.getAllocator().allocateUtf8String(symbol));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_lookup_symbol(HANDLE(), Interop.allocateNativeString(symbol).HANDLE());
         return RESULT;
     }
     
@@ -129,7 +129,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds a symbol to the given scope.
      */
     public void scopeAddSymbol(int scopeId, java.lang.String symbol, jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_add_symbol(HANDLE(), scopeId, Interop.getAllocator().allocateUtf8String(symbol), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_add_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE(), value);
     }
     
     /**
@@ -137,7 +137,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * symbol is not bound in the scope, %NULL is returned.
      */
     public jdk.incubator.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_lookup_symbol(HANDLE(), scopeId, Interop.getAllocator().allocateUtf8String(symbol));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_lookup_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE());
         return RESULT;
     }
     
@@ -145,7 +145,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a symbol from a scope.
      */
     public void scopeRemoveSymbol(int scopeId, java.lang.String symbol) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_remove_symbol(HANDLE(), scopeId, Interop.getAllocator().allocateUtf8String(symbol));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_remove_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE());
     }
     
     /**
@@ -176,7 +176,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * to construct part of the message.
      */
     public void unexpToken(TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_unexp_token(HANDLE(), expectedToken.getValue(), Interop.getAllocator().allocateUtf8String(identifierSpec), Interop.getAllocator().allocateUtf8String(symbolSpec), Interop.getAllocator().allocateUtf8String(symbolName), Interop.getAllocator().allocateUtf8String(message), isError);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_unexp_token(HANDLE(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).HANDLE(), Interop.allocateNativeString(symbolSpec).HANDLE(), Interop.allocateNativeString(symbolName).HANDLE(), Interop.allocateNativeString(message).HANDLE(), isError);
     }
     
 }

@@ -171,7 +171,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * on the left, and minimize, maximize and close buttons on the right.
      */
     public void setDecorationLayout(java.lang.String layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_set_decoration_layout(HANDLE(), Interop.getAllocator().allocateUtf8String(layout));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_set_decoration_layout(HANDLE(), Interop.allocateNativeString(layout).HANDLE());
     }
     
     /**

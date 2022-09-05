@@ -82,14 +82,14 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Sets the icon name of the page.
      */
     public void setIconName(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_icon_name(HANDLE(), Interop.getAllocator().allocateUtf8String(setting));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_icon_name(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
     }
     
     /**
      * Sets the name of the page.
      */
     public void setName(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(setting));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_name(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
     }
     
     /**
@@ -103,7 +103,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Sets the page title.
      */
     public void setTitle(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_title(HANDLE(), Interop.getAllocator().allocateUtf8String(setting));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_title(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
     }
     
     /**

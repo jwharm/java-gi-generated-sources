@@ -102,7 +102,7 @@ public class StringFilter extends Filter {
      * Sets the string to search for.
      */
     public void setSearch(java.lang.String search) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_search(HANDLE(), Interop.getAllocator().allocateUtf8String(search));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_search(HANDLE(), Interop.allocateNativeString(search).HANDLE());
     }
     
 }

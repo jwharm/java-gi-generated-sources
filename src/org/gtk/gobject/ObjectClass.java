@@ -43,7 +43,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * Looks up the #GParamSpec for a property of a class.
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_find_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_find_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
         return new ParamSpec(ProxyFactory.get(RESULT, false));
     }
     
@@ -149,7 +149,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_param_spec_get_redirect_target().
      */
     public void overrideProperty(int propertyId, java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_override_property(HANDLE(), propertyId, Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_override_property(HANDLE(), propertyId, Interop.allocateNativeString(name).HANDLE());
     }
     
 }

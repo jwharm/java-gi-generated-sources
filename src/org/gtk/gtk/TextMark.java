@@ -65,7 +65,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * right side of the text you’re typing).
      */
     public TextMark(java.lang.String name, boolean leftGravity) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_new(Interop.getAllocator().allocateUtf8String(name), leftGravity ? 1 : 0), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).HANDLE(), leftGravity ? 1 : 0), true));
     }
     
     /**

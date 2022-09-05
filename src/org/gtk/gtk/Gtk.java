@@ -451,7 +451,7 @@ public final class Gtk {
      * See `g_param_spec_internal()` for details on the property strings.
      */
     public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_param_spec_expression(Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(nick), Interop.getAllocator().allocateUtf8String(blurb), flags);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(nick).HANDLE(), Interop.allocateNativeString(blurb).HANDLE(), flags);
         return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, true));
     }
     
@@ -628,7 +628,7 @@ public final class Gtk {
      * a given uri, or shows an error dialog if that fails.
      */
     public static void showUri(Window parent, java.lang.String uri, int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_show_uri(parent.HANDLE(), Interop.getAllocator().allocateUtf8String(uri), timestamp);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_show_uri(parent.HANDLE(), Interop.allocateNativeString(uri).HANDLE(), timestamp);
     }
     
     /**
@@ -645,7 +645,7 @@ public final class Gtk {
     }
     
     public static void testAccessibleAssertionMessageRole(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, Accessible accessible, AccessibleRole expectedRole, AccessibleRole actualRole) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_assertion_message_role(Interop.getAllocator().allocateUtf8String(domain), Interop.getAllocator().allocateUtf8String(file), line, Interop.getAllocator().allocateUtf8String(func), Interop.getAllocator().allocateUtf8String(expr), accessible.HANDLE(), expectedRole.getValue(), actualRole.getValue());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_assertion_message_role(Interop.allocateNativeString(domain).HANDLE(), Interop.allocateNativeString(file).HANDLE(), line, Interop.allocateNativeString(func).HANDLE(), Interop.allocateNativeString(expr).HANDLE(), accessible.HANDLE(), expectedRole.getValue(), actualRole.getValue());
     }
     
     /**

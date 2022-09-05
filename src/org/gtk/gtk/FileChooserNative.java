@@ -168,7 +168,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Creates a new `GtkFileChooserNative`.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE(), action.getValue(), Interop.getAllocator().allocateUtf8String(acceptLabel), Interop.getAllocator().allocateUtf8String(cancelLabel)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE(), action.getValue(), Interop.allocateNativeString(acceptLabel).HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE()), true));
     }
     
     /**
@@ -198,7 +198,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setAcceptLabel(java.lang.String acceptLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_accept_label(HANDLE(), Interop.getAllocator().allocateUtf8String(acceptLabel));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_accept_label(HANDLE(), Interop.allocateNativeString(acceptLabel).HANDLE());
     }
     
     /**
@@ -212,7 +212,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setCancelLabel(java.lang.String cancelLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_cancel_label(HANDLE(), Interop.getAllocator().allocateUtf8String(cancelLabel));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_cancel_label(HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE());
     }
     
 }

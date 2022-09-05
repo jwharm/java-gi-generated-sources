@@ -78,7 +78,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * [method@Gtk.TextBuffer.apply_tag].
      */
     public void applyTagByName(java.lang.String name, TextIter start, TextIter end) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_apply_tag_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name), start.HANDLE(), end.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_apply_tag_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE(), start.HANDLE(), end.HANDLE());
     }
     
     /**
@@ -184,7 +184,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * of the mark's initial placement.
      */
     public TextMark createMark(java.lang.String markName, TextIter where, boolean leftGravity) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_create_mark(HANDLE(), Interop.getAllocator().allocateUtf8String(markName), where.HANDLE(), leftGravity ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_create_mark(HANDLE(), Interop.allocateNativeString(markName).HANDLE(), where.HANDLE(), leftGravity ? 1 : 0);
         return new TextMark(ProxyFactory.get(RESULT, false));
     }
     
@@ -249,7 +249,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * See [method@Gtk.TextBuffer.delete_mark] for details.
      */
     public void deleteMarkByName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_delete_mark_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_delete_mark_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -459,7 +459,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * mark exists in the buffer.
      */
     public TextMark getMark(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_mark(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_mark(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new TextMark(ProxyFactory.get(RESULT, false));
     }
     
@@ -592,7 +592,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * inserted text.
      */
     public void insert(TextIter iter, java.lang.String text, int len) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert(HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateUtf8String(text), len);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert(HANDLE(), iter.HANDLE(), Interop.allocateNativeString(text).HANDLE(), len);
     }
     
     /**
@@ -602,7 +602,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * using the current cursor position as the insertion point.
      */
     public void insertAtCursor(java.lang.String text, int len) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_at_cursor(HANDLE(), Interop.getAllocator().allocateUtf8String(text), len);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_at_cursor(HANDLE(), Interop.allocateNativeString(text).HANDLE(), len);
     }
     
     /**
@@ -637,7 +637,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * result of [method@Gtk.TextView.get_editable] is appropriate here.
      */
     public boolean insertInteractive(TextIter iter, java.lang.String text, int len, boolean defaultEditable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_interactive(HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateUtf8String(text), len, defaultEditable ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_interactive(HANDLE(), iter.HANDLE(), Interop.allocateNativeString(text).HANDLE(), len, defaultEditable ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -652,7 +652,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * result of [method@Gtk.TextView.get_editable] is appropriate here.
      */
     public boolean insertInteractiveAtCursor(java.lang.String text, int len, boolean defaultEditable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_interactive_at_cursor(HANDLE(), Interop.getAllocator().allocateUtf8String(text), len, defaultEditable ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_interactive_at_cursor(HANDLE(), Interop.allocateNativeString(text).HANDLE(), len, defaultEditable ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -665,7 +665,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * for the signal. @iter will point to the end of the inserted text on return.
      */
     public void insertMarkup(TextIter iter, java.lang.String markup, int len) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_markup(HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateUtf8String(markup), len);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_insert_markup(HANDLE(), iter.HANDLE(), Interop.allocateNativeString(markup).HANDLE(), len);
     }
     
     /**
@@ -731,7 +731,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * See [method@Gtk.TextBuffer.move_mark] for details.
      */
     public void moveMarkByName(java.lang.String name, TextIter where) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_move_mark_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name), where.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_move_mark_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE(), where.HANDLE());
     }
     
     /**
@@ -810,7 +810,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * [method@Gtk.TextBuffer.remove_tag].
      */
     public void removeTagByName(java.lang.String name, TextIter start, TextIter end) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_remove_tag_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name), start.HANDLE(), end.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_remove_tag_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE(), start.HANDLE(), end.HANDLE());
     }
     
     /**
@@ -878,7 +878,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @text must be valid UTF-8.
      */
     public void setText(java.lang.String text, int len) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text), len);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE(), len);
     }
     
     /**
@@ -916,7 +916,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferApplyTag", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("apply-tag"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("apply-tag").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -948,7 +948,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferBeginUserAction", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("begin-user-action"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("begin-user-action").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -971,7 +971,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1004,7 +1004,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferDeleteRange", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("delete-range"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("delete-range").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1037,7 +1037,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferEndUserAction", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("end-user-action"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("end-user-action").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1069,7 +1069,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertChildAnchor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("insert-child-anchor"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-child-anchor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1101,7 +1101,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertPaintable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("insert-paintable"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-paintable").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1134,7 +1134,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("insert-text"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-text").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1159,7 +1159,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferMarkDeleted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("mark-deleted"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("mark-deleted").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1186,7 +1186,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferMarkSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("mark-set"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("mark-set").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1211,7 +1211,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferModifiedChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("modified-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("modified-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1238,7 +1238,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferPasteDone", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("paste-done"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("paste-done").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1262,7 +1262,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferRedo", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("redo"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("redo").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1294,7 +1294,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferRemoveTag", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("remove-tag"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("remove-tag").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1319,7 +1319,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferUndo", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("undo"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("undo").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

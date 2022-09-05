@@ -148,7 +148,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate_utf8(HANDLE(), Interop.getAllocator().allocateUtf8String(stdinBuf), cancellable.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate_utf8(HANDLE(), Interop.allocateNativeString(stdinBuf).HANDLE(), cancellable.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

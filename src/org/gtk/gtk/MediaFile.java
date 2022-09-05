@@ -47,7 +47,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForFilename(java.lang.String filename) {
-        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
+        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**
@@ -67,7 +67,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForResource(java.lang.String resourcePath) {
-        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        return new MediaFile(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [method@Gtk.MediaFile.set_file].
      */
     public void setFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_set_filename(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_set_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
     }
     
     /**
@@ -137,7 +137,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [method@Gtk.MediaFile.set_file].
      */
     public void setResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_set_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_file_set_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
 }

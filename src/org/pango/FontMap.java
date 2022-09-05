@@ -56,7 +56,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * Gets a font family by name.
      */
     public FontFamily getFamily(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_family(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_family(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new FontFamily(ProxyFactory.get(RESULT, false));
     }
     

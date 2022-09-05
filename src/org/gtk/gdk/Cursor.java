@@ -71,7 +71,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
     public Cursor(java.lang.String name, Cursor fallback) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.getAllocator().allocateUtf8String(name), fallback.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).HANDLE(), fallback.HANDLE()), true));
     }
     
     /**

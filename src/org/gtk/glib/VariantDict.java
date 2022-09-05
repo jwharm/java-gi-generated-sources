@@ -142,7 +142,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if @key exists in @dict.
      */
     public boolean contains(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_contains(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_contains(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -188,7 +188,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * @value is consumed if it is floating.
      */
     public void insertValue(java.lang.String key, Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_insert_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_insert_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value.HANDLE());
     }
     
     /**
@@ -205,7 +205,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * value will have this type.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_lookup_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key), expectedType.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_lookup_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), expectedType.HANDLE());
         return new Variant(ProxyFactory.get(RESULT, true));
     }
     
@@ -224,7 +224,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a key and its associated value from a #GVariantDict.
      */
     public boolean remove(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_remove(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_remove(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     

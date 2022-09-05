@@ -75,7 +75,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if a given mime type is part of the given @formats.
      */
     public boolean containMimeType(java.lang.String mimeType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_contain_mime_type(HANDLE(), Interop.getAllocator().allocateUtf8String(mimeType));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_contain_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
         return (RESULT != 0);
     }
     

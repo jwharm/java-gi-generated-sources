@@ -79,7 +79,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * If no such action exists, returns %NULL.
      */
     public default Action lookupAction(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_lookup_action(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_lookup_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
         return new Action.ActionImpl(ProxyFactory.get(RESULT, false));
     }
     
@@ -89,7 +89,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * If no action of this name is in the map then nothing happens.
      */
     public default void removeAction(java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_remove_action(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_remove_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
     }
     
     class ActionMapImpl extends org.gtk.gobject.Object implements ActionMap {

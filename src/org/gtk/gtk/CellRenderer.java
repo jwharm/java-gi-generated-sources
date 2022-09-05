@@ -61,7 +61,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * toggles when it gets a mouse click.
      */
     public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_activate(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.getAllocator().allocateUtf8String(path), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_activate(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.allocateNativeString(path).HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
         return (RESULT != 0);
     }
     
@@ -207,7 +207,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * widget created by the `GtkCellRenderer`Class.start_editing virtual function.
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_start_editing(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.getAllocator().allocateUtf8String(path), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_start_editing(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.allocateNativeString(path).HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
         return new CellEditable.CellEditableImpl(ProxyFactory.get(RESULT, false));
     }
     
@@ -245,7 +245,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererEditingCanceled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("editing-canceled"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("editing-canceled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -296,7 +296,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererEditingStarted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("editing-started"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("editing-started").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -47,7 +47,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      * `#fff`, `#ffffff`, `#fffffffff` and `#ffffffffffff`.)
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_parse(HANDLE(), Interop.getAllocator().allocateUtf8String(spec));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_parse(HANDLE(), Interop.allocateNativeString(spec).HANDLE());
         return (RESULT != 0);
     }
     

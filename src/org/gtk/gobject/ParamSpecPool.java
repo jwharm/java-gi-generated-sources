@@ -38,7 +38,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      * Looks up a #GParamSpec in the pool.
      */
     public ParamSpec lookup(java.lang.String paramName, Type ownerType, boolean walkAncestors) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(paramName), ownerType.getValue(), walkAncestors ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_lookup(HANDLE(), Interop.allocateNativeString(paramName).HANDLE(), ownerType.getValue(), walkAncestors ? 1 : 0);
         return new ParamSpec(ProxyFactory.get(RESULT, false));
     }
     

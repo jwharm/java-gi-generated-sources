@@ -30,7 +30,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * Creates a new page setup dialog.
      */
     public PageSetupUnixDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
     /**

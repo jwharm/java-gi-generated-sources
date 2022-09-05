@@ -50,7 +50,7 @@ public class IMMulticontext extends IMContext {
      * property.
      */
     public void setContextId(java.lang.String contextId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_set_context_id(HANDLE(), Interop.getAllocator().allocateUtf8String(contextId));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_set_context_id(HANDLE(), Interop.allocateNativeString(contextId).HANDLE());
     }
     
 }

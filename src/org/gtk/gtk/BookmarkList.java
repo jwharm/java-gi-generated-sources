@@ -30,7 +30,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Creates a new `GtkBookmarkList` with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.getAllocator().allocateUtf8String(filename), Interop.getAllocator().allocateUtf8String(attributes)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(attributes).HANDLE()), true));
     }
     
     /**
@@ -77,7 +77,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * of `GFileInfo`s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_set_attributes(HANDLE(), Interop.getAllocator().allocateUtf8String(attributes));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_set_attributes(HANDLE(), Interop.allocateNativeString(attributes).HANDLE());
     }
     
     /**

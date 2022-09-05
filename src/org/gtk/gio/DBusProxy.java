@@ -112,7 +112,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public org.gtk.glib.Variant callSync(java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_call_sync(HANDLE(), Interop.getAllocator().allocateUtf8String(methodName), parameters.HANDLE(), flags, timeoutMsec, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_call_sync(HANDLE(), Interop.allocateNativeString(methodName).HANDLE(), parameters.HANDLE(), flags, timeoutMsec, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -138,7 +138,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      */
     public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_call_with_unix_fd_list_sync(HANDLE(), Interop.getAllocator().allocateUtf8String(methodName), parameters.HANDLE(), flags, timeoutMsec, fdList.HANDLE(), Interop.allocateNativeArray(outFdList), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_call_with_unix_fd_list_sync(HANDLE(), Interop.allocateNativeString(methodName).HANDLE(), parameters.HANDLE(), flags, timeoutMsec, fdList.HANDLE(), Interop.allocateNativeArray(outFdList), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -154,7 +154,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * it, then @value is checked against the type of the property.
      */
     public org.gtk.glib.Variant getCachedProperty(java.lang.String propertyName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_get_cached_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_get_cached_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
         return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
@@ -271,7 +271,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * `ChatroomParticipantParted(String name)`.
      */
     public void setCachedProperty(java.lang.String propertyName, org.gtk.glib.Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_set_cached_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_proxy_set_cached_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
     }
     
     /**
@@ -322,7 +322,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusProxyGPropertiesChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("g-properties-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("g-properties-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -349,7 +349,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusProxyGSignal", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("g-signal"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("g-signal").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

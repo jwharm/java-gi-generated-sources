@@ -15,7 +15,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.interop.ResourceBase 
      * Finds a cell property of a cell area class by name.
      */
     public org.gtk.gobject.ParamSpec findCellProperty(java.lang.String propertyName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_class_find_cell_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_class_find_cell_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
         return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, false));
     }
     

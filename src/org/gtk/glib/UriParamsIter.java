@@ -58,7 +58,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * ]|
      */
     public void init(java.lang.String params, long length, java.lang.String separators, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_params_iter_init(HANDLE(), Interop.getAllocator().allocateUtf8String(params), length, Interop.getAllocator().allocateUtf8String(separators), flags);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_params_iter_init(HANDLE(), Interop.allocateNativeString(params).HANDLE(), length, Interop.allocateNativeString(separators).HANDLE(), flags);
     }
     
     /**

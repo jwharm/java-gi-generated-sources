@@ -73,7 +73,7 @@ public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the tag, and the character after it in the tag is '-'.
      */
     public boolean matches(java.lang.String rangeList) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_matches(HANDLE(), Interop.getAllocator().allocateUtf8String(rangeList));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_matches(HANDLE(), Interop.allocateNativeString(rangeList).HANDLE());
         return (RESULT != 0);
     }
     

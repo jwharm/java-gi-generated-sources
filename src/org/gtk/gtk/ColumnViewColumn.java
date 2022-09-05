@@ -44,7 +44,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * ```
      */
     public ColumnViewColumn(java.lang.String title, ListItemFactory factory) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_new(Interop.getAllocator().allocateUtf8String(title), factory.getProxy().unowned().HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).HANDLE(), factory.getProxy().unowned().HANDLE()), true));
     }
     
     /**
@@ -191,7 +191,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * be translated.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_title(HANDLE(), Interop.getAllocator().allocateUtf8String(title));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
     }
     
     /**

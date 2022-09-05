@@ -80,7 +80,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * by @size.  If @icon_name is %NULL, the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_icon_from_icon_name(HANDLE(), Interop.getAllocator().allocateUtf8String(iconName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_icon_from_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
     }
     
     /**
@@ -90,7 +90,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * If @markup is %NULL, the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_markup(HANDLE(), Interop.getAllocator().allocateUtf8String(markup));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE());
     }
     
     /**
@@ -100,7 +100,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * See also [method@Gtk.Tooltip.set_markup].
      */
     public void setText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
     }
     
     /**

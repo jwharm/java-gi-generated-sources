@@ -78,7 +78,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * See gdk_pixbuf_save() for more information about option keys.
      */
     public boolean isSaveOptionSupported(java.lang.String optionKey) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_save_option_supported(HANDLE(), Interop.getAllocator().allocateUtf8String(optionKey));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_save_option_supported(HANDLE(), Interop.allocateNativeString(optionKey).HANDLE());
         return (RESULT != 0);
     }
     

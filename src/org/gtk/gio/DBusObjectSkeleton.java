@@ -27,7 +27,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * Creates a new #GDBusObjectSkeleton.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.getAllocator().allocateUtf8String(objectPath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
     }
     
     /**
@@ -66,14 +66,14 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * does nothing.
      */
     public void removeInterfaceByName(java.lang.String interfaceName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_remove_interface_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(interfaceName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_remove_interface_by_name(HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE());
     }
     
     /**
      * Sets the object path for @object.
      */
     public void setObjectPath(java.lang.String objectPath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_set_object_path(HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_set_object_path(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE());
     }
     
     @FunctionalInterface
@@ -100,7 +100,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectSkeletonAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("authorize-method"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("authorize-method").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

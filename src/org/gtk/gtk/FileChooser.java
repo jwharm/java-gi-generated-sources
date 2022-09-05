@@ -60,7 +60,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * [method@Gtk.FileChooser.get_choice].
      */
     public default void addChoice(java.lang.String id, java.lang.String label, java.lang.String[] options, java.lang.String[] optionLabels) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_add_choice(HANDLE(), Interop.getAllocator().allocateUtf8String(id), Interop.getAllocator().allocateUtf8String(label), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_add_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
     }
     
     /**
@@ -101,7 +101,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the currently selected option in the 'choice' with the given ID.
      */
     public default java.lang.String getChoice(java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_choice(HANDLE(), Interop.getAllocator().allocateUtf8String(id));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -202,7 +202,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Removes a 'choice' that has been added with gtk_file_chooser_add_choice().
      */
     public default void removeChoice(java.lang.String id) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_remove_choice(HANDLE(), Interop.getAllocator().allocateUtf8String(id));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_remove_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE());
     }
     
     /**
@@ -244,7 +244,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * For a boolean choice, the possible options are "true" and "false".
      */
     public default void setChoice(java.lang.String id, java.lang.String option) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_choice(HANDLE(), Interop.getAllocator().allocateUtf8String(id), Interop.getAllocator().allocateUtf8String(option));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(option).HANDLE());
     }
     
     /**
@@ -285,7 +285,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * of using [method@Gtk.FileChooser.set_current_name] as well.
      */
     public default void setCurrentName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_current_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_current_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

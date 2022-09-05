@@ -384,7 +384,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * `GtkTreeModel` in use.
      */
     public void attributeConnect(CellRenderer renderer, java.lang.String attribute, int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_connect(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), column);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_connect(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), column);
     }
     
     /**
@@ -393,7 +393,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * model.
      */
     public void attributeDisconnect(CellRenderer renderer, java.lang.String attribute) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_disconnect(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_disconnect(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
     }
     
     /**
@@ -401,7 +401,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * or -1 if the attribute is not mapped.
      */
     public int attributeGetColumn(CellRenderer renderer, java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_get_column(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_get_column(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT;
     }
     
@@ -409,28 +409,28 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the value of a cell property for @renderer in @area.
      */
     public void cellGetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_property(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_property(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
     }
     
     /**
      * Gets the values of one or more cell properties for @renderer in @area.
      */
     public void cellGetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_valist(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_valist(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
     }
     
     /**
      * Sets a cell property for @renderer in @area.
      */
     public void cellSetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_property(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_property(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
     }
     
     /**
      * Sets one or more cell properties for @renderer in @area.
      */
     public void cellSetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_valist(HANDLE(), renderer.HANDLE(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_valist(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
     }
     
     /**
@@ -674,7 +674,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaAddEditable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("add-editable"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("add-editable").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -697,7 +697,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaApplyAttributes", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("apply-attributes"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("apply-attributes").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -727,7 +727,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaFocusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("focus-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("focus-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -751,7 +751,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaRemoveEditable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("remove-editable"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("remove-editable").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -102,7 +102,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * called after g_test_dbus_up().
      */
     public void addServiceDir(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_add_service_dir(HANDLE(), Interop.getAllocator().allocateUtf8String(path));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_add_service_dir(HANDLE(), Interop.allocateNativeString(path).HANDLE());
     }
     
     /**

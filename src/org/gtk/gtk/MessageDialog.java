@@ -91,7 +91,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      * Sets the text of the message dialog.
      */
     public void setMarkup(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_set_markup(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_set_markup(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
 }

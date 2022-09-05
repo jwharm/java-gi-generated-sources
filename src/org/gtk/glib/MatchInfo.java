@@ -36,7 +36,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_expand_references(HANDLE(), Interop.getAllocator().allocateUtf8String(stringToExpand), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_expand_references(HANDLE(), Interop.allocateNativeString(stringToExpand).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -77,7 +77,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public java.lang.String fetchNamed(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_fetch_named(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_fetch_named(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return RESULT.getUtf8String(0);
     }
     

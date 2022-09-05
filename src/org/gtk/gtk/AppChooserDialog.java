@@ -45,7 +45,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * The dialog will show applications that can open the content type.
      */
     public AppChooserDialog(Window parent, int flags, java.lang.String contentType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.HANDLE(), flags, Interop.getAllocator().allocateUtf8String(contentType)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.HANDLE(), flags, Interop.allocateNativeString(contentType).HANDLE()), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * If the heading is not set, the dialog displays a default text.
      */
     public void setHeading(java.lang.String heading) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_set_heading(HANDLE(), Interop.getAllocator().allocateUtf8String(heading));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_set_heading(HANDLE(), Interop.allocateNativeString(heading).HANDLE());
     }
     
 }

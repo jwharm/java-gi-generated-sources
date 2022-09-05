@@ -54,7 +54,7 @@ public interface Actionable extends io.github.jwharm.javagi.interop.NativeAddres
      * associated with the window.
      */
     public default void setActionName(java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_actionable_set_action_name(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_actionable_set_action_name(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
     }
     
     /**
@@ -89,7 +89,7 @@ public interface Actionable extends io.github.jwharm.javagi.interop.NativeAddres
      * [func@Gio.Action.parse_detailed_name].
      */
     public default void setDetailedActionName(java.lang.String detailedActionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_actionable_set_detailed_action_name(HANDLE(), Interop.getAllocator().allocateUtf8String(detailedActionName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_actionable_set_detailed_action_name(HANDLE(), Interop.allocateNativeString(detailedActionName).HANDLE());
     }
     
     class ActionableImpl extends org.gtk.gobject.Object implements Actionable {

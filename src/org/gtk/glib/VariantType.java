@@ -169,7 +169,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * string.  Use g_variant_type_string_is_valid() if you are unsure.
      */
     public VariantType(java.lang.String typeString) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new(Interop.getAllocator().allocateUtf8String(typeString)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).HANDLE()), true));
     }
     
     /**

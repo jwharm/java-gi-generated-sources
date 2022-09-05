@@ -134,7 +134,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * To remove marks from a scale, use [method@Gtk.Scale.clear_marks].
      */
     public void addMark(double value, PositionType position, java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_add_mark(HANDLE(), value, position.getValue(), Interop.getAllocator().allocateUtf8String(markup));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_add_mark(HANDLE(), value, position.getValue(), Interop.allocateNativeString(markup).HANDLE());
     }
     
     /**

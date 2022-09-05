@@ -27,7 +27,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      * its @type and @flags.
      */
     public void add(java.lang.String name, FileAttributeType type, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_add(HANDLE(), Interop.getAllocator().allocateUtf8String(name), type.getValue(), flags);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_add(HANDLE(), Interop.allocateNativeString(name).HANDLE(), type.getValue(), flags);
     }
     
     /**
@@ -42,7 +42,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.Resou
      * Gets the file attribute with the name @name from @list.
      */
     public FileAttributeInfo lookup(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_info_list_lookup(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new FileAttributeInfo(ProxyFactory.get(RESULT, false));
     }
     

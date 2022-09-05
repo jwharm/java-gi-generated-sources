@@ -47,7 +47,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * with the given @attributes.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.getAllocator().allocateUtf8String(attributes), file.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).HANDLE(), file.HANDLE()), true));
     }
     
     /**
@@ -118,7 +118,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * of `GFileInfo`s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_attributes(HANDLE(), Interop.getAllocator().allocateUtf8String(attributes));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_attributes(HANDLE(), Interop.allocateNativeString(attributes).HANDLE());
     }
     
     /**

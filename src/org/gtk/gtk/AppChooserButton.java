@@ -50,7 +50,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * that can handle content of the given type.
      */
     public AppChooserButton(java.lang.String contentType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_new(Interop.getAllocator().allocateUtf8String(contentType)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_new(Interop.allocateNativeString(contentType).HANDLE()), false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * See also [method@Gtk.AppChooserButton.append_separator].
      */
     public void appendCustomItem(java.lang.String name, java.lang.String label, org.gtk.gio.Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_append_custom_item(HANDLE(), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(label), icon.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_append_custom_item(HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(label).HANDLE(), icon.HANDLE());
     }
     
     /**
@@ -119,7 +119,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * to its initial state.
      */
     public void setActiveCustomItem(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_set_active_custom_item(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_set_active_custom_item(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -128,7 +128,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * If the heading is not set, the dialog displays a default text.
      */
     public void setHeading(java.lang.String heading) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_set_heading(HANDLE(), Interop.getAllocator().allocateUtf8String(heading));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_button_set_heading(HANDLE(), Interop.allocateNativeString(heading).HANDLE());
     }
     
     /**
@@ -174,7 +174,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -197,7 +197,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserButtonChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -223,7 +223,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserButtonCustomItemActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("custom-item-activated"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("custom-item-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

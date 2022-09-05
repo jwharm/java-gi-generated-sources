@@ -78,7 +78,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Creates a new `GtkPrintUnixDialog`.
      */
     public PrintUnixDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
     /**

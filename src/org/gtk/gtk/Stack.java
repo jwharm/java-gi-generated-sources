@@ -86,7 +86,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * The child is identified by the @name.
      */
     public StackPage addNamed(Widget child, java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_named(HANDLE(), child.HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_named(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
@@ -98,7 +98,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * @child in a tab bar, so it should be short.
      */
     public StackPage addTitled(Widget child, java.lang.String name, java.lang.String title) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_titled(HANDLE(), child.HANDLE(), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(title));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_titled(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(title).HANDLE());
         return new StackPage(ProxyFactory.get(RESULT, false));
     }
     
@@ -108,7 +108,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns %NULL if there is no child with this name.
      */
     public Widget getChildByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_child_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_child_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new Widget(ProxyFactory.get(RESULT, false));
     }
     
@@ -293,7 +293,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * child of @stack.
      */
     public void setVisibleChildFull(java.lang.String name, StackTransitionType transition) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_full(HANDLE(), Interop.getAllocator().allocateUtf8String(name), transition.getValue());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_full(HANDLE(), Interop.allocateNativeString(name).HANDLE(), transition.getValue());
     }
     
     /**
@@ -308,7 +308,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * child of @stack.
      */
     public void setVisibleChildName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
 }

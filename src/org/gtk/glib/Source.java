@@ -424,7 +424,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Also see g_source_set_static_name().
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -475,7 +475,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * string literals.
      */
     public void setStaticName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_static_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_static_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

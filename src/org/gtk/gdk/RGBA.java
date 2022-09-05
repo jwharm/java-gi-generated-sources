@@ -98,7 +98,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the range 0 to 1.
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_parse(HANDLE(), Interop.getAllocator().allocateUtf8String(spec));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_parse(HANDLE(), Interop.allocateNativeString(spec).HANDLE());
         return (RESULT != 0);
     }
     

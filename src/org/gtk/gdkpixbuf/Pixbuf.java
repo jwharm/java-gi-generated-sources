@@ -395,7 +395,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * EXIF tag.
      */
     public java.lang.String getOption(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_option(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_option(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -458,7 +458,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Removes the key/value pair option attached to a `GdkPixbuf`.
      */
     public boolean removeOption(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_remove_option(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_remove_option(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -503,7 +503,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_save_to_streamv(HANDLE(), stream.HANDLE(), Interop.getAllocator().allocateUtf8String(type), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_save_to_streamv(HANDLE(), stream.HANDLE(), Interop.allocateNativeString(type).HANDLE(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -521,7 +521,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_savev(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), Interop.getAllocator().allocateUtf8String(type), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_savev(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(type).HANDLE(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -579,7 +579,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * the new value is ignored and `FALSE` is returned.
      */
     public boolean setOption(java.lang.String key, java.lang.String value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_set_option(HANDLE(), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(value));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_set_option(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
         return (RESULT != 0);
     }
     

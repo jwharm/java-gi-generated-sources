@@ -58,7 +58,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * initializer after calling [method@Gtk.WidgetClass.set_template].
      */
     public void bindTemplateChildFull(java.lang.String name, boolean internalChild, long structOffset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_bind_template_child_full(HANDLE(), Interop.getAllocator().allocateUtf8String(name), internalChild ? 1 : 0, structOffset);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_bind_template_child_full(HANDLE(), Interop.allocateNativeString(name).HANDLE(), internalChild ? 1 : 0, structOffset);
     }
     
     /**
@@ -124,7 +124,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the same type as the property.
      */
     public void installPropertyAction(java.lang.String actionName, java.lang.String propertyName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_install_property_action(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName), Interop.getAllocator().allocateUtf8String(propertyName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_install_property_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
     }
     
     /**
@@ -160,7 +160,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_signal_new() or g_signal_newv() before calling this function.
      */
     public void setActivateSignalFromName(java.lang.String signalName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_activate_signal_from_name(HANDLE(), Interop.getAllocator().allocateUtf8String(signalName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_activate_signal_from_name(HANDLE(), Interop.allocateNativeString(signalName).HANDLE());
     }
     
     /**
@@ -171,7 +171,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * uses the name "widget".
      */
     public void setCssName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_css_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_css_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -210,7 +210,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * initializer.
      */
     public void setTemplateFromResource(java.lang.String resourceName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_template_from_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourceName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_template_from_resource(HANDLE(), Interop.allocateNativeString(resourceName).HANDLE());
     }
     
     /**

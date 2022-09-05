@@ -163,7 +163,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * an item with a `custom` attribute that matches @id.
      */
     public boolean addChild(Widget child, java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_add_child(HANDLE(), child.HANDLE(), Interop.getAllocator().allocateUtf8String(id));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_add_child(HANDLE(), child.HANDLE(), Interop.allocateNativeString(id).HANDLE());
         return (RESULT != 0);
     }
     

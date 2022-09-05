@@ -52,7 +52,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * value for this setting.
      */
     public void resetProperty(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_settings_reset_property(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_settings_reset_property(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
 }

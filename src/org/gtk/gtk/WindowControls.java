@@ -117,7 +117,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * will display the part before the colon, otherwise after that.
      */
     public void setDecorationLayout(java.lang.String layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_set_decoration_layout(HANDLE(), Interop.getAllocator().allocateUtf8String(layout));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_set_decoration_layout(HANDLE(), Interop.allocateNativeString(layout).HANDLE());
     }
     
     /**

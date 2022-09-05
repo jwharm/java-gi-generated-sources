@@ -58,7 +58,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public TlsCertificate lookupCertificateForHandle(java.lang.String handle, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_for_handle(HANDLE(), Interop.getAllocator().allocateUtf8String(handle), interaction.HANDLE(), flags.getValue(), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_for_handle(HANDLE(), Interop.allocateNativeString(handle).HANDLE(), interaction.HANDLE(), flags.getValue(), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -217,7 +217,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public int verifyChain(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_verify_chain(HANDLE(), chain.HANDLE(), Interop.getAllocator().allocateUtf8String(purpose), identity.HANDLE(), interaction.HANDLE(), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_verify_chain(HANDLE(), chain.HANDLE(), Interop.allocateNativeString(purpose).HANDLE(), identity.HANDLE(), interaction.HANDLE(), flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

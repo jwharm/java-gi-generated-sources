@@ -67,7 +67,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * value that was passed to that call.
      */
     public void changed(java.lang.String key, jdk.incubator.foreign.MemoryAddress originTag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_changed(HANDLE(), Interop.getAllocator().allocateUtf8String(key), originTag);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_changed(HANDLE(), Interop.allocateNativeString(key).HANDLE(), originTag);
     }
     
     /**
@@ -103,7 +103,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * keys that were changed) but this is not strictly required.
      */
     public void keysChanged(java.lang.String path, java.lang.String[] items, jdk.incubator.foreign.MemoryAddress originTag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_keys_changed(HANDLE(), Interop.getAllocator().allocateUtf8String(path), Interop.allocateNativeArray(items), originTag);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_keys_changed(HANDLE(), Interop.allocateNativeString(path).HANDLE(), Interop.allocateNativeArray(items), originTag);
     }
     
     /**
@@ -130,7 +130,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * single key in the application will be notified of a possible change.
      */
     public void pathChanged(java.lang.String path, jdk.incubator.foreign.MemoryAddress originTag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_path_changed(HANDLE(), Interop.getAllocator().allocateUtf8String(path), originTag);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_path_changed(HANDLE(), Interop.allocateNativeString(path).HANDLE(), originTag);
     }
     
     /**
@@ -141,7 +141,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      */
     public void pathWritableChanged(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_path_writable_changed(HANDLE(), Interop.getAllocator().allocateUtf8String(path));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_path_writable_changed(HANDLE(), Interop.allocateNativeString(path).HANDLE());
     }
     
     /**
@@ -151,7 +151,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      */
     public void writableChanged(java.lang.String key) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_writable_changed(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_backend_writable_changed(HANDLE(), Interop.allocateNativeString(key).HANDLE());
     }
     
 }

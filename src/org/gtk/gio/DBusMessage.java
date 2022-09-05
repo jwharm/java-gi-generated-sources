@@ -31,14 +31,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Creates a new #GDBusMessage for a method call.
      */
     public DBusMessage(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_call(Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(method)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(path).HANDLE(), Interop.allocateNativeString(interface_).HANDLE(), Interop.allocateNativeString(method).HANDLE()), true));
     }
     
     /**
      * Creates a new #GDBusMessage for a signal emission.
      */
     public DBusMessage(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_signal(Interop.getAllocator().allocateUtf8String(path), Interop.getAllocator().allocateUtf8String(interface_), Interop.getAllocator().allocateUtf8String(signal)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).HANDLE(), Interop.allocateNativeString(interface_).HANDLE(), Interop.allocateNativeString(signal).HANDLE()), true));
     }
     
     /**
@@ -228,7 +228,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Creates a new #GDBusMessage that is an error reply to @method_call_message.
      */
     public DBusMessage newMethodErrorLiteral(java.lang.String errorName, java.lang.String errorMessage) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_literal(HANDLE(), Interop.getAllocator().allocateUtf8String(errorName), Interop.getAllocator().allocateUtf8String(errorMessage));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_literal(HANDLE(), Interop.allocateNativeString(errorName).HANDLE(), Interop.allocateNativeString(errorMessage).HANDLE());
         return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
@@ -236,7 +236,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Like g_dbus_message_new_method_error() but intended for language bindings.
      */
     public DBusMessage newMethodErrorValist(java.lang.String errorName, java.lang.String errorMessageFormat, VaList varArgs) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_valist(HANDLE(), Interop.getAllocator().allocateUtf8String(errorName), Interop.getAllocator().allocateUtf8String(errorMessageFormat), varArgs);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_new_method_error_valist(HANDLE(), Interop.allocateNativeString(errorName).HANDLE(), Interop.allocateNativeString(errorMessageFormat).HANDLE(), varArgs);
         return new DBusMessage(ProxyFactory.get(RESULT, true));
     }
     
@@ -309,14 +309,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION header field.
      */
     public void setDestination(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_destination(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_destination(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME header field.
      */
     public void setErrorName(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_error_name(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_error_name(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
@@ -339,14 +339,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE header field.
      */
     public void setInterface(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_interface(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_MEMBER header field.
      */
     public void setMember(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_member(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_member(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
@@ -367,7 +367,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_PATH header field.
      */
     public void setPath(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_path(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_path(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
@@ -381,7 +381,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_SENDER header field.
      */
     public void setSender(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_sender(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_sender(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
@@ -395,7 +395,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE header field.
      */
     public void setSignature(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_signature(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_message_set_signature(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**

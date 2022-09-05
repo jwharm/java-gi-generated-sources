@@ -33,7 +33,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * see [func@Gtk.PaperSize.get_default].
      */
     public PaperSize(java.lang.String name) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new(Interop.getAllocator().allocateUtf8String(name)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).HANDLE()), true));
     }
     
     /**
@@ -41,7 +41,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * given parameters.
      */
     public PaperSize(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_custom(Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(displayName), width, height, unit.getValue()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(displayName).HANDLE(), width, height, unit.getValue()), true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public PaperSize(java.lang.String ippName, double width, double height) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ipp(Interop.getAllocator().allocateUtf8String(ippName), width, height), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).HANDLE(), width, height), true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public PaperSize(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ppd(Interop.getAllocator().allocateUtf8String(ppdName), Interop.getAllocator().allocateUtf8String(ppdDisplayName), width, height), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).HANDLE(), Interop.allocateNativeString(ppdDisplayName).HANDLE(), width, height), true));
     }
     
     /**
@@ -211,7 +211,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function adds the paper size from @size to @key_file.
      */
     public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.getAllocator().allocateUtf8String(groupName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
     }
     
 }

@@ -34,7 +34,7 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
      * Creates a new `GtkColorChooserDialog`.
      */
     public ColorChooserDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
 }

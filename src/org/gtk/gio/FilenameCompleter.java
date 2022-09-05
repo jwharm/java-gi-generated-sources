@@ -32,7 +32,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * Obtains a completion for @initial_text from @completer.
      */
     public java.lang.String getCompletionSuffix(java.lang.String initialText) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_get_completion_suffix(HANDLE(), Interop.getAllocator().allocateUtf8String(initialText));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_get_completion_suffix(HANDLE(), Interop.allocateNativeString(initialText).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -61,7 +61,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFilenameCompleterGotCompletionData", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("got-completion-data"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("got-completion-data").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

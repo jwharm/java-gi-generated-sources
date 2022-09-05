@@ -39,7 +39,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is guaranteed to resolve to both addresses.
      */
     public NetworkAddress(java.lang.String hostname, short port) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new(Interop.getAllocator().allocateUtf8String(hostname), port), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).HANDLE(), port), true));
     }
     
     /**

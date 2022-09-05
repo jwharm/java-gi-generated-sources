@@ -160,7 +160,7 @@ public class Expression extends org.gtk.gobject.Object {
      * to keep it around, you should [method@Gtk.Expression.ref] it beforehand.
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_bind(HANDLE(), target.HANDLE(), Interop.getAllocator().allocateUtf8String(property), this_.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_bind(HANDLE(), target.HANDLE(), Interop.allocateNativeString(property).HANDLE(), this_.HANDLE());
         return new ExpressionWatch(ProxyFactory.get(RESULT, false));
     }
     

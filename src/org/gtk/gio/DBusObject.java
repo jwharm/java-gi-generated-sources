@@ -18,7 +18,7 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
      * @object, if any.
      */
     public default DBusInterface getInterface(java.lang.String interfaceName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_get_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(interfaceName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_get_interface(HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE());
         return new DBusInterface.DBusInterfaceImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -55,7 +55,7 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectInterfaceAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("interface-added"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -78,7 +78,7 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectInterfaceRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("interface-removed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

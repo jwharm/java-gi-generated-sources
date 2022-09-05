@@ -34,7 +34,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Optionally, specify initial text to set in the buffer.
      */
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.getAllocator().allocateUtf8String(initialChars), nInitialChars), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).HANDLE(), nInitialChars), true));
     }
     
     /**
@@ -66,7 +66,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Used when subclassing `GtkEntryBuffer`.
      */
     public void emitInsertedText(int position, java.lang.String chars, int nChars) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_emit_inserted_text(HANDLE(), position, Interop.getAllocator().allocateUtf8String(chars), nChars);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_emit_inserted_text(HANDLE(), position, Interop.allocateNativeString(chars).HANDLE(), nChars);
     }
     
     /**
@@ -118,7 +118,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Note that the position and length are in characters, not in bytes.
      */
     public int insertText(int position, java.lang.String chars, int nChars) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_insert_text(HANDLE(), position, Interop.getAllocator().allocateUtf8String(chars), nChars);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_insert_text(HANDLE(), position, Interop.allocateNativeString(chars).HANDLE(), nChars);
         return RESULT;
     }
     
@@ -142,7 +142,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Note that @n_chars is in characters, not in bytes.
      */
     public void setText(java.lang.String chars, int nChars) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(chars), nChars);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_set_text(HANDLE(), Interop.allocateNativeString(chars).HANDLE(), nChars);
     }
     
     @FunctionalInterface
@@ -165,7 +165,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryBufferDeletedText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("deleted-text"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("deleted-text").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -188,7 +188,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryBufferInsertedText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("inserted-text"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("inserted-text").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

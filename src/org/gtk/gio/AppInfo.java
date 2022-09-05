@@ -63,7 +63,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean addSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_add_supports_type(HANDLE(), Interop.getAllocator().allocateUtf8String(contentType), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_add_supports_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -259,7 +259,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean removeSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_remove_supports_type(HANDLE(), Interop.getAllocator().allocateUtf8String(contentType), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_remove_supports_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -271,7 +271,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsDefaultForExtension(java.lang.String extension) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_extension(HANDLE(), Interop.getAllocator().allocateUtf8String(extension), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_extension(HANDLE(), Interop.allocateNativeString(extension).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -283,7 +283,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsDefaultForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_type(HANDLE(), Interop.getAllocator().allocateUtf8String(contentType), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -298,7 +298,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsLastUsedForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_last_used_for_type(HANDLE(), Interop.getAllocator().allocateUtf8String(contentType), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_last_used_for_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

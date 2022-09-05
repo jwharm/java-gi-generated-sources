@@ -418,7 +418,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_object_path() if you're not sure.
      */
     public static Variant newObjectPath(java.lang.String objectPath) {
-        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_object_path(Interop.getAllocator().allocateUtf8String(objectPath)), false));
+        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).HANDLE()), false));
     }
     
     /**
@@ -458,7 +458,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public Variant(java.lang.String format, VaList app) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_parsed_va(Interop.getAllocator().allocateUtf8String(format), app), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).HANDLE(), app), true));
     }
     
     /**
@@ -467,7 +467,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_signature() if you're not sure.
      */
     public static Variant newSignature(java.lang.String signature) {
-        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_signature(Interop.getAllocator().allocateUtf8String(signature)), false));
+        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).HANDLE()), false));
     }
     
     /**
@@ -478,7 +478,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [format string][gvariant-format-strings-maybe-types].
      */
     public static Variant newString(java.lang.String string) {
-        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_string(Interop.getAllocator().allocateUtf8String(string)), false));
+        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_string(Interop.allocateNativeString(string).HANDLE()), false));
     }
     
     /**
@@ -505,7 +505,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed.
      */
     public static Variant newTakeString(java.lang.String string) {
-        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_take_string(Interop.getAllocator().allocateUtf8String(string)), false));
+        return new Variant(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).HANDLE()), false));
     }
     
     /**
@@ -582,7 +582,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public Variant(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_va(Interop.getAllocator().allocateUtf8String(formatString), Interop.allocateNativeArray(endptr), app), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).HANDLE(), Interop.allocateNativeArray(endptr), app), true));
     }
     
     /**
@@ -631,7 +631,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_lookup() or g_menu_model_get_item_attribute()).
      */
     public boolean checkFormatString(java.lang.String formatString, boolean copyOnly) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_check_format_string(HANDLE(), Interop.getAllocator().allocateUtf8String(formatString), copyOnly ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_check_format_string(HANDLE(), Interop.allocateNativeString(formatString).HANDLE(), copyOnly ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -972,7 +972,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [GVariant format strings][gvariant-format-strings-pointers].
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_va(HANDLE(), Interop.getAllocator().allocateUtf8String(formatString), Interop.allocateNativeArray(endptr), app);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_va(HANDLE(), Interop.allocateNativeString(formatString).HANDLE(), Interop.allocateNativeArray(endptr), app);
     }
     
     /**
@@ -1091,7 +1091,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * plan to do many lookups then #GVariantDict may be more efficient.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_lookup_value(HANDLE(), Interop.getAllocator().allocateUtf8String(key), expectedType.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_lookup_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), expectedType.HANDLE());
         return new Variant(ProxyFactory.get(RESULT, true));
     }
     

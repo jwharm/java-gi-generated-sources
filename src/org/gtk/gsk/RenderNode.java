@@ -107,7 +107,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_write_to_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_write_to_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

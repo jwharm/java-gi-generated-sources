@@ -147,7 +147,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the number of the subexpression named @name.
      */
     public int getStringNumber(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_get_string_number(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_get_string_number(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return RESULT;
     }
     
@@ -194,7 +194,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * freeing or modifying @string then the behaviour is undefined.
      */
     public boolean match(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_match(HANDLE(), Interop.getAllocator().allocateUtf8String(string), matchOptions, Interop.allocateNativeArray(matchInfo));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_match(HANDLE(), Interop.allocateNativeString(string).HANDLE(), matchOptions, Interop.allocateNativeArray(matchInfo));
         return (RESULT != 0);
     }
     
@@ -215,7 +215,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * freeing or modifying @string then the behaviour is undefined.
      */
     public boolean matchAll(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_match_all(HANDLE(), Interop.getAllocator().allocateUtf8String(string), matchOptions, Interop.allocateNativeArray(matchInfo));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_match_all(HANDLE(), Interop.allocateNativeString(string).HANDLE(), matchOptions, Interop.allocateNativeArray(matchInfo));
         return (RESULT != 0);
     }
     
@@ -368,7 +368,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_replace(HANDLE(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.getAllocator().allocateUtf8String(replacement), matchOptions, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_replace(HANDLE(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.allocateNativeString(replacement).HANDLE(), matchOptions, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -387,7 +387,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_replace_literal(HANDLE(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.getAllocator().allocateUtf8String(replacement), matchOptions, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_regex_replace_literal(HANDLE(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.allocateNativeString(replacement).HANDLE(), matchOptions, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

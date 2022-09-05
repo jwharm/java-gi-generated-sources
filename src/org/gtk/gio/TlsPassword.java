@@ -23,7 +23,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Create a new #GTlsPassword object.
      */
     public TlsPassword(int flags, java.lang.String description) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.getAllocator().allocateUtf8String(description)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).HANDLE()), true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Set a description string about what the password will be used for.
      */
     public void setDescription(java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_description(HANDLE(), Interop.getAllocator().allocateUtf8String(description));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_description(HANDLE(), Interop.allocateNativeString(description).HANDLE());
     }
     
     /**
@@ -85,7 +85,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * g_tls_password_get_flags().
      */
     public void setWarning(java.lang.String warning) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_warning(HANDLE(), Interop.getAllocator().allocateUtf8String(warning));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_warning(HANDLE(), Interop.allocateNativeString(warning).HANDLE());
     }
     
 }

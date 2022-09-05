@@ -30,7 +30,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * exist, adds the @entries to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_add_main_entries(HANDLE(), Interop.allocateNativeArray(entries), Interop.getAllocator().allocateUtf8String(translationDomain));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_add_main_entries(HANDLE(), Interop.allocateNativeArray(entries), Interop.allocateNativeString(translationDomain).HANDLE());
     }
     
     /**
@@ -145,7 +145,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * g_option_context_set_translate_func()).
      */
     public void setDescription(java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_description(HANDLE(), Interop.getAllocator().allocateUtf8String(description));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_description(HANDLE(), Interop.allocateNativeString(description).HANDLE());
     }
     
     /**
@@ -220,7 +220,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * g_option_context_set_translation_domain()).
      */
     public void setSummary(java.lang.String summary) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_summary(HANDLE(), Interop.getAllocator().allocateUtf8String(summary));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_summary(HANDLE(), Interop.allocateNativeString(summary).HANDLE());
     }
     
     /**
@@ -228,7 +228,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_translation_domain(HANDLE(), Interop.getAllocator().allocateUtf8String(domain));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_translation_domain(HANDLE(), Interop.allocateNativeString(domain).HANDLE());
     }
     
 }

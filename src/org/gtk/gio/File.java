@@ -375,7 +375,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default FileEnumerator enumerateChildren(java.lang.String attributes, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerate_children(HANDLE(), Interop.getAllocator().allocateUtf8String(attributes), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerate_children(HANDLE(), Interop.allocateNativeString(attributes).HANDLE(), flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -472,7 +472,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      * This call does no blocking I/O.
      */
     public default File getChild(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_child(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_child(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -488,7 +488,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getChildForDisplayName(java.lang.String displayName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_child_for_display_name(HANDLE(), Interop.getAllocator().allocateUtf8String(displayName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_child_for_display_name(HANDLE(), Interop.allocateNativeString(displayName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -616,7 +616,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      * This call does no blocking I/O.
      */
     public default boolean hasUriScheme(java.lang.String uriScheme) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_has_uri_scheme(HANDLE(), Interop.getAllocator().allocateUtf8String(uriScheme));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_has_uri_scheme(HANDLE(), Interop.allocateNativeString(uriScheme).HANDLE());
         return (RESULT != 0);
     }
     
@@ -762,7 +762,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean makeSymbolicLink(java.lang.String symlinkValue, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_make_symbolic_link(HANDLE(), Interop.getAllocator().allocateUtf8String(symlinkValue), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_make_symbolic_link(HANDLE(), Interop.allocateNativeString(symlinkValue).HANDLE(), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1042,7 +1042,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default FileInfo queryFilesystemInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_query_filesystem_info(HANDLE(), Interop.getAllocator().allocateUtf8String(attributes), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_query_filesystem_info(HANDLE(), Interop.allocateNativeString(attributes).HANDLE(), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1096,7 +1096,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default FileInfo queryInfo(java.lang.String attributes, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_query_info(HANDLE(), Interop.getAllocator().allocateUtf8String(attributes), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_query_info(HANDLE(), Interop.allocateNativeString(attributes).HANDLE(), flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1235,7 +1235,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default FileOutputStream replace(java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace(HANDLE(), Interop.getAllocator().allocateUtf8String(etag), makeBackup ? 1 : 0, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace(HANDLE(), Interop.allocateNativeString(etag).HANDLE(), makeBackup ? 1 : 0, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1262,7 +1262,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace_contents(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents), length, Interop.getAllocator().allocateUtf8String(etag), makeBackup ? 1 : 0, flags, Interop.allocateNativeArray(newEtag), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace_contents(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents), length, Interop.allocateNativeString(etag).HANDLE(), makeBackup ? 1 : 0, flags, Interop.allocateNativeArray(newEtag), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1310,7 +1310,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default FileIOStream replaceReadwrite(java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace_readwrite(HANDLE(), Interop.getAllocator().allocateUtf8String(etag), makeBackup ? 1 : 0, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_replace_readwrite(HANDLE(), Interop.allocateNativeString(etag).HANDLE(), makeBackup ? 1 : 0, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1339,7 +1339,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      * is done absolutely (without taking @file path as base).
      */
     public default File resolveRelativePath(java.lang.String relativePath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_resolve_relative_path(HANDLE(), Interop.getAllocator().allocateUtf8String(relativePath));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_resolve_relative_path(HANDLE(), Interop.allocateNativeString(relativePath).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -1355,7 +1355,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttribute(java.lang.String attribute, FileAttributeType type, jdk.incubator.foreign.MemoryAddress valueP, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), type.getValue(), valueP, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), type.getValue(), valueP, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1373,7 +1373,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_byte_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), Interop.getAllocator().allocateUtf8String(value), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_byte_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), Interop.allocateNativeString(value).HANDLE(), flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1390,7 +1390,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeInt32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_int32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), value, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_int32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), value, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1407,7 +1407,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeInt64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_int64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), value, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_int64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), value, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1424,7 +1424,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), Interop.getAllocator().allocateUtf8String(value), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), Interop.allocateNativeString(value).HANDLE(), flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1441,7 +1441,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeUint32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_uint32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), value, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_uint32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), value, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1458,7 +1458,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributeUint64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_uint64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), value, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_attribute_uint64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), value, flags, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1519,7 +1519,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File setDisplayName(java.lang.String displayName, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_display_name(HANDLE(), Interop.getAllocator().allocateUtf8String(displayName), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_set_display_name(HANDLE(), Interop.allocateNativeString(displayName).HANDLE(), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

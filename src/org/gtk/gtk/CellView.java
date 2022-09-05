@@ -63,7 +63,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
      */
     public static CellView newWithMarkup(java.lang.String markup) {
-        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_markup(Interop.getAllocator().allocateUtf8String(markup)), false));
+        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).HANDLE()), false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @text.
      */
     public static CellView newWithText(java.lang.String text) {
-        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_text(Interop.getAllocator().allocateUtf8String(text)), false));
+        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).HANDLE()), false));
     }
     
     /**

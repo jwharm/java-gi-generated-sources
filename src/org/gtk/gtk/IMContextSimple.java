@@ -66,7 +66,7 @@ public class IMContextSimple extends IMContext {
      * Adds an additional table from the X11 compose file.
      */
     public void addComposeFile(java.lang.String composeFile) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_add_compose_file(HANDLE(), Interop.getAllocator().allocateUtf8String(composeFile));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_add_compose_file(HANDLE(), Interop.allocateNativeString(composeFile).HANDLE());
     }
     
 }

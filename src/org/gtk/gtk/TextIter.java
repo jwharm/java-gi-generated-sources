@@ -117,7 +117,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * even if there is a possible @match_start before or at @iter.
      */
     public boolean backwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_search(HANDLE(), Interop.getAllocator().allocateUtf8String(str), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_search(HANDLE(), Interop.allocateNativeString(str).HANDLE(), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
         return (RESULT != 0);
     }
     
@@ -495,7 +495,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * even if there is a possible @match_end after or at @iter.
      */
     public boolean forwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_search(HANDLE(), Interop.getAllocator().allocateUtf8String(str), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_search(HANDLE(), Interop.allocateNativeString(str).HANDLE(), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
         return (RESULT != 0);
     }
     

@@ -38,14 +38,14 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * `/usr/share/applications/kde/foo.desktop`).
      */
     public DesktopAppInfo(java.lang.String desktopId) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.getAllocator().allocateUtf8String(desktopId)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).HANDLE()), true));
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
-        return new DesktopAppInfo(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.getAllocator().allocateUtf8String(filename)), true));
+        return new DesktopAppInfo(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * action.
      */
     public java.lang.String getActionName(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_action_name(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_action_name(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -73,7 +73,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * The @key is looked up in the "Desktop Entry" group.
      */
     public boolean getBoolean(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_boolean(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_boolean(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -119,7 +119,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * The @key is looked up in the "Desktop Entry" group.
      */
     public java.lang.String getLocaleString(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_locale_string(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_locale_string(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -147,7 +147,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * %NULL for @desktop_env) as well as additional checks.
      */
     public boolean getShowIn(java.lang.String desktopEnv) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_show_in(HANDLE(), Interop.getAllocator().allocateUtf8String(desktopEnv));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_show_in(HANDLE(), Interop.allocateNativeString(desktopEnv).HANDLE());
         return (RESULT != 0);
     }
     
@@ -167,7 +167,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * The @key is looked up in the "Desktop Entry" group.
      */
     public java.lang.String getString(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_string(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_get_string(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -176,7 +176,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * of the keyfile backing @info.
      */
     public boolean hasKey(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_has_key(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_has_key(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -198,7 +198,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * occur while using this function.
      */
     public void launchAction(java.lang.String actionName, AppLaunchContext launchContext) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_launch_action(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName), launchContext.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_launch_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), launchContext.HANDLE());
     }
     
 }

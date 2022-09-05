@@ -232,7 +232,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_encoding(HANDLE(), Interop.getAllocator().allocateUtf8String(encoding), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_encoding(HANDLE(), Interop.allocateNativeString(encoding).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -256,7 +256,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * where in the file a line break occurs.
      */
     public void setLineTerm(java.lang.String lineTerm, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_line_term(HANDLE(), Interop.getAllocator().allocateUtf8String(lineTerm), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_line_term(HANDLE(), Interop.allocateNativeString(lineTerm).HANDLE(), length);
     }
     
     /**

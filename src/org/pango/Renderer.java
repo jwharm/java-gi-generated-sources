@@ -91,7 +91,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * [method@Pango.Renderer.draw_glyphs].
      */
     public void drawGlyphItem(java.lang.String text, GlyphItem glyphItem, int x, int y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_glyph_item(HANDLE(), Interop.getAllocator().allocateUtf8String(text), glyphItem.HANDLE(), x, y);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_glyph_item(HANDLE(), Interop.allocateNativeString(text).HANDLE(), glyphItem.HANDLE(), x, y);
     }
     
     /**

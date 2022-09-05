@@ -36,7 +36,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      *   namespace and all keys in the unix namespace.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_new(Interop.getAllocator().allocateUtf8String(attributes)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).HANDLE()), true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * TODO: this is awkwardly worded.
      */
     public boolean enumerateNamespace(java.lang.String ns) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_enumerate_namespace(HANDLE(), Interop.getAllocator().allocateUtf8String(ns));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_enumerate_namespace(HANDLE(), Interop.allocateNativeString(ns).HANDLE());
         return (RESULT != 0);
     }
     
@@ -66,7 +66,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * will always return %TRUE.
      */
     public boolean matches(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return (RESULT != 0);
     }
     
@@ -75,7 +75,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * returns %FALSE if "*" was used when creating the matcher.
      */
     public boolean matchesOnly(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches_only(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches_only(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return (RESULT != 0);
     }
     

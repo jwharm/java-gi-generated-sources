@@ -127,7 +127,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * In this context "attribute" and "property" are used interchangeably.
      */
     public default void addAttribute(CellRenderer cell, java.lang.String attribute, int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_add_attribute(HANDLE(), cell.HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), column);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_add_attribute(HANDLE(), cell.HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), column);
     }
     
     /**

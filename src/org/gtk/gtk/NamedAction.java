@@ -29,7 +29,7 @@ public class NamedAction extends ShortcutAction {
      * how to add actions to widgets.
      */
     public NamedAction(java.lang.String name) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_named_action_new(Interop.getAllocator().allocateUtf8String(name)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).HANDLE()), true));
     }
     
     /**

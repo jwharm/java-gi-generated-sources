@@ -297,7 +297,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * capacity).
      */
     public void setParse(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_parse(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_parse(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**

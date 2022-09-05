@@ -145,7 +145,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * then %NULL is returned.
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_attribute_value(HANDLE(), itemIndex, Interop.getAllocator().allocateUtf8String(attribute), expectedType.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_attribute_value(HANDLE(), itemIndex, Interop.allocateNativeString(attribute).HANDLE(), expectedType.HANDLE());
         return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
     }
     
@@ -157,7 +157,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * does not exist, %NULL is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_link(HANDLE(), itemIndex, Interop.getAllocator().allocateUtf8String(link));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_link(HANDLE(), itemIndex, Interop.allocateNativeString(link).HANDLE());
         return new MenuModel(ProxyFactory.get(RESULT, true));
     }
     
@@ -259,7 +259,7 @@ public class MenuModel extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMenuModelItemsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("items-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("items-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

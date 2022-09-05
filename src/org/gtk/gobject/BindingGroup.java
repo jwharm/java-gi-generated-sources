@@ -41,7 +41,7 @@ public class BindingGroup extends Object {
      * See g_object_bind_property() for more information.
      */
     public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags);
     }
     
     /**
@@ -57,7 +57,7 @@ public class BindingGroup extends Object {
      * See g_object_bind_property_with_closures() for more information.
      */
     public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind_with_closures(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags, transformTo.HANDLE(), transformFrom.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind_with_closures(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags, transformTo.HANDLE(), transformFrom.HANDLE());
     }
     
     /**

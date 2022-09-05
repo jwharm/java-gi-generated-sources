@@ -89,7 +89,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * for the launched application itself.
      */
     public void setIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_icon_name(HANDLE(), Interop.getAllocator().allocateUtf8String(iconName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
     }
     
     /**

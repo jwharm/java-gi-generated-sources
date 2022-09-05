@@ -79,7 +79,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * The name is useful for debugging purposes.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

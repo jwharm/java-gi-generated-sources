@@ -203,7 +203,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * You can pass %NULL to get an empty label widget.
      */
     public Label(java.lang.String str) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.getAllocator().allocateUtf8String(str)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.allocateNativeString(str).HANDLE()), false));
     }
     
     /**
@@ -223,7 +223,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and be activated by the mnemonic.
      */
     public static Label newWithMnemonic(java.lang.String str) {
-        return new Label(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(str)), false));
+        return new Label(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).HANDLE()), false));
     }
     
     /**
@@ -528,7 +528,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and [property@Gtk.Label:use-markup] properties.
      */
     public void setLabel(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_label(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_label(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**
@@ -572,7 +572,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See also: [method@Gtk.Label.set_text]
      */
     public void setMarkup(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**
@@ -587,7 +587,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * automatically, or explicitly using [method@Gtk.Label.set_mnemonic_widget].
      */
     public void setMarkupWithMnemonic(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup_with_mnemonic(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup_with_mnemonic(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**
@@ -662,7 +662,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See also: [method@Gtk.Label.set_markup]
      */
     public void setText(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**
@@ -674,7 +674,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * automatically, or explicitly using [method@Gtk.Label.set_mnemonic_widget].
      */
     public void setTextWithMnemonic(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text_with_mnemonic(HANDLE(), Interop.getAllocator().allocateUtf8String(str));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text_with_mnemonic(HANDLE(), Interop.allocateNativeString(str).HANDLE());
     }
     
     /**
@@ -773,7 +773,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateCurrentLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate-current-link"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-current-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -799,7 +799,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate-link"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -826,7 +826,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelCopyClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("copy-clipboard"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("copy-clipboard").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -865,7 +865,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("move-cursor"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

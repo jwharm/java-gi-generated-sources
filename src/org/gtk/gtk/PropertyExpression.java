@@ -32,7 +32,7 @@ public class PropertyExpression extends Expression {
      * The given `this_type` must have a property with `property_name`.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getProxy().unowned().HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getProxy().unowned().HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
     }
     
     /**

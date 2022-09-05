@@ -47,7 +47,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * duplicates.
      */
     public java.lang.String insert(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert(HANDLE(), Interop.getAllocator().allocateUtf8String(string));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert(HANDLE(), Interop.allocateNativeString(string).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -67,7 +67,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * if they do match.
      */
     public java.lang.String insertConst(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_const(HANDLE(), Interop.getAllocator().allocateUtf8String(string));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_const(HANDLE(), Interop.allocateNativeString(string).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -83,7 +83,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * though you should not change anything after the end of the string.
      */
     public java.lang.String insertLen(java.lang.String string, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_len(HANDLE(), Interop.getAllocator().allocateUtf8String(string), len);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_len(HANDLE(), Interop.allocateNativeString(string).HANDLE(), len);
         return RESULT.getUtf8String(0);
     }
     

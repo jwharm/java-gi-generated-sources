@@ -690,7 +690,7 @@ public class Layout extends org.gtk.gobject.Object {
      * but the markup text isn't scanned for accelerators.
      */
     public void setMarkup(java.lang.String markup, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_markup(HANDLE(), Interop.getAllocator().allocateUtf8String(markup), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE(), length);
     }
     
     /**
@@ -761,7 +761,7 @@ public class Layout extends org.gtk.gobject.Object {
      * not clear attributes.
      */
     public void setText(java.lang.String text, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE(), length);
     }
     
     /**
@@ -800,7 +800,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean writeToFile(int flags, java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_write_to_file(HANDLE(), flags, Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_write_to_file(HANDLE(), flags, Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

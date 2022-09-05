@@ -59,7 +59,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Looks up the string value associated with @key.
      */
     public java.lang.String get(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -71,7 +71,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * string %FALSE.
      */
     public boolean getBool(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_bool(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_bool(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -103,7 +103,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the double value associated with @key, or 0.
      */
     public double getDouble(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT;
     }
     
@@ -115,7 +115,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Floating point numbers are parsed with g_ascii_strtod().
      */
     public double getDoubleWithDefault(java.lang.String key, double def) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double_with_default(HANDLE(), Interop.getAllocator().allocateUtf8String(key), def);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double_with_default(HANDLE(), Interop.allocateNativeString(key).HANDLE(), def);
         return RESULT;
     }
     
@@ -139,7 +139,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the integer value of @key, or 0.
      */
     public int getInt(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT;
     }
     
@@ -148,7 +148,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * an integer, or the default value.
      */
     public int getIntWithDefault(java.lang.String key, int def) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int_with_default(HANDLE(), Interop.getAllocator().allocateUtf8String(key), def);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int_with_default(HANDLE(), Interop.allocateNativeString(key).HANDLE(), def);
         return RESULT;
     }
     
@@ -159,7 +159,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The returned value is converted to @units.
      */
     public double getLength(java.lang.String key, Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_length(HANDLE(), Interop.getAllocator().allocateUtf8String(key), unit.getValue());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_length(HANDLE(), Interop.allocateNativeString(key).HANDLE(), unit.getValue());
         return RESULT;
     }
     
@@ -334,7 +334,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns %TRUE, if a value is associated with @key.
      */
     public boolean hasKey(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_has_key(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_has_key(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return (RESULT != 0);
     }
     
@@ -348,7 +348,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_file(HANDLE(), Interop.getAllocator().allocateUtf8String(fileName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -363,7 +363,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_key_file(HANDLE(), keyFile.HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -374,14 +374,14 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Associates @value with @key.
      */
     public void set(java.lang.String key, java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set(HANDLE(), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**
      * Sets @key to a boolean value.
      */
     public void setBool(java.lang.String key, boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_bool(HANDLE(), Interop.getAllocator().allocateUtf8String(key), value ? 1 : 0);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_bool(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value ? 1 : 0);
     }
     
     /**
@@ -395,21 +395,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Sets the value of %GTK_PRINT_SETTINGS_DEFAULT_SOURCE.
      */
     public void setDefaultSource(java.lang.String defaultSource) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_default_source(HANDLE(), Interop.getAllocator().allocateUtf8String(defaultSource));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_default_source(HANDLE(), Interop.allocateNativeString(defaultSource).HANDLE());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_DITHER.
      */
     public void setDither(java.lang.String dither) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_dither(HANDLE(), Interop.getAllocator().allocateUtf8String(dither));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_dither(HANDLE(), Interop.allocateNativeString(dither).HANDLE());
     }
     
     /**
      * Sets @key to a double value.
      */
     public void setDouble(java.lang.String key, double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_double(HANDLE(), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_double(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
@@ -423,21 +423,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Sets the value of %GTK_PRINT_SETTINGS_FINISHINGS.
      */
     public void setFinishings(java.lang.String finishings) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_finishings(HANDLE(), Interop.getAllocator().allocateUtf8String(finishings));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_finishings(HANDLE(), Interop.allocateNativeString(finishings).HANDLE());
     }
     
     /**
      * Sets @key to an integer value.
      */
     public void setInt(java.lang.String key, int value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_int(HANDLE(), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_int(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
      * Associates a length in units of @unit with @key.
      */
     public void setLength(java.lang.String key, double value, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_length(HANDLE(), Interop.getAllocator().allocateUtf8String(key), value, unit.getValue());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_length(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value, unit.getValue());
     }
     
     /**
@@ -446,7 +446,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The set of media types is defined in PWG 5101.1-2002 PWG.
      */
     public void setMediaType(java.lang.String mediaType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_media_type(HANDLE(), Interop.getAllocator().allocateUtf8String(mediaType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_media_type(HANDLE(), Interop.allocateNativeString(mediaType).HANDLE());
     }
     
     /**
@@ -481,7 +481,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Sets the value of %GTK_PRINT_SETTINGS_OUTPUT_BIN.
      */
     public void setOutputBin(java.lang.String outputBin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_output_bin(HANDLE(), Interop.getAllocator().allocateUtf8String(outputBin));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_output_bin(HANDLE(), Interop.allocateNativeString(outputBin).HANDLE());
     }
     
     /**
@@ -533,7 +533,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * to @printer.
      */
     public void setPrinter(java.lang.String printer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_printer(HANDLE(), Interop.getAllocator().allocateUtf8String(printer));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_printer(HANDLE(), Interop.allocateNativeString(printer).HANDLE());
     }
     
     /**
@@ -597,7 +597,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_file(HANDLE(), Interop.getAllocator().allocateUtf8String(fileName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -616,7 +616,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * This function adds the print settings from @settings to @key_file.
      */
     public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.getAllocator().allocateUtf8String(groupName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
     }
     
     /**
@@ -625,7 +625,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * This has the same effect as setting the value to %NULL.
      */
     public void unset(java.lang.String key) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_unset(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_unset(HANDLE(), Interop.allocateNativeString(key).HANDLE());
     }
     
 }

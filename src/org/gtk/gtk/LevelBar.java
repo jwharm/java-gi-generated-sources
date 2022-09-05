@@ -141,7 +141,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * replaced by @value.
      */
     public void addOffsetValue(java.lang.String name, double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_add_offset_value(HANDLE(), Interop.getAllocator().allocateUtf8String(name), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_add_offset_value(HANDLE(), Interop.allocateNativeString(name).HANDLE(), value);
     }
     
     /**
@@ -191,7 +191,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * [method@Gtk.LevelBar.add_offset_value].
      */
     public void removeOffsetValue(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_remove_offset_value(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_remove_offset_value(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -259,7 +259,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLevelBarOffsetChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("offset-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("offset-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

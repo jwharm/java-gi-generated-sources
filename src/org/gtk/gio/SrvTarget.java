@@ -34,7 +34,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * created by #GResolver.
      */
     public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_new(Interop.getAllocator().allocateUtf8String(hostname), port, priority, weight), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).HANDLE(), port, priority, weight), true));
     }
     
     /**

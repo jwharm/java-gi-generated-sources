@@ -381,7 +381,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * gtk_widget_class_install_action().
      */
     public void actionSetEnabled(java.lang.String actionName, boolean enabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_action_set_enabled(HANDLE(), Interop.getAllocator().allocateUtf8String(actionName), enabled ? 1 : 0);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_action_set_enabled(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), enabled ? 1 : 0);
     }
     
     /**
@@ -418,7 +418,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * as returned by `g_action_get_parameter_type()`.
      */
     public boolean activateActionVariant(java.lang.String name, org.gtk.glib.Variant args) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_activate_action_variant(HANDLE(), Interop.getAllocator().allocateUtf8String(name), args.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_activate_action_variant(HANDLE(), Interop.allocateNativeString(name).HANDLE(), args.HANDLE());
         return (RESULT != 0);
     }
     
@@ -449,7 +449,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * style again.
      */
     public void addCssClass(java.lang.String cssClass) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_add_css_class(HANDLE(), Interop.getAllocator().allocateUtf8String(cssClass));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_add_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
     }
     
     /**
@@ -603,7 +603,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of the [property@Gtk.Widget:root] property on the widget.
      */
     public org.pango.Layout createPangoLayout(java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_layout(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_layout(HANDLE(), Interop.allocateNativeString(text).HANDLE());
         return new org.pango.Layout(ProxyFactory.get(RESULT, true));
     }
     
@@ -1272,7 +1272,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * bindings which cannot easily make use of the GObject structure offsets.
      */
     public org.gtk.gobject.Object getTemplateChild(Type widgetType, java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_template_child(HANDLE(), widgetType.getValue(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_template_child(HANDLE(), widgetType.getValue(), Interop.allocateNativeString(name).HANDLE());
         return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
@@ -1380,7 +1380,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns whether @css_class is currently applied to @widget.
      */
     public boolean hasCssClass(java.lang.String cssClass) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_css_class(HANDLE(), Interop.getAllocator().allocateUtf8String(cssClass));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
         return (RESULT != 0);
     }
     
@@ -1484,7 +1484,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * removed from @widget.
      */
     public void insertActionGroup(java.lang.String name, org.gtk.gio.ActionGroup group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_insert_action_group(HANDLE(), Interop.getAllocator().allocateUtf8String(name), group.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_insert_action_group(HANDLE(), Interop.allocateNativeString(name).HANDLE(), group.HANDLE());
     }
     
     /**
@@ -1794,7 +1794,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * After this, the style of @widget will stop matching for @css_class.
      */
     public void removeCssClass(java.lang.String cssClass) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_css_class(HANDLE(), Interop.getAllocator().allocateUtf8String(cssClass));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
     }
     
     /**
@@ -1898,7 +1898,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * with a %NULL cursor.
      */
     public void setCursorFromName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_cursor_from_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_cursor_from_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -2104,7 +2104,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of alphanumeric symbols, dashes and underscores will suffice.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -2252,7 +2252,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also [method@Gtk.Tooltip.set_markup].
      */
     public void setTooltipMarkup(java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_markup(HANDLE(), Interop.getAllocator().allocateUtf8String(markup));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE());
     }
     
     /**
@@ -2268,7 +2268,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also [method@Gtk.Tooltip.set_text].
      */
     public void setTooltipText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
     }
     
     /**
@@ -2439,7 +2439,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDestroy", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("destroy"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("destroy").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2462,7 +2462,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDirectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("direction-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("direction-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2485,7 +2485,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetHide", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("hide"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("hide").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2510,7 +2510,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetKeynavFailed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("keynav-failed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("keynav-failed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2541,7 +2541,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("map"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("map").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2567,7 +2567,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMnemonicActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("mnemonic-activate"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("mnemonic-activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2590,7 +2590,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMoveFocus", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("move-focus"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-focus").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2626,7 +2626,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetQueryTooltip", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("query-tooltip"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("query-tooltip").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2652,7 +2652,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetRealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("realize"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("realize").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2675,7 +2675,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetShow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("show"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("show").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2700,7 +2700,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetStateFlagsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("state-flags-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("state-flags-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2729,7 +2729,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnmap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("unmap"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unmap").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2755,7 +2755,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnrealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("unrealize"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unrealize").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

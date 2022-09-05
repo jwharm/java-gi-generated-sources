@@ -39,7 +39,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If no bookmark for @uri is found, one is created.
      */
     public void addApplication(java.lang.String uri, java.lang.String name, java.lang.String exec) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_add_application(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(exec));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_add_application(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(exec).HANDLE());
     }
     
     /**
@@ -49,7 +49,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If no bookmark for @uri is found then it is created.
      */
     public void addGroup(java.lang.String uri, java.lang.String group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_add_group(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(group));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_add_group(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(group).HANDLE());
     }
     
     /**
@@ -67,7 +67,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_added_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_added_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -82,7 +82,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_description(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_description(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -97,7 +97,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_icon(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.allocateNativeArray(href), Interop.allocateNativeArray(mimeType), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_icon(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeArray(href), Interop.allocateNativeArray(mimeType), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -114,7 +114,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_is_private(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_is_private(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -131,7 +131,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_mime_type(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_mime_type(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -146,7 +146,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_modified_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_modified_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -171,7 +171,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_title(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_title(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -186,7 +186,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_visited_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_get_visited_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -202,7 +202,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_application(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(name), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_application(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(name).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -218,7 +218,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_group(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(group), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_group(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(group).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -229,7 +229,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Looks whether the desktop bookmark has an item with its URI set to @uri.
      */
     public boolean hasItem(java.lang.String uri) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_item(HANDLE(), Interop.getAllocator().allocateUtf8String(uri));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_has_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
         return (RESULT != 0);
     }
     
@@ -256,7 +256,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_load_from_data_dirs(HANDLE(), Interop.getAllocator().allocateUtf8String(file), Interop.allocateNativeArray(fullPath), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_load_from_data_dirs(HANDLE(), Interop.allocateNativeString(file).HANDLE(), Interop.allocateNativeArray(fullPath), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -270,7 +270,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_load_from_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_load_from_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -287,7 +287,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_move_item(HANDLE(), Interop.getAllocator().allocateUtf8String(oldUri), Interop.getAllocator().allocateUtf8String(newUri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_move_item(HANDLE(), Interop.allocateNativeString(oldUri).HANDLE(), Interop.allocateNativeString(newUri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -306,7 +306,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_application(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(name), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_application(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(name).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -324,7 +324,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_group(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(group), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_group(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(group).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -336,7 +336,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_item(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_remove_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -349,7 +349,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If no bookmark for @uri is found then it is created.
      */
     public void setAddedDateTime(java.lang.String uri, DateTime added) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_added_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), added.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_added_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), added.HANDLE());
     }
     
     /**
@@ -383,7 +383,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_application_info(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(exec), count, stamp.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_application_info(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(exec).HANDLE(), count, stamp.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -398,7 +398,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If a bookmark for @uri cannot be found then it is created.
      */
     public void setDescription(java.lang.String uri, java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_description(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(description));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_description(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(description).HANDLE());
     }
     
     /**
@@ -408,7 +408,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @uri cannot be found then an item for it is created.
      */
     public void setGroups(java.lang.String uri, java.lang.String[] groups, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_groups(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.allocateNativeArray(groups), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_groups(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeArray(groups), length);
     }
     
     /**
@@ -419,7 +419,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If no bookmark for @uri is found one is created.
      */
     public void setIcon(java.lang.String uri, java.lang.String href, java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_icon(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(href), Interop.getAllocator().allocateUtf8String(mimeType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_icon(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(href).HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
     }
     
     /**
@@ -428,7 +428,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If a bookmark for @uri cannot be found then it is created.
      */
     public void setIsPrivate(java.lang.String uri, boolean isPrivate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_is_private(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), isPrivate ? 1 : 0);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_is_private(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), isPrivate ? 1 : 0);
     }
     
     /**
@@ -437,7 +437,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If a bookmark for @uri cannot be found then it is created.
      */
     public void setMimeType(java.lang.String uri, java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_mime_type(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(mimeType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_mime_type(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
     }
     
     /**
@@ -451,7 +451,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_bookmark_file_set_visited_date_time().
      */
     public void setModifiedDateTime(java.lang.String uri, DateTime modified) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_modified_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), modified.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_modified_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), modified.HANDLE());
     }
     
     /**
@@ -463,7 +463,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If a bookmark for @uri cannot be found then it is created.
      */
     public void setTitle(java.lang.String uri, java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_title(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(title));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_title(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(title).HANDLE());
     }
     
     /**
@@ -478,7 +478,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * does not affect the "modified" time.
      */
     public void setVisitedDateTime(java.lang.String uri, DateTime visited) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_visited_date_time(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), visited.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_set_visited_date_time(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), visited.HANDLE());
     }
     
     /**
@@ -487,7 +487,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_to_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bookmark_file_to_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

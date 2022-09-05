@@ -30,7 +30,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.68
      */
     public void add(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_add(HANDLE(), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_add(HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**

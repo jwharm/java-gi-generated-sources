@@ -548,7 +548,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * specified position.
      */
     public void setIconFromIconName(EntryIconPosition iconPos, java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_from_icon_name(HANDLE(), iconPos.getValue(), Interop.getAllocator().allocateUtf8String(iconName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_from_icon_name(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(iconName).HANDLE());
     }
     
     /**
@@ -579,7 +579,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * [method@Gtk.Entry.set_icon_tooltip_text].
      */
     public void setIconTooltipMarkup(EntryIconPosition iconPos, java.lang.String tooltip) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_markup(HANDLE(), iconPos.getValue(), Interop.getAllocator().allocateUtf8String(tooltip));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_markup(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(tooltip).HANDLE());
     }
     
     /**
@@ -602,7 +602,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * achieves the same result.
      */
     public void setIconTooltipText(EntryIconPosition iconPos, java.lang.String tooltip) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_text(HANDLE(), iconPos.getValue(), Interop.getAllocator().allocateUtf8String(tooltip));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_text(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(tooltip).HANDLE());
     }
     
     /**
@@ -664,7 +664,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * contents of the `GtkEntry`.
      */
     public void setPlaceholderText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_placeholder_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_placeholder_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
     }
     
     /**
@@ -744,7 +744,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -767,7 +767,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconPress", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("icon-press"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("icon-press").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -791,7 +791,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconRelease", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("icon-release"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("icon-release").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

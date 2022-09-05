@@ -83,7 +83,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newIdentifier(java.lang.String identifier) {
-        return new TimeZone(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_identifier(Interop.getAllocator().allocateUtf8String(identifier)), true));
+        return new TimeZone(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).HANDLE()), true));
     }
     
     /**

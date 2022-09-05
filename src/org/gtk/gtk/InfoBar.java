@@ -119,7 +119,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * but usually you don't need it.
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_button(HANDLE(), Interop.getAllocator().allocateUtf8String(buttonText), responseId);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_button(HANDLE(), Interop.allocateNativeString(buttonText).HANDLE(), responseId);
         return new Button(ProxyFactory.get(RESULT, false));
     }
     
@@ -255,7 +255,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalInfoBarClose", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("close"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("close").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -282,7 +282,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalInfoBarResponse", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("response"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("response").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -75,7 +75,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean initEnd(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_end(HANDLE(), glyphItem.HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_end(HANDLE(), glyphItem.HANDLE(), Interop.allocateNativeString(text).HANDLE());
         return (RESULT != 0);
     }
     
@@ -86,7 +86,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean initStart(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_start(HANDLE(), glyphItem.HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_start(HANDLE(), glyphItem.HANDLE(), Interop.allocateNativeString(text).HANDLE());
         return (RESULT != 0);
     }
     

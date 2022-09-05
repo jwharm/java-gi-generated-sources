@@ -34,7 +34,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * (separated from the address by a `%`).
      */
     public InetSocketAddress(java.lang.String address, int port) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new_from_string(Interop.getAllocator().allocateUtf8String(address), port), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).HANDLE(), port), true));
     }
     
     /**

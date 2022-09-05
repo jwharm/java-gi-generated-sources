@@ -92,7 +92,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForFilename(java.lang.String filename) {
-        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForResource(java.lang.String resourcePath) {
-        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * If the picture cannot be described textually, set this property to %NULL.
      */
     public void setAlternativeText(java.lang.String alternativeText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_alternative_text(HANDLE(), Interop.getAllocator().allocateUtf8String(alternativeText));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_alternative_text(HANDLE(), Interop.allocateNativeString(alternativeText).HANDLE());
     }
     
     /**
@@ -216,7 +216,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls [method@Gtk.Picture.set_file].
      */
     public void setFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_filename(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
     }
     
     /**
@@ -262,7 +262,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls [method@Gtk.Picture.set_file].
      */
     public void setResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
 }

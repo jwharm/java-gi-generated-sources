@@ -36,7 +36,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * the socks5, socks4a, and socks4 proxy types.
      */
     public void setDefaultProxy(java.lang.String defaultProxy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_default_proxy(HANDLE(), Interop.getAllocator().allocateUtf8String(defaultProxy));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_default_proxy(HANDLE(), Interop.allocateNativeString(defaultProxy).HANDLE());
     }
     
     /**
@@ -60,7 +60,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * types.
      */
     public void setUriProxy(java.lang.String uriScheme, java.lang.String proxy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_uri_proxy(HANDLE(), Interop.getAllocator().allocateUtf8String(uriScheme), Interop.getAllocator().allocateUtf8String(proxy));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_uri_proxy(HANDLE(), Interop.allocateNativeString(uriScheme).HANDLE(), Interop.allocateNativeString(proxy).HANDLE());
     }
     
 }

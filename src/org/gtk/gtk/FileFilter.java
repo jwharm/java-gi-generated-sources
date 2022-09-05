@@ -98,7 +98,7 @@ public class FileFilter extends Filter implements Buildable {
      * Adds a rule allowing a given mime type to @filter.
      */
     public void addMimeType(java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_mime_type(HANDLE(), Interop.getAllocator().allocateUtf8String(mimeType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
     }
     
     /**
@@ -109,7 +109,7 @@ public class FileFilter extends Filter implements Buildable {
      * other platforms, it doesn't.
      */
     public void addPattern(java.lang.String pattern) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_pattern(HANDLE(), Interop.getAllocator().allocateUtf8String(pattern));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_pattern(HANDLE(), Interop.allocateNativeString(pattern).HANDLE());
     }
     
     /**
@@ -133,7 +133,7 @@ public class FileFilter extends Filter implements Buildable {
      * are *always* case-insensitive.
      */
     public void addSuffix(java.lang.String suffix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_suffix(HANDLE(), Interop.getAllocator().allocateUtf8String(suffix));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_suffix(HANDLE(), Interop.allocateNativeString(suffix).HANDLE());
     }
     
     /**
@@ -153,7 +153,7 @@ public class FileFilter extends Filter implements Buildable {
      * if there is a selectable list of filters.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

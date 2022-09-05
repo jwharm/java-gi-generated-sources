@@ -39,7 +39,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * as one of the elements in the list.
      */
     public org.gtk.glib.SList applyAttrs(java.lang.String text, AttrList list) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_apply_attrs(HANDLE(), Interop.getAllocator().allocateUtf8String(text), list.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_apply_attrs(HANDLE(), Interop.allocateNativeString(text).HANDLE(), list.HANDLE());
         return new org.gtk.glib.SList(ProxyFactory.get(RESULT, true));
     }
     
@@ -68,7 +68,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also [method@Pango.GlyphString.get_logical_widths].
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_get_logical_widths(HANDLE(), Interop.getAllocator().allocateUtf8String(text), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_get_logical_widths(HANDLE(), Interop.allocateNativeString(text).HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
     }
     
     /**
@@ -76,7 +76,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * give the effect of typographic letter spacing.
      */
     public void letterSpace(java.lang.String text, LogAttr[] logAttrs, int letterSpacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_letter_space(HANDLE(), Interop.getAllocator().allocateUtf8String(text), Interop.allocateNativeArray(logAttrs), letterSpacing);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_letter_space(HANDLE(), Interop.allocateNativeString(text).HANDLE(), Interop.allocateNativeArray(logAttrs), letterSpacing);
     }
     
     /**
@@ -93,7 +93,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * it internally.)
      */
     public GlyphItem split(java.lang.String text, int splitIndex) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_split(HANDLE(), Interop.getAllocator().allocateUtf8String(text), splitIndex);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_split(HANDLE(), Interop.allocateNativeString(text).HANDLE(), splitIndex);
         return new GlyphItem(ProxyFactory.get(RESULT, true));
     }
     

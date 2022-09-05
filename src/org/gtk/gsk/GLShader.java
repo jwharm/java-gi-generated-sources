@@ -142,7 +142,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(java.lang.String resourcePath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * of the uniform, or -1 if it was not found.
      */
     public int findUniformByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_find_uniform_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_find_uniform_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return RESULT;
     }
     

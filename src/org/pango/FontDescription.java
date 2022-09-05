@@ -244,7 +244,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * separated list of family names for this field.
      */
     public void setFamily(java.lang.String family) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family(HANDLE(), Interop.getAllocator().allocateUtf8String(family));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family(HANDLE(), Interop.allocateNativeString(family).HANDLE());
     }
     
     /**
@@ -257,7 +257,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * string such as a C string literal, or if @desc is only needed temporarily.
      */
     public void setFamilyStatic(java.lang.String family) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family_static(HANDLE(), Interop.getAllocator().allocateUtf8String(family));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family_static(HANDLE(), Interop.allocateNativeString(family).HANDLE());
     }
     
     /**
@@ -340,7 +340,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * for example [hb_ot_var_get_axis_infos](https://harfbuzz.github.io/harfbuzz-hb-ot-var.html#hb-ot-var-get-axis-infos).
      */
     public void setVariations(java.lang.String variations) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations(HANDLE(), Interop.getAllocator().allocateUtf8String(variations));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations(HANDLE(), Interop.allocateNativeString(variations).HANDLE());
     }
     
     /**
@@ -354,7 +354,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * or if @desc is only needed temporarily.
      */
     public void setVariationsStatic(java.lang.String variations) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations_static(HANDLE(), Interop.getAllocator().allocateUtf8String(variations));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations_static(HANDLE(), Interop.allocateNativeString(variations).HANDLE());
     }
     
     /**

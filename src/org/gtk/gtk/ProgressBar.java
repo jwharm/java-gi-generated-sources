@@ -210,7 +210,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * [property@Gtk.ProgressBar:show-text] is %TRUE.
      */
     public void setText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
     }
     
 }

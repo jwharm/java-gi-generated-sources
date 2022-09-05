@@ -244,7 +244,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Uri parseRelative(java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_parse_relative(HANDLE(), Interop.getAllocator().allocateUtf8String(uriRef), flags, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_parse_relative(HANDLE(), Interop.allocateNativeString(uriRef).HANDLE(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

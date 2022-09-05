@@ -21,7 +21,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      * any.
      */
     public default DBusInterface getInterface(java.lang.String objectPath, java.lang.String interfaceName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath), Interop.getAllocator().allocateUtf8String(interfaceName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_interface(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE());
         return new DBusInterface.DBusInterfaceImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -29,7 +29,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      * Gets the #GDBusObject at @object_path, if any.
      */
     public default DBusObject getObject(java.lang.String objectPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_object(HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_object(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE());
         return new DBusObject.DBusObjectImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -69,7 +69,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerInterfaceAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("interface-added"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -95,7 +95,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerInterfaceRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("interface-removed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -118,7 +118,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerObjectAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("object-added"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("object-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +141,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerObjectRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("object-removed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("object-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

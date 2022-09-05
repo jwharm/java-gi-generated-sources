@@ -142,7 +142,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * (most notably application uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.getAllocator().allocateUtf8String(applicationId), flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See #GOptionEntry for more documentation of the arguments.
      */
     public void addMainOption(java.lang.String longName, byte shortName, int flags, org.gtk.glib.OptionArg arg, java.lang.String description, java.lang.String argDescription) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_add_main_option(HANDLE(), Interop.getAllocator().allocateUtf8String(longName), shortName, flags, arg.getValue(), Interop.getAllocator().allocateUtf8String(description), Interop.getAllocator().allocateUtf8String(argDescription));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_add_main_option(HANDLE(), Interop.allocateNativeString(longName).HANDLE(), shortName, flags, arg.getValue(), Interop.allocateNativeString(description).HANDLE(), Interop.allocateNativeString(argDescription).HANDLE());
     }
     
     /**
@@ -276,7 +276,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * finalized.
      */
     public void bindBusyProperty(org.gtk.gobject.Object object, java.lang.String property) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_bind_busy_property(HANDLE(), object.HANDLE(), Interop.getAllocator().allocateUtf8String(property));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_bind_busy_property(HANDLE(), object.HANDLE(), Interop.allocateNativeString(property).HANDLE());
     }
     
     /**
@@ -444,7 +444,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * and it must have the %G_APPLICATION_HANDLES_OPEN flag set.
      */
     public void open(File[] files, int nFiles, java.lang.String hint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_open(HANDLE(), Interop.allocateNativeArray(files), nFiles, Interop.getAllocator().allocateUtf8String(hint));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_open(HANDLE(), Interop.allocateNativeArray(files), nFiles, Interop.allocateNativeString(hint).HANDLE());
     }
     
     /**
@@ -630,7 +630,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_withdraw_notification().
      */
     public void sendNotification(java.lang.String id, Notification notification) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_send_notification(HANDLE(), Interop.getAllocator().allocateUtf8String(id), notification.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_send_notification(HANDLE(), Interop.allocateNativeString(id).HANDLE(), notification.HANDLE());
     }
     
     /**
@@ -643,7 +643,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_id_is_valid().
      */
     public void setApplicationId(java.lang.String applicationId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_application_id(HANDLE(), Interop.getAllocator().allocateUtf8String(applicationId));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_application_id(HANDLE(), Interop.allocateNativeString(applicationId).HANDLE());
     }
     
     /**
@@ -690,7 +690,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_set_description() for more information.
      */
     public void setOptionContextDescription(java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_description(HANDLE(), Interop.getAllocator().allocateUtf8String(description));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_description(HANDLE(), Interop.allocateNativeString(description).HANDLE());
     }
     
     /**
@@ -702,7 +702,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_new() for more information about @parameter_string.
      */
     public void setOptionContextParameterString(java.lang.String parameterString) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_parameter_string(HANDLE(), Interop.getAllocator().allocateUtf8String(parameterString));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_parameter_string(HANDLE(), Interop.allocateNativeString(parameterString).HANDLE());
     }
     
     /**
@@ -711,7 +711,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * See g_option_context_set_summary() for more information.
      */
     public void setOptionContextSummary(java.lang.String summary) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_summary(HANDLE(), Interop.getAllocator().allocateUtf8String(summary));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_option_context_summary(HANDLE(), Interop.allocateNativeString(summary).HANDLE());
     }
     
     /**
@@ -750,7 +750,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * before chaining up to the parent implementation.
      */
     public void setResourceBasePath(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_resource_base_path(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_set_resource_base_path(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
     /**
@@ -759,7 +759,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_bind_busy_property().
      */
     public void unbindBusyProperty(org.gtk.gobject.Object object, java.lang.String property) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_unbind_busy_property(HANDLE(), object.HANDLE(), Interop.getAllocator().allocateUtf8String(property));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_unbind_busy_property(HANDLE(), object.HANDLE(), Interop.allocateNativeString(property).HANDLE());
     }
     
     /**
@@ -791,7 +791,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * there is no need to explicitly withdraw the notification in that case.
      */
     public void withdrawNotification(java.lang.String id) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_withdraw_notification(HANDLE(), Interop.getAllocator().allocateUtf8String(id));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_withdraw_notification(HANDLE(), Interop.allocateNativeString(id).HANDLE());
     }
     
     @FunctionalInterface
@@ -812,7 +812,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -837,7 +837,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationCommandLine", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("command-line"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("command-line").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -900,7 +900,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationHandleLocalOptions", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("handle-local-options"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("handle-local-options").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -927,7 +927,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationNameLost", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("name-lost"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("name-lost").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -951,7 +951,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationOpen", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("open"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("open").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -975,7 +975,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationShutdown", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("shutdown"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("shutdown").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -999,7 +999,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationStartup", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("startup"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("startup").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -363,7 +363,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_intern_string()), and is thus not duplicated when setting the #GValue.
      */
     public void setInternedString(java.lang.String vString) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_interned_string(HANDLE(), Interop.getAllocator().allocateUtf8String(vString));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_interned_string(HANDLE(), Interop.allocateNativeString(vString).HANDLE());
     }
     
     /**
@@ -430,14 +430,14 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      * is more appropriate.
      */
     public void setStaticString(java.lang.String vString) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_static_string(HANDLE(), Interop.getAllocator().allocateUtf8String(vString));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_static_string(HANDLE(), Interop.allocateNativeString(vString).HANDLE());
     }
     
     /**
      * Set the contents of a %G_TYPE_STRING #GValue to a copy of @v_string.
      */
     public void setString(java.lang.String vString) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_string(HANDLE(), Interop.getAllocator().allocateUtf8String(vString));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_set_string(HANDLE(), Interop.allocateNativeString(vString).HANDLE());
     }
     
     /**
@@ -511,7 +511,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sets the contents of a %G_TYPE_STRING #GValue to @v_string.
      */
     public void takeString(java.lang.String vString) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_take_string(HANDLE(), Interop.getAllocator().allocateUtf8String(vString));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_take_string(HANDLE(), Interop.allocateNativeString(vString).HANDLE());
     }
     
     /**

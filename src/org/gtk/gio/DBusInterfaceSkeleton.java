@@ -30,7 +30,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_export(HANDLE(), connection.HANDLE(), Interop.getAllocator().allocateUtf8String(objectPath), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_export(HANDLE(), connection.HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -195,7 +195,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("g-authorize-method"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("g-authorize-method").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

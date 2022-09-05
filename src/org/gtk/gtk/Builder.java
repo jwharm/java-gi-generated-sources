@@ -218,7 +218,7 @@ public class Builder extends org.gtk.gobject.Object {
      * user interface descriptions that are shipped as part of your program.
      */
     public static Builder newFromFile(java.lang.String filename) {
-        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_file(Interop.getAllocator().allocateUtf8String(filename)), true));
+        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_file(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**
@@ -228,7 +228,7 @@ public class Builder extends org.gtk.gobject.Object {
      * description, then the program will be aborted.
      */
     public static Builder newFromResource(java.lang.String resourcePath) {
-        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -242,7 +242,7 @@ public class Builder extends org.gtk.gobject.Object {
      * from untrusted sources.
      */
     public Builder(java.lang.String string, long length) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_string(Interop.getAllocator().allocateUtf8String(string), length), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).HANDLE(), length), true));
     }
     
     /**
@@ -267,7 +267,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -293,7 +293,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromResource(java.lang.String resourcePath) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -319,7 +319,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addFromString(java.lang.String buffer, long length) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_string(HANDLE(), Interop.getAllocator().allocateUtf8String(buffer), length, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_from_string(HANDLE(), Interop.allocateNativeString(buffer).HANDLE(), length, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -341,7 +341,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromFile(java.lang.String filename, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeArray(objectIds), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -363,7 +363,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromResource(java.lang.String resourcePath, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath), Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE(), Interop.allocateNativeArray(objectIds), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -384,7 +384,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromString(java.lang.String buffer, long length, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_string(HANDLE(), Interop.getAllocator().allocateUtf8String(buffer), length, Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_add_objects_from_string(HANDLE(), Interop.allocateNativeString(buffer).HANDLE(), length, Interop.allocateNativeArray(objectIds), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -402,7 +402,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Closure createClosure(java.lang.String functionName, int flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_create_closure(HANDLE(), Interop.getAllocator().allocateUtf8String(functionName), flags, object.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_create_closure(HANDLE(), Interop.allocateNativeString(functionName).HANDLE(), flags, object.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -414,7 +414,7 @@ public class Builder extends org.gtk.gobject.Object {
      * referenced just like any other object built by builder.
      */
     public void exposeObject(java.lang.String name, org.gtk.gobject.Object object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_expose_object(HANDLE(), Interop.getAllocator().allocateUtf8String(name), object.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_expose_object(HANDLE(), Interop.allocateNativeString(name).HANDLE(), object.HANDLE());
     }
     
     /**
@@ -426,7 +426,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean extendWithTemplate(org.gtk.gobject.Object object, Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_extend_with_template(HANDLE(), object.HANDLE(), templateType.getValue(), Interop.getAllocator().allocateUtf8String(buffer), length, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_extend_with_template(HANDLE(), object.HANDLE(), templateType.getValue(), Interop.allocateNativeString(buffer).HANDLE(), length, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -448,7 +448,7 @@ public class Builder extends org.gtk.gobject.Object {
      * of the returned object.
      */
     public org.gtk.gobject.Object getObject(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_object(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_object(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
@@ -487,7 +487,7 @@ public class Builder extends org.gtk.gobject.Object {
      * the `GtkBuildable` interface on a type.
      */
     public org.gtk.gobject.Type getTypeFromName(java.lang.String typeName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_type_from_name(HANDLE(), Interop.getAllocator().allocateUtf8String(typeName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_type_from_name(HANDLE(), Interop.allocateNativeString(typeName).HANDLE());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -519,7 +519,7 @@ public class Builder extends org.gtk.gobject.Object {
      * Sets the translation domain of @builder.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_set_translation_domain(HANDLE(), Interop.getAllocator().allocateUtf8String(domain));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_set_translation_domain(HANDLE(), Interop.allocateNativeString(domain).HANDLE());
     }
     
     /**
@@ -537,7 +537,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean valueFromString(org.gtk.gobject.ParamSpec pspec, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_value_from_string(HANDLE(), pspec.HANDLE(), Interop.getAllocator().allocateUtf8String(string), value.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_value_from_string(HANDLE(), pspec.HANDLE(), Interop.allocateNativeString(string).HANDLE(), value.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -558,7 +558,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean valueFromStringType(Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_value_from_string_type(HANDLE(), type.getValue(), Interop.getAllocator().allocateUtf8String(string), value.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_value_from_string_type(HANDLE(), type.getValue(), Interop.allocateNativeString(string).HANDLE(), value.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

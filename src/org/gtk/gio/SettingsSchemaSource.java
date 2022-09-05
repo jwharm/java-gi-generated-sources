@@ -45,7 +45,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * If the schema isn't found, %NULL is returned.
      */
     public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_lookup(HANDLE(), Interop.getAllocator().allocateUtf8String(schemaId), recursive ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_lookup(HANDLE(), Interop.allocateNativeString(schemaId).HANDLE(), recursive ? 1 : 0);
         return new SettingsSchema(ProxyFactory.get(RESULT, true));
     }
     

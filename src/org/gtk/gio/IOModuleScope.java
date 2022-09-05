@@ -24,7 +24,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.interop.ResourceBase 
      * or g_io_modules_load_all_in_directory_with_scope().
      */
     public void block(java.lang.String basename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_scope_block(HANDLE(), Interop.getAllocator().allocateUtf8String(basename));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_scope_block(HANDLE(), Interop.allocateNativeString(basename).HANDLE());
     }
     
     /**

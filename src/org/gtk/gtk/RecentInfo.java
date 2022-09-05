@@ -23,7 +23,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_create_app_info(HANDLE(), Interop.getAllocator().allocateUtf8String(appName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_create_app_info(HANDLE(), Interop.allocateNativeString(appName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -159,7 +159,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether an application registered this resource using @app_name.
      */
     public boolean hasApplication(java.lang.String appName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_application(HANDLE(), Interop.getAllocator().allocateUtf8String(appName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_application(HANDLE(), Interop.allocateNativeString(appName).HANDLE());
         return (RESULT != 0);
     }
     
@@ -168,7 +168,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * registered for the recently used item @info.
      */
     public boolean hasGroup(java.lang.String groupName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_group(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_group(HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
         return (RESULT != 0);
     }
     

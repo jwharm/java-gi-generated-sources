@@ -80,7 +80,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * until the action is destroyed.
      */
     public PropertyAction(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_property_action_new(Interop.getAllocator().allocateUtf8String(name), object.HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_property_action_new(Interop.allocateNativeString(name).HANDLE(), object.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
     }
     
 }

@@ -68,7 +68,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Note that the description is not shown in the UI.
      */
     public int getContextId(java.lang.String contextDescription) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_get_context_id(HANDLE(), Interop.getAllocator().allocateUtf8String(contextDescription));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_get_context_id(HANDLE(), Interop.allocateNativeString(contextDescription).HANDLE());
         return RESULT;
     }
     
@@ -88,7 +88,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Pushes a new message onto a statusbar’s stack.
      */
     public int push(int contextId, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_push(HANDLE(), contextId, Interop.getAllocator().allocateUtf8String(text));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_push(HANDLE(), contextId, Interop.allocateNativeString(text).HANDLE());
         return RESULT;
     }
     
@@ -125,7 +125,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPopped", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("text-popped"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("text-popped").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -148,7 +148,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPushed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("text-pushed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("text-pushed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

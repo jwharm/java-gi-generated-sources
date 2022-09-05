@@ -54,7 +54,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using data read from the given @resource_path to pass to `GtkBuilder`.
      */
     public BuilderListItemFactory(BuilderScope scope, java.lang.String resourcePath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**

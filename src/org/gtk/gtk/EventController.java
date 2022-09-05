@@ -116,7 +116,7 @@ public class EventController extends org.gtk.gobject.Object {
      * Sets a name on the controller that can be used for debugging.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

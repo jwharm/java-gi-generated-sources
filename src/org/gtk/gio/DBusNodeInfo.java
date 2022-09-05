@@ -30,7 +30,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * The cost of this function is O(n) in number of interfaces.
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_lookup_interface(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_lookup_interface(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new DBusInterfaceInfo(ProxyFactory.get(RESULT, false));
     }
     

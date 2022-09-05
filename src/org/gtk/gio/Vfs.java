@@ -23,7 +23,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * Gets a #GFile for @path.
      */
     public File getFileForPath(java.lang.String path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_path(HANDLE(), Interop.getAllocator().allocateUtf8String(path));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -35,7 +35,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * is malformed or if the URI scheme is not supported.
      */
     public File getFileForUri(java.lang.String uri) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_uri(HANDLE(), Interop.getAllocator().allocateUtf8String(uri));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -53,7 +53,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * be parsed by the #GVfs module.
      */
     public File parseName(java.lang.String parseName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_parse_name(HANDLE(), Interop.getAllocator().allocateUtf8String(parseName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_parse_name(HANDLE(), Interop.allocateNativeString(parseName).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -62,7 +62,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * g_vfs_register_uri_scheme().
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_unregister_uri_scheme(HANDLE(), Interop.getAllocator().allocateUtf8String(scheme));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_unregister_uri_scheme(HANDLE(), Interop.allocateNativeString(scheme).HANDLE());
         return (RESULT != 0);
     }
     

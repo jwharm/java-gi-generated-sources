@@ -94,7 +94,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(java.lang.String text, TimeZone defaultTz) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_iso8601(Interop.getAllocator().allocateUtf8String(text), defaultTz.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).HANDLE(), defaultTz.HANDLE()), true));
     }
     
     /**
@@ -442,7 +442,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * \\%Ob and \\%Oh are GNU strftime() extensions. Since: 2.56
      */
     public java.lang.String format(java.lang.String format) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_format(HANDLE(), Interop.getAllocator().allocateUtf8String(format));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_format(HANDLE(), Interop.allocateNativeString(format).HANDLE());
         return RESULT.getUtf8String(0);
     }
     

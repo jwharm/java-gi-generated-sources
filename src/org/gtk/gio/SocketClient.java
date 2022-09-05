@@ -60,7 +60,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * specific handshake.
      */
     public void addApplicationProxy(java.lang.String protocol) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_add_application_proxy(HANDLE(), Interop.getAllocator().allocateUtf8String(protocol));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_add_application_proxy(HANDLE(), Interop.allocateNativeString(protocol).HANDLE());
     }
     
     /**
@@ -138,7 +138,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_host(HANDLE(), Interop.getAllocator().allocateUtf8String(hostAndPort), defaultPort, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_host(HANDLE(), Interop.allocateNativeString(hostAndPort).HANDLE(), defaultPort, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -175,7 +175,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_service(HANDLE(), Interop.getAllocator().allocateUtf8String(domain), Interop.getAllocator().allocateUtf8String(service), cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_service(HANDLE(), Interop.allocateNativeString(domain).HANDLE(), Interop.allocateNativeString(service).HANDLE(), cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -219,7 +219,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_uri(HANDLE(), Interop.getAllocator().allocateUtf8String(uri), defaultPort, cancellable.HANDLE(), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), defaultPort, cancellable.HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -492,7 +492,7 @@ public class SocketClient extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketClientEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("event"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("event").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

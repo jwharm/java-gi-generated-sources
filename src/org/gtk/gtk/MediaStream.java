@@ -42,7 +42,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See that function for details.
      */
     public void errorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_error_valist(HANDLE(), domain.getValue(), code, Interop.getAllocator().allocateUtf8String(format), args);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_error_valist(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(format).HANDLE(), args);
     }
     
     /**

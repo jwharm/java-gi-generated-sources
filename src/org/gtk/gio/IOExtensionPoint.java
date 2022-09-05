@@ -19,7 +19,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      * Finds a #GIOExtension for an extension point by name.
      */
     public IOExtension getExtensionByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extension_by_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extension_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new IOExtension(ProxyFactory.get(RESULT, false));
     }
     

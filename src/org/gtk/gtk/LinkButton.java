@@ -48,14 +48,14 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * Creates a new `GtkLinkButton` with the URI as its text.
      */
     public LinkButton(java.lang.String uri) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.getAllocator().allocateUtf8String(uri)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).HANDLE()), false));
     }
     
     /**
      * Creates a new `GtkLinkButton` containing a label.
      */
     public LinkButton(java.lang.String uri, java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.getAllocator().allocateUtf8String(uri), Interop.getAllocator().allocateUtf8String(label)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -85,7 +85,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * As a side-effect this unsets the “visited” state of the button.
      */
     public void setUri(java.lang.String uri) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_set_uri(HANDLE(), Interop.getAllocator().allocateUtf8String(uri));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_set_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
     }
     
     /**
@@ -121,7 +121,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLinkButtonActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate-link"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

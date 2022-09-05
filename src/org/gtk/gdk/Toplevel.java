@@ -184,7 +184,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * low-level function.
      */
     public default void setStartupId(java.lang.String startupId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_startup_id(HANDLE(), Interop.getAllocator().allocateUtf8String(startupId));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_startup_id(HANDLE(), Interop.allocateNativeString(startupId).HANDLE());
     }
     
     /**
@@ -194,7 +194,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * in lists of windows, etc.
      */
     public default void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_title(HANDLE(), Interop.getAllocator().allocateUtf8String(title));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
     }
     
     /**
@@ -267,7 +267,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalToplevelComputeSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("compute-size"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("compute-size").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

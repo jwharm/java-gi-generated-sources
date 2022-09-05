@@ -100,7 +100,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      */
     public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_parse(HANDLE(), Interop.getAllocator().allocateUtf8String(text), textLen, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_parse(HANDLE(), Interop.allocateNativeString(text).HANDLE(), textLen, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

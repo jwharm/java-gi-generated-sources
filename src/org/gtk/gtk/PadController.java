@@ -97,7 +97,7 @@ public class PadController extends EventController {
      * feedback.
      */
     public void setAction(PadActionType type, int index, int mode, java.lang.String label, java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_set_action(HANDLE(), type.getValue(), index, mode, Interop.getAllocator().allocateUtf8String(label), Interop.getAllocator().allocateUtf8String(actionName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_set_action(HANDLE(), type.getValue(), index, mode, Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
     }
     
     /**

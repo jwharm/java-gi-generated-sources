@@ -29,7 +29,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * Creates a new themed icon for @iconname.
      */
     public ThemedIcon(java.lang.String iconname) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.getAllocator().allocateUtf8String(iconname)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).HANDLE()), true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
-        return new ThemedIcon(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.getAllocator().allocateUtf8String(iconname)), true));
+        return new ThemedIcon(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).HANDLE()), true));
     }
     
     /**
@@ -67,7 +67,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * to g_icon_hash().
      */
     public void appendName(java.lang.String iconname) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_append_name(HANDLE(), Interop.getAllocator().allocateUtf8String(iconname));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_append_name(HANDLE(), Interop.allocateNativeString(iconname).HANDLE());
     }
     
     /**
@@ -77,7 +77,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * to g_icon_hash().
      */
     public void prependName(java.lang.String iconname) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_prepend_name(HANDLE(), Interop.getAllocator().allocateUtf8String(iconname));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_prepend_name(HANDLE(), Interop.allocateNativeString(iconname).HANDLE());
     }
     
 }

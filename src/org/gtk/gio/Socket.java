@@ -541,7 +541,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean joinMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.getAllocator().allocateUtf8String(iface), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -567,7 +567,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean joinMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.getAllocator().allocateUtf8String(iface), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.allocateNativeString(iface).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -587,7 +587,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean leaveMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.getAllocator().allocateUtf8String(iface), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -604,7 +604,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean leaveMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.getAllocator().allocateUtf8String(iface), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.allocateNativeString(iface).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

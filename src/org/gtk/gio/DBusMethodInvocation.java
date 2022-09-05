@@ -141,7 +141,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnDbusError(java.lang.String errorName, java.lang.String errorMessage) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_dbus_error(HANDLE(), Interop.getAllocator().allocateUtf8String(errorName), Interop.getAllocator().allocateUtf8String(errorMessage));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_dbus_error(HANDLE(), Interop.allocateNativeString(errorName).HANDLE(), Interop.allocateNativeString(errorMessage).HANDLE());
     }
     
     /**
@@ -152,7 +152,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnErrorLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_literal(HANDLE(), domain.getValue(), code, Interop.getAllocator().allocateUtf8String(message));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_literal(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(message).HANDLE());
     }
     
     /**
@@ -164,7 +164,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnErrorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_valist(HANDLE(), domain.getValue(), code, Interop.getAllocator().allocateUtf8String(format), varArgs);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_valist(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(format).HANDLE(), varArgs);
     }
     
     /**

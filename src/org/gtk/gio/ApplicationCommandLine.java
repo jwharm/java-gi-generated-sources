@@ -187,7 +187,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * the invoking process rather than the local process.
      */
     public File createFileForArg(java.lang.String arg) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_create_file_for_arg(HANDLE(), Interop.getAllocator().allocateUtf8String(arg));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_create_file_for_arg(HANDLE(), Interop.allocateNativeString(arg).HANDLE());
         return new File.FileImpl(ProxyFactory.get(RESULT, true));
     }
     
@@ -285,7 +285,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * long as @cmdline exists.
      */
     public java.lang.String getenv(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_getenv(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_getenv(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return RESULT.getUtf8String(0);
     }
     

@@ -785,7 +785,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_source_tag() if not called already.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

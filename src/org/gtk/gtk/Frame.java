@@ -66,7 +66,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * If @label is %NULL, the label is omitted.
      */
     public Frame(java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_new(Interop.getAllocator().allocateUtf8String(label)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_new(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * label widget.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_label(HANDLE(), Interop.getAllocator().allocateUtf8String(label));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
     }
     
     /**

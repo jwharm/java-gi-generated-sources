@@ -28,6 +28,13 @@ public class Interop {
         return allocator;
     }
 
+    public static MemorySegmentProxy allocateNativeString(String string) {
+        if (!initialized) {
+            initialize();
+        }
+        return new MemorySegmentProxy(allocator.allocateUtf8String(string));
+    }
+
     /**
      * Allocates and initializes a NULL-terminated array of strings (NUL-terminated utf8 char*).
      */

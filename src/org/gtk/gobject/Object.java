@@ -37,7 +37,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_valist(objectType.getValue(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs), true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * A #GObject can have multiple bindings.
      */
     public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags);
         return new Binding(ProxyFactory.get(RESULT, false));
     }
     
@@ -115,7 +115,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * function pointers.
      */
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property_with_closures(HANDLE(), Interop.getAllocator().allocateUtf8String(sourceProperty), target.HANDLE(), Interop.getAllocator().allocateUtf8String(targetProperty), flags, transformTo.HANDLE(), transformFrom.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property_with_closures(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags, transformTo.HANDLE(), transformFrom.HANDLE());
         return new Binding(ProxyFactory.get(RESULT, false));
     }
     
@@ -148,7 +148,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets a named field from the objects table of associations (see g_object_set_data()).
      */
     public jdk.incubator.foreign.MemoryAddress getData(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_data(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_data(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT;
     }
     
@@ -171,7 +171,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * bindings, g_object_get() is much more convenient for C programming.
      */
     public void getProperty(java.lang.String propertyName, Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
     }
     
     /**
@@ -193,7 +193,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * See g_object_get().
      */
     public void getValist(java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_valist(HANDLE(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_valist(HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
     }
     
     /**
@@ -227,7 +227,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * called.
      */
     public void notify(java.lang.String propertyName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_notify(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_notify(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
     }
     
     /**
@@ -337,14 +337,14 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * for @key in your program, to avoid the #GQuark storage growing unbounded.
      */
     public void setData(java.lang.String key, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_data(HANDLE(), Interop.getAllocator().allocateUtf8String(key), data);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_data(HANDLE(), Interop.allocateNativeString(key).HANDLE(), data);
     }
     
     /**
      * Sets a property on an object.
      */
     public void setProperty(java.lang.String propertyName, Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_property(HANDLE(), Interop.getAllocator().allocateUtf8String(propertyName), value.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
     }
     
     /**
@@ -365,7 +365,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sets properties on an object.
      */
     public void setValist(java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_valist(HANDLE(), Interop.getAllocator().allocateUtf8String(firstPropertyName), varArgs);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_valist(HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
     }
     
     /**
@@ -383,7 +383,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * without invoking the association's destroy handler.
      */
     public jdk.incubator.foreign.MemoryAddress stealData(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_steal_data(HANDLE(), Interop.getAllocator().allocateUtf8String(key));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_steal_data(HANDLE(), Interop.allocateNativeString(key).HANDLE());
         return RESULT;
     }
     
@@ -555,7 +555,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("notify"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("notify").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

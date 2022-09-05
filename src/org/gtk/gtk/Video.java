@@ -53,7 +53,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * See that function for details.
      */
     public static Video newForFilename(java.lang.String filename) {
-        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_filename(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [ctor@Gtk.Video.new_for_file].
      */
     public static Video newForResource(java.lang.String resourcePath) {
-        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Video(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls gtk_video_set_file(),
      */
     public void setFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_filename(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
     }
     
     /**
@@ -157,7 +157,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [method@Gtk.Video.set_file].
      */
     public void setResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
 }

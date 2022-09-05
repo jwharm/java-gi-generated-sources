@@ -118,7 +118,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * g_settings_schema_list_keys().
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_key(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_key(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new SettingsSchemaKey(ProxyFactory.get(RESULT, true));
     }
     
@@ -142,7 +142,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if @schema has a key named @name.
      */
     public boolean hasKey(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_has_key(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_has_key(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return (RESULT != 0);
     }
     

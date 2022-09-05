@@ -32,7 +32,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Creates a new `GtkPrintJob`.
      */
     public PrintJob(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_new(Interop.getAllocator().allocateUtf8String(title), printer.HANDLE(), settings.HANDLE(), pageSetup.HANDLE()), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).HANDLE(), printer.HANDLE(), settings.HANDLE(), pageSetup.HANDLE()), true));
     }
     
     /**
@@ -267,7 +267,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_source_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_source_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -308,7 +308,7 @@ public class PrintJob extends org.gtk.gobject.Object {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintJobStatusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("status-changed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("status-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

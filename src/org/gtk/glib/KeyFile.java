@@ -45,7 +45,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_boolean(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_boolean(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -64,7 +64,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_comment(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_comment(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -82,7 +82,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_double(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_double(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -96,7 +96,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_int64(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_int64(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -115,7 +115,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_integer(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_integer(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -134,7 +134,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * this function.
      */
     public java.lang.String getLocaleForKey(java.lang.String groupName, java.lang.String key, java.lang.String locale) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_locale_for_key(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(locale));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_locale_for_key(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(locale).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -154,7 +154,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_locale_string(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(locale), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_locale_string(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(locale).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -181,7 +181,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_string(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_string(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -195,7 +195,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_uint64(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_uint64(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -213,7 +213,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_value(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_get_value(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -224,7 +224,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Looks whether the key file has the group @group_name.
      */
     public boolean hasGroup(java.lang.String groupName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_has_group(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_has_group(HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
         return (RESULT != 0);
     }
     
@@ -242,7 +242,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_has_key(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_has_key(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -268,7 +268,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromData(java.lang.String data, long length, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_data(HANDLE(), Interop.getAllocator().allocateUtf8String(data), length, flags, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_data(HANDLE(), Interop.allocateNativeString(data).HANDLE(), length, flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -284,7 +284,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_data_dirs(HANDLE(), Interop.getAllocator().allocateUtf8String(file), Interop.allocateNativeArray(fullPath), flags, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_data_dirs(HANDLE(), Interop.allocateNativeString(file).HANDLE(), Interop.allocateNativeArray(fullPath), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -304,7 +304,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_dirs(HANDLE(), Interop.getAllocator().allocateUtf8String(file), Interop.allocateNativeArray(searchDirs), Interop.allocateNativeArray(fullPath), flags, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_dirs(HANDLE(), Interop.allocateNativeString(file).HANDLE(), Interop.allocateNativeArray(searchDirs), Interop.allocateNativeArray(fullPath), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -323,7 +323,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromFile(java.lang.String file, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_file(HANDLE(), Interop.getAllocator().allocateUtf8String(file), flags, GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_load_from_file(HANDLE(), Interop.allocateNativeString(file).HANDLE(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -346,7 +346,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_comment(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_comment(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -359,7 +359,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_group(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_group(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -371,7 +371,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_key(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_remove_key(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -389,7 +389,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_save_to_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_save_to_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -401,7 +401,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setBoolean(java.lang.String groupName, java.lang.String key, boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_boolean(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), value ? 1 : 0);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_boolean(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), value ? 1 : 0);
     }
     
     /**
@@ -410,7 +410,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @group_name is %NULL, the start_group is used.
      */
     public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_boolean_list(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.allocateNativeArray(list), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_boolean_list(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeArray(list), length);
     }
     
     /**
@@ -425,7 +425,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean setComment(java.lang.String groupName, java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_comment(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(comment), GERROR);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_comment(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(comment).HANDLE(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -437,7 +437,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setDouble(java.lang.String groupName, java.lang.String key, double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_double(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_double(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
@@ -445,7 +445,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * @group_name.  If @key cannot be found then it is created.
      */
     public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_double_list(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, list), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_double_list(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, list), length);
     }
     
     /**
@@ -453,7 +453,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setInt64(java.lang.String groupName, java.lang.String key, long value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_int64(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_int64(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
@@ -461,7 +461,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setInteger(java.lang.String groupName, java.lang.String key, int value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_integer(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_integer(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
@@ -469,7 +469,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_integer_list(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, list), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_integer_list(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, list), length);
     }
     
     /**
@@ -486,7 +486,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the translation for @key cannot be found then it is created.
      */
     public void setLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_locale_string(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(locale), Interop.getAllocator().allocateUtf8String(string));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_locale_string(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(locale).HANDLE(), Interop.allocateNativeString(string).HANDLE());
     }
     
     /**
@@ -495,7 +495,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * it is created.
      */
     public void setLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String[] list, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_locale_string_list(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(locale), Interop.allocateNativeArray(list), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_locale_string_list(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(locale).HANDLE(), Interop.allocateNativeArray(list), length);
     }
     
     /**
@@ -506,7 +506,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * that need escaping, such as newlines.
      */
     public void setString(java.lang.String groupName, java.lang.String key, java.lang.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_string(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(string));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_string(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(string).HANDLE());
     }
     
     /**
@@ -515,7 +515,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @group_name cannot be found then it is created.
      */
     public void setStringList(java.lang.String groupName, java.lang.String key, java.lang.String[] list, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_string_list(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.allocateNativeArray(list), length);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_string_list(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeArray(list), length);
     }
     
     /**
@@ -523,7 +523,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setUint64(java.lang.String groupName, java.lang.String key, long value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_uint64(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), value);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_uint64(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
     }
     
     /**
@@ -535,7 +535,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_key_file_set_string().
      */
     public void setValue(java.lang.String groupName, java.lang.String key, java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_value(HANDLE(), Interop.getAllocator().allocateUtf8String(groupName), Interop.getAllocator().allocateUtf8String(key), Interop.getAllocator().allocateUtf8String(value));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_set_value(HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
     }
     
     /**

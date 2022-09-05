@@ -48,7 +48,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * If an invalid path string is passed in, %NULL is returned.
      */
     public TreePath(java.lang.String path) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_string(Interop.getAllocator().allocateUtf8String(path)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).HANDLE()), true));
     }
     
     /**

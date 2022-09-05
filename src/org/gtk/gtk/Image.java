@@ -80,7 +80,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * is appropriate for displaying the file.
      */
     public static Image newFromFile(java.lang.String filename) {
-        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_file(Interop.getAllocator().allocateUtf8String(filename)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).HANDLE()), false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public static Image newFromIconName(java.lang.String iconName) {
-        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_icon_name(Interop.getAllocator().allocateUtf8String(iconName)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).HANDLE()), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * appropriate for displaying the file.
      */
     public static Image newFromResource(java.lang.String resourcePath) {
-        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), false));
+        return new Image(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
     }
     
     /**
@@ -236,7 +236,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_file] for details.
      */
     public void setFromFile(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_file(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
     }
     
     /**
@@ -254,7 +254,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_icon_name] for details.
      */
     public void setFromIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_icon_name(HANDLE(), Interop.getAllocator().allocateUtf8String(iconName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
     }
     
     /**
@@ -285,7 +285,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_resource] for details.
      */
     public void setFromResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
     /**

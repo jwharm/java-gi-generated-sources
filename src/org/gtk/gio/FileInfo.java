@@ -96,7 +96,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * UTF-8.
      */
     public java.lang.String getAttributeAsString(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_as_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_as_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -105,7 +105,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * contain a boolean value, %FALSE will be returned.
      */
     public boolean getAttributeBoolean(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_boolean(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_boolean(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return (RESULT != 0);
     }
     
@@ -114,7 +114,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * not contain a byte string, %NULL will be returned.
      */
     public java.lang.String getAttributeByteString(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_byte_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_byte_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -124,7 +124,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * 0 will be returned.
      */
     public int getAttributeInt32(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_int32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_int32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT;
     }
     
@@ -134,7 +134,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * 0 will be returned.
      */
     public long getAttributeInt64(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_int64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_int64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT;
     }
     
@@ -143,7 +143,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * not contain a #GObject, %NULL will be returned.
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_object(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_object(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
     }
     
@@ -151,7 +151,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the attribute status for an attribute key.
      */
     public FileAttributeStatus getAttributeStatus(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_status(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_status(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return FileAttributeStatus.fromValue(RESULT);
     }
     
@@ -160,7 +160,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * not contain a string, %NULL will be returned.
      */
     public java.lang.String getAttributeString(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT.getUtf8String(0);
     }
     
@@ -168,7 +168,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the attribute type for an attribute key.
      */
     public FileAttributeType getAttributeType(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_type(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_type(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return FileAttributeType.fromValue(RESULT);
     }
     
@@ -178,7 +178,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * 0 will be returned.
      */
     public int getAttributeUint32(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_uint32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_uint32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT;
     }
     
@@ -188,7 +188,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * 0 will be returned.
      */
     public long getAttributeUint64(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_uint64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_uint64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return RESULT;
     }
     
@@ -349,7 +349,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Checks if a file info structure has an attribute named @attribute.
      */
     public boolean hasAttribute(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_has_attribute(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_has_attribute(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
         return (RESULT != 0);
     }
     
@@ -358,7 +358,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * specified @name_space.
      */
     public boolean hasNamespace(java.lang.String nameSpace) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_has_namespace(HANDLE(), Interop.getAllocator().allocateUtf8String(nameSpace));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_has_namespace(HANDLE(), Interop.allocateNativeString(nameSpace).HANDLE());
         return (RESULT != 0);
     }
     
@@ -366,7 +366,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Removes all cases of @attribute from @info if it exists.
      */
     public void removeAttribute(java.lang.String attribute) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_remove_attribute(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_remove_attribute(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
     }
     
     /**
@@ -383,7 +383,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * attribute, use %G_FILE_ATTRIBUTE_TYPE_INVALID for @type.
      */
     public void setAttribute(java.lang.String attribute, FileAttributeType type, jdk.incubator.foreign.MemoryAddress valueP) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), type.getValue(), valueP);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), type.getValue(), valueP);
     }
     
     /**
@@ -391,7 +391,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeBoolean(java.lang.String attribute, boolean attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_boolean(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue ? 1 : 0);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_boolean(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue ? 1 : 0);
     }
     
     /**
@@ -399,7 +399,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeByteString(java.lang.String attribute, java.lang.String attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_byte_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), Interop.getAllocator().allocateUtf8String(attrValue));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_byte_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), Interop.allocateNativeString(attrValue).HANDLE());
     }
     
     /**
@@ -407,7 +407,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeInt32(java.lang.String attribute, int attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_int32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_int32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue);
     }
     
     /**
@@ -415,7 +415,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeInt64(java.lang.String attribute, long attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_int64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_int64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue);
     }
     
     /**
@@ -430,7 +430,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeObject(java.lang.String attribute, org.gtk.gobject.Object attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_object(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_object(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue.HANDLE());
     }
     
     /**
@@ -442,7 +442,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * is returned and @info is unchanged.
      */
     public boolean setAttributeStatus(java.lang.String attribute, FileAttributeStatus status) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_status(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), status.getValue());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_status(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), status.getValue());
         return (RESULT != 0);
     }
     
@@ -451,7 +451,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeString(java.lang.String attribute, java.lang.String attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_string(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), Interop.getAllocator().allocateUtf8String(attrValue));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_string(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), Interop.allocateNativeString(attrValue).HANDLE());
     }
     
     /**
@@ -461,7 +461,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sinze: 2.22
      */
     public void setAttributeStringv(java.lang.String attribute, java.lang.String[] attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_stringv(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), Interop.allocateNativeArray(attrValue));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_stringv(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), Interop.allocateNativeArray(attrValue));
     }
     
     /**
@@ -469,7 +469,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeUint32(java.lang.String attribute, int attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_uint32(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_uint32(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue);
     }
     
     /**
@@ -477,7 +477,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * if possible.
      */
     public void setAttributeUint64(java.lang.String attribute, long attrValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_uint64(HANDLE(), Interop.getAllocator().allocateUtf8String(attribute), attrValue);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_attribute_uint64(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), attrValue);
     }
     
     /**
@@ -485,7 +485,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * See %G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE.
      */
     public void setContentType(java.lang.String contentType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_content_type(HANDLE(), Interop.getAllocator().allocateUtf8String(contentType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_content_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE());
     }
     
     /**
@@ -502,7 +502,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * See %G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME.
      */
     public void setDisplayName(java.lang.String displayName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_display_name(HANDLE(), Interop.getAllocator().allocateUtf8String(displayName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_display_name(HANDLE(), Interop.allocateNativeString(displayName).HANDLE());
     }
     
     /**
@@ -510,7 +510,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * See %G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME.
      */
     public void setEditName(java.lang.String editName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_edit_name(HANDLE(), Interop.getAllocator().allocateUtf8String(editName));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_edit_name(HANDLE(), Interop.allocateNativeString(editName).HANDLE());
     }
     
     /**
@@ -559,7 +559,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * See %G_FILE_ATTRIBUTE_STANDARD_NAME.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**
@@ -591,7 +591,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * to the given symlink target.
      */
     public void setSymlinkTarget(java.lang.String symlinkTarget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_symlink_target(HANDLE(), Interop.getAllocator().allocateUtf8String(symlinkTarget));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_set_symlink_target(HANDLE(), Interop.allocateNativeString(symlinkTarget).HANDLE());
     }
     
     /**

@@ -73,7 +73,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * ```
      */
     public void addClass(java.lang.String className) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_add_class(HANDLE(), Interop.getAllocator().allocateUtf8String(className));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_add_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
     }
     
     /**
@@ -155,7 +155,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * given class name.
      */
     public boolean hasClass(java.lang.String className) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_has_class(HANDLE(), Interop.getAllocator().allocateUtf8String(className));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_has_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
         return (RESULT != 0);
     }
     
@@ -163,7 +163,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Looks up and resolves a color name in the @context color map.
      */
     public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_lookup_color(HANDLE(), Interop.getAllocator().allocateUtf8String(colorName), color.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_lookup_color(HANDLE(), Interop.allocateNativeString(colorName).HANDLE(), color.HANDLE());
         return (RESULT != 0);
     }
     
@@ -171,7 +171,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Removes @class_name from @context.
      */
     public void removeClass(java.lang.String className) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_remove_class(HANDLE(), Interop.getAllocator().allocateUtf8String(className));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_remove_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
     }
     
     /**

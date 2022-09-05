@@ -59,7 +59,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
-        return new Texture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.getAllocator().allocateUtf8String(resourcePath)), true));
+        return new Texture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -113,7 +113,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * gdk-pixbuf library.
      */
     public boolean saveToPng(java.lang.String filename) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
         return (RESULT != 0);
     }
     
@@ -144,7 +144,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * GTK will attempt to store data without loss.
      */
     public boolean saveToTiff(java.lang.String filename) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff(HANDLE(), Interop.getAllocator().allocateUtf8String(filename));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
         return (RESULT != 0);
     }
     

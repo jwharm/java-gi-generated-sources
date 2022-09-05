@@ -49,7 +49,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
     public InetAddress(java.lang.String string) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.getAllocator().allocateUtf8String(string)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).HANDLE()), true));
     }
     
     /**

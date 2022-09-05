@@ -71,7 +71,7 @@ public class Notification extends org.gtk.gobject.Object {
      * resending @notification.
      */
     public Notification(java.lang.String title) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_new(Interop.getAllocator().allocateUtf8String(title)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_new(Interop.allocateNativeString(title).HANDLE()), true));
     }
     
     /**
@@ -85,7 +85,7 @@ public class Notification extends org.gtk.gobject.Object {
      * for @detailed_action.
      */
     public void addButton(java.lang.String label, java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button(HANDLE(), Interop.getAllocator().allocateUtf8String(label), Interop.getAllocator().allocateUtf8String(detailedAction));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
     }
     
     /**
@@ -96,14 +96,14 @@ public class Notification extends org.gtk.gobject.Object {
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button_with_target_value(HANDLE(), Interop.getAllocator().allocateUtf8String(label), Interop.getAllocator().allocateUtf8String(action), target.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button_with_target_value(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(action).HANDLE(), target.HANDLE());
     }
     
     /**
      * Sets the body of @notification to @body.
      */
     public void setBody(java.lang.String body) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_body(HANDLE(), Interop.getAllocator().allocateUtf8String(body));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_body(HANDLE(), Interop.allocateNativeString(body).HANDLE());
     }
     
     /**
@@ -115,7 +115,7 @@ public class Notification extends org.gtk.gobject.Object {
      * Standard categories are [listed in the specification](https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
      */
     public void setCategory(java.lang.String category) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_category(HANDLE(), Interop.getAllocator().allocateUtf8String(category));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_category(HANDLE(), Interop.allocateNativeString(category).HANDLE());
     }
     
     /**
@@ -132,7 +132,7 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultAction(java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action(HANDLE(), Interop.getAllocator().allocateUtf8String(detailedAction));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action(HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
     }
     
     /**
@@ -147,7 +147,7 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultActionAndTargetValue(java.lang.String action, org.gtk.glib.Variant target) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action_and_target_value(HANDLE(), Interop.getAllocator().allocateUtf8String(action), target.HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action_and_target_value(HANDLE(), Interop.allocateNativeString(action).HANDLE(), target.HANDLE());
     }
     
     /**
@@ -169,7 +169,7 @@ public class Notification extends org.gtk.gobject.Object {
      * Sets the title of @notification to @title.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_title(HANDLE(), Interop.getAllocator().allocateUtf8String(title));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
     }
     
 }

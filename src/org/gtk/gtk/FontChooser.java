@@ -133,7 +133,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Sets the currently-selected font.
      */
     public default void setFont(java.lang.String fontname) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_font(HANDLE(), Interop.getAllocator().allocateUtf8String(fontname));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_font(HANDLE(), Interop.allocateNativeString(fontname).HANDLE());
     }
     
     /**
@@ -178,7 +178,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Sets the language to use for font features.
      */
     public default void setLanguage(java.lang.String language) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_language(HANDLE(), Interop.getAllocator().allocateUtf8String(language));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_language(HANDLE(), Interop.allocateNativeString(language).HANDLE());
     }
     
     /**
@@ -194,7 +194,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * The @text is used to show how the selected font looks.
      */
     public default void setPreviewText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_preview_text(HANDLE(), Interop.getAllocator().allocateUtf8String(text));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_preview_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
     }
     
     /**
@@ -225,7 +225,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontChooserFontActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("font-activated"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("font-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

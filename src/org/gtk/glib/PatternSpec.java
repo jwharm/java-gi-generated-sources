@@ -19,7 +19,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * Compiles a pattern to a #GPatternSpec.
      */
     public PatternSpec(java.lang.String pattern) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.getAllocator().allocateUtf8String(pattern)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).HANDLE()), true));
     }
     
     /**
@@ -66,7 +66,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_utf8_strreverse() function to reverse UTF-8 encoded strings.
      */
     public boolean match(long stringLength, java.lang.String string, java.lang.String stringReversed) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match(HANDLE(), stringLength, Interop.getAllocator().allocateUtf8String(string), Interop.getAllocator().allocateUtf8String(stringReversed));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match(HANDLE(), stringLength, Interop.allocateNativeString(string).HANDLE(), Interop.allocateNativeString(stringReversed).HANDLE());
         return (RESULT != 0);
     }
     
@@ -76,7 +76,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_pattern_match() instead while supplying the reversed string.
      */
     public boolean matchString(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match_string(HANDLE(), Interop.getAllocator().allocateUtf8String(string));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match_string(HANDLE(), Interop.allocateNativeString(string).HANDLE());
         return (RESULT != 0);
     }
     

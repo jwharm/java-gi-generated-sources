@@ -113,7 +113,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Creates a new expander using @label as the text of the label.
      */
     public Expander(java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.getAllocator().allocateUtf8String(label)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
-        return new Expander(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new Expander(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -218,7 +218,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * This will also clear any previously set labels.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_label(HANDLE(), Interop.getAllocator().allocateUtf8String(label));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
     }
     
     /**
@@ -270,7 +270,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalExpanderActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("activate"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

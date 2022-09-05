@@ -58,7 +58,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_method(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_method(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new DBusMethodInfo(ProxyFactory.get(RESULT, false));
     }
     
@@ -69,7 +69,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_property(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_property(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new DBusPropertyInfo(ProxyFactory.get(RESULT, false));
     }
     
@@ -80,7 +80,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_signal(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_signal(HANDLE(), Interop.allocateNativeString(name).HANDLE());
         return new DBusSignalInfo(ProxyFactory.get(RESULT, false));
     }
     

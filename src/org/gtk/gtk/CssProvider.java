@@ -78,7 +78,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromPath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_path(HANDLE(), Interop.getAllocator().allocateUtf8String(path));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
     }
     
     /**
@@ -88,7 +88,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_resource(HANDLE(), Interop.getAllocator().allocateUtf8String(resourcePath));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
     }
     
     /**
@@ -99,7 +99,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * mechanism to load the theme that GTK uses for loading its own theme.
      */
     public void loadNamed(java.lang.String name, java.lang.String variant) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_named(HANDLE(), Interop.getAllocator().allocateUtf8String(name), Interop.getAllocator().allocateUtf8String(variant));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_named(HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(variant).HANDLE());
     }
     
     /**
@@ -145,7 +145,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCssProviderParsingError", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("parsing-error"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("parsing-error").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

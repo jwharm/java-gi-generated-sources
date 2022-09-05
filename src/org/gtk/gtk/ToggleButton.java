@@ -102,7 +102,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * Creates a new toggle button with a text label.
      */
     public static ToggleButton newWithLabel(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.getAllocator().allocateUtf8String(label)), false));
+        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalToggleButtonToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("toggled"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

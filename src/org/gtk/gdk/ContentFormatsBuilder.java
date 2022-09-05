@@ -44,7 +44,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * Appends @mime_type to @builder if it has not already been added.
      */
     public void addMimeType(java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_add_mime_type(HANDLE(), Interop.getAllocator().allocateUtf8String(mimeType));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_add_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
     }
     
     /**

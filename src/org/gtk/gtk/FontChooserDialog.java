@@ -36,7 +36,7 @@ public class FontChooserDialog extends Dialog implements Accessible, Buildable, 
      * Creates a new `GtkFontChooserDialog`.
      */
     public FontChooserDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_dialog_new(Interop.getAllocator().allocateUtf8String(title), parent.HANDLE()), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
 }

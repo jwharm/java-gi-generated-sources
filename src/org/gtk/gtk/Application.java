@@ -102,7 +102,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_new(Interop.getAllocator().allocateUtf8String(applicationId), flags), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
     }
     
     /**
@@ -146,7 +146,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * for more information.
      */
     public org.gtk.gio.Menu getMenuById(java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menu_by_id(HANDLE(), Interop.getAllocator().allocateUtf8String(id));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menu_by_id(HANDLE(), Interop.allocateNativeString(id).HANDLE());
         return new org.gtk.gio.Menu(ProxyFactory.get(RESULT, false));
     }
     
@@ -212,7 +212,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * this window to find out more about why the action is inhibited.
      */
     public int inhibit(Window window, int flags, java.lang.String reason) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_inhibit(HANDLE(), window.HANDLE(), flags, Interop.getAllocator().allocateUtf8String(reason));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_inhibit(HANDLE(), window.HANDLE(), flags, Interop.allocateNativeString(reason).HANDLE());
         return RESULT;
     }
     
@@ -244,7 +244,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * `g_action_print_detailed_name()`.
      */
     public void setAccelsForAction(java.lang.String detailedActionName, java.lang.String[] accels) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_set_accels_for_action(HANDLE(), Interop.getAllocator().allocateUtf8String(detailedActionName), Interop.allocateNativeArray(accels));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_set_accels_for_action(HANDLE(), Interop.allocateNativeString(detailedActionName).HANDLE(), Interop.allocateNativeArray(accels));
     }
     
     /**
@@ -304,7 +304,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationQueryEnd", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("query-end"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("query-end").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -328,7 +328,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("window-added"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("window-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -354,7 +354,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.getAllocator().allocateUtf8String("window-removed"), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("window-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

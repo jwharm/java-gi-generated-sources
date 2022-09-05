@@ -76,7 +76,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerEnum(java.lang.String name, EnumValue constStaticValues) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_enum(HANDLE(), Interop.getAllocator().allocateUtf8String(name), constStaticValues.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_enum(HANDLE(), Interop.allocateNativeString(name).HANDLE(), constStaticValues.HANDLE());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -93,7 +93,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerFlags(java.lang.String name, FlagsValue constStaticValues) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_flags(HANDLE(), Interop.getAllocator().allocateUtf8String(name), constStaticValues.HANDLE());
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_flags(HANDLE(), Interop.allocateNativeString(name).HANDLE(), constStaticValues.HANDLE());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -114,7 +114,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerType(Type parentType, java.lang.String typeName, TypeInfo typeInfo, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_type(HANDLE(), parentType.getValue(), Interop.getAllocator().allocateUtf8String(typeName), typeInfo.HANDLE(), flags);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_type(HANDLE(), parentType.getValue(), Interop.allocateNativeString(typeName).HANDLE(), typeInfo.HANDLE(), flags);
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -122,7 +122,7 @@ public class TypeModule extends Object implements TypePlugin {
      * Sets the name for a #GTypeModule
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_set_name(HANDLE(), Interop.getAllocator().allocateUtf8String(name));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
     }
     
     /**

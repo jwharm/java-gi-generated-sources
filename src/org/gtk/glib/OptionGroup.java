@@ -40,7 +40,7 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_set_translation_domain(HANDLE(), Interop.getAllocator().allocateUtf8String(domain));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_set_translation_domain(HANDLE(), Interop.allocateNativeString(domain).HANDLE());
     }
     
     /**

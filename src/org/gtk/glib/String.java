@@ -18,7 +18,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GString, initialized with the given string.
      */
     public String(java.lang.String init) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new(Interop.getAllocator().allocateUtf8String(init)), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new(Interop.allocateNativeString(init).HANDLE()), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * bytes.
      */
     public String(java.lang.String init, long len) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new_len(Interop.getAllocator().allocateUtf8String(init), len), true));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new_len(Interop.allocateNativeString(init).HANDLE(), len), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * it if necessary.
      */
     public String append(java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append(HANDLE(), Interop.getAllocator().allocateUtf8String(val));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append(HANDLE(), Interop.allocateNativeString(val).HANDLE());
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -74,7 +74,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * makes g_string_append_len() equivalent to g_string_append().
      */
     public String appendLen(java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_len(HANDLE(), Interop.getAllocator().allocateUtf8String(val), len);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_len(HANDLE(), Interop.allocateNativeString(val).HANDLE(), len);
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -92,7 +92,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * are reserved in URIs using URI-style escape sequences.
      */
     public String appendUriEscaped(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_uri_escaped(HANDLE(), Interop.getAllocator().allocateUtf8String(unescaped), Interop.getAllocator().allocateUtf8String(reservedCharsAllowed), allowUtf8 ? 1 : 0);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_uri_escaped(HANDLE(), Interop.allocateNativeString(unescaped).HANDLE(), Interop.allocateNativeString(reservedCharsAllowed).HANDLE(), allowUtf8 ? 1 : 0);
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -103,7 +103,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * as a va_list.
      */
     public void appendVprintf(java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_vprintf(HANDLE(), Interop.getAllocator().allocateUtf8String(format), args);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_vprintf(HANDLE(), Interop.allocateNativeString(format).HANDLE(), args);
     }
     
     /**
@@ -129,7 +129,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * have to worry about having enough space to copy the string.
      */
     public String assign(java.lang.String rval) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_assign(HANDLE(), Interop.getAllocator().allocateUtf8String(rval));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_assign(HANDLE(), Interop.allocateNativeString(rval).HANDLE());
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -190,7 +190,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * expanding it if necessary.
      */
     public String insert(long pos, java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert(HANDLE(), pos, Interop.getAllocator().allocateUtf8String(val));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE());
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -215,7 +215,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @pos is -1, bytes are inserted at the end of the string.
      */
     public String insertLen(long pos, java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert_len(HANDLE(), pos, Interop.getAllocator().allocateUtf8String(val), len);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert_len(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE(), len);
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -232,7 +232,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Overwrites part of a string, lengthening it if necessary.
      */
     public String overwrite(long pos, java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite(HANDLE(), pos, Interop.getAllocator().allocateUtf8String(val));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE());
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -241,7 +241,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will work with embedded nuls.
      */
     public String overwriteLen(long pos, java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite_len(HANDLE(), pos, Interop.getAllocator().allocateUtf8String(val), len);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite_len(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE(), len);
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -250,7 +250,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * expanding it if necessary.
      */
     public String prepend(java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend(HANDLE(), Interop.getAllocator().allocateUtf8String(val));
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend(HANDLE(), Interop.allocateNativeString(val).HANDLE());
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -275,7 +275,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * makes g_string_prepend_len() equivalent to g_string_prepend().
      */
     public String prependLen(java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend_len(HANDLE(), Interop.getAllocator().allocateUtf8String(val), len);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend_len(HANDLE(), Interop.allocateNativeString(val).HANDLE(), len);
         return new String(ProxyFactory.get(RESULT, false));
     }
     
@@ -300,7 +300,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * not work correctly in earlier versions.
      */
     public int replace(java.lang.String find, java.lang.String replace, int limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_replace(HANDLE(), Interop.getAllocator().allocateUtf8String(find), Interop.getAllocator().allocateUtf8String(replace), limit);
+        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_replace(HANDLE(), Interop.allocateNativeString(find).HANDLE(), Interop.allocateNativeString(replace).HANDLE(), limit);
         return RESULT;
     }
     
@@ -330,7 +330,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * the arguments to the format string are passed as a va_list.
      */
     public void vprintf(java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_vprintf(HANDLE(), Interop.getAllocator().allocateUtf8String(format), args);
+        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_vprintf(HANDLE(), Interop.allocateNativeString(format).HANDLE(), args);
     }
     
 }

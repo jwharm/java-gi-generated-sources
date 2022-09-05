@@ -25,7 +25,7 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkShortcutLabel` with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.getAllocator().allocateUtf8String(accelerator)), false));
+        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).HANDLE()), false));
     }
     
     /**
@@ -48,14 +48,14 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Sets the accelerator to be displayed by @self.
      */
     public void setAccelerator(java.lang.String accelerator) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_accelerator(HANDLE(), Interop.getAllocator().allocateUtf8String(accelerator));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_accelerator(HANDLE(), Interop.allocateNativeString(accelerator).HANDLE());
     }
     
     /**
      * Sets the text to be displayed by @self when no accelerator is set.
      */
     public void setDisabledText(java.lang.String disabledText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_disabled_text(HANDLE(), Interop.getAllocator().allocateUtf8String(disabledText));
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_disabled_text(HANDLE(), Interop.allocateNativeString(disabledText).HANDLE());
     }
     
 }
