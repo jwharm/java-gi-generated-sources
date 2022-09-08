@@ -51,7 +51,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        super(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values)), true));
+        super(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true));
     }
     
     /**
@@ -205,7 +205,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * properties are passed in.
      */
     public void getv(int nProperties, java.lang.String[] names, Value[] values) {
-        gtk_h.g_object_getv(handle(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
+        gtk_h.g_object_getv(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
     }
     
     /**
@@ -377,7 +377,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * properties are passed in.
      */
     public void setv(int nProperties, java.lang.String[] names, Value[] values) {
-        gtk_h.g_object_setv(handle(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
+        gtk_h.g_object_setv(handle(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle());
     }
     
     /**

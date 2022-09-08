@@ -121,7 +121,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Computes the four vertices of a #graphene_rect_t.
      */
     public void getVertices(Vec2[] vertices) {
-        gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices));
+        gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
     }
     
     /**

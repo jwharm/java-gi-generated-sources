@@ -483,7 +483,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * reordered.
      */
     public default void rowsReorderedWithLength(TreePath path, TreeIter iter, int[] newOrder, int length) {
-        gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder), length);
+        gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle(), length);
     }
     
     /**

@@ -246,7 +246,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * `g_action_print_detailed_name()`.
      */
     public void setAccelsForAction(java.lang.String detailedActionName, java.lang.String[] accels) {
-        gtk_h.gtk_application_set_accels_for_action(handle(), Interop.allocateNativeString(detailedActionName).handle(), Interop.allocateNativeArray(accels));
+        gtk_h.gtk_application_set_accels_for_action(handle(), Interop.allocateNativeString(detailedActionName).handle(), Interop.allocateNativeArray(accels).handle());
     }
     
     /**

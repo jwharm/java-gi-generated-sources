@@ -77,7 +77,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also [method@Pango.GlyphItem.get_logical_widths].
      */
     public void getLogicalWidths(java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
-        gtk_h.pango_glyph_string_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), length, embeddingLevel, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
+        gtk_h.pango_glyph_string_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), length, embeddingLevel, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
     }
     
     /**

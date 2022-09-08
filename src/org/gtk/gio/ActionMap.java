@@ -72,7 +72,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * ]|
      */
     public default void addActionEntries(ActionEntry[] entries, int nEntries, jdk.incubator.foreign.MemoryAddress userData) {
-        gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries), nEntries, userData);
+        gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
     }
     
     /**

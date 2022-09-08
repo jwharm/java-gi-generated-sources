@@ -48,7 +48,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * @ignore_hosts argument is interpreted.
      */
     public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
-        gtk_h.g_simple_proxy_resolver_set_ignore_hosts(handle(), Interop.allocateNativeArray(ignoreHosts));
+        gtk_h.g_simple_proxy_resolver_set_ignore_hosts(handle(), Interop.allocateNativeArray(ignoreHosts).handle());
     }
     
     /**

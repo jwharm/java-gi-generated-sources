@@ -37,7 +37,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new path with the given @indices array of @length.
      */
     public TreePath(int[] indices, long length) {
-        super(References.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices), length), true));
+        super(References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true));
     }
     
     /**

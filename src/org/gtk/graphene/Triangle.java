@@ -150,7 +150,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * a point in 3D space.
      */
     public Triangle initFromFloat(float[] a, float[] b, float[] c) {
-        var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c));
+        var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c)).handle());
         return new Triangle(References.get(RESULT, false));
     }
     

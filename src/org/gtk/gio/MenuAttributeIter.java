@@ -51,7 +51,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * be unreffed using g_variant_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outName, org.gtk.glib.Variant[] value) {
-        var RESULT = gtk_h.g_menu_attribute_iter_get_next(handle(), Interop.allocateNativeArray(outName), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_menu_attribute_iter_get_next(handle(), Interop.allocateNativeArray(outName).handle(), Interop.allocateNativeArray(value).handle());
         return (RESULT != 0);
     }
     

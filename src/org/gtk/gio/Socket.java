@@ -659,7 +659,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receive(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_receive(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_receive(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -677,7 +677,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receiveFrom(SocketAddress[] address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_receive_from(handle(), Interop.allocateNativeArray(address), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_from(handle(), Interop.allocateNativeArray(address).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -736,7 +736,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public int receiveMessages(InputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_receive_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -750,7 +750,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receiveWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_receive_with_blocking(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_with_blocking(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -775,7 +775,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long send(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_send(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_send(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -828,7 +828,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendMessage(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_send_message(handle(), address.handle(), Interop.allocateNativeArray(vectors), numVectors, Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_send_message(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -873,7 +873,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public int sendMessages(OutputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_send_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_send_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -889,7 +889,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendTo(SocketAddress address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_send_to(handle(), address.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_send_to(handle(), address.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -903,7 +903,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_socket_send_with_blocking(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_send_with_blocking(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

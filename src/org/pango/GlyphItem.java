@@ -70,7 +70,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also [method@Pango.GlyphString.get_logical_widths].
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
-        gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
+        gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
     }
     
     /**
@@ -78,7 +78,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * give the effect of typographic letter spacing.
      */
     public void letterSpace(java.lang.String text, LogAttr[] logAttrs, int letterSpacing) {
-        gtk_h.pango_glyph_item_letter_space(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logAttrs), letterSpacing);
+        gtk_h.pango_glyph_item_letter_space(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logAttrs).handle(), letterSpacing);
     }
     
     /**

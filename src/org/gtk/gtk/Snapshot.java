@@ -45,7 +45,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * The four sides of the border can have different widths and colors.
      */
     public void appendBorder(org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        gtk_h.gtk_snapshot_append_border(handle(), outline.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor));
+        gtk_h.gtk_snapshot_append_border(handle(), outline.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth)).handle(), Interop.allocateNativeArray(borderColor).handle());
     }
     
     /**
@@ -73,7 +73,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Appends a conic gradient node with the given stops to @snapshot.
      */
     public void appendConicGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] stops, long nStops) {
-        gtk_h.gtk_snapshot_append_conic_gradient(handle(), bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(stops), nStops);
+        gtk_h.gtk_snapshot_append_conic_gradient(handle(), bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(stops).handle(), nStops);
     }
     
     /**
@@ -91,7 +91,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Appends a linear gradient node with the given stops to @snapshot.
      */
     public void appendLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
-        gtk_h.gtk_snapshot_append_linear_gradient(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops), nStops);
+        gtk_h.gtk_snapshot_append_linear_gradient(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops).handle(), nStops);
     }
     
     /**
@@ -116,21 +116,21 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Appends a radial gradient node with the given stops to @snapshot.
      */
     public void appendRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
-        gtk_h.gtk_snapshot_append_radial_gradient(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops), nStops);
+        gtk_h.gtk_snapshot_append_radial_gradient(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops).handle(), nStops);
     }
     
     /**
      * Appends a repeating linear gradient node with the given stops to @snapshot.
      */
     public void appendRepeatingLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
-        gtk_h.gtk_snapshot_append_repeating_linear_gradient(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops), nStops);
+        gtk_h.gtk_snapshot_append_repeating_linear_gradient(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops).handle(), nStops);
     }
     
     /**
      * Appends a repeating radial gradient node with the given stops to @snapshot.
      */
     public void appendRepeatingRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
-        gtk_h.gtk_snapshot_append_repeating_radial_gradient(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops), nStops);
+        gtk_h.gtk_snapshot_append_repeating_radial_gradient(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops).handle(), nStops);
     }
     
     /**
@@ -320,7 +320,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * The image is recorded until the next call to [method@Gtk.Snapshot.pop].
      */
     public void pushShadow(org.gtk.gsk.Shadow[] shadow, long nShadows) {
-        gtk_h.gtk_snapshot_push_shadow(handle(), Interop.allocateNativeArray(shadow), nShadows);
+        gtk_h.gtk_snapshot_push_shadow(handle(), Interop.allocateNativeArray(shadow).handle(), nShadows);
     }
     
     /**

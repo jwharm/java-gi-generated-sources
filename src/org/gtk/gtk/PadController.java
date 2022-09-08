@@ -109,7 +109,7 @@ public class PadController extends EventController {
      * See [struct@Gtk.PadActionEntry] and [method@Gtk.PadController.set_action].
      */
     public void setActionEntries(PadActionEntry[] entries, int nEntries) {
-        gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries), nEntries);
+        gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);
     }
     
 }

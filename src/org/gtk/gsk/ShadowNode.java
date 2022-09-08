@@ -26,7 +26,7 @@ public class ShadowNode extends RenderNode {
      * @shadows below it.
      */
     public ShadowNode(RenderNode child, Shadow[] shadows, long nShadows) {
-        super(References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows), nShadows), true));
+        super(References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true));
     }
     
     /**

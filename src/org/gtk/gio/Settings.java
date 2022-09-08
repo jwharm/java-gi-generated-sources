@@ -849,7 +849,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having an array of strings type in the schema for @settings.
      */
     public boolean setStrv(java.lang.String key, java.lang.String[] value) {
-        var RESULT = gtk_h.g_settings_set_strv(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_settings_set_strv(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value).handle());
         return (RESULT != 0);
     }
     

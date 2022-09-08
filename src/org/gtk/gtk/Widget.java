@@ -1872,7 +1872,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and replace them with @classes.
      */
     public void setCssClasses(java.lang.String[] classes) {
-        gtk_h.gtk_widget_set_css_classes(handle(), Interop.allocateNativeArray(classes));
+        gtk_h.gtk_widget_set_css_classes(handle(), Interop.allocateNativeArray(classes).handle());
     }
     
     /**

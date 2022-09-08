@@ -100,7 +100,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes @v with the contents of the given array.
      */
     public Vec2 initFromFloat(float[] src) {
-        var RESULT = gtk_h.graphene_vec2_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
+        var RESULT = gtk_h.graphene_vec2_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src)).handle());
         return new Vec2(References.get(RESULT, false));
     }
     
@@ -194,7 +194,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Stores the components of @v into an array.
      */
     public void toFloat(float[] dest) {
-        gtk_h.graphene_vec2_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest));
+        gtk_h.graphene_vec2_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
 }

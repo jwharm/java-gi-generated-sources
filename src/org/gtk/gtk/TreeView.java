@@ -265,7 +265,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * you are done with it.
      */
     public void getCursor(TreePath[] path, TreeViewColumn[] focusColumn) {
-        gtk_h.gtk_tree_view_get_cursor(handle(), Interop.allocateNativeArray(path), Interop.allocateNativeArray(focusColumn));
+        gtk_h.gtk_tree_view_get_cursor(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(focusColumn).handle());
     }
     
     /**
@@ -445,7 +445,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * to be relative to @tree_view’s bin_window if @keyboard_tooltip is %FALSE.
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model), Interop.allocateNativeArray(path), iter.handle());
+        var RESULT = gtk_h.gtk_tree_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -456,7 +456,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * The paths should be freed with gtk_tree_path_free() after use.
      */
     public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
-        var RESULT = gtk_h.gtk_tree_view_get_visible_range(handle(), Interop.allocateNativeArray(startPath), Interop.allocateNativeArray(endPath));
+        var RESULT = gtk_h.gtk_tree_view_get_visible_range(handle(), Interop.allocateNativeArray(startPath).handle(), Interop.allocateNativeArray(endPath).handle());
         return (RESULT != 0);
     }
     

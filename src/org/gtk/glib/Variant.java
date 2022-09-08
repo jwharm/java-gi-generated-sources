@@ -275,7 +275,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public Variant(VariantType childType, Variant[] children, long nChildren) {
-        super(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children), nChildren), false));
+        super(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false));
     }
     
     /**
@@ -301,7 +301,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the array.
      */
     public Variant(byte[] string) {
-        super(References.get(gtk_h.g_variant_new_bytestring(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)), false));
+        super(References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false));
     }
     
     /**
@@ -311,7 +311,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv).handle(), length), false));
     }
     
     /**
@@ -433,7 +433,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newObjv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv).handle(), length), false));
     }
     
     /**
@@ -490,7 +490,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newStrv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv).handle(), length), false));
     }
     
     /**
@@ -521,7 +521,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newTuple(Variant[] children, long nChildren) {
-        return new Variant(References.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children), nChildren), false));
+        return new Variant(References.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children).handle(), nChildren), false));
     }
     
     /**
@@ -584,7 +584,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public Variant(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        super(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr), app), true));
+        super(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true));
     }
     
     /**
@@ -974,7 +974,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [GVariant format strings][gvariant-format-strings-pointers].
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr), app);
+        gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app);
     }
     
     /**

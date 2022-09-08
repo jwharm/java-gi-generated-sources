@@ -196,7 +196,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Sets the page ranges for this job.
      */
     public void setPageRanges(PageRange[] ranges, int nRanges) {
-        gtk_h.gtk_print_job_set_page_ranges(handle(), Interop.allocateNativeArray(ranges), nRanges);
+        gtk_h.gtk_print_job_set_page_ranges(handle(), Interop.allocateNativeArray(ranges).handle(), nRanges);
     }
     
     /**

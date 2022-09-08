@@ -665,7 +665,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.Bytes loadBytes(Cancellable cancellable, java.lang.String[] etagOut) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_load_bytes(handle(), cancellable.handle(), Interop.allocateNativeArray(etagOut), GERROR);
+        var RESULT = gtk_h.g_file_load_bytes(handle(), cancellable.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -685,7 +685,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.Bytes loadBytesFinish(AsyncResult result, java.lang.String[] etagOut) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_load_bytes_finish(handle(), result.handle(), Interop.allocateNativeArray(etagOut), GERROR);
+        var RESULT = gtk_h.g_file_load_bytes_finish(handle(), result.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1264,7 +1264,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_replace_contents(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, Interop.allocateNativeArray(newEtag), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_replace_contents(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, Interop.allocateNativeArray(newEtag).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1278,7 +1278,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean replaceContentsFinish(AsyncResult res, java.lang.String[] newEtag) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_replace_contents_finish(handle(), res.handle(), Interop.allocateNativeArray(newEtag), GERROR);
+        var RESULT = gtk_h.g_file_replace_contents_finish(handle(), res.handle(), Interop.allocateNativeArray(newEtag).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1472,7 +1472,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAttributesFinish(AsyncResult result, FileInfo[] info) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_set_attributes_finish(handle(), result.handle(), Interop.allocateNativeArray(info), GERROR);
+        var RESULT = gtk_h.g_file_set_attributes_finish(handle(), result.handle(), Interop.allocateNativeArray(info).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

@@ -142,7 +142,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Computes the vertices of the given #graphene_box_t.
      */
     public void getVertices(Vec3[] vertices) {
-        gtk_h.graphene_box_get_vertices(handle(), Interop.allocateNativeArray(vertices));
+        gtk_h.graphene_box_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
     }
     
     /**
@@ -178,7 +178,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * graphene_box_empty().
      */
     public Box initFromPoints(int nPoints, Point3D[] points) {
-        var RESULT = gtk_h.graphene_box_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points));
+        var RESULT = gtk_h.graphene_box_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points).handle());
         return new Box(References.get(RESULT, false));
     }
     
@@ -199,7 +199,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * graphene_box_empty().
      */
     public Box initFromVectors(int nVectors, Vec3[] vectors) {
-        var RESULT = gtk_h.graphene_box_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors));
+        var RESULT = gtk_h.graphene_box_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors).handle());
         return new Box(References.get(RESULT, false));
     }
     

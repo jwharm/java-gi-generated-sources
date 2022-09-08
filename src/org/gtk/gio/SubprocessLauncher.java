@@ -100,7 +100,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On Windows, they should be in UTF-8.
      */
     public void setEnviron(java.lang.String[] env) {
-        gtk_h.g_subprocess_launcher_set_environ(handle(), Interop.allocateNativeArray(env));
+        gtk_h.g_subprocess_launcher_set_environ(handle(), Interop.allocateNativeArray(env).handle());
     }
     
     /**
@@ -191,7 +191,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_subprocess_launcher_spawnv(handle(), Interop.allocateNativeArray(argv), GERROR);
+        var RESULT = gtk_h.g_subprocess_launcher_spawnv(handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

@@ -170,7 +170,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_file_enumerator_iterate(handle(), Interop.allocateNativeArray(outInfo), Interop.allocateNativeArray(outChild), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_iterate(handle(), Interop.allocateNativeArray(outInfo).handle(), Interop.allocateNativeArray(outChild).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

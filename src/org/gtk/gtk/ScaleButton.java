@@ -37,7 +37,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * with a stepping of @step.
      */
     public ScaleButton(double min, double max, double step, java.lang.String[] icons) {
-        super(References.get(gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons)), false));
+        super(References.get(gtk_h.gtk_scale_button_new(min, max, step, Interop.allocateNativeArray(icons).handle()), false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * Sets the icons to be used by the scale button.
      */
     public void setIcons(java.lang.String[] icons) {
-        gtk_h.gtk_scale_button_set_icons(handle(), Interop.allocateNativeArray(icons));
+        gtk_h.gtk_scale_button_set_icons(handle(), Interop.allocateNativeArray(icons).handle());
     }
     
     /**

@@ -44,7 +44,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * %G_SOCKET_FAMILY_IPV6.
      */
     public InetAddress(byte[] bytes, SocketFamily family) {
-        super(References.get(gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
+        super(References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true));
     }
     
     /**

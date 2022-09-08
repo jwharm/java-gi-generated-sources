@@ -172,7 +172,7 @@ public final class Gtk {
      * the remaining space is returned.
      */
     public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, RequestedSize[] sizes) {
-        var RESULT = gtk_h.gtk_distribute_natural_allocation(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes));
+        var RESULT = gtk_h.gtk_distribute_natural_allocation(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes).handle());
         return RESULT;
     }
     
@@ -722,7 +722,7 @@ public final class Gtk {
      * The returned path must be freed with gtk_tree_path_free().
      */
     public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
-        var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel), Interop.allocateNativeArray(path));
+        var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
         return (RESULT != 0);
     }
     
@@ -750,7 +750,7 @@ public final class Gtk {
      * model emitted the ::rows-reordered signal.
      */
     public static void treeRowReferenceReordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
-        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
+        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
     }
     
     /**

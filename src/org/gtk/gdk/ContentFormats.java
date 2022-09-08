@@ -55,7 +55,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * this, use [struct@Gdk.ContentFormatsBuilder] instead.
      */
     public ContentFormats(java.lang.String[] mimeTypes, int nMimeTypes) {
-        super(References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes), nMimeTypes), true));
+        super(References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true));
     }
     
     /**

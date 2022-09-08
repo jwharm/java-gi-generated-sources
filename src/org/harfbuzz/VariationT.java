@@ -24,7 +24,7 @@ public class VariationT extends io.github.jwharm.javagi.interop.ResourceBase {
      * allocating big enough size for @buf, 128 bytes is more than enough.
      */
     public void String(java.lang.String[] buf, int size) {
-        gtk_h.hb_variation_to_string(handle(), Interop.allocateNativeArray(buf), size);
+        gtk_h.hb_variation_to_string(handle(), Interop.allocateNativeArray(buf).handle(), size);
     }
     
 }

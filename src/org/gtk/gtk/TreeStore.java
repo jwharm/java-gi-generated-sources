@@ -51,7 +51,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * Non vararg creation function.  Used primarily by language bindings.
      */
     public static TreeStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new TreeStore(References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new TreeStore(References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types).handle()), true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * function is mainly intended for language bindings.
      */
     public void insertWithValuesv(TreeIter iter, TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_tree_store_insert_with_valuesv(handle(), iter.handle(), parent.handle(), position, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
+        gtk_h.gtk_tree_store_insert_with_valuesv(handle(), iter.handle(), parent.handle(), position, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns)).handle(), Interop.allocateNativeArray(values).handle(), nValues);
     }
     
     /**
@@ -200,7 +200,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * unsorted stores.
      */
     public void reorder(TreeIter parent, int[] newOrder) {
-        gtk_h.gtk_tree_store_reorder(handle(), parent.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
+        gtk_h.gtk_tree_store_reorder(handle(), parent.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
     }
     
     /**
@@ -210,7 +210,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * or a method on the `GtkTreeModel` interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types));
+        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types).handle());
     }
     
     /**
@@ -237,7 +237,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * the number of columns to change is not known until run-time.
      */
     public void setValuesv(TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        gtk_h.gtk_tree_store_set_valuesv(handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
+        gtk_h.gtk_tree_store_set_valuesv(handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns)).handle(), Interop.allocateNativeArray(values).handle(), nValues);
     }
     
     /**

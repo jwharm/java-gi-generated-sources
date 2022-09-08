@@ -29,7 +29,7 @@ public class ClosureExpression extends Expression {
      * the `params` expressions.
      */
     public ClosureExpression(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
-        super(References.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params)), true));
+        super(References.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true));
     }
     
 }

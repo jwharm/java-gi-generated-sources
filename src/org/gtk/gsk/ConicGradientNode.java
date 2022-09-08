@@ -29,7 +29,7 @@ public class ConicGradientNode extends RenderNode {
      * that the gradient points up. Color stops are then added clockwise.
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
-        super(References.get(gtk_h.gsk_conic_gradient_node_new(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(gtk_h.gsk_conic_gradient_node_new(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true));
     }
     
     /**

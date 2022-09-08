@@ -49,7 +49,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * be unreffed using g_object_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outLink, MenuModel[] value) {
-        var RESULT = gtk_h.g_menu_link_iter_get_next(handle(), Interop.allocateNativeArray(outLink), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_menu_link_iter_get_next(handle(), Interop.allocateNativeArray(outLink).handle(), Interop.allocateNativeArray(value).handle());
         return (RESULT != 0);
     }
     

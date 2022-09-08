@@ -131,7 +131,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_vec4_t with the values inside the given array.
      */
     public Vec4 initFromFloat(float[] src) {
-        var RESULT = gtk_h.graphene_vec4_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
+        var RESULT = gtk_h.graphene_vec4_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src)).handle());
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -244,7 +244,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * of floating point values.
      */
     public void toFloat(float[] dest) {
-        gtk_h.graphene_vec4_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest));
+        gtk_h.graphene_vec4_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
 }

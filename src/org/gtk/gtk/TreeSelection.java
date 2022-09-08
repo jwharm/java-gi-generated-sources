@@ -70,7 +70,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * use @selection is %GTK_SELECTION_MULTIPLE.
      */
     public boolean getSelected(TreeModel[] model, TreeIter iter) {
-        var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model), iter.handle());
+        var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -86,7 +86,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * ]|
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
-        var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model));
+        var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model).handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     

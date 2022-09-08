@@ -286,7 +286,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_key_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -306,7 +306,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_key_file_load_from_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs), Interop.allocateNativeArray(fullPath), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -412,7 +412,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @group_name is %NULL, the start_group is used.
      */
     public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
-        gtk_h.g_key_file_set_boolean_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list), length);
+        gtk_h.g_key_file_set_boolean_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
     }
     
     /**
@@ -447,7 +447,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * @group_name.  If @key cannot be found then it is created.
      */
     public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
-        gtk_h.g_key_file_set_double_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, list), length);
+        gtk_h.g_key_file_set_double_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, list)).handle(), length);
     }
     
     /**
@@ -471,7 +471,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @key cannot be found then it is created.
      */
     public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
-        gtk_h.g_key_file_set_integer_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, list), length);
+        gtk_h.g_key_file_set_integer_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, list)).handle(), length);
     }
     
     /**
@@ -497,7 +497,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * it is created.
      */
     public void setLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String[] list, long length) {
-        gtk_h.g_key_file_set_locale_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), Interop.allocateNativeArray(list), length);
+        gtk_h.g_key_file_set_locale_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), Interop.allocateNativeArray(list).handle(), length);
     }
     
     /**
@@ -517,7 +517,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @group_name cannot be found then it is created.
      */
     public void setStringList(java.lang.String groupName, java.lang.String key, java.lang.String[] list, long length) {
-        gtk_h.g_key_file_set_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list), length);
+        gtk_h.g_key_file_set_string_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
     }
     
     /**

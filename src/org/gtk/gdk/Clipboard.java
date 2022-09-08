@@ -85,7 +85,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, java.lang.String[] outMimeType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gdk_clipboard_read_finish(handle(), result.handle(), Interop.allocateNativeArray(outMimeType), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_read_finish(handle(), result.handle(), Interop.allocateNativeArray(outMimeType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

@@ -213,7 +213,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public VariantType(VariantType[] items, int length) {
-        super(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items), length), true));
+        super(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true));
     }
     
     /**

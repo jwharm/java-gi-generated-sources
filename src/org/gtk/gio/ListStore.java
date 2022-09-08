@@ -93,7 +93,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {
-        gtk_h.g_list_store_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions), nAdditions);
+        gtk_h.g_list_store_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions).handle(), nAdditions);
     }
     
 }

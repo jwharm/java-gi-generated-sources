@@ -137,7 +137,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * Invokes the closure, i.e. executes the callback represented by the @closure.
      */
     public void invoke(Value returnValue, int nParamValues, Value[] paramValues, jdk.incubator.foreign.MemoryAddress invocationHint) {
-        gtk_h.g_closure_invoke(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues), invocationHint);
+        gtk_h.g_closure_invoke(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues).handle(), invocationHint);
     }
     
     /**

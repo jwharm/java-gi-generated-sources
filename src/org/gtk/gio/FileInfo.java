@@ -463,7 +463,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sinze: 2.22
      */
     public void setAttributeStringv(java.lang.String attribute, java.lang.String[] attrValue) {
-        gtk_h.g_file_info_set_attribute_stringv(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeArray(attrValue));
+        gtk_h.g_file_info_set_attribute_stringv(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeArray(attrValue).handle());
     }
     
     /**

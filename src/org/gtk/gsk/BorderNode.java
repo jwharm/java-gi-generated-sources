@@ -28,7 +28,7 @@ public class BorderNode extends RenderNode {
      * The 4 sides of the border can have different widths and colors.
      */
     public BorderNode(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        super(References.get(gtk_h.gsk_border_node_new(outline.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor)), true));
+        super(References.get(gtk_h.gsk_border_node_new(outline.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth)).handle(), Interop.allocateNativeArray(borderColor).handle()), true));
     }
     
     /**

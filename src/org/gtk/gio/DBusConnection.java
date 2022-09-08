@@ -144,7 +144,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callWithUnixFdListFinish(UnixFDList[] outFdList, AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_finish(handle(), Interop.allocateNativeArray(outFdList), res.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_finish(handle(), Interop.allocateNativeArray(outFdList).handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -160,7 +160,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

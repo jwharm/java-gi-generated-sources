@@ -181,7 +181,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * point values.
      */
     public Matrix initFromFloat(float[] v) {
-        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
+        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v)).handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -515,7 +515,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * values.
      */
     public void toFloat(float[] v) {
-        gtk_h.graphene_matrix_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
+        gtk_h.graphene_matrix_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v)).handle());
     }
     
     /**

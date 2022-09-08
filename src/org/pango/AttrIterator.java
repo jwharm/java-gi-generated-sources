@@ -64,7 +64,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterator position.
      */
     public void getFont(FontDescription desc, Language[] language, org.gtk.glib.SList[] extraAttrs) {
-        gtk_h.pango_attr_iterator_get_font(handle(), desc.handle(), Interop.allocateNativeArray(language), Interop.allocateNativeArray(extraAttrs));
+        gtk_h.pango_attr_iterator_get_font(handle(), desc.handle(), Interop.allocateNativeArray(language).handle(), Interop.allocateNativeArray(extraAttrs).handle());
     }
     
     /**

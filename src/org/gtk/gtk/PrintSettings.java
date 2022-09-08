@@ -490,7 +490,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Sets the value of %GTK_PRINT_SETTINGS_PAGE_RANGES.
      */
     public void setPageRanges(PageRange[] pageRanges, int numRanges) {
-        gtk_h.gtk_print_settings_set_page_ranges(handle(), Interop.allocateNativeArray(pageRanges), numRanges);
+        gtk_h.gtk_print_settings_set_page_ranges(handle(), Interop.allocateNativeArray(pageRanges).handle(), numRanges);
     }
     
     /**

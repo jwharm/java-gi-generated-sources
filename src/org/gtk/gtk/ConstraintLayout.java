@@ -290,7 +290,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(handle(), Interop.allocateNativeArray(lines), nLines, hspacing, vspacing, views.handle(), GERROR);
+        var RESULT = gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(handle(), Interop.allocateNativeArray(lines).handle(), nLines, hspacing, vspacing, views.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

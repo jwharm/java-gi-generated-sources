@@ -38,12 +38,9 @@ public class Interop {
     /**
      * Allocates and initializes a NULL-terminated array of strings (NUL-terminated utf8 char*).
      */
-    public static Addressable allocateNativeArray(String[] strings) {
+    public static MemorySegmentReference allocateNativeArray(String[] strings) {
         if (!initialized) {
             initialize();
-        }
-        if (strings == null || strings.length == 0) {
-            return MemoryAddress.NULL;
         }
         var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, strings.length + 1);
         for (int i = 0; i < strings.length; i++) {
@@ -51,43 +48,47 @@ public class Interop {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, cString);
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, strings.length, MemoryAddress.NULL);
-        return memorySegment;
+        return new MemorySegmentReference(memorySegment);
     }
 
-    public static Addressable allocateNativeArray(boolean[] array) {
+    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
-            return MemoryAddress.NULL;
+            return null;
         }
         int[] intArray = new int[array.length];
         for (int i = 0; i < array.length; i++) {
             intArray[i] = array[i] ? 1 : 0;
         }
-        return allocator.allocateArray(ValueLayout.JAVA_INT, intArray);
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_INT, intArray)
+        );
     }
 
-    public static Addressable allocateNativeArray(org.gtk.gobject.Type[] array) {
+    public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Type[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
-            return MemoryAddress.NULL;
+            return null;
         }
         long[] longArray = new long[array.length];
         for (int i = 0; i < array.length; i++) {
             longArray[i] = array[i].getValue();
         }
-        return allocator.allocateArray(ValueLayout.JAVA_LONG, longArray);
+        return new MemorySegmentReference(
+                allocator.allocateArray(ValueLayout.JAVA_LONG, longArray)
+        );
     }
 
-    public static Addressable allocateNativeArray(org.gtk.gobject.Value[] array) {
+    public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Value[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
-            return MemoryAddress.NULL;
+            return null;
         }
         MemorySegment mem = io.github.jwharm.javagi.interop.jextract.GValue.allocateArray(array.length, allocator);
         long size = io.github.jwharm.javagi.interop.jextract.GValue.sizeof();
@@ -96,24 +97,21 @@ public class Interop {
             MemorySegment target = mem.asSlice(i * size, size);
             target.copyFrom(source);
         }
-        return mem.address();
+        return new MemorySegmentReference(mem);
     }
 
     /**
      * Allocates and initializes a NULL-terminated array of pointers (from NativeAddress instances).
      */
-    public static Addressable allocateNativeArray(NativeAddress[] array) {
+    public static MemorySegmentReference allocateNativeArray(NativeAddress[] array) {
         if (!initialized) {
             initialize();
-        }
-        if (array == null || array.length == 0) {
-            return MemoryAddress.NULL;
         }
         var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, array.length + 1);
         for (int i = 0; i < array.length; i++) {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i].handle());
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
-        return memorySegment;
+        return new MemorySegmentReference(memorySegment);
     }
 }

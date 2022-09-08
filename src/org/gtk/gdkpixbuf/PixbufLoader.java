@@ -163,7 +163,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public boolean write(byte[] buf, long count) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gdk_pixbuf_loader_write(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf), count, GERROR);
+        var RESULT = gtk_h.gdk_pixbuf_loader_write(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

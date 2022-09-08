@@ -154,7 +154,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_vec3_t with the values from an array.
      */
     public Vec3 initFromFloat(float[] src) {
-        var RESULT = gtk_h.graphene_vec3_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
+        var RESULT = gtk_h.graphene_vec3_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src)).handle());
         return new Vec3(References.get(RESULT, false));
     }
     
@@ -248,7 +248,7 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Copies the components of a #graphene_vec3_t into the given array.
      */
     public void toFloat(float[] dest) {
-        gtk_h.graphene_vec3_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest));
+        gtk_h.graphene_vec3_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
 }

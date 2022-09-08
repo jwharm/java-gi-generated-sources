@@ -118,7 +118,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * offset @offset bytes.
      */
     public long peek(byte[] buffer, long offset, long count) {
-        var RESULT = gtk_h.g_buffered_input_stream_peek(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), offset, count);
+        var RESULT = gtk_h.g_buffered_input_stream_peek(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), offset, count);
         return RESULT;
     }
     

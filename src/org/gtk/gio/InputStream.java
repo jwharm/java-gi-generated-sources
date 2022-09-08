@@ -125,7 +125,7 @@ public class InputStream extends org.gtk.gobject.Object {
      */
     public long read(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_input_stream_read(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), count, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_input_stream_read(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

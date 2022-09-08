@@ -113,7 +113,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public void installProperties(int nPspecs, ParamSpec[] pspecs) {
-        gtk_h.g_object_class_install_properties(handle(), nPspecs, Interop.allocateNativeArray(pspecs));
+        gtk_h.g_object_class_install_properties(handle(), nPspecs, Interop.allocateNativeArray(pspecs).handle());
     }
     
     /**

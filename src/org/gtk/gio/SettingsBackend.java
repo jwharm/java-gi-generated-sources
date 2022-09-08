@@ -105,7 +105,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * keys that were changed) but this is not strictly required.
      */
     public void keysChanged(java.lang.String path, java.lang.String[] items, jdk.incubator.foreign.MemoryAddress originTag) {
-        gtk_h.g_settings_backend_keys_changed(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items), originTag);
+        gtk_h.g_settings_backend_keys_changed(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items).handle(), originTag);
     }
     
     /**

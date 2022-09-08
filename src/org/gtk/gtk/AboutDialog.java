@@ -78,7 +78,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Creates a new section in the "Credits" page.
      */
     public void addCreditSection(java.lang.String sectionName, java.lang.String[] people) {
-        gtk_h.gtk_about_dialog_add_credit_section(handle(), Interop.allocateNativeString(sectionName).handle(), Interop.allocateNativeArray(people));
+        gtk_h.gtk_about_dialog_add_credit_section(handle(), Interop.allocateNativeString(sectionName).handle(), Interop.allocateNativeArray(people).handle());
     }
     
     /**
@@ -192,7 +192,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page.
      */
     public void setArtists(java.lang.String[] artists) {
-        gtk_h.gtk_about_dialog_set_artists(handle(), Interop.allocateNativeArray(artists));
+        gtk_h.gtk_about_dialog_set_artists(handle(), Interop.allocateNativeArray(artists).handle());
     }
     
     /**
@@ -200,7 +200,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page of the about dialog.
      */
     public void setAuthors(java.lang.String[] authors) {
-        gtk_h.gtk_about_dialog_set_authors(handle(), Interop.allocateNativeArray(authors));
+        gtk_h.gtk_about_dialog_set_authors(handle(), Interop.allocateNativeArray(authors).handle());
     }
     
     /**
@@ -226,7 +226,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page.
      */
     public void setDocumenters(java.lang.String[] documenters) {
-        gtk_h.gtk_about_dialog_set_documenters(handle(), Interop.allocateNativeArray(documenters));
+        gtk_h.gtk_about_dialog_set_documenters(handle(), Interop.allocateNativeArray(documenters).handle());
     }
     
     /**

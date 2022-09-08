@@ -41,7 +41,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.70
      */
     public void addv(java.lang.String[] value) {
-        gtk_h.g_strv_builder_addv(handle(), Interop.allocateNativeArray(value));
+        gtk_h.g_strv_builder_addv(handle(), Interop.allocateNativeArray(value).handle());
     }
     
     /**

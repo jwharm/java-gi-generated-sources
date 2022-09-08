@@ -70,7 +70,7 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_quad_t using an array of points.
      */
     public Quad initFromPoints(Point[] points) {
-        var RESULT = gtk_h.graphene_quad_init_from_points(handle(), Interop.allocateNativeArray(points));
+        var RESULT = gtk_h.graphene_quad_init_from_points(handle(), Interop.allocateNativeArray(points).handle());
         return new Quad(References.get(RESULT, false));
     }
     

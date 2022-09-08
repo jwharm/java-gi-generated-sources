@@ -48,7 +48,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * If @n_fds is -1 then @fds must be terminated with -1.
      */
     public UnixFDList(int[] fds, int nFds) {
-        super(References.get(gtk_h.g_unix_fd_list_new_from_array(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds), nFds), true));
+        super(References.get(gtk_h.g_unix_fd_list_new_from_array(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds)).handle(), nFds), true));
     }
     
     /**

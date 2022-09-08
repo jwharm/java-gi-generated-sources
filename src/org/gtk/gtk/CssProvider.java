@@ -62,7 +62,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromData(byte[] data, long length) {
-        gtk_h.gtk_css_provider_load_from_data(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.gtk_css_provider_load_from_data(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
     }
     
     /**

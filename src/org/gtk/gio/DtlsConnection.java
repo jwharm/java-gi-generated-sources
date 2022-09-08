@@ -108,7 +108,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -267,7 +267,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * for a list of registered protocol IDs.
      */
     public default void setAdvertisedProtocols(java.lang.String[] protocols) {
-        gtk_h.g_dtls_connection_set_advertised_protocols(handle(), Interop.allocateNativeArray(protocols));
+        gtk_h.g_dtls_connection_set_advertised_protocols(handle(), Interop.allocateNativeArray(protocols).handle());
     }
     
     /**

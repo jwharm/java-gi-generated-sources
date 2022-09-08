@@ -343,7 +343,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromFile(java.lang.String filename, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gtk_builder_add_objects_from_file(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = gtk_h.gtk_builder_add_objects_from_file(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(objectIds).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -365,7 +365,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromResource(java.lang.String resourcePath, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gtk_builder_add_objects_from_resource(handle(), Interop.allocateNativeString(resourcePath).handle(), Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = gtk_h.gtk_builder_add_objects_from_resource(handle(), Interop.allocateNativeString(resourcePath).handle(), Interop.allocateNativeArray(objectIds).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -386,7 +386,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public boolean addObjectsFromString(java.lang.String buffer, long length, java.lang.String[] objectIds) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gtk_builder_add_objects_from_string(handle(), Interop.allocateNativeString(buffer).handle(), length, Interop.allocateNativeArray(objectIds), GERROR);
+        var RESULT = gtk_h.gtk_builder_add_objects_from_string(handle(), Interop.allocateNativeString(buffer).handle(), length, Interop.allocateNativeArray(objectIds).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

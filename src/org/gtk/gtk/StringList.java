@@ -50,7 +50,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Creates a new `GtkStringList` with the given @strings.
      */
     public StringList(java.lang.String[] strings) {
-        super(References.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
+        super(References.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings).handle()), true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * of the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, java.lang.String[] additions) {
-        gtk_h.gtk_string_list_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions));
+        gtk_h.gtk_string_list_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions).handle());
     }
     
     /**

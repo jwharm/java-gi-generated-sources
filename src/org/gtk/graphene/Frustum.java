@@ -56,7 +56,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the planes that define the given #graphene_frustum_t.
      */
     public void getPlanes(Plane[] planes) {
-        gtk_h.graphene_frustum_get_planes(handle(), Interop.allocateNativeArray(planes));
+        gtk_h.graphene_frustum_get_planes(handle(), Interop.allocateNativeArray(planes).handle());
     }
     
     /**

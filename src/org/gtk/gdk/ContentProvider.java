@@ -62,7 +62,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * ```
      */
     public ContentProvider(ContentProvider[] providers, long nProviders) {
-        super(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
+        super(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true));
     }
     
     /**

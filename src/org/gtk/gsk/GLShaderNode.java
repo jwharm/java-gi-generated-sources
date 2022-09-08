@@ -41,7 +41,7 @@ public class GLShaderNode extends RenderNode {
      * renderer before using it.
      */
     public GLShaderNode(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
-        super(References.get(gtk_h.gsk_gl_shader_node_new(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children), nChildren), true));
+        super(References.get(gtk_h.gsk_gl_shader_node_new(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children).handle(), nChildren), true));
     }
     
     /**

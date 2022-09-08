@@ -97,7 +97,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the 3D volume that encompasses all @points.
      */
     public Sphere initFromPoints(int nPoints, Point3D[] points, Point3D center) {
-        var RESULT = gtk_h.graphene_sphere_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points), center.handle());
+        var RESULT = gtk_h.graphene_sphere_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points).handle(), center.handle());
         return new Sphere(References.get(RESULT, false));
     }
     
@@ -109,7 +109,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the 3D volume that encompasses all @vectors.
      */
     public Sphere initFromVectors(int nVectors, Vec3[] vectors, Point3D center) {
-        var RESULT = gtk_h.graphene_sphere_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors), center.handle());
+        var RESULT = gtk_h.graphene_sphere_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors).handle(), center.handle());
         return new Sphere(References.get(RESULT, false));
     }
     

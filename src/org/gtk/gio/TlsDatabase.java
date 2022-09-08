@@ -135,7 +135,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List lookupCertificatesIssuedBy(byte[] issuerRawDn, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_tls_database_lookup_certificates_issued_by(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, issuerRawDn), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificates_issued_by(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, issuerRawDn)).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

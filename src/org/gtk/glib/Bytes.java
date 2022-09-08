@@ -45,7 +45,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data is copied. If @size is 0, @data may be %NULL.
      */
     public Bytes(byte[] data, long size) {
-        super(References.get(gtk_h.g_bytes_new(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        super(References.get(gtk_h.g_bytes_new(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
-        return new Bytes(References.get(gtk_h.g_bytes_new_static(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(gtk_h.g_bytes_new_static(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
     }
     
     /**
@@ -73,7 +73,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data may be %NULL if @size is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
-        return new Bytes(References.get(gtk_h.g_bytes_new_take(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(gtk_h.g_bytes_new_take(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
     }
     
     /**

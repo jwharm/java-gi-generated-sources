@@ -32,7 +32,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * exist, adds the @entries to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
-        gtk_h.g_option_context_add_main_entries(handle(), Interop.allocateNativeArray(entries), Interop.allocateNativeString(translationDomain).handle());
+        gtk_h.g_option_context_add_main_entries(handle(), Interop.allocateNativeArray(entries).handle(), Interop.allocateNativeString(translationDomain).handle());
     }
     
     /**
@@ -132,7 +132,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_option_context_parse_strv(handle(), Interop.allocateNativeArray(arguments), GERROR);
+        var RESULT = gtk_h.g_option_context_parse_strv(handle(), Interop.allocateNativeArray(arguments).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

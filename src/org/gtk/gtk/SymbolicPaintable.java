@@ -30,7 +30,7 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.interop.Nativ
      * colors.
      */
     public default void snapshotSymbolic(org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
-        gtk_h.gtk_symbolic_paintable_snapshot_symbolic(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors), nColors);
+        gtk_h.gtk_symbolic_paintable_snapshot_symbolic(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors).handle(), nColors);
     }
     
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {

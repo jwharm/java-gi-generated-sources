@@ -122,7 +122,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_subprocess_communicate(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -134,7 +134,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_subprocess_communicate_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -150,7 +150,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_subprocess_communicate_utf8(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_utf8(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -162,7 +162,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_subprocess_communicate_utf8_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_utf8_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

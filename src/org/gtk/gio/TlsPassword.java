@@ -78,7 +78,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * considered part of the password in this case.)
      */
     public void setValue(byte[] value, long length) {
-        gtk_h.g_tls_password_set_value(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, value), length);
+        gtk_h.g_tls_password_set_value(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, value)).handle(), length);
     }
     
     /**

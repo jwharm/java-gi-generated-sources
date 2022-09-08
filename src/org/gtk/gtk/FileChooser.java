@@ -62,7 +62,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * [method@Gtk.FileChooser.get_choice].
      */
     public default void addChoice(java.lang.String id, java.lang.String label, java.lang.String[] options, java.lang.String[] optionLabels) {
-        gtk_h.gtk_file_chooser_add_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
+        gtk_h.gtk_file_chooser_add_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeArray(options).handle(), Interop.allocateNativeArray(optionLabels).handle());
     }
     
     /**

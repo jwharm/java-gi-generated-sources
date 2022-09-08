@@ -193,7 +193,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_datagram_based_receive_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_receive_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -245,7 +245,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_datagram_based_send_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_send_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

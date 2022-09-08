@@ -235,7 +235,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * - for %G_OPTION_ARG_FILENAME_ARRAY, use `^a&ay`
      */
     public void addMainOptionEntries(org.gtk.glib.OptionEntry[] entries) {
-        gtk_h.g_application_add_main_option_entries(handle(), Interop.allocateNativeArray(entries));
+        gtk_h.g_application_add_main_option_entries(handle(), Interop.allocateNativeArray(entries).handle());
     }
     
     /**
@@ -446,7 +446,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * and it must have the %G_APPLICATION_HANDLES_OPEN flag set.
      */
     public void open(File[] files, int nFiles, java.lang.String hint) {
-        gtk_h.g_application_open(handle(), Interop.allocateNativeArray(files), nFiles, Interop.allocateNativeString(hint).handle());
+        gtk_h.g_application_open(handle(), Interop.allocateNativeArray(files).handle(), nFiles, Interop.allocateNativeString(hint).handle());
     }
     
     /**
@@ -599,7 +599,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * what their exit status will be.
      */
     public int run(int argc, java.lang.String[] argv) {
-        var RESULT = gtk_h.g_application_run(handle(), argc, Interop.allocateNativeArray(argv));
+        var RESULT = gtk_h.g_application_run(handle(), argc, Interop.allocateNativeArray(argv).handle());
         return RESULT;
     }
     

@@ -26,7 +26,7 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds the options specified in @entries to @group.
      */
     public void addEntries(OptionEntry[] entries) {
-        gtk_h.g_option_group_add_entries(handle(), Interop.allocateNativeArray(entries));
+        gtk_h.g_option_group_add_entries(handle(), Interop.allocateNativeArray(entries).handle());
     }
     
     /**

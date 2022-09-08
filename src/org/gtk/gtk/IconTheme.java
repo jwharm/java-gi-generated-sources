@@ -153,7 +153,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * GtkWidgetClass.css-changed() function.
      */
     public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, int flags) {
-        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks), size, scale, direction.getValue(), flags);
+        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags);
         return new IconPaintable(References.get(RESULT, true));
     }
     
@@ -171,7 +171,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * but they are treated like unthemed icons.
      */
     public void setResourcePath(java.lang.String[] path) {
-        gtk_h.gtk_icon_theme_set_resource_path(handle(), Interop.allocateNativeArray(path));
+        gtk_h.gtk_icon_theme_set_resource_path(handle(), Interop.allocateNativeArray(path).handle());
     }
     
     /**
@@ -192,7 +192,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * rather than directly on the icon path.)
      */
     public void setSearchPath(java.lang.String[] path) {
-        gtk_h.gtk_icon_theme_set_search_path(handle(), Interop.allocateNativeArray(path));
+        gtk_h.gtk_icon_theme_set_search_path(handle(), Interop.allocateNativeArray(path).handle());
     }
     
     /**

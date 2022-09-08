@@ -27,7 +27,7 @@ public class ContainerNode extends RenderNode {
      * The new node will acquire a reference to each of the children.
      */
     public ContainerNode(RenderNode[] children, int nChildren) {
-        super(References.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children), nChildren), true));
+        super(References.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true));
     }
     
     /**

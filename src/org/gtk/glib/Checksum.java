@@ -81,7 +81,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * not have been called on @checksum.
      */
     public void update(byte[] data, long length) {
-        gtk_h.g_checksum_update(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.g_checksum_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
     }
     
 }

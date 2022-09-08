@@ -99,7 +99,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_bookmark_file_get_icon(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(href), Interop.allocateNativeArray(mimeType), GERROR);
+        var RESULT = gtk_h.g_bookmark_file_get_icon(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(href).handle(), Interop.allocateNativeArray(mimeType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -242,7 +242,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_bookmark_file_load_from_data(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length, GERROR);
+        var RESULT = gtk_h.g_bookmark_file_load_from_data(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -258,7 +258,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_bookmark_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath), GERROR);
+        var RESULT = gtk_h.g_bookmark_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -410,7 +410,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @uri cannot be found then an item for it is created.
      */
     public void setGroups(java.lang.String uri, java.lang.String[] groups, long length) {
-        gtk_h.g_bookmark_file_set_groups(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(groups), length);
+        gtk_h.g_bookmark_file_set_groups(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(groups).handle(), length);
     }
     
     /**

@@ -39,7 +39,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
      * If @colors is %NULL, removes all previously added palettes.
      */
     public default void addPalette(Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
-        gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors));
+        gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors).handle());
     }
     
     /**

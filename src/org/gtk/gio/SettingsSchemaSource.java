@@ -31,7 +31,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * use by database editors, commandline tools, etc.
      */
     public void listSchemas(boolean recursive, java.lang.String[] nonRelocatable, java.lang.String[] relocatable) {
-        gtk_h.g_settings_schema_source_list_schemas(handle(), recursive ? 1 : 0, Interop.allocateNativeArray(nonRelocatable), Interop.allocateNativeArray(relocatable));
+        gtk_h.g_settings_schema_source_list_schemas(handle(), recursive ? 1 : 0, Interop.allocateNativeArray(nonRelocatable).handle(), Interop.allocateNativeArray(relocatable).handle());
     }
     
     /**

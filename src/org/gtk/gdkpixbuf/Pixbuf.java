@@ -186,7 +186,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * program's C source.
      */
     public Pixbuf(java.lang.String[] data) {
-        super(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data)), true));
+        super(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true));
     }
     
     /**
@@ -505,7 +505,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gdk_pixbuf_save_to_streamv(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.gdk_pixbuf_save_to_streamv(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -523,7 +523,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.gdk_pixbuf_savev(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), GERROR);
+        var RESULT = gtk_h.gdk_pixbuf_savev(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

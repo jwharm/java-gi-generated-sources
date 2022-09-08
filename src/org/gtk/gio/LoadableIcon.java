@@ -19,7 +19,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.interop.NativeAddr
      */
     public default InputStream load(int size, java.lang.String[] type, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_loadable_icon_load(handle(), size, Interop.allocateNativeArray(type), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_loadable_icon_load(handle(), size, Interop.allocateNativeArray(type).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -31,7 +31,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.interop.NativeAddr
      */
     public default InputStream loadFinish(AsyncResult res, java.lang.String[] type) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_loadable_icon_load_finish(handle(), res.handle(), Interop.allocateNativeArray(type), GERROR);
+        var RESULT = gtk_h.g_loadable_icon_load_finish(handle(), res.handle(), Interop.allocateNativeArray(type).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

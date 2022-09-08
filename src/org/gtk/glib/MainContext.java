@@ -67,7 +67,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public boolean check(int maxPriority, PollFD[] fds, int nFds) {
-        var RESULT = gtk_h.g_main_context_check(handle(), maxPriority, Interop.allocateNativeArray(fds), nFds);
+        var RESULT = gtk_h.g_main_context_check(handle(), maxPriority, Interop.allocateNativeArray(fds).handle(), nFds);
         return (RESULT != 0);
     }
     

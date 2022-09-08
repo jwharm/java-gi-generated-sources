@@ -196,7 +196,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * freeing or modifying @string then the behaviour is undefined.
      */
     public boolean match(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo));
+        var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo).handle());
         return (RESULT != 0);
     }
     
@@ -217,7 +217,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * freeing or modifying @string then the behaviour is undefined.
      */
     public boolean matchAll(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo));
+        var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo).handle());
         return (RESULT != 0);
     }
     
@@ -263,7 +263,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo), GERROR);
+        var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -325,7 +325,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo), GERROR);
+        var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -370,7 +370,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
+        var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -389,7 +389,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
+        var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

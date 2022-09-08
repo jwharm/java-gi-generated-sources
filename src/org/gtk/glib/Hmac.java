@@ -70,7 +70,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_hmac_get_digest() must not have been called on @hmac.
      */
     public void update(byte[] data, long length) {
-        gtk_h.g_hmac_update(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.g_hmac_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
     }
     
 }

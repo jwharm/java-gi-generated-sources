@@ -82,7 +82,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * its listening socket.
      */
     public UnixSocketAddress(byte[] path, int pathLen, UnixSocketAddressType type) {
-        super(References.get(gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
+        super(References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true));
     }
     
     /**

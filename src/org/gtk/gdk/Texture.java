@@ -86,7 +86,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * ```
      */
     public void download(byte[] data, long stride) {
-        gtk_h.gdk_texture_download(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), stride);
+        gtk_h.gdk_texture_download(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), stride);
     }
     
     /**
