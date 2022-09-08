@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gdk.ToplevelSize.get_bounds]).
      */
     public void setMinSize(int minWidth, int minHeight) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_size_set_min_size(HANDLE(), minWidth, minHeight);
+        gtk_h.gdk_toplevel_size_set_min_size(handle(), minWidth, minHeight);
     }
     
     /**
@@ -38,7 +40,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * there be any.
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_size_set_shadow_width(HANDLE(), left, right, top, bottom);
+        gtk_h.gdk_toplevel_size_set_shadow_width(handle(), left, right, top, bottom);
     }
     
     /**
@@ -50,7 +52,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * respected by the windowing system, or backend.
      */
     public void setSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_size_set_size(HANDLE(), width, height);
+        gtk_h.gdk_toplevel_size_set_size(handle(), width, height);
     }
     
 }

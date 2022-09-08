@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Ray() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_alloc(), true));
+        super(References.get(gtk_h.graphene_ray_alloc(), true));
     }
     
     /**
      * Checks whether the two given #graphene_ray_t are equal.
      */
     public boolean equal(Ray b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_ray_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_ray_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_free(HANDLE());
+        gtk_h.graphene_ray_free(handle());
     }
     
     /**
@@ -46,14 +48,14 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * given point @p.
      */
     public void getClosestPointToPoint(Point3D p, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_closest_point_to_point(HANDLE(), p.HANDLE(), res.HANDLE());
+        gtk_h.graphene_ray_get_closest_point_to_point(handle(), p.handle(), res.handle());
     }
     
     /**
      * Retrieves the direction of the given #graphene_ray_t.
      */
     public void getDirection(Vec3 direction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_direction(HANDLE(), direction.HANDLE());
+        gtk_h.graphene_ray_get_direction(handle(), direction.handle());
     }
     
     /**
@@ -63,7 +65,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the ray does not intersect the plane, this function returns `INFINITY`.
      */
     public float getDistanceToPlane(Plane p) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_distance_to_plane(HANDLE(), p.HANDLE());
+        var RESULT = gtk_h.graphene_ray_get_distance_to_plane(handle(), p.handle());
         return RESULT;
     }
     
@@ -76,7 +78,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * ray itself.
      */
     public float getDistanceToPoint(Point3D p) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_distance_to_point(HANDLE(), p.HANDLE());
+        var RESULT = gtk_h.graphene_ray_get_distance_to_point(handle(), p.handle());
         return RESULT;
     }
     
@@ -84,7 +86,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the origin of the given #graphene_ray_t.
      */
     public void getOrigin(Point3D origin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_origin(HANDLE(), origin.HANDLE());
+        gtk_h.graphene_ray_get_origin(handle(), origin.handle());
     }
     
     /**
@@ -92,7 +94,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * given #graphene_ray_t.
      */
     public void getPositionAt(float t, Point3D position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_get_position_at(HANDLE(), t, position.HANDLE());
+        gtk_h.graphene_ray_get_position_at(handle(), t, position.handle());
     }
     
     /**
@@ -100,7 +102,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * and @direction values.
      */
     public Ray init(Point3D origin, Vec3 direction) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init(HANDLE(), origin.HANDLE(), direction.HANDLE());
+        var RESULT = gtk_h.graphene_ray_init(handle(), origin.handle(), direction.handle());
         return new Ray(References.get(RESULT, false));
     }
     
@@ -109,7 +111,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * values of another #graphene_ray_t.
      */
     public Ray initFromRay(Ray src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init_from_ray(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_ray_init_from_ray(handle(), src.handle());
         return new Ray(References.get(RESULT, false));
     }
     
@@ -117,7 +119,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes the given #graphene_ray_t using the given vectors.
      */
     public Ray initFromVec3(Vec3 origin, Vec3 direction) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init_from_vec3(HANDLE(), origin.HANDLE(), direction.HANDLE());
+        var RESULT = gtk_h.graphene_ray_init_from_vec3(handle(), origin.handle(), direction.handle());
         return new Ray(References.get(RESULT, false));
     }
     
@@ -128,7 +130,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_ray_intersect_box()
      */
     public boolean intersectsBox(Box b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_intersects_box(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_ray_intersects_box(handle(), b.handle());
         return RESULT;
     }
     
@@ -139,7 +141,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_ray_intersect_sphere()
      */
     public boolean intersectsSphere(Sphere s) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_intersects_sphere(HANDLE(), s.HANDLE());
+        var RESULT = gtk_h.graphene_ray_intersects_sphere(handle(), s.handle());
         return RESULT;
     }
     
@@ -150,7 +152,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_ray_intersect_triangle()
      */
     public boolean intersectsTriangle(Triangle t) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_intersects_triangle(HANDLE(), t.HANDLE());
+        var RESULT = gtk_h.graphene_ray_intersects_triangle(handle(), t.handle());
         return RESULT;
     }
     

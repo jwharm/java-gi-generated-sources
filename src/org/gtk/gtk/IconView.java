@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -45,7 +47,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new `GtkIconView` widget
      */
     public IconView() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new(), false));
+        super(References.get(gtk_h.gtk_icon_view_new(), false));
     }
     
     /**
@@ -53,14 +55,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * specified @area to layout cells inside the icons.
      */
     public IconView(CellArea area) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_area(area.HANDLE()), false));
+        super(References.get(gtk_h.gtk_icon_view_new_with_area(area.handle()), false));
     }
     
     /**
      * Creates a new `GtkIconView` widget with the model @model.
      */
     public IconView(TreeModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_new_with_model(model.HANDLE()), false));
+        super(References.get(gtk_h.gtk_icon_view_new_with_model(model.handle()), false));
     }
     
     /**
@@ -68,7 +70,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * This image is used for a drag icon.
      */
     public org.gtk.gdk.Paintable createDragIcon(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_create_drag_icon(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_create_drag_icon(handle(), path.handle());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
     }
     
@@ -77,7 +79,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * method sets `GtkIconView`:reorderable to %FALSE.
      */
     public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_enable_model_drag_dest(HANDLE(), formats.HANDLE(), actions);
+        gtk_h.gtk_icon_view_enable_model_drag_dest(handle(), formats.handle(), actions);
     }
     
     /**
@@ -85,14 +87,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * method sets `GtkIconView`:reorderable to %FALSE.
      */
     public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_enable_model_drag_source(HANDLE(), startButtonMask, formats.HANDLE(), actions);
+        gtk_h.gtk_icon_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
     }
     
     /**
      * Gets the setting set by gtk_icon_view_set_activate_on_single_click().
      */
     public boolean getActivateOnSingleClick() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_activate_on_single_click(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_activate_on_single_click(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * This function is only valid if @icon_view is realized.
      */
     public boolean getCellRect(TreePath path, CellRenderer cell, org.gtk.gdk.Rectangle rect) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_cell_rect(HANDLE(), path.HANDLE(), cell.HANDLE(), rect.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_cell_rect(handle(), path.handle(), cell.handle(), rect.handle());
         return (RESULT != 0);
     }
     
@@ -111,7 +113,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::column-spacing property.
      */
     public int getColumnSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_column_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_column_spacing(handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::columns property.
      */
     public int getColumns() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_columns(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_columns(handle());
         return RESULT;
     }
     
@@ -131,7 +133,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * The returned `GtkTreePath` must be freed with gtk_tree_path_free().
      */
     public boolean getCursor(TreePath[] path, CellRenderer[] cell) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_cursor(HANDLE(), Interop.allocateNativeArray(path), Interop.allocateNativeArray(cell));
+        var RESULT = gtk_h.gtk_icon_view_get_cursor(handle(), Interop.allocateNativeArray(path), Interop.allocateNativeArray(cell));
         return (RESULT != 0);
     }
     
@@ -139,7 +141,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the path and cell for the icon at the given position.
      */
     public boolean getItemAtPos(int x, int y, TreePath[] path, CellRenderer[] cell) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_at_pos(HANDLE(), x, y, Interop.allocateNativeArray(path), Interop.allocateNativeArray(cell));
+        var RESULT = gtk_h.gtk_icon_view_get_item_at_pos(handle(), x, y, Interop.allocateNativeArray(path), Interop.allocateNativeArray(cell));
         return (RESULT != 0);
     }
     
@@ -148,7 +150,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * displayed. Column numbers start at 0.
      */
     public int getItemColumn(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_column(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_item_column(handle(), path.handle());
         return RESULT;
     }
     
@@ -157,7 +159,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * whether the labels are drawn beside the icons instead of below.
      */
     public Orientation getItemOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_orientation(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_item_orientation(handle());
         return Orientation.fromValue(RESULT);
     }
     
@@ -165,7 +167,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::item-padding property.
      */
     public int getItemPadding() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_padding(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_item_padding(handle());
         return RESULT;
     }
     
@@ -174,7 +176,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * displayed. Row numbers start at 0.
      */
     public int getItemRow(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_row(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_item_row(handle(), path.handle());
         return RESULT;
     }
     
@@ -182,7 +184,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::item-width property.
      */
     public int getItemWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_item_width(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_item_width(handle());
         return RESULT;
     }
     
@@ -190,7 +192,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::margin property.
      */
     public int getMargin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_margin(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_margin(handle());
         return RESULT;
     }
     
@@ -198,7 +200,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with markup text for @icon_view.
      */
     public int getMarkupColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_markup_column(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_markup_column(handle());
         return RESULT;
     }
     
@@ -207,7 +209,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * model is unset.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -215,7 +217,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the path for the icon at the given position.
      */
     public TreePath getPathAtPos(int x, int y) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_path_at_pos(HANDLE(), x, y);
+        var RESULT = gtk_h.gtk_icon_view_get_path_at_pos(handle(), x, y);
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -223,7 +225,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with pixbufs for @icon_view.
      */
     public int getPixbufColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_pixbuf_column(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_pixbuf_column(handle());
         return RESULT;
     }
     
@@ -232,7 +234,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * See gtk_icon_view_set_reorderable().
      */
     public boolean getReorderable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_reorderable(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_reorderable(handle());
         return (RESULT != 0);
     }
     
@@ -240,7 +242,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::row-spacing property.
      */
     public int getRowSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_row_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_row_spacing(handle());
         return RESULT;
     }
     
@@ -263,7 +265,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * ]|
      */
     public org.gtk.glib.List getSelectedItems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_selected_items(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_selected_items(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -271,7 +273,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the selection mode of the @icon_view.
      */
     public SelectionMode getSelectionMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_selection_mode(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_selection_mode(handle());
         return SelectionMode.fromValue(RESULT);
     }
     
@@ -279,7 +281,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::spacing property.
      */
     public int getSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_spacing(handle());
         return RESULT;
     }
     
@@ -287,7 +289,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with text for @icon_view.
      */
     public int getTextColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_text_column(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_text_column(handle());
         return RESULT;
     }
     
@@ -296,7 +298,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * displaying tooltips on @icon_view’s rows.
      */
     public int getTooltipColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_tooltip_column(HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_tooltip_column(handle());
         return RESULT;
     }
     
@@ -313,7 +315,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * that row and the corresponding model.
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_tooltip_context(HANDLE(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model), Interop.allocateNativeArray(path), iter.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model), Interop.allocateNativeArray(path), iter.handle());
         return (RESULT != 0);
     }
     
@@ -324,7 +326,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Both paths should be freed with gtk_tree_path_free() after use.
      */
     public boolean getVisibleRange(TreePath[] startPath, TreePath[] endPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_get_visible_range(HANDLE(), Interop.allocateNativeArray(startPath), Interop.allocateNativeArray(endPath));
+        var RESULT = gtk_h.gtk_icon_view_get_visible_range(handle(), Interop.allocateNativeArray(startPath), Interop.allocateNativeArray(endPath));
         return (RESULT != 0);
     }
     
@@ -332,7 +334,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Activates the item determined by @path.
      */
     public void itemActivated(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_item_activated(HANDLE(), path.HANDLE());
+        gtk_h.gtk_icon_view_item_activated(handle(), path.handle());
     }
     
     /**
@@ -340,7 +342,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * selected. If @path does not point to a valid location, %FALSE is returned.
      */
     public boolean pathIsSelected(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_path_is_selected(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_icon_view_path_is_selected(handle(), path.handle());
         return (RESULT != 0);
     }
     
@@ -361,7 +363,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * centered path will be modified to reflect this change.
      */
     public void scrollToPath(TreePath path, boolean useAlign, float rowAlign, float colAlign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_scroll_to_path(HANDLE(), path.HANDLE(), useAlign ? 1 : 0, rowAlign, colAlign);
+        gtk_h.gtk_icon_view_scroll_to_path(handle(), path.handle(), useAlign ? 1 : 0, rowAlign, colAlign);
     }
     
     /**
@@ -369,14 +371,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * to %GTK_SELECTION_MULTIPLE.
      */
     public void selectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_select_all(HANDLE());
+        gtk_h.gtk_icon_view_select_all(handle());
     }
     
     /**
      * Selects the row at @path.
      */
     public void selectPath(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_select_path(HANDLE(), path.HANDLE());
+        gtk_h.gtk_icon_view_select_path(handle(), path.handle());
     }
     
     /**
@@ -384,7 +386,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * a single click instead of a double click.
      */
     public void setActivateOnSingleClick(boolean single) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_activate_on_single_click(HANDLE(), single ? 1 : 0);
+        gtk_h.gtk_icon_view_set_activate_on_single_click(handle(), single ? 1 : 0);
     }
     
     /**
@@ -392,7 +394,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * which is inserted between the columns of the icon view.
      */
     public void setColumnSpacing(int columnSpacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_column_spacing(HANDLE(), columnSpacing);
+        gtk_h.gtk_icon_view_set_column_spacing(handle(), columnSpacing);
     }
     
     /**
@@ -402,7 +404,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * to fill the available area.
      */
     public void setColumns(int columns) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_columns(HANDLE(), columns);
+        gtk_h.gtk_icon_view_set_columns(handle(), columns);
     }
     
     /**
@@ -417,14 +419,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Please note that editing can only happen when the widget is realized.
      */
     public void setCursor(TreePath path, CellRenderer cell, boolean startEditing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_cursor(HANDLE(), path.HANDLE(), cell.HANDLE(), startEditing ? 1 : 0);
+        gtk_h.gtk_icon_view_set_cursor(handle(), path.handle(), cell.handle(), startEditing ? 1 : 0);
     }
     
     /**
      * Sets the item that is highlighted for feedback.
      */
     public void setDragDestItem(TreePath path, IconViewDropPosition pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_drag_dest_item(HANDLE(), path.HANDLE(), pos.getValue());
+        gtk_h.gtk_icon_view_set_drag_dest_item(handle(), path.handle(), pos.getValue());
     }
     
     /**
@@ -432,7 +434,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * are drawn beside the icons instead of below.
      */
     public void setItemOrientation(Orientation orientation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_item_orientation(HANDLE(), orientation.getValue());
+        gtk_h.gtk_icon_view_set_item_orientation(handle(), orientation.getValue());
     }
     
     /**
@@ -440,7 +442,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * around each of the icon view’s items.
      */
     public void setItemPadding(int itemPadding) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_item_padding(HANDLE(), itemPadding);
+        gtk_h.gtk_icon_view_set_item_padding(handle(), itemPadding);
     }
     
     /**
@@ -449,7 +451,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * automatically determine a suitable item size.
      */
     public void setItemWidth(int itemWidth) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_item_width(HANDLE(), itemWidth);
+        gtk_h.gtk_icon_view_set_item_width(handle(), itemWidth);
     }
     
     /**
@@ -458,7 +460,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * of the icon view.
      */
     public void setMargin(int margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_margin(HANDLE(), margin);
+        gtk_h.gtk_icon_view_set_margin(handle(), margin);
     }
     
     /**
@@ -468,7 +470,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * the text column set by gtk_icon_view_set_text_column().
      */
     public void setMarkupColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_markup_column(HANDLE(), column);
+        gtk_h.gtk_icon_view_set_markup_column(handle(), column);
     }
     
     /**
@@ -478,7 +480,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * it will unset the old model.
      */
     public void setModel(TreeModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_icon_view_set_model(handle(), model.handle());
     }
     
     /**
@@ -486,7 +488,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * column must be of type `GDK_TYPE_PIXBUF`
      */
     public void setPixbufColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_pixbuf_column(HANDLE(), column);
+        gtk_h.gtk_icon_view_set_pixbuf_column(handle(), column);
     }
     
     /**
@@ -504,7 +506,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * handle drag and drop manually.
      */
     public void setReorderable(boolean reorderable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_reorderable(HANDLE(), reorderable ? 1 : 0);
+        gtk_h.gtk_icon_view_set_reorderable(handle(), reorderable ? 1 : 0);
     }
     
     /**
@@ -512,14 +514,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * which is inserted between the rows of the icon view.
      */
     public void setRowSpacing(int rowSpacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_row_spacing(HANDLE(), rowSpacing);
+        gtk_h.gtk_icon_view_set_row_spacing(handle(), rowSpacing);
     }
     
     /**
      * Sets the selection mode of the @icon_view.
      */
     public void setSelectionMode(SelectionMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_selection_mode(HANDLE(), mode.getValue());
+        gtk_h.gtk_icon_view_set_selection_mode(handle(), mode.getValue());
     }
     
     /**
@@ -528,7 +530,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * the text) of an item.
      */
     public void setSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_spacing(HANDLE(), spacing);
+        gtk_h.gtk_icon_view_set_spacing(handle(), spacing);
     }
     
     /**
@@ -536,7 +538,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * column must be of type `G_TYPE_STRING`.
      */
     public void setTextColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_text_column(HANDLE(), column);
+        gtk_h.gtk_icon_view_set_text_column(handle(), column);
     }
     
     /**
@@ -546,7 +548,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * See also gtk_icon_view_set_tooltip_column() for a simpler alternative.
      */
     public void setTooltipCell(Tooltip tooltip, TreePath path, CellRenderer cell) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_tooltip_cell(HANDLE(), tooltip.HANDLE(), path.HANDLE(), cell.HANDLE());
+        gtk_h.gtk_icon_view_set_tooltip_cell(handle(), tooltip.handle(), path.handle(), cell.handle());
     }
     
     /**
@@ -562,7 +564,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * so &, <, etc have to be escaped in the text.
      */
     public void setTooltipColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_tooltip_column(HANDLE(), column);
+        gtk_h.gtk_icon_view_set_tooltip_column(handle(), column);
     }
     
     /**
@@ -571,21 +573,21 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * See also gtk_tooltip_set_tip_area().
      */
     public void setTooltipItem(Tooltip tooltip, TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_set_tooltip_item(HANDLE(), tooltip.HANDLE(), path.HANDLE());
+        gtk_h.gtk_icon_view_set_tooltip_item(handle(), tooltip.handle(), path.handle());
     }
     
     /**
      * Unselects all the icons.
      */
     public void unselectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_unselect_all(HANDLE());
+        gtk_h.gtk_icon_view_unselect_all(handle());
     }
     
     /**
      * Unselects the row at @path.
      */
     public void unselectPath(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_unselect_path(HANDLE(), path.HANDLE());
+        gtk_h.gtk_icon_view_unselect_path(handle(), path.handle());
     }
     
     /**
@@ -593,7 +595,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * method sets `GtkIconView`:reorderable to %FALSE.
      */
     public void unsetModelDragDest() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_unset_model_drag_dest(HANDLE());
+        gtk_h.gtk_icon_view_unset_model_drag_dest(handle());
     }
     
     /**
@@ -601,7 +603,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * method sets `GtkIconView`:reorderable to %FALSE.
      */
     public void unsetModelDragSource() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_view_unset_model_drag_source(HANDLE());
+        gtk_h.gtk_icon_view_unset_model_drag_source(handle());
     }
     
     @FunctionalInterface
@@ -624,12 +626,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewActivateCursorItem", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-cursor-item").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-cursor-item").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -653,12 +655,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewItemActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("item-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("item-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -689,12 +691,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -719,12 +721,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectAll", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("select-all").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("select-all").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -750,12 +752,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectCursorItem", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("select-cursor-item").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("select-cursor-item").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -774,12 +776,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("selection-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("selection-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -806,12 +808,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewToggleCursorItem", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggle-cursor-item").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggle-cursor-item").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -836,12 +838,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewUnselectAll", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unselect-all").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("unselect-all").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

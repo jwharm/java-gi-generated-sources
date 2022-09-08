@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -53,21 +55,21 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * this, use [struct@Gdk.ContentFormatsBuilder] instead.
      */
     public ContentFormats(java.lang.String[] mimeTypes, int nMimeTypes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes), nMimeTypes), true));
+        super(References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes), nMimeTypes), true));
     }
     
     /**
      * Creates a new `GdkContentFormats` for a given `GType`.
      */
     public ContentFormats(Type type) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
+        super(References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
     }
     
     /**
      * Checks if a given `GType` is part of the given @formats.
      */
     public boolean containGtype(Type type) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_contain_gtype(HANDLE(), type.getValue());
+        var RESULT = gtk_h.gdk_content_formats_contain_gtype(handle(), type.getValue());
         return (RESULT != 0);
     }
     
@@ -75,7 +77,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if a given mime type is part of the given @formats.
      */
     public boolean containMimeType(java.lang.String mimeType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_contain_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_contain_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if @first and @second have any matching formats.
      */
     public boolean match(ContentFormats second) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_match(HANDLE(), second.HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_match(handle(), second.handle());
         return (RESULT != 0);
     }
     
@@ -94,7 +96,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * If no matching `GType` is found, %G_TYPE_INVALID is returned.
      */
     public org.gtk.gobject.Type matchGtype(ContentFormats second) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_match_gtype(HANDLE(), second.HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_match_gtype(handle(), second.handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -105,7 +107,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * If no matching mime type is found, %NULL is returned.
      */
     public java.lang.String matchMimeType(ContentFormats second) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_match_mime_type(HANDLE(), second.HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_match_mime_type(handle(), second.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -116,14 +118,14 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * [func@Gdk.ContentFormats.parse].
      */
     public void print(org.gtk.glib.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_print(HANDLE(), string.HANDLE());
+        gtk_h.gdk_content_formats_print(handle(), string.handle());
     }
     
     /**
      * Increases the reference count of a `GdkContentFormats` by one.
      */
     public ContentFormats ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_ref(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_ref(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -136,7 +138,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * to help when debugging.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_to_string(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -145,7 +147,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * they had in @second.
      */
     public ContentFormats union(ContentFormats second) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union(HANDLE(), second.HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_union(handle(), second.handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -154,7 +156,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * registered.
      */
     public ContentFormats unionDeserializeGtypes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_deserialize_gtypes(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_union_deserialize_gtypes(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -163,7 +165,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * registered.
      */
     public ContentFormats unionDeserializeMimeTypes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_deserialize_mime_types(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_union_deserialize_mime_types(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -172,7 +174,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * registered.
      */
     public ContentFormats unionSerializeGtypes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_serialize_gtypes(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_union_serialize_gtypes(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -181,7 +183,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * registered.
      */
     public ContentFormats unionSerializeMimeTypes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_union_serialize_mime_types(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_union_serialize_mime_types(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -191,7 +193,7 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * If the resulting reference count is zero, frees the formats.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_unref(HANDLE());
+        gtk_h.gdk_content_formats_unref(handle());
     }
     
 }

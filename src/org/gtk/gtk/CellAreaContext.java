@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +45,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * `GtkTreeView:fixed-height-mode` is enabled.
      */
     public void allocate(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_allocate(HANDLE(), width, height);
+        gtk_h.gtk_cell_area_context_allocate(handle(), width, height);
     }
     
     /**
@@ -59,7 +61,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * compute a proper allocation.
      */
     public CellArea getArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_get_area(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_context_get_area(handle());
         return new CellArea(References.get(RESULT, false));
     }
     
@@ -73,7 +75,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * gtk_cell_area_get_preferred_height() requests.
      */
     public void pushPreferredHeight(int minimumHeight, int naturalHeight) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_push_preferred_height(HANDLE(), minimumHeight, naturalHeight);
+        gtk_h.gtk_cell_area_context_push_preferred_height(handle(), minimumHeight, naturalHeight);
     }
     
     /**
@@ -86,7 +88,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * gtk_cell_area_get_preferred_width() requests.
      */
     public void pushPreferredWidth(int minimumWidth, int naturalWidth) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_push_preferred_width(HANDLE(), minimumWidth, naturalWidth);
+        gtk_h.gtk_cell_area_context_push_preferred_width(handle(), minimumWidth, naturalWidth);
     }
     
     /**
@@ -114,7 +116,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * gtk_cell_area_get_preferred_height_for_width().
      */
     public void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_context_reset(HANDLE());
+        gtk_h.gtk_cell_area_context_reset(handle());
     }
     
 }

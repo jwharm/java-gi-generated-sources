@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,14 +43,14 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * adjustments if none are given.
      */
     public Viewport(Adjustment hadjustment, Adjustment vadjustment) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_new(hadjustment.HANDLE(), vadjustment.HANDLE()), false));
+        super(References.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false));
     }
     
     /**
      * Gets the child widget of @viewport.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_viewport_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * child in view.
      */
     public boolean getScrollToFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_get_scroll_to_focus(HANDLE());
+        var RESULT = gtk_h.gtk_viewport_get_scroll_to_focus(handle());
         return (RESULT != 0);
     }
     
@@ -65,7 +67,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * Sets the child widget of @viewport.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_viewport_set_child(handle(), child.handle());
     }
     
     /**
@@ -73,7 +75,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * to keep the focused child in view.
      */
     public void setScrollToFocus(boolean scrollToFocus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_set_scroll_to_focus(HANDLE(), scrollToFocus ? 1 : 0);
+        gtk_h.gtk_viewport_set_scroll_to_focus(handle(), scrollToFocus ? 1 : 0);
     }
     
 }

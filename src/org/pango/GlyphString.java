@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,14 +24,14 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * Create a new `PangoGlyphString`.
      */
     public GlyphString() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_new(), true));
+        super(References.get(gtk_h.pango_glyph_string_new(), true));
     }
     
     /**
      * Copy a glyph string and associated storage.
      */
     public GlyphString copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_copy(HANDLE());
+        var RESULT = gtk_h.pango_glyph_string_copy(handle());
         return new GlyphString(References.get(RESULT, true));
     }
     
@@ -44,7 +46,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * ![](rects1.png) ![](rects2.png)
      */
     public void extents(Font font, Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_extents(HANDLE(), font.HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_glyph_string_extents(handle(), font.handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -55,14 +57,14 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * not at the start of the entire glyph string).
      */
     public void extentsRange(int start, int end, Font font, Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_extents_range(HANDLE(), start, end, font.HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_glyph_string_extents_range(handle(), start, end, font.handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
      * Free a glyph string and associated storage.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_free(HANDLE());
+        gtk_h.pango_glyph_string_free(handle());
     }
     
     /**
@@ -75,7 +77,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also [method@Pango.GlyphItem.get_logical_widths].
      */
     public void getLogicalWidths(java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_get_logical_widths(HANDLE(), Interop.allocateNativeString(text).HANDLE(), length, embeddingLevel, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
+        gtk_h.pango_glyph_string_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), length, embeddingLevel, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
     }
     
     /**
@@ -87,7 +89,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * @geometry.width for each glyph in the @glyphs.
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_get_width(HANDLE());
+        var RESULT = gtk_h.pango_glyph_string_get_width(handle());
         return RESULT;
     }
     
@@ -95,7 +97,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      * Resize a glyph string to the given length.
      */
     public void setSize(int newLen) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_set_size(HANDLE(), newLen);
+        gtk_h.pango_glyph_string_set_size(handle(), newLen);
     }
     
 }

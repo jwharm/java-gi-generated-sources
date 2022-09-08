@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -45,7 +47,7 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      * want to keep the GThread alive beyond the g_thread_join() call.
      */
     public jdk.incubator.foreign.MemoryAddress join() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_join(HANDLE());
+        var RESULT = gtk_h.g_thread_join(handle());
         return RESULT;
     }
     
@@ -53,7 +55,7 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increase the reference count on @thread.
      */
     public Thread ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_ref(HANDLE());
+        var RESULT = gtk_h.g_thread_ref(handle());
         return new Thread(References.get(RESULT, true));
     }
     
@@ -66,7 +68,7 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      * if you don't need it anymore.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_unref(HANDLE());
+        gtk_h.g_thread_unref(handle());
     }
     
 }

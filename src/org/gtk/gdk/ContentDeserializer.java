@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This is the `GCancellable` that was passed to [func@Gdk.content_deserialize_async].
      */
     public org.gtk.gio.Cancellable getCancellable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_cancellable(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_cancellable(handle());
         return new org.gtk.gio.Cancellable(References.get(RESULT, false));
     }
     
@@ -43,7 +45,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Gets the `GType` to create an instance of.
      */
     public org.gtk.gobject.Type getGtype() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_gtype(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_gtype(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -53,7 +55,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This is the stream that was passed to [func@Gdk.content_deserialize_async].
      */
     public org.gtk.gio.InputStream getInputStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_input_stream(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_input_stream(handle());
         return new org.gtk.gio.InputStream(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Gets the mime type to deserialize from.
      */
     public java.lang.String getMimeType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_mime_type(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_mime_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -71,7 +73,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This is the priority that was passed to [func@Gdk.content_deserialize_async].
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_priority(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_priority(handle());
         return RESULT;
     }
     
@@ -81,7 +83,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * See [method@Gdk.ContentDeserializer.set_task_data].
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_task_data(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_task_data(handle());
         return RESULT;
     }
     
@@ -89,7 +91,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Gets the user data that was passed when the deserializer was registered.
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_user_data(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_user_data(handle());
         return RESULT;
     }
     
@@ -97,7 +99,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Gets the `GValue` to store the deserialized object in.
      */
     public org.gtk.gobject.Value getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_get_value(HANDLE());
+        var RESULT = gtk_h.gdk_content_deserializer_get_value(handle());
         return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
@@ -107,14 +109,14 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This function consumes @error.
      */
     public void returnError(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_return_error(HANDLE(), error.HANDLE());
+        gtk_h.gdk_content_deserializer_return_error(handle(), error.handle());
     }
     
     /**
      * Indicate that the deserialization has been successfully completed.
      */
     public void returnSuccess() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_deserializer_return_success(HANDLE());
+        gtk_h.gdk_content_deserializer_return_success(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -203,7 +205,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * You can pass %NULL to get an empty label widget.
      */
     public Label(java.lang.String str) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.allocateNativeString(str).HANDLE()), false));
+        super(References.get(gtk_h.gtk_label_new(Interop.allocateNativeString(str).handle()), false));
     }
     
     /**
@@ -223,7 +225,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and be activated by the mnemonic.
      */
     public static Label newWithMnemonic(java.lang.String str) {
-        return new Label(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).HANDLE()), false));
+        return new Label(References.get(gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).handle()), false));
     }
     
     /**
@@ -237,7 +239,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * `pango_layout_get_attribute (gtk_label_get_layout (self))`.
      */
     public org.pango.AttrList getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_attributes(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_attributes(handle());
         return new org.pango.AttrList(References.get(RESULT, false));
     }
     
@@ -252,7 +254,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * handler or for use in a [signal@Gtk.Widget::query-tooltip] handler.
      */
     public java.lang.String getCurrentUri() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_current_uri(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_current_uri(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -262,7 +264,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_ellipsize].
      */
     public org.pango.EllipsizeMode getEllipsize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_ellipsize(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_ellipsize(handle());
         return org.pango.EllipsizeMode.fromValue(RESULT);
     }
     
@@ -272,7 +274,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_extra_menu].
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_extra_menu(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_extra_menu(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -282,7 +284,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_justify].
      */
     public Justification getJustify() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_justify(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_justify(handle());
         return Justification.fromValue(RESULT);
     }
     
@@ -293,7 +295,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * mnemonics and Pango markup. (See [method@Gtk.Label.get_text]).
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -307,7 +309,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * at any time, so it should be considered read-only.
      */
     public org.pango.Layout getLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_layout(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_layout(handle());
         return new org.pango.Layout(References.get(RESULT, false));
     }
     
@@ -318,7 +320,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_lines].
      */
     public int getLines() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_lines(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_lines(handle());
         return RESULT;
     }
     
@@ -328,7 +330,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_width_chars].
      */
     public int getMaxWidthChars() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_max_width_chars(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_max_width_chars(handle());
         return RESULT;
     }
     
@@ -340,7 +342,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * mnemonic set up it returns `GDK_KEY_VoidSymbol`.
      */
     public int getMnemonicKeyval() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_mnemonic_keyval(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_mnemonic_keyval(handle());
         return RESULT;
     }
     
@@ -351,7 +353,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_mnemonic_widget].
      */
     public Widget getMnemonicWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_mnemonic_widget(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_mnemonic_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -361,7 +363,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_natural_wrap_mode].
      */
     public NaturalWrapMode getNaturalWrapMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_natural_wrap_mode(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_natural_wrap_mode(handle());
         return NaturalWrapMode.fromValue(RESULT);
     }
     
@@ -369,7 +371,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the label is selectable.
      */
     public boolean getSelectable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_selectable(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_selectable(handle());
         return (RESULT != 0);
     }
     
@@ -377,7 +379,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the label is in single line mode.
      */
     public boolean getSingleLineMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_single_line_mode(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_single_line_mode(handle());
         return (RESULT != 0);
     }
     
@@ -389,7 +391,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * [method@Gtk.Label.get_label])
      */
     public java.lang.String getText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_text(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -399,7 +401,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_use_markup].
      */
     public boolean getUseMarkup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_use_markup(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_use_markup(handle());
         return (RESULT != 0);
     }
     
@@ -409,7 +411,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_use_underline].
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -419,7 +421,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_width_chars].
      */
     public int getWidthChars() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_width_chars(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_width_chars(handle());
         return RESULT;
     }
     
@@ -429,7 +431,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_wrap].
      */
     public boolean getWrap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_wrap(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_wrap(handle());
         return (RESULT != 0);
     }
     
@@ -439,7 +441,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_wrap_mode].
      */
     public org.pango.WrapMode getWrapMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_wrap_mode(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_wrap_mode(handle());
         return org.pango.WrapMode.fromValue(RESULT);
     }
     
@@ -449,7 +451,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the [property@Gtk.Label:xalign] property.
      */
     public float getXalign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_xalign(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_xalign(handle());
         return RESULT;
     }
     
@@ -459,7 +461,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the [property@Gtk.Label:yalign] property.
      */
     public float getYalign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_yalign(HANDLE());
+        var RESULT = gtk_h.gtk_label_get_yalign(handle());
         return RESULT;
     }
     
@@ -471,7 +473,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * @end_offset are -1, then the end of the label will be substituted.
      */
     public void selectRegion(int startOffset, int endOffset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_select_region(HANDLE(), startOffset, endOffset);
+        gtk_h.gtk_label_select_region(handle(), startOffset, endOffset);
     }
     
     /**
@@ -485,7 +487,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * be applied to the label after the markup string is parsed.
      */
     public void setAttributes(org.pango.AttrList attrs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_attributes(HANDLE(), attrs.HANDLE());
+        gtk_h.gtk_label_set_attributes(handle(), attrs.handle());
     }
     
     /**
@@ -495,7 +497,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * to render the entire string.
      */
     public void setEllipsize(org.pango.EllipsizeMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_ellipsize(HANDLE(), mode.getValue());
+        gtk_h.gtk_label_set_ellipsize(handle(), mode.getValue());
     }
     
     /**
@@ -503,7 +505,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * the context menu for @label.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_extra_menu(HANDLE(), model.HANDLE());
+        gtk_h.gtk_label_set_extra_menu(handle(), model.handle());
     }
     
     /**
@@ -517,7 +519,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * only a single line.
      */
     public void setJustify(Justification jtype) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_justify(HANDLE(), jtype.getValue());
+        gtk_h.gtk_label_set_justify(handle(), jtype.getValue());
     }
     
     /**
@@ -528,7 +530,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and [property@Gtk.Label:use-markup] properties.
      */
     public void setLabel(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_label(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_label_set_label(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
@@ -539,7 +541,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Set this to -1 if you don’t want to limit the number of lines.
      */
     public void setLines(int lines) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_lines(HANDLE(), lines);
+        gtk_h.gtk_label_set_lines(handle(), lines);
     }
     
     /**
@@ -572,7 +574,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See also: [method@Gtk.Label.set_text]
      */
     public void setMarkup(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_label_set_markup(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
@@ -587,14 +589,14 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * automatically, or explicitly using [method@Gtk.Label.set_mnemonic_widget].
      */
     public void setMarkupWithMnemonic(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_markup_with_mnemonic(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_label_set_markup_with_mnemonic(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
      * Sets the desired maximum width in characters of @label to @n_chars.
      */
     public void setMaxWidthChars(int nChars) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_max_width_chars(HANDLE(), nChars);
+        gtk_h.gtk_label_set_max_width_chars(handle(), nChars);
     }
     
     /**
@@ -617,7 +619,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and toggle focus between the colliding widgets otherwise.
      */
     public void setMnemonicWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_mnemonic_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_label_set_mnemonic_widget(handle(), widget.handle());
     }
     
     /**
@@ -627,7 +629,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * see the [property@Gtk.Label:wrap-mode] property.
      */
     public void setNaturalWrapMode(NaturalWrapMode wrapMode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_natural_wrap_mode(HANDLE(), wrapMode.getValue());
+        gtk_h.gtk_label_set_natural_wrap_mode(handle(), wrapMode.getValue());
     }
     
     /**
@@ -637,14 +639,14 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * for copy-and-paste.
      */
     public void setSelectable(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_selectable(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_label_set_selectable(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets whether the label is in single line mode.
      */
     public void setSingleLineMode(boolean singleLineMode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_single_line_mode(HANDLE(), singleLineMode ? 1 : 0);
+        gtk_h.gtk_label_set_single_line_mode(handle(), singleLineMode ? 1 : 0);
     }
     
     /**
@@ -662,7 +664,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See also: [method@Gtk.Label.set_markup]
      */
     public void setText(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_label_set_text(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
@@ -674,7 +676,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * automatically, or explicitly using [method@Gtk.Label.set_mnemonic_widget].
      */
     public void setTextWithMnemonic(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_text_with_mnemonic(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_label_set_text_with_mnemonic(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
@@ -683,21 +685,21 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Label.set_markup].
      */
     public void setUseMarkup(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_use_markup(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_label_set_use_markup(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets whether underlines in the text indicate mnemonics.
      */
     public void setUseUnderline(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_use_underline(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_label_set_use_underline(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets the desired width in characters of @label to @n_chars.
      */
     public void setWidthChars(int nChars) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_width_chars(HANDLE(), nChars);
+        gtk_h.gtk_label_set_width_chars(handle(), nChars);
     }
     
     /**
@@ -714,7 +716,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * set the label’s width using [method@Gtk.Widget.set_size_request].
      */
     public void setWrap(boolean wrap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_wrap(HANDLE(), wrap ? 1 : 0);
+        gtk_h.gtk_label_set_wrap(handle(), wrap ? 1 : 0);
     }
     
     /**
@@ -728,7 +730,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * property.
      */
     public void setWrapMode(org.pango.WrapMode wrapMode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_wrap_mode(HANDLE(), wrapMode.getValue());
+        gtk_h.gtk_label_set_wrap_mode(handle(), wrapMode.getValue());
     }
     
     /**
@@ -737,7 +739,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the [property@Gtk.Label:xalign] property.
      */
     public void setXalign(float xalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_xalign(HANDLE(), xalign);
+        gtk_h.gtk_label_set_xalign(handle(), xalign);
     }
     
     /**
@@ -746,7 +748,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the [property@Gtk.Label:yalign] property.
      */
     public void setYalign(float yalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_set_yalign(HANDLE(), yalign);
+        gtk_h.gtk_label_set_yalign(handle(), yalign);
     }
     
     @FunctionalInterface
@@ -768,12 +770,12 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateCurrentLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-current-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-current-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -794,12 +796,12 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -821,12 +823,12 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelCopyClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("copy-clipboard").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("copy-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -860,12 +862,12 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

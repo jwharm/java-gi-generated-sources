@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Plane() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_alloc(), true));
+        super(References.get(gtk_h.graphene_plane_alloc(), true));
     }
     
     /**
      * Computes the distance of @point from a #graphene_plane_t.
      */
     public float distance(Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_distance(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_plane_distance(handle(), point.handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given #graphene_plane_t are equal.
      */
     public boolean equal(Plane b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_plane_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -46,7 +48,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_plane_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_free(HANDLE());
+        gtk_h.graphene_plane_free(handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * given #graphene_plane_t from the origin.
      */
     public float getConstant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_get_constant(HANDLE());
+        var RESULT = gtk_h.graphene_plane_get_constant(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * given #graphene_plane_t.
      */
     public void getNormal(Vec3 normal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_get_normal(HANDLE(), normal.HANDLE());
+        gtk_h.graphene_plane_get_normal(handle(), normal.handle());
     }
     
     /**
@@ -71,7 +73,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * and @constant values.
      */
     public Plane init(Vec3 normal, float constant) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init(HANDLE(), normal.HANDLE(), constant);
+        var RESULT = gtk_h.graphene_plane_init(handle(), normal.handle(), constant);
         return new Plane(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * vector and constant of another #graphene_plane_t.
      */
     public Plane initFromPlane(Plane src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_plane(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_plane_init_from_plane(handle(), src.handle());
         return new Plane(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * and an arbitrary co-planar point.
      */
     public Plane initFromPoint(Vec3 normal, Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_point(HANDLE(), normal.HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_plane_init_from_point(handle(), normal.handle(), point.handle());
         return new Plane(References.get(RESULT, false));
     }
     
@@ -101,7 +103,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * the normal vector will point.
      */
     public Plane initFromPoints(Point3D a, Point3D b, Point3D c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_points(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
+        var RESULT = gtk_h.graphene_plane_init_from_points(handle(), a.handle(), b.handle(), c.handle());
         return new Plane(References.get(RESULT, false));
     }
     
@@ -110,7 +112,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * the given #graphene_vec4_t vector.
      */
     public Plane initFromVec4(Vec4 src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_vec4(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_plane_init_from_vec4(handle(), src.handle());
         return new Plane(References.get(RESULT, false));
     }
     
@@ -119,7 +121,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * mirroring the plane across the origin.
      */
     public void negate(Plane res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_negate(HANDLE(), res.HANDLE());
+        gtk_h.graphene_plane_negate(handle(), res.handle());
     }
     
     /**
@@ -127,7 +129,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * and adjusts the constant accordingly.
      */
     public void normalize(Plane res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_normalize(HANDLE(), res.HANDLE());
+        gtk_h.graphene_plane_normalize(handle(), res.handle());
     }
     
     /**
@@ -141,7 +143,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * recomputing it every time.
      */
     public void transform(Matrix matrix, Matrix normalMatrix, Plane res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_transform(HANDLE(), matrix.HANDLE(), normalMatrix.HANDLE(), res.HANDLE());
+        gtk_h.graphene_plane_transform(handle(), matrix.handle(), normalMatrix.handle(), res.handle());
     }
     
 }

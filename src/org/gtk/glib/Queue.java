@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,7 +22,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * dynamically-allocated memory, they should be freed first.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_clear(HANDLE());
+        gtk_h.g_queue_clear(handle());
     }
     
     /**
@@ -29,7 +31,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * actual data is not.
      */
     public Queue copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_copy(HANDLE());
+        var RESULT = gtk_h.g_queue_copy(handle());
         return new Queue(References.get(RESULT, false));
     }
     
@@ -39,14 +41,14 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * @link_ must be part of @queue.
      */
     public void deleteLink(org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_delete_link(HANDLE(), link.HANDLE());
+        gtk_h.g_queue_delete_link(handle(), link.handle());
     }
     
     /**
      * Finds the first link in @queue which contains @data.
      */
     public org.gtk.glib.List find(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_find(HANDLE(), data);
+        var RESULT = gtk_h.g_queue_find(handle(), data);
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -59,14 +61,14 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * either use g_queue_free_full() or free them manually first.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_free(HANDLE());
+        gtk_h.g_queue_free(handle());
     }
     
     /**
      * Returns the number of items in @queue.
      */
     public int getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_get_length(HANDLE());
+        var RESULT = gtk_h.g_queue_get_length(handle());
         return RESULT;
     }
     
@@ -74,7 +76,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the position of the first element in @queue which contains @data.
      */
     public int index(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_index(HANDLE(), data);
+        var RESULT = gtk_h.g_queue_index(handle(), data);
         return RESULT;
     }
     
@@ -85,7 +87,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_queue_new().
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_init(HANDLE());
+        gtk_h.g_queue_init(handle());
     }
     
     /**
@@ -95,7 +97,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * data at the head of the queue.
      */
     public void insertAfter(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_insert_after(HANDLE(), sibling.HANDLE(), data);
+        gtk_h.g_queue_insert_after(handle(), sibling.handle(), data);
     }
     
     /**
@@ -104,7 +106,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * @sibling must be part of @queue.
      */
     public void insertAfterLink(org.gtk.glib.List sibling, org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_insert_after_link(HANDLE(), sibling.HANDLE(), link.HANDLE());
+        gtk_h.g_queue_insert_after_link(handle(), sibling.handle(), link.handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * data at the tail of the queue.
      */
     public void insertBefore(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_insert_before(HANDLE(), sibling.HANDLE(), data);
+        gtk_h.g_queue_insert_before(handle(), sibling.handle(), data);
     }
     
     /**
@@ -123,14 +125,14 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * @sibling must be part of @queue.
      */
     public void insertBeforeLink(org.gtk.glib.List sibling, org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_insert_before_link(HANDLE(), sibling.HANDLE(), link.HANDLE());
+        gtk_h.g_queue_insert_before_link(handle(), sibling.handle(), link.handle());
     }
     
     /**
      * Returns %TRUE if the queue is empty.
      */
     public boolean isEmpty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_is_empty(HANDLE());
+        var RESULT = gtk_h.g_queue_is_empty(handle());
         return (RESULT != 0);
     }
     
@@ -138,7 +140,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the position of @link_ in @queue.
      */
     public int linkIndex(org.gtk.glib.List link) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_link_index(HANDLE(), link.HANDLE());
+        var RESULT = gtk_h.g_queue_link_index(handle(), link.handle());
         return RESULT;
     }
     
@@ -146,7 +148,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the first element of the queue.
      */
     public jdk.incubator.foreign.MemoryAddress peekHead() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_head(HANDLE());
+        var RESULT = gtk_h.g_queue_peek_head(handle());
         return RESULT;
     }
     
@@ -154,7 +156,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the first link in @queue.
      */
     public org.gtk.glib.List peekHeadLink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_head_link(HANDLE());
+        var RESULT = gtk_h.g_queue_peek_head_link(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the @n'th element of @queue.
      */
     public jdk.incubator.foreign.MemoryAddress peekNth(int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_nth(HANDLE(), n);
+        var RESULT = gtk_h.g_queue_peek_nth(handle(), n);
         return RESULT;
     }
     
@@ -170,7 +172,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the link at the given position
      */
     public org.gtk.glib.List peekNthLink(int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_nth_link(HANDLE(), n);
+        var RESULT = gtk_h.g_queue_peek_nth_link(handle(), n);
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -178,7 +180,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the last element of the queue.
      */
     public jdk.incubator.foreign.MemoryAddress peekTail() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_tail(HANDLE());
+        var RESULT = gtk_h.g_queue_peek_tail(handle());
         return RESULT;
     }
     
@@ -186,7 +188,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the last link in @queue.
      */
     public org.gtk.glib.List peekTailLink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_tail_link(HANDLE());
+        var RESULT = gtk_h.g_queue_peek_tail_link(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -194,7 +196,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes the first element of the queue and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popHead() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_head(HANDLE());
+        var RESULT = gtk_h.g_queue_pop_head(handle());
         return RESULT;
     }
     
@@ -202,7 +204,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes and returns the first element of the queue.
      */
     public org.gtk.glib.List popHeadLink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_head_link(HANDLE());
+        var RESULT = gtk_h.g_queue_pop_head_link(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -210,7 +212,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes the @n'th element of @queue and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popNth(int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_nth(HANDLE(), n);
+        var RESULT = gtk_h.g_queue_pop_nth(handle(), n);
         return RESULT;
     }
     
@@ -218,7 +220,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes and returns the link at the given position.
      */
     public org.gtk.glib.List popNthLink(int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_nth_link(HANDLE(), n);
+        var RESULT = gtk_h.g_queue_pop_nth_link(handle(), n);
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -226,7 +228,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes the last element of the queue and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popTail() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_tail(HANDLE());
+        var RESULT = gtk_h.g_queue_pop_tail(handle());
         return RESULT;
     }
     
@@ -234,7 +236,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes and returns the last element of the queue.
      */
     public org.gtk.glib.List popTailLink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_tail_link(HANDLE());
+        var RESULT = gtk_h.g_queue_pop_tail_link(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -242,49 +244,49 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds a new element at the head of the queue.
      */
     public void pushHead(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_head(HANDLE(), data);
+        gtk_h.g_queue_push_head(handle(), data);
     }
     
     /**
      * Adds a new element at the head of the queue.
      */
     public void pushHeadLink(org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_head_link(HANDLE(), link.HANDLE());
+        gtk_h.g_queue_push_head_link(handle(), link.handle());
     }
     
     /**
      * Inserts a new element into @queue at the given position.
      */
     public void pushNth(jdk.incubator.foreign.MemoryAddress data, int n) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_nth(HANDLE(), data, n);
+        gtk_h.g_queue_push_nth(handle(), data, n);
     }
     
     /**
      * Inserts @link into @queue at the given position.
      */
     public void pushNthLink(int n, org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_nth_link(HANDLE(), n, link.HANDLE());
+        gtk_h.g_queue_push_nth_link(handle(), n, link.handle());
     }
     
     /**
      * Adds a new element at the tail of the queue.
      */
     public void pushTail(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_tail(HANDLE(), data);
+        gtk_h.g_queue_push_tail(handle(), data);
     }
     
     /**
      * Adds a new element at the tail of the queue.
      */
     public void pushTailLink(org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_push_tail_link(HANDLE(), link.HANDLE());
+        gtk_h.g_queue_push_tail_link(handle(), link.handle());
     }
     
     /**
      * Removes the first element in @queue that contains @data.
      */
     public boolean remove(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_remove(HANDLE(), data);
+        var RESULT = gtk_h.g_queue_remove(handle(), data);
         return (RESULT != 0);
     }
     
@@ -292,7 +294,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Remove all elements whose data equals @data from @queue.
      */
     public int removeAll(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_remove_all(HANDLE(), data);
+        var RESULT = gtk_h.g_queue_remove_all(handle(), data);
         return RESULT;
     }
     
@@ -300,7 +302,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Reverses the order of the items in @queue.
      */
     public void reverse() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_reverse(HANDLE());
+        gtk_h.g_queue_reverse(handle());
     }
     
     /**
@@ -310,7 +312,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * @link_ must be part of @queue.
      */
     public void unlink(org.gtk.glib.List link) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_unlink(HANDLE(), link.HANDLE());
+        gtk_h.g_queue_unlink(handle(), link.handle());
     }
     
 }

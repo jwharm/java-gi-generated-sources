@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * This refers to a row.
      */
     public TreePath() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new(), true));
+        super(References.get(gtk_h.gtk_tree_path_new(), true));
     }
     
     /**
@@ -28,14 +30,14 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * The string representation of this path is “0”.
      */
     public static TreePath newFirst() {
-        return new TreePath(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_first(), true));
+        return new TreePath(References.get(gtk_h.gtk_tree_path_new_first(), true));
     }
     
     /**
      * Creates a new path with the given @indices array of @length.
      */
     public TreePath(int[] indices, long length) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_indicesv(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices), length), true));
+        super(References.get(gtk_h.gtk_tree_path_new_from_indicesv(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices), length), true));
     }
     
     /**
@@ -48,7 +50,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * If an invalid path string is passed in, %NULL is returned.
      */
     public TreePath(java.lang.String path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -57,7 +59,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * As a result, the depth of the path is increased.
      */
     public void appendIndex(int index) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_append_index(HANDLE(), index);
+        gtk_h.gtk_tree_path_append_index(handle(), index);
     }
     
     /**
@@ -68,7 +70,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the two nodes are equal, then 0 is returned.
      */
     public int compare(TreePath b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_compare(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_compare(handle(), b.handle());
         return RESULT;
     }
     
@@ -76,7 +78,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new `GtkTreePath` as a copy of @path.
      */
     public TreePath copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_copy(HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_copy(handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -84,21 +86,21 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Moves @path to point to the first child of the current path.
      */
     public void down() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_down(HANDLE());
+        gtk_h.gtk_tree_path_down(handle());
     }
     
     /**
      * Frees @path. If @path is %NULL, it simply returns.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_free(HANDLE());
+        gtk_h.gtk_tree_path_free(handle());
     }
     
     /**
      * Returns the current depth of @path.
      */
     public int getDepth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_get_depth(HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_get_depth(handle());
         return RESULT;
     }
     
@@ -106,7 +108,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns %TRUE if @descendant is a descendant of @path.
      */
     public boolean isAncestor(TreePath descendant) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_is_ancestor(HANDLE(), descendant.HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
         return (RESULT != 0);
     }
     
@@ -114,7 +116,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns %TRUE if @path is a descendant of @ancestor.
      */
     public boolean isDescendant(TreePath ancestor) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_is_descendant(HANDLE(), ancestor.HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
         return (RESULT != 0);
     }
     
@@ -122,7 +124,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Moves the @path to point to the next node at the current depth.
      */
     public void next() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_next(HANDLE());
+        gtk_h.gtk_tree_path_next(handle());
     }
     
     /**
@@ -131,7 +133,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * As a result, the depth of the path is increased.
      */
     public void prependIndex(int index) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_prepend_index(HANDLE(), index);
+        gtk_h.gtk_tree_path_prepend_index(handle(), index);
     }
     
     /**
@@ -139,7 +141,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * current depth, if it exists.
      */
     public boolean prev() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_prev(HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_prev(handle());
         return (RESULT != 0);
     }
     
@@ -152,7 +154,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * depth 0, %NULL is returned.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_to_string(HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -160,7 +162,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * Moves the @path to point to its parent node, if it has a parent.
      */
     public boolean up() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_up(HANDLE());
+        var RESULT = gtk_h.gtk_tree_path_up(handle());
         return (RESULT != 0);
     }
     

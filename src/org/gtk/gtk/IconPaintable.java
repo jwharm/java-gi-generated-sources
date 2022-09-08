@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * The icon can then be rendered by using it as a `GdkPaintable`.
      */
     public IconPaintable(org.gtk.gio.File file, int size, int scale) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_new_for_file(file.HANDLE(), size, scale), true));
+        super(References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true));
     }
     
     /**
@@ -36,7 +38,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * Returns %NULL if the icon was not loaded from a file.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_icon_paintable_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
     }
     
@@ -52,7 +54,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * returns %NULL.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_icon_paintable_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -66,7 +68,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * recoloring), you have to set its icon name on a `GtkImage`.
      */
     public boolean isSymbolic() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_is_symbolic(HANDLE());
+        var RESULT = gtk_h.gtk_icon_paintable_is_symbolic(handle());
         return (RESULT != 0);
     }
     

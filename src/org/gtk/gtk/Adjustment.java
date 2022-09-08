@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Creates a new `GtkAdjustment`.
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
+        super(References.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
     }
     
     /**
@@ -48,7 +50,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * if the value is changed.
      */
     public void clampPage(double lower, double upper) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_clamp_page(HANDLE(), lower, upper);
+        gtk_h.gtk_adjustment_clamp_page(handle(), lower, upper);
     }
     
     /**
@@ -61,14 +63,14 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * [signal@Gtk.Adjustment::changed] into one.
      */
     public void configure(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_configure(HANDLE(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
+        gtk_h.gtk_adjustment_configure(handle(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
     }
     
     /**
      * Retrieves the minimum value of the adjustment.
      */
     public double getLower() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_lower(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_lower(handle());
         return RESULT;
     }
     
@@ -76,7 +78,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Gets the smaller of step increment and page increment.
      */
     public double getMinimumIncrement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_minimum_increment(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_minimum_increment(handle());
         return RESULT;
     }
     
@@ -84,7 +86,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Retrieves the page increment of the adjustment.
      */
     public double getPageIncrement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_page_increment(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_page_increment(handle());
         return RESULT;
     }
     
@@ -92,7 +94,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Retrieves the page size of the adjustment.
      */
     public double getPageSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_page_size(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_page_size(handle());
         return RESULT;
     }
     
@@ -100,7 +102,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Retrieves the step increment of the adjustment.
      */
     public double getStepIncrement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_step_increment(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_step_increment(handle());
         return RESULT;
     }
     
@@ -108,7 +110,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Retrieves the maximum value of the adjustment.
      */
     public double getUpper() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_upper(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_upper(handle());
         return RESULT;
     }
     
@@ -116,7 +118,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Gets the current value of the adjustment.
      */
     public double getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_adjustment_get_value(handle());
         return RESULT;
     }
     
@@ -136,7 +138,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * to change, or using [method@Gtk.Adjustment.configure] has the same effect.
      */
     public void setLower(double lower) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_lower(HANDLE(), lower);
+        gtk_h.gtk_adjustment_set_lower(handle(), lower);
     }
     
     /**
@@ -147,7 +149,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setPageIncrement(double pageIncrement) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_page_increment(HANDLE(), pageIncrement);
+        gtk_h.gtk_adjustment_set_page_increment(handle(), pageIncrement);
     }
     
     /**
@@ -158,7 +160,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setPageSize(double pageSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_page_size(HANDLE(), pageSize);
+        gtk_h.gtk_adjustment_set_page_size(handle(), pageSize);
     }
     
     /**
@@ -169,7 +171,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setStepIncrement(double stepIncrement) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_step_increment(HANDLE(), stepIncrement);
+        gtk_h.gtk_adjustment_set_step_increment(handle(), stepIncrement);
     }
     
     /**
@@ -183,7 +185,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * signal when setting multiple adjustment properties.
      */
     public void setUpper(double upper) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_upper(HANDLE(), upper);
+        gtk_h.gtk_adjustment_set_upper(handle(), upper);
     }
     
     /**
@@ -198,7 +200,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * [property@Gtk.Adjustment:upper] - [property@Gtk.Adjustment:page-size].
      */
     public void setValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_set_value(HANDLE(), value);
+        gtk_h.gtk_adjustment_set_value(handle(), value);
     }
     
     @FunctionalInterface
@@ -217,12 +219,12 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAdjustmentChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -240,12 +242,12 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAdjustmentValueChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("value-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

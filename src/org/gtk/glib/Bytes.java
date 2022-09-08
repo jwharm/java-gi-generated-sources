@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +45,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data is copied. If @size is 0, @data may be %NULL.
      */
     public Bytes(byte[] data, long size) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        super(References.get(gtk_h.g_bytes_new(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -53,7 +55,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
-        return new Bytes(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_static(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(gtk_h.g_bytes_new_static(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -71,7 +73,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data may be %NULL if @size is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
-        return new Bytes(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_take(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(gtk_h.g_bytes_new_take(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -86,7 +88,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * considered less, otherwise greater than @bytes2.
      */
     public int compare(Bytes bytes2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_compare(HANDLE(), bytes2.HANDLE());
+        var RESULT = gtk_h.g_bytes_compare(handle(), bytes2.handle());
         return RESULT;
     }
     
@@ -98,7 +100,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * parameter, when using non-%NULL #GBytes pointers as keys in a #GHashTable.
      */
     public boolean equal(Bytes bytes2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_equal(HANDLE(), bytes2.HANDLE());
+        var RESULT = gtk_h.g_bytes_equal(handle(), bytes2.handle());
         return (RESULT != 0);
     }
     
@@ -125,7 +127,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * in a zero-sized @bytes, %NULL effectively always means "error".
      */
     public jdk.incubator.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_get_region(HANDLE(), elementSize, offset, nElements);
+        var RESULT = gtk_h.g_bytes_get_region(handle(), elementSize, offset, nElements);
         return RESULT;
     }
     
@@ -135,7 +137,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will always return the same value for a given #GBytes.
      */
     public long getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_get_size(HANDLE());
+        var RESULT = gtk_h.g_bytes_get_size(handle());
         return RESULT;
     }
     
@@ -146,7 +148,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * parameter, when using non-%NULL #GBytes pointers as keys in a #GHashTable.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_hash(HANDLE());
+        var RESULT = gtk_h.g_bytes_hash(handle());
         return RESULT;
     }
     
@@ -164,7 +166,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * usage of #GBytes when asynchronously writing to streams.
      */
     public Bytes newFromBytes(long offset, long length) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_from_bytes(HANDLE(), offset, length);
+        var RESULT = gtk_h.g_bytes_new_from_bytes(handle(), offset, length);
         return new Bytes(References.get(RESULT, true));
     }
     
@@ -172,7 +174,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increase the reference count on @bytes.
      */
     public Bytes ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_ref(HANDLE());
+        var RESULT = gtk_h.g_bytes_ref(handle());
         return new Bytes(References.get(RESULT, true));
     }
     
@@ -181,7 +183,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed. If @bytes is %NULL, it will return immediately.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_unref(HANDLE());
+        gtk_h.g_bytes_unref(handle());
     }
     
 }

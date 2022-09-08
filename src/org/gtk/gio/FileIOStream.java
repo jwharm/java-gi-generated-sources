@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +46,7 @@ public class FileIOStream extends IOStream implements Seekable {
      * and closed, as the etag can change while writing.
      */
     public java.lang.String getEtag() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_io_stream_get_etag(HANDLE());
+        var RESULT = gtk_h.g_file_io_stream_get_etag(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -69,7 +71,7 @@ public class FileIOStream extends IOStream implements Seekable {
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_io_stream_query_info(HANDLE(), Interop.allocateNativeString(attributes).HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_io_stream_query_info(handle(), Interop.allocateNativeString(attributes).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -82,7 +84,7 @@ public class FileIOStream extends IOStream implements Seekable {
      */
     public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_io_stream_query_info_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_io_stream_query_info_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

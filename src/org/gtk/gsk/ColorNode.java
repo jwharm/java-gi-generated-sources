@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class ColorNode extends RenderNode {
      * the area given by @bounds.
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_new(rgba.HANDLE(), bounds.HANDLE()), true));
+        super(References.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true));
     }
     
     /**
      * Retrieves the color of the given @node.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_get_color(HANDLE());
+        var RESULT = gtk_h.gsk_color_node_get_color(handle());
         return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     

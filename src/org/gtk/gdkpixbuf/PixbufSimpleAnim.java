@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * Creates a new, empty animation.
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
+        super(References.get(gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
     }
     
     /**
@@ -32,14 +34,14 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * was constructed.
      */
     public void addFrame(Pixbuf pixbuf) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_add_frame(HANDLE(), pixbuf.HANDLE());
+        gtk_h.gdk_pixbuf_simple_anim_add_frame(handle(), pixbuf.handle());
     }
     
     /**
      * Gets whether @animation should loop indefinitely when it reaches the end.
      */
     public boolean getLoop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_get_loop(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_simple_anim_get_loop(handle());
         return (RESULT != 0);
     }
     
@@ -47,7 +49,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * Sets whether @animation should loop indefinitely when it reaches the end.
      */
     public void setLoop(boolean loop) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_set_loop(HANDLE(), loop ? 1 : 0);
+        gtk_h.gdk_pixbuf_simple_anim_set_loop(handle(), loop ? 1 : 0);
     }
     
 }

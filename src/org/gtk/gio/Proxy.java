@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default IOStream connect(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_connect(HANDLE(), connection.HANDLE(), proxyAddress.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_proxy_connect(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -35,7 +37,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default IOStream connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_connect_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_proxy_connect_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -52,7 +54,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
      * g_proxy_connect() or g_proxy_connect_async().
      */
     public default boolean supportsHostname() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_supports_hostname(HANDLE());
+        var RESULT = gtk_h.g_proxy_supports_hostname(handle());
         return (RESULT != 0);
     }
     

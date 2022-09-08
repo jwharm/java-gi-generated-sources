@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      *   namespace and all keys in the unix namespace.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).HANDLE()), true));
+        super(References.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true));
     }
     
     /**
@@ -48,7 +50,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * TODO: this is awkwardly worded.
      */
     public boolean enumerateNamespace(java.lang.String ns) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_enumerate_namespace(HANDLE(), Interop.allocateNativeString(ns).HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_enumerate_namespace(handle(), Interop.allocateNativeString(ns).handle());
         return (RESULT != 0);
     }
     
@@ -56,7 +58,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * Gets the next matched attribute from a #GFileAttributeMatcher.
      */
     public java.lang.String enumerateNext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_enumerate_next(HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_enumerate_next(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -66,7 +68,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * will always return %TRUE.
      */
     public boolean matches(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_matches(handle(), Interop.allocateNativeString(attribute).handle());
         return (RESULT != 0);
     }
     
@@ -75,7 +77,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * returns %FALSE if "*" was used when creating the matcher.
      */
     public boolean matchesOnly(java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_matches_only(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_matches_only(handle(), Interop.allocateNativeString(attribute).handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * References a file attribute matcher.
      */
     public FileAttributeMatcher ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_ref(HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_ref(handle());
         return new FileAttributeMatcher(References.get(RESULT, true));
     }
     
@@ -98,7 +100,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * in the future.
      */
     public FileAttributeMatcher subtract(FileAttributeMatcher subtract) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_subtract(HANDLE(), subtract.HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_subtract(handle(), subtract.handle());
         return new FileAttributeMatcher(References.get(RESULT, true));
     }
     
@@ -109,7 +111,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * decide to use a different order or omit needless parts.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_to_string(HANDLE());
+        var RESULT = gtk_h.g_file_attribute_matcher_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -118,7 +120,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      * the @matcher is automatically freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_attribute_matcher_unref(HANDLE());
+        gtk_h.g_file_attribute_matcher_unref(handle());
     }
     
 }

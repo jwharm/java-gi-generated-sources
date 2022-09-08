@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -84,7 +86,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Creates a new `GtkPrintOperation`.
      */
     public PrintOperation() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_new(), true));
+        super(References.get(gtk_h.gtk_print_operation_new(), true));
     }
     
     /**
@@ -95,7 +97,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * signal handler to stop the currently running print operation.
      */
     public void cancel() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_cancel(HANDLE());
+        gtk_h.gtk_print_operation_cancel(handle());
     }
     
     /**
@@ -107,14 +109,14 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Otherwise it is called by GTK itself.
      */
     public void drawPageFinish() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_draw_page_finish(HANDLE());
+        gtk_h.gtk_print_operation_draw_page_finish(handle());
     }
     
     /**
      * Returns the default page setup.
      */
     public PageSetup getDefaultPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_default_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_default_page_setup(handle());
         return new PageSetup(References.get(RESULT, false));
     }
     
@@ -122,7 +124,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Gets whether page setup selection combos are embedded
      */
     public boolean getEmbedPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_embed_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_embed_page_setup(handle());
         return (RESULT != 0);
     }
     
@@ -138,7 +140,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public void getError() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_error(HANDLE(), GERROR);
+        gtk_h.gtk_print_operation_get_error(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -148,7 +150,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Gets whether there is a selection.
      */
     public boolean getHasSelection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_has_selection(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_has_selection(handle());
         return (RESULT != 0);
     }
     
@@ -165,7 +167,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * This is typically used to track the progress of print operation.
      */
     public int getNPagesToPrint() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_n_pages_to_print(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_n_pages_to_print(handle());
         return RESULT;
     }
     
@@ -177,7 +179,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * [method@Gtk.PrintOperation.run] have been called.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_print_settings(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_print_settings(handle());
         return new PrintSettings(References.get(RESULT, false));
     }
     
@@ -187,7 +189,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Also see [method@Gtk.PrintOperation.get_status_string].
      */
     public PrintStatus getStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_status(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_status(handle());
         return PrintStatus.fromValue(RESULT);
     }
     
@@ -202,7 +204,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * a status value that is suitable for programmatic use.
      */
     public java.lang.String getStatusString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_status_string(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_status_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -210,7 +212,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Gets whether the application supports print of selection
      */
     public boolean getSupportSelection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_support_selection(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_get_support_selection(handle());
         return (RESULT != 0);
     }
     
@@ -226,7 +228,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * the operation status then tracks the print job status on the printer.
      */
     public boolean isFinished() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_is_finished(HANDLE());
+        var RESULT = gtk_h.gtk_print_operation_is_finished(handle());
         return (RESULT != 0);
     }
     
@@ -289,7 +291,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintOperationResult run(PrintOperationAction action, Window parent) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_run(HANDLE(), action.getValue(), parent.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_operation_run(handle(), action.getValue(), parent.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -304,7 +306,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * operation.
      */
     public void setAllowAsync(boolean allowAsync) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_allow_async(HANDLE(), allowAsync ? 1 : 0);
+        gtk_h.gtk_print_operation_set_allow_async(handle(), allowAsync ? 1 : 0);
     }
     
     /**
@@ -316,14 +318,14 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Note that this only makes sense for pre-paginated documents.
      */
     public void setCurrentPage(int currentPage) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_current_page(HANDLE(), currentPage);
+        gtk_h.gtk_print_operation_set_current_page(handle(), currentPage);
     }
     
     /**
      * Sets the label for the tab holding custom widgets.
      */
     public void setCustomTabLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_custom_tab_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_print_operation_set_custom_tab_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -334,7 +336,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * to the [signal@Gtk.PrintOperation::request-page-setup] signal.
      */
     public void setDefaultPageSetup(PageSetup defaultPageSetup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_default_page_setup(HANDLE(), defaultPageSetup.HANDLE());
+        gtk_h.gtk_print_operation_set_default_page_setup(handle(), defaultPageSetup.handle());
     }
     
     /**
@@ -347,7 +349,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * [signal@Gtk.PrintOperation::draw-page] signal.
      */
     public void setDeferDrawing() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_defer_drawing(HANDLE());
+        gtk_h.gtk_print_operation_set_defer_drawing(handle());
     }
     
     /**
@@ -356,7 +358,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Selected page setup is stored as default page setup in `GtkPrintOperation`.
      */
     public void setEmbedPageSetup(boolean embed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_embed_page_setup(HANDLE(), embed ? 1 : 0);
+        gtk_h.gtk_print_operation_set_embed_page_setup(handle(), embed ? 1 : 0);
     }
     
     /**
@@ -372,7 +374,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * of printers in the print dialog.
      */
     public void setExportFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_export_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        gtk_h.gtk_print_operation_set_export_filename(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
@@ -383,7 +385,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * for the [signal@Gtk.PrintOperation::begin-print] signal.
      */
     public void setHasSelection(boolean hasSelection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_has_selection(HANDLE(), hasSelection ? 1 : 0);
+        gtk_h.gtk_print_operation_set_has_selection(handle(), hasSelection ? 1 : 0);
     }
     
     /**
@@ -396,7 +398,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * numbering successive print jobs.
      */
     public void setJobName(java.lang.String jobName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_job_name(HANDLE(), Interop.allocateNativeString(jobName).HANDLE());
+        gtk_h.gtk_print_operation_set_job_name(handle(), Interop.allocateNativeString(jobName).handle());
     }
     
     /**
@@ -413,7 +415,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * will be for page @n_pages - 1.
      */
     public void setNPages(int nPages) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_n_pages(HANDLE(), nPages);
+        gtk_h.gtk_print_operation_set_n_pages(handle(), nPages);
     }
     
     /**
@@ -423,7 +425,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * from a previous print operation, see [method@Gtk.PrintOperation.run].
      */
     public void setPrintSettings(PrintSettings printSettings) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_print_settings(HANDLE(), printSettings.HANDLE());
+        gtk_h.gtk_print_operation_set_print_settings(handle(), printSettings.handle());
     }
     
     /**
@@ -431,14 +433,14 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * a progress dialog during the print operation.
      */
     public void setShowProgress(boolean showProgress) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_show_progress(HANDLE(), showProgress ? 1 : 0);
+        gtk_h.gtk_print_operation_set_show_progress(handle(), showProgress ? 1 : 0);
     }
     
     /**
      * Sets whether selection is supported by `GtkPrintOperation`.
      */
     public void setSupportSelection(boolean supportSelection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_support_selection(HANDLE(), supportSelection ? 1 : 0);
+        gtk_h.gtk_print_operation_set_support_selection(handle(), supportSelection ? 1 : 0);
     }
     
     /**
@@ -452,7 +454,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * so it should not be enabled unless needed.
      */
     public void setTrackPrintStatus(boolean trackStatus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_track_print_status(HANDLE(), trackStatus ? 1 : 0);
+        gtk_h.gtk_print_operation_set_track_print_status(handle(), trackStatus ? 1 : 0);
     }
     
     /**
@@ -461,7 +463,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * units of @unit.
      */
     public void setUnit(Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_unit(HANDLE(), unit.getValue());
+        gtk_h.gtk_print_operation_set_unit(handle(), unit.getValue());
     }
     
     /**
@@ -474,7 +476,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * is at the top left corner of the imageable area (i.e. inside the margins).
      */
     public void setUseFullPage(boolean fullPage) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_set_use_full_page(HANDLE(), fullPage ? 1 : 0);
+        gtk_h.gtk_print_operation_set_use_full_page(handle(), fullPage ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -495,12 +497,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationBeginPrint", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("begin-print").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("begin-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -528,12 +530,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCreateCustomWidget", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("create-custom-widget").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("create-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -556,12 +558,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCustomWidgetApply", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("custom-widget-apply").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("custom-widget-apply").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -588,12 +590,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDone", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("done").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -661,12 +663,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDrawPage", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("draw-page").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("draw-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -687,12 +689,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationEndPrint", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("end-print").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("end-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -723,12 +725,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPaginate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("paginate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("paginate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -762,12 +764,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreview", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("preview").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("preview").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -789,12 +791,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationRequestPageSetup", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("request-page-setup").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("request-page-setup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -816,12 +818,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationStatusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("status-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -842,12 +844,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationUpdateCustomWidget", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("update-custom-widget").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("update-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

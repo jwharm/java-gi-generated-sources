@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns the capabilities this `GdkSeat` currently has.
      */
     public int getCapabilities() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_capabilities(HANDLE());
+        var RESULT = gtk_h.gdk_seat_get_capabilities(handle());
         return RESULT;
     }
     
@@ -32,7 +34,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns the devices that match the given capabilities.
      */
     public org.gtk.glib.List getDevices(int capabilities) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_devices(HANDLE(), capabilities);
+        var RESULT = gtk_h.gdk_seat_get_devices(handle(), capabilities);
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -40,7 +42,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns the `GdkDisplay` this seat belongs to.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_seat_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -48,7 +50,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns the device that routes keyboard events.
      */
     public Device getKeyboard() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_keyboard(HANDLE());
+        var RESULT = gtk_h.gdk_seat_get_keyboard(handle());
         return new Device(References.get(RESULT, false));
     }
     
@@ -56,7 +58,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns the device that routes pointer events.
      */
     public Device getPointer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_pointer(HANDLE());
+        var RESULT = gtk_h.gdk_seat_get_pointer(handle());
         return new Device(References.get(RESULT, false));
     }
     
@@ -64,7 +66,7 @@ public class Seat extends org.gtk.gobject.Object {
      * Returns all `GdkDeviceTools` that are known to the application.
      */
     public org.gtk.glib.List getTools() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_tools(HANDLE());
+        var RESULT = gtk_h.gdk_seat_get_tools(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -80,12 +82,12 @@ public class Seat extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatDeviceAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("device-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("device-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -103,12 +105,12 @@ public class Seat extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatDeviceRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("device-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("device-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -132,12 +134,12 @@ public class Seat extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatToolAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tool-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tool-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -155,12 +157,12 @@ public class Seat extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatToolRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tool-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tool-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

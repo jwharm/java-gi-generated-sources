@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Creates a new `GtkEntryCompletion` object.
      */
     public EntryCompletion() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new(), true));
+        super(References.get(gtk_h.gtk_entry_completion_new(), true));
     }
     
     /**
@@ -71,7 +73,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * `GtkTreeViewColumn` for the drop-down menu.
      */
     public EntryCompletion(CellArea area) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new_with_area(area.HANDLE()), true));
+        super(References.get(gtk_h.gtk_entry_completion_new_with_area(area.handle()), true));
     }
     
     /**
@@ -81,7 +83,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * The completion list view will be updated accordingly.
      */
     public void complete() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_complete(HANDLE());
+        gtk_h.gtk_entry_completion_complete(handle());
     }
     
     /**
@@ -93,7 +95,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * see [method@Gtk.EntryCompletion.set_text_column] for details.
      */
     public java.lang.String computePrefix(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_compute_prefix(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_compute_prefix(handle(), Interop.allocateNativeString(key).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -102,7 +104,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * the completion or %NULL if there’s no completion ongoing.
      */
     public java.lang.String getCompletionPrefix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_completion_prefix(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_completion_prefix(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -110,7 +112,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Gets the entry @completion has been attached to.
      */
     public Widget getEntry() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_entry(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_entry(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -119,7 +121,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * be automatically inserted in the entry.
      */
     public boolean getInlineCompletion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_inline_completion(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_inline_completion(handle());
         return (RESULT != 0);
     }
     
@@ -127,7 +129,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Returns %TRUE if inline-selection mode is turned on.
      */
     public boolean getInlineSelection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_inline_selection(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_inline_selection(handle());
         return (RESULT != 0);
     }
     
@@ -135,7 +137,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Returns the minimum key length as set for @completion.
      */
     public int getMinimumKeyLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_minimum_key_length(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_minimum_key_length(handle());
         return RESULT;
     }
     
@@ -145,7 +147,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Returns %NULL if the model is unset.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -153,7 +155,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Returns whether the completions should be presented in a popup window.
      */
     public boolean getPopupCompletion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_popup_completion(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_popup_completion(handle());
         return (RESULT != 0);
     }
     
@@ -162,7 +164,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * width of the entry.
      */
     public boolean getPopupSetWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_popup_set_width(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_popup_set_width(handle());
         return (RESULT != 0);
     }
     
@@ -171,7 +173,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * only a single match.
      */
     public boolean getPopupSingleMatch() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_popup_single_match(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_popup_single_match(handle());
         return (RESULT != 0);
     }
     
@@ -179,7 +181,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Returns the column in the model of @completion to get strings from.
      */
     public int getTextColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_text_column(HANDLE());
+        var RESULT = gtk_h.gtk_entry_completion_get_text_column(handle());
         return RESULT;
     }
     
@@ -187,7 +189,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Requests a prefix insertion.
      */
     public void insertPrefix() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_insert_prefix(HANDLE());
+        gtk_h.gtk_entry_completion_insert_prefix(handle());
     }
     
     /**
@@ -195,7 +197,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * be automatically inserted in the entry.
      */
     public void setInlineCompletion(boolean inlineCompletion) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_inline_completion(HANDLE(), inlineCompletion ? 1 : 0);
+        gtk_h.gtk_entry_completion_set_inline_completion(handle(), inlineCompletion ? 1 : 0);
     }
     
     /**
@@ -203,7 +205,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * inside the entry.
      */
     public void setInlineSelection(boolean inlineSelection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_inline_selection(HANDLE(), inlineSelection ? 1 : 0);
+        gtk_h.gtk_entry_completion_set_inline_selection(handle(), inlineSelection ? 1 : 0);
     }
     
     /**
@@ -215,7 +217,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * (ie, a too large dataset).
      */
     public void setMinimumKeyLength(int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_minimum_key_length(HANDLE(), length);
+        gtk_h.gtk_entry_completion_set_minimum_key_length(handle(), length);
     }
     
     /**
@@ -226,14 +228,14 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * will unset the model.
      */
     public void setModel(TreeModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_entry_completion_set_model(handle(), model.handle());
     }
     
     /**
      * Sets whether the completions should be presented in a popup window.
      */
     public void setPopupCompletion(boolean popupCompletion) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_popup_completion(HANDLE(), popupCompletion ? 1 : 0);
+        gtk_h.gtk_entry_completion_set_popup_completion(handle(), popupCompletion ? 1 : 0);
     }
     
     /**
@@ -241,7 +243,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * width as the entry.
      */
     public void setPopupSetWidth(boolean popupSetWidth) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_popup_set_width(HANDLE(), popupSetWidth ? 1 : 0);
+        gtk_h.gtk_entry_completion_set_popup_set_width(handle(), popupSetWidth ? 1 : 0);
     }
     
     /**
@@ -252,7 +254,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * are using [property@Gtk.EntryCompletion:inline-completion].
      */
     public void setPopupSingleMatch(boolean popupSingleMatch) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_popup_single_match(HANDLE(), popupSingleMatch ? 1 : 0);
+        gtk_h.gtk_entry_completion_set_popup_single_match(handle(), popupSingleMatch ? 1 : 0);
     }
     
     /**
@@ -269,7 +271,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * [property@Gtk.EntryCompletion:text-column] property directly.
      */
     public void setTextColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_set_text_column(HANDLE(), column);
+        gtk_h.gtk_entry_completion_set_text_column(handle(), column);
     }
     
     @FunctionalInterface
@@ -291,12 +293,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryCompletionCursorOnMatch", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("cursor-on-match").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("cursor-on-match").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -322,12 +324,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryCompletionInsertPrefix", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-prefix").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("insert-prefix").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -352,12 +354,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryCompletionMatchSelected", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("match-selected").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("match-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -378,12 +380,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryCompletionNoMatches", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("no-matches").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("no-matches").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

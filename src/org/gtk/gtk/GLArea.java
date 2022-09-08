@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -124,7 +126,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Creates a new `GtkGLArea` widget.
      */
     public GLArea() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_new(), false));
+        super(References.get(gtk_h.gtk_gl_area_new(), false));
     }
     
     /**
@@ -139,14 +141,14 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * called by application code.
      */
     public void attachBuffers() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_attach_buffers(HANDLE());
+        gtk_h.gtk_gl_area_attach_buffers(handle());
     }
     
     /**
      * Returns whether the area is in auto render mode or not.
      */
     public boolean getAutoRender() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_auto_render(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_auto_render(handle());
         return (RESULT != 0);
     }
     
@@ -154,7 +156,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Retrieves the `GdkGLContext` used by @area.
      */
     public org.gtk.gdk.GLContext getContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_context(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_context(handle());
         return new org.gtk.gdk.GLContext(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Gets the current error set on the @area.
      */
     public org.gtk.glib.Error getError() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_error(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_error(handle());
         return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
@@ -170,7 +172,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the area has a depth buffer.
      */
     public boolean getHasDepthBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_has_depth_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_has_depth_buffer(handle());
         return (RESULT != 0);
     }
     
@@ -178,7 +180,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the area has a stencil buffer.
      */
     public boolean getHasStencilBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_has_stencil_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_has_stencil_buffer(handle());
         return (RESULT != 0);
     }
     
@@ -188,7 +190,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * See [method@Gtk.GLArea.set_use_es].
      */
     public boolean getUseEs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_use_es(HANDLE());
+        var RESULT = gtk_h.gtk_gl_area_get_use_es(handle());
         return (RESULT != 0);
     }
     
@@ -201,7 +203,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * to be called by application code.
      */
     public void makeCurrent() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_make_current(HANDLE());
+        gtk_h.gtk_gl_area_make_current(handle());
     }
     
     /**
@@ -216,7 +218,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * emit [signal@Gtk.GLArea::render] on each draw.
      */
     public void queueRender() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_queue_render(HANDLE());
+        gtk_h.gtk_gl_area_queue_render(handle());
     }
     
     /**
@@ -233,7 +235,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * useful when the scene changes seldom, but takes a long time to redraw.
      */
     public void setAutoRender(boolean autoRender) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_auto_render(HANDLE(), autoRender ? 1 : 0);
+        gtk_h.gtk_gl_area_set_auto_render(handle(), autoRender ? 1 : 0);
     }
     
     /**
@@ -244,7 +246,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * signal if GL context creation fails.
      */
     public void setError(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_error(HANDLE(), error.HANDLE());
+        gtk_h.gtk_gl_area_set_error(handle(), error.handle());
     }
     
     /**
@@ -255,7 +257,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * there will be none.
      */
     public void setHasDepthBuffer(boolean hasDepthBuffer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_has_depth_buffer(HANDLE(), hasDepthBuffer ? 1 : 0);
+        gtk_h.gtk_gl_area_set_has_depth_buffer(handle(), hasDepthBuffer ? 1 : 0);
     }
     
     /**
@@ -266,7 +268,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * there will be none.
      */
     public void setHasStencilBuffer(boolean hasStencilBuffer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_has_stencil_buffer(HANDLE(), hasStencilBuffer ? 1 : 0);
+        gtk_h.gtk_gl_area_set_has_stencil_buffer(handle(), hasStencilBuffer ? 1 : 0);
     }
     
     /**
@@ -276,7 +278,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * This function must be called before the area has been realized.
      */
     public void setRequiredVersion(int major, int minor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_required_version(HANDLE(), major, minor);
+        gtk_h.gtk_gl_area_set_required_version(handle(), major, minor);
     }
     
     /**
@@ -286,7 +288,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * with either API.
      */
     public void setUseEs(boolean useEs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_set_use_es(HANDLE(), useEs ? 1 : 0);
+        gtk_h.gtk_gl_area_set_use_es(handle(), useEs ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -309,12 +311,12 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGLAreaCreateContext", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("create-context").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("create-context").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -335,12 +337,12 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGLAreaRender", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("render").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("render").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -368,12 +370,12 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGLAreaResize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("resize").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("resize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

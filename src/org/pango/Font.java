@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class Font extends org.gtk.gobject.Object {
      * the font size in device units.
      */
     public FontDescription describe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_describe(HANDLE());
+        var RESULT = gtk_h.pango_font_describe(handle());
         return new FontDescription(References.get(RESULT, true));
     }
     
@@ -38,7 +40,7 @@ public class Font extends org.gtk.gobject.Object {
      * Use [method@Pango.Font.describe] if you want the font size in points.
      */
     public FontDescription describeWithAbsoluteSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_describe_with_absolute_size(HANDLE());
+        var RESULT = gtk_h.pango_font_describe_with_absolute_size(handle());
         return new FontDescription(References.get(RESULT, true));
     }
     
@@ -46,7 +48,7 @@ public class Font extends org.gtk.gobject.Object {
      * Computes the coverage map for a given font and language tag.
      */
     public Coverage getCoverage(Language language) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_coverage(HANDLE(), language.HANDLE());
+        var RESULT = gtk_h.pango_font_get_coverage(handle(), language.handle());
         return new Coverage(References.get(RESULT, true));
     }
     
@@ -54,7 +56,7 @@ public class Font extends org.gtk.gobject.Object {
      * Gets the `PangoFontFace` to which @font belongs.
      */
     public FontFace getFace() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_face(HANDLE());
+        var RESULT = gtk_h.pango_font_get_face(handle());
         return new FontFace(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class Font extends org.gtk.gobject.Object {
      * as a `PangoContext` holds a reference to the font map.
      */
     public FontMap getFontMap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_font_map(HANDLE());
+        var RESULT = gtk_h.pango_font_get_font_map(handle());
         return new FontMap(References.get(RESULT, false));
     }
     
@@ -90,7 +92,7 @@ public class Font extends org.gtk.gobject.Object {
      * output variables and returns.
      */
     public void getGlyphExtents(Glyph glyph, Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_glyph_extents(HANDLE(), glyph.getValue(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_font_get_glyph_extents(handle(), glyph.getValue(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -101,7 +103,7 @@ public class Font extends org.gtk.gobject.Object {
      * use [hb_font_create_sub_font()](https://harfbuzz.github.io/harfbuzz-hb-font.html#hb-font-create-sub-font).
      */
     public org.harfbuzz.FontT getHbFont() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_hb_font(HANDLE());
+        var RESULT = gtk_h.pango_font_get_hb_font(handle());
         return new org.harfbuzz.FontT(References.get(RESULT, false));
     }
     
@@ -116,7 +118,7 @@ public class Font extends org.gtk.gobject.Object {
      * output variables and returns.
      */
     public FontMetrics getMetrics(Language language) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_get_metrics(HANDLE(), language.HANDLE());
+        var RESULT = gtk_h.pango_font_get_metrics(handle(), language.handle());
         return new FontMetrics(References.get(RESULT, true));
     }
     
@@ -124,7 +126,7 @@ public class Font extends org.gtk.gobject.Object {
      * Returns whether the font provides a glyph for this character.
      */
     public boolean hasChar(int wc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_has_char(HANDLE(), wc);
+        var RESULT = gtk_h.pango_font_has_char(handle(), wc);
         return (RESULT != 0);
     }
     
@@ -140,7 +142,7 @@ public class Font extends org.gtk.gobject.Object {
      * To recreate a font from its serialized form, use [func@Pango.Font.deserialize].
      */
     public org.gtk.glib.Bytes serialize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_serialize(HANDLE());
+        var RESULT = gtk_h.pango_font_serialize(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     

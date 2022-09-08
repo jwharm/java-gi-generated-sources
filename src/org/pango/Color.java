@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      * in C).
      */
     public Color copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_copy(HANDLE());
+        var RESULT = gtk_h.pango_color_copy(handle());
         return new Color(References.get(RESULT, true));
     }
     
@@ -32,7 +34,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a color allocated by [method@Pango.Color.copy].
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_free(HANDLE());
+        gtk_h.pango_color_free(handle());
     }
     
     /**
@@ -47,7 +49,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      * `#fff`, `#ffffff`, `#fffffffff` and `#ffffffffffff`.)
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_parse(HANDLE(), Interop.allocateNativeString(spec).HANDLE());
+        var RESULT = gtk_h.pango_color_parse(handle(), Interop.allocateNativeString(spec).handle());
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      * red, green, and blue components respectively.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_to_string(HANDLE());
+        var RESULT = gtk_h.pango_color_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,21 +22,21 @@ public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
      * function.
      */
     public void continue_() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_continue(HANDLE());
+        gtk_h.g_timer_continue(handle());
     }
     
     /**
      * Destroys a timer, freeing associated resources.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_destroy(HANDLE());
+        gtk_h.g_timer_destroy(handle());
     }
     
     /**
      * Exposes whether the timer is currently active.
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_is_active(HANDLE());
+        var RESULT = gtk_h.g_timer_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -44,7 +46,7 @@ public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
      * serves no purpose.
      */
     public void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_reset(HANDLE());
+        gtk_h.g_timer_reset(handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_timer_start() immediately after creating the timer.
      */
     public void start() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_start(HANDLE());
+        gtk_h.g_timer_start(handle());
     }
     
     /**
@@ -62,7 +64,7 @@ public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
      * difference between this end time and the start time.
      */
     public void stop() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_timer_stop(HANDLE());
+        gtk_h.g_timer_stop(handle());
     }
     
 }

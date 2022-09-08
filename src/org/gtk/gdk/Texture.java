@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +42,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public Texture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_for_pixbuf(pixbuf.HANDLE()), true));
+        super(References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true));
     }
     
     /**
@@ -59,7 +61,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
-        return new Texture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        return new Texture(References.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
     }
     
     /**
@@ -84,14 +86,14 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * ```
      */
     public void download(byte[] data, long stride) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_download(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), stride);
+        gtk_h.gdk_texture_download(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), stride);
     }
     
     /**
      * Returns the height of the @texture, in pixels.
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_get_height(HANDLE());
+        var RESULT = gtk_h.gdk_texture_get_height(handle());
         return RESULT;
     }
     
@@ -99,7 +101,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * Returns the width of @texture, in pixels.
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_get_width(HANDLE());
+        var RESULT = gtk_h.gdk_texture_get_width(handle());
         return RESULT;
     }
     
@@ -113,7 +115,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * gdk-pixbuf library.
      */
     public boolean saveToPng(java.lang.String filename) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        var RESULT = gtk_h.gdk_texture_save_to_png(handle(), Interop.allocateNativeString(filename).handle());
         return (RESULT != 0);
     }
     
@@ -134,7 +136,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * instead.
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png_bytes(HANDLE());
+        var RESULT = gtk_h.gdk_texture_save_to_png_bytes(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -144,7 +146,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * GTK will attempt to store data without loss.
      */
     public boolean saveToTiff(java.lang.String filename) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        var RESULT = gtk_h.gdk_texture_save_to_tiff(handle(), Interop.allocateNativeString(filename).handle());
         return (RESULT != 0);
     }
     
@@ -163,7 +165,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * use [method@Gdk.Texture.save_to_png_bytes].
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff_bytes(HANDLE());
+        var RESULT = gtk_h.gdk_texture_save_to_tiff_bytes(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     

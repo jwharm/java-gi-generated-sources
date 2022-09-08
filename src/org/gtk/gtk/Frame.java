@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -66,14 +68,14 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * If @label is %NULL, the label is omitted.
      */
     public Frame(java.lang.String label) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_new(Interop.allocateNativeString(label).HANDLE()), false));
+        super(References.get(gtk_h.gtk_frame_new(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
      * Gets the child widget of @frame.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_frame_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -84,7 +86,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * is returned.
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_frame_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -92,7 +94,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * Retrieves the X alignment of the frame’s label.
      */
     public float getLabelAlign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_label_align(HANDLE());
+        var RESULT = gtk_h.gtk_frame_get_label_align(handle());
         return RESULT;
     }
     
@@ -100,7 +102,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * Retrieves the label widget for the frame.
      */
     public Widget getLabelWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_label_widget(HANDLE());
+        var RESULT = gtk_h.gtk_frame_get_label_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -108,7 +110,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the child widget of @frame.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_frame_set_child(handle(), child.handle());
     }
     
     /**
@@ -116,7 +118,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * label widget.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_frame_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -125,7 +127,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * The default value for a newly created frame is 0.0.
      */
     public void setLabelAlign(float xalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_label_align(HANDLE(), xalign);
+        gtk_h.gtk_frame_set_label_align(handle(), xalign);
     }
     
     /**
@@ -135,7 +137,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * of the frame as a title.
      */
     public void setLabelWidget(Widget labelWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_set_label_widget(HANDLE(), labelWidget.HANDLE());
+        gtk_h.gtk_frame_set_label_widget(handle(), labelWidget.handle());
     }
     
 }

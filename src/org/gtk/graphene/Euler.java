@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Euler() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_alloc(), true));
+        super(References.get(gtk_h.graphene_euler_alloc(), true));
     }
     
     /**
      * Checks if two #graphene_euler_t are equal.
      */
     public boolean equal(Euler b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_euler_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_euler_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_free(HANDLE());
+        gtk_h.graphene_euler_free(handle());
     }
     
     /**
@@ -48,7 +50,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_euler_get_x()
      */
     public float getAlpha() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_alpha(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_alpha(handle());
         return RESULT;
     }
     
@@ -59,7 +61,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_euler_get_y()
      */
     public float getBeta() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_beta(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_beta(handle());
         return RESULT;
     }
     
@@ -70,7 +72,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_euler_get_z()
      */
     public float getGamma() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_gamma(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_gamma(handle());
         return RESULT;
     }
     
@@ -84,7 +86,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * instead.
      */
     public EulerOrder getOrder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_order(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_order(handle());
         return EulerOrder.fromValue(RESULT);
     }
     
@@ -92,7 +94,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the rotation angle on the X axis, in degrees.
      */
     public float getX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_x(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_x(handle());
         return RESULT;
     }
     
@@ -100,7 +102,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the rotation angle on the Y axis, in degrees.
      */
     public float getY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_y(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_y(handle());
         return RESULT;
     }
     
@@ -108,7 +110,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the rotation angle on the Z axis, in degrees.
      */
     public float getZ() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_get_z(HANDLE());
+        var RESULT = gtk_h.graphene_euler_get_z(handle());
         return RESULT;
     }
     
@@ -118,7 +120,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * The order of the rotations is %GRAPHENE_EULER_ORDER_DEFAULT.
      */
     public Euler init(float x, float y, float z) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init(HANDLE(), x, y, z);
+        var RESULT = gtk_h.graphene_euler_init(handle(), x, y, z);
         return new Euler(References.get(RESULT, false));
     }
     
@@ -130,7 +132,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * to calling graphene_euler_init() with all angles set to 0.
      */
     public Euler initFromEuler(Euler src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_euler(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_euler_init_from_euler(handle(), src.handle());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -141,7 +143,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * be initialized with all angles set to 0.
      */
     public Euler initFromMatrix(Matrix m, EulerOrder order) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_matrix(HANDLE(), m.HANDLE(), order.getValue());
+        var RESULT = gtk_h.graphene_euler_init_from_matrix(handle(), m.handle(), order.getValue());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -152,7 +154,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * be initialized with all angles set to 0.
      */
     public Euler initFromQuaternion(Quaternion q, EulerOrder order) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_quaternion(HANDLE(), q.HANDLE(), order.getValue());
+        var RESULT = gtk_h.graphene_euler_init_from_quaternion(handle(), q.handle(), order.getValue());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -161,7 +163,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * and order of rotation.
      */
     public Euler initFromRadians(float x, float y, float z, EulerOrder order) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_radians(HANDLE(), x, y, z, order.getValue());
+        var RESULT = gtk_h.graphene_euler_init_from_radians(handle(), x, y, z, order.getValue());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -173,7 +175,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * initialized with all angles set to 0.
      */
     public Euler initFromVec3(Vec3 v, EulerOrder order) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_vec3(HANDLE(), v.HANDLE(), order.getValue());
+        var RESULT = gtk_h.graphene_euler_init_from_vec3(handle(), v.handle(), order.getValue());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -181,7 +183,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_euler_t with the given angles and @order.
      */
     public Euler initWithOrder(float x, float y, float z, EulerOrder order) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_with_order(HANDLE(), x, y, z, order.getValue());
+        var RESULT = gtk_h.graphene_euler_init_with_order(handle(), x, y, z, order.getValue());
         return new Euler(References.get(RESULT, false));
     }
     
@@ -193,7 +195,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_euler_t.
      */
     public void reorder(EulerOrder order, Euler res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_reorder(HANDLE(), order.getValue(), res.HANDLE());
+        gtk_h.graphene_euler_reorder(handle(), order.getValue(), res.handle());
     }
     
     /**
@@ -215,14 +217,14 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * between Euler-based, quaternion-based, and angle-axis-based rotations.
      */
     public void toMatrix(Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_to_matrix(HANDLE(), res.HANDLE());
+        gtk_h.graphene_euler_to_matrix(handle(), res.handle());
     }
     
     /**
      * Converts a #graphene_euler_t into a #graphene_quaternion_t.
      */
     public void toQuaternion(Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_to_quaternion(HANDLE(), res.HANDLE());
+        gtk_h.graphene_euler_to_quaternion(handle(), res.handle());
     }
     
     /**
@@ -230,7 +232,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec3_t with them.
      */
     public void toVec3(Vec3 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_to_vec3(HANDLE(), res.HANDLE());
+        gtk_h.graphene_euler_to_vec3(handle(), res.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -47,14 +49,14 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * with the given @attributes.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).HANDLE(), file.HANDLE()), true));
+        super(References.get(gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).handle(), file.handle()), true));
     }
     
     /**
      * Gets the attributes queried on the children.
      */
     public java.lang.String getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_attributes(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_get_attributes(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -69,7 +71,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * successfully queried files will remain in the list.
      */
     public org.gtk.glib.Error getError() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_error(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_get_error(handle());
         return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
@@ -77,7 +79,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the file whose children are currently enumerated.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
@@ -85,7 +87,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the IO priority set via gtk_directory_list_set_io_priority().
      */
     public int getIoPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_io_priority(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_get_io_priority(handle());
         return RESULT;
     }
     
@@ -94,7 +96,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * the directory for changes.
      */
     public boolean getMonitored() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_monitored(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_get_monitored(handle());
         return (RESULT != 0);
     }
     
@@ -107,7 +109,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * in between runs.
      */
     public boolean isLoading() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_is_loading(HANDLE());
+        var RESULT = gtk_h.gtk_directory_list_is_loading(handle());
         return (RESULT != 0);
     }
     
@@ -118,7 +120,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * of `GFileInfo`s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_attributes(HANDLE(), Interop.allocateNativeString(attributes).HANDLE());
+        gtk_h.gtk_directory_list_set_attributes(handle(), Interop.allocateNativeString(attributes).handle());
     }
     
     /**
@@ -127,7 +129,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * If @file is %NULL, the result will be an empty list.
      */
     public void setFile(org.gtk.gio.File file) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_file(HANDLE(), file.HANDLE());
+        gtk_h.gtk_directory_list_set_file(handle(), file.handle());
     }
     
     /**
@@ -142,7 +144,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * may increase responsiveness.
      */
     public void setIoPriority(int ioPriority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_io_priority(HANDLE(), ioPriority);
+        gtk_h.gtk_directory_list_set_io_priority(handle(), ioPriority);
     }
     
     /**
@@ -159,7 +161,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * and when monitoring was turned on.
      */
     public void setMonitored(boolean monitored) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_set_monitored(HANDLE(), monitored ? 1 : 0);
+        gtk_h.gtk_directory_list_set_monitored(handle(), monitored ? 1 : 0);
     }
     
 }

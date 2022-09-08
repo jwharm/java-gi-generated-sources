@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,21 +43,21 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      * Creates a new #GUnixCredentialsMessage with credentials matching the current processes.
      */
     public UnixCredentialsMessage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new(), true));
+        super(References.get(gtk_h.g_unix_credentials_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixCredentialsMessage holding @credentials.
      */
     public UnixCredentialsMessage(Credentials credentials) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new_with_credentials(credentials.HANDLE()), true));
+        super(References.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true));
     }
     
     /**
      * Gets the credentials stored in @message.
      */
     public Credentials getCredentials() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_get_credentials(HANDLE());
+        var RESULT = gtk_h.g_unix_credentials_message_get_credentials(handle());
         return new Credentials(References.get(RESULT, false));
     }
     

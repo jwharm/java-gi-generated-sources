@@ -10,8 +10,8 @@ public class ResourceBase implements NativeAddress {
         this.reference = reference;
     }
 
-    public MemoryAddress HANDLE() {
-        return reference.HANDLE();
+    public MemoryAddress handle() {
+        return reference.handle();
     }
 
     public Reference getReference() {

@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * renderer will only be initialized and deinitialized once.
      */
     public void activate() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_activate(HANDLE());
+        gtk_h.pango_renderer_activate(handle());
     }
     
     /**
@@ -45,7 +47,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * See docs for [method@Pango.Renderer.activate].
      */
     public void deactivate() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_deactivate(HANDLE());
+        gtk_h.pango_renderer_deactivate(handle());
     }
     
     /**
@@ -60,14 +62,14 @@ public class Renderer extends org.gtk.gobject.Object {
      * Use [method@Pango.Renderer.activate] to activate a renderer.
      */
     public void drawErrorUnderline(int x, int y, int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_error_underline(HANDLE(), x, y, width, height);
+        gtk_h.pango_renderer_draw_error_underline(handle(), x, y, width, height);
     }
     
     /**
      * Draws a single glyph with coordinates in device space.
      */
     public void drawGlyph(Font font, Glyph glyph, double x, double y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_glyph(HANDLE(), font.HANDLE(), glyph.getValue(), x, y);
+        gtk_h.pango_renderer_draw_glyph(handle(), font.handle(), glyph.getValue(), x, y);
     }
     
     /**
@@ -91,14 +93,14 @@ public class Renderer extends org.gtk.gobject.Object {
      * [method@Pango.Renderer.draw_glyphs].
      */
     public void drawGlyphItem(java.lang.String text, GlyphItem glyphItem, int x, int y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_glyph_item(HANDLE(), Interop.allocateNativeString(text).HANDLE(), glyphItem.HANDLE(), x, y);
+        gtk_h.pango_renderer_draw_glyph_item(handle(), Interop.allocateNativeString(text).handle(), glyphItem.handle(), x, y);
     }
     
     /**
      * Draws the glyphs in @glyphs with the specified `PangoRenderer`.
      */
     public void drawGlyphs(Font font, GlyphString glyphs, int x, int y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_glyphs(HANDLE(), font.HANDLE(), glyphs.HANDLE(), x, y);
+        gtk_h.pango_renderer_draw_glyphs(handle(), font.handle(), glyphs.handle(), x, y);
     }
     
     /**
@@ -108,7 +110,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * respective positions relative to @x, @y.
      */
     public void drawLayout(Layout layout, int x, int y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_layout(HANDLE(), layout.HANDLE(), x, y);
+        gtk_h.pango_renderer_draw_layout(handle(), layout.handle(), x, y);
     }
     
     /**
@@ -119,7 +121,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * of those items.
      */
     public void drawLayoutLine(LayoutLine line, int x, int y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_layout_line(HANDLE(), line.HANDLE(), x, y);
+        gtk_h.pango_renderer_draw_layout_line(handle(), line.handle(), x, y);
     }
     
     /**
@@ -130,7 +132,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Use [method@Pango.Renderer.activate] to activate a renderer.
      */
     public void drawRectangle(RenderPart part, int x, int y, int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_rectangle(HANDLE(), part.getValue(), x, y, width, height);
+        gtk_h.pango_renderer_draw_rectangle(handle(), part.getValue(), x, y, width, height);
     }
     
     /**
@@ -138,14 +140,14 @@ public class Renderer extends org.gtk.gobject.Object {
      * using the given `PangoRenderer`; coordinates are in device space.
      */
     public void drawTrapezoid(RenderPart part, double y1, double x11, double x21, double y2, double x12, double x22) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_draw_trapezoid(HANDLE(), part.getValue(), y1, x11, x21, y2, x12, x22);
+        gtk_h.pango_renderer_draw_trapezoid(handle(), part.getValue(), y1, x11, x21, y2, x12, x22);
     }
     
     /**
      * Gets the current alpha for the specified part.
      */
     public short getAlpha(RenderPart part) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_alpha(HANDLE(), part.getValue());
+        var RESULT = gtk_h.pango_renderer_get_alpha(handle(), part.getValue());
         return RESULT;
     }
     
@@ -153,7 +155,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Gets the current rendering color for the specified part.
      */
     public Color getColor(RenderPart part) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_color(HANDLE(), part.getValue());
+        var RESULT = gtk_h.pango_renderer_get_color(handle(), part.getValue());
         return new Color(References.get(RESULT, false));
     }
     
@@ -167,7 +169,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * rendered.
      */
     public Layout getLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_layout(HANDLE());
+        var RESULT = gtk_h.pango_renderer_get_layout(handle());
         return new Layout(References.get(RESULT, false));
     }
     
@@ -181,7 +183,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * rendered.
      */
     public LayoutLine getLayoutLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_layout_line(HANDLE());
+        var RESULT = gtk_h.pango_renderer_get_layout_line(handle());
         return new LayoutLine(References.get(RESULT, false));
     }
     
@@ -192,7 +194,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * See [method@Pango.Renderer.set_matrix].
      */
     public Matrix getMatrix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_get_matrix(HANDLE());
+        var RESULT = gtk_h.pango_renderer_get_matrix(handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -214,7 +216,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * changes to colors. (See [method@Pango.Renderer.set_color])
      */
     public void partChanged(RenderPart part) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_part_changed(HANDLE(), part.getValue());
+        gtk_h.pango_renderer_part_changed(handle(), part.getValue());
     }
     
     /**
@@ -224,7 +226,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * specified for @part as well.
      */
     public void setAlpha(RenderPart part, short alpha) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_set_alpha(HANDLE(), part.getValue(), alpha);
+        gtk_h.pango_renderer_set_alpha(handle(), part.getValue(), alpha);
     }
     
     /**
@@ -233,14 +235,14 @@ public class Renderer extends org.gtk.gobject.Object {
      * Also see [method@Pango.Renderer.set_alpha].
      */
     public void setColor(RenderPart part, Color color) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_set_color(HANDLE(), part.getValue(), color.HANDLE());
+        gtk_h.pango_renderer_set_color(handle(), part.getValue(), color.handle());
     }
     
     /**
      * Sets the transformation matrix that will be applied when rendering.
      */
     public void setMatrix(Matrix matrix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_renderer_set_matrix(HANDLE(), matrix.HANDLE());
+        gtk_h.pango_renderer_set_matrix(handle(), matrix.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,14 +21,14 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * Compiles a pattern to a #GPatternSpec.
      */
     public PatternSpec(java.lang.String pattern) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).HANDLE()), true));
+        super(References.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true));
     }
     
     /**
      * Copies @pspec in a new #GPatternSpec.
      */
     public PatternSpec copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_copy(HANDLE());
+        var RESULT = gtk_h.g_pattern_spec_copy(handle());
         return new PatternSpec(References.get(RESULT, true));
     }
     
@@ -35,7 +37,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * match the same set of strings.
      */
     public boolean equal(PatternSpec pspec2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_equal(HANDLE(), pspec2.HANDLE());
+        var RESULT = gtk_h.g_pattern_spec_equal(handle(), pspec2.handle());
         return (RESULT != 0);
     }
     
@@ -43,7 +45,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the memory allocated for the #GPatternSpec.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_free(HANDLE());
+        gtk_h.g_pattern_spec_free(handle());
     }
     
     /**
@@ -66,7 +68,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_utf8_strreverse() function to reverse UTF-8 encoded strings.
      */
     public boolean match(long stringLength, java.lang.String string, java.lang.String stringReversed) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match(HANDLE(), stringLength, Interop.allocateNativeString(string).HANDLE(), Interop.allocateNativeString(stringReversed).HANDLE());
+        var RESULT = gtk_h.g_pattern_spec_match(handle(), stringLength, Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(stringReversed).handle());
         return (RESULT != 0);
     }
     
@@ -76,7 +78,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_pattern_match() instead while supplying the reversed string.
      */
     public boolean matchString(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_match_string(HANDLE(), Interop.allocateNativeString(string).HANDLE());
+        var RESULT = gtk_h.g_pattern_spec_match_string(handle(), Interop.allocateNativeString(string).handle());
         return (RESULT != 0);
     }
     

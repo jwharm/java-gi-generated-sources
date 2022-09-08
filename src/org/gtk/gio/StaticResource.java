@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase
      * and is not typically used by other code.
      */
     public void fini() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_static_resource_fini(HANDLE());
+        gtk_h.g_static_resource_fini(handle());
     }
     
     /**
@@ -34,7 +36,7 @@ public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase
      * and is not typically used by other code.
      */
     public Resource getResource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_static_resource_get_resource(HANDLE());
+        var RESULT = gtk_h.g_static_resource_get_resource(handle());
         return new Resource(References.get(RESULT, false));
     }
     
@@ -47,7 +49,7 @@ public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase
      * and is not typically used by other code.
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_static_resource_init(HANDLE());
+        gtk_h.g_static_resource_init(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * The @a and @b iterators must point into the same sequence.
      */
     public int compare(SequenceIter b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_compare(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_compare(handle(), b.handle());
         return RESULT;
     }
     
@@ -30,7 +32,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the position of @iter
      */
     public int getPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_get_position(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_get_position(handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the #GSequence that @iter points into.
      */
     public Sequence getSequence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_get_sequence(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_get_sequence(handle());
         return new Sequence(References.get(RESULT, false));
     }
     
@@ -46,7 +48,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether @iter is the begin iterator
      */
     public boolean isBegin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_is_begin(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_is_begin(handle());
         return (RESULT != 0);
     }
     
@@ -54,7 +56,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether @iter is the end iterator
      */
     public boolean isEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_is_end(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_is_end(handle());
         return (RESULT != 0);
     }
     
@@ -65,7 +67,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the end of the sequence, the end iterator is returned.
      */
     public SequenceIter move(int delta) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_move(HANDLE(), delta);
+        var RESULT = gtk_h.g_sequence_iter_move(handle(), delta);
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -74,7 +76,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter is the end iterator, the end iterator is returned.
      */
     public SequenceIter next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_next(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_next(handle());
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -83,7 +85,7 @@ public class SequenceIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter is the begin iterator, the begin iterator is returned.
      */
     public SequenceIter prev() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_iter_prev(HANDLE());
+        var RESULT = gtk_h.g_sequence_iter_prev(handle());
         return new SequenceIter(References.get(RESULT, false));
     }
     

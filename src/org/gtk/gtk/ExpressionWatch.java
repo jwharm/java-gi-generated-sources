@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,7 +27,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      * expression and this pointer originally used to create `watch`.
      */
     public boolean evaluate(org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_evaluate(HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.gtk_expression_watch_evaluate(handle(), value.handle());
         return (RESULT != 0);
     }
     
@@ -33,7 +35,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      * Acquires a reference on the given `GtkExpressionWatch`.
      */
     public ExpressionWatch ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_ref(HANDLE());
+        var RESULT = gtk_h.gtk_expression_watch_ref(handle());
         return new ExpressionWatch(References.get(RESULT, true));
     }
     
@@ -44,7 +46,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      * freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_unref(HANDLE());
+        gtk_h.gtk_expression_watch_unref(handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      * was established.
      */
     public void unwatch() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_unwatch(HANDLE());
+        gtk_h.gtk_expression_watch_unwatch(handle());
     }
     
 }

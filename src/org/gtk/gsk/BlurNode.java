@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class BlurNode extends RenderNode {
      * Creates a render node that blurs the child.
      */
     public BlurNode(RenderNode child, float radius) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_new(child.HANDLE(), radius), true));
+        super(References.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true));
     }
     
     /**
      * Retrieves the child `GskRenderNode` of the blur @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_blur_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -38,7 +40,7 @@ public class BlurNode extends RenderNode {
      * Retrieves the blur radius of the @node.
      */
     public float getRadius() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_get_radius(HANDLE());
+        var RESULT = gtk_h.gsk_blur_node_get_radius(handle());
         return RESULT;
     }
     

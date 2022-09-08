@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * Create a new `GtkAspectFrame`.
      */
     public AspectFrame(float xalign, float yalign, float ratio, boolean obeyChild) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false));
+        super(References.get(gtk_h.gtk_aspect_frame_new(xalign, yalign, ratio, obeyChild ? 1 : 0), false));
     }
     
     /**
      * Gets the child widget of @self.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_aspect_frame_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -46,7 +48,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * the set aspect ratio of the `GtkAspectFrame`.
      */
     public boolean getObeyChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_obey_child(HANDLE());
+        var RESULT = gtk_h.gtk_aspect_frame_get_obey_child(handle());
         return (RESULT != 0);
     }
     
@@ -54,7 +56,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * Returns the desired aspect ratio of the child.
      */
     public float getRatio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_ratio(HANDLE());
+        var RESULT = gtk_h.gtk_aspect_frame_get_ratio(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * allocation of the `GtkAspectFrame`.
      */
     public float getXalign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_xalign(HANDLE());
+        var RESULT = gtk_h.gtk_aspect_frame_get_xalign(handle());
         return RESULT;
     }
     
@@ -72,7 +74,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * allocation of the `GtkAspectFrame`.
      */
     public float getYalign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_get_yalign(HANDLE());
+        var RESULT = gtk_h.gtk_aspect_frame_get_yalign(handle());
         return RESULT;
     }
     
@@ -80,7 +82,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * Sets the child widget of @self.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_aspect_frame_set_child(handle(), child.handle());
     }
     
     /**
@@ -89,14 +91,14 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * the `GtkAspectFrame`.
      */
     public void setObeyChild(boolean obeyChild) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_set_obey_child(HANDLE(), obeyChild ? 1 : 0);
+        gtk_h.gtk_aspect_frame_set_obey_child(handle(), obeyChild ? 1 : 0);
     }
     
     /**
      * Sets the desired aspect ratio of the child.
      */
     public void setRatio(float ratio) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_set_ratio(HANDLE(), ratio);
+        gtk_h.gtk_aspect_frame_set_ratio(handle(), ratio);
     }
     
     /**
@@ -104,7 +106,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * of the `GtkAspectFrame`.
      */
     public void setXalign(float xalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_set_xalign(HANDLE(), xalign);
+        gtk_h.gtk_aspect_frame_set_xalign(handle(), xalign);
     }
     
     /**
@@ -112,7 +114,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
      * of the `GtkAspectFrame`.
      */
     public void setYalign(float yalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_aspect_frame_set_yalign(HANDLE(), yalign);
+        gtk_h.gtk_aspect_frame_set_yalign(handle(), yalign);
     }
     
 }

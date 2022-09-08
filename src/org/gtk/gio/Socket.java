@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -83,7 +85,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public Socket accept(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_accept(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_accept(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -117,7 +119,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean bind(SocketAddress address, boolean allowReuse) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_bind(HANDLE(), address.HANDLE(), allowReuse ? 1 : 0, GERROR);
+        var RESULT = gtk_h.g_socket_bind(handle(), address.handle(), allowReuse ? 1 : 0, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -131,7 +133,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean checkConnectResult() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_check_connect_result(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_check_connect_result(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -171,7 +173,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean close() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_close(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_close(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -198,7 +200,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * This call never blocks.
      */
     public int conditionCheck(int condition) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_condition_check(HANDLE(), condition);
+        var RESULT = gtk_h.g_socket_condition_check(handle(), condition);
         return RESULT;
     }
     
@@ -222,7 +224,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean conditionTimedWait(int condition, long timeoutUs, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_condition_timed_wait(HANDLE(), condition, timeoutUs, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_condition_timed_wait(handle(), condition, timeoutUs, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -243,7 +245,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean conditionWait(int condition, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_condition_wait(HANDLE(), condition, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_condition_wait(handle(), condition, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -270,7 +272,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connect(HANDLE(), address.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_connect(handle(), address.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -282,7 +284,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * @socket.
      */
     public SocketConnection connectionFactoryCreateConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_factory_create_connection(HANDLE());
+        var RESULT = gtk_h.g_socket_connection_factory_create_connection(handle());
         return new SocketConnection(References.get(RESULT, true));
     }
     
@@ -309,7 +311,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * you call will then fail with a %G_IO_ERROR_TIMED_OUT.
      */
     public org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_create_source(HANDLE(), condition, cancellable.HANDLE());
+        var RESULT = gtk_h.g_socket_create_source(handle(), condition, cancellable.handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
@@ -328,7 +330,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * exactly the right size.
      */
     public long getAvailableBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_available_bytes(HANDLE());
+        var RESULT = gtk_h.g_socket_get_available_bytes(handle());
         return RESULT;
     }
     
@@ -337,7 +339,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * see g_socket_set_blocking().
      */
     public boolean getBlocking() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_blocking(HANDLE());
+        var RESULT = gtk_h.g_socket_get_blocking(handle());
         return (RESULT != 0);
     }
     
@@ -347,7 +349,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * addresses.
      */
     public boolean getBroadcast() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_broadcast(HANDLE());
+        var RESULT = gtk_h.g_socket_get_broadcast(handle());
         return (RESULT != 0);
     }
     
@@ -375,7 +377,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public Credentials getCredentials() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_credentials(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_get_credentials(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -386,7 +388,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Gets the socket family of the socket.
      */
     public SocketFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_family(HANDLE());
+        var RESULT = gtk_h.g_socket_get_family(handle());
         return SocketFamily.fromValue(RESULT);
     }
     
@@ -398,7 +400,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * on the socket.
      */
     public int getFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_fd(HANDLE());
+        var RESULT = gtk_h.g_socket_get_fd(handle());
         return RESULT;
     }
     
@@ -407,7 +409,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * see g_socket_set_keepalive().
      */
     public boolean getKeepalive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_keepalive(HANDLE());
+        var RESULT = gtk_h.g_socket_get_keepalive(handle());
         return (RESULT != 0);
     }
     
@@ -416,7 +418,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * see g_socket_set_listen_backlog().
      */
     public int getListenBacklog() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_listen_backlog(HANDLE());
+        var RESULT = gtk_h.g_socket_get_listen_backlog(handle());
         return RESULT;
     }
     
@@ -427,7 +429,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_local_address(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_get_local_address(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -440,7 +442,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * multicast listeners on the same host.
      */
     public boolean getMulticastLoopback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_multicast_loopback(HANDLE());
+        var RESULT = gtk_h.g_socket_get_multicast_loopback(handle());
         return (RESULT != 0);
     }
     
@@ -449,7 +451,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_set_multicast_ttl() for more details.
      */
     public int getMulticastTtl() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_multicast_ttl(HANDLE());
+        var RESULT = gtk_h.g_socket_get_multicast_ttl(handle());
         return RESULT;
     }
     
@@ -458,7 +460,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * In case the protocol is unknown, -1 is returned.
      */
     public SocketProtocol getProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_protocol(HANDLE());
+        var RESULT = gtk_h.g_socket_get_protocol(handle());
         return SocketProtocol.fromValue(RESULT);
     }
     
@@ -468,7 +470,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_remote_address(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_get_remote_address(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -479,7 +481,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Gets the socket type of the socket.
      */
     public SocketType getSocketType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_socket_type(HANDLE());
+        var RESULT = gtk_h.g_socket_get_socket_type(handle());
         return SocketType.fromValue(RESULT);
     }
     
@@ -488,7 +490,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_set_timeout().
      */
     public int getTimeout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_timeout(HANDLE());
+        var RESULT = gtk_h.g_socket_get_timeout(handle());
         return RESULT;
     }
     
@@ -497,7 +499,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_set_ttl() for more details.
      */
     public int getTtl() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_get_ttl(HANDLE());
+        var RESULT = gtk_h.g_socket_get_ttl(handle());
         return RESULT;
     }
     
@@ -505,7 +507,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Checks whether a socket is closed.
      */
     public boolean isClosed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_is_closed(HANDLE());
+        var RESULT = gtk_h.g_socket_is_closed(handle());
         return (RESULT != 0);
     }
     
@@ -519,7 +521,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_check_connect_result().
      */
     public boolean isConnected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_is_connected(HANDLE());
+        var RESULT = gtk_h.g_socket_is_connected(handle());
         return (RESULT != 0);
     }
     
@@ -541,7 +543,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean joinMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_join_multicast_group(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -567,7 +569,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean joinMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_join_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.allocateNativeString(iface).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_join_multicast_group_ssm(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -587,7 +589,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean leaveMulticastGroup(InetAddress group, boolean sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group(HANDLE(), group.HANDLE(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_leave_multicast_group(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -604,7 +606,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean leaveMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_leave_multicast_group_ssm(HANDLE(), group.HANDLE(), sourceSpecific.HANDLE(), Interop.allocateNativeString(iface).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_leave_multicast_group_ssm(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -623,7 +625,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean listen() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_listen(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_listen(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -657,7 +659,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receive(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_receive(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_receive(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -675,7 +677,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receiveFrom(SocketAddress[] address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_receive_from(HANDLE(), Interop.allocateNativeArray(address), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_from(handle(), Interop.allocateNativeArray(address), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -734,7 +736,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public int receiveMessages(InputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_receive_messages(HANDLE(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -748,7 +750,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long receiveWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_receive_with_blocking(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_receive_with_blocking(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -773,7 +775,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long send(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_send(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_send(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -826,7 +828,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendMessage(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_send_message(HANDLE(), address.HANDLE(), Interop.allocateNativeArray(vectors), numVectors, Interop.allocateNativeArray(messages), numMessages, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_send_message(handle(), address.handle(), Interop.allocateNativeArray(vectors), numVectors, Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -871,7 +873,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public int sendMessages(OutputMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_send_messages(HANDLE(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_send_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -887,7 +889,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendTo(SocketAddress address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_send_to(HANDLE(), address.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_send_to(handle(), address.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -901,7 +903,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public long sendWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_send_with_blocking(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_send_with_blocking(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), size, blocking ? 1 : 0, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -920,7 +922,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * is a GSocket level feature.
      */
     public void setBlocking(boolean blocking) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_blocking(HANDLE(), blocking ? 1 : 0);
+        gtk_h.g_socket_set_blocking(handle(), blocking ? 1 : 0);
     }
     
     /**
@@ -928,7 +930,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * This is %FALSE by default.
      */
     public void setBroadcast(boolean broadcast) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_broadcast(HANDLE(), broadcast ? 1 : 0);
+        gtk_h.g_socket_set_broadcast(handle(), broadcast ? 1 : 0);
     }
     
     /**
@@ -949,7 +951,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * garbage-collected if clients crash or become unreachable.
      */
     public void setKeepalive(boolean keepalive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_keepalive(HANDLE(), keepalive ? 1 : 0);
+        gtk_h.g_socket_set_keepalive(handle(), keepalive ? 1 : 0);
     }
     
     /**
@@ -962,7 +964,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * effect if called after that.
      */
     public void setListenBacklog(int backlog) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_listen_backlog(HANDLE(), backlog);
+        gtk_h.g_socket_set_listen_backlog(handle(), backlog);
     }
     
     /**
@@ -971,7 +973,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * by default.
      */
     public void setMulticastLoopback(boolean loopback) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_multicast_loopback(HANDLE(), loopback ? 1 : 0);
+        gtk_h.g_socket_set_multicast_loopback(handle(), loopback ? 1 : 0);
     }
     
     /**
@@ -980,7 +982,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * the local network.
      */
     public void setMulticastTtl(int ttl) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_multicast_ttl(HANDLE(), ttl);
+        gtk_h.g_socket_set_multicast_ttl(handle(), ttl);
     }
     
     /**
@@ -996,7 +998,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean setOption(int level, int optname, int value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_option(HANDLE(), level, optname, value, GERROR);
+        var RESULT = gtk_h.g_socket_set_option(handle(), level, optname, value, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1026,7 +1028,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * cause the timeout to be reset.
      */
     public void setTimeout(int timeout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_timeout(HANDLE(), timeout);
+        gtk_h.g_socket_set_timeout(handle(), timeout);
     }
     
     /**
@@ -1034,7 +1036,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * By default the platform-specific default value is used.
      */
     public void setTtl(int ttl) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_set_ttl(HANDLE(), ttl);
+        gtk_h.g_socket_set_ttl(handle(), ttl);
     }
     
     /**
@@ -1055,7 +1057,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public boolean shutdown(boolean shutdownRead, boolean shutdownWrite) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_shutdown(HANDLE(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, GERROR);
+        var RESULT = gtk_h.g_socket_shutdown(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -1074,7 +1076,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * of speaking IPv4.
      */
     public boolean speaksIpv4() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_speaks_ipv4(HANDLE());
+        var RESULT = gtk_h.g_socket_speaks_ipv4(handle());
         return (RESULT != 0);
     }
     

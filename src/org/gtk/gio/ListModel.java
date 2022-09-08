@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +70,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * See also: g_list_model_get_n_items()
      */
     public default jdk.incubator.foreign.MemoryAddress getItem(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_get_item(HANDLE(), position);
+        var RESULT = gtk_h.g_list_model_get_item(handle(), position);
         return RESULT;
     }
     
@@ -83,7 +85,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * model.
      */
     public default org.gtk.gobject.Type getItemType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_get_item_type(HANDLE());
+        var RESULT = gtk_h.g_list_model_get_item_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -95,7 +97,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * @position until g_list_model_get_item() returns %NULL.
      */
     public default int getNItems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_get_n_items(HANDLE());
+        var RESULT = gtk_h.g_list_model_get_n_items(handle());
         return RESULT;
     }
     
@@ -114,7 +116,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * See also: g_list_model_get_n_items()
      */
     public default org.gtk.gobject.Object getObject(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_get_object(HANDLE(), position);
+        var RESULT = gtk_h.g_list_model_get_object(handle(), position);
         return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
@@ -141,7 +143,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * same contents of the model.
      */
     public default void itemsChanged(int position, int removed, int added) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_items_changed(HANDLE(), position, removed, added);
+        gtk_h.g_list_model_items_changed(handle(), position, removed, added);
     }
     
     @FunctionalInterface
@@ -161,12 +163,12 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListModelItemsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("items-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("items-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,14 +29,14 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      * object path.
      */
     public DBusObjectProxy(DBusConnection connection, java.lang.String objectPath) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_new(connection.HANDLE(), Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(gtk_h.g_dbus_object_proxy_new(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true));
     }
     
     /**
      * Gets the connection that @proxy is for.
      */
     public DBusConnection getConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_get_connection(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_proxy_get_connection(handle());
         return new DBusConnection(References.get(RESULT, false));
     }
     

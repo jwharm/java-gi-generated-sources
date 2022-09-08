@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -69,7 +71,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * entry using [method@Gtk.SearchBar.connect_entry].
      */
     public SearchBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_new(), false));
+        super(References.get(gtk_h.gtk_search_bar_new(), false));
     }
     
     /**
@@ -81,14 +83,14 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * child of the search bar (as in our main example).
      */
     public void connectEntry(Editable entry) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_connect_entry(HANDLE(), entry.HANDLE());
+        gtk_h.gtk_search_bar_connect_entry(handle(), entry.handle());
     }
     
     /**
      * Gets the child widget of @bar.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_search_bar_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -96,7 +98,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * Gets the widget that @bar is capturing key events from.
      */
     public Widget getKeyCaptureWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_key_capture_widget(HANDLE());
+        var RESULT = gtk_h.gtk_search_bar_get_key_capture_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -104,7 +106,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * Returns whether the search mode is on or off.
      */
     public boolean getSearchMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_search_mode(HANDLE());
+        var RESULT = gtk_h.gtk_search_bar_get_search_mode(handle());
         return (RESULT != 0);
     }
     
@@ -112,7 +114,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * Returns whether the close button is shown.
      */
     public boolean getShowCloseButton() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_get_show_close_button(HANDLE());
+        var RESULT = gtk_h.gtk_search_bar_get_show_close_button(handle());
         return (RESULT != 0);
     }
     
@@ -120,7 +122,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * Sets the child widget of @bar.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_search_bar_set_child(handle(), child.handle());
     }
     
     /**
@@ -138,14 +140,14 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * [method@Gtk.EventControllerKey.forward].
      */
     public void setKeyCaptureWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_set_key_capture_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_search_bar_set_key_capture_widget(handle(), widget.handle());
     }
     
     /**
      * Switches the search mode on or off.
      */
     public void setSearchMode(boolean searchMode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_set_search_mode(HANDLE(), searchMode ? 1 : 0);
+        gtk_h.gtk_search_bar_set_search_mode(handle(), searchMode ? 1 : 0);
     }
     
     /**
@@ -156,7 +158,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * of the toggle button.
      */
     public void setShowCloseButton(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_bar_set_show_close_button(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_search_bar_set_show_close_button(handle(), visible ? 1 : 0);
     }
     
 }

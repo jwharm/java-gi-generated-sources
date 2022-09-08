@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,14 +29,14 @@ public class TcpWrapperConnection extends TcpConnection {
      * Wraps @base_io_stream and @socket together as a #GSocketConnection.
      */
     public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_new(baseIoStream.HANDLE(), socket.HANDLE()), true));
+        super(References.get(gtk_h.g_tcp_wrapper_connection_new(baseIoStream.handle(), socket.handle()), true));
     }
     
     /**
      * Gets @conn's base #GIOStream
      */
     public IOStream getBaseIoStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_get_base_io_stream(HANDLE());
+        var RESULT = gtk_h.g_tcp_wrapper_connection_get_base_io_stream(handle());
         return new IOStream(References.get(RESULT, false));
     }
     

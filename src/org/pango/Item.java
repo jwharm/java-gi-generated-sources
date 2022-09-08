@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new `PangoItem` structure initialized to default values.
      */
     public Item() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_new(), true));
+        super(References.get(gtk_h.pango_item_new(), true));
     }
     
     /**
@@ -38,14 +40,14 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      * the iter to each call.
      */
     public void applyAttrs(AttrIterator iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_apply_attrs(HANDLE(), iter.HANDLE());
+        gtk_h.pango_item_apply_attrs(handle(), iter.handle());
     }
     
     /**
      * Copy an existing `PangoItem` structure.
      */
     public Item copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_copy(HANDLE());
+        var RESULT = gtk_h.pango_item_copy(handle());
         return new Item(References.get(RESULT, true));
     }
     
@@ -53,7 +55,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      * Free a `PangoItem` and all associated memory.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_free(HANDLE());
+        gtk_h.pango_item_free(handle());
     }
     
     /**
@@ -71,7 +73,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      * itself.
      */
     public Item split(int splitIndex, int splitOffset) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_split(HANDLE(), splitIndex, splitOffset);
+        var RESULT = gtk_h.pango_item_split(handle(), splitIndex, splitOffset);
         return new Item(References.get(RESULT, true));
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -321,7 +323,7 @@ public class Settings extends org.gtk.gobject.Object {
      * on the context.  See g_main_context_push_thread_default().
      */
     public Settings(java.lang.String schemaId) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).HANDLE()), true));
+        super(References.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true));
     }
     
     /**
@@ -350,7 +352,7 @@ public class Settings extends org.gtk.gobject.Object {
      * have.
      */
     public Settings(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_full(schema.HANDLE(), backend.HANDLE(), Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -364,7 +366,7 @@ public class Settings extends org.gtk.gobject.Object {
      * settings instead of the settings for this user.
      */
     public Settings(java.lang.String schemaId, SettingsBackend backend) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).HANDLE(), backend.HANDLE()), true));
+        super(References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true));
     }
     
     /**
@@ -375,7 +377,7 @@ public class Settings extends org.gtk.gobject.Object {
      * g_settings_new_with_path().
      */
     public Settings(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).HANDLE(), backend.HANDLE(), Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -394,7 +396,7 @@ public class Settings extends org.gtk.gobject.Object {
      * characters.
      */
     public Settings(java.lang.String schemaId, java.lang.String path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).HANDLE(), Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -404,7 +406,7 @@ public class Settings extends org.gtk.gobject.Object {
      * applied immediately.
      */
     public void apply() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_apply(HANDLE());
+        gtk_h.g_settings_apply(handle());
     }
     
     /**
@@ -430,7 +432,7 @@ public class Settings extends org.gtk.gobject.Object {
      * binding overrides the first one.
      */
     public void bind(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_bind(HANDLE(), Interop.allocateNativeString(key).HANDLE(), object.HANDLE(), Interop.allocateNativeString(property).HANDLE(), flags);
+        gtk_h.g_settings_bind(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags);
     }
     
     /**
@@ -453,7 +455,7 @@ public class Settings extends org.gtk.gobject.Object {
      * binding overrides the first one.
      */
     public void bindWritable(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, boolean inverted) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_bind_writable(HANDLE(), Interop.allocateNativeString(key).HANDLE(), object.HANDLE(), Interop.allocateNativeString(property).HANDLE(), inverted ? 1 : 0);
+        gtk_h.g_settings_bind_writable(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), inverted ? 1 : 0);
     }
     
     /**
@@ -473,7 +475,7 @@ public class Settings extends org.gtk.gobject.Object {
      * correct type).
      */
     public Action createAction(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_create_action(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_create_action(handle(), Interop.allocateNativeString(key).handle());
         return new Action.ActionImpl(References.get(RESULT, true));
     }
     
@@ -483,7 +485,7 @@ public class Settings extends org.gtk.gobject.Object {
      * backend, but kept locally until g_settings_apply() is called.
      */
     public void delay() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_delay(HANDLE());
+        gtk_h.g_settings_delay(handle());
     }
     
     /**
@@ -495,7 +497,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a boolean type in the schema for @settings.
      */
     public boolean getBoolean(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_boolean(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_boolean(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -511,7 +513,7 @@ public class Settings extends org.gtk.gobject.Object {
      * mode from @settings.
      */
     public Settings getChild(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_child(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_settings_get_child(handle(), Interop.allocateNativeString(name).handle());
         return new Settings(References.get(RESULT, true));
     }
     
@@ -539,7 +541,7 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for @settings.
      */
     public org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_default_value(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_default_value(handle(), Interop.allocateNativeString(key).handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -552,7 +554,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a 'double' type in the schema for @settings.
      */
     public double getDouble(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_double(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_double(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -571,7 +573,7 @@ public class Settings extends org.gtk.gobject.Object {
      * default value.
      */
     public int getEnum(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_enum(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_enum(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -590,7 +592,7 @@ public class Settings extends org.gtk.gobject.Object {
      * value.
      */
     public int getFlags(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_flags(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_flags(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -599,7 +601,7 @@ public class Settings extends org.gtk.gobject.Object {
      * changes.  This can only be the case if it is in 'delayed-apply' mode.
      */
     public boolean getHasUnapplied() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_has_unapplied(HANDLE());
+        var RESULT = gtk_h.g_settings_get_has_unapplied(handle());
         return (RESULT != 0);
     }
     
@@ -612,7 +614,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int32 type in the schema for @settings.
      */
     public int getInt(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_int(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_int(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -625,7 +627,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int64 type in the schema for @settings.
      */
     public long getInt64(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_int64(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_int64(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -638,7 +640,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a string type in the schema for @settings.
      */
     public java.lang.String getString(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_string(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_string(handle(), Interop.allocateNativeString(key).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -652,7 +654,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint32 type in the schema for @settings.
      */
     public int getUint(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_uint(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_uint(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -666,7 +668,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint64 type in the schema for @settings.
      */
     public long getUint64(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_uint64(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_uint64(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -691,7 +693,7 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for @settings.
      */
     public org.gtk.glib.Variant getUserValue(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_user_value(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_user_value(handle(), Interop.allocateNativeString(key).handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -702,7 +704,7 @@ public class Settings extends org.gtk.gobject.Object {
      * schema for @settings.
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_get_value(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_settings_get_value(handle(), Interop.allocateNativeString(key).handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -710,7 +712,7 @@ public class Settings extends org.gtk.gobject.Object {
      * Finds out if a key can be written or not
      */
     public boolean isWritable(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_is_writable(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_settings_is_writable(handle(), Interop.allocateNativeString(name).handle());
         return (RESULT != 0);
     }
     
@@ -722,7 +724,7 @@ public class Settings extends org.gtk.gobject.Object {
      * administrator.
      */
     public void reset(java.lang.String key) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_reset(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        gtk_h.g_settings_reset(handle(), Interop.allocateNativeString(key).handle());
     }
     
     /**
@@ -734,7 +736,7 @@ public class Settings extends org.gtk.gobject.Object {
      * Change notifications will be emitted for affected keys.
      */
     public void revert() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_revert(HANDLE());
+        gtk_h.g_settings_revert(handle());
     }
     
     /**
@@ -746,7 +748,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a boolean type in the schema for @settings.
      */
     public boolean setBoolean(java.lang.String key, boolean value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_boolean(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value ? 1 : 0);
+        var RESULT = gtk_h.g_settings_set_boolean(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -759,7 +761,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a 'double' type in the schema for @settings.
      */
     public boolean setDouble(java.lang.String key, double value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_double(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_double(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -776,7 +778,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @value.
      */
     public boolean setEnum(java.lang.String key, int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_enum(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_enum(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -794,7 +796,7 @@ public class Settings extends org.gtk.gobject.Object {
      * bit in @value.
      */
     public boolean setFlags(java.lang.String key, int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_flags(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_flags(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -807,7 +809,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int32 type in the schema for @settings.
      */
     public boolean setInt(java.lang.String key, int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_int(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_int(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -820,7 +822,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a int64 type in the schema for @settings.
      */
     public boolean setInt64(java.lang.String key, long value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_int64(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_int64(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -833,7 +835,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a string type in the schema for @settings.
      */
     public boolean setString(java.lang.String key, java.lang.String value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_string(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
+        var RESULT = gtk_h.g_settings_set_string(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
         return (RESULT != 0);
     }
     
@@ -847,7 +849,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having an array of strings type in the schema for @settings.
      */
     public boolean setStrv(java.lang.String key, java.lang.String[] value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_strv(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_settings_set_strv(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(value));
         return (RESULT != 0);
     }
     
@@ -861,7 +863,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint32 type in the schema for @settings.
      */
     public boolean setUint(java.lang.String key, int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_uint(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_uint(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -875,7 +877,7 @@ public class Settings extends org.gtk.gobject.Object {
      * having a uint64 type in the schema for @settings.
      */
     public boolean setUint64(java.lang.String key, long value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_uint64(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        var RESULT = gtk_h.g_settings_set_uint64(handle(), Interop.allocateNativeString(key).handle(), value);
         return (RESULT != 0);
     }
     
@@ -889,7 +891,7 @@ public class Settings extends org.gtk.gobject.Object {
      * If @value is floating then this function consumes the reference.
      */
     public boolean setValue(java.lang.String key, org.gtk.glib.Variant value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_set_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.g_settings_set_value(handle(), Interop.allocateNativeString(key).handle(), value.handle());
         return (RESULT != 0);
     }
     
@@ -919,12 +921,12 @@ public class Settings extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChangeEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("change-event").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -951,12 +953,12 @@ public class Settings extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -991,12 +993,12 @@ public class Settings extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChangeEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("writable-change-event").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("writable-change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1020,12 +1022,12 @@ public class Settings extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("writable-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("writable-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

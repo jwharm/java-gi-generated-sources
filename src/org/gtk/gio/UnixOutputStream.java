@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,7 +36,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
+        super(References.get(gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * closed when the stream is closed.
      */
     public boolean getCloseFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_get_close_fd(HANDLE());
+        var RESULT = gtk_h.g_unix_output_stream_get_close_fd(handle());
         return (RESULT != 0);
     }
     
@@ -50,7 +52,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * Return the UNIX file descriptor that the stream writes to.
      */
     public int getFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_get_fd(HANDLE());
+        var RESULT = gtk_h.g_unix_output_stream_get_fd(handle());
         return RESULT;
     }
     
@@ -59,7 +61,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * when the stream is closed.
      */
     public void setCloseFd(boolean closeFd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_set_close_fd(HANDLE(), closeFd ? 1 : 0);
+        gtk_h.g_unix_output_stream_set_close_fd(handle(), closeFd ? 1 : 0);
     }
     
 }

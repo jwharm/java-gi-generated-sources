@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -114,14 +116,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkNotebook` widget with no pages.
      */
     public Notebook() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_new(), false));
+        super(References.get(gtk_h.gtk_notebook_new(), false));
     }
     
     /**
      * Appends a page to @notebook.
      */
     public int appendPage(Widget child, Widget tabLabel) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_append_page(HANDLE(), child.HANDLE(), tabLabel.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_append_page(handle(), child.handle(), tabLabel.handle());
         return RESULT;
     }
     
@@ -130,7 +132,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * label in the popup menu.
      */
     public int appendPageMenu(Widget child, Widget tabLabel, Widget menuLabel) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_append_page_menu(HANDLE(), child.HANDLE(), tabLabel.HANDLE(), menuLabel.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_append_page_menu(handle(), child.handle(), tabLabel.handle(), menuLabel.handle());
         return RESULT;
     }
     
@@ -143,7 +145,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * not be cancelled.
      */
     public void detachTab(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_detach_tab(HANDLE(), child.HANDLE());
+        gtk_h.gtk_notebook_detach_tab(handle(), child.handle());
     }
     
     /**
@@ -152,7 +154,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * See [method@Gtk.Notebook.set_action_widget].
      */
     public Widget getActionWidget(PackType packType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_action_widget(HANDLE(), packType.getValue());
+        var RESULT = gtk_h.gtk_notebook_get_action_widget(handle(), packType.getValue());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -160,7 +162,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns the page number of the current page.
      */
     public int getCurrentPage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_current_page(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_current_page(handle());
         return RESULT;
     }
     
@@ -168,7 +170,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Gets the current group name for @notebook.
      */
     public java.lang.String getGroupName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_group_name(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_group_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -176,7 +178,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Retrieves the menu label widget of the page containing @child.
      */
     public Widget getMenuLabel(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_menu_label(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_menu_label(handle(), child.handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -185,7 +187,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * @child.
      */
     public java.lang.String getMenuLabelText(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_menu_label_text(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_menu_label_text(handle(), child.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -193,7 +195,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Gets the number of pages in a notebook.
      */
     public int getNPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_n_pages(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_n_pages(handle());
         return RESULT;
     }
     
@@ -201,7 +203,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns the child widget contained in page number @page_num.
      */
     public Widget getNthPage(int pageNum) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_nth_page(HANDLE(), pageNum);
+        var RESULT = gtk_h.gtk_notebook_get_nth_page(handle(), pageNum);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -209,7 +211,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns the `GtkNotebookPage` for @child.
      */
     public NotebookPage getPage(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_page(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_page(handle(), child.handle());
         return new NotebookPage(References.get(RESULT, false));
     }
     
@@ -221,7 +223,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * and modify the visible page.
      */
     public org.gtk.gio.ListModel getPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_pages(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_pages(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -229,7 +231,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the tab label area has arrows for scrolling.
      */
     public boolean getScrollable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_scrollable(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_scrollable(handle());
         return (RESULT != 0);
     }
     
@@ -237,7 +239,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns whether a bevel will be drawn around the notebook pages.
      */
     public boolean getShowBorder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_show_border(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_show_border(handle());
         return (RESULT != 0);
     }
     
@@ -245,7 +247,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the tabs of the notebook are shown.
      */
     public boolean getShowTabs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_show_tabs(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_show_tabs(handle());
         return (RESULT != 0);
     }
     
@@ -253,7 +255,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the tab contents can be detached from @notebook.
      */
     public boolean getTabDetachable(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_detachable(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_tab_detachable(handle(), child.handle());
         return (RESULT != 0);
     }
     
@@ -264,7 +266,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * if no tab label has specifically been set for @child.
      */
     public Widget getTabLabel(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_label(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_tab_label(handle(), child.handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -273,7 +275,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * @child.
      */
     public java.lang.String getTabLabelText(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_label_text(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_tab_label_text(handle(), child.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -281,7 +283,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Gets the edge at which the tabs are drawn.
      */
     public PositionType getTabPos() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_pos(HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_tab_pos(handle());
         return PositionType.fromValue(RESULT);
     }
     
@@ -289,7 +291,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Gets whether the tab can be reordered via drag and drop or not.
      */
     public boolean getTabReorderable(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_get_tab_reorderable(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_get_tab_reorderable(handle(), child.handle());
         return (RESULT != 0);
     }
     
@@ -297,7 +299,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Insert a page into @notebook at the given position.
      */
     public int insertPage(Widget child, Widget tabLabel, int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_insert_page(HANDLE(), child.HANDLE(), tabLabel.HANDLE(), position);
+        var RESULT = gtk_h.gtk_notebook_insert_page(handle(), child.handle(), tabLabel.handle(), position);
         return RESULT;
     }
     
@@ -306,7 +308,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * the widget to use as the label in the popup menu.
      */
     public int insertPageMenu(Widget child, Widget tabLabel, Widget menuLabel, int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_insert_page_menu(HANDLE(), child.HANDLE(), tabLabel.HANDLE(), menuLabel.HANDLE(), position);
+        var RESULT = gtk_h.gtk_notebook_insert_page_menu(handle(), child.handle(), tabLabel.handle(), menuLabel.handle(), position);
         return RESULT;
     }
     
@@ -316,7 +318,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Nothing happens if the current page is the last page.
      */
     public void nextPage() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_next_page(HANDLE());
+        gtk_h.gtk_notebook_next_page(handle());
     }
     
     /**
@@ -324,7 +326,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * widget.
      */
     public int pageNum(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_page_num(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_page_num(handle(), child.handle());
         return RESULT;
     }
     
@@ -332,7 +334,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Disables the popup menu.
      */
     public void popupDisable() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_popup_disable(HANDLE());
+        gtk_h.gtk_notebook_popup_disable(handle());
     }
     
     /**
@@ -342,14 +344,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * a menu with all the pages will be popped up.
      */
     public void popupEnable() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_popup_enable(HANDLE());
+        gtk_h.gtk_notebook_popup_enable(handle());
     }
     
     /**
      * Prepends a page to @notebook.
      */
     public int prependPage(Widget child, Widget tabLabel) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_prepend_page(HANDLE(), child.HANDLE(), tabLabel.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_prepend_page(handle(), child.handle(), tabLabel.handle());
         return RESULT;
     }
     
@@ -358,7 +360,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * label in the popup menu.
      */
     public int prependPageMenu(Widget child, Widget tabLabel, Widget menuLabel) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_prepend_page_menu(HANDLE(), child.HANDLE(), tabLabel.HANDLE(), menuLabel.HANDLE());
+        var RESULT = gtk_h.gtk_notebook_prepend_page_menu(handle(), child.handle(), tabLabel.handle(), menuLabel.handle());
         return RESULT;
     }
     
@@ -368,7 +370,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Nothing happens if the current page is the first page.
      */
     public void prevPage() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_prev_page(HANDLE());
+        gtk_h.gtk_notebook_prev_page(handle());
     }
     
     /**
@@ -376,7 +378,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * in the notebook.
      */
     public void removePage(int pageNum) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_remove_page(HANDLE(), pageNum);
+        gtk_h.gtk_notebook_remove_page(handle(), pageNum);
     }
     
     /**
@@ -387,7 +389,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * the list or negative, @child will be moved to the end of the list.
      */
     public void reorderChild(Widget child, int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_reorder_child(HANDLE(), child.HANDLE(), position);
+        gtk_h.gtk_notebook_reorder_child(handle(), child.handle(), position);
     }
     
     /**
@@ -398,7 +400,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * more than one widget on the same side.
      */
     public void setActionWidget(Widget widget, PackType packType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_action_widget(HANDLE(), widget.HANDLE(), packType.getValue());
+        gtk_h.gtk_notebook_set_action_widget(handle(), widget.handle(), packType.getValue());
     }
     
     /**
@@ -410,7 +412,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * adding them to a notebook.
      */
     public void setCurrentPage(int pageNum) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_current_page(HANDLE(), pageNum);
+        gtk_h.gtk_notebook_set_current_page(handle(), pageNum);
     }
     
     /**
@@ -421,21 +423,21 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * not be able to exchange tabs with any other notebook.
      */
     public void setGroupName(java.lang.String groupName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_group_name(HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
+        gtk_h.gtk_notebook_set_group_name(handle(), Interop.allocateNativeString(groupName).handle());
     }
     
     /**
      * Changes the menu label for the page containing @child.
      */
     public void setMenuLabel(Widget child, Widget menuLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_menu_label(HANDLE(), child.HANDLE(), menuLabel.HANDLE());
+        gtk_h.gtk_notebook_set_menu_label(handle(), child.handle(), menuLabel.handle());
     }
     
     /**
      * Creates a new label and sets it as the menu label of @child.
      */
     public void setMenuLabelText(Widget child, java.lang.String menuText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_menu_label_text(HANDLE(), child.HANDLE(), Interop.allocateNativeString(menuText).HANDLE());
+        gtk_h.gtk_notebook_set_menu_label_text(handle(), child.handle(), Interop.allocateNativeString(menuText).handle());
     }
     
     /**
@@ -443,7 +445,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * scrolling if there are too many tabs to fit in the area.
      */
     public void setScrollable(boolean scrollable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_scrollable(HANDLE(), scrollable ? 1 : 0);
+        gtk_h.gtk_notebook_set_scrollable(handle(), scrollable ? 1 : 0);
     }
     
     /**
@@ -452,14 +454,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * This only has a visual effect when the tabs are not shown.
      */
     public void setShowBorder(boolean showBorder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_show_border(HANDLE(), showBorder ? 1 : 0);
+        gtk_h.gtk_notebook_set_show_border(handle(), showBorder ? 1 : 0);
     }
     
     /**
      * Sets whether to show the tabs for the notebook or not.
      */
     public void setShowTabs(boolean showTabs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_show_tabs(HANDLE(), showTabs ? 1 : 0);
+        gtk_h.gtk_notebook_set_show_tabs(handle(), showTabs ? 1 : 0);
     }
     
     /**
@@ -509,7 +511,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * you will have to set your own DnD code to do it.
      */
     public void setTabDetachable(Widget child, boolean detachable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_tab_detachable(HANDLE(), child.HANDLE(), detachable ? 1 : 0);
+        gtk_h.gtk_notebook_set_tab_detachable(handle(), child.handle(), detachable ? 1 : 0);
     }
     
     /**
@@ -519,7 +521,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * have the label “page N”.
      */
     public void setTabLabel(Widget child, Widget tabLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_tab_label(HANDLE(), child.HANDLE(), tabLabel.HANDLE());
+        gtk_h.gtk_notebook_set_tab_label(handle(), child.handle(), tabLabel.handle());
     }
     
     /**
@@ -527,14 +529,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * containing @child.
      */
     public void setTabLabelText(Widget child, java.lang.String tabText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_tab_label_text(HANDLE(), child.HANDLE(), Interop.allocateNativeString(tabText).HANDLE());
+        gtk_h.gtk_notebook_set_tab_label_text(handle(), child.handle(), Interop.allocateNativeString(tabText).handle());
     }
     
     /**
      * Sets the edge at which the tabs are drawn.
      */
     public void setTabPos(PositionType pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_tab_pos(HANDLE(), pos.getValue());
+        gtk_h.gtk_notebook_set_tab_pos(handle(), pos.getValue());
     }
     
     /**
@@ -542,7 +544,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * via drag and drop or not.
      */
     public void setTabReorderable(Widget child, boolean reorderable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_notebook_set_tab_reorderable(HANDLE(), child.HANDLE(), reorderable ? 1 : 0);
+        gtk_h.gtk_notebook_set_tab_reorderable(handle(), child.handle(), reorderable ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -554,12 +556,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookChangeCurrentPage", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("change-current-page").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("change-current-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -584,12 +586,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookCreateWindow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("create-window").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("create-window").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -604,12 +606,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookFocusTab", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("focus-tab").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("focus-tab").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -624,12 +626,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookMoveFocusOut", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-focus-out").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-focus-out").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -648,12 +650,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookPageAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("page-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("page-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -672,12 +674,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookPageRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("page-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("page-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -696,12 +698,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookPageReordered", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("page-reordered").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("page-reordered").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -716,12 +718,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookReorderTab", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("reorder-tab").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("reorder-tab").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -736,12 +738,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookSelectPage", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("select-page").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("select-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -759,12 +761,12 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNotebookSwitchPage", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("switch-page").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("switch-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

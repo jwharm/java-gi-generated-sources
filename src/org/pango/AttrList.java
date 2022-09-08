@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * count of one.
      */
     public AttrList() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_new(), true));
+        super(References.get(gtk_h.pango_attr_list_new(), true));
     }
     
     /**
@@ -47,14 +49,14 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * never removes or combines existing attributes.
      */
     public void change(Attribute attr) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_change(HANDLE(), attr.HANDLE());
+        gtk_h.pango_attr_list_change(handle(), attr.handle());
     }
     
     /**
      * Copy @list and return an identical new list.
      */
     public AttrList copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_copy(HANDLE());
+        var RESULT = gtk_h.pango_attr_list_copy(handle());
         return new AttrList(References.get(RESULT, true));
     }
     
@@ -67,7 +69,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * contains duplicates.
      */
     public boolean equal(AttrList otherList) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_equal(HANDLE(), otherList.HANDLE());
+        var RESULT = gtk_h.pango_attr_list_equal(handle(), otherList.handle());
         return (RESULT != 0);
     }
     
@@ -75,7 +77,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets a list of all attributes in @list.
      */
     public org.gtk.glib.SList getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_get_attributes(HANDLE());
+        var RESULT = gtk_h.pango_attr_list_get_attributes(handle());
         return new org.gtk.glib.SList(References.get(RESULT, true));
     }
     
@@ -85,7 +87,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * @list must not be modified until this iterator is freed.
      */
     public AttrIterator getIterator() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_get_iterator(HANDLE());
+        var RESULT = gtk_h.pango_attr_list_get_iterator(handle());
         return new AttrIterator(References.get(RESULT, true));
     }
     
@@ -96,7 +98,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * matching @start_index.
      */
     public void insert(Attribute attr) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_insert(HANDLE(), attr.HANDLE());
+        gtk_h.pango_attr_list_insert(handle(), attr.handle());
     }
     
     /**
@@ -106,7 +108,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * matching @start_index.
      */
     public void insertBefore(Attribute attr) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_insert_before(HANDLE(), attr.HANDLE());
+        gtk_h.pango_attr_list_insert_before(handle(), attr.handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * list by one.
      */
     public AttrList ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_ref(HANDLE());
+        var RESULT = gtk_h.pango_attr_list_ref(handle());
         return new AttrList(References.get(RESULT, true));
     }
     
@@ -139,7 +141,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * This mode is useful for merging two lists of attributes together.
      */
     public void splice(AttrList other, int pos, int len) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_splice(HANDLE(), other.HANDLE(), pos, len);
+        gtk_h.pango_attr_list_splice(handle(), other.handle(), pos, len);
     }
     
     /**
@@ -153,7 +155,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * storage format.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_to_string(HANDLE());
+        var RESULT = gtk_h.pango_attr_list_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -165,7 +167,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * and the attributes it contains.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_unref(HANDLE());
+        gtk_h.pango_attr_list_unref(handle());
     }
     
     /**
@@ -185,7 +187,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * behind @pos + @remove.
      */
     public void update(int pos, int remove, int add) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_update(HANDLE(), pos, remove, add);
+        gtk_h.pango_attr_list_update(handle(), pos, remove, add);
     }
     
 }

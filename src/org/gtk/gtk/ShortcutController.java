@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -62,7 +64,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * Creates a new shortcut controller.
      */
     public ShortcutController() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new(), true));
+        super(References.get(gtk_h.gtk_shortcut_controller_new(), true));
     }
     
     /**
@@ -74,7 +76,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * but you can change the contents of the model.
      */
     public ShortcutController(org.gtk.gio.ListModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new_for_model(model.HANDLE()), true));
+        super(References.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true));
     }
     
     /**
@@ -84,14 +86,14 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * function does nothing.
      */
     public void addShortcut(Shortcut shortcut) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_add_shortcut(HANDLE(), shortcut.getReference().unowned().HANDLE());
+        gtk_h.gtk_shortcut_controller_add_shortcut(handle(), shortcut.getReference().unowned().handle());
     }
     
     /**
      * Gets the mnemonics modifiers for when this controller activates its shortcuts.
      */
     public int getMnemonicsModifiers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_get_mnemonics_modifiers(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_controller_get_mnemonics_modifiers(handle());
         return RESULT;
     }
     
@@ -101,7 +103,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * See [method@Gtk.ShortcutController.set_scope] for details.
      */
     public ShortcutScope getScope() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_get_scope(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_controller_get_scope(handle());
         return ShortcutScope.fromValue(RESULT);
     }
     
@@ -112,7 +114,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * uses an external shortcut list, this function does nothing.
      */
     public void removeShortcut(Shortcut shortcut) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_remove_shortcut(HANDLE(), shortcut.HANDLE());
+        gtk_h.gtk_shortcut_controller_remove_shortcut(handle(), shortcut.handle());
     }
     
     /**
@@ -131,7 +133,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * have their own modifiers for activating mnemonics.
      */
     public void setMnemonicsModifiers(int modifiers) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_set_mnemonics_modifiers(HANDLE(), modifiers);
+        gtk_h.gtk_shortcut_controller_set_mnemonics_modifiers(handle(), modifiers);
     }
     
     /**
@@ -146,7 +148,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * when the widget has focus.
      */
     public void setScope(ShortcutScope scope) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_set_scope(HANDLE(), scope.getValue());
+        gtk_h.gtk_shortcut_controller_set_scope(handle(), scope.getValue());
     }
     
 }

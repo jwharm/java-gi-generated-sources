@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,14 +38,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new empty `GtkVideo`.
      */
     public Video() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new(), false));
+        super(References.get(gtk_h.gtk_video_new(), false));
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @file.
      */
     public Video(org.gtk.gio.File file) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_file(file.HANDLE()), false));
+        super(References.get(gtk_h.gtk_video_new_for_file(file.handle()), false));
     }
     
     /**
@@ -53,14 +55,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * See that function for details.
      */
     public static Video newForFilename(java.lang.String filename) {
-        return new Video(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
+        return new Video(References.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false));
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @stream.
      */
     public Video(MediaStream stream) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_media_stream(stream.HANDLE()), false));
+        super(References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false));
     }
     
     /**
@@ -70,14 +72,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [ctor@Gtk.Video.new_for_file].
      */
     public static Video newForResource(java.lang.String resourcePath) {
-        return new Video(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
+        return new Video(References.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false));
     }
     
     /**
      * Returns %TRUE if videos have been set to loop.
      */
     public boolean getAutoplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_autoplay(HANDLE());
+        var RESULT = gtk_h.gtk_video_get_autoplay(handle());
         return (RESULT != 0);
     }
     
@@ -86,7 +88,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * a file.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_video_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
@@ -94,7 +96,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns %TRUE if videos have been set to loop.
      */
     public boolean getLoop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_loop(HANDLE());
+        var RESULT = gtk_h.gtk_video_get_loop(handle());
         return (RESULT != 0);
     }
     
@@ -102,7 +104,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the media stream managed by @self or %NULL if none.
      */
     public MediaStream getMediaStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_get_media_stream(HANDLE());
+        var RESULT = gtk_h.gtk_video_get_media_stream(handle());
         return new MediaStream(References.get(RESULT, false));
     }
     
@@ -111,14 +113,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * becomes visible or when a new file gets loaded.
      */
     public void setAutoplay(boolean autoplay) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_autoplay(HANDLE(), autoplay ? 1 : 0);
+        gtk_h.gtk_video_set_autoplay(handle(), autoplay ? 1 : 0);
     }
     
     /**
      * Makes @self play the given @file.
      */
     public void setFile(org.gtk.gio.File file) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_file(HANDLE(), file.HANDLE());
+        gtk_h.gtk_video_set_file(handle(), file.handle());
     }
     
     /**
@@ -127,14 +129,14 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls gtk_video_set_file(),
      */
     public void setFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        gtk_h.gtk_video_set_filename(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
      * Sets whether new files loaded by @self should be set to loop.
      */
     public void setLoop(boolean loop) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_loop(HANDLE(), loop ? 1 : 0);
+        gtk_h.gtk_video_set_loop(handle(), loop ? 1 : 0);
     }
     
     /**
@@ -148,7 +150,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * instead.
      */
     public void setMediaStream(MediaStream stream) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_media_stream(HANDLE(), stream.HANDLE());
+        gtk_h.gtk_video_set_media_stream(handle(), stream.handle());
     }
     
     /**
@@ -157,7 +159,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [method@Gtk.Video.set_file].
      */
     public void setResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_video_set_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
+        gtk_h.gtk_video_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
     }
     
 }

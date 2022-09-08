@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * of the given @model.
      */
     public SliceListModel(org.gtk.gio.ListModel model, int offset, int size) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_new(model.getReference().unowned().HANDLE(), offset, size), true));
+        super(References.get(gtk_h.gtk_slice_list_model_new(model.getReference().unowned().handle(), offset, size), true));
     }
     
     /**
      * Gets the model that is currently being used or %NULL if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_slice_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -45,7 +47,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * Gets the offset set via gtk_slice_list_model_set_offset().
      */
     public int getOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_get_offset(HANDLE());
+        var RESULT = gtk_h.gtk_slice_list_model_get_offset(handle());
         return RESULT;
     }
     
@@ -53,7 +55,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * Gets the size set via gtk_slice_list_model_set_size().
      */
     public int getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_get_size(HANDLE());
+        var RESULT = gtk_h.gtk_slice_list_model_get_size(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * The model's item type must conform to @self's item type.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_slice_list_model_set_model(handle(), model.handle());
     }
     
     /**
@@ -73,7 +75,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * @self will end up empty.
      */
     public void setOffset(int offset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_set_offset(HANDLE(), offset);
+        gtk_h.gtk_slice_list_model_set_offset(handle(), offset);
     }
     
     /**
@@ -84,7 +86,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * or the model sliced from doesn't have enough items.
      */
     public void setSize(int size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_set_size(HANDLE(), size);
+        gtk_h.gtk_slice_list_model_set_size(handle(), size);
     }
     
 }

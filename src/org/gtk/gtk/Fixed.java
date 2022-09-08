@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -59,7 +61,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new `GtkFixed`.
      */
     public Fixed() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_new(), false));
+        super(References.get(gtk_h.gtk_fixed_new(), false));
     }
     
     /**
@@ -67,7 +69,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * gtk_fixed_set_child_transform().
      */
     public org.gtk.gsk.Transform getChildTransform(Widget widget) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_get_child_transform(HANDLE(), widget.HANDLE());
+        var RESULT = gtk_h.gtk_fixed_get_child_transform(handle(), widget.handle());
         return new org.gtk.gsk.Transform(References.get(RESULT, false));
     }
     
@@ -76,21 +78,21 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * coordinates to the child @widget of the `GtkFixed`.
      */
     public void move(Widget widget, double x, double y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_move(HANDLE(), widget.HANDLE(), x, y);
+        gtk_h.gtk_fixed_move(handle(), widget.handle(), x, y);
     }
     
     /**
      * Adds a widget to a `GtkFixed` at the given position.
      */
     public void put(Widget widget, double x, double y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_put(HANDLE(), widget.HANDLE(), x, y);
+        gtk_h.gtk_fixed_put(handle(), widget.handle(), x, y);
     }
     
     /**
      * Removes a child from @fixed.
      */
     public void remove(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_remove(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_fixed_remove(handle(), widget.handle());
     }
     
     /**
@@ -101,7 +103,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * @widget and calls [method@Gtk.FixedLayoutChild.set_transform].
      */
     public void setChildTransform(Widget widget, org.gtk.gsk.Transform transform) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_set_child_transform(HANDLE(), widget.HANDLE(), transform.HANDLE());
+        gtk_h.gtk_fixed_set_child_transform(handle(), widget.handle(), transform.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +65,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean addSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_add_supports_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_add_supports_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -75,7 +77,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * See g_app_info_delete().
      */
     public default boolean canDelete() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_can_delete(HANDLE());
+        var RESULT = gtk_h.g_app_info_can_delete(handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if a supported content type can be removed from an application.
      */
     public default boolean canRemoveSupportsType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_can_remove_supports_type(HANDLE());
+        var RESULT = gtk_h.g_app_info_can_remove_supports_type(handle());
         return (RESULT != 0);
     }
     
@@ -95,7 +97,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * See g_app_info_can_delete().
      */
     public default boolean delete() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_delete(HANDLE());
+        var RESULT = gtk_h.g_app_info_delete(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Creates a duplicate of a #GAppInfo.
      */
     public default AppInfo dup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_dup(HANDLE());
+        var RESULT = gtk_h.g_app_info_dup(handle());
         return new AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
@@ -115,7 +117,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * contents is needed, program code must additionally compare relevant fields.
      */
     public default boolean equal(AppInfo appinfo2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_equal(HANDLE(), appinfo2.HANDLE());
+        var RESULT = gtk_h.g_app_info_equal(handle(), appinfo2.handle());
         return (RESULT != 0);
     }
     
@@ -124,7 +126,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * started.
      */
     public default java.lang.String getCommandline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_commandline(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_commandline(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -132,7 +134,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets a human-readable description of an installed application.
      */
     public default java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_description(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -141,7 +143,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * descriptive to the user than the name itself.
      */
     public default java.lang.String getDisplayName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_display_name(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_display_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -149,7 +151,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the executable's name for the installed application.
      */
     public default java.lang.String getExecutable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_executable(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_executable(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -157,7 +159,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the icon for the application.
      */
     public default Icon getIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_icon(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, false));
     }
     
@@ -171,7 +173,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * the @appinfo has been constructed.
      */
     public default java.lang.String getId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_id(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -179,7 +181,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the installed name of the application.
      */
     public default java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_name(HANDLE());
+        var RESULT = gtk_h.g_app_info_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -214,7 +216,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean launch(org.gtk.glib.List files, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_launch(HANDLE(), files.HANDLE(), context.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_launch(handle(), files.handle(), context.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -235,7 +237,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean launchUris(org.gtk.glib.List uris, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_launch_uris(HANDLE(), uris.HANDLE(), context.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_launch_uris(handle(), uris.handle(), context.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -247,7 +249,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean launchUrisFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_launch_uris_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_launch_uris_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -259,7 +261,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean removeSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_remove_supports_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_remove_supports_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -271,7 +273,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsDefaultForExtension(java.lang.String extension) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_extension(HANDLE(), Interop.allocateNativeString(extension).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_set_as_default_for_extension(handle(), Interop.allocateNativeString(extension).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -283,7 +285,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsDefaultForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_default_for_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_set_as_default_for_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -298,7 +300,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean setAsLastUsedForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_set_as_last_used_for_type(HANDLE(), Interop.allocateNativeString(contentType).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_app_info_set_as_last_used_for_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -310,7 +312,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * list available applications.
      */
     public default boolean shouldShow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_should_show(HANDLE());
+        var RESULT = gtk_h.g_app_info_should_show(handle());
         return (RESULT != 0);
     }
     
@@ -318,7 +320,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if the application accepts files as arguments.
      */
     public default boolean supportsFiles() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_supports_files(HANDLE());
+        var RESULT = gtk_h.g_app_info_supports_files(handle());
         return (RESULT != 0);
     }
     
@@ -326,7 +328,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if the application supports reading files and directories from URIs.
      */
     public default boolean supportsUris() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_supports_uris(HANDLE());
+        var RESULT = gtk_h.g_app_info_supports_uris(handle());
         return (RESULT != 0);
     }
     

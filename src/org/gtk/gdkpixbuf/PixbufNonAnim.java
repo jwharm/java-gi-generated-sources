@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -17,7 +19,7 @@ public class PixbufNonAnim extends PixbufAnimation {
     }
     
     public PixbufNonAnim(Pixbuf pixbuf) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_non_anim_new(pixbuf.HANDLE()), true));
+        super(References.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true));
     }
     
 }

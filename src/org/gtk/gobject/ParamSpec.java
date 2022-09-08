@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Get the short description of a #GParamSpec.
      */
     public java.lang.String getBlurb() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_blurb(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_blurb(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -45,7 +47,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * The #GValue will remain valid for the life of @pspec.
      */
     public Value getDefaultValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_default_value(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_default_value(handle());
         return new Value(References.get(RESULT, false));
     }
     
@@ -56,7 +58,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * This allows for pointer-value comparisons.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_name(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -64,7 +66,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Gets the GQuark for the name.
      */
     public org.gtk.glib.Quark getNameQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_name_quark(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_name_quark(handle());
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -72,7 +74,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Get the nickname of a #GParamSpec.
      */
     public java.lang.String getNick() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_nick(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_nick(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -80,7 +82,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Gets back user data pointers stored via g_param_spec_set_qdata().
      */
     public jdk.incubator.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_qdata(HANDLE(), quark.getValue());
+        var RESULT = gtk_h.g_param_spec_get_qdata(handle(), quark.getValue());
         return RESULT;
     }
     
@@ -94,7 +96,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * for an example of the use of this capability.
      */
     public ParamSpec getRedirectTarget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_redirect_target(HANDLE());
+        var RESULT = gtk_h.g_param_spec_get_redirect_target(handle());
         return new ParamSpec(References.get(RESULT, false));
     }
     
@@ -102,7 +104,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Increments the reference count of @pspec.
      */
     public ParamSpec ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_ref(HANDLE());
+        var RESULT = gtk_h.g_param_spec_ref(handle());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -110,7 +112,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Convenience function to ref and sink a #GParamSpec.
      */
     public ParamSpec refSink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_ref_sink(HANDLE());
+        var RESULT = gtk_h.g_param_spec_ref_sink(handle());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -123,7 +125,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * set, using %NULL as pointer essentially removes the data stored.
      */
     public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_set_qdata(HANDLE(), quark.getValue(), data);
+        gtk_h.g_param_spec_set_qdata(handle(), quark.getValue(), data);
     }
     
     /**
@@ -136,7 +138,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * count of 1 still, but is not flagged "floating" anymore).
      */
     public void sink() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_sink(HANDLE());
+        gtk_h.g_param_spec_sink(handle());
     }
     
     /**
@@ -146,7 +148,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * required to update user data pointers with a destroy notifier.
      */
     public jdk.incubator.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_steal_qdata(HANDLE(), quark.getValue());
+        var RESULT = gtk_h.g_param_spec_steal_qdata(handle(), quark.getValue());
         return RESULT;
     }
     
@@ -154,7 +156,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * Decrements the reference count of a @pspec.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_unref(HANDLE());
+        gtk_h.g_param_spec_unref(handle());
     }
     
 }

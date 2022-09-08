@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * which contains the given data.
      */
     public int childIndex(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_child_index(HANDLE(), data);
+        var RESULT = gtk_h.g_node_child_index(handle(), data);
         return RESULT;
     }
     
@@ -29,7 +31,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * the second 1, and so on.
      */
     public int childPosition(Node child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_child_position(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.g_node_child_position(handle(), child.handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * nodes, see g_node_copy_deep() if you need that).
      */
     public Node copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_copy(HANDLE());
+        var RESULT = gtk_h.g_node_copy(handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * For the children of the root node the depth is 2. And so on.
      */
     public int depth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_depth(HANDLE());
+        var RESULT = gtk_h.g_node_depth(handle());
         return RESULT;
     }
     
@@ -58,14 +60,14 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * allocated.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_destroy(HANDLE());
+        gtk_h.g_node_destroy(handle());
     }
     
     /**
      * Finds a #GNode in a tree.
      */
     public Node find(TraverseType order, int flags, jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_find(HANDLE(), order.getValue(), flags, data);
+        var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags, data);
         return new Node(References.get(RESULT, false));
     }
     
@@ -73,7 +75,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Finds the first child of a #GNode with the given data.
      */
     public Node findChild(int flags, jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_find_child(HANDLE(), flags, data);
+        var RESULT = gtk_h.g_node_find_child(handle(), flags, data);
         return new Node(References.get(RESULT, false));
     }
     
@@ -82,7 +84,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * This could possibly be the node itself.
      */
     public Node firstSibling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_first_sibling(HANDLE());
+        var RESULT = gtk_h.g_node_first_sibling(handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -90,7 +92,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the root of a tree.
      */
     public Node getRoot() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_get_root(HANDLE());
+        var RESULT = gtk_h.g_node_get_root(handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -98,7 +100,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a #GNode beneath the parent at the given position.
      */
     public Node insert(int position, Node node) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert(HANDLE(), position, node.HANDLE());
+        var RESULT = gtk_h.g_node_insert(handle(), position, node.handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -106,7 +108,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a #GNode beneath the parent after the given sibling.
      */
     public Node insertAfter(Node sibling, Node node) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert_after(HANDLE(), sibling.HANDLE(), node.HANDLE());
+        var RESULT = gtk_h.g_node_insert_after(handle(), sibling.handle(), node.handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -114,7 +116,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a #GNode beneath the parent before the given sibling.
      */
     public Node insertBefore(Node sibling, Node node) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert_before(HANDLE(), sibling.HANDLE(), node.HANDLE());
+        var RESULT = gtk_h.g_node_insert_before(handle(), sibling.handle(), node.handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -124,7 +126,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * or if node is the grandparent of @descendant etc.
      */
     public boolean isAncestor(Node descendant) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_is_ancestor(HANDLE(), descendant.HANDLE());
+        var RESULT = gtk_h.g_node_is_ancestor(handle(), descendant.handle());
         return (RESULT != 0);
     }
     
@@ -132,7 +134,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the last child of a #GNode.
      */
     public Node lastChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_last_child(HANDLE());
+        var RESULT = gtk_h.g_node_last_child(handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -141,7 +143,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * This could possibly be the node itself.
      */
     public Node lastSibling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_last_sibling(HANDLE());
+        var RESULT = gtk_h.g_node_last_sibling(handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -153,7 +155,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * 1 is returned. If @root has children, 2 is returned. And so on.
      */
     public int maxHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_max_height(HANDLE());
+        var RESULT = gtk_h.g_node_max_height(handle());
         return RESULT;
     }
     
@@ -161,7 +163,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the number of children of a #GNode.
      */
     public int nChildren() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_n_children(HANDLE());
+        var RESULT = gtk_h.g_node_n_children(handle());
         return RESULT;
     }
     
@@ -169,7 +171,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the number of nodes in a tree.
      */
     public int nNodes(int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_n_nodes(HANDLE(), flags);
+        var RESULT = gtk_h.g_node_n_nodes(handle(), flags);
         return RESULT;
     }
     
@@ -179,7 +181,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * too big, %NULL is returned.
      */
     public Node nthChild(int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_nth_child(HANDLE(), n);
+        var RESULT = gtk_h.g_node_nth_child(handle(), n);
         return new Node(References.get(RESULT, false));
     }
     
@@ -187,7 +189,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a #GNode as the first child of the given parent.
      */
     public Node prepend(Node node) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_prepend(HANDLE(), node.HANDLE());
+        var RESULT = gtk_h.g_node_prepend(handle(), node.handle());
         return new Node(References.get(RESULT, false));
     }
     
@@ -196,14 +198,14 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * (It doesn't change the order of the grandchildren.)
      */
     public void reverseChildren() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_reverse_children(HANDLE());
+        gtk_h.g_node_reverse_children(handle());
     }
     
     /**
      * Unlinks a #GNode from a tree, resulting in two separate trees.
      */
     public void unlink() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_unlink(HANDLE());
+        gtk_h.g_node_unlink(handle());
     }
     
 }

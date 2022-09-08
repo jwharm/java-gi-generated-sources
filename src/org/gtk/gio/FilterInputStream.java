@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class FilterInputStream extends InputStream {
      * Gets the base stream for the filter stream.
      */
     public InputStream getBaseStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_input_stream_get_base_stream(HANDLE());
+        var RESULT = gtk_h.g_filter_input_stream_get_base_stream(handle());
         return new InputStream(References.get(RESULT, false));
     }
     
@@ -35,7 +37,7 @@ public class FilterInputStream extends InputStream {
      * closed.
      */
     public boolean getCloseBaseStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_input_stream_get_close_base_stream(HANDLE());
+        var RESULT = gtk_h.g_filter_input_stream_get_close_base_stream(handle());
         return (RESULT != 0);
     }
     
@@ -43,7 +45,7 @@ public class FilterInputStream extends InputStream {
      * Sets whether the base stream will be closed when @stream is closed.
      */
     public void setCloseBaseStream(boolean closeBase) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_input_stream_set_close_base_stream(HANDLE(), closeBase ? 1 : 0);
+        gtk_h.g_filter_input_stream_set_close_base_stream(handle(), closeBase ? 1 : 0);
     }
     
 }

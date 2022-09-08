@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -102,7 +104,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * Creates a new `GtkScale`.
      */
     public Scale(Orientation orientation, Adjustment adjustment) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new(orientation.getValue(), adjustment.HANDLE()), false));
+        super(References.get(gtk_h.gtk_scale_new(orientation.getValue(), adjustment.handle()), false));
     }
     
     /**
@@ -119,7 +121,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * for your needs, use [method@Gtk.Scale.set_digits] to correct it.
      */
     public Scale(Orientation orientation, double min, double max, double step) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
+        super(References.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
     }
     
     /**
@@ -134,21 +136,21 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * To remove marks from a scale, use [method@Gtk.Scale.clear_marks].
      */
     public void addMark(double value, PositionType position, java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_add_mark(HANDLE(), value, position.getValue(), Interop.allocateNativeString(markup).HANDLE());
+        gtk_h.gtk_scale_add_mark(handle(), value, position.getValue(), Interop.allocateNativeString(markup).handle());
     }
     
     /**
      * Removes any marks that have been added.
      */
     public void clearMarks() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_clear_marks(HANDLE());
+        gtk_h.gtk_scale_clear_marks(handle());
     }
     
     /**
      * Gets the number of decimal places that are displayed in the value.
      */
     public int getDigits() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_digits(HANDLE());
+        var RESULT = gtk_h.gtk_scale_get_digits(handle());
         return RESULT;
     }
     
@@ -157,7 +159,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * next to the slider.
      */
     public boolean getDrawValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_draw_value(HANDLE());
+        var RESULT = gtk_h.gtk_scale_get_draw_value(handle());
         return (RESULT != 0);
     }
     
@@ -165,7 +167,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * Returns whether the scale has an origin.
      */
     public boolean getHasOrigin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_has_origin(HANDLE());
+        var RESULT = gtk_h.gtk_scale_get_has_origin(handle());
         return (RESULT != 0);
     }
     
@@ -176,7 +178,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * to be freed by the caller.
      */
     public org.pango.Layout getLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_layout(HANDLE());
+        var RESULT = gtk_h.gtk_scale_get_layout(handle());
         return new org.pango.Layout(References.get(RESULT, false));
     }
     
@@ -184,7 +186,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * Gets the position in which the current value is displayed.
      */
     public PositionType getValuePos() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_value_pos(HANDLE());
+        var RESULT = gtk_h.gtk_scale_get_value_pos(handle());
         return PositionType.fromValue(RESULT);
     }
     
@@ -203,7 +205,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * value yourself.
      */
     public void setDigits(int digits) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_set_digits(HANDLE(), digits);
+        gtk_h.gtk_scale_set_digits(handle(), digits);
     }
     
     /**
@@ -211,7 +213,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * to the slider.
      */
     public void setDrawValue(boolean drawValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_set_draw_value(HANDLE(), drawValue ? 1 : 0);
+        gtk_h.gtk_scale_set_draw_value(handle(), drawValue ? 1 : 0);
     }
     
     /**
@@ -222,14 +224,14 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * (bottom or left side) and the current value.
      */
     public void setHasOrigin(boolean hasOrigin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_set_has_origin(HANDLE(), hasOrigin ? 1 : 0);
+        gtk_h.gtk_scale_set_has_origin(handle(), hasOrigin ? 1 : 0);
     }
     
     /**
      * Sets the position in which the current value is displayed.
      */
     public void setValuePos(PositionType pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_set_value_pos(HANDLE(), pos.getValue());
+        gtk_h.gtk_scale_set_value_pos(handle(), pos.getValue());
     }
     
 }

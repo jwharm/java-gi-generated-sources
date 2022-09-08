@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -521,7 +523,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets @task's #GCancellable
      */
     public Cancellable getCancellable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_cancellable(HANDLE());
+        var RESULT = gtk_h.g_task_get_cancellable(handle());
         return new Cancellable(References.get(RESULT, false));
     }
     
@@ -530,7 +532,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_check_cancellable() for more details.
      */
     public boolean getCheckCancellable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_check_cancellable(HANDLE());
+        var RESULT = gtk_h.g_task_get_check_cancellable(handle());
         return (RESULT != 0);
     }
     
@@ -540,7 +542,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * the callback.
      */
     public boolean getCompleted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_completed(HANDLE());
+        var RESULT = gtk_h.g_task_get_completed(handle());
         return (RESULT != 0);
     }
     
@@ -554,7 +556,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * context is the default #GMainContext.
      */
     public org.gtk.glib.MainContext getContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_context(HANDLE());
+        var RESULT = gtk_h.g_task_get_context(handle());
         return new org.gtk.glib.MainContext(References.get(RESULT, false));
     }
     
@@ -562,7 +564,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets @task’s name. See g_task_set_name().
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_name(HANDLE());
+        var RESULT = gtk_h.g_task_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -570,7 +572,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets @task's priority
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_priority(HANDLE());
+        var RESULT = gtk_h.g_task_get_priority(handle());
         return RESULT;
     }
     
@@ -579,7 +581,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_return_on_cancel() for more details.
      */
     public boolean getReturnOnCancel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_return_on_cancel(HANDLE());
+        var RESULT = gtk_h.g_task_get_return_on_cancel(handle());
         return (RESULT != 0);
     }
     
@@ -588,7 +590,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_async_result_get_source_object(), but does not ref the object.
      */
     public org.gtk.gobject.Object getSourceObject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_source_object(HANDLE());
+        var RESULT = gtk_h.g_task_get_source_object(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
@@ -596,7 +598,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets @task's source tag. See g_task_set_source_tag().
      */
     public jdk.incubator.foreign.MemoryAddress getSourceTag() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_source_tag(HANDLE());
+        var RESULT = gtk_h.g_task_get_source_tag(handle());
         return RESULT;
     }
     
@@ -604,7 +606,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets @task's `task_data`.
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_task_data(HANDLE());
+        var RESULT = gtk_h.g_task_get_task_data(handle());
         return RESULT;
     }
     
@@ -612,7 +614,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Tests if @task resulted in an error.
      */
     public boolean hadError() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_had_error(HANDLE());
+        var RESULT = gtk_h.g_task_had_error(handle());
         return (RESULT != 0);
     }
     
@@ -627,7 +629,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean propagateBoolean() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_propagate_boolean(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_task_propagate_boolean(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -645,7 +647,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public long propagateInt() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_propagate_int(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_task_propagate_int(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -664,7 +666,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public jdk.incubator.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_propagate_pointer(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_task_propagate_pointer(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -685,7 +687,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_propagate_value(HANDLE(), value.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_task_propagate_value(handle(), value.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -698,7 +700,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * means).
      */
     public void returnBoolean(boolean result) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_return_boolean(HANDLE(), result ? 1 : 0);
+        gtk_h.g_task_return_boolean(handle(), result ? 1 : 0);
     }
     
     /**
@@ -715,7 +717,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * See also g_task_return_new_error().
      */
     public void returnError(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_return_error(HANDLE(), error.HANDLE());
+        gtk_h.g_task_return_error(handle(), error.handle());
     }
     
     /**
@@ -725,7 +727,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * means).
      */
     public boolean returnErrorIfCancelled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_return_error_if_cancelled(HANDLE());
+        var RESULT = gtk_h.g_task_return_error_if_cancelled(handle());
         return (RESULT != 0);
     }
     
@@ -735,7 +737,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * means).
      */
     public void returnInt(long result) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_return_int(HANDLE(), result);
+        gtk_h.g_task_return_int(handle(), result);
     }
     
     /**
@@ -749,7 +751,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * like will normally be much easier to use.
      */
     public void returnValue(org.gtk.gobject.Value result) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_return_value(HANDLE(), result.HANDLE());
+        gtk_h.g_task_return_value(handle(), result.handle());
     }
     
     /**
@@ -769,7 +771,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * you must leave check-cancellable set %TRUE.
      */
     public void setCheckCancellable(boolean checkCancellable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_check_cancellable(HANDLE(), checkCancellable ? 1 : 0);
+        gtk_h.g_task_set_check_cancellable(handle(), checkCancellable ? 1 : 0);
     }
     
     /**
@@ -785,7 +787,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_source_tag() if not called already.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.g_task_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -798,7 +800,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_get_priority().
      */
     public void setPriority(int priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_priority(HANDLE(), priority);
+        gtk_h.g_task_set_priority(handle(), priority);
     }
     
     /**
@@ -832,7 +834,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * will also be completed right away.
      */
     public boolean setReturnOnCancel(boolean returnOnCancel) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_return_on_cancel(HANDLE(), returnOnCancel ? 1 : 0);
+        var RESULT = gtk_h.g_task_set_return_on_cancel(handle(), returnOnCancel ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -851,7 +853,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * set, for convenience.
      */
     public void setSourceTag(jdk.incubator.foreign.MemoryAddress sourceTag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_set_source_tag(HANDLE(), sourceTag);
+        gtk_h.g_task_set_source_tag(handle(), sourceTag);
     }
     
 }

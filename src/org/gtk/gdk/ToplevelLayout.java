@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,14 +34,14 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
     public ToplevelLayout() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_new(), true));
+        super(References.get(gtk_h.gdk_toplevel_layout_new(), true));
     }
     
     /**
      * Create a new `GdkToplevelLayout` and copy the contents of @layout into it.
      */
     public ToplevelLayout copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_copy(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_layout_copy(handle());
         return new ToplevelLayout(References.get(RESULT, true));
     }
     
@@ -47,7 +49,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * Check whether @layout and @other has identical layout properties.
      */
     public boolean equal(ToplevelLayout other) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_equal(HANDLE(), other.HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_layout_equal(handle(), other.handle());
         return (RESULT != 0);
     }
     
@@ -56,7 +58,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * the surface on.
      */
     public Monitor getFullscreenMonitor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_get_fullscreen_monitor(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_layout_get_fullscreen_monitor(handle());
         return new Monitor(References.get(RESULT, false));
     }
     
@@ -65,7 +67,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * to resize the surface.
      */
     public boolean getResizable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_get_resizable(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_layout_get_resizable(handle());
         return (RESULT != 0);
     }
     
@@ -73,7 +75,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * Increases the reference count of @layout.
      */
     public ToplevelLayout ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_ref(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_layout_ref(handle());
         return new ToplevelLayout(References.get(RESULT, true));
     }
     
@@ -82,7 +84,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * to be fullscreen when presented.
      */
     public void setFullscreen(boolean fullscreen, Monitor monitor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_set_fullscreen(HANDLE(), fullscreen ? 1 : 0, monitor.HANDLE());
+        gtk_h.gdk_toplevel_layout_set_fullscreen(handle(), fullscreen ? 1 : 0, monitor.handle());
     }
     
     /**
@@ -90,7 +92,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * to be maximized when presented.
      */
     public void setMaximized(boolean maximized) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_set_maximized(HANDLE(), maximized ? 1 : 0);
+        gtk_h.gdk_toplevel_layout_set_maximized(handle(), maximized ? 1 : 0);
     }
     
     /**
@@ -98,14 +100,14 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * to resize the surface after it has been presented.
      */
     public void setResizable(boolean resizable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_set_resizable(HANDLE(), resizable ? 1 : 0);
+        gtk_h.gdk_toplevel_layout_set_resizable(handle(), resizable ? 1 : 0);
     }
     
     /**
      * Decreases the reference count of @layout.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_unref(HANDLE());
+        gtk_h.gdk_toplevel_layout_unref(handle());
     }
     
 }

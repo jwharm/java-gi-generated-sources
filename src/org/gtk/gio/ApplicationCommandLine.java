@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -187,7 +189,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * the invoking process rather than the local process.
      */
     public File createFileForArg(java.lang.String arg) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_create_file_for_arg(HANDLE(), Interop.allocateNativeString(arg).HANDLE());
+        var RESULT = gtk_h.g_application_command_line_create_file_for_arg(handle(), Interop.allocateNativeString(arg).handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -202,7 +204,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * long as @cmdline exists.
      */
     public java.lang.String getCwd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_cwd(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_cwd(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -211,7 +213,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * g_application_command_line_set_exit_status() for more information.
      */
     public int getExitStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_exit_status(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_exit_status(handle());
         return RESULT;
     }
     
@@ -219,7 +221,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * Determines if @cmdline represents a remote invocation.
      */
     public boolean getIsRemote() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_is_remote(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_is_remote(handle());
         return (RESULT != 0);
     }
     
@@ -235,7 +237,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * you don't need to check for %NULL.
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_options_dict(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_options_dict(handle());
         return new org.gtk.glib.VariantDict(References.get(RESULT, false));
     }
     
@@ -250,7 +252,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * For local invocation, it will be %NULL.
      */
     public org.gtk.glib.Variant getPlatformData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_platform_data(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_platform_data(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -267,7 +269,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * You must only call this function once per commandline invocation.
      */
     public InputStream getStdin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_stdin(HANDLE());
+        var RESULT = gtk_h.g_application_command_line_get_stdin(handle());
         return new InputStream(References.get(RESULT, true));
     }
     
@@ -285,7 +287,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * long as @cmdline exists.
      */
     public java.lang.String getenv(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_getenv(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_application_command_line_getenv(handle(), Interop.allocateNativeString(name).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -313,7 +315,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * status of the local #GApplicationCommandLine is used.
      */
     public void setExitStatus(int exitStatus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_set_exit_status(HANDLE(), exitStatus);
+        gtk_h.g_application_command_line_set_exit_status(handle(), exitStatus);
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +48,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * overshoot indication, at the right position.
      */
     public default boolean getBorder(Border border) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_border(HANDLE(), border.HANDLE());
+        var RESULT = gtk_h.gtk_scrollable_get_border(handle(), border.handle());
         return (RESULT != 0);
     }
     
@@ -54,7 +56,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * Retrieves the `GtkAdjustment` used for horizontal scrolling.
      */
     public default Adjustment getHadjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_hadjustment(HANDLE());
+        var RESULT = gtk_h.gtk_scrollable_get_hadjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -62,7 +64,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the horizontal `GtkScrollablePolicy`.
      */
     public default ScrollablePolicy getHscrollPolicy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_hscroll_policy(HANDLE());
+        var RESULT = gtk_h.gtk_scrollable_get_hscroll_policy(handle());
         return ScrollablePolicy.fromValue(RESULT);
     }
     
@@ -70,7 +72,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * Retrieves the `GtkAdjustment` used for vertical scrolling.
      */
     public default Adjustment getVadjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_vadjustment(HANDLE());
+        var RESULT = gtk_h.gtk_scrollable_get_vadjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -78,7 +80,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the vertical `GtkScrollablePolicy`.
      */
     public default ScrollablePolicy getVscrollPolicy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_vscroll_policy(HANDLE());
+        var RESULT = gtk_h.gtk_scrollable_get_vscroll_policy(handle());
         return ScrollablePolicy.fromValue(RESULT);
     }
     
@@ -86,7 +88,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * Sets the horizontal adjustment of the `GtkScrollable`.
      */
     public default void setHadjustment(Adjustment hadjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_set_hadjustment(HANDLE(), hadjustment.HANDLE());
+        gtk_h.gtk_scrollable_set_hadjustment(handle(), hadjustment.handle());
     }
     
     /**
@@ -96,14 +98,14 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * below the minimum width or below the natural width.
      */
     public default void setHscrollPolicy(ScrollablePolicy policy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_set_hscroll_policy(HANDLE(), policy.getValue());
+        gtk_h.gtk_scrollable_set_hscroll_policy(handle(), policy.getValue());
     }
     
     /**
      * Sets the vertical adjustment of the `GtkScrollable`.
      */
     public default void setVadjustment(Adjustment vadjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_set_vadjustment(HANDLE(), vadjustment.HANDLE());
+        gtk_h.gtk_scrollable_set_vadjustment(handle(), vadjustment.handle());
     }
     
     /**
@@ -113,7 +115,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      * below the minimum height or below the natural height.
      */
     public default void setVscrollPolicy(ScrollablePolicy policy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_set_vscroll_policy(HANDLE(), policy.getValue());
+        gtk_h.gtk_scrollable_set_vscroll_policy(handle(), policy.getValue());
     }
     
     class ScrollableImpl extends org.gtk.gobject.Object implements Scrollable {

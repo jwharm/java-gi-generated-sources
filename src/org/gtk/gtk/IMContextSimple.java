@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -59,14 +61,14 @@ public class IMContextSimple extends IMContext {
      * Creates a new `GtkIMContextSimple`.
      */
     public IMContextSimple() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_new(), true));
+        super(References.get(gtk_h.gtk_im_context_simple_new(), true));
     }
     
     /**
      * Adds an additional table from the X11 compose file.
      */
     public void addComposeFile(java.lang.String composeFile) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_add_compose_file(HANDLE(), Interop.allocateNativeString(composeFile).HANDLE());
+        gtk_h.gtk_im_context_simple_add_compose_file(handle(), Interop.allocateNativeString(composeFile).handle());
     }
     
 }

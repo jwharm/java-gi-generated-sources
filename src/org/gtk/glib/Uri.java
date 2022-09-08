@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -131,7 +133,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * further parsing this information.
      */
     public java.lang.String getAuthParams() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_auth_params(HANDLE());
+        var RESULT = gtk_h.g_uri_get_auth_params(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -139,7 +141,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets @uri's flags set upon construction.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_flags(HANDLE());
+        var RESULT = gtk_h.g_uri_get_flags(handle());
         return RESULT;
     }
     
@@ -148,7 +150,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * the flags with which @uri was created.
      */
     public java.lang.String getFragment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_fragment(HANDLE());
+        var RESULT = gtk_h.g_uri_get_fragment(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -164,7 +166,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * `fe80::1234%``25em1` if the string is still encoded).
      */
     public java.lang.String getHost() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_host(HANDLE());
+        var RESULT = gtk_h.g_uri_get_host(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -174,7 +176,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * with %G_URI_FLAGS_HAS_PASSWORD then this will be %NULL.)
      */
     public java.lang.String getPassword() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_password(HANDLE());
+        var RESULT = gtk_h.g_uri_get_password(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -183,7 +185,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * flags with which @uri was created.
      */
     public java.lang.String getPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_path(HANDLE());
+        var RESULT = gtk_h.g_uri_get_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -191,7 +193,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets @uri's port.
      */
     public int getPort() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_port(HANDLE());
+        var RESULT = gtk_h.g_uri_get_port(handle());
         return RESULT;
     }
     
@@ -203,7 +205,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * #GUriParamsIter or g_uri_parse_params() may be useful.
      */
     public java.lang.String getQuery() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_query(HANDLE());
+        var RESULT = gtk_h.g_uri_get_query(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -212,7 +214,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * regardless of the string or strings that @uri was created from.
      */
     public java.lang.String getScheme() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_scheme(HANDLE());
+        var RESULT = gtk_h.g_uri_get_scheme(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -223,7 +225,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * %G_URI_FLAGS_HAS_AUTH_PARAMS, this is the same as g_uri_get_userinfo().
      */
     public java.lang.String getUser() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_user(HANDLE());
+        var RESULT = gtk_h.g_uri_get_user(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -232,7 +234,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * the flags with which @uri was created.
      */
     public java.lang.String getUserinfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_get_userinfo(HANDLE());
+        var RESULT = gtk_h.g_uri_get_userinfo(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -244,7 +246,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Uri parseRelative(java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_parse_relative(HANDLE(), Interop.allocateNativeString(uriRef).HANDLE(), flags, GERROR);
+        var RESULT = gtk_h.g_uri_parse_relative(handle(), Interop.allocateNativeString(uriRef).handle(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -255,7 +257,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increments the reference count of @uri by one.
      */
     public Uri ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_ref(HANDLE());
+        var RESULT = gtk_h.g_uri_ref(handle());
         return new Uri(References.get(RESULT, true));
     }
     
@@ -274,7 +276,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * logged, then consider using g_uri_to_string_partial() to redact parts.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_to_string(HANDLE());
+        var RESULT = gtk_h.g_uri_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -283,7 +285,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * @flags. See g_uri_to_string() and #GUriHideFlags for more details.
      */
     public java.lang.String toStringPartial(int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_to_string_partial(HANDLE(), flags);
+        var RESULT = gtk_h.g_uri_to_string_partial(handle(), flags);
         return RESULT.getUtf8String(0);
     }
     
@@ -294,7 +296,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * @uri are freed
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_unref(HANDLE());
+        gtk_h.g_uri_unref(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class RepeatNode extends RenderNode {
      * the given @bounds.
      */
     public RepeatNode(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_new(bounds.HANDLE(), child.HANDLE(), childBounds.HANDLE()), true));
+        super(References.get(gtk_h.gsk_repeat_node_new(bounds.handle(), child.handle(), childBounds.handle()), true));
     }
     
     /**
      * Retrieves the child of @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_repeat_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class RepeatNode extends RenderNode {
      * Retrieves the bounding rectangle of the child of @node.
      */
     public org.gtk.graphene.Rect getChildBounds() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_get_child_bounds(HANDLE());
+        var RESULT = gtk_h.gsk_repeat_node_get_child_bounds(handle());
         return new org.gtk.graphene.Rect(References.get(RESULT, false));
     }
     

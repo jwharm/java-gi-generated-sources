@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds a new item to the end of @seq.
      */
     public SequenceIter append(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_append(HANDLE(), data);
+        var RESULT = gtk_h.g_sequence_append(handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -29,14 +31,14 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * in @seq.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_free(HANDLE());
+        gtk_h.g_sequence_free(handle());
     }
     
     /**
      * Returns the begin iterator for @seq.
      */
     public SequenceIter getBeginIter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_begin_iter(HANDLE());
+        var RESULT = gtk_h.g_sequence_get_begin_iter(handle());
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -44,7 +46,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the end iterator for @seg
      */
     public SequenceIter getEndIter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_end_iter(HANDLE());
+        var RESULT = gtk_h.g_sequence_get_end_iter(handle());
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -53,7 +55,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * than the number of items in @seq, the end iterator is returned.
      */
     public SequenceIter getIterAtPos(int pos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_iter_at_pos(HANDLE(), pos);
+        var RESULT = gtk_h.g_sequence_get_iter_at_pos(handle(), pos);
         return new SequenceIter(References.get(RESULT, false));
     }
     
@@ -63,7 +65,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * to use g_sequence_is_empty() when comparing the length to zero.
      */
     public int getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_get_length(HANDLE());
+        var RESULT = gtk_h.g_sequence_get_length(handle());
         return RESULT;
     }
     
@@ -75,7 +77,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * implemented in O(1) running time.
      */
     public boolean isEmpty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_is_empty(HANDLE());
+        var RESULT = gtk_h.g_sequence_is_empty(handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds a new item to the front of @seq
      */
     public SequenceIter prepend(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_sequence_prepend(HANDLE(), data);
+        var RESULT = gtk_h.g_sequence_prepend(handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
     

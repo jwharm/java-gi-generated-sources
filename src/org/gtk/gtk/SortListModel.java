@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +43,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Creates a new sort list model that uses the @sorter to sort @model.
      */
     public SortListModel(org.gtk.gio.ListModel model, Sorter sorter) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_new(model.getReference().unowned().HANDLE(), sorter.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_sort_list_model_new(model.getReference().unowned().handle(), sorter.getReference().unowned().handle()), true));
     }
     
     /**
@@ -50,7 +52,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * See [method@Gtk.SortListModel.set_incremental].
      */
     public boolean getIncremental() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_incremental(HANDLE());
+        var RESULT = gtk_h.gtk_sort_list_model_get_incremental(handle());
         return (RESULT != 0);
     }
     
@@ -58,7 +60,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the model currently sorted or %NULL if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_sort_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -82,7 +84,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * function returns 0.
      */
     public int getPending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_pending(HANDLE());
+        var RESULT = gtk_h.gtk_sort_list_model_get_pending(handle());
         return RESULT;
     }
     
@@ -90,7 +92,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the sorter that is used to sort @self.
      */
     public Sorter getSorter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_sorter(HANDLE());
+        var RESULT = gtk_h.gtk_sort_list_model_get_sorter(handle());
         return new Sorter(References.get(RESULT, false));
     }
     
@@ -113,7 +115,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * about an ongoing incremental sorting operation.
      */
     public void setIncremental(boolean incremental) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_set_incremental(HANDLE(), incremental ? 1 : 0);
+        gtk_h.gtk_sort_list_model_set_incremental(handle(), incremental ? 1 : 0);
     }
     
     /**
@@ -122,14 +124,14 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * The @model's item type must conform to the item type of @self.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_sort_list_model_set_model(handle(), model.handle());
     }
     
     /**
      * Sets a new sorter on @self.
      */
     public void setSorter(Sorter sorter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_set_sorter(HANDLE(), sorter.HANDLE());
+        gtk_h.gtk_sort_list_model_set_sorter(handle(), sorter.handle());
     }
     
 }

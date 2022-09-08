@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +41,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is guaranteed to resolve to both addresses.
      */
     public NetworkAddress(java.lang.String hostname, short port) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).HANDLE(), port), true));
+        super(References.get(gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).handle(), port), true));
     }
     
     /**
@@ -57,7 +59,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * a #GNetworkAddress created with this constructor.
      */
     public NetworkAddress(short port) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new_loopback(port), true));
+        super(References.get(gtk_h.g_network_address_new_loopback(port), true));
     }
     
     /**
@@ -65,7 +67,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * depending on what @addr was created with.
      */
     public java.lang.String getHostname() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_get_hostname(HANDLE());
+        var RESULT = gtk_h.g_network_address_get_hostname(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -73,7 +75,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * Gets @addr's port number
      */
     public short getPort() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_get_port(HANDLE());
+        var RESULT = gtk_h.g_network_address_get_port(handle());
         return RESULT;
     }
     
@@ -81,7 +83,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * Gets @addr's scheme
      */
     public java.lang.String getScheme() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_get_scheme(HANDLE());
+        var RESULT = gtk_h.g_network_address_get_scheme(handle());
         return RESULT.getUtf8String(0);
     }
     

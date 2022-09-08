@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +43,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * issued, and GLib assumes that it is the file descriptor you mean.
      */
     public IOChannel(int fd) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_unix_new(fd), true));
+        super(References.get(gtk_h.g_io_channel_unix_new(fd), true));
     }
     
     /**
@@ -49,7 +51,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus flush() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_flush(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_io_channel_flush(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -62,7 +64,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GIOChannel. Only the flags %G_IO_IN and %G_IO_OUT may be set.
      */
     public int getBufferCondition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_buffer_condition(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_buffer_condition(handle());
         return RESULT;
     }
     
@@ -70,7 +72,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the buffer size.
      */
     public long getBufferSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_buffer_size(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_buffer_size(handle());
         return RESULT;
     }
     
@@ -78,7 +80,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether @channel is buffered.
      */
     public boolean getBuffered() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_buffered(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_buffered(handle());
         return (RESULT != 0);
     }
     
@@ -89,7 +91,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * by g_io_channel_new_file (), and %FALSE for all other channels.
      */
     public boolean getCloseOnUnref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_close_on_unref(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_close_on_unref(handle());
         return (RESULT != 0);
     }
     
@@ -99,7 +101,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * makes the channel safe for binary data.
      */
     public java.lang.String getEncoding() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_encoding(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_encoding(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -115,7 +117,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * the internal values of these flags.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_get_flags(HANDLE());
+        var RESULT = gtk_h.g_io_channel_get_flags(handle());
         return RESULT;
     }
     
@@ -127,14 +129,14 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * programmer (unless you are creating a new type of #GIOChannel).
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_init(HANDLE());
+        gtk_h.g_io_channel_init(handle());
     }
     
     /**
      * Increments the reference count of a #GIOChannel.
      */
     public IOChannel ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_ref(HANDLE());
+        var RESULT = gtk_h.g_io_channel_ref(handle());
         return new IOChannel(References.get(RESULT, true));
     }
     
@@ -143,7 +145,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus seekPosition(long offset, SeekType type) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_seek_position(HANDLE(), offset, type.getValue(), GERROR);
+        var RESULT = gtk_h.g_io_channel_seek_position(handle(), offset, type.getValue(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -154,7 +156,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sets the buffer size.
      */
     public void setBufferSize(long size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_buffer_size(HANDLE(), size);
+        gtk_h.g_io_channel_set_buffer_size(handle(), size);
     }
     
     /**
@@ -179,7 +181,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * The default state of the channel is buffered.
      */
     public void setBuffered(boolean buffered) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_buffered(HANDLE(), buffered ? 1 : 0);
+        gtk_h.g_io_channel_set_buffered(handle(), buffered ? 1 : 0);
     }
     
     /**
@@ -191,7 +193,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * can cause problems when the final reference to the #GIOChannel is dropped.
      */
     public void setCloseOnUnref(boolean doClose) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_close_on_unref(HANDLE(), doClose ? 1 : 0);
+        gtk_h.g_io_channel_set_close_on_unref(handle(), doClose ? 1 : 0);
     }
     
     /**
@@ -232,7 +234,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_encoding(HANDLE(), Interop.allocateNativeString(encoding).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_io_channel_set_encoding(handle(), Interop.allocateNativeString(encoding).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -244,7 +246,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_flags(HANDLE(), flags, GERROR);
+        var RESULT = gtk_h.g_io_channel_set_flags(handle(), flags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -256,7 +258,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * where in the file a line break occurs.
      */
     public void setLineTerm(java.lang.String lineTerm, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_set_line_term(HANDLE(), Interop.allocateNativeString(lineTerm).HANDLE(), length);
+        gtk_h.g_io_channel_set_line_term(handle(), Interop.allocateNativeString(lineTerm).handle(), length);
     }
     
     /**
@@ -266,7 +268,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_shutdown(HANDLE(), flush ? 1 : 0, GERROR);
+        var RESULT = gtk_h.g_io_channel_shutdown(handle(), flush ? 1 : 0, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -280,7 +282,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GIOChannel.
      */
     public int unixGetFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_unix_get_fd(HANDLE());
+        var RESULT = gtk_h.g_io_channel_unix_get_fd(handle());
         return RESULT;
     }
     
@@ -288,7 +290,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Decrements the reference count of a #GIOChannel.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_unref(HANDLE());
+        gtk_h.g_io_channel_unref(handle());
     }
     
     /**
@@ -297,7 +299,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_channel_write_unichar(HANDLE(), thechar, GERROR);
+        var RESULT = gtk_h.g_io_channel_write_unichar(handle(), thechar, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

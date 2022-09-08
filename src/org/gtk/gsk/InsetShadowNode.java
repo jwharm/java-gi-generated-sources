@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class InsetShadowNode extends RenderNode {
      * into the box given by @outline.
      */
     public InsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_new(outline.HANDLE(), color.HANDLE(), dx, dy, spread, blurRadius), true));
+        super(References.get(gtk_h.gsk_inset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true));
     }
     
     /**
      * Retrieves the blur radius to apply to the shadow.
      */
     public float getBlurRadius() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_blur_radius(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_blur_radius(handle());
         return RESULT;
     }
     
@@ -39,7 +41,7 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the color of the inset shadow.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_color(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_color(handle());
         return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
@@ -47,7 +49,7 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the horizontal offset of the inset shadow.
      */
     public float getDx() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_dx(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_dx(handle());
         return RESULT;
     }
     
@@ -55,7 +57,7 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the vertical offset of the inset shadow.
      */
     public float getDy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_dy(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_dy(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the outline rectangle of the inset shadow.
      */
     public RoundedRect getOutline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_outline(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_outline(handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -71,7 +73,7 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves how much the shadow spreads inwards.
      */
     public float getSpread() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_inset_shadow_node_get_spread(HANDLE());
+        var RESULT = gtk_h.gsk_inset_shadow_node_get_spread(handle());
         return RESULT;
     }
     

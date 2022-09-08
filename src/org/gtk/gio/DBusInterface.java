@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -16,7 +18,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAdd
      * Gets the #GDBusObject that @interface_ belongs to, if any.
      */
     public default DBusObject dupObject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_dup_object(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_dup_object(handle());
         return new DBusObject.DBusObjectImpl(References.get(RESULT, true));
     }
     
@@ -25,7 +27,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAdd
      * implemented by @interface_.
      */
     public default DBusInterfaceInfo getInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_get_info(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_get_info(handle());
         return new DBusInterfaceInfo(References.get(RESULT, false));
     }
     
@@ -37,7 +39,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAdd
      * g_dbus_interface_dup_object() for a thread-safe alternative.
      */
     public default DBusObject getObject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_get_object(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_get_object(handle());
         return new DBusObject.DBusObjectImpl(References.get(RESULT, false));
     }
     
@@ -47,7 +49,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAdd
      * Note that @interface_ will hold a weak reference to @object.
      */
     public default void setObject(DBusObject object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_set_object(HANDLE(), object.HANDLE());
+        gtk_h.g_dbus_interface_set_object(handle(), object.handle());
     }
     
     class DBusInterfaceImpl extends org.gtk.gobject.Object implements DBusInterface {

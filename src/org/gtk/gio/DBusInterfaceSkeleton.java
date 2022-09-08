@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,7 +32,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      */
     public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_export(HANDLE(), connection.HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_interface_skeleton_export(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -48,14 +50,14 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * for collapsing multiple property changes into one.
      */
     public void flush() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_flush(HANDLE());
+        gtk_h.g_dbus_interface_skeleton_flush(handle());
     }
     
     /**
      * Gets the first connection that @interface_ is exported on, if any.
      */
     public DBusConnection getConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_connection(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_connection(handle());
         return new DBusConnection(References.get(RESULT, false));
     }
     
@@ -63,7 +65,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Gets a list of the connections that @interface_ is exported on.
      */
     public org.gtk.glib.List getConnections() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_connections(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_connections(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -72,7 +74,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * of @interface_
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_flags(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_flags(handle());
         return RESULT;
     }
     
@@ -81,7 +83,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * implemented by @interface_.
      */
     public DBusInterfaceInfo getInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_info(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_info(handle());
         return new DBusInterfaceInfo(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Gets the object path that @interface_ is exported on, if any.
      */
     public java.lang.String getObjectPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_object_path(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_object_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -97,7 +99,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Gets all D-Bus properties for @interface_.
      */
     public org.gtk.glib.Variant getProperties() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_properties(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_properties(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -107,7 +109,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * itself to be passed as @user_data.
      */
     public DBusInterfaceVTable getVtable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_get_vtable(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_get_vtable(handle());
         return new DBusInterfaceVTable(References.get(RESULT, false));
     }
     
@@ -115,7 +117,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Checks if @interface_ is exported on @connection.
      */
     public boolean hasConnection(DBusConnection connection) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_has_connection(HANDLE(), connection.HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_skeleton_has_connection(handle(), connection.handle());
         return (RESULT != 0);
     }
     
@@ -123,7 +125,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Sets flags describing what the behavior of @skeleton should be.
      */
     public void setFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_set_flags(HANDLE(), flags);
+        gtk_h.g_dbus_interface_skeleton_set_flags(handle(), flags);
     }
     
     /**
@@ -133,7 +135,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * g_dbus_interface_skeleton_unexport_from_connection()
      */
     public void unexport() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_unexport(HANDLE());
+        gtk_h.g_dbus_interface_skeleton_unexport(handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * use g_dbus_interface_skeleton_unexport().
      */
     public void unexportFromConnection(DBusConnection connection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_skeleton_unexport_from_connection(HANDLE(), connection.HANDLE());
+        gtk_h.g_dbus_interface_skeleton_unexport_from_connection(handle(), connection.handle());
     }
     
     @FunctionalInterface
@@ -190,12 +192,12 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("g-authorize-method").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("g-authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * directly if you want to set those.)
      */
     public ProxyAddress(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_new(inetaddr.HANDLE(), port, Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(destHostname).HANDLE(), destPort, Interop.allocateNativeString(username).HANDLE(), Interop.allocateNativeString(password).HANDLE()), true));
+        super(References.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true));
     }
     
     /**
@@ -37,7 +39,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * itself.
      */
     public java.lang.String getDestinationHostname() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_destination_hostname(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_destination_hostname(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -47,7 +49,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * port number of the proxy itself.
      */
     public short getDestinationPort() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_destination_port(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_destination_port(handle());
         return RESULT;
     }
     
@@ -56,7 +58,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * server; eg, "http" or "ftp".
      */
     public java.lang.String getDestinationProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_destination_protocol(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_destination_protocol(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -64,7 +66,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * Gets @proxy's password.
      */
     public java.lang.String getPassword() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_password(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_password(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -72,7 +74,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * Gets @proxy's protocol. eg, "socks" or "http"
      */
     public java.lang.String getProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_protocol(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_protocol(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -80,7 +82,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * Gets the proxy URI that @proxy was constructed from.
      */
     public java.lang.String getUri() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_uri(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_uri(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -88,7 +90,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * Gets @proxy's username.
      */
     public java.lang.String getUsername() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_get_username(HANDLE());
+        var RESULT = gtk_h.g_proxy_address_get_username(handle());
         return RESULT.getUtf8String(0);
     }
     

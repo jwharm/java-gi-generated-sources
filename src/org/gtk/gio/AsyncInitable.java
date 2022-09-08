@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -114,7 +116,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default boolean initFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_initable_init_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_async_initable_init_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -127,7 +129,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default org.gtk.gobject.Object newFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_initable_new_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_async_initable_new_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

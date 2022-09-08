@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,14 +44,14 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new widget paintable observing the given widget.
      */
     public WidgetPaintable(Widget widget) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_new(widget.HANDLE()), true));
+        super(References.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true));
     }
     
     /**
      * Returns the widget that is observed or %NULL if none.
      */
     public Widget getWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_get_widget(HANDLE());
+        var RESULT = gtk_h.gtk_widget_paintable_get_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      * Sets the widget that should be observed.
      */
     public void setWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_set_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_widget_paintable_set_widget(handle(), widget.handle());
     }
     
 }

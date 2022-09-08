@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * HMAC will be closed as well.
      */
     public Hmac copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_copy(HANDLE());
+        var RESULT = gtk_h.g_hmac_copy(handle());
         return new Hmac(References.get(RESULT, false));
     }
     
@@ -35,7 +37,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * The hexadecimal characters will be lower case.
      */
     public java.lang.String getString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_get_string(HANDLE());
+        var RESULT = gtk_h.g_hmac_get_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -45,7 +47,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is MT-safe and may be called from any thread.
      */
     public Hmac ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_ref(HANDLE());
+        var RESULT = gtk_h.g_hmac_ref(handle());
         return new Hmac(References.get(RESULT, false));
     }
     
@@ -58,7 +60,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the memory allocated for @hmac.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_unref(HANDLE());
+        gtk_h.g_hmac_unref(handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_hmac_get_digest() must not have been called on @hmac.
      */
     public void update(byte[] data, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hmac_update(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.g_hmac_update(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
     }
     
 }

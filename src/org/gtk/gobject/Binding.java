@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -104,7 +106,7 @@ public class Binding extends Object {
      * binding then this function will return %NULL.
      */
     public Object dupSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_source(HANDLE());
+        var RESULT = gtk_h.g_binding_dup_source(handle());
         return new Object(References.get(RESULT, true));
     }
     
@@ -116,7 +118,7 @@ public class Binding extends Object {
      * binding then this function will return %NULL.
      */
     public Object dupTarget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_target(HANDLE());
+        var RESULT = gtk_h.g_binding_dup_target(handle());
         return new Object(References.get(RESULT, true));
     }
     
@@ -124,7 +126,7 @@ public class Binding extends Object {
      * Retrieves the flags passed when constructing the #GBinding.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_get_flags(HANDLE());
+        var RESULT = gtk_h.g_binding_get_flags(handle());
         return RESULT;
     }
     
@@ -133,7 +135,7 @@ public class Binding extends Object {
      * of the binding.
      */
     public java.lang.String getSourceProperty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_get_source_property(HANDLE());
+        var RESULT = gtk_h.g_binding_get_source_property(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -142,7 +144,7 @@ public class Binding extends Object {
      * of the binding.
      */
     public java.lang.String getTargetProperty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_get_target_property(HANDLE());
+        var RESULT = gtk_h.g_binding_get_target_property(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -160,7 +162,7 @@ public class Binding extends Object {
      * g_object_bind_property() and is owned by the binding.
      */
     public void unbind() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_unbind(HANDLE());
+        gtk_h.g_binding_unbind(handle());
     }
     
 }

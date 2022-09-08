@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,14 +36,14 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * created by #GResolver.
      */
     public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).HANDLE(), port, priority, weight), true));
+        super(References.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true));
     }
     
     /**
      * Copies @target
      */
     public SrvTarget copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_copy(HANDLE());
+        var RESULT = gtk_h.g_srv_target_copy(handle());
         return new SrvTarget(References.get(RESULT, true));
     }
     
@@ -49,7 +51,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees @target
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_free(HANDLE());
+        gtk_h.g_srv_target_free(handle());
     }
     
     /**
@@ -59,7 +61,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_hostname_to_unicode() to convert it if it does.)
      */
     public java.lang.String getHostname() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_get_hostname(HANDLE());
+        var RESULT = gtk_h.g_srv_target_get_hostname(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -67,7 +69,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets @target's port
      */
     public short getPort() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_get_port(HANDLE());
+        var RESULT = gtk_h.g_srv_target_get_port(handle());
         return RESULT;
     }
     
@@ -77,7 +79,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * RFC 2782.
      */
     public short getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_get_priority(HANDLE());
+        var RESULT = gtk_h.g_srv_target_get_priority(handle());
         return RESULT;
     }
     
@@ -87,7 +89,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * RFC 2782.
      */
     public short getWeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_get_weight(HANDLE());
+        var RESULT = gtk_h.g_srv_target_get_weight(handle());
         return RESULT;
     }
     

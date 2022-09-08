@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -51,7 +53,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      * Creates a `GtkPopoverMenuBar` from a `GMenuModel`.
      */
     public PopoverMenuBar(org.gtk.gio.MenuModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_new_from_model(model.HANDLE()), false));
+        super(References.get(gtk_h.gtk_popover_menu_bar_new_from_model(model.handle()), false));
     }
     
     /**
@@ -61,7 +63,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      * item with a `custom` attribute that matches @id.
      */
     public boolean addChild(Widget child, java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_add_child(HANDLE(), child.HANDLE(), Interop.allocateNativeString(id).HANDLE());
+        var RESULT = gtk_h.gtk_popover_menu_bar_add_child(handle(), child.handle(), Interop.allocateNativeString(id).handle());
         return (RESULT != 0);
     }
     
@@ -69,7 +71,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      * Returns the model from which the contents of @bar are taken.
      */
     public org.gtk.gio.MenuModel getMenuModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_get_menu_model(HANDLE());
+        var RESULT = gtk_h.gtk_popover_menu_bar_get_menu_model(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -78,7 +80,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      * gtk_popover_menu_bar_add_child().
      */
     public boolean removeChild(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_remove_child(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_popover_menu_bar_remove_child(handle(), child.handle());
         return (RESULT != 0);
     }
     
@@ -87,7 +89,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      * its contents.
      */
     public void setMenuModel(org.gtk.gio.MenuModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_set_menu_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_popover_menu_bar_set_menu_model(handle(), model.handle());
     }
     
 }

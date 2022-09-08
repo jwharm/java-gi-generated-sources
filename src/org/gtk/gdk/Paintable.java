@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +65,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * If the @paintable is already immutable, it will return itself.
      */
     public default Paintable getCurrentImage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_current_image(HANDLE());
+        var RESULT = gtk_h.gdk_paintable_get_current_image(handle());
         return new Paintable.PaintableImpl(References.get(RESULT, true));
     }
     
@@ -75,7 +77,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * See [flags@Gdk.PaintableFlags] for the flags and what they mean.
      */
     public default int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_flags(HANDLE());
+        var RESULT = gtk_h.gdk_paintable_get_flags(handle());
         return RESULT;
     }
     
@@ -99,7 +101,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * it returns 0. Negative values are never returned.
      */
     public default double getIntrinsicAspectRatio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_intrinsic_aspect_ratio(HANDLE());
+        var RESULT = gtk_h.gdk_paintable_get_intrinsic_aspect_ratio(handle());
         return RESULT;
     }
     
@@ -116,7 +118,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * Negative values are never returned.
      */
     public default int getIntrinsicHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_intrinsic_height(HANDLE());
+        var RESULT = gtk_h.gdk_paintable_get_intrinsic_height(handle());
         return RESULT;
     }
     
@@ -133,7 +135,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * Negative values are never returned.
      */
     public default int getIntrinsicWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_get_intrinsic_width(HANDLE());
+        var RESULT = gtk_h.gdk_paintable_get_intrinsic_width(handle());
         return RESULT;
     }
     
@@ -150,7 +152,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * it must not call this function.
      */
     public default void invalidateContents() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_invalidate_contents(HANDLE());
+        gtk_h.gdk_paintable_invalidate_contents(handle());
     }
     
     /**
@@ -166,7 +168,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * it must not call this function.
      */
     public default void invalidateSize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_invalidate_size(HANDLE());
+        gtk_h.gdk_paintable_invalidate_size(handle());
     }
     
     /**
@@ -177,7 +179,7 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * do nothing.
      */
     public default void snapshot(Snapshot snapshot, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_paintable_snapshot(HANDLE(), snapshot.HANDLE(), width, height);
+        gtk_h.gdk_paintable_snapshot(handle(), snapshot.handle(), width, height);
     }
     
     @FunctionalInterface
@@ -195,12 +197,12 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPaintableInvalidateContents", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("invalidate-contents").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("invalidate-contents").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -227,12 +229,12 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPaintableInvalidateSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("invalidate-size").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("invalidate-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

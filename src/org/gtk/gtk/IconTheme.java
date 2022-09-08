@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -59,7 +61,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * a new icon theme object for scratch.
      */
     public IconTheme() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_new(), true));
+        super(References.get(gtk_h.gtk_icon_theme_new(), true));
     }
     
     /**
@@ -72,7 +74,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * available as part of the icon theme.
      */
     public void addResourcePath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_add_resource_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.gtk_icon_theme_add_resource_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -81,7 +83,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * See [method@Gtk.IconTheme.set_search_path].
      */
     public void addSearchPath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_add_search_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.gtk_icon_theme_add_search_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -89,7 +91,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * created for.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_get_display(HANDLE());
+        var RESULT = gtk_h.gtk_icon_theme_get_display(handle());
         return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
@@ -99,7 +101,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * Returns (transfer full): the current icon theme name,
      */
     public java.lang.String getThemeName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_get_theme_name(HANDLE());
+        var RESULT = gtk_h.gtk_icon_theme_get_theme_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -108,7 +110,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * for a particular `GIcon`.
      */
     public boolean hasGicon(org.gtk.gio.Icon gicon) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_has_gicon(HANDLE(), gicon.HANDLE());
+        var RESULT = gtk_h.gtk_icon_theme_has_gicon(handle(), gicon.handle());
         return (RESULT != 0);
     }
     
@@ -117,7 +119,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * for a particular name.
      */
     public boolean hasIcon(java.lang.String iconName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_has_icon(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        var RESULT = gtk_h.gtk_icon_theme_has_icon(handle(), Interop.allocateNativeString(iconName).handle());
         return (RESULT != 0);
     }
     
@@ -128,7 +130,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * or you can get information such as the filename and size.
      */
     public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_lookup_by_gicon(HANDLE(), icon.HANDLE(), size, scale, direction.getValue(), flags);
+        var RESULT = gtk_h.gtk_icon_theme_lookup_by_gicon(handle(), icon.handle(), size, scale, direction.getValue(), flags);
         return new IconPaintable(References.get(RESULT, true));
     }
     
@@ -151,7 +153,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * GtkWidgetClass.css-changed() function.
      */
     public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_lookup_icon(HANDLE(), Interop.allocateNativeString(iconName).HANDLE(), Interop.allocateNativeArray(fallbacks), size, scale, direction.getValue(), flags);
+        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks), size, scale, direction.getValue(), flags);
         return new IconPaintable(References.get(RESULT, true));
     }
     
@@ -169,7 +171,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * but they are treated like unthemed icons.
      */
     public void setResourcePath(java.lang.String[] path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_set_resource_path(HANDLE(), Interop.allocateNativeArray(path));
+        gtk_h.gtk_icon_theme_set_resource_path(handle(), Interop.allocateNativeArray(path));
     }
     
     /**
@@ -190,7 +192,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * rather than directly on the icon path.)
      */
     public void setSearchPath(java.lang.String[] path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_set_search_path(HANDLE(), Interop.allocateNativeArray(path));
+        gtk_h.gtk_icon_theme_set_search_path(handle(), Interop.allocateNativeArray(path));
     }
     
     /**
@@ -201,7 +203,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * from [func@Gtk.IconTheme.get_for_display].
      */
     public void setThemeName(java.lang.String themeName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_set_theme_name(HANDLE(), Interop.allocateNativeString(themeName).HANDLE());
+        gtk_h.gtk_icon_theme_set_theme_name(handle(), Interop.allocateNativeString(themeName).handle());
     }
     
     @FunctionalInterface
@@ -220,12 +222,12 @@ public class IconTheme extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconThemeChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * The action map takes its own reference on @action.
      */
     public default void addAction(Action action) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_add_action(HANDLE(), action.HANDLE());
+        gtk_h.g_action_map_add_action(handle(), action.handle());
     }
     
     /**
@@ -70,7 +72,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * ]|
      */
     public default void addActionEntries(ActionEntry[] entries, int nEntries, jdk.incubator.foreign.MemoryAddress userData) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_add_action_entries(HANDLE(), Interop.allocateNativeArray(entries), nEntries, userData);
+        gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries), nEntries, userData);
     }
     
     /**
@@ -79,7 +81,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * If no such action exists, returns %NULL.
      */
     public default Action lookupAction(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_lookup_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());
         return new Action.ActionImpl(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public interface ActionMap extends io.github.jwharm.javagi.interop.NativeAddress
      * If no action of this name is in the map then nothing happens.
      */
     public default void removeAction(java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_map_remove_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        gtk_h.g_action_map_remove_action(handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     class ActionMapImpl extends org.gtk.gobject.Object implements ActionMap {

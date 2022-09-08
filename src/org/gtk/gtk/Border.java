@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,14 +22,14 @@ public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
      * Allocates a new `GtkBorder` struct and initializes its elements to zero.
      */
     public Border() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_new(), true));
+        super(References.get(gtk_h.gtk_border_new(), true));
     }
     
     /**
      * Copies a `GtkBorder`.
      */
     public Border copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_copy(HANDLE());
+        var RESULT = gtk_h.gtk_border_copy(handle());
         return new Border(References.get(RESULT, true));
     }
     
@@ -35,7 +37,7 @@ public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a `GtkBorder`.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_free(HANDLE());
+        gtk_h.gtk_border_free(handle());
     }
     
 }

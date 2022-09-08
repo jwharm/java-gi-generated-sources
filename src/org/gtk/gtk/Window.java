@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -88,7 +90,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * To delete a `GtkWindow`, call [method@Gtk.Window.destroy].
      */
     public Window() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_new(), false));
+        super(References.get(gtk_h.gtk_window_new(), false));
     }
     
     /**
@@ -101,14 +103,14 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * titlebars.
      */
     public void close() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_close(HANDLE());
+        gtk_h.gtk_window_close(handle());
     }
     
     /**
      * Drop the internal reference GTK holds on toplevel windows.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_destroy(HANDLE());
+        gtk_h.gtk_window_destroy(handle());
     }
     
     /**
@@ -124,7 +126,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the [property@Gtk.Window:fullscreened] property.
      */
     public void fullscreen() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_fullscreen(HANDLE());
+        gtk_h.gtk_window_fullscreen(handle());
     }
     
     /**
@@ -139,14 +141,14 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the [property@Gtk.Window:fullscreened] property.
      */
     public void fullscreenOnMonitor(org.gtk.gdk.Monitor monitor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_fullscreen_on_monitor(HANDLE(), monitor.HANDLE());
+        gtk_h.gtk_window_fullscreen_on_monitor(handle(), monitor.handle());
     }
     
     /**
      * Gets the `GtkApplication` associated with the window.
      */
     public Application getApplication() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_application(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_application(handle());
         return new Application(References.get(RESULT, false));
     }
     
@@ -154,7 +156,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Gets the child widget of @window.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the window has been set to have decorations.
      */
     public boolean getDecorated() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_decorated(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_decorated(handle());
         return (RESULT != 0);
     }
     
@@ -170,7 +172,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns the default widget for @window.
      */
     public Widget getDefaultWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_default_widget(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_default_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -178,7 +180,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the window has been set to have a close button.
      */
     public boolean getDeletable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_deletable(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_deletable(handle());
         return (RESULT != 0);
     }
     
@@ -186,7 +188,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the window will be destroyed with its transient parent.
      */
     public boolean getDestroyWithParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_destroy_with_parent(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_destroy_with_parent(handle());
         return (RESULT != 0);
     }
     
@@ -199,7 +201,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * not be %TRUE for the widget.
      */
     public Widget getFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_focus(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_focus(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -207,7 +209,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Gets whether “focus rectangles” are supposed to be visible.
      */
     public boolean getFocusVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_focus_visible(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_focus_visible(handle());
         return (RESULT != 0);
     }
     
@@ -217,7 +219,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * If the window has no group, then the default group is returned.
      */
     public WindowGroup getGroup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_group(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_group(handle());
         return new WindowGroup(References.get(RESULT, false));
     }
     
@@ -226,7 +228,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * activating a menubar it contains.
      */
     public boolean getHandleMenubarAccel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_handle_menubar_accel(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_handle_menubar_accel(handle());
         return (RESULT != 0);
     }
     
@@ -234,7 +236,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the window will be hidden when the close button is clicked.
      */
     public boolean getHideOnClose() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_hide_on_close(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_hide_on_close(handle());
         return (RESULT != 0);
     }
     
@@ -242,7 +244,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns the name of the themed icon for the window.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -250,7 +252,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Gets whether mnemonics are supposed to be visible.
      */
     public boolean getMnemonicsVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_mnemonics_visible(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_mnemonics_visible(handle());
         return (RESULT != 0);
     }
     
@@ -258,7 +260,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether the window is modal.
      */
     public boolean getModal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_modal(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_modal(handle());
         return (RESULT != 0);
     }
     
@@ -266,7 +268,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Gets the value set by gtk_window_set_resizable().
      */
     public boolean getResizable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_resizable(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_resizable(handle());
         return (RESULT != 0);
     }
     
@@ -274,7 +276,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Retrieves the title of the window.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -283,7 +285,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * gtk_window_set_titlebar().
      */
     public Widget getTitlebar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_titlebar(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_titlebar(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -291,7 +293,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Fetches the transient parent for this window.
      */
     public Window getTransientFor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_get_transient_for(HANDLE());
+        var RESULT = gtk_h.gtk_window_get_transient_for(handle());
         return new Window(References.get(RESULT, false));
     }
     
@@ -299,7 +301,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Returns whether @window has an explicit window group.
      */
     public boolean hasGroup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_has_group(HANDLE());
+        var RESULT = gtk_h.gtk_window_has_group(handle());
         return (RESULT != 0);
     }
     
@@ -313,7 +315,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * differently in an active window from a widget in an inactive window.
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_is_active(HANDLE());
+        var RESULT = gtk_h.gtk_window_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -330,7 +332,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * initial requested state is fullscreen.
      */
     public boolean isFullscreen() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_is_fullscreen(HANDLE());
+        var RESULT = gtk_h.gtk_window_is_fullscreen(handle());
         return (RESULT != 0);
     }
     
@@ -347,7 +349,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * initial requested state is maximized.
      */
     public boolean isMaximized() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_is_maximized(HANDLE());
+        var RESULT = gtk_h.gtk_window_is_maximized(handle());
         return (RESULT != 0);
     }
     
@@ -369,7 +371,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * property.
      */
     public void maximize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_maximize(HANDLE());
+        gtk_h.gtk_window_maximize(handle());
     }
     
     /**
@@ -389,7 +391,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * [property@Gdk.Toplevel:state] property.
      */
     public void minimize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_minimize(HANDLE());
+        gtk_h.gtk_window_minimize(handle());
     }
     
     /**
@@ -400,7 +402,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * stealing prevention to work correctly.
      */
     public void present() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_present(HANDLE());
+        gtk_h.gtk_window_present(handle());
     }
     
     /**
@@ -426,7 +428,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * the window is ready to be shown.
      */
     public void presentWithTime(int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_present_with_time(HANDLE(), timestamp);
+        gtk_h.gtk_window_present_with_time(handle(), timestamp);
     }
     
     /**
@@ -445,14 +447,14 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * as relevant.
      */
     public void setApplication(Application application) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_application(HANDLE(), application.HANDLE());
+        gtk_h.gtk_window_set_application(handle(), application.handle());
     }
     
     /**
      * Sets the child widget of @window.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_window_set_child(handle(), child.handle());
     }
     
     /**
@@ -471,7 +473,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * policy involved.
      */
     public void setDecorated(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_decorated(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_decorated(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -502,7 +504,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * or shrinking windows.
      */
     public void setDefaultSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_default_size(HANDLE(), width, height);
+        gtk_h.gtk_window_set_default_size(handle(), width, height);
     }
     
     /**
@@ -512,7 +514,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * presses Enter in a dialog (for example).
      */
     public void setDefaultWidget(Widget defaultWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_default_widget(HANDLE(), defaultWidget.HANDLE());
+        gtk_h.gtk_window_set_default_widget(handle(), defaultWidget.handle());
     }
     
     /**
@@ -530,7 +532,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * manager policy involved.
      */
     public void setDeletable(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_deletable(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_deletable(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -541,7 +543,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * of the main window they are associated with, for example.
      */
     public void setDestroyWithParent(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_destroy_with_parent(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_destroy_with_parent(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -551,7 +553,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * and then remapped on the new display.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_display(HANDLE(), display.HANDLE());
+        gtk_h.gtk_window_set_display(handle(), display.handle());
     }
     
     /**
@@ -564,14 +566,14 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * to use [method@Gtk.Widget.grab_focus] instead of this function.
      */
     public void setFocus(Widget focus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_focus(HANDLE(), focus.HANDLE());
+        gtk_h.gtk_window_set_focus(handle(), focus.handle());
     }
     
     /**
      * Sets whether “focus rectangles” are supposed to be visible.
      */
     public void setFocusVisible(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_focus_visible(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_focus_visible(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -579,7 +581,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * by activating a menubar it contains.
      */
     public void setHandleMenubarAccel(boolean handleMenubarAccel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_handle_menubar_accel(HANDLE(), handleMenubarAccel ? 1 : 0);
+        gtk_h.gtk_window_set_handle_menubar_accel(handle(), handleMenubarAccel ? 1 : 0);
     }
     
     /**
@@ -587,7 +589,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * will not destroy it, but only hide it.
      */
     public void setHideOnClose(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_hide_on_close(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_hide_on_close(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -600,14 +602,14 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * property which is mentioned in the ICCCM.
      */
     public void setIconName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_icon_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_window_set_icon_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
      * Sets whether mnemonics are supposed to be visible.
      */
     public void setMnemonicsVisible(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_mnemonics_visible(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_window_set_mnemonics_visible(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -620,7 +622,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * dialog below the parent.
      */
     public void setModal(boolean modal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_modal(HANDLE(), modal ? 1 : 0);
+        gtk_h.gtk_window_set_modal(handle(), modal ? 1 : 0);
     }
     
     /**
@@ -629,7 +631,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Windows are user resizable by default.
      */
     public void setResizable(boolean resizable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_resizable(HANDLE(), resizable ? 1 : 0);
+        gtk_h.gtk_window_set_resizable(handle(), resizable ? 1 : 0);
     }
     
     /**
@@ -649,7 +651,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * This function is only useful on X11, not with other GTK targets.
      */
     public void setStartupId(java.lang.String startupId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_startup_id(HANDLE(), Interop.allocateNativeString(startupId).HANDLE());
+        gtk_h.gtk_window_set_startup_id(handle(), Interop.allocateNativeString(startupId).handle());
     }
     
     /**
@@ -665,7 +667,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Passing %NULL does the same as setting the title to an empty string.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_window_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
@@ -682,7 +684,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * [method@Gtk.Widget.show].
      */
     public void setTitlebar(Widget titlebar) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_titlebar(HANDLE(), titlebar.HANDLE());
+        gtk_h.gtk_window_set_titlebar(handle(), titlebar.handle());
     }
     
     /**
@@ -699,7 +701,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * much as the window manager would have done on X.
      */
     public void setTransientFor(Window parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_set_transient_for(HANDLE(), parent.HANDLE());
+        gtk_h.gtk_window_set_transient_for(handle(), parent.handle());
     }
     
     /**
@@ -718,7 +720,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications of the [property@Gtk.Window:fullscreened] property.
      */
     public void unfullscreen() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_unfullscreen(HANDLE());
+        gtk_h.gtk_window_unfullscreen(handle());
     }
     
     /**
@@ -734,7 +736,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * notifications on the [property@Gtk.Window:maximized] property.
      */
     public void unmaximize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_unmaximize(HANDLE());
+        gtk_h.gtk_window_unmaximize(handle());
     }
     
     /**
@@ -750,7 +752,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * [property@Gdk.Toplevel:state] property.
      */
     public void unminimize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_unminimize(HANDLE());
+        gtk_h.gtk_window_unminimize(handle());
     }
     
     @FunctionalInterface
@@ -768,12 +770,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWindowActivateDefault", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-default").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-default").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -794,12 +796,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWindowActivateFocus", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-focus").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-focus").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -817,12 +819,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWindowCloseRequest", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("close-request").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("close-request").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -849,12 +851,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWindowEnableDebugging", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("enable-debugging").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("enable-debugging").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -873,12 +875,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWindowKeysChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("keys-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("keys-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

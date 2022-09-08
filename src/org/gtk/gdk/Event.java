@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class Event extends org.gtk.gobject.Object {
      * Returns the device of an event.
      */
     public Device getDevice() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_device(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_device(handle());
         return new Device(References.get(RESULT, false));
     }
     
@@ -45,7 +47,7 @@ public class Event extends org.gtk.gobject.Object {
      * persistently across runs, see [method@Gdk.DeviceTool.get_serial].
      */
     public DeviceTool getDeviceTool() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_device_tool(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_device_tool(handle());
         return new DeviceTool(References.get(RESULT, false));
     }
     
@@ -53,7 +55,7 @@ public class Event extends org.gtk.gobject.Object {
      * Retrieves the display associated to the @event.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -64,7 +66,7 @@ public class Event extends org.gtk.gobject.Object {
      * events typically don't have event sequence information.
      */
     public EventSequence getEventSequence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_event_sequence(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_event_sequence(handle());
         return new EventSequence(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class Event extends org.gtk.gobject.Object {
      * Retrieves the type of the event.
      */
     public EventType getEventType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_event_type(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_event_type(handle());
         return EventType.fromValue(RESULT);
     }
     
@@ -80,7 +82,7 @@ public class Event extends org.gtk.gobject.Object {
      * Returns the modifier state field of an event.
      */
     public int getModifierState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_modifier_state(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_modifier_state(handle());
         return RESULT;
     }
     
@@ -90,7 +92,7 @@ public class Event extends org.gtk.gobject.Object {
      * Emulated pointer events typically originate from a touch events.
      */
     public boolean getPointerEmulated() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_pointer_emulated(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_pointer_emulated(handle());
         return (RESULT != 0);
     }
     
@@ -98,7 +100,7 @@ public class Event extends org.gtk.gobject.Object {
      * Returns the seat that originated the event.
      */
     public Seat getSeat() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_seat(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_seat(handle());
         return new Seat(References.get(RESULT, false));
     }
     
@@ -106,7 +108,7 @@ public class Event extends org.gtk.gobject.Object {
      * Extracts the surface associated with an event.
      */
     public Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_surface(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_surface(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -117,7 +119,7 @@ public class Event extends org.gtk.gobject.Object {
      * returns %GDK_CURRENT_TIME.
      */
     public int getTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_time(HANDLE());
+        var RESULT = gtk_h.gdk_event_get_time(handle());
         return RESULT;
     }
     
@@ -125,7 +127,7 @@ public class Event extends org.gtk.gobject.Object {
      * Increase the ref count of @event.
      */
     public Event ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_ref(HANDLE());
+        var RESULT = gtk_h.gdk_event_ref(handle());
         return new Event(References.get(RESULT, true));
     }
     
@@ -139,7 +141,7 @@ public class Event extends org.gtk.gobject.Object {
      * event->button == %GDK_BUTTON_SECONDARY.
      */
     public boolean triggersContextMenu() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_triggers_context_menu(HANDLE());
+        var RESULT = gtk_h.gdk_event_triggers_context_menu(handle());
         return (RESULT != 0);
     }
     
@@ -149,7 +151,7 @@ public class Event extends org.gtk.gobject.Object {
      * If the last reference is dropped, the structure is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_unref(HANDLE());
+        gtk_h.gdk_event_unref(handle());
     }
     
 }

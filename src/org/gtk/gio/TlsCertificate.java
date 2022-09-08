@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Gets the #GTlsCertificate representing @cert's issuer, if known
      */
     public TlsCertificate getIssuer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_issuer(HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_get_issuer(handle());
         return new TlsCertificate(References.get(RESULT, false));
     }
     
@@ -35,7 +37,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Returns the issuer name from the certificate.
      */
     public java.lang.String getIssuerName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_issuer_name(HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_get_issuer_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -43,7 +45,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Returns the time at which the certificate became or will become invalid.
      */
     public org.gtk.glib.DateTime getNotValidAfter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_not_valid_after(HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_get_not_valid_after(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
@@ -51,7 +53,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Returns the time at which the certificate became or will become valid.
      */
     public org.gtk.glib.DateTime getNotValidBefore() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_not_valid_before(HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_get_not_valid_before(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
@@ -59,7 +61,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Returns the subject name from the certificate.
      */
     public java.lang.String getSubjectName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_subject_name(HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_get_subject_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -71,7 +73,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * #GTlsCertificate:private-key-pem properties differ.
      */
     public boolean isSame(TlsCertificate certTwo) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_is_same(HANDLE(), certTwo.HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_is_same(handle(), certTwo.handle());
         return (RESULT != 0);
     }
     
@@ -109,7 +111,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * handle the verification.
      */
     public int verify(SocketConnectable identity, TlsCertificate trustedCa) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_verify(HANDLE(), identity.HANDLE(), trustedCa.HANDLE());
+        var RESULT = gtk_h.g_tls_certificate_verify(handle(), identity.handle(), trustedCa.handle());
         return RESULT;
     }
     

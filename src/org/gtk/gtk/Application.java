@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -102,7 +104,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
+        super(References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags), true));
     }
     
     /**
@@ -123,7 +125,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * any windows.
      */
     public void addWindow(Window window) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_add_window(HANDLE(), window.HANDLE());
+        gtk_h.gtk_application_add_window(handle(), window.handle());
     }
     
     /**
@@ -135,7 +137,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * recently-focused window within this application.
      */
     public Window getActiveWindow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_active_window(HANDLE());
+        var RESULT = gtk_h.gtk_application_get_active_window(handle());
         return new Window(References.get(RESULT, false));
     }
     
@@ -146,7 +148,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * for more information.
      */
     public org.gtk.gio.Menu getMenuById(java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menu_by_id(HANDLE(), Interop.allocateNativeString(id).HANDLE());
+        var RESULT = gtk_h.gtk_application_get_menu_by_id(handle(), Interop.allocateNativeString(id).handle());
         return new org.gtk.gio.Menu(References.get(RESULT, false));
     }
     
@@ -155,7 +157,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * [method@Gtk.Application.set_menubar].
      */
     public org.gtk.gio.MenuModel getMenubar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menubar(HANDLE());
+        var RESULT = gtk_h.gtk_application_get_menubar(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -166,7 +168,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * [method@Gtk.ApplicationWindow.get_id].
      */
     public Window getWindowById(int id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_window_by_id(HANDLE(), id);
+        var RESULT = gtk_h.gtk_application_get_window_by_id(handle(), id);
         return new Window(References.get(RESULT, false));
     }
     
@@ -182,7 +184,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * deletion.
      */
     public org.gtk.glib.List getWindows() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_windows(HANDLE());
+        var RESULT = gtk_h.gtk_application_get_windows(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -212,7 +214,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * this window to find out more about why the action is inhibited.
      */
     public int inhibit(Window window, int flags, java.lang.String reason) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_inhibit(HANDLE(), window.HANDLE(), flags, Interop.allocateNativeString(reason).HANDLE());
+        var RESULT = gtk_h.gtk_application_inhibit(handle(), window.handle(), flags, Interop.allocateNativeString(reason).handle());
         return RESULT;
     }
     
@@ -227,7 +229,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * function, if `window` was the last window of the `application`.
      */
     public void removeWindow(Window window) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_remove_window(HANDLE(), window.HANDLE());
+        gtk_h.gtk_application_remove_window(handle(), window.handle());
     }
     
     /**
@@ -244,7 +246,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * `g_action_print_detailed_name()`.
      */
     public void setAccelsForAction(java.lang.String detailedActionName, java.lang.String[] accels) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_set_accels_for_action(HANDLE(), Interop.allocateNativeString(detailedActionName).HANDLE(), Interop.allocateNativeArray(accels));
+        gtk_h.gtk_application_set_accels_for_action(handle(), Interop.allocateNativeString(detailedActionName).handle(), Interop.allocateNativeArray(accels));
     }
     
     /**
@@ -268,7 +270,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * user selecting these menu items.
      */
     public void setMenubar(org.gtk.gio.MenuModel menubar) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_set_menubar(HANDLE(), menubar.HANDLE());
+        gtk_h.gtk_application_set_menubar(handle(), menubar.handle());
     }
     
     /**
@@ -279,7 +281,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * Inhibitors are also cleared when the application exits.
      */
     public void uninhibit(int cookie) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_uninhibit(HANDLE(), cookie);
+        gtk_h.gtk_application_uninhibit(handle(), cookie);
     }
     
     @FunctionalInterface
@@ -299,12 +301,12 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationQueryEnd", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("query-end").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("query-end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -323,12 +325,12 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("window-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("window-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -349,12 +351,12 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("window-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("window-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

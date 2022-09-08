@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -53,14 +55,14 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkActionBar` widget.
      */
     public ActionBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_new(), false));
+        super(References.get(gtk_h.gtk_action_bar_new(), false));
     }
     
     /**
      * Retrieves the center bar widget of the bar.
      */
     public Widget getCenterWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_get_center_widget(HANDLE());
+        var RESULT = gtk_h.gtk_action_bar_get_center_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -68,7 +70,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Gets whether the contents of the action bar are revealed.
      */
     public boolean getRevealed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_get_revealed(HANDLE());
+        var RESULT = gtk_h.gtk_action_bar_get_revealed(handle());
         return (RESULT != 0);
     }
     
@@ -77,7 +79,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * end of the @action_bar.
      */
     public void packEnd(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_pack_end(HANDLE(), child.HANDLE());
+        gtk_h.gtk_action_bar_pack_end(handle(), child.handle());
     }
     
     /**
@@ -85,21 +87,21 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * start of the @action_bar.
      */
     public void packStart(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_pack_start(HANDLE(), child.HANDLE());
+        gtk_h.gtk_action_bar_pack_start(handle(), child.handle());
     }
     
     /**
      * Removes a child from @action_bar.
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_action_bar_remove(handle(), child.handle());
     }
     
     /**
      * Sets the center widget for the `GtkActionBar`.
      */
     public void setCenterWidget(Widget centerWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_set_center_widget(HANDLE(), centerWidget.HANDLE());
+        gtk_h.gtk_action_bar_set_center_widget(handle(), centerWidget.handle());
     }
     
     /**
@@ -110,7 +112,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * no effect if the action bar is hidden.
      */
     public void setRevealed(boolean revealed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_set_revealed(HANDLE(), revealed ? 1 : 0);
+        gtk_h.gtk_action_bar_set_revealed(handle(), revealed ? 1 : 0);
     }
     
 }

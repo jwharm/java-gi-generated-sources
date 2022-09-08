@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkSeparator` with the given orientation.
      */
     public Separator(Orientation orientation) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_separator_new(orientation.getValue()), false));
+        super(References.get(gtk_h.gtk_separator_new(orientation.getValue()), false));
     }
     
 }

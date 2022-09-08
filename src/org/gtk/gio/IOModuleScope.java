@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class IOModuleScope extends io.github.jwharm.javagi.interop.ResourceBase 
      * or g_io_modules_load_all_in_directory_with_scope().
      */
     public void block(java.lang.String basename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_scope_block(HANDLE(), Interop.allocateNativeString(basename).HANDLE());
+        gtk_h.g_io_module_scope_block(handle(), Interop.allocateNativeString(basename).handle());
     }
     
     /**
      * Free a module scope.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_scope_free(HANDLE());
+        gtk_h.g_io_module_scope_free(handle());
     }
     
 }

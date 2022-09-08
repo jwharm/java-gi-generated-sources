@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * these functions explicitly.
      */
     public void beginFrame(org.cairographics.Region region) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_begin_frame(HANDLE(), region.HANDLE());
+        gtk_h.gdk_draw_context_begin_frame(handle(), region.handle());
     }
     
     /**
@@ -68,14 +70,14 @@ public class DrawContext extends org.gtk.gobject.Object {
      * explicitly before calling this function.
      */
     public void endFrame() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_end_frame(HANDLE());
+        gtk_h.gdk_draw_context_end_frame(handle());
     }
     
     /**
      * Retrieves the `GdkDisplay` the @context is created for
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_draw_context_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -90,7 +92,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * and [method@Gdk.DrawContext.end_frame], %NULL will be returned.
      */
     public org.cairographics.Region getFrameRegion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_frame_region(HANDLE());
+        var RESULT = gtk_h.gdk_draw_context_get_frame_region(handle());
         return new org.cairographics.Region(References.get(RESULT, false));
     }
     
@@ -98,7 +100,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * Retrieves the surface that @context is bound to.
      */
     public Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_surface(HANDLE());
+        var RESULT = gtk_h.gdk_draw_context_get_surface(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -110,7 +112,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * may be effecting the contents of the @context's surface.
      */
     public boolean isInFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_is_in_frame(HANDLE());
+        var RESULT = gtk_h.gdk_draw_context_is_in_frame(handle());
         return (RESULT != 0);
     }
     

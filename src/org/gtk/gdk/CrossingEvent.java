@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class CrossingEvent extends Event {
      * Extracts the notify detail from a crossing event.
      */
     public NotifyType getDetail() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_crossing_event_get_detail(HANDLE());
+        var RESULT = gtk_h.gdk_crossing_event_get_detail(handle());
         return NotifyType.fromValue(RESULT);
     }
     
@@ -31,7 +33,7 @@ public class CrossingEvent extends Event {
      * Checks if the @event surface is the focus surface.
      */
     public boolean getFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_crossing_event_get_focus(HANDLE());
+        var RESULT = gtk_h.gdk_crossing_event_get_focus(handle());
         return (RESULT != 0);
     }
     
@@ -39,7 +41,7 @@ public class CrossingEvent extends Event {
      * Extracts the crossing mode from a crossing event.
      */
     public CrossingMode getMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_crossing_event_get_mode(HANDLE());
+        var RESULT = gtk_h.gdk_crossing_event_get_mode(handle());
         return CrossingMode.fromValue(RESULT);
     }
     

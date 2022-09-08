@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +45,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * This is often SOL_SOCKET.
      */
     public int getLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_control_message_get_level(HANDLE());
+        var RESULT = gtk_h.g_socket_control_message_get_level(handle());
         return RESULT;
     }
     
@@ -52,7 +54,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * For instance, for UNIX fd passing this would be SCM_RIGHTS.
      */
     public int getMsgType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_control_message_get_msg_type(HANDLE());
+        var RESULT = gtk_h.g_socket_control_message_get_msg_type(handle());
         return RESULT;
     }
     
@@ -61,7 +63,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * headers or alignment.
      */
     public long getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_control_message_get_size(HANDLE());
+        var RESULT = gtk_h.g_socket_control_message_get_size(handle());
         return RESULT;
     }
     
@@ -74,7 +76,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * object.
      */
     public void serialize(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_control_message_serialize(HANDLE(), data);
+        gtk_h.g_socket_control_message_serialize(handle(), data);
     }
     
 }

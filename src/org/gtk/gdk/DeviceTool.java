@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * Gets the axes of the tool.
      */
     public int getAxes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_tool_get_axes(HANDLE());
+        var RESULT = gtk_h.gdk_device_tool_get_axes(handle());
         return RESULT;
     }
     
@@ -41,7 +43,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * `GdkDeviceToolType`, but different hardware identificators.
      */
     public long getHardwareId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_tool_get_hardware_id(HANDLE());
+        var RESULT = gtk_h.gdk_device_tool_get_hardware_id(handle());
         return RESULT;
     }
     
@@ -52,7 +54,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * (eg. a tablet pen) across program executions.
      */
     public long getSerial() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_tool_get_serial(HANDLE());
+        var RESULT = gtk_h.gdk_device_tool_get_serial(handle());
         return RESULT;
     }
     
@@ -60,7 +62,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * Gets the `GdkDeviceToolType` of the tool.
      */
     public DeviceToolType getToolType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_tool_get_tool_type(HANDLE());
+        var RESULT = gtk_h.gdk_device_tool_get_tool_type(handle());
         return DeviceToolType.fromValue(RESULT);
     }
     

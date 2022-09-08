@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * Creates a new #GZlibCompressor.
      */
     public ZlibCompressor(ZlibCompressorFormat format, int level) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_new(format.getValue(), level), true));
+        super(References.get(gtk_h.g_zlib_compressor_new(format.getValue(), level), true));
     }
     
     /**
      * Returns the #GZlibCompressor:file-info property.
      */
     public FileInfo getFileInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_get_file_info(HANDLE());
+        var RESULT = gtk_h.g_zlib_compressor_get_file_info(handle());
         return new FileInfo(References.get(RESULT, false));
     }
     
@@ -46,7 +48,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * or after resetting it with g_converter_reset().
      */
     public void setFileInfo(FileInfo fileInfo) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_compressor_set_file_info(HANDLE(), fileInfo.HANDLE());
+        gtk_h.g_zlib_compressor_set_file_info(handle(), fileInfo.handle());
     }
     
 }

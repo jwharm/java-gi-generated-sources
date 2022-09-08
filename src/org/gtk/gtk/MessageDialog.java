@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -83,7 +85,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      * for the corresponding function in the parent [class@Gtk.Dialog].
      */
     public Widget getMessageArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_get_message_area(HANDLE());
+        var RESULT = gtk_h.gtk_message_dialog_get_message_area(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -91,7 +93,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      * Sets the text of the message dialog.
      */
     public void setMarkup(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_set_markup(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.gtk_message_dialog_set_markup(handle(), Interop.allocateNativeString(str).handle());
     }
     
 }

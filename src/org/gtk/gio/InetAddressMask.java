@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Tests if @mask and @mask2 are the same mask.
      */
     public boolean equal(InetAddressMask mask2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_equal(HANDLE(), mask2.HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_equal(handle(), mask2.handle());
         return (RESULT != 0);
     }
     
@@ -34,7 +36,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Gets @mask's base address
      */
     public InetAddress getAddress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_get_address(HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
         return new InetAddress(References.get(RESULT, false));
     }
     
@@ -42,7 +44,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Gets the #GSocketFamily of @mask's address
      */
     public SocketFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_get_family(HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
         return SocketFamily.fromValue(RESULT);
     }
     
@@ -50,7 +52,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Gets @mask's length
      */
     public int getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_get_length(HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_get_length(handle());
         return RESULT;
     }
     
@@ -58,7 +60,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Tests if @address falls within the range described by @mask.
      */
     public boolean matches(InetAddress address) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_matches(HANDLE(), address.HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_matches(handle(), address.handle());
         return (RESULT != 0);
     }
     
@@ -66,7 +68,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * Converts @mask back to its corresponding string form.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_to_string(HANDLE());
+        var RESULT = gtk_h.g_inet_address_mask_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

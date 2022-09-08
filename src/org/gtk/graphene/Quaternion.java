@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,21 +25,21 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned value are undefined.
      */
     public Quaternion() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_alloc(), true));
+        super(References.get(gtk_h.graphene_quaternion_alloc(), true));
     }
     
     /**
      * Adds two #graphene_quaternion_t @a and @b.
      */
     public void add(Quaternion b, Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_add(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_quaternion_add(handle(), b.handle(), res.handle());
     }
     
     /**
      * Computes the dot product of two #graphene_quaternion_t.
      */
     public float dot(Quaternion b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_dot(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_dot(handle(), b.handle());
         return RESULT;
     }
     
@@ -45,7 +47,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the given quaternions are equal.
      */
     public boolean equal(Quaternion b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -53,14 +55,14 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * Releases the resources allocated by graphene_quaternion_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_free(HANDLE());
+        gtk_h.graphene_quaternion_free(handle());
     }
     
     /**
      * Initializes a #graphene_quaternion_t using the given four values.
      */
     public Quaternion init(float x, float y, float z, float w) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init(HANDLE(), x, y, z, w);
+        var RESULT = gtk_h.graphene_quaternion_init(handle(), x, y, z, w);
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -69,7 +71,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * specific @axis.
      */
     public Quaternion initFromAngleVec3(float angle, Vec3 axis) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_angle_vec3(HANDLE(), angle, axis.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_from_angle_vec3(handle(), angle, axis.handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -81,7 +83,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_quaternion_init_from_euler()
      */
     public Quaternion initFromAngles(float degX, float degY, float degZ) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_angles(HANDLE(), degX, degY, degZ);
+        var RESULT = gtk_h.graphene_quaternion_init_from_angles(handle(), degX, degY, degZ);
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_quaternion_t using the given #graphene_euler_t.
      */
     public Quaternion initFromEuler(Euler e) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_euler(HANDLE(), e.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_from_euler(handle(), e.handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -98,7 +100,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * of a transformation matrix.
      */
     public Quaternion initFromMatrix(Matrix m) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_matrix(HANDLE(), m.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_from_matrix(handle(), m.handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -106,7 +108,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_quaternion_t with the values from @src.
      */
     public Quaternion initFromQuaternion(Quaternion src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_quaternion(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_from_quaternion(handle(), src.handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -118,7 +120,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_quaternion_init_from_euler()
      */
     public Quaternion initFromRadians(float radX, float radY, float radZ) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_radians(HANDLE(), radX, radY, radZ);
+        var RESULT = gtk_h.graphene_quaternion_init_from_radians(handle(), radX, radY, radZ);
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -126,7 +128,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_quaternion_t with the values from @src.
      */
     public Quaternion initFromVec4(Vec4 src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_from_vec4(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_from_vec4(handle(), src.handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -135,7 +137,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * transformation.
      */
     public Quaternion initIdentity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_init_identity(HANDLE());
+        var RESULT = gtk_h.graphene_quaternion_init_identity(handle());
         return new Quaternion(References.get(RESULT, false));
     }
     
@@ -144,21 +146,21 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * quaternion of @q.
      */
     public void invert(Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_invert(HANDLE(), res.HANDLE());
+        gtk_h.graphene_quaternion_invert(handle(), res.handle());
     }
     
     /**
      * Multiplies two #graphene_quaternion_t @a and @b.
      */
     public void multiply(Quaternion b, Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_multiply(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_quaternion_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
      * Normalizes a #graphene_quaternion_t.
      */
     public void normalize(Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_normalize(HANDLE(), res.HANDLE());
+        gtk_h.graphene_quaternion_normalize(handle(), res.handle());
     }
     
     /**
@@ -166,7 +168,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * the given scalar factor.
      */
     public void scale(float factor, Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_scale(HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_quaternion_scale(handle(), factor, res.handle());
     }
     
     /**
@@ -175,7 +177,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * using the given interpolation @factor.
      */
     public void slerp(Quaternion b, float factor, Quaternion res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_slerp(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_quaternion_slerp(handle(), b.handle(), factor, res.handle());
     }
     
     /**
@@ -183,7 +185,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * the rotation defined by the #graphene_quaternion_t.
      */
     public void toMatrix(Matrix m) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_to_matrix(HANDLE(), m.HANDLE());
+        gtk_h.graphene_quaternion_to_matrix(handle(), m.handle());
     }
     
     /**
@@ -191,7 +193,7 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec4_t.
      */
     public void toVec4(Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_quaternion_to_vec4(HANDLE(), res.HANDLE());
+        gtk_h.graphene_quaternion_to_vec4(handle(), res.handle());
     }
     
 }

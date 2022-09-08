@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if @mount can be ejected.
      */
     public default boolean canEject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_can_eject(HANDLE());
+        var RESULT = gtk_h.g_mount_can_eject(handle());
         return (RESULT != 0);
     }
     
@@ -40,7 +42,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if @mount can be unmounted.
      */
     public default boolean canUnmount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_can_unmount(HANDLE());
+        var RESULT = gtk_h.g_mount_can_unmount(handle());
         return (RESULT != 0);
     }
     
@@ -50,7 +52,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_eject_with_operation_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_mount_eject_with_operation_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -63,7 +65,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * the home directory, or the root of the volume).
      */
     public default File getDefaultLocation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_default_location(HANDLE());
+        var RESULT = gtk_h.g_mount_get_default_location(handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -74,7 +76,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * using that object to get the #GDrive.
      */
     public default Drive getDrive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_drive(HANDLE());
+        var RESULT = gtk_h.g_mount_get_drive(handle());
         return new Drive.DriveImpl(References.get(RESULT, true));
     }
     
@@ -82,7 +84,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the icon for @mount.
      */
     public default Icon getIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_icon(HANDLE());
+        var RESULT = gtk_h.g_mount_get_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -90,7 +92,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the name of @mount.
      */
     public default java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_name(HANDLE());
+        var RESULT = gtk_h.g_mount_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -98,7 +100,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the root directory on @mount.
      */
     public default File getRoot() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_root(HANDLE());
+        var RESULT = gtk_h.g_mount_get_root(handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -106,7 +108,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the sort key for @mount, if any.
      */
     public default java.lang.String getSortKey() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_sort_key(HANDLE());
+        var RESULT = gtk_h.g_mount_get_sort_key(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -114,7 +116,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the symbolic icon for @mount.
      */
     public default Icon getSymbolicIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_symbolic_icon(HANDLE());
+        var RESULT = gtk_h.g_mount_get_symbolic_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -125,7 +127,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * available.
      */
     public default java.lang.String getUuid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_uuid(HANDLE());
+        var RESULT = gtk_h.g_mount_get_uuid(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -133,7 +135,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the volume for the @mount.
      */
     public default Volume getVolume() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_volume(HANDLE());
+        var RESULT = gtk_h.g_mount_get_volume(handle());
         return new Volume.VolumeImpl(References.get(RESULT, true));
     }
     
@@ -163,7 +165,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * activation root on a #GVolume is set.
      */
     public default boolean isShadowed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_is_shadowed(HANDLE());
+        var RESULT = gtk_h.g_mount_is_shadowed(handle());
         return (RESULT != 0);
     }
     
@@ -173,7 +175,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean remountFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_remount_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_mount_remount_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -187,7 +189,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * will need to emit the #GMount::changed signal on @mount manually.
      */
     public default void shadow() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_shadow(HANDLE());
+        gtk_h.g_mount_shadow(handle());
     }
     
     /**
@@ -196,7 +198,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean unmountWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_unmount_with_operation_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_mount_unmount_with_operation_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -210,7 +212,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      * will need to emit the #GMount::changed signal on @mount manually.
      */
     public default void unshadow() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_unshadow(HANDLE());
+        gtk_h.g_mount_unshadow(handle());
     }
     
     @FunctionalInterface
@@ -225,12 +227,12 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -252,12 +254,12 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountPreUnmount", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("pre-unmount").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("pre-unmount").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -278,12 +280,12 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountUnmounted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unmounted").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("unmounted").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

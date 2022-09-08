@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,7 +22,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * You might use this function to implement draggable titlebars.
      */
     public default void beginMove(Device device, int button, double x, double y, int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_begin_move(HANDLE(), device.HANDLE(), button, x, y, timestamp);
+        gtk_h.gdk_toplevel_begin_move(handle(), device.handle(), button, x, y, timestamp);
     }
     
     /**
@@ -29,7 +31,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * You might use this function to implement a “window resize grip.”
      */
     public default void beginResize(SurfaceEdge edge, Device device, int button, double x, double y, int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_begin_resize(HANDLE(), edge.getValue(), device.HANDLE(), button, x, y, timestamp);
+        gtk_h.gdk_toplevel_begin_resize(handle(), edge.getValue(), device.handle(), button, x, y, timestamp);
     }
     
     /**
@@ -39,7 +41,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * used on a [class@Gtk.Window], rather than calling this function.
      */
     public default void focus(int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_focus(HANDLE(), timestamp);
+        gtk_h.gdk_toplevel_focus(handle(), timestamp);
     }
     
     /**
@@ -47,7 +49,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * from the `GdkToplevelState` enumeration.
      */
     public default int getState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_get_state(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_get_state(handle());
         return RESULT;
     }
     
@@ -75,7 +77,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * by listening to the [property@Gdk.Toplevel:shortcuts-inhibited] property.
      */
     public default void inhibitSystemShortcuts(Event event) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_inhibit_system_shortcuts(HANDLE(), event.HANDLE());
+        gtk_h.gdk_toplevel_inhibit_system_shortcuts(handle(), event.handle());
     }
     
     /**
@@ -84,7 +86,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * The windowing system may choose to ignore the request.
      */
     public default boolean lower() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_lower(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_lower(handle());
         return (RESULT != 0);
     }
     
@@ -94,7 +96,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * The windowing system may choose to ignore the request.
      */
     public default boolean minimize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_minimize(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_minimize(handle());
         return (RESULT != 0);
     }
     
@@ -112,7 +114,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * guaranteed to be respected.
      */
     public default void present(ToplevelLayout layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_present(HANDLE(), layout.HANDLE());
+        gtk_h.gdk_toplevel_present(handle(), layout.handle());
     }
     
     /**
@@ -122,7 +124,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * This undoes the effect of [method@Gdk.Toplevel.inhibit_system_shortcuts].
      */
     public default void restoreSystemShortcuts() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_restore_system_shortcuts(HANDLE());
+        gtk_h.gdk_toplevel_restore_system_shortcuts(handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * does not need to have window decorations added.
      */
     public default void setDecorated(boolean decorated) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_decorated(HANDLE(), decorated ? 1 : 0);
+        gtk_h.gdk_toplevel_set_decorated(handle(), decorated ? 1 : 0);
     }
     
     /**
@@ -143,7 +145,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * that it should offer the user a way to close the surface.
      */
     public default void setDeletable(boolean deletable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_deletable(HANDLE(), deletable ? 1 : 0);
+        gtk_h.gdk_toplevel_set_deletable(handle(), deletable ? 1 : 0);
     }
     
     /**
@@ -158,7 +160,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * Note that some platforms don't support surface icons.
      */
     public default void setIconList(org.gtk.glib.List surfaces) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_icon_list(HANDLE(), surfaces.HANDLE());
+        gtk_h.gdk_toplevel_set_icon_list(handle(), surfaces.handle());
     }
     
     /**
@@ -173,7 +175,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * previously called [method@Gdk.Toplevel.set_transient_for].
      */
     public default void setModal(boolean modal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_modal(HANDLE(), modal ? 1 : 0);
+        gtk_h.gdk_toplevel_set_modal(handle(), modal ? 1 : 0);
     }
     
     /**
@@ -184,7 +186,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * low-level function.
      */
     public default void setStartupId(java.lang.String startupId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_startup_id(HANDLE(), Interop.allocateNativeString(startupId).HANDLE());
+        gtk_h.gdk_toplevel_set_startup_id(handle(), Interop.allocateNativeString(startupId).handle());
     }
     
     /**
@@ -194,7 +196,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * in lists of windows, etc.
      */
     public default void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gdk_toplevel_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
@@ -209,7 +211,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * [class@Gtk.Window] or [class@Gtk.Dialog].
      */
     public default void setTransientFor(Surface parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_set_transient_for(HANDLE(), parent.HANDLE());
+        gtk_h.gdk_toplevel_set_transient_for(handle(), parent.handle());
     }
     
     /**
@@ -221,7 +223,7 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * right-click on the window decorations.
      */
     public default boolean showWindowMenu(Event event) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_show_window_menu(HANDLE(), event.HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_show_window_menu(handle(), event.handle());
         return (RESULT != 0);
     }
     
@@ -230,12 +232,12 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
      * tiled window states.
      */
     public default boolean supportsEdgeConstraints() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_supports_edge_constraints(HANDLE());
+        var RESULT = gtk_h.gdk_toplevel_supports_edge_constraints(handle());
         return (RESULT != 0);
     }
     
     public default boolean titlebarGesture(TitlebarGesture gesture) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_titlebar_gesture(HANDLE(), gesture.getValue());
+        var RESULT = gtk_h.gdk_toplevel_titlebar_gesture(handle(), gesture.getValue());
         return (RESULT != 0);
     }
     
@@ -262,12 +264,12 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalToplevelComputeSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("compute-size").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("compute-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

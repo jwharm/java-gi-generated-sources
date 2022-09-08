@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * Creates a new #GUnixFDList containing no file descriptors.
      */
     public UnixFDList() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new(), true));
+        super(References.get(gtk_h.g_unix_fd_list_new(), true));
     }
     
     /**
@@ -46,7 +48,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * If @n_fds is -1 then @fds must be terminated with -1.
      */
     public UnixFDList(int[] fds, int nFds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new_from_array(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds), nFds), true));
+        super(References.get(gtk_h.g_unix_fd_list_new_from_array(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds), nFds), true));
     }
     
     /**
@@ -65,7 +67,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public int append(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_append(HANDLE(), fd, GERROR);
+        var RESULT = gtk_h.g_unix_fd_list_append(handle(), fd, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -88,7 +90,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      */
     public int get(int index) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_get(HANDLE(), index, GERROR);
+        var RESULT = gtk_h.g_unix_fd_list_get(handle(), index, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -100,7 +102,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * contained within).
      */
     public int getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_get_length(HANDLE());
+        var RESULT = gtk_h.g_unix_fd_list_get_length(handle());
         return RESULT;
     }
     

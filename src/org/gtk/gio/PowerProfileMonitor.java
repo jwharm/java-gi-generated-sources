@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +41,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.interop.Nat
      * changed.
      */
     public default boolean getPowerSaverEnabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_power_profile_monitor_get_power_saver_enabled(HANDLE());
+        var RESULT = gtk_h.g_power_profile_monitor_get_power_saver_enabled(handle());
         return (RESULT != 0);
     }
     

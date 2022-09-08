@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * To add a child widget to the button, use [method@Gtk.Button.set_child].
      */
     public Button() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new(), false));
+        super(References.get(gtk_h.gtk_button_new(), false));
     }
     
     /**
@@ -65,14 +67,14 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * will be updated appropriately.
      */
     public static Button newFromIconName(java.lang.String iconName) {
-        return new Button(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).HANDLE()), false));
+        return new Button(References.get(gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false));
     }
     
     /**
      * Creates a `GtkButton` widget with a `GtkLabel` child.
      */
     public static Button newWithLabel(java.lang.String label) {
-        return new Button(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
+        return new Button(References.get(gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
@@ -84,14 +86,14 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * accelerator called a mnemonic. Pressing Alt and that key activates the button.
      */
     public static Button newWithMnemonic(java.lang.String label) {
-        return new Button(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new Button(References.get(gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
      * Gets the child widget of @button.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_button_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -99,7 +101,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * Returns whether the button has a frame.
      */
     public boolean getHasFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_has_frame(HANDLE());
+        var RESULT = gtk_h.gtk_button_get_has_frame(handle());
         return (RESULT != 0);
     }
     
@@ -111,7 +113,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * an empty button with [ctor@Gtk.Button.new] to use as a container.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_button_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -123,7 +125,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * an empty button with [ctor@Gtk.Button.new] to use as a container.
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_button_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -133,7 +135,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * See [method@Gtk.Button.set_use_underline].
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_button_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -147,7 +149,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * relations from @child to @button.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_button_set_child(handle(), child.handle());
     }
     
     /**
@@ -156,7 +158,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * Buttons can has a flat appearance or have a frame drawn around them.
      */
     public void setHasFrame(boolean hasFrame) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_set_has_frame(HANDLE(), hasFrame ? 1 : 0);
+        gtk_h.gtk_button_set_has_frame(handle(), hasFrame ? 1 : 0);
     }
     
     /**
@@ -166,7 +168,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * be removed and replaced with the image.
      */
     public void setIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_set_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_button_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -175,7 +177,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * This will also clear any previously set labels.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_button_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -185,7 +187,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * the next character should be used for the mnemonic accelerator key.
      */
     public void setUseUnderline(boolean useUnderline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_button_set_use_underline(HANDLE(), useUnderline ? 1 : 0);
+        gtk_h.gtk_button_set_use_underline(handle(), useUnderline ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -203,12 +205,12 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -226,12 +228,12 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalButtonClicked", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("clicked").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("clicked").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

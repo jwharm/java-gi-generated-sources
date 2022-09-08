@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean canReach(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_monitor_can_reach(HANDLE(), connectable.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_network_monitor_can_reach(handle(), connectable.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -49,7 +51,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean canReachFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_monitor_can_reach_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_network_monitor_can_reach_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -78,7 +80,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * back to their "offline" behavior if the connection attempt fails.
      */
     public default NetworkConnectivity getConnectivity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_monitor_get_connectivity(HANDLE());
+        var RESULT = gtk_h.g_network_monitor_get_connectivity(handle());
         return NetworkConnectivity.fromValue(RESULT);
     }
     
@@ -89,7 +91,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * reachable. See #GNetworkMonitor:network-available for more details.
      */
     public default boolean getNetworkAvailable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_monitor_get_network_available(HANDLE());
+        var RESULT = gtk_h.g_network_monitor_get_network_available(handle());
         return (RESULT != 0);
     }
     
@@ -98,7 +100,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * See #GNetworkMonitor:network-metered for more details.
      */
     public default boolean getNetworkMetered() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_monitor_get_network_metered(HANDLE());
+        var RESULT = gtk_h.g_network_monitor_get_network_metered(handle());
         return (RESULT != 0);
     }
     
@@ -114,12 +116,12 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNetworkMonitorNetworkChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("network-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("network-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a copy of `format`.
      */
     public PixbufFormat copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_copy(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_copy(handle());
         return new PixbufFormat(References.get(RESULT, true));
     }
     
@@ -31,14 +33,14 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * using gdk_pixbuf_format_copy()
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_free(HANDLE());
+        gtk_h.gdk_pixbuf_format_free(handle());
     }
     
     /**
      * Returns a description of the format.
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_get_description(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -49,7 +51,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * "LGPL", "GPL", "QPL", "GPL/QPL", or "other" to indicate some other license.
      */
     public java.lang.String getLicense() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_get_license(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_get_license(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -57,7 +59,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the name of the format.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_get_name(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -67,7 +69,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * See gdk_pixbuf_format_set_disabled().
      */
     public boolean isDisabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_disabled(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_is_disabled(handle());
         return (RESULT != 0);
     }
     
@@ -78,7 +80,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * See gdk_pixbuf_save() for more information about option keys.
      */
     public boolean isSaveOptionSupported(java.lang.String optionKey) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_save_option_supported(HANDLE(), Interop.allocateNativeString(optionKey).HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_is_save_option_supported(handle(), Interop.allocateNativeString(optionKey).handle());
         return (RESULT != 0);
     }
     
@@ -90,7 +92,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * scaling the resulting pixbuf to the desired size.
      */
     public boolean isScalable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_scalable(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_is_scalable(handle());
         return (RESULT != 0);
     }
     
@@ -98,7 +100,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether pixbufs can be saved in the given format.
      */
     public boolean isWritable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_is_writable(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_format_is_writable(handle());
         return (RESULT != 0);
     }
     
@@ -112,7 +114,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      * inappropriate license, see gdk_pixbuf_format_get_license().
      */
     public void setDisabled(boolean disabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_set_disabled(HANDLE(), disabled ? 1 : 0);
+        gtk_h.gdk_pixbuf_format_set_disabled(handle(), disabled ? 1 : 0);
     }
     
 }

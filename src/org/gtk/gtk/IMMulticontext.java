@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,14 +30,14 @@ public class IMMulticontext extends IMContext {
      * Creates a new `GtkIMMulticontext`.
      */
     public IMMulticontext() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_new(), true));
+        super(References.get(gtk_h.gtk_im_multicontext_new(), true));
     }
     
     /**
      * Gets the id of the currently active delegate of the @context.
      */
     public java.lang.String getContextId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_get_context_id(HANDLE());
+        var RESULT = gtk_h.gtk_im_multicontext_get_context_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -50,7 +52,7 @@ public class IMMulticontext extends IMContext {
      * property.
      */
     public void setContextId(java.lang.String contextId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_set_context_id(HANDLE(), Interop.allocateNativeString(contextId).HANDLE());
+        gtk_h.gtk_im_multicontext_set_context_id(handle(), Interop.allocateNativeString(contextId).handle());
     }
     
 }

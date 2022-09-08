@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * instead you instantiate a subclass of this, such as #GdkAppLaunchContext.
      */
     public AppLaunchContext() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_new(), true));
+        super(References.get(gtk_h.g_app_launch_context_new(), true));
     }
     
     /**
@@ -35,7 +37,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * application, by setting the `DISPLAY` environment variable.
      */
     public java.lang.String getDisplay(AppInfo info, org.gtk.glib.List files) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_get_display(HANDLE(), info.HANDLE(), files.HANDLE());
+        var RESULT = gtk_h.g_app_launch_context_get_display(handle(), info.handle(), files.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -47,7 +49,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * [FreeDesktop.Org Startup Notifications standard](http://standards.freedesktop.org/startup-notification-spec/startup-notification-latest.txt).
      */
     public java.lang.String getStartupNotifyId(AppInfo info, org.gtk.glib.List files) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_get_startup_notify_id(HANDLE(), info.HANDLE(), files.HANDLE());
+        var RESULT = gtk_h.g_app_launch_context_get_startup_notify_id(handle(), info.handle(), files.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -56,7 +58,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * the application startup notification started in g_app_launch_context_get_startup_notify_id().
      */
     public void launchFailed(java.lang.String startupNotifyId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_launch_failed(HANDLE(), Interop.allocateNativeString(startupNotifyId).HANDLE());
+        gtk_h.g_app_launch_context_launch_failed(handle(), Interop.allocateNativeString(startupNotifyId).handle());
     }
     
     /**
@@ -64,7 +66,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * environment when @context is used to launch an application.
      */
     public void setenv(java.lang.String variable, java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_setenv(HANDLE(), Interop.allocateNativeString(variable).HANDLE(), Interop.allocateNativeString(value).HANDLE());
+        gtk_h.g_app_launch_context_setenv(handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
@@ -72,7 +74,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * when @context is used to launch an application.
      */
     public void unsetenv(java.lang.String variable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_unsetenv(HANDLE(), Interop.allocateNativeString(variable).HANDLE());
+        gtk_h.g_app_launch_context_unsetenv(handle(), Interop.allocateNativeString(variable).handle());
     }
     
     @FunctionalInterface
@@ -89,12 +91,12 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppLaunchContextLaunchFailed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("launch-failed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("launch-failed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -125,12 +127,12 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppLaunchContextLaunchStarted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("launch-started").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("launch-started").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -156,12 +158,12 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppLaunchContextLaunched", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("launched").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("launched").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

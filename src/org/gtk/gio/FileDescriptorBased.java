@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.interop.Nat
      * Gets the underlying file descriptor.
      */
     public default int getFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_descriptor_based_get_fd(HANDLE());
+        var RESULT = gtk_h.g_file_descriptor_based_get_fd(handle());
         return RESULT;
     }
     

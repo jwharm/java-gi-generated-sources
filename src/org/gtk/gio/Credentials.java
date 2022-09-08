@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * the current process.
      */
     public Credentials() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_new(), true));
+        super(References.get(gtk_h.g_credentials_new(), true));
     }
     
     /**
@@ -72,7 +74,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * the OS or if @native_type isn't supported by the OS.
      */
     public jdk.incubator.foreign.MemoryAddress getNative(CredentialsType nativeType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_get_native(HANDLE(), nativeType.getValue());
+        var RESULT = gtk_h.g_credentials_get_native(handle(), nativeType.getValue());
         return RESULT;
     }
     
@@ -86,7 +88,7 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public int getUnixPid() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_get_unix_pid(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_credentials_get_unix_pid(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -103,7 +105,7 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public int getUnixUser() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_get_unix_user(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_credentials_get_unix_user(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -118,7 +120,7 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_is_same_user(HANDLE(), otherCredentials.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_credentials_is_same_user(handle(), otherCredentials.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -134,7 +136,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * the OS or if @native_type isn't supported by the OS.
      */
     public void setNative(CredentialsType nativeType, jdk.incubator.foreign.MemoryAddress native_) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_set_native(HANDLE(), nativeType.getValue(), native_);
+        gtk_h.g_credentials_set_native(handle(), nativeType.getValue(), native_);
     }
     
     /**
@@ -148,7 +150,7 @@ public class Credentials extends org.gtk.gobject.Object {
      */
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_set_unix_user(HANDLE(), uid, GERROR);
+        var RESULT = gtk_h.g_credentials_set_unix_user(handle(), uid, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -161,7 +163,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * returned string may change in future GLib release.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_to_string(HANDLE());
+        var RESULT = gtk_h.g_credentials_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

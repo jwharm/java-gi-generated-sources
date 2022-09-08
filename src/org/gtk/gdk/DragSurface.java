@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +16,7 @@ public interface DragSurface extends io.github.jwharm.javagi.interop.NativeAddre
      * Present @drag_surface.
      */
     public default boolean present(int width, int height) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drag_surface_present(HANDLE(), width, height);
+        var RESULT = gtk_h.gdk_drag_surface_present(handle(), width, height);
         return (RESULT != 0);
     }
     

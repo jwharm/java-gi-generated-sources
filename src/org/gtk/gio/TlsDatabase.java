@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * then it is not guaranteed that this handle will continue to point to it.
      */
     public java.lang.String createCertificateHandle(TlsCertificate certificate) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_create_certificate_handle(HANDLE(), certificate.HANDLE());
+        var RESULT = gtk_h.g_tls_database_create_certificate_handle(handle(), certificate.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -58,7 +60,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public TlsCertificate lookupCertificateForHandle(java.lang.String handle, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_for_handle(HANDLE(), Interop.allocateNativeString(handle).HANDLE(), interaction.HANDLE(), flags.getValue(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificate_for_handle(handle(), Interop.allocateNativeString(handle).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -74,7 +76,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public TlsCertificate lookupCertificateForHandleFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_for_handle_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificate_for_handle_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -105,7 +107,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public TlsCertificate lookupCertificateIssuer(TlsCertificate certificate, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_issuer(HANDLE(), certificate.HANDLE(), interaction.HANDLE(), flags.getValue(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificate_issuer(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -118,7 +120,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public TlsCertificate lookupCertificateIssuerFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificate_issuer_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificate_issuer_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -133,7 +135,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List lookupCertificatesIssuedBy(byte[] issuerRawDn, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificates_issued_by(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, issuerRawDn), interaction.HANDLE(), flags.getValue(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificates_issued_by(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, issuerRawDn), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -146,7 +148,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List lookupCertificatesIssuedByFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_lookup_certificates_issued_by_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_lookup_certificates_issued_by_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -217,7 +219,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public int verifyChain(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_verify_chain(HANDLE(), chain.HANDLE(), Interop.allocateNativeString(purpose).HANDLE(), identity.HANDLE(), interaction.HANDLE(), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_verify_chain(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -239,7 +241,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      */
     public int verifyChainFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_database_verify_chain_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_tls_database_verify_chain_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

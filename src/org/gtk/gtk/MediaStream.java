@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See that function for details.
      */
     public void errorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_error_valist(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(format).HANDLE(), args);
+        gtk_h.gtk_media_stream_error_valist(handle(), domain.getValue(), code, Interop.allocateNativeString(format).handle(), args);
     }
     
     /**
@@ -60,7 +62,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * [method@Gtk.MediaStream.unprepared].
      */
     public void gerror(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_gerror(HANDLE(), error.HANDLE());
+        gtk_h.gtk_media_stream_gerror(handle(), error.handle());
     }
     
     /**
@@ -69,7 +71,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * If the duration is not known, 0 will be returned.
      */
     public long getDuration() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_duration(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_duration(handle());
         return RESULT;
     }
     
@@ -77,7 +79,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the streams playback is finished.
      */
     public boolean getEnded() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_ended(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_ended(handle());
         return (RESULT != 0);
     }
     
@@ -98,7 +100,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * set, e.g. with [method@Gtk.MediaFile.set_file].
      */
     public org.gtk.glib.Error getError() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_error(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_error(handle());
         return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
@@ -108,7 +110,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See [method@Gtk.MediaStream.set_loop] for details.
      */
     public boolean getLoop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_loop(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_loop(handle());
         return (RESULT != 0);
     }
     
@@ -118,7 +120,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See [method@Gtk.MediaStream.set_muted] for details.
      */
     public boolean getMuted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_muted(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_muted(handle());
         return (RESULT != 0);
     }
     
@@ -126,7 +128,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Return whether the stream is currently playing.
      */
     public boolean getPlaying() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_playing(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_playing(handle());
         return (RESULT != 0);
     }
     
@@ -134,7 +136,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns the current presentation timestamp in microseconds.
      */
     public long getTimestamp() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_timestamp(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_timestamp(handle());
         return RESULT;
     }
     
@@ -144,7 +146,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See [method@Gtk.MediaStream.set_volume] for details.
      */
     public double getVolume() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_volume(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_get_volume(handle());
         return RESULT;
     }
     
@@ -152,7 +154,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the stream has audio.
      */
     public boolean hasAudio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_has_audio(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_has_audio(handle());
         return (RESULT != 0);
     }
     
@@ -160,7 +162,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the stream has video.
      */
     public boolean hasVideo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_has_video(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_has_video(handle());
         return (RESULT != 0);
     }
     
@@ -170,7 +172,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * At this point the existence of audio and video is known.
      */
     public boolean isPrepared() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_is_prepared(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_is_prepared(handle());
         return (RESULT != 0);
     }
     
@@ -186,7 +188,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * stream, though it will not do anything.
      */
     public boolean isSeekable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_is_seekable(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_is_seekable(handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Checks if there is currently a seek operation going on.
      */
     public boolean isSeeking() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_is_seeking(HANDLE());
+        var RESULT = gtk_h.gtk_media_stream_is_seeking(handle());
         return (RESULT != 0);
     }
     
@@ -204,7 +206,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * If the stream is not playing, do nothing.
      */
     public void pause() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_pause(HANDLE());
+        gtk_h.gtk_media_stream_pause(handle());
     }
     
     /**
@@ -213,7 +215,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * If the stream is in error or already playing, do nothing.
      */
     public void play() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_play(HANDLE());
+        gtk_h.gtk_media_stream_play(handle());
     }
     
     /**
@@ -235,7 +237,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * It is not required to call this function to make a media stream work.
      */
     public void realize(org.gtk.gdk.Surface surface) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_realize(HANDLE(), surface.HANDLE());
+        gtk_h.gtk_media_stream_realize(handle(), surface.handle());
     }
     
     /**
@@ -252,7 +254,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * any pending seek.
      */
     public void seek(long timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_seek(HANDLE(), timestamp);
+        gtk_h.gtk_media_stream_seek(handle(), timestamp);
     }
     
     /**
@@ -265,7 +267,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * ending a seek.
      */
     public void seekFailed() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_seek_failed(HANDLE());
+        gtk_h.gtk_media_stream_seek_failed(handle());
     }
     
     /**
@@ -278,7 +280,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * ending a seek.
      */
     public void seekSuccess() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_seek_success(HANDLE());
+        gtk_h.gtk_media_stream_seek_success(handle());
     }
     
     /**
@@ -292,7 +294,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * loop setting and just end.
      */
     public void setLoop(boolean loop) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_set_loop(HANDLE(), loop ? 1 : 0);
+        gtk_h.gtk_media_stream_set_loop(handle(), loop ? 1 : 0);
     }
     
     /**
@@ -306,14 +308,14 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * still work but it will not have an audible effect.
      */
     public void setMuted(boolean muted) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_set_muted(HANDLE(), muted ? 1 : 0);
+        gtk_h.gtk_media_stream_set_muted(handle(), muted ? 1 : 0);
     }
     
     /**
      * Starts or pauses playback of the stream.
      */
     public void setPlaying(boolean playing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_set_playing(HANDLE(), playing ? 1 : 0);
+        gtk_h.gtk_media_stream_set_playing(handle(), playing ? 1 : 0);
     }
     
     /**
@@ -330,7 +332,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * When the stream is unmuted, the new volume setting will take effect.
      */
     public void setVolume(double volume) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_set_volume(HANDLE(), volume);
+        gtk_h.gtk_media_stream_set_volume(handle(), volume);
     }
     
     /**
@@ -342,7 +344,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * The media stream must be prepared when this function is called.
      */
     public void streamEnded() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_stream_ended(HANDLE());
+        gtk_h.gtk_media_stream_stream_ended(handle());
     }
     
     /**
@@ -358,7 +360,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * reset via [method@Gtk.MediaStream.stream_unprepared].
      */
     public void streamPrepared(boolean hasAudio, boolean hasVideo, boolean seekable, long duration) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_stream_prepared(HANDLE(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
+        gtk_h.gtk_media_stream_stream_prepared(handle(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
     }
     
     /**
@@ -369,7 +371,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * This function will also reset any error state the stream was in.
      */
     public void streamUnprepared() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_stream_unprepared(HANDLE());
+        gtk_h.gtk_media_stream_stream_unprepared(handle());
     }
     
     /**
@@ -379,7 +381,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * allocated from @surface.
      */
     public void unrealize(org.gtk.gdk.Surface surface) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_unrealize(HANDLE(), surface.HANDLE());
+        gtk_h.gtk_media_stream_unrealize(handle(), surface.handle());
     }
     
     /**
@@ -392,7 +394,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * The media stream must be prepared when this function is called.
      */
     public void update(long timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_update(HANDLE(), timestamp);
+        gtk_h.gtk_media_stream_update(handle(), timestamp);
     }
     
 }

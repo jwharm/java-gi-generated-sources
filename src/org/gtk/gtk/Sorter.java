@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -53,7 +55,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * subclasses and should not be called from other functions.
      */
     public void changed(SorterChange change) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sorter_changed(HANDLE(), change.getValue());
+        gtk_h.gtk_sorter_changed(handle(), change.getValue());
     }
     
     /**
@@ -71,7 +73,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * via the return value of [method@Gtk.Sorter.get_order].
      */
     public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sorter_compare(HANDLE(), item1.HANDLE(), item2.HANDLE());
+        var RESULT = gtk_h.gtk_sorter_compare(handle(), item1.handle(), item2.handle());
         return Ordering.fromValue(RESULT);
     }
     
@@ -84,7 +86,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * This function is intended to allow optimizations.
      */
     public SorterOrder getOrder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sorter_get_order(HANDLE());
+        var RESULT = gtk_h.gtk_sorter_get_order(handle());
         return SorterOrder.fromValue(RESULT);
     }
     
@@ -109,12 +111,12 @@ public class Sorter extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSorterChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

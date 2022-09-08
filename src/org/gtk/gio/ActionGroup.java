@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * This function should only be called by #GActionGroup implementations.
      */
     public default void actionAdded(java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_action_added(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        gtk_h.g_action_group_action_added(handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     /**
@@ -69,7 +71,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * This function should only be called by #GActionGroup implementations.
      */
     public default void actionEnabledChanged(java.lang.String actionName, boolean enabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_action_enabled_changed(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), enabled ? 1 : 0);
+        gtk_h.g_action_group_action_enabled_changed(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
     }
     
     /**
@@ -78,7 +80,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * This function should only be called by #GActionGroup implementations.
      */
     public default void actionRemoved(java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_action_removed(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        gtk_h.g_action_group_action_removed(handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     /**
@@ -87,7 +89,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * This function should only be called by #GActionGroup implementations.
      */
     public default void actionStateChanged(java.lang.String actionName, org.gtk.glib.Variant state) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_action_state_changed(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), state.HANDLE());
+        gtk_h.g_action_group_action_state_changed(handle(), Interop.allocateNativeString(actionName).handle(), state.handle());
     }
     
     /**
@@ -126,7 +128,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * ]|
      */
     public default void activateAction(java.lang.String actionName, org.gtk.glib.Variant parameter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_activate_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), parameter.HANDLE());
+        gtk_h.g_action_group_activate_action(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * If the @value GVariant is floating, it is consumed.
      */
     public default void changeActionState(java.lang.String actionName, org.gtk.glib.Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_change_action_state(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), value.HANDLE());
+        gtk_h.g_action_group_change_action_state(handle(), Interop.allocateNativeString(actionName).handle(), value.handle());
     }
     
     /**
@@ -153,7 +155,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * have its state changed from outside callers.
      */
     public default boolean getActionEnabled(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_enabled(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_get_action_enabled(handle(), Interop.allocateNativeString(actionName).handle());
         return (RESULT != 0);
     }
     
@@ -173,7 +175,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * with the same name but a different parameter type.
      */
     public default org.gtk.glib.VariantType getActionParameterType(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_parameter_type(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_get_action_parameter_type(handle(), Interop.allocateNativeString(actionName).handle());
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     
@@ -188,7 +190,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_get_action_state(handle(), Interop.allocateNativeString(actionName).handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -213,7 +215,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state_hint(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_get_action_state_hint(handle(), Interop.allocateNativeString(actionName).handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -236,7 +238,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * with the same name but a different state type.
      */
     public default org.gtk.glib.VariantType getActionStateType(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_get_action_state_type(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_get_action_state_type(handle(), Interop.allocateNativeString(actionName).handle());
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     
@@ -244,7 +246,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
      * Checks if the named action exists within @action_group.
      */
     public default boolean hasAction(java.lang.String actionName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_group_has_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        var RESULT = gtk_h.g_action_group_has_action(handle(), Interop.allocateNativeString(actionName).handle());
         return (RESULT != 0);
     }
     
@@ -262,12 +264,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalActionGroupActionAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("action-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("action-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -285,12 +287,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalActionGroupActionEnabledChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("action-enabled-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("action-enabled-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -310,12 +312,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalActionGroupActionRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("action-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("action-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -333,12 +335,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.interop.NativeAddre
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalActionGroupActionStateChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("action-state-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("action-state-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

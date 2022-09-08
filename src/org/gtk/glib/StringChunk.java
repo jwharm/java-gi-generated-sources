@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * access any of the strings which were contained within it.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_clear(HANDLE());
+        gtk_h.g_string_chunk_clear(handle());
     }
     
     /**
@@ -30,7 +32,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * access any of the strings which were contained within it.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_free(HANDLE());
+        gtk_h.g_string_chunk_free(handle());
     }
     
     /**
@@ -47,7 +49,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * duplicates.
      */
     public java.lang.String insert(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert(HANDLE(), Interop.allocateNativeString(string).HANDLE());
+        var RESULT = gtk_h.g_string_chunk_insert(handle(), Interop.allocateNativeString(string).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -67,7 +69,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * if they do match.
      */
     public java.lang.String insertConst(java.lang.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_const(HANDLE(), Interop.allocateNativeString(string).HANDLE());
+        var RESULT = gtk_h.g_string_chunk_insert_const(handle(), Interop.allocateNativeString(string).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -83,7 +85,7 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
      * though you should not change anything after the end of the string.
      */
     public java.lang.String insertLen(java.lang.String string, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_chunk_insert_len(HANDLE(), Interop.allocateNativeString(string).HANDLE(), len);
+        var RESULT = gtk_h.g_string_chunk_insert_len(handle(), Interop.allocateNativeString(string).handle(), len);
         return RESULT.getUtf8String(0);
     }
     

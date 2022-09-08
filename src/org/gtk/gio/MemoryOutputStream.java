@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * for memory allocation.
      */
     public MemoryOutputStream() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_new_resizable(), true));
+        super(References.get(gtk_h.g_memory_output_stream_new_resizable(), true));
     }
     
     /**
@@ -38,7 +40,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * write or truncate operation on the stream.
      */
     public jdk.incubator.foreign.MemoryAddress getData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_get_data(HANDLE());
+        var RESULT = gtk_h.g_memory_output_stream_get_data(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * byte written in the stream that has not been truncated away.
      */
     public long getDataSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_get_data_size(HANDLE());
+        var RESULT = gtk_h.g_memory_output_stream_get_data_size(handle());
         return RESULT;
     }
     
@@ -69,7 +71,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * stream, use g_memory_output_stream_get_data_size().
      */
     public long getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_get_size(HANDLE());
+        var RESULT = gtk_h.g_memory_output_stream_get_size(handle());
         return RESULT;
     }
     
@@ -78,7 +80,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * closed before calling this function.
      */
     public org.gtk.glib.Bytes stealAsBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_steal_as_bytes(HANDLE());
+        var RESULT = gtk_h.g_memory_output_stream_steal_as_bytes(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -91,7 +93,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * @ostream must be closed before calling this function.
      */
     public jdk.incubator.foreign.MemoryAddress stealData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_steal_data(HANDLE());
+        var RESULT = gtk_h.g_memory_output_stream_steal_data(handle());
         return RESULT;
     }
     

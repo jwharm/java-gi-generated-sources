@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_scanner_get_next_token().
      */
     public int curLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_cur_line(HANDLE());
+        var RESULT = gtk_h.g_scanner_cur_line(handle());
         return RESULT;
     }
     
@@ -43,7 +45,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_scanner_get_next_token().
      */
     public int curPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_cur_position(HANDLE());
+        var RESULT = gtk_h.g_scanner_cur_position(handle());
         return RESULT;
     }
     
@@ -52,7 +54,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * field in the #GScanner structure.
      */
     public TokenType curToken() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_cur_token(HANDLE());
+        var RESULT = gtk_h.g_scanner_cur_token(handle());
         return TokenType.fromValue(RESULT);
     }
     
@@ -60,7 +62,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees all memory used by the #GScanner.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_destroy(HANDLE());
+        gtk_h.g_scanner_destroy(handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * the file or text buffer.
      */
     public boolean eof() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_eof(HANDLE());
+        var RESULT = gtk_h.g_scanner_eof(handle());
         return (RESULT != 0);
     }
     
@@ -79,7 +81,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GScanner structure.
      */
     public TokenType getNextToken() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_get_next_token(HANDLE());
+        var RESULT = gtk_h.g_scanner_get_next_token(handle());
         return TokenType.fromValue(RESULT);
     }
     
@@ -87,14 +89,14 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Prepares to scan a file.
      */
     public void inputFile(int inputFd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_input_file(HANDLE(), inputFd);
+        gtk_h.g_scanner_input_file(handle(), inputFd);
     }
     
     /**
      * Prepares to scan a text buffer.
      */
     public void inputText(java.lang.String text, int textLen) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_input_text(HANDLE(), Interop.allocateNativeString(text).HANDLE(), textLen);
+        gtk_h.g_scanner_input_text(handle(), Interop.allocateNativeString(text).handle(), textLen);
     }
     
     /**
@@ -103,7 +105,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * returned.
      */
     public jdk.incubator.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_lookup_symbol(HANDLE(), Interop.allocateNativeString(symbol).HANDLE());
+        var RESULT = gtk_h.g_scanner_lookup_symbol(handle(), Interop.allocateNativeString(symbol).handle());
         return RESULT;
     }
     
@@ -121,7 +123,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * any symbols that may have been added or removed in the new scope.
      */
     public TokenType peekNextToken() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_peek_next_token(HANDLE());
+        var RESULT = gtk_h.g_scanner_peek_next_token(handle());
         return TokenType.fromValue(RESULT);
     }
     
@@ -129,7 +131,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds a symbol to the given scope.
      */
     public void scopeAddSymbol(int scopeId, java.lang.String symbol, jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_add_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE(), value);
+        gtk_h.g_scanner_scope_add_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle(), value);
     }
     
     /**
@@ -137,7 +139,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * symbol is not bound in the scope, %NULL is returned.
      */
     public jdk.incubator.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_lookup_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE());
+        var RESULT = gtk_h.g_scanner_scope_lookup_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
         return RESULT;
     }
     
@@ -145,14 +147,14 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a symbol from a scope.
      */
     public void scopeRemoveSymbol(int scopeId, java.lang.String symbol) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_scope_remove_symbol(HANDLE(), scopeId, Interop.allocateNativeString(symbol).HANDLE());
+        gtk_h.g_scanner_scope_remove_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
     }
     
     /**
      * Sets the current scope.
      */
     public int setScope(int scopeId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_set_scope(HANDLE(), scopeId);
+        var RESULT = gtk_h.g_scanner_set_scope(handle(), scopeId);
         return RESULT;
     }
     
@@ -163,7 +165,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * onto the current scanning position.
      */
     public void syncFileOffset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_sync_file_offset(HANDLE());
+        gtk_h.g_scanner_sync_file_offset(handle());
     }
     
     /**
@@ -176,7 +178,7 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * to construct part of the message.
      */
     public void unexpToken(TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_scanner_unexp_token(HANDLE(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).HANDLE(), Interop.allocateNativeString(symbolSpec).HANDLE(), Interop.allocateNativeString(symbolName).HANDLE(), Interop.allocateNativeString(message).HANDLE(), isError);
+        gtk_h.g_scanner_unexp_token(handle(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).handle(), Interop.allocateNativeString(symbolSpec).handle(), Interop.allocateNativeString(symbolName).handle(), Interop.allocateNativeString(message).handle(), isError);
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +54,7 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean acquire(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_acquire(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_permission_acquire(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -68,7 +70,7 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean acquireFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_acquire_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_permission_acquire_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -81,7 +83,7 @@ public class Permission extends org.gtk.gobject.Object {
      * @permission represents the permission to perform.
      */
     public boolean getAllowed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_get_allowed(HANDLE());
+        var RESULT = gtk_h.g_permission_get_allowed(handle());
         return (RESULT != 0);
     }
     
@@ -91,7 +93,7 @@ public class Permission extends org.gtk.gobject.Object {
      * g_permission_acquire().
      */
     public boolean getCanAcquire() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_get_can_acquire(HANDLE());
+        var RESULT = gtk_h.g_permission_get_can_acquire(handle());
         return (RESULT != 0);
     }
     
@@ -101,7 +103,7 @@ public class Permission extends org.gtk.gobject.Object {
      * g_permission_release().
      */
     public boolean getCanRelease() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_get_can_release(HANDLE());
+        var RESULT = gtk_h.g_permission_get_can_release(handle());
         return (RESULT != 0);
     }
     
@@ -113,7 +115,7 @@ public class Permission extends org.gtk.gobject.Object {
      * GObject notify signals are generated, as appropriate.
      */
     public void implUpdate(boolean allowed, boolean canAcquire, boolean canRelease) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_impl_update(HANDLE(), allowed ? 1 : 0, canAcquire ? 1 : 0, canRelease ? 1 : 0);
+        gtk_h.g_permission_impl_update(handle(), allowed ? 1 : 0, canAcquire ? 1 : 0, canRelease ? 1 : 0);
     }
     
     /**
@@ -135,7 +137,7 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean release(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_release(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_permission_release(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -151,7 +153,7 @@ public class Permission extends org.gtk.gobject.Object {
      */
     public boolean releaseFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_permission_release_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_permission_release_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

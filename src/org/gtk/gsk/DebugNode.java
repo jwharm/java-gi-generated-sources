@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,14 +29,14 @@ public class DebugNode extends RenderNode {
      * Adding this node has no visual effect.
      */
     public DebugNode(RenderNode child, java.lang.String message) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_new(child.HANDLE(), Interop.allocateNativeString(message).HANDLE()), true));
+        super(References.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true));
     }
     
     /**
      * Gets the child node that is getting drawn by the given @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_debug_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -42,7 +44,7 @@ public class DebugNode extends RenderNode {
      * Gets the debug message that was set on this node
      */
     public java.lang.String getMessage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_get_message(HANDLE());
+        var RESULT = gtk_h.gsk_debug_node_get_message(handle());
         return RESULT.getUtf8String(0);
     }
     

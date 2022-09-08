@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -72,7 +74,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_call_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -119,7 +121,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_call_sync(HANDLE(), Interop.allocateNativeString(busName).HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE(), Interop.allocateNativeString(methodName).HANDLE(), parameters.HANDLE(), replyType.HANDLE(), flags, timeoutMsec, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -142,7 +144,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callWithUnixFdListFinish(UnixFDList[] outFdList, AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_call_with_unix_fd_list_finish(HANDLE(), Interop.allocateNativeArray(outFdList), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_finish(handle(), Interop.allocateNativeArray(outFdList), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -158,7 +160,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(HANDLE(), Interop.allocateNativeString(busName).HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE(), Interop.allocateNativeString(methodName).HANDLE(), parameters.HANDLE(), replyType.HANDLE(), flags, timeoutMsec, fdList.HANDLE(), Interop.allocateNativeArray(outFdList), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -170,7 +172,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public boolean closeFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_close_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_close_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -185,7 +187,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public boolean closeSync(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_close_sync(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_close_sync(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -203,7 +205,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public boolean emitSignal(java.lang.String destinationBusName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String signalName, org.gtk.glib.Variant parameters) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_emit_signal(HANDLE(), Interop.allocateNativeString(destinationBusName).HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE(), Interop.allocateNativeString(signalName).HANDLE(), parameters.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_emit_signal(handle(), Interop.allocateNativeString(destinationBusName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(signalName).handle(), parameters.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -235,7 +237,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public int exportActionGroup(java.lang.String objectPath, ActionGroup actionGroup) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_export_action_group(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), actionGroup.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_export_action_group(handle(), Interop.allocateNativeString(objectPath).handle(), actionGroup.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -258,7 +260,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public int exportMenuModel(java.lang.String objectPath, MenuModel menu) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_export_menu_model(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), menu.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_export_menu_model(handle(), Interop.allocateNativeString(objectPath).handle(), menu.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -270,7 +272,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public boolean flushFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_flush_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_flush_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -285,7 +287,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public boolean flushSync(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_flush_sync(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_flush_sync(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -296,7 +298,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Gets the capabilities negotiated with the remote peer
      */
     public int getCapabilities() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_capabilities(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_capabilities(handle());
         return RESULT;
     }
     
@@ -306,7 +308,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * #GDBusConnection:exit-on-close for more details.
      */
     public boolean getExitOnClose() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_exit_on_close(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_exit_on_close(handle());
         return (RESULT != 0);
     }
     
@@ -314,7 +316,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Gets the flags used to construct this connection
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_flags(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_flags(handle());
         return RESULT;
     }
     
@@ -323,7 +325,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * authenticating. See #GDBusConnection:guid for more details.
      */
     public java.lang.String getGuid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_guid(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_guid(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -335,7 +337,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * g_dbus_connection_call() or g_dbus_proxy_call().
      */
     public int getLastSerial() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_last_serial(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_last_serial(handle());
         return RESULT;
     }
     
@@ -351,7 +353,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * %NULL for message bus clients.
      */
     public Credentials getPeerCredentials() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_peer_credentials(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_peer_credentials(handle());
         return new Credentials(References.get(RESULT, false));
     }
     
@@ -363,7 +365,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * the stream directly.
      */
     public IOStream getStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_stream(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_stream(handle());
         return new IOStream(References.get(RESULT, false));
     }
     
@@ -373,7 +375,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * message bus connection.
      */
     public java.lang.String getUniqueName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_unique_name(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_get_unique_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -381,7 +383,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Gets whether @connection is closed.
      */
     public boolean isClosed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_is_closed(HANDLE());
+        var RESULT = gtk_h.g_dbus_connection_is_closed(handle());
         return (RESULT != 0);
     }
     
@@ -391,7 +393,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public int registerObjectWithClosures(java.lang.String objectPath, DBusInterfaceInfo interfaceInfo, org.gtk.gobject.Closure methodCallClosure, org.gtk.gobject.Closure getPropertyClosure, org.gtk.gobject.Closure setPropertyClosure) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_register_object_with_closures(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), interfaceInfo.HANDLE(), methodCallClosure.HANDLE(), getPropertyClosure.HANDLE(), setPropertyClosure.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_register_object_with_closures(handle(), Interop.allocateNativeString(objectPath).handle(), interfaceInfo.handle(), methodCallClosure.handle(), getPropertyClosure.handle(), setPropertyClosure.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -409,7 +411,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * called when it is guaranteed that the data is no longer needed.
      */
     public void removeFilter(int filterId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_remove_filter(HANDLE(), filterId);
+        gtk_h.g_dbus_connection_remove_filter(handle(), filterId);
     }
     
     /**
@@ -426,7 +428,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public DBusMessage sendMessageWithReplyFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_send_message_with_reply_finish(HANDLE(), res.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_send_message_with_reply_finish(handle(), res.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -446,7 +448,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * when the user session ends.
      */
     public void setExitOnClose(boolean exitOnClose) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_set_exit_on_close(HANDLE(), exitOnClose ? 1 : 0);
+        gtk_h.g_dbus_connection_set_exit_on_close(handle(), exitOnClose ? 1 : 0);
     }
     
     /**
@@ -464,7 +466,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * of this subscription are released.
      */
     public void signalUnsubscribe(int subscriptionId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_signal_unsubscribe(HANDLE(), subscriptionId);
+        gtk_h.g_dbus_connection_signal_unsubscribe(handle(), subscriptionId);
     }
     
     /**
@@ -474,7 +476,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * created with this flag or if the method has already been called.
      */
     public void startMessageProcessing() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_start_message_processing(HANDLE());
+        gtk_h.g_dbus_connection_start_message_processing(handle());
     }
     
     /**
@@ -486,7 +488,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * same ID more than once.
      */
     public void unexportActionGroup(int exportId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_unexport_action_group(HANDLE(), exportId);
+        gtk_h.g_dbus_connection_unexport_action_group(handle(), exportId);
     }
     
     /**
@@ -498,14 +500,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * same ID more than once.
      */
     public void unexportMenuModel(int exportId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_unexport_menu_model(HANDLE(), exportId);
+        gtk_h.g_dbus_connection_unexport_menu_model(handle(), exportId);
     }
     
     /**
      * Unregisters an object.
      */
     public boolean unregisterObject(int registrationId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_unregister_object(HANDLE(), registrationId);
+        var RESULT = gtk_h.g_dbus_connection_unregister_object(handle(), registrationId);
         return (RESULT != 0);
     }
     
@@ -513,7 +515,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Unregisters a subtree.
      */
     public boolean unregisterSubtree(int registrationId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_unregister_subtree(HANDLE(), registrationId);
+        var RESULT = gtk_h.g_dbus_connection_unregister_subtree(handle(), registrationId);
         return (RESULT != 0);
     }
     
@@ -544,12 +546,12 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusConnectionClosed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("closed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("closed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

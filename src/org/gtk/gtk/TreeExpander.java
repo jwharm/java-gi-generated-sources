@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -61,14 +63,14 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkTreeExpander`
      */
     public TreeExpander() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_new(), false));
+        super(References.get(gtk_h.gtk_tree_expander_new(), false));
     }
     
     /**
      * Gets the child widget displayed by @self.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_tree_expander_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -76,7 +78,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * TreeExpander indents the child by the width of an expander-icon if it is not expandable.
      */
     public boolean getIndentForIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_indent_for_icon(HANDLE());
+        var RESULT = gtk_h.gtk_tree_expander_get_indent_for_icon(handle());
         return (RESULT != 0);
     }
     
@@ -90,7 +92,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * ```
      */
     public org.gtk.gobject.Object getItem() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_item(HANDLE());
+        var RESULT = gtk_h.gtk_tree_expander_get_item(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
@@ -98,7 +100,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * Gets the list row managed by @self.
      */
     public TreeListRow getListRow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_list_row(HANDLE());
+        var RESULT = gtk_h.gtk_tree_expander_get_list_row(handle());
         return new TreeListRow(References.get(RESULT, false));
     }
     
@@ -106,21 +108,21 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      * Sets the content widget to display.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_tree_expander_set_child(handle(), child.handle());
     }
     
     /**
      * Sets if the TreeExpander should indent the child by the width of an expander-icon when it is not expandable.
      */
     public void setIndentForIcon(boolean indentForIcon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_set_indent_for_icon(HANDLE(), indentForIcon ? 1 : 0);
+        gtk_h.gtk_tree_expander_set_indent_for_icon(handle(), indentForIcon ? 1 : 0);
     }
     
     /**
      * Sets the tree list row that this expander should manage.
      */
     public void setListRow(TreeListRow listRow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_set_list_row(HANDLE(), listRow.HANDLE());
+        gtk_h.gtk_tree_expander_set_list_row(handle(), listRow.handle());
     }
     
 }

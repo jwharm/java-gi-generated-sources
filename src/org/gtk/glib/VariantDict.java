@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -115,7 +117,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * using #GVariantDict to construct a #GVariant.
      */
     public VariantDict(Variant fromAsv) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_new(fromAsv.HANDLE()), true));
+        super(References.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true));
     }
     
     /**
@@ -135,14 +137,14 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * on uninitialised memory.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_clear(HANDLE());
+        gtk_h.g_variant_dict_clear(handle());
     }
     
     /**
      * Checks if @key exists in @dict.
      */
     public boolean contains(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_contains(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_variant_dict_contains(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -156,7 +158,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * the case of stack-allocated).
      */
     public Variant end() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_end(HANDLE());
+        var RESULT = gtk_h.g_variant_dict_end(handle());
         return new Variant(References.get(RESULT, false));
     }
     
@@ -179,7 +181,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_dict_new() instead of this function.
      */
     public void init(Variant fromAsv) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_init(HANDLE(), fromAsv.HANDLE());
+        gtk_h.g_variant_dict_init(handle(), fromAsv.handle());
     }
     
     /**
@@ -188,7 +190,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * @value is consumed if it is floating.
      */
     public void insertValue(java.lang.String key, Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_insert_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value.HANDLE());
+        gtk_h.g_variant_dict_insert_value(handle(), Interop.allocateNativeString(key).handle(), value.handle());
     }
     
     /**
@@ -205,7 +207,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * value will have this type.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_lookup_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), expectedType.HANDLE());
+        var RESULT = gtk_h.g_variant_dict_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -216,7 +218,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * things will happen.
      */
     public VariantDict ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_ref(HANDLE());
+        var RESULT = gtk_h.g_variant_dict_ref(handle());
         return new VariantDict(References.get(RESULT, true));
     }
     
@@ -224,7 +226,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a key and its associated value from a #GVariantDict.
      */
     public boolean remove(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_remove(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_variant_dict_remove(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -238,7 +240,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * things will happen.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_unref(HANDLE());
+        gtk_h.g_variant_dict_unref(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * Creates a new `GtkMountOperation`.
      */
     public MountOperation(Window parent) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_new(parent.HANDLE()), true));
+        super(References.get(gtk_h.gtk_mount_operation_new(parent.handle()), true));
     }
     
     /**
@@ -43,7 +45,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * will be shown.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_get_display(HANDLE());
+        var RESULT = gtk_h.gtk_mount_operation_get_display(handle());
         return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
@@ -51,7 +53,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * Gets the transient parent used by the `GtkMountOperation`.
      */
     public Window getParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_get_parent(HANDLE());
+        var RESULT = gtk_h.gtk_mount_operation_get_parent(handle());
         return new Window(References.get(RESULT, false));
     }
     
@@ -60,7 +62,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * a window.
      */
     public boolean isShowing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_is_showing(HANDLE());
+        var RESULT = gtk_h.gtk_mount_operation_is_showing(handle());
         return (RESULT != 0);
     }
     
@@ -68,7 +70,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * Sets the display to show windows of the `GtkMountOperation` on.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_set_display(HANDLE(), display.HANDLE());
+        gtk_h.gtk_mount_operation_set_display(handle(), display.handle());
     }
     
     /**
@@ -76,7 +78,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * `GtkMountOperation`.
      */
     public void setParent(Window parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mount_operation_set_parent(HANDLE(), parent.HANDLE());
+        gtk_h.gtk_mount_operation_set_parent(handle(), parent.handle());
     }
     
 }

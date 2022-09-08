@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Clears the pending flag on @stream.
      */
     public void clearPending() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_clear_pending(HANDLE());
+        gtk_h.g_output_stream_clear_pending(handle());
     }
     
     /**
@@ -69,7 +71,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_close(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_close(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -81,7 +83,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_close_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_close_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -101,7 +103,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean flush(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_flush(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_flush(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -113,7 +115,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean flushFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_flush_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_flush_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -124,7 +126,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Checks if an output stream has pending actions.
      */
     public boolean hasPending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_has_pending(HANDLE());
+        var RESULT = gtk_h.g_output_stream_has_pending(handle());
         return (RESULT != 0);
     }
     
@@ -132,7 +134,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Checks if an output stream has already been closed.
      */
     public boolean isClosed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_is_closed(HANDLE());
+        var RESULT = gtk_h.g_output_stream_is_closed(handle());
         return (RESULT != 0);
     }
     
@@ -143,7 +145,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * the closing operation.
      */
     public boolean isClosing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_is_closing(HANDLE());
+        var RESULT = gtk_h.g_output_stream_is_closing(handle());
         return (RESULT != 0);
     }
     
@@ -154,7 +156,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean setPending() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_set_pending(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_set_pending(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -166,7 +168,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long splice(InputStream source, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_splice(HANDLE(), source.HANDLE(), flags, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_splice(handle(), source.handle(), flags, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -178,7 +180,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_splice_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_splice_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -209,7 +211,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long write(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_write(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), count, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_write(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), count, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -231,7 +233,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long writeBytes(org.gtk.glib.Bytes bytes, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_write_bytes(HANDLE(), bytes.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_write_bytes(handle(), bytes.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -243,7 +245,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long writeBytesFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_write_bytes_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_write_bytes_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -255,7 +257,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public long writeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_output_stream_write_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_output_stream_write_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

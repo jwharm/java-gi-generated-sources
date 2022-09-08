@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,14 +39,14 @@ public class GestureLongPress extends GestureSingle {
      * Returns a newly created `GtkGesture` that recognizes long presses.
      */
     public GestureLongPress() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_new(), true));
+        super(References.get(gtk_h.gtk_gesture_long_press_new(), true));
     }
     
     /**
      * Returns the delay factor.
      */
     public double getDelayFactor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_get_delay_factor(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_long_press_get_delay_factor(handle());
         return RESULT;
     }
     
@@ -55,7 +57,7 @@ public class GestureLongPress extends GestureSingle {
      * Valid values are in the range [0.5..2.0].
      */
     public void setDelayFactor(double delayFactor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_set_delay_factor(HANDLE(), delayFactor);
+        gtk_h.gtk_gesture_long_press_set_delay_factor(handle(), delayFactor);
     }
     
     @FunctionalInterface
@@ -71,12 +73,12 @@ public class GestureLongPress extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureLongPressCancelled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("cancelled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("cancelled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -95,12 +97,12 @@ public class GestureLongPress extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureLongPressPressed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("pressed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("pressed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

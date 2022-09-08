@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * Copy a `PangoAttrIterator`.
      */
     public AttrIterator copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_copy(HANDLE());
+        var RESULT = gtk_h.pango_attr_iterator_copy(handle());
         return new AttrIterator(References.get(RESULT, true));
     }
     
@@ -32,7 +34,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * Destroy a `PangoAttrIterator` and free all associated memory.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_destroy(HANDLE());
+        gtk_h.pango_attr_iterator_destroy(handle());
     }
     
     /**
@@ -44,7 +46,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * current location is used.
      */
     public Attribute get(AttrType type) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_get(HANDLE(), type.getValue());
+        var RESULT = gtk_h.pango_attr_iterator_get(handle(), type.getValue());
         return new Attribute(References.get(RESULT, false));
     }
     
@@ -53,7 +55,7 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterator.
      */
     public org.gtk.glib.SList getAttrs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_get_attrs(HANDLE());
+        var RESULT = gtk_h.pango_attr_iterator_get_attrs(handle());
         return new org.gtk.glib.SList(References.get(RESULT, true));
     }
     
@@ -62,14 +64,14 @@ public class AttrIterator extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterator position.
      */
     public void getFont(FontDescription desc, Language[] language, org.gtk.glib.SList[] extraAttrs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_get_font(HANDLE(), desc.HANDLE(), Interop.allocateNativeArray(language), Interop.allocateNativeArray(extraAttrs));
+        gtk_h.pango_attr_iterator_get_font(handle(), desc.handle(), Interop.allocateNativeArray(language), Interop.allocateNativeArray(extraAttrs));
     }
     
     /**
      * Advance the iterator until the next change of style.
      */
     public boolean next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_iterator_next(HANDLE());
+        var RESULT = gtk_h.pango_attr_iterator_next(handle());
         return (RESULT != 0);
     }
     

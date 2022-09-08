@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class GestureSingle extends Gesture {
      * If this is 0, the gesture reacts to any button press.
      */
     public int getButton() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_button(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_single_get_button(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class GestureSingle extends Gesture {
      * with @gesture, or 0 if there is none.
      */
     public int getCurrentButton() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_current_button(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_single_get_current_button(handle());
         return RESULT;
     }
     
@@ -58,7 +60,7 @@ public class GestureSingle extends Gesture {
      * returns %TRUE.
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_current_sequence(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_single_get_current_sequence(handle());
         return new org.gtk.gdk.EventSequence(References.get(RESULT, true));
     }
     
@@ -68,7 +70,7 @@ public class GestureSingle extends Gesture {
      * For more information, see [method@Gtk.GestureSingle.set_exclusive].
      */
     public boolean getExclusive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_exclusive(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_single_get_exclusive(handle());
         return (RESULT != 0);
     }
     
@@ -76,7 +78,7 @@ public class GestureSingle extends Gesture {
      * Returns %TRUE if the gesture is only triggered by touch events.
      */
     public boolean getTouchOnly() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_touch_only(HANDLE());
+        var RESULT = gtk_h.gtk_gesture_single_get_touch_only(handle());
         return (RESULT != 0);
     }
     
@@ -88,7 +90,7 @@ public class GestureSingle extends Gesture {
      * with button 1.
      */
     public void setButton(int button) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_set_button(HANDLE(), button);
+        gtk_h.gtk_gesture_single_set_button(handle(), button);
     }
     
     /**
@@ -99,7 +101,7 @@ public class GestureSingle extends Gesture {
      * to interact with those.
      */
     public void setExclusive(boolean exclusive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_set_exclusive(HANDLE(), exclusive ? 1 : 0);
+        gtk_h.gtk_gesture_single_set_exclusive(handle(), exclusive ? 1 : 0);
     }
     
     /**
@@ -110,7 +112,7 @@ public class GestureSingle extends Gesture {
      * mouse events will be handled too.
      */
     public void setTouchOnly(boolean touchOnly) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_set_touch_only(HANDLE(), touchOnly ? 1 : 0);
+        gtk_h.gtk_gesture_single_set_touch_only(handle(), touchOnly ? 1 : 0);
     }
     
 }

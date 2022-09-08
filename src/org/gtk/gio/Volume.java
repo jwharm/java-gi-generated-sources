@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if a volume can be ejected.
      */
     public default boolean canEject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_can_eject(HANDLE());
+        var RESULT = gtk_h.g_volume_can_eject(handle());
         return (RESULT != 0);
     }
     
@@ -62,7 +64,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if a volume can be mounted.
      */
     public default boolean canMount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_can_mount(HANDLE());
+        var RESULT = gtk_h.g_volume_can_mount(handle());
         return (RESULT != 0);
     }
     
@@ -72,7 +74,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_eject_with_operation_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_volume_eject_with_operation_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -108,7 +110,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * g_mount_is_shadowed() for more details.
      */
     public default File getActivationRoot() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_activation_root(HANDLE());
+        var RESULT = gtk_h.g_volume_get_activation_root(handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -116,7 +118,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the drive for the @volume.
      */
     public default Drive getDrive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_drive(HANDLE());
+        var RESULT = gtk_h.g_volume_get_drive(handle());
         return new Drive.DriveImpl(References.get(RESULT, true));
     }
     
@@ -124,7 +126,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the icon for @volume.
      */
     public default Icon getIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_icon(HANDLE());
+        var RESULT = gtk_h.g_volume_get_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -134,7 +136,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * information about volume identifiers.
      */
     public default java.lang.String getIdentifier(java.lang.String kind) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_identifier(HANDLE(), Interop.allocateNativeString(kind).HANDLE());
+        var RESULT = gtk_h.g_volume_get_identifier(handle(), Interop.allocateNativeString(kind).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -142,7 +144,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the mount for the @volume.
      */
     public default Mount getMount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_mount(HANDLE());
+        var RESULT = gtk_h.g_volume_get_mount(handle());
         return new Mount.MountImpl(References.get(RESULT, true));
     }
     
@@ -150,7 +152,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the name of @volume.
      */
     public default java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_name(HANDLE());
+        var RESULT = gtk_h.g_volume_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -158,7 +160,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the sort key for @volume, if any.
      */
     public default java.lang.String getSortKey() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_sort_key(HANDLE());
+        var RESULT = gtk_h.g_volume_get_sort_key(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -166,7 +168,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Gets the symbolic icon for @volume.
      */
     public default Icon getSymbolicIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_symbolic_icon(HANDLE());
+        var RESULT = gtk_h.g_volume_get_symbolic_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -177,7 +179,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * available.
      */
     public default java.lang.String getUuid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_get_uuid(HANDLE());
+        var RESULT = gtk_h.g_volume_get_uuid(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -192,7 +194,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default boolean mountFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_mount_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_volume_mount_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -203,7 +205,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns whether the volume should be automatically mounted.
      */
     public default boolean shouldAutomount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_should_automount(HANDLE());
+        var RESULT = gtk_h.g_volume_should_automount(handle());
         return (RESULT != 0);
     }
     
@@ -219,12 +221,12 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalVolumeChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -244,12 +246,12 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalVolumeRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

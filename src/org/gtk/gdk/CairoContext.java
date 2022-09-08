@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class CairoContext extends DrawContext {
      * [method@Gdk.DrawContext.end_frame] is called.
      */
     public org.cairographics.Context cairoCreate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cairo_context_cairo_create(HANDLE());
+        var RESULT = gtk_h.gdk_cairo_context_cairo_create(handle());
         return new org.cairographics.Context(References.get(RESULT, true));
     }
     

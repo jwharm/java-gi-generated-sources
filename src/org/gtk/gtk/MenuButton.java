@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -88,14 +90,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * should you wish to.
      */
     public MenuButton() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_new(), false));
+        super(References.get(gtk_h.gtk_menu_button_new(), false));
     }
     
     /**
      * Gets whether to show a dropdown arrow even when using an icon.
      */
     public boolean getAlwaysShowArrow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_always_show_arrow(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_always_show_arrow(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Gets the child widget of @menu_button.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -111,7 +113,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns the direction the popup will be pointing at when popped up.
      */
     public ArrowType getArrowDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_direction(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_direction(handle());
         return ArrowType.fromValue(RESULT);
     }
     
@@ -119,7 +121,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns whether the button has a frame.
      */
     public boolean getHasFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_has_frame(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_has_frame(handle());
         return (RESULT != 0);
     }
     
@@ -127,7 +129,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Gets the name of the icon shown in the button.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -135,7 +137,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Gets the label shown in the button
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -143,7 +145,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns the `GMenuModel` used to generate the popup.
      */
     public org.gtk.gio.MenuModel getMenuModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_menu_model(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_menu_model(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -154,7 +156,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * returns %NULL.
      */
     public Popover getPopover() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_popover(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_popover(handle());
         return new Popover(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns whether the menu button acts as a primary menu.
      */
     public boolean getPrimary() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_primary(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_primary(handle());
         return (RESULT != 0);
     }
     
@@ -171,7 +173,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * mnemonic.
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_menu_button_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -179,14 +181,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Dismiss the menu.
      */
     public void popdown() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_popdown(HANDLE());
+        gtk_h.gtk_menu_button_popdown(handle());
     }
     
     /**
      * Pop up the menu.
      */
     public void popup() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_popup(HANDLE());
+        gtk_h.gtk_menu_button_popup(handle());
     }
     
     /**
@@ -194,7 +196,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * child.
      */
     public void setAlwaysShowArrow(boolean alwaysShowArrow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_always_show_arrow(HANDLE(), alwaysShowArrow ? 1 : 0);
+        gtk_h.gtk_menu_button_set_always_show_arrow(handle(), alwaysShowArrow ? 1 : 0);
     }
     
     /**
@@ -208,7 +210,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * will be shown next to the child.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_menu_button_set_child(handle(), child.handle());
     }
     
     /**
@@ -224,14 +226,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * as if you passed %GTK_ARROW_DOWN (although you won’t see any arrows).
      */
     public void setDirection(ArrowType direction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_direction(HANDLE(), direction.getValue());
+        gtk_h.gtk_menu_button_set_direction(handle(), direction.getValue());
     }
     
     /**
      * Sets the style of the button.
      */
     public void setHasFrame(boolean hasFrame) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_has_frame(HANDLE(), hasFrame ? 1 : 0);
+        gtk_h.gtk_menu_button_set_has_frame(handle(), hasFrame ? 1 : 0);
     }
     
     /**
@@ -245,7 +247,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * will be shown next to the icon.
      */
     public void setIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_menu_button_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -258,7 +260,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * arrow will be shown next to the label.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_menu_button_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -274,7 +276,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * dissociated from the @menu_button, and the property is set to %NULL.
      */
     public void setMenuModel(org.gtk.gio.MenuModel menuModel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_menu_model(HANDLE(), menuModel.HANDLE());
+        gtk_h.gtk_menu_button_set_menu_model(handle(), menuModel.handle());
     }
     
     /**
@@ -286,7 +288,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * from the @menu_button, and the property is set to %NULL.
      */
     public void setPopover(Widget popover) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_popover(HANDLE(), popover.HANDLE());
+        gtk_h.gtk_menu_button_set_popover(handle(), popover.handle());
     }
     
     /**
@@ -295,14 +297,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Primary menus can be opened with the <kbd>F10</kbd> key.
      */
     public void setPrimary(boolean primary) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_primary(HANDLE(), primary ? 1 : 0);
+        gtk_h.gtk_menu_button_set_primary(handle(), primary ? 1 : 0);
     }
     
     /**
      * If true, an underline in the text indicates a mnemonic.
      */
     public void setUseUnderline(boolean useUnderline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_menu_button_set_use_underline(HANDLE(), useUnderline ? 1 : 0);
+        gtk_h.gtk_menu_button_set_use_underline(handle(), useUnderline ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -320,12 +322,12 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMenuButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

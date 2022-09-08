@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,14 +24,14 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      * The struct is initialized to zero.
      */
     public Requisition() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_new(), true));
+        super(References.get(gtk_h.gtk_requisition_new(), true));
     }
     
     /**
      * Copies a `GtkRequisition`.
      */
     public Requisition copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_copy(HANDLE());
+        var RESULT = gtk_h.gtk_requisition_copy(handle());
         return new Requisition(References.get(RESULT, true));
     }
     
@@ -37,7 +39,7 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a `GtkRequisition`.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_free(HANDLE());
+        gtk_h.gtk_requisition_free(handle());
     }
     
 }

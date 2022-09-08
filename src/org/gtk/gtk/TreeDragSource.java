@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.interop.NativeAd
      * longer found in the model!
      */
     public default boolean dragDataDelete(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_source_drag_data_delete(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_drag_source_drag_data_delete(handle(), path.handle());
         return (RESULT != 0);
     }
     
@@ -28,7 +30,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.interop.NativeAd
      * longer found in the model!
      */
     public default org.gtk.gdk.ContentProvider dragDataGet(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_source_drag_data_get(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_drag_source_drag_data_get(handle(), path.handle());
         return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
     }
     
@@ -38,7 +40,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.interop.NativeAd
      * this interface, the row is assumed draggable.
      */
     public default boolean rowDraggable(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_source_row_draggable(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_drag_source_row_draggable(handle(), path.handle());
         return (RESULT != 0);
     }
     

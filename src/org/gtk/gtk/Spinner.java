@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,14 +39,14 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
      * Returns a new spinner widget. Not yet started.
      */
     public Spinner() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_new(), false));
+        super(References.get(gtk_h.gtk_spinner_new(), false));
     }
     
     /**
      * Returns whether the spinner is spinning.
      */
     public boolean getSpinning() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_get_spinning(HANDLE());
+        var RESULT = gtk_h.gtk_spinner_get_spinning(handle());
         return (RESULT != 0);
     }
     
@@ -52,21 +54,21 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
      * Sets the activity of the spinner.
      */
     public void setSpinning(boolean spinning) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_set_spinning(HANDLE(), spinning ? 1 : 0);
+        gtk_h.gtk_spinner_set_spinning(handle(), spinning ? 1 : 0);
     }
     
     /**
      * Starts the animation of the spinner.
      */
     public void start() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_start(HANDLE());
+        gtk_h.gtk_spinner_start(handle());
     }
     
     /**
      * Stops the animation of the spinner.
      */
     public void stop() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_stop(HANDLE());
+        gtk_h.gtk_spinner_stop(handle());
     }
     
 }

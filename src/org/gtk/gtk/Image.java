@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -61,7 +63,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new empty `GtkImage` widget.
      */
     public Image() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new(), false));
+        super(References.get(gtk_h.gtk_image_new(), false));
     }
     
     /**
@@ -80,7 +82,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * is appropriate for displaying the file.
      */
     public static Image newFromFile(java.lang.String filename) {
-        return new Image(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).HANDLE()), false));
+        return new Image(References.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false));
     }
     
     /**
@@ -91,7 +93,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public Image(org.gtk.gio.Icon icon) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_gicon(icon.HANDLE()), false));
+        super(References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false));
     }
     
     /**
@@ -102,7 +104,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public static Image newFromIconName(java.lang.String iconName) {
-        return new Image(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).HANDLE()), false));
+        return new Image(References.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false));
     }
     
     /**
@@ -116,7 +118,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * its size and contents in response to it.
      */
     public Image(org.gtk.gdk.Paintable paintable) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_paintable(paintable.HANDLE()), false));
+        super(References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false));
     }
     
     /**
@@ -134,7 +136,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * want that, you should use [ctor@Gtk.Image.new_from_icon_name].
      */
     public Image(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_pixbuf(pixbuf.HANDLE()), false));
+        super(References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false));
     }
     
     /**
@@ -153,14 +155,14 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * appropriate for displaying the file.
      */
     public static Image newFromResource(java.lang.String resourcePath) {
-        return new Image(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
+        return new Image(References.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false));
     }
     
     /**
      * Resets the image to be empty.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_clear(HANDLE());
+        gtk_h.gtk_image_clear(handle());
     }
     
     /**
@@ -172,7 +174,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * returned `GIcon`.
      */
     public org.gtk.gio.Icon getGicon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_gicon(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_gicon(handle());
         return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
     }
     
@@ -185,7 +187,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * be freed.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -193,7 +195,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the icon size used by the @image when rendering icons.
      */
     public IconSize getIconSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_icon_size(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_icon_size(handle());
         return IconSize.fromValue(RESULT);
     }
     
@@ -206,7 +208,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * returned paintable.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_paintable(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_paintable(handle());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
@@ -214,7 +216,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the pixel size used for named icons.
      */
     public int getPixelSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_pixel_size(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_pixel_size(handle());
         return RESULT;
     }
     
@@ -226,7 +228,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * be %GTK_IMAGE_EMPTY.
      */
     public ImageType getStorageType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_get_storage_type(HANDLE());
+        var RESULT = gtk_h.gtk_image_get_storage_type(handle());
         return ImageType.fromValue(RESULT);
     }
     
@@ -236,7 +238,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_file] for details.
      */
     public void setFromFile(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        gtk_h.gtk_image_set_from_file(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
@@ -245,7 +247,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_gicon] for details.
      */
     public void setFromGicon(org.gtk.gio.Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_gicon(HANDLE(), icon.HANDLE());
+        gtk_h.gtk_image_set_from_gicon(handle(), icon.handle());
     }
     
     /**
@@ -254,7 +256,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_icon_name] for details.
      */
     public void setFromIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_image_set_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -263,7 +265,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_paintable] for details.
      */
     public void setFromPaintable(org.gtk.gdk.Paintable paintable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_paintable(HANDLE(), paintable.HANDLE());
+        gtk_h.gtk_image_set_from_paintable(handle(), paintable.handle());
     }
     
     /**
@@ -276,7 +278,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * only a paintable.
      */
     public void setFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_pixbuf(HANDLE(), pixbuf.HANDLE());
+        gtk_h.gtk_image_set_from_pixbuf(handle(), pixbuf.handle());
     }
     
     /**
@@ -285,14 +287,14 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * See [ctor@Gtk.Image.new_from_resource] for details.
      */
     public void setFromResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
+        gtk_h.gtk_image_set_from_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
     }
     
     /**
      * Suggests an icon size to the theme for named icons.
      */
     public void setIconSize(IconSize iconSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_icon_size(HANDLE(), iconSize.getValue());
+        gtk_h.gtk_image_set_icon_size(handle(), iconSize.getValue());
     }
     
     /**
@@ -302,7 +304,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * of the icon size set by [method@Gtk.Image.set_from_icon_name].
      */
     public void setPixelSize(int pixelSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_image_set_pixel_size(HANDLE(), pixelSize);
+        gtk_h.gtk_image_set_pixel_size(handle(), pixelSize);
     }
     
 }

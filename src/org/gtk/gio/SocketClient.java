@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * Creates a new #GSocketClient with the default options.
      */
     public SocketClient() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_new(), true));
+        super(References.get(gtk_h.g_socket_client_new(), true));
     }
     
     /**
@@ -60,7 +62,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * specific handshake.
      */
     public void addApplicationProxy(java.lang.String protocol) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_add_application_proxy(HANDLE(), Interop.allocateNativeString(protocol).HANDLE());
+        gtk_h.g_socket_client_add_application_proxy(handle(), Interop.allocateNativeString(protocol).handle());
     }
     
     /**
@@ -85,7 +87,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connect(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect(HANDLE(), connectable.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect(handle(), connectable.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -97,7 +99,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -138,7 +140,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_host(HANDLE(), Interop.allocateNativeString(hostAndPort).HANDLE(), defaultPort, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_host(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -150,7 +152,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToHostFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_host_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_host_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -175,7 +177,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_service(HANDLE(), Interop.allocateNativeString(domain).HANDLE(), Interop.allocateNativeString(service).HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_service(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -187,7 +189,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_service_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_service_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -219,7 +221,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), defaultPort, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_uri(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -231,7 +233,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketConnection connectToUriFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_connect_to_uri_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_client_connect_to_uri_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -242,7 +244,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * Gets the proxy enable state; see g_socket_client_set_enable_proxy()
      */
     public boolean getEnableProxy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_enable_proxy(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_enable_proxy(handle());
         return (RESULT != 0);
     }
     
@@ -252,7 +254,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See g_socket_client_set_family() for details.
      */
     public SocketFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_family(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_family(handle());
         return SocketFamily.fromValue(RESULT);
     }
     
@@ -262,7 +264,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See g_socket_client_set_local_address() for details.
      */
     public SocketAddress getLocalAddress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_local_address(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_local_address(handle());
         return new SocketAddress(References.get(RESULT, false));
     }
     
@@ -272,7 +274,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See g_socket_client_set_protocol() for details.
      */
     public SocketProtocol getProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_protocol(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_protocol(handle());
         return SocketProtocol.fromValue(RESULT);
     }
     
@@ -282,7 +284,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * can override it with g_socket_client_set_proxy_resolver().
      */
     public ProxyResolver getProxyResolver() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_proxy_resolver(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_proxy_resolver(handle());
         return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
     }
     
@@ -292,7 +294,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See g_socket_client_set_socket_type() for details.
      */
     public SocketType getSocketType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_socket_type(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_socket_type(handle());
         return SocketType.fromValue(RESULT);
     }
     
@@ -302,7 +304,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See g_socket_client_set_timeout() for details.
      */
     public int getTimeout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_timeout(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_timeout(handle());
         return RESULT;
     }
     
@@ -311,7 +313,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * g_socket_client_set_tls() for details.
      */
     public boolean getTls() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_tls(HANDLE());
+        var RESULT = gtk_h.g_socket_client_get_tls(handle());
         return (RESULT != 0);
     }
     
@@ -324,7 +326,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * See also g_socket_client_set_proxy_resolver().
      */
     public void setEnableProxy(boolean enable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_enable_proxy(HANDLE(), enable ? 1 : 0);
+        gtk_h.g_socket_client_set_enable_proxy(handle(), enable ? 1 : 0);
     }
     
     /**
@@ -338,7 +340,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * be an ipv6 mapped to ipv4 address.
      */
     public void setFamily(SocketFamily family) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_family(HANDLE(), family.getValue());
+        gtk_h.g_socket_client_set_family(handle(), family.getValue());
     }
     
     /**
@@ -351,7 +353,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * a specific interface.
      */
     public void setLocalAddress(SocketAddress address) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_local_address(HANDLE(), address.HANDLE());
+        gtk_h.g_socket_client_set_local_address(handle(), address.handle());
     }
     
     /**
@@ -363,7 +365,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * protocol for the socket family and type.
      */
     public void setProtocol(SocketProtocol protocol) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_protocol(HANDLE(), protocol.getValue());
+        gtk_h.g_socket_client_set_protocol(handle(), protocol.getValue());
     }
     
     /**
@@ -376,7 +378,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * changed by this function (but which is %TRUE by default)
      */
     public void setProxyResolver(ProxyResolver proxyResolver) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_proxy_resolver(HANDLE(), proxyResolver.HANDLE());
+        gtk_h.g_socket_client_set_proxy_resolver(handle(), proxyResolver.handle());
     }
     
     /**
@@ -388,7 +390,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * as GSocketClient is used for connection oriented services.
      */
     public void setSocketType(SocketType type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_socket_type(HANDLE(), type.getValue());
+        gtk_h.g_socket_client_set_socket_type(handle(), type.getValue());
     }
     
     /**
@@ -400,7 +402,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * to fail with %G_IO_ERROR_TIMED_OUT.
      */
     public void setTimeout(int timeout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_timeout(HANDLE(), timeout);
+        gtk_h.g_socket_client_set_timeout(handle(), timeout);
     }
     
     /**
@@ -424,7 +426,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * starts.
      */
     public void setTls(boolean tls) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_set_tls(HANDLE(), tls ? 1 : 0);
+        gtk_h.g_socket_client_set_tls(handle(), tls ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -487,12 +489,12 @@ public class SocketClient extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketClientEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("event").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

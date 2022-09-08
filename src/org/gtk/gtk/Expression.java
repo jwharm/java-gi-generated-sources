@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -160,7 +162,7 @@ public class Expression extends org.gtk.gobject.Object {
      * to keep it around, you should [method@Gtk.Expression.ref] it beforehand.
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_bind(HANDLE(), target.HANDLE(), Interop.allocateNativeString(property).HANDLE(), this_.HANDLE());
+        var RESULT = gtk_h.gtk_expression_bind(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
         return new ExpressionWatch(References.get(RESULT, false));
     }
     
@@ -177,7 +179,7 @@ public class Expression extends org.gtk.gobject.Object {
      * will be returned.
      */
     public boolean evaluate(org.gtk.gobject.Object this_, org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_evaluate(HANDLE(), this_.HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.gtk_expression_evaluate(handle(), this_.handle(), value.handle());
         return (RESULT != 0);
     }
     
@@ -188,7 +190,7 @@ public class Expression extends org.gtk.gobject.Object {
      * of this expression.
      */
     public org.gtk.gobject.Type getValueType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_get_value_type(HANDLE());
+        var RESULT = gtk_h.gtk_expression_get_value_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -202,7 +204,7 @@ public class Expression extends org.gtk.gobject.Object {
      * it will never trigger a notify.
      */
     public boolean isStatic() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_is_static(HANDLE());
+        var RESULT = gtk_h.gtk_expression_is_static(handle());
         return (RESULT != 0);
     }
     
@@ -210,7 +212,7 @@ public class Expression extends org.gtk.gobject.Object {
      * Acquires a reference on the given `GtkExpression`.
      */
     public Expression ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_ref(HANDLE());
+        var RESULT = gtk_h.gtk_expression_ref(handle());
         return new Expression(References.get(RESULT, true));
     }
     
@@ -221,7 +223,7 @@ public class Expression extends org.gtk.gobject.Object {
      * freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_unref(HANDLE());
+        gtk_h.gtk_expression_unref(handle());
     }
     
 }

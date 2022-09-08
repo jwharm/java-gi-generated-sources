@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class ShadowNode extends RenderNode {
      * @shadows below it.
      */
     public ShadowNode(RenderNode child, Shadow[] shadows, long nShadows) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_new(child.HANDLE(), Interop.allocateNativeArray(shadows), nShadows), true));
+        super(References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows), nShadows), true));
     }
     
     /**
      * Retrieves the child `GskRenderNode` of the shadow @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_shadow_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class ShadowNode extends RenderNode {
      * Retrieves the number of shadows in the @node.
      */
     public long getNShadows() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_get_n_shadows(HANDLE());
+        var RESULT = gtk_h.gsk_shadow_node_get_n_shadows(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class ShadowNode extends RenderNode {
      * Retrieves the shadow data at the given index @i.
      */
     public Shadow getShadow(long i) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shadow_node_get_shadow(HANDLE(), i);
+        var RESULT = gtk_h.gsk_shadow_node_get_shadow(handle(), i);
         return new Shadow(References.get(RESULT, false));
     }
     

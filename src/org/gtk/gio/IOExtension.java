@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      * for multiple extension points, under different names.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_get_name(HANDLE());
+        var RESULT = gtk_h.g_io_extension_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -30,7 +32,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the priority with which @extension was registered.
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_get_priority(HANDLE());
+        var RESULT = gtk_h.g_io_extension_get_priority(handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the type associated with @extension.
      */
     public org.gtk.gobject.Type getType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_get_type(HANDLE());
+        var RESULT = gtk_h.g_io_extension_get_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -47,7 +49,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      * associated with @extension.
      */
     public org.gtk.gobject.TypeClass refClass() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_ref_class(HANDLE());
+        var RESULT = gtk_h.g_io_extension_ref_class(handle());
         return new org.gtk.gobject.TypeClass(References.get(RESULT, true));
     }
     

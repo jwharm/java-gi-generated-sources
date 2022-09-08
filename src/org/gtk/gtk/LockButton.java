@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -59,14 +61,14 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      * Creates a new lock button which reflects the @permission.
      */
     public LockButton(org.gtk.gio.Permission permission) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_new(permission.HANDLE()), false));
+        super(References.get(gtk_h.gtk_lock_button_new(permission.handle()), false));
     }
     
     /**
      * Obtains the `GPermission` object that controls @button.
      */
     public org.gtk.gio.Permission getPermission() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_get_permission(HANDLE());
+        var RESULT = gtk_h.gtk_lock_button_get_permission(handle());
         return new org.gtk.gio.Permission(References.get(RESULT, false));
     }
     
@@ -74,7 +76,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      * Sets the `GPermission` object that controls @button.
      */
     public void setPermission(org.gtk.gio.Permission permission) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_set_permission(HANDLE(), permission.HANDLE());
+        gtk_h.gtk_lock_button_set_permission(handle(), permission.handle());
     }
     
 }

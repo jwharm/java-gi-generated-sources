@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -47,7 +49,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * Returns the number of rows that have been selected in @tree.
      */
     public int countSelectedRows() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_count_selected_rows(HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_count_selected_rows(handle());
         return RESULT;
     }
     
@@ -56,7 +58,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * gtk_tree_selection_set_mode().
      */
     public SelectionMode getMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_mode(HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_get_mode(handle());
         return SelectionMode.fromValue(RESULT);
     }
     
@@ -68,7 +70,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * use @selection is %GTK_SELECTION_MULTIPLE.
      */
     public boolean getSelected(TreeModel[] model, TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_selected(HANDLE(), Interop.allocateNativeArray(model), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model), iter.handle());
         return (RESULT != 0);
     }
     
@@ -84,7 +86,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * ]|
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_selected_rows(HANDLE(), Interop.allocateNativeArray(model));
+        var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model));
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -92,7 +94,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * Returns the tree view associated with @selection.
      */
     public TreeView getTreeView() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_tree_view(HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_get_tree_view(handle());
         return new TreeView(References.get(RESULT, false));
     }
     
@@ -100,7 +102,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * Returns the user data for the selection function.
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_get_user_data(HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_get_user_data(handle());
         return RESULT;
     }
     
@@ -108,7 +110,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * Returns %TRUE if the row at @iter is currently selected.
      */
     public boolean iterIsSelected(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_iter_is_selected(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_iter_is_selected(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -117,7 +119,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * does not point to a valid location, %FALSE is returned
      */
     public boolean pathIsSelected(TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_path_is_selected(HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_selection_path_is_selected(handle(), path.handle());
         return (RESULT != 0);
     }
     
@@ -126,21 +128,21 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * mode.
      */
     public void selectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_select_all(HANDLE());
+        gtk_h.gtk_tree_selection_select_all(handle());
     }
     
     /**
      * Selects the specified iterator.
      */
     public void selectIter(TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_select_iter(HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_selection_select_iter(handle(), iter.handle());
     }
     
     /**
      * Select the row at @path.
      */
     public void selectPath(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_select_path(HANDLE(), path.HANDLE());
+        gtk_h.gtk_tree_selection_select_path(handle(), path.handle());
     }
     
     /**
@@ -148,7 +150,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * @selection must be set to %GTK_SELECTION_MULTIPLE mode.
      */
     public void selectRange(TreePath startPath, TreePath endPath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_select_range(HANDLE(), startPath.HANDLE(), endPath.HANDLE());
+        gtk_h.gtk_tree_selection_select_range(handle(), startPath.handle(), endPath.handle());
     }
     
     /**
@@ -157,28 +159,28 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * previously selected.
      */
     public void setMode(SelectionMode type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_set_mode(HANDLE(), type.getValue());
+        gtk_h.gtk_tree_selection_set_mode(handle(), type.getValue());
     }
     
     /**
      * Unselects all the nodes.
      */
     public void unselectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_unselect_all(HANDLE());
+        gtk_h.gtk_tree_selection_unselect_all(handle());
     }
     
     /**
      * Unselects the specified iterator.
      */
     public void unselectIter(TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_unselect_iter(HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_selection_unselect_iter(handle(), iter.handle());
     }
     
     /**
      * Unselects the row at @path.
      */
     public void unselectPath(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_unselect_path(HANDLE(), path.HANDLE());
+        gtk_h.gtk_tree_selection_unselect_path(handle(), path.handle());
     }
     
     /**
@@ -186,7 +188,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * inclusive.
      */
     public void unselectRange(TreePath startPath, TreePath endPath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_selection_unselect_range(HANDLE(), startPath.HANDLE(), endPath.HANDLE());
+        gtk_h.gtk_tree_selection_unselect_range(handle(), startPath.handle(), endPath.handle());
     }
     
     @FunctionalInterface
@@ -204,12 +206,12 @@ public class TreeSelection extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeSelectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

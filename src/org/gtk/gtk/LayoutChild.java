@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      * Retrieves the `GtkWidget` associated to the given @layout_child.
      */
     public Widget getChildWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_child_get_child_widget(HANDLE());
+        var RESULT = gtk_h.gtk_layout_child_get_child_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -40,7 +42,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      * given @layout_child.
      */
     public LayoutManager getLayoutManager() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_child_get_layout_manager(HANDLE());
+        var RESULT = gtk_h.gtk_layout_child_get_layout_manager(handle());
         return new LayoutManager(References.get(RESULT, false));
     }
     

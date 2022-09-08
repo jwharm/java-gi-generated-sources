@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * handling the `org.freedesktop.DBus.Introspectable.Introspect`  method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_generate_xml(HANDLE(), indent, stringBuilder.HANDLE());
+        gtk_h.g_dbus_node_info_generate_xml(handle(), indent, stringBuilder.handle());
     }
     
     /**
@@ -30,7 +32,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * The cost of this function is O(n) in number of interfaces.
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_lookup_interface(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_dbus_node_info_lookup_interface(handle(), Interop.allocateNativeString(name).handle());
         return new DBusInterfaceInfo(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * the reference count.
      */
     public DBusNodeInfo ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_ref(HANDLE());
+        var RESULT = gtk_h.g_dbus_node_info_ref(handle());
         return new DBusNodeInfo(References.get(RESULT, true));
     }
     
@@ -49,7 +51,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * the memory used is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_unref(HANDLE());
+        gtk_h.g_dbus_node_info_unref(handle());
     }
     
 }

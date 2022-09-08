@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * - `signal(NAME)`, for a `GtkSignalAction` for the signal `NAME`
      */
     public ShortcutAction(java.lang.String string) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**
@@ -73,7 +75,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * or if the activation otherwise had no effect, %FALSE will be returned.
      */
     public boolean activate(int flags, Widget widget, org.gtk.glib.Variant args) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_activate(HANDLE(), flags, widget.HANDLE(), args.HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags, widget.handle(), args.handle());
         return (RESULT != 0);
     }
     
@@ -86,7 +88,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * not guaranteed to stay identical.
      */
     public void print(org.gtk.glib.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_print(HANDLE(), string.HANDLE());
+        gtk_h.gtk_shortcut_action_print(handle(), string.handle());
     }
     
     /**
@@ -96,7 +98,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * to help when debugging.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_to_string(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_action_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

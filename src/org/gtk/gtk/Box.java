@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,21 +56,21 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Creates a new `GtkBox`.
      */
     public Box(Orientation orientation, int spacing) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
+        super(References.get(gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
     }
     
     /**
      * Adds @child as the last child to @box.
      */
     public void append(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_append(HANDLE(), child.HANDLE());
+        gtk_h.gtk_box_append(handle(), child.handle());
     }
     
     /**
      * Gets the value set by gtk_box_set_baseline_position().
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_get_baseline_position(HANDLE());
+        var RESULT = gtk_h.gtk_box_get_baseline_position(handle());
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -77,7 +79,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * same size).
      */
     public boolean getHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_get_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_box_get_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -85,7 +87,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Gets the value set by gtk_box_set_spacing().
      */
     public int getSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_get_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_box_get_spacing(handle());
         return RESULT;
     }
     
@@ -96,14 +98,14 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * If @sibling is %NULL, insert @child at the first position.
      */
     public void insertChildAfter(Widget child, Widget sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_insert_child_after(HANDLE(), child.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_box_insert_child_after(handle(), child.handle(), sibling.handle());
     }
     
     /**
      * Adds @child as the first child to @box.
      */
     public void prepend(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_prepend(HANDLE(), child.HANDLE());
+        gtk_h.gtk_box_prepend(handle(), child.handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * [method@Gtk.Box.insert_child_after].
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_box_remove(handle(), child.handle());
     }
     
     /**
@@ -124,7 +126,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * If @sibling is %NULL, move @child to the first position.
      */
     public void reorderChildAfter(Widget child, Widget sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_reorder_child_after(HANDLE(), child.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_box_reorder_child_after(handle(), child.handle(), sibling.handle());
     }
     
     /**
@@ -137,7 +139,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * extra space available.
      */
     public void setBaselinePosition(BaselinePosition position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_set_baseline_position(HANDLE(), position.getValue());
+        gtk_h.gtk_box_set_baseline_position(handle(), position.getValue());
     }
     
     /**
@@ -145,14 +147,14 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * in the box.
      */
     public void setHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_set_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_box_set_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets the number of pixels to place between children of @box.
      */
     public void setSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_set_spacing(HANDLE(), spacing);
+        gtk_h.gtk_box_set_spacing(handle(), spacing);
     }
     
 }

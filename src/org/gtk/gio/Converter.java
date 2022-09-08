@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public interface Converter extends io.github.jwharm.javagi.interop.NativeAddress
      * state that would produce output then that output is lost.
      */
     public default void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_reset(HANDLE());
+        gtk_h.g_converter_reset(handle());
     }
     
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {

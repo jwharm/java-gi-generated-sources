@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_release() is called.
      */
     public void cacheBuild() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_cache_build(HANDLE());
+        gtk_h.g_dbus_interface_info_cache_build(handle());
     }
     
     /**
@@ -36,7 +38,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * resources used by the cache if the usage count drops to zero.
      */
     public void cacheRelease() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_cache_release(HANDLE());
+        gtk_h.g_dbus_interface_info_cache_release(handle());
     }
     
     /**
@@ -48,7 +50,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_generate_xml(HANDLE(), indent, stringBuilder.HANDLE());
+        gtk_h.g_dbus_interface_info_generate_xml(handle(), indent, stringBuilder.handle());
     }
     
     /**
@@ -58,7 +60,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_method(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_info_lookup_method(handle(), Interop.allocateNativeString(name).handle());
         return new DBusMethodInfo(References.get(RESULT, false));
     }
     
@@ -69,7 +71,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_property(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_info_lookup_property(handle(), Interop.allocateNativeString(name).handle());
         return new DBusPropertyInfo(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * g_dbus_interface_info_cache_build() has been used on @info.
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_signal(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_info_lookup_signal(handle(), Interop.allocateNativeString(name).handle());
         return new DBusSignalInfo(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * the reference count.
      */
     public DBusInterfaceInfo ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_ref(HANDLE());
+        var RESULT = gtk_h.g_dbus_interface_info_ref(handle());
         return new DBusInterfaceInfo(References.get(RESULT, true));
     }
     
@@ -99,7 +101,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      * the memory used is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_unref(HANDLE());
+        gtk_h.g_dbus_interface_info_unref(handle());
     }
     
 }

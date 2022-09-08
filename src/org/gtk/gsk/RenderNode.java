@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * for nodes doing 3D operations, this function may fail.
      */
     public void draw(org.cairographics.Context cr) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_draw(HANDLE(), cr.HANDLE());
+        gtk_h.gsk_render_node_draw(handle(), cr.handle());
     }
     
     /**
@@ -51,14 +53,14 @@ public class RenderNode extends org.gtk.gobject.Object {
      * The node will not draw outside of its boundaries.
      */
     public void getBounds(org.gtk.graphene.Rect bounds) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_get_bounds(HANDLE(), bounds.HANDLE());
+        gtk_h.gsk_render_node_get_bounds(handle(), bounds.handle());
     }
     
     /**
      * Returns the type of the @node.
      */
     public RenderNodeType getNodeType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_get_node_type(HANDLE());
+        var RESULT = gtk_h.gsk_render_node_get_node_type(handle());
         return RenderNodeType.fromValue(RESULT);
     }
     
@@ -66,7 +68,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * Acquires a reference on the given `GskRenderNode`.
      */
     public RenderNode ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_ref(HANDLE());
+        var RESULT = gtk_h.gsk_render_node_ref(handle());
         return new RenderNode(References.get(RESULT, true));
     }
     
@@ -82,7 +84,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * The format is not meant as a permanent storage format.
      */
     public org.gtk.glib.Bytes serialize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_serialize(HANDLE());
+        var RESULT = gtk_h.gsk_render_node_serialize(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -93,7 +95,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_unref(HANDLE());
+        gtk_h.gsk_render_node_unref(handle());
     }
     
     /**
@@ -107,7 +109,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_write_to_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
+        var RESULT = gtk_h.gsk_render_node_write_to_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

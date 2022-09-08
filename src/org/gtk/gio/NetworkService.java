@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * #GSocketConnectable interface to resolve it.
      */
     public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_new(Interop.allocateNativeString(service).HANDLE(), Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(domain).HANDLE()), true));
+        super(References.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true));
     }
     
     /**
@@ -41,7 +43,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * ASCII-encoded, depending on what @srv was created with.
      */
     public java.lang.String getDomain() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_get_domain(HANDLE());
+        var RESULT = gtk_h.g_network_service_get_domain(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -49,7 +51,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * Gets @srv's protocol name (eg, "tcp").
      */
     public java.lang.String getProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_get_protocol(HANDLE());
+        var RESULT = gtk_h.g_network_service_get_protocol(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -58,7 +60,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * is used as scheme.
      */
     public java.lang.String getScheme() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_get_scheme(HANDLE());
+        var RESULT = gtk_h.g_network_service_get_scheme(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -66,7 +68,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * Gets @srv's service name (eg, "ldap").
      */
     public java.lang.String getService() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_get_service(HANDLE());
+        var RESULT = gtk_h.g_network_service_get_service(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -75,7 +77,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * is used as scheme.
      */
     public void setScheme(java.lang.String scheme) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_set_scheme(HANDLE(), Interop.allocateNativeString(scheme).HANDLE());
+        gtk_h.g_network_service_set_scheme(handle(), Interop.allocateNativeString(scheme).handle());
     }
     
 }

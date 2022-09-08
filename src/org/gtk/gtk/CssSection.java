@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * `end` location.
      */
     public CssSection(org.gtk.gio.File file, CssLocation start, CssLocation end) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_new(file.HANDLE(), start.HANDLE(), end.HANDLE()), true));
+        super(References.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true));
     }
     
     /**
      * Returns the location in the CSS document where this section ends.
      */
     public CssLocation getEndLocation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_end_location(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_get_end_location(handle());
         return new CssLocation(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.CssProvider.load_from_data], then `NULL` is returned.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
@@ -56,7 +58,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * a different file.
      */
     public CssSection getParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_parent(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_get_parent(handle());
         return new CssSection(References.get(RESULT, false));
     }
     
@@ -64,7 +66,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the location in the CSS document where this section starts.
      */
     public CssLocation getStartLocation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_get_start_location(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_get_start_location(handle());
         return new CssLocation(References.get(RESULT, false));
     }
     
@@ -75,14 +77,14 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * 1 to 23 in the file `gtk.css`.
      */
     public void print(org.gtk.glib.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_print(HANDLE(), string.HANDLE());
+        gtk_h.gtk_css_section_print(handle(), string.handle());
     }
     
     /**
      * Increments the reference count on `section`.
      */
     public CssSection ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_ref(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_ref(handle());
         return new CssSection(References.get(RESULT, true));
     }
     
@@ -91,7 +93,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.CssSection.print].
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_to_string(HANDLE());
+        var RESULT = gtk_h.gtk_css_section_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -100,7 +102,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * structure if the reference count reaches 0.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_section_unref(HANDLE());
+        gtk_h.gtk_css_section_unref(handle());
     }
     
 }

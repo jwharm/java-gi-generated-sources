@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public void addInterface(Type instanceType, Type interfaceType, InterfaceInfo interfaceInfo) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_add_interface(HANDLE(), instanceType.getValue(), interfaceType.getValue(), interfaceInfo.HANDLE());
+        gtk_h.g_type_module_add_interface(handle(), instanceType.getValue(), interfaceType.getValue(), interfaceInfo.handle());
     }
     
     /**
@@ -76,7 +78,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerEnum(java.lang.String name, EnumValue constStaticValues) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_enum(HANDLE(), Interop.allocateNativeString(name).HANDLE(), constStaticValues.HANDLE());
+        var RESULT = gtk_h.g_type_module_register_enum(handle(), Interop.allocateNativeString(name).handle(), constStaticValues.handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -93,7 +95,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerFlags(java.lang.String name, FlagsValue constStaticValues) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_flags(HANDLE(), Interop.allocateNativeString(name).HANDLE(), constStaticValues.HANDLE());
+        var RESULT = gtk_h.g_type_module_register_flags(handle(), Interop.allocateNativeString(name).handle(), constStaticValues.handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -114,7 +116,7 @@ public class TypeModule extends Object implements TypePlugin {
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerType(Type parentType, java.lang.String typeName, TypeInfo typeInfo, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_register_type(HANDLE(), parentType.getValue(), Interop.allocateNativeString(typeName).HANDLE(), typeInfo.HANDLE(), flags);
+        var RESULT = gtk_h.g_type_module_register_type(handle(), parentType.getValue(), Interop.allocateNativeString(typeName).handle(), typeInfo.handle(), flags);
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -122,7 +124,7 @@ public class TypeModule extends Object implements TypePlugin {
      * Sets the name for a #GTypeModule
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.g_type_module_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public class TypeModule extends Object implements TypePlugin {
      * initialized, it must exist forever.)
      */
     public void unuse() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_unuse(HANDLE());
+        gtk_h.g_type_module_unuse(handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public class TypeModule extends Object implements TypePlugin {
      * its prior value.
      */
     public boolean useTypeModule() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_module_use(HANDLE());
+        var RESULT = gtk_h.g_type_module_use(handle());
         return (RESULT != 0);
     }
     

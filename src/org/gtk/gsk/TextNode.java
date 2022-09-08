@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class TextNode extends RenderNode {
      * color glyphs.
      */
     public TextNode(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_new(font.HANDLE(), glyphs.HANDLE(), color.HANDLE(), offset.HANDLE()), true));
+        super(References.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true));
     }
     
     /**
      * Retrieves the color used by the text @node.
      */
     public org.gtk.gdk.RGBA getColor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_color(HANDLE());
+        var RESULT = gtk_h.gsk_text_node_get_color(handle());
         return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class TextNode extends RenderNode {
      * Returns the font used by the text @node.
      */
     public org.pango.Font getFont() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_font(HANDLE());
+        var RESULT = gtk_h.gsk_text_node_get_font(handle());
         return new org.pango.Font(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class TextNode extends RenderNode {
      * Retrieves the number of glyphs in the text node.
      */
     public int getNumGlyphs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_num_glyphs(HANDLE());
+        var RESULT = gtk_h.gsk_text_node_get_num_glyphs(handle());
         return RESULT;
     }
     
@@ -57,7 +59,7 @@ public class TextNode extends RenderNode {
      * Retrieves the offset applied to the text.
      */
     public org.gtk.graphene.Point getOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_offset(HANDLE());
+        var RESULT = gtk_h.gsk_text_node_get_offset(handle());
         return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
@@ -65,7 +67,7 @@ public class TextNode extends RenderNode {
      * Checks whether the text @node has color glyphs.
      */
     public boolean hasColorGlyphs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_has_color_glyphs(HANDLE());
+        var RESULT = gtk_h.gsk_text_node_has_color_glyphs(handle());
         return (RESULT != 0);
     }
     

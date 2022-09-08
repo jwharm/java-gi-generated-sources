@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -63,7 +65,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
      * function outside of the GObject type system itself.
      */
     public default void completeInterfaceInfo(Type instanceType, Type interfaceType, InterfaceInfo info) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_plugin_complete_interface_info(HANDLE(), instanceType.getValue(), interfaceType.getValue(), info.HANDLE());
+        gtk_h.g_type_plugin_complete_interface_info(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
     }
     
     /**
@@ -72,7 +74,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
      * type system itself.
      */
     public default void completeTypeInfo(Type gType, TypeInfo info, TypeValueTable valueTable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_plugin_complete_type_info(HANDLE(), gType.getValue(), info.HANDLE(), valueTable.HANDLE());
+        gtk_h.g_type_plugin_complete_type_info(handle(), gType.getValue(), info.handle(), valueTable.handle());
     }
     
     /**
@@ -81,7 +83,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
      * the GObject type system itself.
      */
     public default void unuse() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_plugin_unuse(HANDLE());
+        gtk_h.g_type_plugin_unuse(handle());
     }
     
     /**
@@ -90,7 +92,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
      * the GObject type system itself.
      */
     public default void use() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_plugin_use(HANDLE());
+        gtk_h.g_type_plugin_use(handle());
     }
     
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {

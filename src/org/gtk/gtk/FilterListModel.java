@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,14 +34,14 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * @filter.
      */
     public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_new(model.getReference().unowned().HANDLE(), filter.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_filter_list_model_new(model.getReference().unowned().handle(), filter.getReference().unowned().handle()), true));
     }
     
     /**
      * Gets the `GtkFilter` currently set on @self.
      */
     public Filter getFilter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_filter(HANDLE());
+        var RESULT = gtk_h.gtk_filter_list_model_get_filter(handle());
         return new Filter(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * See [method@Gtk.FilterListModel.set_incremental].
      */
     public boolean getIncremental() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_incremental(HANDLE());
+        var RESULT = gtk_h.gtk_filter_list_model_get_incremental(handle());
         return (RESULT != 0);
     }
     
@@ -57,7 +59,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * Gets the model currently filtered or %NULL if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_filter_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * function returns 0.
      */
     public int getPending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_pending(HANDLE());
+        var RESULT = gtk_h.gtk_filter_list_model_get_pending(handle());
         return RESULT;
     }
     
@@ -88,7 +90,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * Sets the filter used to filter items.
      */
     public void setFilter(Filter filter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_set_filter(HANDLE(), filter.HANDLE());
+        gtk_h.gtk_filter_list_model_set_filter(handle(), filter.handle());
     }
     
     /**
@@ -110,7 +112,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * about an ongoing incremental filtering operation.
      */
     public void setIncremental(boolean incremental) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_set_incremental(HANDLE(), incremental ? 1 : 0);
+        gtk_h.gtk_filter_list_model_set_incremental(handle(), incremental ? 1 : 0);
     }
     
     /**
@@ -122,7 +124,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * types match.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_filter_list_model_set_model(handle(), model.handle());
     }
     
 }

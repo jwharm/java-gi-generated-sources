@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class ScriptIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Pango.ScriptIter.free].
      */
     public ScriptIter(java.lang.String text, int length) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).HANDLE(), length), true));
+        super(References.get(gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).handle(), length), true));
     }
     
     /**
      * Frees a `PangoScriptIter`.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_free(HANDLE());
+        gtk_h.pango_script_iter_free(handle());
     }
     
     /**
@@ -41,7 +43,7 @@ public class ScriptIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * and %FALSE is returned.
      */
     public boolean next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_next(HANDLE());
+        var RESULT = gtk_h.pango_script_iter_next(handle());
         return (RESULT != 0);
     }
     

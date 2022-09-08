@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class TouchpadEvent extends Event {
      * Extracts the touchpad gesture phase from a touchpad event.
      */
     public TouchpadGesturePhase getGesturePhase() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_touchpad_event_get_gesture_phase(HANDLE());
+        var RESULT = gtk_h.gdk_touchpad_event_get_gesture_phase(handle());
         return TouchpadGesturePhase.fromValue(RESULT);
     }
     
@@ -36,7 +38,7 @@ public class TouchpadEvent extends Event {
      * Extracts the number of fingers from a touchpad event.
      */
     public int getNFingers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_touchpad_event_get_n_fingers(HANDLE());
+        var RESULT = gtk_h.gdk_touchpad_event_get_n_fingers(handle());
         return RESULT;
     }
     
@@ -44,7 +46,7 @@ public class TouchpadEvent extends Event {
      * Extracts the angle delta from a touchpad pinch event.
      */
     public double getPinchAngleDelta() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_touchpad_event_get_pinch_angle_delta(HANDLE());
+        var RESULT = gtk_h.gdk_touchpad_event_get_pinch_angle_delta(handle());
         return RESULT;
     }
     
@@ -52,7 +54,7 @@ public class TouchpadEvent extends Event {
      * Extracts the scale from a touchpad pinch event.
      */
     public double getPinchScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_touchpad_event_get_pinch_scale(HANDLE());
+        var RESULT = gtk_h.gdk_touchpad_event_get_pinch_scale(handle());
         return RESULT;
     }
     

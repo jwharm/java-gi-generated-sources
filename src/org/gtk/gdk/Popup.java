@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,7 +22,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns whether this popup is set to hide on outside clicks.
      */
     public default boolean getAutohide() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_autohide(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_autohide(handle());
         return (RESULT != 0);
     }
     
@@ -28,7 +30,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns the parent surface of a popup.
      */
     public default Surface getParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_parent(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_parent(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -36,7 +38,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * Obtains the position of the popup relative to its parent.
      */
     public default int getPositionX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_position_x(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_position_x(handle());
         return RESULT;
     }
     
@@ -44,7 +46,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * Obtains the position of the popup relative to its parent.
      */
     public default int getPositionY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_position_y(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_position_y(handle());
         return RESULT;
     }
     
@@ -55,7 +57,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * or after the [signal@Gdk.Surface::layout] signal is emitted.
      */
     public default Gravity getRectAnchor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_rect_anchor(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_rect_anchor(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -66,7 +68,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * or after the [signal@Gdk.Surface::layout] signal is emitted.
      */
     public default Gravity getSurfaceAnchor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_surface_anchor(HANDLE());
+        var RESULT = gtk_h.gdk_popup_get_surface_anchor(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -88,7 +90,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      * the [signal@Gdk.Surface::layout] signal will not me emitted.
      */
     public default boolean present(int width, int height, PopupLayout layout) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_present(HANDLE(), width, height, layout.HANDLE());
+        var RESULT = gtk_h.gdk_popup_present(handle(), width, height, layout.handle());
         return (RESULT != 0);
     }
     

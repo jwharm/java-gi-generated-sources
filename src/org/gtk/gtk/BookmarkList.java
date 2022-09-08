@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Creates a new `GtkBookmarkList` with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(attributes).HANDLE()), true));
+        super(References.get(gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true));
     }
     
     /**
      * Gets the attributes queried on the children.
      */
     public java.lang.String getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_get_attributes(HANDLE());
+        var RESULT = gtk_h.gtk_bookmark_list_get_attributes(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -46,7 +48,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * this list is loading.
      */
     public java.lang.String getFilename() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_get_filename(HANDLE());
+        var RESULT = gtk_h.gtk_bookmark_list_get_filename(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -54,7 +56,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Gets the IO priority to use while loading file.
      */
     public int getIoPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_get_io_priority(HANDLE());
+        var RESULT = gtk_h.gtk_bookmark_list_get_io_priority(handle());
         return RESULT;
     }
     
@@ -66,7 +68,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * in between runs.
      */
     public boolean isLoading() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_is_loading(HANDLE());
+        var RESULT = gtk_h.gtk_bookmark_list_is_loading(handle());
         return (RESULT != 0);
     }
     
@@ -77,7 +79,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * of `GFileInfo`s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_set_attributes(HANDLE(), Interop.allocateNativeString(attributes).HANDLE());
+        gtk_h.gtk_bookmark_list_set_attributes(handle(), Interop.allocateNativeString(attributes).handle());
     }
     
     /**
@@ -86,7 +88,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * The default IO priority is %G_PRIORITY_DEFAULT.
      */
     public void setIoPriority(int ioPriority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_set_io_priority(HANDLE(), ioPriority);
+        gtk_h.gtk_bookmark_list_set_io_priority(handle(), ioPriority);
     }
     
 }

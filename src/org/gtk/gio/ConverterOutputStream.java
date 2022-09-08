@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,14 +29,14 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
      * Creates a new converter output stream for the @base_stream.
      */
     public ConverterOutputStream(OutputStream baseStream, Converter converter) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_output_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
+        super(References.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true));
     }
     
     /**
      * Gets the #GConverter that is used by @converter_stream.
      */
     public Converter getConverter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_output_stream_get_converter(HANDLE());
+        var RESULT = gtk_h.g_converter_output_stream_get_converter(handle());
         return new Converter.ConverterImpl(References.get(RESULT, false));
     }
     

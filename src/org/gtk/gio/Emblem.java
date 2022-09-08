@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,21 +30,21 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      * Creates a new emblem for @icon.
      */
     public Emblem(Icon icon) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new(icon.HANDLE()), true));
+        super(References.get(gtk_h.g_emblem_new(icon.handle()), true));
     }
     
     /**
      * Creates a new emblem for @icon.
      */
     public Emblem(Icon icon, EmblemOrigin origin) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_new_with_origin(icon.HANDLE(), origin.getValue()), true));
+        super(References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true));
     }
     
     /**
      * Gives back the icon from @emblem.
      */
     public Icon getIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_get_icon(HANDLE());
+        var RESULT = gtk_h.g_emblem_get_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, false));
     }
     
@@ -50,7 +52,7 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      * Gets the origin of the emblem.
      */
     public EmblemOrigin getOrigin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblem_get_origin(HANDLE());
+        var RESULT = gtk_h.g_emblem_get_origin(handle());
         return EmblemOrigin.fromValue(RESULT);
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -50,14 +52,14 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkEditableLabel` widget.
      */
     public EditableLabel(java.lang.String str) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).HANDLE()), false));
+        super(References.get(gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).handle()), false));
     }
     
     /**
      * Returns whether the label is currently in “editing mode”.
      */
     public boolean getEditing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_get_editing(HANDLE());
+        var RESULT = gtk_h.gtk_editable_label_get_editing(handle());
         return (RESULT != 0);
     }
     
@@ -65,7 +67,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * Switches the label into “editing mode”.
      */
     public void startEditing() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_start_editing(HANDLE());
+        gtk_h.gtk_editable_label_start_editing(handle());
     }
     
     /**
@@ -77,7 +79,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * previous [property@Gtk.Editable:text] property value.
      */
     public void stopEditing(boolean commit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_stop_editing(HANDLE(), commit ? 1 : 0);
+        gtk_h.gtk_editable_label_stop_editing(handle(), commit ? 1 : 0);
     }
     
 }

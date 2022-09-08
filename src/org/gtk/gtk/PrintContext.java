@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -92,7 +94,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * `GtkPrintContext`.
      */
     public org.pango.Context createPangoContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_create_pango_context(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_create_pango_context(handle());
         return new org.pango.Context(References.get(RESULT, true));
     }
     
@@ -101,7 +103,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * with the `GtkPrintContext`.
      */
     public org.pango.Layout createPangoLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_create_pango_layout(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_create_pango_layout(handle());
         return new org.pango.Layout(References.get(RESULT, true));
     }
     
@@ -110,7 +112,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * `GtkPrintContext`.
      */
     public org.cairographics.Context getCairoContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_cairo_context(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_cairo_context(handle());
         return new org.cairographics.Context(References.get(RESULT, false));
     }
     
@@ -119,7 +121,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * in dots per inch.
      */
     public double getDpiX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_dpi_x(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_dpi_x(handle());
         return RESULT;
     }
     
@@ -128,7 +130,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * in dots per inch.
      */
     public double getDpiY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_dpi_y(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_dpi_y(handle());
         return RESULT;
     }
     
@@ -136,7 +138,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * Obtains the height of the `GtkPrintContext`, in pixels.
      */
     public double getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_height(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_height(handle());
         return RESULT;
     }
     
@@ -145,7 +147,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * dimensions of the `GtkPrintContext`.
      */
     public PageSetup getPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_page_setup(handle());
         return new PageSetup(References.get(RESULT, false));
     }
     
@@ -154,7 +156,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * with the `GtkPrintContext`.
      */
     public org.pango.FontMap getPangoFontmap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_pango_fontmap(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_pango_fontmap(handle());
         return new org.pango.FontMap(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * Obtains the width of the `GtkPrintContext`, in pixels.
      */
     public double getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_get_width(HANDLE());
+        var RESULT = gtk_h.gtk_print_context_get_width(handle());
         return RESULT;
     }
     
@@ -175,7 +177,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * case.
      */
     public void setCairoContext(org.cairographics.Context cr, double dpiX, double dpiY) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_context_set_cairo_context(HANDLE(), cr.HANDLE(), dpiX, dpiY);
+        gtk_h.gtk_print_context_set_cairo_context(handle(), cr.handle(), dpiX, dpiY);
     }
     
 }

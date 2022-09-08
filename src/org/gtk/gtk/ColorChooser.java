@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,21 +39,21 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
      * If @colors is %NULL, removes all previously added palettes.
      */
     public default void addPalette(Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_add_palette(HANDLE(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors));
+        gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors));
     }
     
     /**
      * Gets the currently-selected color.
      */
     public default void getRgba(org.gtk.gdk.RGBA color) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_get_rgba(HANDLE(), color.HANDLE());
+        gtk_h.gtk_color_chooser_get_rgba(handle(), color.handle());
     }
     
     /**
      * Returns whether the color chooser shows the alpha channel.
      */
     public default boolean getUseAlpha() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_get_use_alpha(HANDLE());
+        var RESULT = gtk_h.gtk_color_chooser_get_use_alpha(handle());
         return (RESULT != 0);
     }
     
@@ -59,14 +61,14 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
      * Sets the color.
      */
     public default void setRgba(org.gtk.gdk.RGBA color) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_set_rgba(HANDLE(), color.HANDLE());
+        gtk_h.gtk_color_chooser_set_rgba(handle(), color.handle());
     }
     
     /**
      * Sets whether or not the color chooser should use the alpha channel.
      */
     public default void setUseAlpha(boolean useAlpha) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_set_use_alpha(HANDLE(), useAlpha ? 1 : 0);
+        gtk_h.gtk_color_chooser_set_use_alpha(handle(), useAlpha ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -85,12 +87,12 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorChooserColorActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("color-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("color-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

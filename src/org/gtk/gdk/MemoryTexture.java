@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Ico
      * in the given format.
      */
     public MemoryTexture(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.HANDLE(), stride), true));
+        super(References.get(gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.handle(), stride), true));
     }
     
 }

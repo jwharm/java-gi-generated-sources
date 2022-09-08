@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,14 +39,14 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkStackSidebar`.
      */
     public StackSidebar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_new(), false));
+        super(References.get(gtk_h.gtk_stack_sidebar_new(), false));
     }
     
     /**
      * Retrieves the stack.
      */
     public Stack getStack() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_get_stack(HANDLE());
+        var RESULT = gtk_h.gtk_stack_sidebar_get_stack(handle());
         return new Stack(References.get(RESULT, false));
     }
     
@@ -55,7 +57,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      * the order and items within the given `GtkStack`.
      */
     public void setStack(Stack stack) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_set_stack(HANDLE(), stack.HANDLE());
+        gtk_h.gtk_stack_sidebar_set_stack(handle(), stack.handle());
     }
     
 }

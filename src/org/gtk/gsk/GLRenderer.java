@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,7 +22,7 @@ public class GLRenderer extends Renderer {
      * Creates a new `GskRenderer` using the new OpenGL renderer.
      */
     public GLRenderer() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_renderer_new(), true));
+        super(References.get(gtk_h.gsk_gl_renderer_new(), true));
     }
     
 }

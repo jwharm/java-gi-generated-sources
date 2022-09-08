@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -71,14 +73,14 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Creates a new calendar, with the current date being selected.
      */
     public Calendar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_new(), false));
+        super(References.get(gtk_h.gtk_calendar_new(), false));
     }
     
     /**
      * Remove all visual markers.
      */
     public void clearMarks() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_clear_marks(HANDLE());
+        gtk_h.gtk_calendar_clear_marks(handle());
     }
     
     /**
@@ -88,7 +90,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * The returned date is in the local time zone.
      */
     public org.gtk.glib.DateTime getDate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_date(HANDLE());
+        var RESULT = gtk_h.gtk_calendar_get_date(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
@@ -96,7 +98,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Returns if the @day of the @calendar is already marked.
      */
     public boolean getDayIsMarked(int day) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_day_is_marked(HANDLE(), day);
+        var RESULT = gtk_h.gtk_calendar_get_day_is_marked(handle(), day);
         return (RESULT != 0);
     }
     
@@ -108,7 +110,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowDayNames() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_show_day_names(HANDLE());
+        var RESULT = gtk_h.gtk_calendar_get_show_day_names(handle());
         return (RESULT != 0);
     }
     
@@ -119,7 +121,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowHeading() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_show_heading(HANDLE());
+        var RESULT = gtk_h.gtk_calendar_get_show_heading(handle());
         return (RESULT != 0);
     }
     
@@ -131,7 +133,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowWeekNumbers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_show_week_numbers(HANDLE());
+        var RESULT = gtk_h.gtk_calendar_get_show_week_numbers(handle());
         return (RESULT != 0);
     }
     
@@ -139,21 +141,21 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Places a visual marker on a particular day.
      */
     public void markDay(int day) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_mark_day(HANDLE(), day);
+        gtk_h.gtk_calendar_mark_day(handle(), day);
     }
     
     /**
      * Switches to @date's year and month and select its day.
      */
     public void selectDay(org.gtk.glib.DateTime date) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_select_day(HANDLE(), date.HANDLE());
+        gtk_h.gtk_calendar_select_day(handle(), date.handle());
     }
     
     /**
      * Sets whether the calendar shows day names.
      */
     public void setShowDayNames(boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_set_show_day_names(HANDLE(), value ? 1 : 0);
+        gtk_h.gtk_calendar_set_show_day_names(handle(), value ? 1 : 0);
     }
     
     /**
@@ -163,21 +165,21 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * buttons for changing both.
      */
     public void setShowHeading(boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_set_show_heading(HANDLE(), value ? 1 : 0);
+        gtk_h.gtk_calendar_set_show_heading(handle(), value ? 1 : 0);
     }
     
     /**
      * Sets whether week numbers are shown in the calendar.
      */
     public void setShowWeekNumbers(boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_set_show_week_numbers(HANDLE(), value ? 1 : 0);
+        gtk_h.gtk_calendar_set_show_week_numbers(handle(), value ? 1 : 0);
     }
     
     /**
      * Removes the visual marker from a particular day.
      */
     public void unmarkDay(int day) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_unmark_day(HANDLE(), day);
+        gtk_h.gtk_calendar_unmark_day(handle(), day);
     }
     
     @FunctionalInterface
@@ -192,12 +194,12 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCalendarDaySelected", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("day-selected").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("day-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -215,12 +217,12 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCalendarNextMonth", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("next-month").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("next-month").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -238,12 +240,12 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCalendarNextYear", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("next-year").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("next-year").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -261,12 +263,12 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCalendarPrevMonth", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("prev-month").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("prev-month").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -284,12 +286,12 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCalendarPrevYear", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("prev-year").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("prev-year").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

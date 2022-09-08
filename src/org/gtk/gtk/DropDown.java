@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +54,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * to set up a way to map its items to widgets.
      */
     public DropDown(org.gtk.gio.ListModel model, Expression expression) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new(model.getReference().unowned().HANDLE(), expression.getReference().unowned().HANDLE()), false));
+        super(References.get(gtk_h.gtk_drop_down_new(model.getReference().unowned().handle(), expression.getReference().unowned().handle()), false));
     }
     
     /**
@@ -60,14 +62,14 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * the strings.
      */
     public DropDown(java.lang.String[] strings) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings)), false));
+        super(References.get(gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings)), false));
     }
     
     /**
      * Returns whether search is enabled.
      */
     public boolean getEnableSearch() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_enable_search(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_enable_search(handle());
         return (RESULT != 0);
     }
     
@@ -77,7 +79,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * See [method@Gtk.DropDown.set_expression].
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -89,7 +91,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * if [property@Gtk.DropDown:list-factory] is not set.
      */
     public ListItemFactory getFactory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_factory(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_factory(handle());
         return new ListItemFactory(References.get(RESULT, false));
     }
     
@@ -97,7 +99,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Gets the factory that's currently used to populate list items in the popup.
      */
     public ListItemFactory getListFactory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_list_factory(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_list_factory(handle());
         return new ListItemFactory(References.get(RESULT, false));
     }
     
@@ -105,7 +107,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Gets the model that provides the displayed items.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -113,7 +115,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Gets the position of the selected item.
      */
     public int getSelected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_selected(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_selected(handle());
         return RESULT;
     }
     
@@ -121,7 +123,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Gets the selected item. If no item is selected, %NULL is returned.
      */
     public org.gtk.gobject.Object getSelectedItem() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_selected_item(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_selected_item(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
@@ -129,7 +131,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Returns whether to show an arrow within the widget.
      */
     public boolean getShowArrow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_get_show_arrow(HANDLE());
+        var RESULT = gtk_h.gtk_drop_down_get_show_arrow(handle());
         return (RESULT != 0);
     }
     
@@ -141,7 +143,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * search to work.
      */
     public void setEnableSearch(boolean enableSearch) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_enable_search(HANDLE(), enableSearch ? 1 : 0);
+        gtk_h.gtk_drop_down_set_enable_search(handle(), enableSearch ? 1 : 0);
     }
     
     /**
@@ -151,42 +153,42 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * a value type of %G_TYPE_STRING.
      */
     public void setExpression(Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_expression(HANDLE(), expression.HANDLE());
+        gtk_h.gtk_drop_down_set_expression(handle(), expression.handle());
     }
     
     /**
      * Sets the `GtkListItemFactory` to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_factory(HANDLE(), factory.HANDLE());
+        gtk_h.gtk_drop_down_set_factory(handle(), factory.handle());
     }
     
     /**
      * Sets the `GtkListItemFactory` to use for populating list items in the popup.
      */
     public void setListFactory(ListItemFactory factory) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_list_factory(HANDLE(), factory.HANDLE());
+        gtk_h.gtk_drop_down_set_list_factory(handle(), factory.handle());
     }
     
     /**
      * Sets the `GListModel` to use.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_drop_down_set_model(handle(), model.handle());
     }
     
     /**
      * Selects the item at the given position.
      */
     public void setSelected(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_selected(HANDLE(), position);
+        gtk_h.gtk_drop_down_set_selected(handle(), position);
     }
     
     /**
      * Sets whether an arrow will be displayed within the widget.
      */
     public void setShowArrow(boolean showArrow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_down_set_show_arrow(HANDLE(), showArrow ? 1 : 0);
+        gtk_h.gtk_drop_down_set_show_arrow(handle(), showArrow ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -204,12 +206,12 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropDownActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

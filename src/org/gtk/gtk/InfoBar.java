@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -95,7 +97,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkInfoBar` object.
      */
     public InfoBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_new(), false));
+        super(References.get(gtk_h.gtk_info_bar_new(), false));
     }
     
     /**
@@ -107,7 +109,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * end of the message areas action area.
      */
     public void addActionWidget(Widget child, int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_action_widget(HANDLE(), child.HANDLE(), responseId);
+        gtk_h.gtk_info_bar_add_action_widget(handle(), child.handle(), responseId);
     }
     
     /**
@@ -119,7 +121,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * but usually you don't need it.
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_button(HANDLE(), Interop.allocateNativeString(buttonText).HANDLE(), responseId);
+        var RESULT = gtk_h.gtk_info_bar_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
         return new Button(References.get(RESULT, false));
     }
     
@@ -127,14 +129,14 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Adds a widget to the content area of the info bar.
      */
     public void addChild(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_child(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_info_bar_add_child(handle(), widget.handle());
     }
     
     /**
      * Returns the message type of the message area.
      */
     public MessageType getMessageType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_get_message_type(HANDLE());
+        var RESULT = gtk_h.gtk_info_bar_get_message_type(handle());
         return MessageType.fromValue(RESULT);
     }
     
@@ -142,7 +144,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the info bar is currently revealed.
      */
     public boolean getRevealed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_get_revealed(HANDLE());
+        var RESULT = gtk_h.gtk_info_bar_get_revealed(handle());
         return (RESULT != 0);
     }
     
@@ -150,7 +152,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the widget will display a standard close button.
      */
     public boolean getShowCloseButton() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_get_show_close_button(HANDLE());
+        var RESULT = gtk_h.gtk_info_bar_get_show_close_button(handle());
         return (RESULT != 0);
     }
     
@@ -161,21 +163,21 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * [method@Gtk.InfoBar.add_action_widget] or [method@Gtk.InfoBar.add_button].
      */
     public void removeActionWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_remove_action_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_info_bar_remove_action_widget(handle(), widget.handle());
     }
     
     /**
      * Removes a widget from the content area of the info bar.
      */
     public void removeChild(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_remove_child(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_info_bar_remove_child(handle(), widget.handle());
     }
     
     /**
      * Emits the “response” signal with the given @response_id.
      */
     public void response(int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_response(HANDLE(), responseId);
+        gtk_h.gtk_info_bar_response(handle(), responseId);
     }
     
     /**
@@ -188,7 +190,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * be added to a widget hierarchy.
      */
     public void setDefaultResponse(int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_set_default_response(HANDLE(), responseId);
+        gtk_h.gtk_info_bar_set_default_response(handle(), responseId);
     }
     
     /**
@@ -197,7 +199,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * GTK uses this type to determine how the message is displayed.
      */
     public void setMessageType(MessageType messageType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_set_message_type(HANDLE(), messageType.getValue());
+        gtk_h.gtk_info_bar_set_message_type(handle(), messageType.getValue());
     }
     
     /**
@@ -208,7 +210,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * A convenient way to sensitize/desensitize buttons.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_set_response_sensitive(HANDLE(), responseId, setting ? 1 : 0);
+        gtk_h.gtk_info_bar_set_response_sensitive(handle(), responseId, setting ? 1 : 0);
     }
     
     /**
@@ -222,7 +224,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * if [property@Gtk.Widget:visible] is %FALSE.
      */
     public void setRevealed(boolean revealed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_set_revealed(HANDLE(), revealed ? 1 : 0);
+        gtk_h.gtk_info_bar_set_revealed(handle(), revealed ? 1 : 0);
     }
     
     /**
@@ -231,7 +233,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * When clicked it emits the response %GTK_RESPONSE_CLOSE.
      */
     public void setShowCloseButton(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_set_show_close_button(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_info_bar_set_show_close_button(handle(), setting ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -250,12 +252,12 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalInfoBarClose", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("close").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("close").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -277,12 +279,12 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalInfoBarResponse", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("response").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("response").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

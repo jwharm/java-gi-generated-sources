@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -61,7 +63,7 @@ public class Layout extends org.gtk.gobject.Object {
      * default values for a particular `PangoContext`.
      */
     public Layout(Context context) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_new(context.HANDLE()), true));
+        super(References.get(gtk_h.pango_layout_new(context.handle()), true));
     }
     
     /**
@@ -72,7 +74,7 @@ public class Layout extends org.gtk.gobject.Object {
      * subsequent to creating the layout.
      */
     public void contextChanged() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_context_changed(HANDLE());
+        gtk_h.pango_layout_context_changed(handle());
     }
     
     /**
@@ -82,7 +84,7 @@ public class Layout extends org.gtk.gobject.Object {
      * are all copied by value.
      */
     public Layout copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_copy(HANDLE());
+        var RESULT = gtk_h.pango_layout_copy(handle());
         return new Layout(References.get(RESULT, true));
     }
     
@@ -91,7 +93,7 @@ public class Layout extends org.gtk.gobject.Object {
      * positioned within the horizontal space available.
      */
     public Alignment getAlignment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_alignment(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_alignment(handle());
         return Alignment.fromValue(RESULT);
     }
     
@@ -99,7 +101,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets the attribute list for the layout, if any.
      */
     public AttrList getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_attributes(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_attributes(handle());
         return new AttrList(References.get(RESULT, false));
     }
     
@@ -110,7 +112,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See [method@Pango.Layout.set_auto_dir].
      */
     public boolean getAutoDir() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_auto_dir(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_auto_dir(handle());
         return (RESULT != 0);
     }
     
@@ -118,7 +120,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets the Y position of baseline of the first line in @layout.
      */
     public int getBaseline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_baseline(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_baseline(handle());
         return RESULT;
     }
     
@@ -136,7 +138,7 @@ public class Layout extends org.gtk.gobject.Object {
      * </picture>
      */
     public void getCaretPos(int index, Rectangle strongPos, Rectangle weakPos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_caret_pos(HANDLE(), index, strongPos.HANDLE(), weakPos.HANDLE());
+        gtk_h.pango_layout_get_caret_pos(handle(), index, strongPos.handle(), weakPos.handle());
     }
     
     /**
@@ -144,7 +146,7 @@ public class Layout extends org.gtk.gobject.Object {
      * the text of @layout.
      */
     public int getCharacterCount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_character_count(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_character_count(handle());
         return RESULT;
     }
     
@@ -152,7 +154,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Retrieves the `PangoContext` used for this layout.
      */
     public Context getContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_context(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_context(handle());
         return new Context(References.get(RESULT, false));
     }
     
@@ -186,14 +188,14 @@ public class Layout extends org.gtk.gobject.Object {
      * will insert it at the end.
      */
     public void getCursorPos(int index, Rectangle strongPos, Rectangle weakPos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_cursor_pos(HANDLE(), index, strongPos.HANDLE(), weakPos.HANDLE());
+        gtk_h.pango_layout_get_cursor_pos(handle(), index, strongPos.handle(), weakPos.handle());
     }
     
     /**
      * Gets the text direction at the given character position in @layout.
      */
     public Direction getDirection(int index) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_direction(HANDLE(), index);
+        var RESULT = gtk_h.pango_layout_get_direction(handle(), index);
         return Direction.fromValue(RESULT);
     }
     
@@ -206,7 +208,7 @@ public class Layout extends org.gtk.gobject.Object {
      * paragraphs were actually ellipsized.
      */
     public EllipsizeMode getEllipsize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_ellipsize(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_ellipsize(handle());
         return EllipsizeMode.fromValue(RESULT);
     }
     
@@ -223,14 +225,14 @@ public class Layout extends org.gtk.gobject.Object {
      * coordinates begin at the top left corner of the layout.
      */
     public void getExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_get_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
      * Gets the font description for the layout, if any.
      */
     public FontDescription getFontDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_font_description(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_font_description(handle());
         return new FontDescription(References.get(RESULT, false));
     }
     
@@ -240,7 +242,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See [method@Pango.Layout.set_height] for details.
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_height(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_height(handle());
         return RESULT;
     }
     
@@ -250,7 +252,7 @@ public class Layout extends org.gtk.gobject.Object {
      * A negative value indicates a hanging indentation.
      */
     public int getIndent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_indent(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_indent(handle());
         return RESULT;
     }
     
@@ -258,7 +260,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Returns an iterator to iterate over the visual extents of the layout.
      */
     public LayoutIter getIter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_iter(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_iter(handle());
         return new LayoutIter(References.get(RESULT, true));
     }
     
@@ -267,7 +269,7 @@ public class Layout extends org.gtk.gobject.Object {
      * width of the layout.
      */
     public boolean getJustify() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_justify(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_justify(handle());
         return (RESULT != 0);
     }
     
@@ -276,7 +278,7 @@ public class Layout extends org.gtk.gobject.Object {
      * to fill the entire width of the layout.
      */
     public boolean getJustifyLastLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_justify_last_line(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_justify_last_line(handle());
         return (RESULT != 0);
     }
     
@@ -287,7 +289,7 @@ public class Layout extends org.gtk.gobject.Object {
      * plan to modify the contents of the line (glyphs, glyph widths, etc.).
      */
     public LayoutLine getLine(int line) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line(HANDLE(), line);
+        var RESULT = gtk_h.pango_layout_get_line(handle(), line);
         return new LayoutLine(References.get(RESULT, false));
     }
     
@@ -295,7 +297,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Retrieves the count of lines for the @layout.
      */
     public int getLineCount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line_count(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_line_count(handle());
         return RESULT;
     }
     
@@ -307,7 +309,7 @@ public class Layout extends org.gtk.gobject.Object {
      * (glyphs, glyph widths, etc.).
      */
     public LayoutLine getLineReadonly(int line) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line_readonly(HANDLE(), line);
+        var RESULT = gtk_h.pango_layout_get_line_readonly(handle(), line);
         return new LayoutLine(References.get(RESULT, false));
     }
     
@@ -317,7 +319,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See [method@Pango.Layout.set_line_spacing].
      */
     public float getLineSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line_spacing(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_line_spacing(handle());
         return RESULT;
     }
     
@@ -328,7 +330,7 @@ public class Layout extends org.gtk.gobject.Object {
      * plan to modify the contents of the lines (glyphs, glyph widths, etc.).
      */
     public org.gtk.glib.SList getLines() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_lines(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_lines(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -340,7 +342,7 @@ public class Layout extends org.gtk.gobject.Object {
      * (glyphs, glyph widths, etc.).
      */
     public org.gtk.glib.SList getLinesReadonly() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_lines_readonly(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_lines_readonly(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -353,7 +355,7 @@ public class Layout extends org.gtk.gobject.Object {
      * passes them as first argument to [func@Pango.extents_to_pixels]).
      */
     public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_pixel_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_get_pixel_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -371,7 +373,7 @@ public class Layout extends org.gtk.gobject.Object {
      * [method@Pango.Layout.context_changed].
      */
     public int getSerial() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_serial(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_serial(handle());
         return RESULT;
     }
     
@@ -381,7 +383,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See [method@Pango.Layout.set_single_paragraph_mode].
      */
     public boolean getSingleParagraphMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_single_paragraph_mode(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_single_paragraph_mode(handle());
         return (RESULT != 0);
     }
     
@@ -389,7 +391,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets the amount of spacing between the lines of the layout.
      */
     public int getSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_spacing(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_spacing(handle());
         return RESULT;
     }
     
@@ -402,7 +404,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The return value should be freed with [method@Pango.TabArray.free].
      */
     public TabArray getTabs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_tabs(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_tabs(handle());
         return new TabArray(References.get(RESULT, true));
     }
     
@@ -412,7 +414,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The returned text should not be freed or modified.
      */
     public java.lang.String getText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_text(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -425,7 +427,7 @@ public class Layout extends org.gtk.gobject.Object {
      * certain font supports all the characters in the string.
      */
     public int getUnknownGlyphsCount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_unknown_glyphs_count(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_unknown_glyphs_count(handle());
         return RESULT;
     }
     
@@ -433,7 +435,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets the width to which the lines of the `PangoLayout` should wrap.
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_width(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_width(handle());
         return RESULT;
     }
     
@@ -444,7 +446,7 @@ public class Layout extends org.gtk.gobject.Object {
      * any paragraphs were actually wrapped.
      */
     public WrapMode getWrap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_wrap(HANDLE());
+        var RESULT = gtk_h.pango_layout_get_wrap(handle());
         return WrapMode.fromValue(RESULT);
     }
     
@@ -458,7 +460,7 @@ public class Layout extends org.gtk.gobject.Object {
      * is right-to-left, then `pos->width` will be negative.
      */
     public void indexToPos(int index, Rectangle pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_index_to_pos(HANDLE(), index, pos.HANDLE());
+        gtk_h.pango_layout_index_to_pos(handle(), index, pos.handle());
     }
     
     /**
@@ -470,7 +472,7 @@ public class Layout extends org.gtk.gobject.Object {
      * ellipsized.
      */
     public boolean isEllipsized() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_is_ellipsized(HANDLE());
+        var RESULT = gtk_h.pango_layout_is_ellipsized(handle());
         return (RESULT != 0);
     }
     
@@ -483,7 +485,7 @@ public class Layout extends org.gtk.gobject.Object {
      * to be wrapped.
      */
     public boolean isWrapped() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_is_wrapped(HANDLE());
+        var RESULT = gtk_h.pango_layout_is_wrapped(handle());
         return (RESULT != 0);
     }
     
@@ -498,7 +500,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The format is not meant as a permanent storage format.
      */
     public org.gtk.glib.Bytes serialize(int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_serialize(HANDLE(), flags);
+        var RESULT = gtk_h.pango_layout_serialize(handle(), flags);
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -509,7 +511,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default alignment is %PANGO_ALIGN_LEFT.
      */
     public void setAlignment(Alignment alignment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_alignment(HANDLE(), alignment.getValue());
+        gtk_h.pango_layout_set_alignment(handle(), alignment.getValue());
     }
     
     /**
@@ -518,7 +520,7 @@ public class Layout extends org.gtk.gobject.Object {
      * References @attrs, so the caller can unref its reference.
      */
     public void setAttributes(AttrList attrs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_attributes(HANDLE(), attrs.HANDLE());
+        gtk_h.pango_layout_set_attributes(handle(), attrs.handle());
     }
     
     /**
@@ -540,7 +542,7 @@ public class Layout extends org.gtk.gobject.Object {
      * %PANGO_ALIGN_LEFT and %PANGO_ALIGN_RIGHT are swapped.
      */
     public void setAutoDir(boolean autoDir) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_auto_dir(HANDLE(), autoDir ? 1 : 0);
+        gtk_h.pango_layout_set_auto_dir(handle(), autoDir ? 1 : 0);
     }
     
     /**
@@ -561,7 +563,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See [method@Pango.Layout.set_height] for details.
      */
     public void setEllipsize(EllipsizeMode ellipsize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_ellipsize(HANDLE(), ellipsize.getValue());
+        gtk_h.pango_layout_set_ellipsize(handle(), ellipsize.getValue());
     }
     
     /**
@@ -571,7 +573,7 @@ public class Layout extends org.gtk.gobject.Object {
      * font description from the layout's context is used.
      */
     public void setFontDescription(FontDescription desc) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_font_description(HANDLE(), desc.HANDLE());
+        gtk_h.pango_layout_set_font_description(handle(), desc.handle());
     }
     
     /**
@@ -602,7 +604,7 @@ public class Layout extends org.gtk.gobject.Object {
      * future.
      */
     public void setHeight(int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_height(HANDLE(), height);
+        gtk_h.pango_layout_set_height(handle(), height);
     }
     
     /**
@@ -618,7 +620,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is 0.
      */
     public void setIndent(int indent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_indent(HANDLE(), indent);
+        gtk_h.pango_layout_set_indent(handle(), indent);
     }
     
     /**
@@ -641,7 +643,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Also see [method@Pango.Layout.set_justify_last_line].
      */
     public void setJustify(boolean justify) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_justify(HANDLE(), justify ? 1 : 0);
+        gtk_h.pango_layout_set_justify(handle(), justify ? 1 : 0);
     }
     
     /**
@@ -654,7 +656,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is %FALSE.
      */
     public void setJustifyLastLine(boolean justify) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_justify_last_line(HANDLE(), justify ? 1 : 0);
+        gtk_h.pango_layout_set_justify_last_line(handle(), justify ? 1 : 0);
     }
     
     /**
@@ -676,7 +678,7 @@ public class Layout extends org.gtk.gobject.Object {
      * property, see [func@Pango.attr_line_height_new].
      */
     public void setLineSpacing(float factor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_line_spacing(HANDLE(), factor);
+        gtk_h.pango_layout_set_line_spacing(handle(), factor);
     }
     
     /**
@@ -690,7 +692,7 @@ public class Layout extends org.gtk.gobject.Object {
      * but the markup text isn't scanned for accelerators.
      */
     public void setMarkup(java.lang.String markup, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE(), length);
+        gtk_h.pango_layout_set_markup(handle(), Interop.allocateNativeString(markup).handle(), length);
     }
     
     /**
@@ -704,7 +706,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is %FALSE.
      */
     public void setSingleParagraphMode(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_single_paragraph_mode(HANDLE(), setting ? 1 : 0);
+        gtk_h.pango_layout_set_single_paragraph_mode(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -726,7 +728,7 @@ public class Layout extends org.gtk.gobject.Object {
      * property, see [func@Pango.attr_line_height_new].
      */
     public void setSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_spacing(HANDLE(), spacing);
+        gtk_h.pango_layout_set_spacing(handle(), spacing);
     }
     
     /**
@@ -745,7 +747,7 @@ public class Layout extends org.gtk.gobject.Object {
      * %PANGO_ALIGN_LEFT.
      */
     public void setTabs(TabArray tabs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_tabs(HANDLE(), tabs.HANDLE());
+        gtk_h.pango_layout_set_tabs(handle(), tabs.handle());
     }
     
     /**
@@ -761,7 +763,7 @@ public class Layout extends org.gtk.gobject.Object {
      * not clear attributes.
      */
     public void setText(java.lang.String text, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE(), length);
+        gtk_h.pango_layout_set_text(handle(), Interop.allocateNativeString(text).handle(), length);
     }
     
     /**
@@ -771,7 +773,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is -1: no width set.
      */
     public void setWidth(int width) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_width(HANDLE(), width);
+        gtk_h.pango_layout_set_width(handle(), width);
     }
     
     /**
@@ -784,7 +786,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is %PANGO_WRAP_WORD.
      */
     public void setWrap(WrapMode wrap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_set_wrap(HANDLE(), wrap.getValue());
+        gtk_h.pango_layout_set_wrap(handle(), wrap.getValue());
     }
     
     /**
@@ -800,7 +802,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public boolean writeToFile(int flags, java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_write_to_file(HANDLE(), flags, Interop.allocateNativeString(filename).HANDLE(), GERROR);
+        var RESULT = gtk_h.pango_layout_write_to_file(handle(), flags, Interop.allocateNativeString(filename).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -107,7 +109,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * Get the ID of @schema.
      */
     public java.lang.String getId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_id(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_get_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -118,7 +120,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * g_settings_schema_list_keys().
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_key(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_settings_schema_get_key(handle(), Interop.allocateNativeString(name).handle());
         return new SettingsSchemaKey(References.get(RESULT, true));
     }
     
@@ -134,7 +136,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * relocatable schemas, this function will return %NULL.
      */
     public java.lang.String getPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_path(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_get_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -142,7 +144,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if @schema has a key named @name.
      */
     public boolean hasKey(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_has_key(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_settings_schema_has_key(handle(), Interop.allocateNativeString(name).handle());
         return (RESULT != 0);
     }
     
@@ -150,7 +152,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * Increase the reference count of @schema, returning a new reference.
      */
     public SettingsSchema ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_ref(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_ref(handle());
         return new SettingsSchema(References.get(RESULT, true));
     }
     
@@ -158,7 +160,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      * Decrease the reference count of @schema, possibly freeing it.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_unref(HANDLE());
+        gtk_h.g_settings_schema_unref(handle());
     }
     
 }

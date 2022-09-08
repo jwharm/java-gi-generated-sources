@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -48,7 +50,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * `<` and `&gt;` instead of `>`.
      */
     public ShortcutTrigger(java.lang.String string) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**
@@ -58,7 +60,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * They must each be a `GtkShortcutTrigger`.
      */
     public int compare(ShortcutTrigger trigger2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_compare(HANDLE(), trigger2.HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_compare(handle(), trigger2.handle());
         return RESULT;
     }
     
@@ -69,7 +71,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * function with `GHashTable`. They must each be a `GtkShortcutTrigger`.
      */
     public boolean equal(ShortcutTrigger trigger2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_equal(HANDLE(), trigger2.HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_equal(handle(), trigger2.handle());
         return (RESULT != 0);
     }
     
@@ -85,7 +87,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * function with `GHashTable`. They must each be a `GtkShortcutTrigger`.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_hash(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_hash(handle());
         return RESULT;
     }
     
@@ -97,7 +99,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * and is not guaranteed to stay identical.
      */
     public void print(org.gtk.glib.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_print(HANDLE(), string.HANDLE());
+        gtk_h.gtk_shortcut_trigger_print(handle(), string.handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * not guaranteed to stay identical.
      */
     public boolean printLabel(org.gtk.gdk.Display display, org.gtk.glib.String string) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_print_label(HANDLE(), display.HANDLE(), string.HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_print_label(handle(), display.handle(), string.handle());
         return (RESULT != 0);
     }
     
@@ -133,7 +135,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * not guaranteed to stay identical.
      */
     public java.lang.String toLabel(org.gtk.gdk.Display display) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_to_label(HANDLE(), display.HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_to_label(handle(), display.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -144,7 +146,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * to help when debugging.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_to_string(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_trigger_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -152,7 +154,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * Checks if the given @event triggers @self.
      */
     public org.gtk.gdk.KeyMatch trigger(org.gtk.gdk.Event event, boolean enableMnemonics) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_trigger(HANDLE(), event.HANDLE(), enableMnemonics ? 1 : 0);
+        var RESULT = gtk_h.gtk_shortcut_trigger_trigger(handle(), event.handle(), enableMnemonics ? 1 : 0);
         return org.gtk.gdk.KeyMatch.fromValue(RESULT);
     }
     

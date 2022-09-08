@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -87,7 +89,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * instead.
      */
     public RecentManager() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_new(), true));
+        super(References.get(gtk_h.gtk_recent_manager_new(), true));
     }
     
     /**
@@ -112,7 +114,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * applications that have registered it.
      */
     public boolean addFull(java.lang.String uri, RecentData recentData) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_add_full(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), recentData.HANDLE());
+        var RESULT = gtk_h.gtk_recent_manager_add_full(handle(), Interop.allocateNativeString(uri).handle(), recentData.handle());
         return (RESULT != 0);
     }
     
@@ -128,7 +130,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * define the metadata for the resource pointed by @uri.
      */
     public boolean addItem(java.lang.String uri) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_add_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
+        var RESULT = gtk_h.gtk_recent_manager_add_item(handle(), Interop.allocateNativeString(uri).handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * Gets the list of recently used resources.
      */
     public org.gtk.glib.List getItems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_get_items(HANDLE());
+        var RESULT = gtk_h.gtk_recent_manager_get_items(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -145,7 +147,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * with @uri inside the recent manager.
      */
     public boolean hasItem(java.lang.String uri) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_has_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
+        var RESULT = gtk_h.gtk_recent_manager_has_item(handle(), Interop.allocateNativeString(uri).handle());
         return (RESULT != 0);
     }
     
@@ -156,7 +158,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public RecentInfo lookupItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_lookup_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_recent_manager_lookup_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -171,7 +173,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean moveItem(java.lang.String uri, java.lang.String newUri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_move_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(newUri).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_recent_manager_move_item(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -183,7 +185,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public int purgeItems() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_purge_items(HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_recent_manager_purge_items(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -196,7 +198,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_remove_item(HANDLE(), Interop.allocateNativeString(uri).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_recent_manager_remove_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -219,12 +221,12 @@ public class RecentManager extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRecentManagerChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

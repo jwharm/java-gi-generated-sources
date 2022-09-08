@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,14 +27,14 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * selected items from the underlying selection model.
      */
     public SelectionFilterModel(SelectionModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_new(model.HANDLE()), true));
+        super(References.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true));
     }
     
     /**
      * Gets the model currently filtered or %NULL if none.
      */
     public SelectionModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_selection_filter_model_get_model(handle());
         return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
@@ -45,7 +47,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * types match.
      */
     public void setModel(SelectionModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_selection_filter_model_set_model(handle(), model.handle());
     }
     
 }

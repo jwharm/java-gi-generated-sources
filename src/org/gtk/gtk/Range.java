@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Get the adjustment which is the “model” object for `GtkRange`.
      */
     public Adjustment getAdjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_adjustment(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_adjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the current position of the fill level indicator.
      */
     public double getFillLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_fill_level(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_fill_level(handle());
         return RESULT;
     }
     
@@ -49,7 +51,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Range.set_flippable].
      */
     public boolean getFlippable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_flippable(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_flippable(handle());
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Range.set_inverted].
      */
     public boolean getInverted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_inverted(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_inverted(handle());
         return (RESULT != 0);
     }
     
@@ -70,14 +72,14 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is useful mainly for `GtkRange` subclasses.
      */
     public void getRangeRect(org.gtk.gdk.Rectangle rangeRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_range_rect(HANDLE(), rangeRect.HANDLE());
+        gtk_h.gtk_range_get_range_rect(handle(), rangeRect.handle());
     }
     
     /**
      * Gets whether the range is restricted to the fill level.
      */
     public boolean getRestrictToFillLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_restrict_to_fill_level(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_restrict_to_fill_level(handle());
         return (RESULT != 0);
     }
     
@@ -88,7 +90,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [signal@Gtk.Range::change-value].
      */
     public int getRoundDigits() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_round_digits(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_round_digits(handle());
         return RESULT;
     }
     
@@ -96,7 +98,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets whether the range displays the fill level graphically.
      */
     public boolean getShowFillLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_show_fill_level(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_show_fill_level(handle());
         return (RESULT != 0);
     }
     
@@ -106,7 +108,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Range.set_slider_size_fixed].
      */
     public boolean getSliderSizeFixed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_slider_size_fixed(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_slider_size_fixed(handle());
         return (RESULT != 0);
     }
     
@@ -114,7 +116,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the current value of the range.
      */
     public double getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_range_get_value(handle());
         return RESULT;
     }
     
@@ -130,7 +132,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * The page size affects the size of the scrollbar slider.
      */
     public void setAdjustment(Adjustment adjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_adjustment(HANDLE(), adjustment.HANDLE());
+        gtk_h.gtk_range_set_adjustment(handle(), adjustment.handle());
     }
     
     /**
@@ -153,7 +155,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * enabled.
      */
     public void setFillLevel(double fillLevel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_fill_level(HANDLE(), fillLevel);
+        gtk_h.gtk_range_set_fill_level(handle(), fillLevel);
     }
     
     /**
@@ -165,7 +167,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [method@Gtk.Widget.get_direction].
      */
     public void setFlippable(boolean flippable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_flippable(HANDLE(), flippable ? 1 : 0);
+        gtk_h.gtk_range_set_flippable(handle(), flippable ? 1 : 0);
     }
     
     /**
@@ -176,7 +178,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * is used for example when moving via Page Up or Page Down keys.
      */
     public void setIncrements(double step, double page) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_increments(HANDLE(), step, page);
+        gtk_h.gtk_range_set_increments(handle(), step, page);
     }
     
     /**
@@ -188,7 +190,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * than on the bottom or left.
      */
     public void setInverted(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_inverted(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_range_set_inverted(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -199,7 +201,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * between @min and @max - page-size.)
      */
     public void setRange(double min, double max) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_range(HANDLE(), min, max);
+        gtk_h.gtk_range_set_range(handle(), min, max);
     }
     
     /**
@@ -209,7 +211,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * of the fill level concept.
      */
     public void setRestrictToFillLevel(boolean restrictToFillLevel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_restrict_to_fill_level(HANDLE(), restrictToFillLevel ? 1 : 0);
+        gtk_h.gtk_range_set_restrict_to_fill_level(handle(), restrictToFillLevel ? 1 : 0);
     }
     
     /**
@@ -219,7 +221,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * See [signal@Gtk.Range::change-value].
      */
     public void setRoundDigits(int roundDigits) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_round_digits(HANDLE(), roundDigits);
+        gtk_h.gtk_range_set_round_digits(handle(), roundDigits);
     }
     
     /**
@@ -229,7 +231,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * of the fill level concept.
      */
     public void setShowFillLevel(boolean showFillLevel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_show_fill_level(HANDLE(), showFillLevel ? 1 : 0);
+        gtk_h.gtk_range_set_show_fill_level(handle(), showFillLevel ? 1 : 0);
     }
     
     /**
@@ -239,7 +241,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is useful mainly for `GtkRange` subclasses.
      */
     public void setSliderSizeFixed(boolean sizeFixed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_slider_size_fixed(HANDLE(), sizeFixed ? 1 : 0);
+        gtk_h.gtk_range_set_slider_size_fixed(handle(), sizeFixed ? 1 : 0);
     }
     
     /**
@@ -250,7 +252,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * [signal@Gtk.Range::value-changed] signal if the value changes.
      */
     public void setValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_set_value(HANDLE(), value);
+        gtk_h.gtk_range_set_value(handle(), value);
     }
     
     @FunctionalInterface
@@ -266,12 +268,12 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRangeAdjustBounds", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("adjust-bounds").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("adjust-bounds").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -300,12 +302,12 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRangeChangeValue", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("change-value").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("change-value").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -325,12 +327,12 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRangeMoveSlider", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-slider").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-slider").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -348,12 +350,12 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRangeValueChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("value-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

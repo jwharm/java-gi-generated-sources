@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * struct sockaddr @native.
      */
     public SocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_new_from_native(native_, len), true));
+        super(References.get(gtk_h.g_socket_address_new_from_native(native_, len), true));
     }
     
     /**
      * Gets the socket family type of @address.
      */
     public SocketFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_get_family(HANDLE());
+        var RESULT = gtk_h.g_socket_address_get_family(handle());
         return SocketFamily.fromValue(RESULT);
     }
     
@@ -43,7 +45,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * g_socket_address_to_native().
      */
     public long getNativeSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_get_native_size(HANDLE());
+        var RESULT = gtk_h.g_socket_address_get_native_size(handle());
         return RESULT;
     }
     
@@ -57,7 +59,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      */
     public boolean toNative(jdk.incubator.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_to_native(HANDLE(), dest, destlen, GERROR);
+        var RESULT = gtk_h.g_socket_address_to_native(handle(), dest, destlen, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

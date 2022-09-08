@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -95,7 +97,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      * This call never blocks.
      */
     public default int conditionCheck(int condition) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_condition_check(HANDLE(), condition);
+        var RESULT = gtk_h.g_datagram_based_condition_check(handle(), condition);
         return RESULT;
     }
     
@@ -109,7 +111,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default boolean conditionWait(int condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_condition_wait(HANDLE(), condition, timeout, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_condition_wait(handle(), condition, timeout, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -133,7 +135,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      * g_cancellable_is_cancelled().
      */
     public default org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_create_source(HANDLE(), condition, cancellable.HANDLE());
+        var RESULT = gtk_h.g_datagram_based_create_source(handle(), condition, cancellable.handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
@@ -191,7 +193,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_receive_messages(HANDLE(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_receive_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -243,7 +245,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      */
     public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_datagram_based_send_messages(HANDLE(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_send_messages(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

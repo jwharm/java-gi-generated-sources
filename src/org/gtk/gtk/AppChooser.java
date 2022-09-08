@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddres
      * Returns the currently selected application.
      */
     public default org.gtk.gio.AppInfo getAppInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_get_app_info(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_get_app_info(handle());
         return new org.gtk.gio.AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
@@ -41,7 +43,7 @@ public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddres
      * shows applications.
      */
     public default java.lang.String getContentType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_get_content_type(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_get_content_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -49,7 +51,7 @@ public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddres
      * Reloads the list of applications.
      */
     public default void refresh() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_refresh(HANDLE());
+        gtk_h.gtk_app_chooser_refresh(handle());
     }
     
     class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {

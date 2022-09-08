@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * current process, %NULL will be returned.
      */
     public ContentProvider getContent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_content(HANDLE());
+        var RESULT = gtk_h.gdk_clipboard_get_content(handle());
         return new ContentProvider(References.get(RESULT, false));
     }
     
@@ -50,7 +52,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Gets the `GdkDisplay` that the clipboard was created for.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_clipboard_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -58,7 +60,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Gets the formats that the clipboard can provide its current contents in.
      */
     public ContentFormats getFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_formats(HANDLE());
+        var RESULT = gtk_h.gdk_clipboard_get_formats(handle());
         return new ContentFormats(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * even on a local clipboard. In this case the clipboard is empty.
      */
     public boolean isLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_is_local(HANDLE());
+        var RESULT = gtk_h.gdk_clipboard_is_local(handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, java.lang.String[] outMimeType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_read_finish(HANDLE(), result.HANDLE(), Interop.allocateNativeArray(outMimeType), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_read_finish(handle(), result.handle(), Interop.allocateNativeArray(outMimeType), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -97,7 +99,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public java.lang.String readTextFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_read_text_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_read_text_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -111,7 +113,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public Texture readTextureFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_read_texture_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_read_texture_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -125,7 +127,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_read_value_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_read_value_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -147,7 +149,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * transfer the contents and then request that format from @provider.
      */
     public boolean setContent(ContentProvider provider) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_set_content(HANDLE(), provider.HANDLE());
+        var RESULT = gtk_h.gdk_clipboard_set_content(handle(), provider.handle());
         return (RESULT != 0);
     }
     
@@ -155,28 +157,28 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Puts the given @text into the clipboard.
      */
     public void setText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gdk_clipboard_set_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
      * Puts the given @texture into the clipboard.
      */
     public void setTexture(Texture texture) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_set_texture(HANDLE(), texture.HANDLE());
+        gtk_h.gdk_clipboard_set_texture(handle(), texture.handle());
     }
     
     /**
      * Sets the clipboard to contain the value collected from the given @args.
      */
     public void setValist(Type type, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_set_valist(HANDLE(), type.getValue(), args);
+        gtk_h.gdk_clipboard_set_valist(handle(), type.getValue(), args);
     }
     
     /**
      * Sets the @clipboard to contain the given @value.
      */
     public void setValue(org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_set_value(HANDLE(), value.HANDLE());
+        gtk_h.gdk_clipboard_set_value(handle(), value.handle());
     }
     
     /**
@@ -186,7 +188,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public boolean storeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_store_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_clipboard_store_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -205,12 +207,12 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalClipboardChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

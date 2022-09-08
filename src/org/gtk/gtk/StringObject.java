@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class StringObject extends org.gtk.gobject.Object {
      * Wraps a string in an object for use with `GListModel`.
      */
     public StringObject(java.lang.String string) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**
      * Returns the string contained in a `GtkStringObject`.
      */
     public java.lang.String getString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_get_string(HANDLE());
+        var RESULT = gtk_h.gtk_string_object_get_string(handle());
         return RESULT.getUtf8String(0);
     }
     

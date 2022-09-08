@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +41,7 @@ public class SocketConnection extends IOStream {
      */
     public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_connect(HANDLE(), address.HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_connection_connect(handle(), address.handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -51,7 +53,7 @@ public class SocketConnection extends IOStream {
      */
     public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_connect_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_connection_connect_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -63,7 +65,7 @@ public class SocketConnection extends IOStream {
      */
     public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_get_local_address(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_connection_get_local_address(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -82,7 +84,7 @@ public class SocketConnection extends IOStream {
      */
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_get_remote_address(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_socket_connection_get_remote_address(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -95,7 +97,7 @@ public class SocketConnection extends IOStream {
      * not supported by the #GSocketConnection APIs.
      */
     public Socket getSocket() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_get_socket(HANDLE());
+        var RESULT = gtk_h.g_socket_connection_get_socket(handle());
         return new Socket(References.get(RESULT, false));
     }
     
@@ -104,7 +106,7 @@ public class SocketConnection extends IOStream {
      * g_socket_is_connected() on @connection's underlying #GSocket.
      */
     public boolean isConnected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_is_connected(HANDLE());
+        var RESULT = gtk_h.g_socket_connection_is_connected(handle());
         return (RESULT != 0);
     }
     

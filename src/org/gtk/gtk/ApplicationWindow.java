@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -93,7 +95,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * Creates a new `GtkApplicationWindow`.
      */
     public ApplicationWindow(Application application) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_new(application.HANDLE()), false));
+        super(References.get(gtk_h.gtk_application_window_new(application.handle()), false));
     }
     
     /**
@@ -102,7 +104,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * See [method@Gtk.ApplicationWindow.set_help_overlay].
      */
     public ShortcutsWindow getHelpOverlay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_get_help_overlay(HANDLE());
+        var RESULT = gtk_h.gtk_application_window_get_help_overlay(handle());
         return new ShortcutsWindow(References.get(RESULT, false));
     }
     
@@ -112,7 +114,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      *  If the window has not yet been added to a `GtkApplication`, returns `0`.
      */
     public int getId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_get_id(HANDLE());
+        var RESULT = gtk_h.gtk_application_window_get_id(handle());
         return RESULT;
     }
     
@@ -121,7 +123,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * and menubar as needed.
      */
     public boolean getShowMenubar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_get_show_menubar(HANDLE());
+        var RESULT = gtk_h.gtk_application_window_get_show_menubar(handle());
         return (RESULT != 0);
     }
     
@@ -134,7 +136,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * @window takes responsibility for destroying @help_overlay.
      */
     public void setHelpOverlay(ShortcutsWindow helpOverlay) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_set_help_overlay(HANDLE(), helpOverlay.HANDLE());
+        gtk_h.gtk_application_window_set_help_overlay(handle(), helpOverlay.handle());
     }
     
     /**
@@ -142,7 +144,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * and menubar as needed.
      */
     public void setShowMenubar(boolean showMenubar) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_set_show_menubar(HANDLE(), showMenubar ? 1 : 0);
+        gtk_h.gtk_application_window_set_show_menubar(handle(), showMenubar ? 1 : 0);
     }
     
 }

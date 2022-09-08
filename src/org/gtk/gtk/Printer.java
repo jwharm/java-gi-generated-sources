@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Creates a new `GtkPrinter`.
      */
     public Printer(java.lang.String name, PrintBackend backend, boolean virtual) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_new(Interop.allocateNativeString(name).HANDLE(), backend.HANDLE(), virtual ? 1 : 0), true));
+        super(References.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true));
     }
     
     /**
@@ -39,7 +41,7 @@ public class Printer extends org.gtk.gobject.Object {
      * PDF format.
      */
     public boolean acceptsPdf() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_accepts_pdf(HANDLE());
+        var RESULT = gtk_h.gtk_printer_accepts_pdf(handle());
         return (RESULT != 0);
     }
     
@@ -48,7 +50,7 @@ public class Printer extends org.gtk.gobject.Object {
      * PostScript format.
      */
     public boolean acceptsPs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_accepts_ps(HANDLE());
+        var RESULT = gtk_h.gtk_printer_accepts_ps(handle());
         return (RESULT != 0);
     }
     
@@ -56,7 +58,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Compares two printers.
      */
     public int compare(Printer b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_compare(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.gtk_printer_compare(handle(), b.handle());
         return RESULT;
     }
     
@@ -64,7 +66,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns the backend of the printer.
      */
     public PrintBackend getBackend() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_backend(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_backend(handle());
         return new PrintBackend(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class Printer extends org.gtk.gobject.Object {
      * [method@Gtk.Printer.request_details].
      */
     public int getCapabilities() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_capabilities(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_capabilities(handle());
         return RESULT;
     }
     
@@ -88,7 +90,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns default page size of @printer.
      */
     public PageSetup getDefaultPageSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_default_page_size(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_default_page_size(handle());
         return new PageSetup(References.get(RESULT, true));
     }
     
@@ -96,7 +98,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Gets the description of the printer.
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_description(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -104,7 +106,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Gets the name of the icon to use for the printer.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -112,7 +114,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Gets the number of jobs currently queued on the printer.
      */
     public int getJobCount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_job_count(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_job_count(handle());
         return RESULT;
     }
     
@@ -120,7 +122,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns a description of the location of the printer.
      */
     public java.lang.String getLocation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_location(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_location(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -128,7 +130,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns the name of the printer.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -137,7 +139,7 @@ public class Printer extends org.gtk.gobject.Object {
      * of the printer.
      */
     public java.lang.String getStateMessage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_state_message(HANDLE());
+        var RESULT = gtk_h.gtk_printer_get_state_message(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -145,7 +147,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns whether the printer details are available.
      */
     public boolean hasDetails() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_has_details(HANDLE());
+        var RESULT = gtk_h.gtk_printer_has_details(handle());
         return (RESULT != 0);
     }
     
@@ -153,7 +155,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns whether the printer is accepting jobs
      */
     public boolean isAcceptingJobs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_is_accepting_jobs(HANDLE());
+        var RESULT = gtk_h.gtk_printer_is_accepting_jobs(handle());
         return (RESULT != 0);
     }
     
@@ -162,7 +164,7 @@ public class Printer extends org.gtk.gobject.Object {
      * accepts new jobs).
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_is_active(HANDLE());
+        var RESULT = gtk_h.gtk_printer_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -170,7 +172,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns whether the printer is the default printer.
      */
     public boolean isDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_is_default(HANDLE());
+        var RESULT = gtk_h.gtk_printer_is_default(handle());
         return (RESULT != 0);
     }
     
@@ -181,7 +183,7 @@ public class Printer extends org.gtk.gobject.Object {
      * printing them.
      */
     public boolean isPaused() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_is_paused(HANDLE());
+        var RESULT = gtk_h.gtk_printer_is_paused(handle());
         return (RESULT != 0);
     }
     
@@ -191,7 +193,7 @@ public class Printer extends org.gtk.gobject.Object {
      * a CUPS class).
      */
     public boolean isVirtual() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_is_virtual(HANDLE());
+        var RESULT = gtk_h.gtk_printer_is_virtual(handle());
         return (RESULT != 0);
     }
     
@@ -203,7 +205,7 @@ public class Printer extends org.gtk.gobject.Object {
      * [method@Gtk.Printer.request_details].
      */
     public org.gtk.glib.List listPapers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_list_papers(HANDLE());
+        var RESULT = gtk_h.gtk_printer_list_papers(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -215,7 +217,7 @@ public class Printer extends org.gtk.gobject.Object {
      * will be emitted on @printer.
      */
     public void requestDetails() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_request_details(HANDLE());
+        gtk_h.gtk_printer_request_details(handle());
     }
     
     @FunctionalInterface
@@ -234,12 +236,12 @@ public class Printer extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrinterDetailsAcquired", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("details-acquired").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("details-acquired").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

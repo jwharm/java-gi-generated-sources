@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -14,7 +16,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend's #GTlsCertificate implementation.
      */
     public default org.gtk.gobject.Type getCertificateType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_certificate_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_certificate_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -22,7 +24,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend's #GTlsClientConnection implementation.
      */
     public default org.gtk.gobject.Type getClientConnectionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_client_connection_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_client_connection_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -30,7 +32,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the default #GTlsDatabase used to verify TLS connections.
      */
     public default TlsDatabase getDefaultDatabase() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_default_database(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_default_database(handle());
         return new TlsDatabase(References.get(RESULT, true));
     }
     
@@ -38,7 +40,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend’s #GDtlsClientConnection implementation.
      */
     public default org.gtk.gobject.Type getDtlsClientConnectionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_dtls_client_connection_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_dtls_client_connection_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -46,7 +48,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend’s #GDtlsServerConnection implementation.
      */
     public default org.gtk.gobject.Type getDtlsServerConnectionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_dtls_server_connection_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_dtls_server_connection_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -54,7 +56,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend's #GTlsFileDatabase implementation.
      */
     public default org.gtk.gobject.Type getFileDatabaseType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_file_database_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_file_database_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -62,7 +64,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * Gets the #GType of @backend's #GTlsServerConnection implementation.
      */
     public default org.gtk.gobject.Type getServerConnectionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_get_server_connection_type(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_get_server_connection_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -77,7 +79,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * database as if g_tls_backend_set_default_database() had never been called.
      */
     public default void setDefaultDatabase(TlsDatabase database) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_set_default_database(HANDLE(), database.HANDLE());
+        gtk_h.g_tls_backend_set_default_database(handle(), database.handle());
     }
     
     /**
@@ -85,7 +87,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * support is available, and vice-versa.
      */
     public default boolean supportsDtls() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_supports_dtls(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_supports_dtls(handle());
         return (RESULT != 0);
     }
     
@@ -94,7 +96,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
      * #GTlsBackend, it means no "real" TLS backend is available.
      */
     public default boolean supportsTls() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_backend_supports_tls(HANDLE());
+        var RESULT = gtk_h.g_tls_backend_supports_tls(handle());
         return (RESULT != 0);
     }
     

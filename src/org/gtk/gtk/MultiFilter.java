@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
      * Adds a @filter to @self to use for matching.
      */
     public void append(Filter filter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_filter_append(HANDLE(), filter.getReference().unowned().HANDLE());
+        gtk_h.gtk_multi_filter_append(handle(), filter.getReference().unowned().handle());
     }
     
     /**
@@ -34,7 +36,7 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
      * the function returns.
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_filter_remove(HANDLE(), position);
+        gtk_h.gtk_multi_filter_remove(handle(), position);
     }
     
 }

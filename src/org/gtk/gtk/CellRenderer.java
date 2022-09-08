@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -61,7 +63,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * toggles when it gets a mouse click.
      */
     public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_activate(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.allocateNativeString(path).HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = gtk_h.gtk_cell_renderer_activate(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags);
         return (RESULT != 0);
     }
     
@@ -70,14 +72,14 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * the appropriate edit and focus rectangle.
      */
     public void getAlignedArea(Widget widget, int flags, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle alignedArea) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_aligned_area(HANDLE(), widget.HANDLE(), flags, cellArea.HANDLE(), alignedArea.HANDLE());
+        gtk_h.gtk_cell_renderer_get_aligned_area(handle(), widget.handle(), flags, cellArea.handle(), alignedArea.handle());
     }
     
     /**
      * Checks whether the given `GtkCellRenderer` is expanded.
      */
     public boolean getIsExpanded() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_is_expanded(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_get_is_expanded(handle());
         return (RESULT != 0);
     }
     
@@ -85,7 +87,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Checks whether the given `GtkCellRenderer` is an expander.
      */
     public boolean getIsExpander() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_is_expander(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_get_is_expander(handle());
         return (RESULT != 0);
     }
     
@@ -94,7 +96,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * into account the widget’s preference for height-for-width management.
      */
     public void getPreferredSize(Widget widget, Requisition minimumSize, Requisition naturalSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_preferred_size(HANDLE(), widget.HANDLE(), minimumSize.HANDLE(), naturalSize.HANDLE());
+        gtk_h.gtk_cell_renderer_get_preferred_size(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
     }
     
     /**
@@ -102,7 +104,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * or a width-for-height layout.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_request_mode(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_get_request_mode(handle());
         return SizeRequestMode.fromValue(RESULT);
     }
     
@@ -110,7 +112,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Returns the cell renderer’s sensitivity.
      */
     public boolean getSensitive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_sensitive(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_get_sensitive(handle());
         return (RESULT != 0);
     }
     
@@ -120,7 +122,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * the given `GtkCellRenderer`State.
      */
     public int getState(Widget widget, int cellState) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_state(HANDLE(), widget.HANDLE(), cellState);
+        var RESULT = gtk_h.gtk_cell_renderer_get_state(handle(), widget.handle(), cellState);
         return RESULT;
     }
     
@@ -128,7 +130,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Returns the cell renderer’s visibility.
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_get_visible(handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Checks whether the cell renderer can do something when activated.
      */
     public boolean isActivatable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_is_activatable(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_is_activatable(handle());
         return (RESULT != 0);
     }
     
@@ -144,49 +146,49 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Sets the renderer’s alignment within its available space.
      */
     public void setAlignment(float xalign, float yalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_alignment(HANDLE(), xalign, yalign);
+        gtk_h.gtk_cell_renderer_set_alignment(handle(), xalign, yalign);
     }
     
     /**
      * Sets the renderer size to be explicit, independent of the properties set.
      */
     public void setFixedSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_fixed_size(HANDLE(), width, height);
+        gtk_h.gtk_cell_renderer_set_fixed_size(handle(), width, height);
     }
     
     /**
      * Sets whether the given `GtkCellRenderer` is expanded.
      */
     public void setIsExpanded(boolean isExpanded) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_is_expanded(HANDLE(), isExpanded ? 1 : 0);
+        gtk_h.gtk_cell_renderer_set_is_expanded(handle(), isExpanded ? 1 : 0);
     }
     
     /**
      * Sets whether the given `GtkCellRenderer` is an expander.
      */
     public void setIsExpander(boolean isExpander) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_is_expander(HANDLE(), isExpander ? 1 : 0);
+        gtk_h.gtk_cell_renderer_set_is_expander(handle(), isExpander ? 1 : 0);
     }
     
     /**
      * Sets the renderer’s padding.
      */
     public void setPadding(int xpad, int ypad) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_padding(HANDLE(), xpad, ypad);
+        gtk_h.gtk_cell_renderer_set_padding(handle(), xpad, ypad);
     }
     
     /**
      * Sets the cell renderer’s sensitivity.
      */
     public void setSensitive(boolean sensitive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_sensitive(HANDLE(), sensitive ? 1 : 0);
+        gtk_h.gtk_cell_renderer_set_sensitive(handle(), sensitive ? 1 : 0);
     }
     
     /**
      * Sets the cell renderer’s visibility.
      */
     public void setVisible(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_set_visible(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_cell_renderer_set_visible(handle(), visible ? 1 : 0);
     }
     
     /**
@@ -199,7 +201,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * @window.
      */
     public void snapshot(Snapshot snapshot, Widget widget, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_snapshot(HANDLE(), snapshot.HANDLE(), widget.HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
+        gtk_h.gtk_cell_renderer_snapshot(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags);
     }
     
     /**
@@ -207,7 +209,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * widget created by the `GtkCellRenderer`Class.start_editing virtual function.
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_start_editing(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.allocateNativeString(path).HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags);
         return new CellEditable.CellEditableImpl(References.get(RESULT, false));
     }
     
@@ -221,7 +223,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * `GtkCellEditable`.
      */
     public void stopEditing(boolean canceled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_stop_editing(HANDLE(), canceled ? 1 : 0);
+        gtk_h.gtk_cell_renderer_stop_editing(handle(), canceled ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -240,12 +242,12 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererEditingCanceled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("editing-canceled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("editing-canceled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -291,12 +293,12 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererEditingStarted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("editing-started").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("editing-started").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_attribute_iter_get_name(HANDLE());
+        var RESULT = gtk_h.g_menu_attribute_iter_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -49,7 +51,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * be unreffed using g_variant_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outName, org.gtk.glib.Variant[] value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_attribute_iter_get_next(HANDLE(), Interop.allocateNativeArray(outName), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_menu_attribute_iter_get_next(handle(), Interop.allocateNativeArray(outName), Interop.allocateNativeArray(value));
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public org.gtk.glib.Variant getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_attribute_iter_get_value(HANDLE());
+        var RESULT = gtk_h.g_menu_attribute_iter_get_value(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -75,7 +77,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * attribute exists at all).
      */
     public boolean next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_attribute_iter_next(HANDLE());
+        var RESULT = gtk_h.g_menu_attribute_iter_next(handle());
         return (RESULT != 0);
     }
     

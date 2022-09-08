@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -64,7 +66,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Gets the default `GdkDisplay`.
      */
     public Display getDefaultDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_get_default_display(HANDLE());
+        var RESULT = gtk_h.gdk_display_manager_get_default_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * List all currently open displays.
      */
     public org.gtk.glib.SList listDisplays() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_list_displays(HANDLE());
+        var RESULT = gtk_h.gdk_display_manager_list_displays(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Opens a display.
      */
     public Display openDisplay(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_open_display(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gdk_display_manager_open_display(handle(), Interop.allocateNativeString(name).handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -88,7 +90,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Sets @display as the default display.
      */
     public void setDefaultDisplay(Display display) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_display_manager_set_default_display(HANDLE(), display.HANDLE());
+        gtk_h.gdk_display_manager_set_default_display(handle(), display.handle());
     }
     
     @FunctionalInterface
@@ -103,12 +105,12 @@ public class DisplayManager extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDisplayManagerDisplayOpened", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("display-opened").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("display-opened").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

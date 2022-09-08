@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class TreeIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * You must free this iter with gtk_tree_iter_free().
      */
     public TreeIter copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_iter_copy(HANDLE());
+        var RESULT = gtk_h.gtk_tree_iter_copy(handle());
         return new TreeIter(References.get(RESULT, true));
     }
     
@@ -37,7 +39,7 @@ public class TreeIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is mainly used for language bindings.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_iter_free(HANDLE());
+        gtk_h.gtk_tree_iter_free(handle());
     }
     
 }

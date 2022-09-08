@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * Queries the height of the bounding box of a pixbuf animation.
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_height(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_get_height(handle());
         return RESULT;
     }
     
@@ -76,7 +78,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * A delay time of -1 is possible, indicating "infinite".
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_iter(HANDLE(), startTime.HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_get_iter(handle(), startTime.handle());
         return new PixbufAnimationIter(References.get(RESULT, true));
     }
     
@@ -94,7 +96,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * return `NULL`.
      */
     public Pixbuf getStaticImage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_static_image(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_get_static_image(handle());
         return new Pixbuf(References.get(RESULT, false));
     }
     
@@ -102,7 +104,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * Queries the width of the bounding box of a pixbuf animation.
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_width(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_get_width(handle());
         return RESULT;
     }
     
@@ -115,7 +117,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * the image.
      */
     public boolean isStaticImage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_is_static_image(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_is_static_image(handle());
         return (RESULT != 0);
     }
     

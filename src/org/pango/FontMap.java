@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * context and such data is changed.
      */
     public void changed() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_changed(HANDLE());
+        gtk_h.pango_font_map_changed(handle());
     }
     
     /**
@@ -48,7 +50,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * gtk_widget_get_pango_context(). Use those instead.
      */
     public Context createContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_create_context(HANDLE());
+        var RESULT = gtk_h.pango_font_map_create_context(handle());
         return new Context(References.get(RESULT, true));
     }
     
@@ -56,7 +58,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * Gets a font family by name.
      */
     public FontFamily getFamily(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_family(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.pango_font_map_get_family(handle(), Interop.allocateNativeString(name).handle());
         return new FontFamily(References.get(RESULT, false));
     }
     
@@ -75,7 +77,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * like in `PangoContext`.
      */
     public int getSerial() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_serial(HANDLE());
+        var RESULT = gtk_h.pango_font_map_get_serial(handle());
         return RESULT;
     }
     
@@ -83,7 +85,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * Load the font in the fontmap that is the closest match for @desc.
      */
     public Font loadFont(Context context, FontDescription desc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_font(HANDLE(), context.HANDLE(), desc.HANDLE());
+        var RESULT = gtk_h.pango_font_map_load_font(handle(), context.handle(), desc.handle());
         return new Font(References.get(RESULT, true));
     }
     
@@ -92,7 +94,7 @@ public class FontMap extends org.gtk.gobject.Object {
      * a font matching @desc.
      */
     public Fontset loadFontset(Context context, FontDescription desc, Language language) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_fontset(HANDLE(), context.HANDLE(), desc.HANDLE(), language.HANDLE());
+        var RESULT = gtk_h.pango_font_map_load_fontset(handle(), context.handle(), desc.handle(), language.handle());
         return new Fontset(References.get(RESULT, true));
     }
     

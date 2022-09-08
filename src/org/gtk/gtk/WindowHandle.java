@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,14 +36,14 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      * Creates a new `GtkWindowHandle`.
      */
     public WindowHandle() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_new(), false));
+        super(References.get(gtk_h.gtk_window_handle_new(), false));
     }
     
     /**
      * Gets the child widget of @self.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_window_handle_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      * Sets the child widget of @self.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_window_handle_set_child(handle(), child.handle());
     }
     
 }

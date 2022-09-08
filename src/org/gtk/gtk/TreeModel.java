@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -210,7 +212,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * and @root as the virtual root.
      */
     public default TreeModel filterNew(TreePath root) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_new(HANDLE(), root.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_filter_new(handle(), root.handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, true));
     }
     
@@ -218,7 +220,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns the type of the column.
      */
     public default org.gtk.gobject.Type getColumnType(int index) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_column_type(HANDLE(), index);
+        var RESULT = gtk_h.gtk_tree_model_get_column_type(handle(), index);
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -230,7 +232,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * of the @tree_model.
      */
     public default int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_flags(HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_flags(handle());
         return RESULT;
     }
     
@@ -241,7 +243,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * iterator and %FALSE is returned.
      */
     public default boolean getIter(TreeIter iter, TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_iter(HANDLE(), iter.HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_iter(handle(), iter.handle(), path.handle());
         return (RESULT != 0);
     }
     
@@ -252,7 +254,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns %FALSE if the tree is empty, %TRUE otherwise.
      */
     public default boolean getIterFirst(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_iter_first(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_iter_first(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -263,7 +265,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Otherwise, @iter is left invalid and %FALSE is returned.
      */
     public default boolean getIterFromString(TreeIter iter, java.lang.String pathString) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_iter_from_string(HANDLE(), iter.HANDLE(), Interop.allocateNativeString(pathString).HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_iter_from_string(handle(), iter.handle(), Interop.allocateNativeString(pathString).handle());
         return (RESULT != 0);
     }
     
@@ -271,7 +273,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns the number of columns supported by @tree_model.
      */
     public default int getNColumns() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_n_columns(HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_n_columns(handle());
         return RESULT;
     }
     
@@ -281,7 +283,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * This path should be freed with gtk_tree_path_free().
      */
     public default TreePath getPath(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_path(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_path(handle(), iter.handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -293,7 +295,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * return value for this string.
      */
     public default java.lang.String getStringFromIter(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_string_from_iter(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_get_string_from_iter(handle(), iter.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -304,7 +306,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * for language bindings to use.
      */
     public default void getValist(TreeIter iter, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_valist(HANDLE(), iter.HANDLE(), varArgs);
+        gtk_h.gtk_tree_model_get_valist(handle(), iter.handle(), varArgs);
     }
     
     /**
@@ -314,7 +316,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * to free any allocated memory.
      */
     public default void getValue(TreeIter iter, int column, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_get_value(HANDLE(), iter.HANDLE(), column, value.HANDLE());
+        gtk_h.gtk_tree_model_get_value(handle(), iter.handle(), column, value.handle());
     }
     
     /**
@@ -328,7 +330,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * `gtk_tree_model_get_iter_first (tree_model, iter);`
      */
     public default boolean iterChildren(TreeIter iter, TreeIter parent) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_children(HANDLE(), iter.HANDLE(), parent.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_children(handle(), iter.handle(), parent.handle());
         return (RESULT != 0);
     }
     
@@ -336,7 +338,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns %TRUE if @iter has children, %FALSE otherwise.
      */
     public default boolean iterHasChild(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_has_child(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_has_child(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -347,7 +349,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * of toplevel nodes is returned.
      */
     public default int iterNChildren(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_n_children(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_n_children(handle(), iter.handle());
         return RESULT;
     }
     
@@ -358,7 +360,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * to be invalid.
      */
     public default boolean iterNext(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_next(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_next(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -372,7 +374,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * is set.
      */
     public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_nth_child(HANDLE(), iter.HANDLE(), parent.HANDLE(), n);
+        var RESULT = gtk_h.gtk_tree_model_iter_nth_child(handle(), iter.handle(), parent.handle(), n);
         return (RESULT != 0);
     }
     
@@ -388,7 +390,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * and @iter cannot point to the same memory location.
      */
     public default boolean iterParent(TreeIter iter, TreeIter child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_parent(HANDLE(), iter.HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_parent(handle(), iter.handle(), child.handle());
         return (RESULT != 0);
     }
     
@@ -399,7 +401,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * set to be invalid.
      */
     public default boolean iterPrevious(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_iter_previous(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_iter_previous(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -423,7 +425,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * of its reffed state.
      */
     public default void refNode(TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_ref_node(HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_model_ref_node(handle(), iter.handle());
     }
     
     /**
@@ -432,7 +434,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * See [signal@Gtk.TreeModel::row-changed].
      */
     public default void rowChanged(TreePath path, TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_row_changed(HANDLE(), path.HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_model_row_changed(handle(), path.handle(), iter.handle());
     }
     
     /**
@@ -448,7 +450,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * outstanding references on the deleted node should not be released.
      */
     public default void rowDeleted(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_row_deleted(HANDLE(), path.HANDLE());
+        gtk_h.gtk_tree_model_row_deleted(handle(), path.handle());
     }
     
     /**
@@ -460,7 +462,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * state of a node changes.
      */
     public default void rowHasChildToggled(TreePath path, TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_row_has_child_toggled(HANDLE(), path.HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_model_row_has_child_toggled(handle(), path.handle(), iter.handle());
     }
     
     /**
@@ -469,7 +471,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * See [signal@Gtk.TreeModel::row-inserted].
      */
     public default void rowInserted(TreePath path, TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_row_inserted(HANDLE(), path.HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_model_row_inserted(handle(), path.handle(), iter.handle());
     }
     
     /**
@@ -481,7 +483,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * reordered.
      */
     public default void rowsReorderedWithLength(TreePath path, TreeIter iter, int[] newOrder, int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_rows_reordered_with_length(HANDLE(), path.HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder), length);
+        gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder), length);
     }
     
     /**
@@ -495,7 +497,7 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Please note that nodes that are deleted are not unreffed.
      */
     public default void unrefNode(TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_unref_node(HANDLE(), iter.HANDLE());
+        gtk_h.gtk_tree_model_unref_node(handle(), iter.handle());
     }
     
     @FunctionalInterface
@@ -510,12 +512,12 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeModelRowChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -540,12 +542,12 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeModelRowDeleted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-deleted").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-deleted").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -564,12 +566,12 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeModelRowHasChildToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-has-child-toggled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-has-child-toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -592,12 +594,12 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeModelRowInserted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-inserted").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-inserted").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -620,12 +622,12 @@ public interface TreeModel extends io.github.jwharm.javagi.interop.NativeAddress
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeModelRowsReordered", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("rows-reordered").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("rows-reordered").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

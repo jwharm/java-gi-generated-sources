@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds the options specified in @entries to @group.
      */
     public void addEntries(OptionEntry[] entries) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_add_entries(HANDLE(), Interop.allocateNativeArray(entries));
+        gtk_h.g_option_group_add_entries(handle(), Interop.allocateNativeArray(entries));
     }
     
     /**
      * Increments the reference count of @group by one.
      */
     public OptionGroup ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_ref(HANDLE());
+        var RESULT = gtk_h.g_option_group_ref(handle());
         return new OptionGroup(References.get(RESULT, true));
     }
     
@@ -40,7 +42,7 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_set_translation_domain(HANDLE(), Interop.allocateNativeString(domain).HANDLE());
+        gtk_h.g_option_group_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
     }
     
     /**
@@ -49,7 +51,7 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
      * and all memory allocated by the @group is released.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_group_unref(HANDLE());
+        gtk_h.g_option_group_unref(handle());
     }
     
 }

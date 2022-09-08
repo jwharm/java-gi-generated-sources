@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,14 +31,14 @@ public class CenterLayout extends LayoutManager {
      * Creates a new `GtkCenterLayout`.
      */
     public CenterLayout() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_new(), true));
+        super(References.get(gtk_h.gtk_center_layout_new(), true));
     }
     
     /**
      * Returns the baseline position of the layout.
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_baseline_position(HANDLE());
+        var RESULT = gtk_h.gtk_center_layout_get_baseline_position(handle());
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -44,7 +46,7 @@ public class CenterLayout extends LayoutManager {
      * Returns the center widget of the layout.
      */
     public Widget getCenterWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_center_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_layout_get_center_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -52,7 +54,7 @@ public class CenterLayout extends LayoutManager {
      * Returns the end widget of the layout.
      */
     public Widget getEndWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_end_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_layout_get_end_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -60,7 +62,7 @@ public class CenterLayout extends LayoutManager {
      * Gets the current orienration of the layout manager.
      */
     public Orientation getOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_orientation(HANDLE());
+        var RESULT = gtk_h.gtk_center_layout_get_orientation(handle());
         return Orientation.fromValue(RESULT);
     }
     
@@ -68,7 +70,7 @@ public class CenterLayout extends LayoutManager {
      * Returns the start widget fo the layout.
      */
     public Widget getStartWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_start_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_layout_get_start_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -76,7 +78,7 @@ public class CenterLayout extends LayoutManager {
      * Sets the new baseline position of @self
      */
     public void setBaselinePosition(BaselinePosition baselinePosition) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_set_baseline_position(HANDLE(), baselinePosition.getValue());
+        gtk_h.gtk_center_layout_set_baseline_position(handle(), baselinePosition.getValue());
     }
     
     /**
@@ -85,7 +87,7 @@ public class CenterLayout extends LayoutManager {
      * To remove the existing center widget, pass %NULL.
      */
     public void setCenterWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_set_center_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_center_layout_set_center_widget(handle(), widget.handle());
     }
     
     /**
@@ -94,14 +96,14 @@ public class CenterLayout extends LayoutManager {
      * To remove the existing center widget, pass %NULL.
      */
     public void setEndWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_set_end_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_center_layout_set_end_widget(handle(), widget.handle());
     }
     
     /**
      * Sets the orientation of @self.
      */
     public void setOrientation(Orientation orientation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_set_orientation(HANDLE(), orientation.getValue());
+        gtk_h.gtk_center_layout_set_orientation(handle(), orientation.getValue());
     }
     
     /**
@@ -110,7 +112,7 @@ public class CenterLayout extends LayoutManager {
      * To remove the existing start widget, pass %NULL.
      */
     public void setStartWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_set_start_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_center_layout_set_start_widget(handle(), widget.handle());
     }
     
 }

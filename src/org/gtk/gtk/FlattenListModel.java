@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * Creates a new `GtkFlattenListModel` that flattens @list.
      */
     public FlattenListModel(org.gtk.gio.ListModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_new(model.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_flatten_list_model_new(model.getReference().unowned().handle()), true));
     }
     
     /**
      * Gets the model set via gtk_flatten_list_model_set_model().
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_flatten_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * Returns the model containing the item at the given position.
      */
     public org.gtk.gio.ListModel getModelForItem(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_get_model_for_item(HANDLE(), position);
+        var RESULT = gtk_h.gtk_flatten_list_model_get_model_for_item(handle(), position);
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * Sets a new model to be flattened.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flatten_list_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_flatten_list_model_set_model(handle(), model.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -80,7 +82,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * until the action is destroyed.
      */
     public PropertyAction(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_property_action_new(Interop.allocateNativeString(name).HANDLE(), object.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
+        super(References.get(gtk_h.g_property_action_new(Interop.allocateNativeString(name).handle(), object.handle(), Interop.allocateNativeString(propertyName).handle()), true));
     }
     
 }

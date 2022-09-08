@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_expand_references(HANDLE(), Interop.allocateNativeString(stringToExpand).HANDLE(), GERROR);
+        var RESULT = gtk_h.g_match_info_expand_references(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -62,7 +64,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public java.lang.String fetch(int matchNum) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_fetch(HANDLE(), matchNum);
+        var RESULT = gtk_h.g_match_info_fetch(handle(), matchNum);
         return RESULT.getUtf8String(0);
     }
     
@@ -77,7 +79,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * so you cannot call this function after freeing the string.
      */
     public java.lang.String fetchNamed(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_fetch_named(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_match_info_fetch_named(handle(), Interop.allocateNativeString(name).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -86,7 +88,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * nothing.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_free(HANDLE());
+        gtk_h.g_match_info_free(handle());
     }
     
     /**
@@ -100,7 +102,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * the number of matched substrings.
      */
     public int getMatchCount() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_get_match_count(HANDLE());
+        var RESULT = gtk_h.g_match_info_get_match_count(handle());
         return RESULT;
     }
     
@@ -110,7 +112,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * after you free @match_info object.
      */
     public Regex getRegex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_get_regex(HANDLE());
+        var RESULT = gtk_h.g_match_info_get_regex(handle());
         return new Regex(References.get(RESULT, true));
     }
     
@@ -120,7 +122,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * you may not free it before calling this function.
      */
     public java.lang.String getString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_get_string(HANDLE());
+        var RESULT = gtk_h.g_match_info_get_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -160,7 +162,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * See pcrepartial(3) for more information on partial matching.
      */
     public boolean isPartialMatch() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_is_partial_match(HANDLE());
+        var RESULT = gtk_h.g_match_info_is_partial_match(handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether the previous match operation succeeded.
      */
     public boolean matches() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_matches(HANDLE());
+        var RESULT = gtk_h.g_match_info_matches(handle());
         return (RESULT != 0);
     }
     
@@ -182,7 +184,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean next() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_next(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_match_info_next(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -193,7 +195,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases reference count of @match_info by 1.
      */
     public MatchInfo ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_ref(HANDLE());
+        var RESULT = gtk_h.g_match_info_ref(handle());
         return new MatchInfo(References.get(RESULT, true));
     }
     
@@ -202,7 +204,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * to zero, it frees all the memory associated with the match_info structure.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_unref(HANDLE());
+        gtk_h.g_match_info_unref(handle());
     }
     
 }

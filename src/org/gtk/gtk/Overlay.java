@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkOverlay`.
      */
     public Overlay() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_new(), false));
+        super(References.get(gtk_h.gtk_overlay_new(), false));
     }
     
     /**
@@ -68,14 +70,14 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * [property@Gtk.Widget:valign] properties.
      */
     public void addOverlay(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_add_overlay(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_overlay_add_overlay(handle(), widget.handle());
     }
     
     /**
      * Gets the child widget of @overlay.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_overlay_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -83,7 +85,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Gets whether @widget should be clipped within the parent.
      */
     public boolean getClipOverlay(Widget widget) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_get_clip_overlay(HANDLE(), widget.HANDLE());
+        var RESULT = gtk_h.gtk_overlay_get_clip_overlay(handle(), widget.handle());
         return (RESULT != 0);
     }
     
@@ -92,7 +94,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * @overlay.
      */
     public boolean getMeasureOverlay(Widget widget) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_get_measure_overlay(HANDLE(), widget.HANDLE());
+        var RESULT = gtk_h.gtk_overlay_get_measure_overlay(handle(), widget.handle());
         return (RESULT != 0);
     }
     
@@ -100,21 +102,21 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Removes an overlay that was added with gtk_overlay_add_overlay().
      */
     public void removeOverlay(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_remove_overlay(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_overlay_remove_overlay(handle(), widget.handle());
     }
     
     /**
      * Sets the child widget of @overlay.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_overlay_set_child(handle(), child.handle());
     }
     
     /**
      * Sets whether @widget should be clipped within the parent.
      */
     public void setClipOverlay(Widget widget, boolean clipOverlay) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_set_clip_overlay(HANDLE(), widget.HANDLE(), clipOverlay ? 1 : 0);
+        gtk_h.gtk_overlay_set_clip_overlay(handle(), widget.handle(), clipOverlay ? 1 : 0);
     }
     
     /**
@@ -125,7 +127,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * be drawn outside of @overlay's allocation if they are too large.
      */
     public void setMeasureOverlay(Widget widget, boolean measure) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_set_measure_overlay(HANDLE(), widget.HANDLE(), measure ? 1 : 0);
+        gtk_h.gtk_overlay_set_measure_overlay(handle(), widget.handle(), measure ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -153,12 +155,12 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalOverlayGetChildPosition", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("get-child-position").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("get-child-position").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

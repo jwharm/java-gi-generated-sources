@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -86,7 +88,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * Create a new `GtkSizeGroup`.
      */
     public SizeGroup(SizeGroupMode mode) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_new(mode.getValue()), true));
+        super(References.get(gtk_h.gtk_size_group_new(mode.getValue()), true));
     }
     
     /**
@@ -103,14 +105,14 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * will be removed from the size group.
      */
     public void addWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_add_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_size_group_add_widget(handle(), widget.handle());
     }
     
     /**
      * Gets the current mode of the size group.
      */
     public SizeGroupMode getMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_get_mode(HANDLE());
+        var RESULT = gtk_h.gtk_size_group_get_mode(handle());
         return SizeGroupMode.fromValue(RESULT);
     }
     
@@ -118,7 +120,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * Returns the list of widgets associated with @size_group.
      */
     public org.gtk.glib.SList getWidgets() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_get_widgets(HANDLE());
+        var RESULT = gtk_h.gtk_size_group_get_widgets(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -126,7 +128,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * Removes a widget from a `GtkSizeGroup`.
      */
     public void removeWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_remove_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_size_group_remove_widget(handle(), widget.handle());
     }
     
     /**
@@ -139,7 +141,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * in both directions (%GTK_SIZE_GROUP_BOTH).
      */
     public void setMode(SizeGroupMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_set_mode(HANDLE(), mode.getValue());
+        gtk_h.gtk_size_group_set_mode(handle(), mode.getValue());
     }
     
 }

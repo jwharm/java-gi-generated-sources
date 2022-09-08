@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +39,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * a buffer set to the default size (4 kilobytes).
      */
     public BufferedInputStream(InputStream baseStream) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new(baseStream.HANDLE()), true));
+        super(References.get(gtk_h.g_buffered_input_stream_new(baseStream.handle()), true));
     }
     
     /**
@@ -45,7 +47,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * with a buffer set to @size.
      */
     public BufferedInputStream(InputStream baseStream, long size) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(References.get(gtk_h.g_buffered_input_stream_new_sized(baseStream.handle(), size), true));
     }
     
     /**
@@ -76,7 +78,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      */
     public long fill(long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_fill(HANDLE(), count, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_buffered_input_stream_fill(handle(), count, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -88,7 +90,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      */
     public long fillFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_fill_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_buffered_input_stream_fill_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -99,7 +101,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Gets the size of the available data within the stream.
      */
     public long getAvailable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_get_available(HANDLE());
+        var RESULT = gtk_h.g_buffered_input_stream_get_available(handle());
         return RESULT;
     }
     
@@ -107,7 +109,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Gets the size of the input buffer.
      */
     public long getBufferSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_get_buffer_size(HANDLE());
+        var RESULT = gtk_h.g_buffered_input_stream_get_buffer_size(handle());
         return RESULT;
     }
     
@@ -116,7 +118,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * offset @offset bytes.
      */
     public long peek(byte[] buffer, long offset, long count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_peek(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), offset, count);
+        var RESULT = gtk_h.g_buffered_input_stream_peek(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), offset, count);
         return RESULT;
     }
     
@@ -137,7 +139,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      */
     public int readInt(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_read_byte(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_buffered_input_stream_read_byte(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -150,7 +152,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * smaller than its current contents.
      */
     public void setBufferSize(long size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_set_buffer_size(HANDLE(), size);
+        gtk_h.g_buffered_input_stream_set_buffer_size(handle(), size);
     }
     
 }

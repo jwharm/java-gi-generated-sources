@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class ConicGradientNode extends RenderNode {
      * that the gradient points up. Color stops are then added clockwise.
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_new(bounds.HANDLE(), center.HANDLE(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(gtk_h.gsk_conic_gradient_node_new(bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
@@ -39,7 +41,7 @@ public class ConicGradientNode extends RenderNode {
      *     angle = 90 - gsk_conic_gradient_node_get_rotation()
      */
     public float getAngle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_angle(HANDLE());
+        var RESULT = gtk_h.gsk_conic_gradient_node_get_angle(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class ConicGradientNode extends RenderNode {
      * Retrieves the center pointer for the gradient.
      */
     public org.gtk.graphene.Point getCenter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_center(HANDLE());
+        var RESULT = gtk_h.gsk_conic_gradient_node_get_center(handle());
         return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
@@ -55,7 +57,7 @@ public class ConicGradientNode extends RenderNode {
      * Retrieves the number of color stops in the gradient.
      */
     public long getNColorStops() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_n_color_stops(HANDLE());
+        var RESULT = gtk_h.gsk_conic_gradient_node_get_n_color_stops(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class ConicGradientNode extends RenderNode {
      * Retrieves the rotation for the gradient in degrees.
      */
     public float getRotation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_rotation(HANDLE());
+        var RESULT = gtk_h.gsk_conic_gradient_node_get_rotation(handle());
         return RESULT;
     }
     

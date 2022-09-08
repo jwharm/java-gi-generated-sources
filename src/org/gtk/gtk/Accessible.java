@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public interface Accessible extends io.github.jwharm.javagi.interop.NativeAddres
      * Retrieves the `GtkAccessibleRole` for the given `GtkAccessible`.
      */
     public default AccessibleRole getAccessibleRole() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_get_accessible_role(HANDLE());
+        var RESULT = gtk_h.gtk_accessible_get_accessible_role(handle());
         return AccessibleRole.fromValue(RESULT);
     }
     
@@ -37,21 +39,21 @@ public interface Accessible extends io.github.jwharm.javagi.interop.NativeAddres
      * Resets the accessible @property to its default value.
      */
     public default void resetProperty(AccessibleProperty property) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_reset_property(HANDLE(), property.getValue());
+        gtk_h.gtk_accessible_reset_property(handle(), property.getValue());
     }
     
     /**
      * Resets the accessible @relation to its default value.
      */
     public default void resetRelation(AccessibleRelation relation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_reset_relation(HANDLE(), relation.getValue());
+        gtk_h.gtk_accessible_reset_relation(handle(), relation.getValue());
     }
     
     /**
      * Resets the accessible @state to its default value.
      */
     public default void resetState(AccessibleState state) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_reset_state(HANDLE(), state.getValue());
+        gtk_h.gtk_accessible_reset_state(handle(), state.getValue());
     }
     
     class AccessibleImpl extends org.gtk.gobject.Object implements Accessible {

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.interop.ResourceBase
      * the reference count.
      */
     public DBusSignalInfo ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_signal_info_ref(HANDLE());
+        var RESULT = gtk_h.g_dbus_signal_info_ref(handle());
         return new DBusSignalInfo(References.get(RESULT, true));
     }
     
@@ -29,7 +31,7 @@ public class DBusSignalInfo extends io.github.jwharm.javagi.interop.ResourceBase
      * the memory used is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_signal_info_unref(HANDLE());
+        gtk_h.g_dbus_signal_info_unref(handle());
     }
     
 }

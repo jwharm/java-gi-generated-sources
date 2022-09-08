@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -49,7 +51,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * Non vararg creation function.  Used primarily by language bindings.
      */
     public static TreeStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new TreeStore(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new TreeStore(References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
     }
     
     /**
@@ -60,14 +62,14 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void append(TreeIter iter, TreeIter parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_append(HANDLE(), iter.HANDLE(), parent.HANDLE());
+        gtk_h.gtk_tree_store_append(handle(), iter.handle(), parent.handle());
     }
     
     /**
      * Removes all rows from @tree_store
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_clear(HANDLE());
+        gtk_h.gtk_tree_store_clear(handle());
     }
     
     /**
@@ -80,7 +82,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set_value().
      */
     public void insert(TreeIter iter, TreeIter parent, int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_insert(HANDLE(), iter.HANDLE(), parent.HANDLE(), position);
+        gtk_h.gtk_tree_store_insert(handle(), iter.handle(), parent.handle(), position);
     }
     
     /**
@@ -95,7 +97,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void insertAfter(TreeIter iter, TreeIter parent, TreeIter sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_insert_after(HANDLE(), iter.HANDLE(), parent.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_tree_store_insert_after(handle(), iter.handle(), parent.handle(), sibling.handle());
     }
     
     /**
@@ -110,7 +112,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void insertBefore(TreeIter iter, TreeIter parent, TreeIter sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_insert_before(HANDLE(), iter.HANDLE(), parent.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_tree_store_insert_before(handle(), iter.handle(), parent.handle(), sibling.handle());
     }
     
     /**
@@ -119,7 +121,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * function is mainly intended for language bindings.
      */
     public void insertWithValuesv(TreeIter iter, TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_insert_with_valuesv(HANDLE(), iter.HANDLE(), parent.HANDLE(), position, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
+        gtk_h.gtk_tree_store_insert_with_valuesv(handle(), iter.handle(), parent.handle(), position, Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
     }
     
     /**
@@ -127,7 +129,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * parent (or grandparent or great-grandparent) of @descendant.
      */
     public boolean isAncestor(TreeIter iter, TreeIter descendant) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_is_ancestor(HANDLE(), iter.HANDLE(), descendant.HANDLE());
+        var RESULT = gtk_h.gtk_tree_store_is_ancestor(handle(), iter.handle(), descendant.handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * for anything down a level, etc.
      */
     public int iterDepth(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_iter_depth(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_store_iter_depth(handle(), iter.handle());
         return RESULT;
     }
     
@@ -147,7 +149,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * purposes.
      */
     public boolean iterIsValid(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_iter_is_valid(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_store_iter_is_valid(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -158,7 +160,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * to the start of the level.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_move_after(HANDLE(), iter.HANDLE(), position.HANDLE());
+        gtk_h.gtk_tree_store_move_after(handle(), iter.handle(), position.handle());
     }
     
     /**
@@ -168,7 +170,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * moved to the end of the level.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_move_before(HANDLE(), iter.HANDLE(), position.HANDLE());
+        gtk_h.gtk_tree_store_move_before(handle(), iter.handle(), position.handle());
     }
     
     /**
@@ -179,7 +181,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * call gtk_tree_store_set() or gtk_tree_store_set_value().
      */
     public void prepend(TreeIter iter, TreeIter parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_prepend(HANDLE(), iter.HANDLE(), parent.HANDLE());
+        gtk_h.gtk_tree_store_prepend(handle(), iter.handle(), parent.handle());
     }
     
     /**
@@ -188,7 +190,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * last one.
      */
     public boolean remove(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_remove(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_store_remove(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -198,7 +200,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * unsorted stores.
      */
     public void reorder(TreeIter parent, int[] newOrder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_reorder(HANDLE(), parent.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
+        gtk_h.gtk_tree_store_reorder(handle(), parent.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
     }
     
     /**
@@ -208,7 +210,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * or a method on the `GtkTreeModel` interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_set_column_types(HANDLE(), nColumns, Interop.allocateNativeArray(types));
+        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types));
     }
     
     /**
@@ -216,7 +218,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * use by language bindings.
      */
     public void setValist(TreeIter iter, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_set_valist(HANDLE(), iter.HANDLE(), varArgs);
+        gtk_h.gtk_tree_store_set_valist(handle(), iter.handle(), varArgs);
     }
     
     /**
@@ -225,7 +227,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * column.
      */
     public void setValue(TreeIter iter, int column, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_set_value(HANDLE(), iter.HANDLE(), column, value.HANDLE());
+        gtk_h.gtk_tree_store_set_value(handle(), iter.handle(), column, value.handle());
     }
     
     /**
@@ -235,7 +237,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * the number of columns to change is not known until run-time.
      */
     public void setValuesv(TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_set_valuesv(HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
+        gtk_h.gtk_tree_store_set_valuesv(handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, columns), Interop.allocateNativeArray(values), nValues);
     }
     
     /**
@@ -243,7 +245,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * only works with unsorted stores.
      */
     public void swap(TreeIter a, TreeIter b) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_swap(HANDLE(), a.HANDLE(), b.HANDLE());
+        gtk_h.gtk_tree_store_swap(handle(), a.handle(), b.handle());
     }
     
 }

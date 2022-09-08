@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -82,7 +84,7 @@ public class PadController extends EventController {
      * a pad controller to any other type of widget will not have an effect.
      */
     public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_new(group.HANDLE(), pad.HANDLE()), true));
+        super(References.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true));
     }
     
     /**
@@ -97,7 +99,7 @@ public class PadController extends EventController {
      * feedback.
      */
     public void setAction(PadActionType type, int index, int mode, java.lang.String label, java.lang.String actionName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_set_action(HANDLE(), type.getValue(), index, mode, Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(actionName).HANDLE());
+        gtk_h.gtk_pad_controller_set_action(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     /**
@@ -107,7 +109,7 @@ public class PadController extends EventController {
      * See [struct@Gtk.PadActionEntry] and [method@Gtk.PadController.set_action].
      */
     public void setActionEntries(PadActionEntry[] entries, int nEntries) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_set_action_entries(HANDLE(), Interop.allocateNativeArray(entries), nEntries);
+        gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries), nEntries);
     }
     
 }

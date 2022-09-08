@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
      * a stream cannot switch from pollable to non-pollable or vice versa.
      */
     public default boolean canPoll() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pollable_input_stream_can_poll(HANDLE());
+        var RESULT = gtk_h.g_pollable_input_stream_can_poll(handle());
         return (RESULT != 0);
     }
     
@@ -38,7 +40,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
      * rather than g_input_stream_read() from the callback.
      */
     public default org.gtk.glib.Source createSource(Cancellable cancellable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pollable_input_stream_create_source(HANDLE(), cancellable.HANDLE());
+        var RESULT = gtk_h.g_pollable_input_stream_create_source(handle(), cancellable.handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
@@ -53,7 +55,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
      * %G_IO_ERROR_WOULD_BLOCK error rather than blocking.
      */
     public default boolean isReadable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pollable_input_stream_is_readable(HANDLE());
+        var RESULT = gtk_h.g_pollable_input_stream_is_readable(handle());
         return (RESULT != 0);
     }
     
@@ -72,7 +74,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
      */
     public default long readNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pollable_input_stream_read_nonblocking(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), count, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_pollable_input_stream_read_nonblocking(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer), count, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

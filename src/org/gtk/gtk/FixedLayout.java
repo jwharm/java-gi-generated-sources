@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -53,7 +55,7 @@ public class FixedLayout extends LayoutManager {
      * Creates a new `GtkFixedLayout`.
      */
     public FixedLayout() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_new(), true));
+        super(References.get(gtk_h.gtk_fixed_layout_new(), true));
     }
     
 }

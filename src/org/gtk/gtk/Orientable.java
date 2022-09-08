@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public interface Orientable extends io.github.jwharm.javagi.interop.NativeAddres
      * Retrieves the orientation of the @orientable.
      */
     public default Orientation getOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_orientable_get_orientation(HANDLE());
+        var RESULT = gtk_h.gtk_orientable_get_orientation(handle());
         return Orientation.fromValue(RESULT);
     }
     
@@ -26,7 +28,7 @@ public interface Orientable extends io.github.jwharm.javagi.interop.NativeAddres
      * Sets the orientation of the @orientable.
      */
     public default void setOrientation(Orientation orientation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_orientable_set_orientation(HANDLE(), orientation.getValue());
+        gtk_h.gtk_orientable_set_orientation(handle(), orientation.getValue());
     }
     
     class OrientableImpl extends org.gtk.gobject.Object implements Orientable {

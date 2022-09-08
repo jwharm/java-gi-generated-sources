@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class ColorMatrixNode extends RenderNode {
      * for every pixel.
      */
     public ColorMatrixNode(RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_matrix_node_new(child.HANDLE(), colorMatrix.HANDLE(), colorOffset.HANDLE()), true));
+        super(References.get(gtk_h.gsk_color_matrix_node_new(child.handle(), colorMatrix.handle(), colorOffset.handle()), true));
     }
     
     /**
      * Gets the child node that is getting its colors modified by the given @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_matrix_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_color_matrix_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -45,7 +47,7 @@ public class ColorMatrixNode extends RenderNode {
      * Retrieves the color matrix used by the @node.
      */
     public org.gtk.graphene.Matrix getColorMatrix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_matrix_node_get_color_matrix(HANDLE());
+        var RESULT = gtk_h.gsk_color_matrix_node_get_color_matrix(handle());
         return new org.gtk.graphene.Matrix(References.get(RESULT, false));
     }
     
@@ -53,7 +55,7 @@ public class ColorMatrixNode extends RenderNode {
      * Retrieves the color offset used by the @node.
      */
     public org.gtk.graphene.Vec4 getColorOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_matrix_node_get_color_offset(HANDLE());
+        var RESULT = gtk_h.gsk_color_matrix_node_get_color_offset(handle());
         return new org.gtk.graphene.Vec4(References.get(RESULT, false));
     }
     

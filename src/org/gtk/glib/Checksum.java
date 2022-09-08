@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * on it anymore.
      */
     public Checksum(ChecksumType checksumType) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_new(checksumType.getValue()), true));
+        super(References.get(gtk_h.g_checksum_new(checksumType.getValue()), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * checksum will be closed as well.
      */
     public Checksum copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_copy(HANDLE());
+        var RESULT = gtk_h.g_checksum_copy(handle());
         return new Checksum(References.get(RESULT, true));
     }
     
@@ -50,7 +52,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the memory allocated for @checksum.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_free(HANDLE());
+        gtk_h.g_checksum_free(handle());
     }
     
     /**
@@ -62,7 +64,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * The hexadecimal characters will be lower case.
      */
     public java.lang.String getString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_get_string(HANDLE());
+        var RESULT = gtk_h.g_checksum_get_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -70,7 +72,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Resets the state of the @checksum back to its initial state.
      */
     public void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_reset(HANDLE());
+        gtk_h.g_checksum_reset(handle());
     }
     
     /**
@@ -79,7 +81,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * not have been called on @checksum.
      */
     public void update(byte[] data, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_update(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.g_checksum_update(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
     }
     
 }

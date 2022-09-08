@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * the socks5, socks4a, and socks4 proxy types.
      */
     public void setDefaultProxy(java.lang.String defaultProxy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_default_proxy(HANDLE(), Interop.allocateNativeString(defaultProxy).HANDLE());
+        gtk_h.g_simple_proxy_resolver_set_default_proxy(handle(), Interop.allocateNativeString(defaultProxy).handle());
     }
     
     /**
@@ -46,7 +48,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * @ignore_hosts argument is interpreted.
      */
     public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_ignore_hosts(HANDLE(), Interop.allocateNativeArray(ignoreHosts));
+        gtk_h.g_simple_proxy_resolver_set_ignore_hosts(handle(), Interop.allocateNativeArray(ignoreHosts));
     }
     
     /**
@@ -60,7 +62,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * types.
      */
     public void setUriProxy(java.lang.String uriScheme, java.lang.String proxy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_proxy_resolver_set_uri_proxy(HANDLE(), Interop.allocateNativeString(uriScheme).HANDLE(), Interop.allocateNativeString(proxy).HANDLE());
+        gtk_h.g_simple_proxy_resolver_set_uri_proxy(handle(), Interop.allocateNativeString(uriScheme).handle(), Interop.allocateNativeString(proxy).handle());
     }
     
 }

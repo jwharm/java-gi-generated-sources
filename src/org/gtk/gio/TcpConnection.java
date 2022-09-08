@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,7 +27,7 @@ public class TcpConnection extends SocketConnection {
      * g_tcp_connection_set_graceful_disconnect().
      */
     public boolean getGracefulDisconnect() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_connection_get_graceful_disconnect(HANDLE());
+        var RESULT = gtk_h.g_tcp_connection_get_graceful_disconnect(handle());
         return (RESULT != 0);
     }
     
@@ -41,7 +43,7 @@ public class TcpConnection extends SocketConnection {
      * take a while. For this reason it is disabled by default.
      */
     public void setGracefulDisconnect(boolean gracefulDisconnect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_connection_set_graceful_disconnect(HANDLE(), gracefulDisconnect ? 1 : 0);
+        gtk_h.g_tcp_connection_set_graceful_disconnect(handle(), gracefulDisconnect ? 1 : 0);
     }
     
 }

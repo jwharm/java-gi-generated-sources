@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      * Finds a #GIOExtension for an extension point by name.
      */
     public IOExtension getExtensionByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extension_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.g_io_extension_point_get_extension_by_name(handle(), Interop.allocateNativeString(name).handle());
         return new IOExtension(References.get(RESULT, false));
     }
     
@@ -28,7 +30,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      * The list is sorted by priority, beginning with the highest priority.
      */
     public org.gtk.glib.List getExtensions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extensions(HANDLE());
+        var RESULT = gtk_h.g_io_extension_point_get_extensions(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -36,7 +38,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      * Gets the required type for @extension_point.
      */
     public org.gtk.gobject.Type getRequiredType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_required_type(HANDLE());
+        var RESULT = gtk_h.g_io_extension_point_get_required_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -45,7 +47,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      * All implementations must henceforth have this type.
      */
     public void setRequiredType(Type type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_set_required_type(HANDLE(), type.getValue());
+        gtk_h.g_io_extension_point_set_required_type(handle(), type.getValue());
     }
     
 }

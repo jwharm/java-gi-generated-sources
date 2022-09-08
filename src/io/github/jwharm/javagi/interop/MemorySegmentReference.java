@@ -5,10 +5,10 @@ import jdk.incubator.foreign.MemorySegment;
 
 import java.lang.ref.Cleaner;
 
-public class MemorySegmentProxy {
+public class MemorySegmentReference {
 
     private final static Cleaner cleaner = Cleaner.create();
-    private MemorySegmentProxy.State state;
+    private MemorySegmentReference.State state;
     private Cleaner.Cleanable cleanable;
 
     private static class State implements Runnable {
@@ -23,12 +23,12 @@ public class MemorySegmentProxy {
         }
     }
 
-    public MemorySegmentProxy(MemorySegment segment) {
-        state = new MemorySegmentProxy.State(segment);
+    public MemorySegmentReference(MemorySegment segment) {
+        state = new MemorySegmentReference.State(segment);
         cleanable = cleaner.register(this, state);
     }
 
-    public final MemoryAddress HANDLE() {
+    public final MemoryAddress handle() {
         return state.segment.address();
     }
 }

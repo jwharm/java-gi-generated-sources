@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class FocusEvent extends Event {
      * leaving the surface.
      */
     public boolean getIn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_focus_event_get_in(HANDLE());
+        var RESULT = gtk_h.gdk_focus_event_get_in(handle());
         return (RESULT != 0);
     }
     

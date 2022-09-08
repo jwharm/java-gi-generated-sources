@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -45,7 +47,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_weak_ref_init() called on it.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_clear(HANDLE());
+        gtk_h.g_weak_ref_clear(handle());
     }
     
     /**
@@ -60,7 +62,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      * by using g_object_unref().
      */
     public Object get() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_get(HANDLE());
+        var RESULT = gtk_h.g_weak_ref_get(handle());
         return new Object(References.get(RESULT, true));
     }
     
@@ -76,7 +78,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      * properly initialised.  Just use g_weak_ref_set() directly.
      */
     public void init(Object object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_init(HANDLE(), object.HANDLE());
+        gtk_h.g_weak_ref_init(handle(), object.handle());
     }
     
     /**
@@ -87,7 +89,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      * function.
      */
     public void set(Object object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_set(HANDLE(), object.HANDLE());
+        gtk_h.g_weak_ref_set(handle(), object.handle());
     }
     
 }

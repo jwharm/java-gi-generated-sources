@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class ScrollEvent extends Event {
      * Extracts the direction of a scroll event.
      */
     public ScrollDirection getDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_scroll_event_get_direction(HANDLE());
+        var RESULT = gtk_h.gdk_scroll_event_get_direction(handle());
         return ScrollDirection.fromValue(RESULT);
     }
     
@@ -39,7 +41,7 @@ public class ScrollEvent extends Event {
      * Stop scroll events always have a delta of 0/0.
      */
     public boolean isStop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_scroll_event_is_stop(HANDLE());
+        var RESULT = gtk_h.gdk_scroll_event_is_stop(handle());
         return (RESULT != 0);
     }
     

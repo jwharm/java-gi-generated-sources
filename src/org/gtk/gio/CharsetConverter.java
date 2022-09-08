@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Gets the number of fallbacks that @converter has applied so far.
      */
     public int getNumFallbacks() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_charset_converter_get_num_fallbacks(HANDLE());
+        var RESULT = gtk_h.g_charset_converter_get_num_fallbacks(handle());
         return RESULT;
     }
     
@@ -32,7 +34,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Gets the #GCharsetConverter:use-fallback property.
      */
     public boolean getUseFallback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_charset_converter_get_use_fallback(HANDLE());
+        var RESULT = gtk_h.g_charset_converter_get_use_fallback(handle());
         return (RESULT != 0);
     }
     
@@ -40,7 +42,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Sets the #GCharsetConverter:use-fallback property.
      */
     public void setUseFallback(boolean useFallback) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_charset_converter_set_use_fallback(HANDLE(), useFallback ? 1 : 0);
+        gtk_h.g_charset_converter_set_use_fallback(handle(), useFallback ? 1 : 0);
     }
     
 }

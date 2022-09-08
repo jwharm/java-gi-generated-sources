@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
      * This function must be called to finish a custom print preview.
      */
     public default void endPreview() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_preview_end_preview(HANDLE());
+        gtk_h.gtk_print_operation_preview_end_preview(handle());
     }
     
     /**
@@ -29,7 +31,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
      * have been selected for printing.
      */
     public default boolean isSelected(int pageNr) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_preview_is_selected(HANDLE(), pageNr);
+        var RESULT = gtk_h.gtk_print_operation_preview_is_selected(handle(), pageNr);
         return (RESULT != 0);
     }
     
@@ -47,7 +49,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
      * be associated with the print context.
      */
     public default void renderPage(int pageNr) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_preview_render_page(HANDLE(), pageNr);
+        gtk_h.gtk_print_operation_preview_render_page(handle(), pageNr);
     }
     
     @FunctionalInterface
@@ -66,12 +68,12 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreviewGotPageSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("got-page-size").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("got-page-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -92,12 +94,12 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreviewReady", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("ready").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("ready").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class FontsetSimple extends Fontset {
      * Creates a new `PangoFontsetSimple` for the given language.
      */
     public FontsetSimple(Language language) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_new(language.HANDLE()), true));
+        super(References.get(gtk_h.pango_fontset_simple_new(language.handle()), true));
     }
     
     /**
@@ -36,14 +38,14 @@ public class FontsetSimple extends Fontset {
      * The fontset takes ownership of @font.
      */
     public void append(Font font) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_append(HANDLE(), font.getReference().unowned().HANDLE());
+        gtk_h.pango_fontset_simple_append(handle(), font.getReference().unowned().handle());
     }
     
     /**
      * Returns the number of fonts in the fontset.
      */
     public int size() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_size(HANDLE());
+        var RESULT = gtk_h.pango_fontset_simple_size(handle());
         return RESULT;
     }
     

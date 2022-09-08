@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * g_variant_builder_init().
      */
     public VariantBuilder(VariantType type) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_new(type.HANDLE()), true));
+        super(References.get(gtk_h.g_variant_builder_new(type.handle()), true));
     }
     
     /**
@@ -48,7 +50,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * the @builder instance takes ownership of @value.
      */
     public void addValue(Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_add_value(HANDLE(), value.HANDLE());
+        gtk_h.g_variant_builder_add_value(handle(), value.handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * to call this function on uninitialised memory.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_clear(HANDLE());
+        gtk_h.g_variant_builder_clear(handle());
     }
     
     /**
@@ -80,7 +82,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * subcontainer).
      */
     public void close() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_close(HANDLE());
+        gtk_h.g_variant_builder_close(handle());
     }
     
     /**
@@ -103,7 +105,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * the empty array.
      */
     public Variant end() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_end(HANDLE());
+        var RESULT = gtk_h.g_variant_builder_end(handle());
         return new Variant(References.get(RESULT, false));
     }
     
@@ -139,7 +141,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * this function.
      */
     public void init(VariantType type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_init(HANDLE(), type.HANDLE());
+        gtk_h.g_variant_builder_init(handle(), type.handle());
     }
     
     /**
@@ -181,7 +183,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * ]|
      */
     public void open(VariantType type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_open(HANDLE(), type.HANDLE());
+        gtk_h.g_variant_builder_open(handle(), type.handle());
     }
     
     /**
@@ -191,7 +193,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * things will happen.
      */
     public VariantBuilder ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_ref(HANDLE());
+        var RESULT = gtk_h.g_variant_builder_ref(handle());
         return new VariantBuilder(References.get(RESULT, true));
     }
     
@@ -205,7 +207,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * things will happen.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_unref(HANDLE());
+        gtk_h.g_variant_builder_unref(handle());
     }
     
 }

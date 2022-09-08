@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -168,14 +170,14 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Creates a new `GtkFileChooserNative`.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE(), action.getValue(), Interop.allocateNativeString(acceptLabel).HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE()), true));
+        super(References.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true));
     }
     
     /**
      * Retrieves the custom label text for the accept button.
      */
     public java.lang.String getAcceptLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_get_accept_label(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_native_get_accept_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -183,7 +185,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Retrieves the custom label text for the cancel button.
      */
     public java.lang.String getCancelLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_get_cancel_label(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_native_get_cancel_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -198,7 +200,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setAcceptLabel(java.lang.String acceptLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_accept_label(HANDLE(), Interop.allocateNativeString(acceptLabel).HANDLE());
+        gtk_h.gtk_file_chooser_native_set_accept_label(handle(), Interop.allocateNativeString(acceptLabel).handle());
     }
     
     /**
@@ -212,7 +214,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * Pressing Alt and that key should activate the button.
      */
     public void setCancelLabel(java.lang.String cancelLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_set_cancel_label(HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE());
+        gtk_h.gtk_file_chooser_native_set_cancel_label(handle(), Interop.allocateNativeString(cancelLabel).handle());
     }
     
 }

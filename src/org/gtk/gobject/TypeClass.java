@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,12 +27,12 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * data area for @g_class using g_type_class_add_private().
      */
     public int getInstancePrivateOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_get_instance_private_offset(HANDLE());
+        var RESULT = gtk_h.g_type_class_get_instance_private_offset(handle());
         return RESULT;
     }
     
     public jdk.incubator.foreign.MemoryAddress getPrivate(Type privateType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_get_private(HANDLE(), privateType.getValue());
+        var RESULT = gtk_h.g_type_class_get_private(handle(), privateType.getValue());
         return RESULT;
     }
     
@@ -45,7 +47,7 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_type_class_peek (g_type_parent (G_TYPE_FROM_CLASS (g_class)))
      */
     public TypeClass peekParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_peek_parent(HANDLE());
+        var RESULT = gtk_h.g_type_class_peek_parent(handle());
         return new TypeClass(References.get(RESULT, false));
     }
     
@@ -56,7 +58,7 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * class pointer after g_type_class_unref() are invalid.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_unref(HANDLE());
+        gtk_h.g_type_class_unref(handle());
     }
     
     /**
@@ -66,7 +68,7 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * otherwise.
      */
     public void unrefUncached() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_class_unref_uncached(HANDLE());
+        gtk_h.g_type_class_unref_uncached(handle());
     }
     
 }

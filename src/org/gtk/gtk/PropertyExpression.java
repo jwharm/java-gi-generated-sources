@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class PropertyExpression extends Expression {
      * The given `this_type` must have a property with `property_name`.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
+        super(References.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true));
     }
     
     /**
@@ -46,7 +48,7 @@ public class PropertyExpression extends Expression {
      * Otherwise, this expression's evaluation will fail.
      */
     public PropertyExpression(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().HANDLE(), pspec.HANDLE()), true));
+        super(References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true));
     }
     
     /**
@@ -54,7 +56,7 @@ public class PropertyExpression extends Expression {
      * a property expression.
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_property_expression_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -63,7 +65,7 @@ public class PropertyExpression extends Expression {
      * a property expression.
      */
     public org.gtk.gobject.ParamSpec getPspec() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_pspec(HANDLE());
+        var RESULT = gtk_h.gtk_property_expression_get_pspec(handle());
         return new org.gtk.gobject.ParamSpec(References.get(RESULT, false));
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class OverlayLayoutChild extends LayoutChild {
      * Retrieves whether the child is clipped.
      */
     public boolean getClipOverlay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_child_get_clip_overlay(HANDLE());
+        var RESULT = gtk_h.gtk_overlay_layout_child_get_clip_overlay(handle());
         return (RESULT != 0);
     }
     
@@ -31,7 +33,7 @@ public class OverlayLayoutChild extends LayoutChild {
      * Retrieves whether the child is measured.
      */
     public boolean getMeasure() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_child_get_measure(HANDLE());
+        var RESULT = gtk_h.gtk_overlay_layout_child_get_measure(handle());
         return (RESULT != 0);
     }
     
@@ -39,14 +41,14 @@ public class OverlayLayoutChild extends LayoutChild {
      * Sets whether to clip this child.
      */
     public void setClipOverlay(boolean clipOverlay) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_child_set_clip_overlay(HANDLE(), clipOverlay ? 1 : 0);
+        gtk_h.gtk_overlay_layout_child_set_clip_overlay(handle(), clipOverlay ? 1 : 0);
     }
     
     /**
      * Sets whether to measure this child.
      */
     public void setMeasure(boolean measure) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_layout_child_set_measure(HANDLE(), measure ? 1 : 0);
+        gtk_h.gtk_overlay_layout_child_set_measure(handle(), measure ? 1 : 0);
     }
     
 }

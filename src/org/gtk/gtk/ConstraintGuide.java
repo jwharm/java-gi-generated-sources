@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,14 +36,14 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * Creates a new `GtkConstraintGuide` object.
      */
     public ConstraintGuide() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_new(), true));
+        super(References.get(gtk_h.gtk_constraint_guide_new(), true));
     }
     
     /**
      * Retrieves the name set using gtk_constraint_guide_set_name().
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_guide_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -49,7 +51,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * Retrieves the strength set using gtk_constraint_guide_set_strength().
      */
     public ConstraintStrength getStrength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_get_strength(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_guide_get_strength(handle());
         return ConstraintStrength.fromValue(RESULT);
     }
     
@@ -60,7 +62,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * the constraints will be updated to reflect the new size.
      */
     public void setMaxSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_max_size(HANDLE(), width, height);
+        gtk_h.gtk_constraint_guide_set_max_size(handle(), width, height);
     }
     
     /**
@@ -70,7 +72,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * the constraints will be updated to reflect the new size.
      */
     public void setMinSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_min_size(HANDLE(), width, height);
+        gtk_h.gtk_constraint_guide_set_min_size(handle(), width, height);
     }
     
     /**
@@ -79,7 +81,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * The name is useful for debugging purposes.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_constraint_guide_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -89,7 +91,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * the constraints will be updated to reflect the new size.
      */
     public void setNatSize(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_nat_size(HANDLE(), width, height);
+        gtk_h.gtk_constraint_guide_set_nat_size(handle(), width, height);
     }
     
     /**
@@ -97,7 +99,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      * given `GtkConstraintGuide`.
      */
     public void setStrength(ConstraintStrength strength) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_set_strength(HANDLE(), strength.getValue());
+        gtk_h.gtk_constraint_guide_set_strength(handle(), strength.getValue());
     }
     
 }

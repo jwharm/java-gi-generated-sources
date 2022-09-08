@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +46,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * This is valid and non-empty if initializing the #GDBusServer succeeded.
      */
     public java.lang.String getClientAddress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_get_client_address(HANDLE());
+        var RESULT = gtk_h.g_dbus_server_get_client_address(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -52,7 +54,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * Gets the flags for @server.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_get_flags(HANDLE());
+        var RESULT = gtk_h.g_dbus_server_get_flags(handle());
         return RESULT;
     }
     
@@ -60,7 +62,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * Gets the GUID for @server, as provided to g_dbus_server_new_sync().
      */
     public java.lang.String getGuid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_get_guid(HANDLE());
+        var RESULT = gtk_h.g_dbus_server_get_guid(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -68,7 +70,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * Gets whether @server is active.
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_is_active(HANDLE());
+        var RESULT = gtk_h.g_dbus_server_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -76,14 +78,14 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * Starts @server.
      */
     public void start() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_start(HANDLE());
+        gtk_h.g_dbus_server_start(handle());
     }
     
     /**
      * Stops @server.
      */
     public void stop() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_server_stop(HANDLE());
+        gtk_h.g_dbus_server_stop(handle());
     }
     
     @FunctionalInterface
@@ -118,12 +120,12 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusServerNewConnection", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("new-connection").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("new-connection").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

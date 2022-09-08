@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,14 +31,14 @@ public class SignalAction extends ShortcutAction {
      * It will also unpack the args into arguments passed to the signal.
      */
     public SignalAction(java.lang.String signalName) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).HANDLE()), true));
+        super(References.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true));
     }
     
     /**
      * Returns the name of the signal that will be emitted.
      */
     public java.lang.String getSignalName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_get_signal_name(HANDLE());
+        var RESULT = gtk_h.gtk_signal_action_get_signal_name(handle());
         return RESULT.getUtf8String(0);
     }
     

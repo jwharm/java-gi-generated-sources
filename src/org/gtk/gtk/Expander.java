@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -113,7 +115,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Creates a new expander using @label as the text of the label.
      */
     public Expander(java.lang.String label) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.allocateNativeString(label).HANDLE()), false));
+        super(References.get(gtk_h.gtk_expander_new(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
@@ -127,14 +129,14 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
-        return new Expander(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new Expander(References.get(gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
      * Gets the child widget of @expander.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -144,7 +146,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns %TRUE if the child widget is revealed.
      */
     public boolean getExpanded() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_expanded(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_expanded(handle());
         return (RESULT != 0);
     }
     
@@ -158,7 +160,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * container.
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -166,7 +168,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Retrieves the label widget for the frame.
      */
     public Widget getLabelWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_label_widget(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_label_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -175,7 +177,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * containing the expander upon resizing and collpasing.
      */
     public boolean getResizeToplevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_resize_toplevel(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_resize_toplevel(handle());
         return (RESULT != 0);
     }
     
@@ -183,7 +185,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the label’s text is interpreted as Pango markup.
      */
     public boolean getUseMarkup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_use_markup(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_use_markup(handle());
         return (RESULT != 0);
     }
     
@@ -191,7 +193,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns whether an underline in the text indicates a mnemonic.
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_expander_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -199,7 +201,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Sets the child widget of @expander.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_expander_set_child(handle(), child.handle());
     }
     
     /**
@@ -209,7 +211,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * and %FALSE if you want the child widget to be hidden.
      */
     public void setExpanded(boolean expanded) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_expanded(HANDLE(), expanded ? 1 : 0);
+        gtk_h.gtk_expander_set_expanded(handle(), expanded ? 1 : 0);
     }
     
     /**
@@ -218,7 +220,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * This will also clear any previously set labels.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_expander_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -228,7 +230,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * the expander arrow.
      */
     public void setLabelWidget(Widget labelWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_label_widget(HANDLE(), labelWidget.HANDLE());
+        gtk_h.gtk_expander_set_label_widget(handle(), labelWidget.handle());
     }
     
     /**
@@ -236,21 +238,21 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * containing the expander upon resizing and collpasing.
      */
     public void setResizeToplevel(boolean resizeToplevel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_resize_toplevel(HANDLE(), resizeToplevel ? 1 : 0);
+        gtk_h.gtk_expander_set_resize_toplevel(handle(), resizeToplevel ? 1 : 0);
     }
     
     /**
      * Sets whether the text of the label contains Pango markup.
      */
     public void setUseMarkup(boolean useMarkup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_use_markup(HANDLE(), useMarkup ? 1 : 0);
+        gtk_h.gtk_expander_set_use_markup(handle(), useMarkup ? 1 : 0);
     }
     
     /**
      * If true, an underline in the text indicates a mnemonic.
      */
     public void setUseUnderline(boolean useUnderline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_set_use_underline(HANDLE(), useUnderline ? 1 : 0);
+        gtk_h.gtk_expander_set_use_underline(handle(), useUnderline ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -265,12 +267,12 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalExpanderActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

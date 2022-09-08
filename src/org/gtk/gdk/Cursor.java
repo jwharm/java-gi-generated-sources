@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -71,14 +73,14 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
     public Cursor(java.lang.String name, Cursor fallback) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).HANDLE(), fallback.HANDLE()), true));
+        super(References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true));
     }
     
     /**
      * Creates a new cursor from a `GdkTexture`.
      */
     public Cursor(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_texture(texture.HANDLE(), hotspotX, hotspotY, fallback.HANDLE()), true));
+        super(References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true));
     }
     
     /**
@@ -91,7 +93,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * it is used on does not support textured cursors.
      */
     public Cursor getFallback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_fallback(HANDLE());
+        var RESULT = gtk_h.gdk_cursor_get_fallback(handle());
         return new Cursor(References.get(RESULT, false));
     }
     
@@ -105,7 +107,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * [ctor@Gdk.Cursor.new_from_texture].
      */
     public int getHotspotX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_hotspot_x(HANDLE());
+        var RESULT = gtk_h.gdk_cursor_get_hotspot_x(handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * [ctor@Gdk.Cursor.new_from_texture].
      */
     public int getHotspotY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_hotspot_y(HANDLE());
+        var RESULT = gtk_h.gdk_cursor_get_hotspot_y(handle());
         return RESULT;
     }
     
@@ -129,7 +131,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * If the cursor is not a named cursor, %NULL will be returned.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_name(HANDLE());
+        var RESULT = gtk_h.gdk_cursor_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -139,7 +141,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * If the cursor is a named cursor, %NULL will be returned.
      */
     public Texture getTexture() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_texture(HANDLE());
+        var RESULT = gtk_h.gdk_cursor_get_texture(handle());
         return new Texture(References.get(RESULT, false));
     }
     

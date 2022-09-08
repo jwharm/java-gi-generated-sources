@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * chunk.
      */
     public ShaderArgsBuilder(GLShader shader, org.gtk.glib.Bytes initialValues) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_new(shader.HANDLE(), initialValues.HANDLE()), true));
+        super(References.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true));
     }
     
     /**
@@ -30,7 +32,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * on the @builder are zero-initialized.
      */
     public org.gtk.glib.Bytes freeToArgs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_free_to_args(HANDLE());
+        var RESULT = gtk_h.gsk_shader_args_builder_free_to_args(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -38,7 +40,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * Increases the reference count of a `GskShaderArgsBuilder` by one.
      */
     public ShaderArgsBuilder ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_ref(HANDLE());
+        var RESULT = gtk_h.gsk_shader_args_builder_ref(handle());
         return new ShaderArgsBuilder(References.get(RESULT, true));
     }
     
@@ -48,7 +50,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of bool type.
      */
     public void setBool(int idx, boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_bool(HANDLE(), idx, value ? 1 : 0);
+        gtk_h.gsk_shader_args_builder_set_bool(handle(), idx, value ? 1 : 0);
     }
     
     /**
@@ -57,7 +59,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of float type.
      */
     public void setFloat(int idx, float value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_float(HANDLE(), idx, value);
+        gtk_h.gsk_shader_args_builder_set_float(handle(), idx, value);
     }
     
     /**
@@ -66,7 +68,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of int type.
      */
     public void setInt(int idx, int value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_int(HANDLE(), idx, value);
+        gtk_h.gsk_shader_args_builder_set_int(handle(), idx, value);
     }
     
     /**
@@ -75,7 +77,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of uint type.
      */
     public void setUint(int idx, int value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_uint(HANDLE(), idx, value);
+        gtk_h.gsk_shader_args_builder_set_uint(handle(), idx, value);
     }
     
     /**
@@ -84,7 +86,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of vec2 type.
      */
     public void setVec2(int idx, org.gtk.graphene.Vec2 value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_vec2(HANDLE(), idx, value.HANDLE());
+        gtk_h.gsk_shader_args_builder_set_vec2(handle(), idx, value.handle());
     }
     
     /**
@@ -93,7 +95,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of vec3 type.
      */
     public void setVec3(int idx, org.gtk.graphene.Vec3 value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_vec3(HANDLE(), idx, value.HANDLE());
+        gtk_h.gsk_shader_args_builder_set_vec3(handle(), idx, value.handle());
     }
     
     /**
@@ -102,7 +104,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * The uniform must be of vec4 type.
      */
     public void setVec4(int idx, org.gtk.graphene.Vec4 value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_set_vec4(HANDLE(), idx, value.HANDLE());
+        gtk_h.gsk_shader_args_builder_set_vec4(handle(), idx, value.handle());
     }
     
     /**
@@ -119,7 +121,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * [method@Gsk.ShaderArgsBuilder.free_to_args].
      */
     public org.gtk.glib.Bytes toArgs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_to_args(HANDLE());
+        var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -129,7 +131,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * If the resulting reference count is zero, frees the builder.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_shader_args_builder_unref(HANDLE());
+        gtk_h.gsk_shader_args_builder_unref(handle());
     }
     
 }

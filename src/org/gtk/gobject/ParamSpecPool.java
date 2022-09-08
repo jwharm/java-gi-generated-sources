@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      * Inserts a #GParamSpec in the pool.
      */
     public void insert(ParamSpec pspec, Type ownerType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_insert(HANDLE(), pspec.HANDLE(), ownerType.getValue());
+        gtk_h.g_param_spec_pool_insert(handle(), pspec.handle(), ownerType.getValue());
     }
     
     /**
@@ -30,7 +32,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      * the pool.
      */
     public org.gtk.glib.List listOwned(Type ownerType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_list_owned(HANDLE(), ownerType.getValue());
+        var RESULT = gtk_h.g_param_spec_pool_list_owned(handle(), ownerType.getValue());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -38,7 +40,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      * Looks up a #GParamSpec in the pool.
      */
     public ParamSpec lookup(java.lang.String paramName, Type ownerType, boolean walkAncestors) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_lookup(HANDLE(), Interop.allocateNativeString(paramName).HANDLE(), ownerType.getValue(), walkAncestors ? 1 : 0);
+        var RESULT = gtk_h.g_param_spec_pool_lookup(handle(), Interop.allocateNativeString(paramName).handle(), ownerType.getValue(), walkAncestors ? 1 : 0);
         return new ParamSpec(References.get(RESULT, false));
     }
     
@@ -46,7 +48,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase 
      * Removes a #GParamSpec from the pool.
      */
     public void remove(ParamSpec pspec) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_pool_remove(HANDLE(), pspec.HANDLE());
+        gtk_h.g_param_spec_pool_remove(handle(), pspec.handle());
     }
     
 }

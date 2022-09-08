@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -49,7 +51,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * Gets the model that is currently being mapped or %NULL if none.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_map_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_map_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * Checks if a map function is currently set on @self.
      */
     public boolean hasMap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_map_list_model_has_map(HANDLE());
+        var RESULT = gtk_h.gtk_map_list_model_has_map(handle());
         return (RESULT != 0);
     }
     
@@ -69,7 +71,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * they are doing and have set up an appropriate map function.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_map_list_model_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_map_list_model_set_model(handle(), model.handle());
     }
     
 }

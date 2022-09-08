@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class FontFamily extends org.gtk.gobject.Object {
      * Gets the `PangoFontFace` of @family with the given name.
      */
     public FontFace getFace(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_get_face(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.pango_font_family_get_face(handle(), Interop.allocateNativeString(name).handle());
         return new FontFace(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class FontFamily extends org.gtk.gobject.Object {
      * this family is desired.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_get_name(HANDLE());
+        var RESULT = gtk_h.pango_font_family_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -60,7 +62,7 @@ public class FontFamily extends org.gtk.gobject.Object {
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_is_monospace(HANDLE());
+        var RESULT = gtk_h.pango_font_family_is_monospace(handle());
         return (RESULT != 0);
     }
     
@@ -72,7 +74,7 @@ public class FontFamily extends org.gtk.gobject.Object {
      * [method@Pango.FontDescription.set_variations] for more information.
      */
     public boolean isVariable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_is_variable(HANDLE());
+        var RESULT = gtk_h.pango_font_family_is_variable(handle());
         return (RESULT != 0);
     }
     

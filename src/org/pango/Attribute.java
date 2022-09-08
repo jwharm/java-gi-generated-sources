@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrColor asColor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_color(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_color(handle());
         return new AttrColor(References.get(RESULT, false));
     }
     
@@ -37,7 +39,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFloat asFloat() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_float(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_float(handle());
         return new AttrFloat(References.get(RESULT, false));
     }
     
@@ -47,7 +49,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFontDesc asFontDesc() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_font_desc(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_font_desc(handle());
         return new AttrFontDesc(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrFontFeatures asFontFeatures() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_font_features(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_font_features(handle());
         return new AttrFontFeatures(References.get(RESULT, false));
     }
     
@@ -67,7 +69,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrInt asInt() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_int(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_int(handle());
         return new AttrInt(References.get(RESULT, false));
     }
     
@@ -77,7 +79,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrLanguage asLanguage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_language(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_language(handle());
         return new AttrLanguage(References.get(RESULT, false));
     }
     
@@ -87,7 +89,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrShape asShape() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_shape(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_shape(handle());
         return new AttrShape(References.get(RESULT, false));
     }
     
@@ -97,7 +99,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrSize asSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_size(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_size(handle());
         return new AttrSize(References.get(RESULT, false));
     }
     
@@ -107,7 +109,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is mainly useful for language bindings.
      */
     public AttrString asString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_string(HANDLE());
+        var RESULT = gtk_h.pango_attribute_as_string(handle());
         return new AttrString(References.get(RESULT, false));
     }
     
@@ -115,7 +117,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * Make a copy of an attribute.
      */
     public Attribute copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_copy(HANDLE());
+        var RESULT = gtk_h.pango_attribute_copy(handle());
         return new Attribute(References.get(RESULT, true));
     }
     
@@ -123,7 +125,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * Destroy a `PangoAttribute` and free all associated memory.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_destroy(HANDLE());
+        gtk_h.pango_attribute_destroy(handle());
     }
     
     /**
@@ -134,7 +136,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * apply to.
      */
     public boolean equal(Attribute attr2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_equal(HANDLE(), attr2.HANDLE());
+        var RESULT = gtk_h.pango_attribute_equal(handle(), attr2.handle());
         return (RESULT != 0);
     }
     
@@ -145,7 +147,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the entire text by default.
      */
     public void init(AttrClass klass) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_init(HANDLE(), klass.HANDLE());
+        gtk_h.pango_attribute_init(handle(), klass.handle());
     }
     
 }

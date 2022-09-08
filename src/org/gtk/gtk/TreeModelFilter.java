@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -94,7 +96,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * all unreffed iters will be invalid.
      */
     public void clearCache() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_clear_cache(HANDLE());
+        gtk_h.gtk_tree_model_filter_clear_cache(handle());
     }
     
     /**
@@ -103,7 +105,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * returned.
      */
     public boolean convertChildIterToIter(TreeIter filterIter, TreeIter childIter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_child_iter_to_iter(HANDLE(), filterIter.HANDLE(), childIter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_filter_convert_child_iter_to_iter(handle(), filterIter.handle(), childIter.handle());
         return (RESULT != 0);
     }
     
@@ -115,7 +117,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * is returned.
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_child_path_to_path(HANDLE(), childPath.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_filter_convert_child_path_to_path(handle(), childPath.handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -123,7 +125,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Sets @child_iter to point to the row pointed to by @filter_iter.
      */
     public void convertIterToChildIter(TreeIter childIter, TreeIter filterIter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_iter_to_child_iter(HANDLE(), childIter.HANDLE(), filterIter.HANDLE());
+        gtk_h.gtk_tree_model_filter_convert_iter_to_child_iter(handle(), childIter.handle(), filterIter.handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * does not point to a location in the child model, %NULL is returned.
      */
     public TreePath convertPathToChildPath(TreePath filterPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_path_to_child_path(HANDLE(), filterPath.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_filter_convert_path_to_child_path(handle(), filterPath.handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -141,7 +143,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Returns a pointer to the child model of @filter.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_filter_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -150,7 +152,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * the filter to re-evaluate whether a row is visible or not.
      */
     public void refilter() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_refilter(HANDLE());
+        gtk_h.gtk_tree_model_filter_refilter(handle());
     }
     
     /**
@@ -164,7 +166,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * once for a given filter model.
      */
     public void setVisibleColumn(int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_set_visible_column(HANDLE(), column);
+        gtk_h.gtk_tree_model_filter_set_visible_column(handle(), column);
     }
     
 }

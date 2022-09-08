@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Returns the stack child to which @self belongs.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -31,7 +33,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Returns the icon name of the page.
      */
     public java.lang.String getIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -39,7 +41,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Returns the name of the page.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -47,7 +49,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Returns whether the page is marked as “needs attention”.
      */
     public boolean getNeedsAttention() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_needs_attention(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_needs_attention(handle());
         return (RESULT != 0);
     }
     
@@ -55,7 +57,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Gets the page title.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -63,7 +65,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Gets whether underlines in the page title indicate mnemonics.
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -74,7 +76,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * property of its widget.
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_stack_page_get_visible(handle());
         return (RESULT != 0);
     }
     
@@ -82,42 +84,42 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Sets the icon name of the page.
      */
     public void setIconName(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_icon_name(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
+        gtk_h.gtk_stack_page_set_icon_name(handle(), Interop.allocateNativeString(setting).handle());
     }
     
     /**
      * Sets the name of the page.
      */
     public void setName(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_name(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
+        gtk_h.gtk_stack_page_set_name(handle(), Interop.allocateNativeString(setting).handle());
     }
     
     /**
      * Sets whether the page is marked as “needs attention”.
      */
     public void setNeedsAttention(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_needs_attention(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_stack_page_set_needs_attention(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets the page title.
      */
     public void setTitle(java.lang.String setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_title(HANDLE(), Interop.allocateNativeString(setting).HANDLE());
+        gtk_h.gtk_stack_page_set_title(handle(), Interop.allocateNativeString(setting).handle());
     }
     
     /**
      * Sets whether underlines in the page title indicate mnemonics.
      */
     public void setUseUnderline(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_use_underline(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_stack_page_set_use_underline(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets whether @page is visible in its `GtkStack`.
      */
     public void setVisible(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_set_visible(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_stack_page_set_visible(handle(), visible ? 1 : 0);
     }
     
 }

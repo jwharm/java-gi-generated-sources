@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * models or via [method@Gtk.TreeListRow.set_expanded].
      */
     public boolean getAutoexpand() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_autoexpand(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_model_get_autoexpand(handle());
         return (RESULT != 0);
     }
     
@@ -41,7 +43,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Do not confuse this function with [method@Gtk.TreeListModel.get_row].
      */
     public TreeListRow getChildRow(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_child_row(HANDLE(), position);
+        var RESULT = gtk_h.gtk_tree_list_model_get_child_row(handle(), position);
         return new TreeListRow(References.get(RESULT, true));
     }
     
@@ -49,7 +51,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the root model that @self was created with.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_model_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -66,7 +68,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * to get the custom `GtkTreeListRow`s.
      */
     public boolean getPassthrough() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_passthrough(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_model_get_passthrough(handle());
         return (RESULT != 0);
     }
     
@@ -90,7 +92,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Do not confuse this function with [method@Gtk.TreeListModel.get_child_row].
      */
     public TreeListRow getRow(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_row(HANDLE(), position);
+        var RESULT = gtk_h.gtk_tree_list_model_get_row(handle(), position);
         return new TreeListRow(References.get(RESULT, true));
     }
     
@@ -102,7 +104,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * to the underlying models or via [method@Gtk.TreeListRow.set_expanded].
      */
     public void setAutoexpand(boolean autoexpand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_set_autoexpand(HANDLE(), autoexpand ? 1 : 0);
+        gtk_h.gtk_tree_list_model_set_autoexpand(handle(), autoexpand ? 1 : 0);
     }
     
 }

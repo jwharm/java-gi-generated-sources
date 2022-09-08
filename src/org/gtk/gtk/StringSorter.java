@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,14 +36,14 @@ public class StringSorter extends Sorter {
      * compare items as invalid.
      */
     public StringSorter(Expression expression) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_new(expression.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_string_sorter_new(expression.getReference().unowned().handle()), true));
     }
     
     /**
      * Gets the expression that is evaluated to obtain strings from items.
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_string_sorter_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -49,7 +51,7 @@ public class StringSorter extends Sorter {
      * Gets whether the sorter ignores case differences.
      */
     public boolean getIgnoreCase() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_get_ignore_case(HANDLE());
+        var RESULT = gtk_h.gtk_string_sorter_get_ignore_case(handle());
         return (RESULT != 0);
     }
     
@@ -59,14 +61,14 @@ public class StringSorter extends Sorter {
      * The expression must have the type %G_TYPE_STRING.
      */
     public void setExpression(Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_set_expression(HANDLE(), expression.HANDLE());
+        gtk_h.gtk_string_sorter_set_expression(handle(), expression.handle());
     }
     
     /**
      * Sets whether the sorter will ignore case differences.
      */
     public void setIgnoreCase(boolean ignoreCase) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_set_ignore_case(HANDLE(), ignoreCase ? 1 : 0);
+        gtk_h.gtk_string_sorter_set_ignore_case(handle(), ignoreCase ? 1 : 0);
     }
     
 }

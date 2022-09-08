@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +48,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using @bytes as the data to pass to `GtkBuilder`.
      */
     public BuilderListItemFactory(BuilderScope scope, org.gtk.glib.Bytes bytes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.HANDLE(), bytes.HANDLE()), true));
+        super(References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true));
     }
     
     /**
@@ -54,7 +56,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using data read from the given @resource_path to pass to `GtkBuilder`.
      */
     public BuilderListItemFactory(BuilderScope scope, java.lang.String resourcePath) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        super(References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true));
     }
     
     /**
@@ -62,7 +64,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * listitems.
      */
     public org.gtk.glib.Bytes getBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_get_bytes(HANDLE());
+        var RESULT = gtk_h.gtk_builder_list_item_factory_get_bytes(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
@@ -70,7 +72,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * If the data references a resource, gets the path of that resource.
      */
     public java.lang.String getResource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_get_resource(HANDLE());
+        var RESULT = gtk_h.gtk_builder_list_item_factory_get_resource(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -78,7 +80,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * Gets the scope used when constructing listitems.
      */
     public BuilderScope getScope() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_get_scope(HANDLE());
+        var RESULT = gtk_h.gtk_builder_list_item_factory_get_scope(handle());
         return new BuilderScope.BuilderScopeImpl(References.get(RESULT, false));
     }
     

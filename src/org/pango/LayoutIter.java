@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Determines whether @iter is on the last line of the layout.
      */
     public boolean atLastLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_at_last_line(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_at_last_line(handle());
         return (RESULT != 0);
     }
     
@@ -31,7 +33,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Copies a `PangoLayoutIter`.
      */
     public LayoutIter copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_copy(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_copy(handle());
         return new LayoutIter(References.get(RESULT, true));
     }
     
@@ -39,7 +41,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees an iterator that's no longer in use.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_free(HANDLE());
+        gtk_h.pango_layout_iter_free(handle());
     }
     
     /**
@@ -49,7 +51,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public int getBaseline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_baseline(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_baseline(handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * ink extents make sense only down to the level of clusters.
      */
     public void getCharExtents(Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_char_extents(HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_iter_get_char_extents(handle(), logicalRect.handle());
     }
     
     /**
@@ -71,7 +73,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public void getClusterExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_cluster_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_iter_get_cluster_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -83,7 +85,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * layout, if on the %NULL run (see [method@Pango.LayoutIter.get_run]).
      */
     public int getIndex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_index(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_index(handle());
         return RESULT;
     }
     
@@ -91,7 +93,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the layout associated with a `PangoLayoutIter`.
      */
     public Layout getLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_layout(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_layout(handle());
         return new Layout(References.get(RESULT, false));
     }
     
@@ -99,7 +101,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Obtains the extents of the `PangoLayout` being iterated over.
      */
     public void getLayoutExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_layout_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_iter_get_layout_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -110,7 +112,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * glyph widths, etc.).
      */
     public LayoutLine getLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_line(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_line(handle());
         return new LayoutLine(References.get(RESULT, false));
     }
     
@@ -123,7 +125,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * as the extents returned from [method@Pango.LayoutLine.get_extents].
      */
     public void getLineExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_line_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_iter_get_line_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -134,7 +136,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * (glyphs, glyph widths, etc.).
      */
     public LayoutLine getLineReadonly() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_line_readonly(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_line_readonly(handle());
         return new LayoutLine(References.get(RESULT, false));
     }
     
@@ -150,7 +152,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * plan to modify the contents of the run (glyphs, glyph widths, etc.).
      */
     public LayoutRun getRun() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_run(handle());
         return new LayoutRun(References.get(RESULT, false));
     }
     
@@ -164,7 +166,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * example due to superscript or subscript positioning.
      */
     public int getRunBaseline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run_baseline(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_run_baseline(handle());
         return RESULT;
     }
     
@@ -174,7 +176,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Layout coordinates have the origin at the top left of the entire layout.
      */
     public void getRunExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_iter_get_run_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
@@ -190,7 +192,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * glyph widths, etc.).
      */
     public LayoutRun getRunReadonly() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_get_run_readonly(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_get_run_readonly(handle());
         return new LayoutRun(References.get(RESULT, false));
     }
     
@@ -200,7 +202,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter was already at the end of the layout, returns %FALSE.
      */
     public boolean nextChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_next_char(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_next_char(handle());
         return (RESULT != 0);
     }
     
@@ -210,7 +212,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter was already at the end of the layout, returns %FALSE.
      */
     public boolean nextCluster() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_next_cluster(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_next_cluster(handle());
         return (RESULT != 0);
     }
     
@@ -220,7 +222,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter is already on the last line, returns %FALSE.
      */
     public boolean nextLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_next_line(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_next_line(handle());
         return (RESULT != 0);
     }
     
@@ -230,7 +232,7 @@ public class LayoutIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @iter was already at the end of the layout, returns %FALSE.
      */
     public boolean nextRun() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_iter_next_run(HANDLE());
+        var RESULT = gtk_h.pango_layout_iter_next_run(handle());
         return (RESULT != 0);
     }
     

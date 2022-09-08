@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class LinearGradientNode extends RenderNode {
      * points and color stops, and render that into the area given by @bounds.
      */
     public LinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
      * Retrieves the final point of the linear gradient.
      */
     public org.gtk.graphene.Point getEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_get_end(HANDLE());
+        var RESULT = gtk_h.gsk_linear_gradient_node_get_end(handle());
         return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class LinearGradientNode extends RenderNode {
      * Retrieves the number of color stops in the gradient.
      */
     public long getNColorStops() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_get_n_color_stops(HANDLE());
+        var RESULT = gtk_h.gsk_linear_gradient_node_get_n_color_stops(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class LinearGradientNode extends RenderNode {
      * Retrieves the initial point of the linear gradient.
      */
     public org.gtk.graphene.Point getStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_get_start(HANDLE());
+        var RESULT = gtk_h.gsk_linear_gradient_node_get_start(handle());
         return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     

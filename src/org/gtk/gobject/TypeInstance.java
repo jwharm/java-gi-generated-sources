@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +17,7 @@ public class TypeInstance extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     public jdk.incubator.foreign.MemoryAddress getPrivate(Type privateType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_type_instance_get_private(HANDLE(), privateType.getValue());
+        var RESULT = gtk_h.g_type_instance_get_private(handle(), privateType.getValue());
         return RESULT;
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * replaying later.
      */
     public Rand copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_copy(HANDLE());
+        var RESULT = gtk_h.g_rand_copy(handle());
         return new Rand(References.get(RESULT, false));
     }
     
@@ -30,7 +32,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * the range [0..1).
      */
     public double double_() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_double(HANDLE());
+        var RESULT = gtk_h.g_rand_double(handle());
         return RESULT;
     }
     
@@ -39,7 +41,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * the range [@begin..@end).
      */
     public double doubleRange(double begin, double end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_double_range(HANDLE(), begin, end);
+        var RESULT = gtk_h.g_rand_double_range(handle(), begin, end);
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the memory allocated for the #GRand.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_free(HANDLE());
+        gtk_h.g_rand_free(handle());
     }
     
     /**
@@ -55,7 +57,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * the range [0..2^32-1].
      */
     public int int_() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_int(HANDLE());
+        var RESULT = gtk_h.g_rand_int(handle());
         return RESULT;
     }
     
@@ -64,7 +66,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * the range [@begin..@end-1].
      */
     public int intRange(int begin, int end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_int_range(HANDLE(), begin, end);
+        var RESULT = gtk_h.g_rand_int_range(handle(), begin, end);
         return RESULT;
     }
     
@@ -72,7 +74,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sets the seed for the random number generator #GRand to @seed.
      */
     public void setSeed(int seed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_set_seed(HANDLE(), seed);
+        gtk_h.g_rand_set_seed(handle(), seed);
     }
     
 }

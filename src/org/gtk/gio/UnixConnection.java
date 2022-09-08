@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +54,7 @@ public class UnixConnection extends SocketConnection {
      */
     public Credentials receiveCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_receive_credentials(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_receive_credentials(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -65,7 +67,7 @@ public class UnixConnection extends SocketConnection {
      */
     public Credentials receiveCredentialsFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_receive_credentials_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_receive_credentials_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -83,7 +85,7 @@ public class UnixConnection extends SocketConnection {
      */
     public int receiveFd(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_receive_fd(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_receive_fd(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -113,7 +115,7 @@ public class UnixConnection extends SocketConnection {
      */
     public boolean sendCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_send_credentials(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_send_credentials(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -126,7 +128,7 @@ public class UnixConnection extends SocketConnection {
      */
     public boolean sendCredentialsFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_send_credentials_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_send_credentials_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -144,7 +146,7 @@ public class UnixConnection extends SocketConnection {
      */
     public boolean sendFd(int fd, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_connection_send_fd(HANDLE(), fd, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_unix_connection_send_fd(handle(), fd, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

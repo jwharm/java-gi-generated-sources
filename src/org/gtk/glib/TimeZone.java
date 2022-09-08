@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -83,7 +85,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newIdentifier(java.lang.String identifier) {
-        return new TimeZone(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).HANDLE()), true));
+        return new TimeZone(References.get(gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).handle()), true));
     }
     
     /**
@@ -98,7 +100,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newLocal() {
-        return new TimeZone(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_local(), true));
+        return new TimeZone(References.get(gtk_h.g_time_zone_new_local(), true));
     }
     
     /**
@@ -109,7 +111,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * `[+|-]hh[:mm[:ss]]`.
      */
     public TimeZone(int seconds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_offset(seconds), true));
+        super(References.get(gtk_h.g_time_zone_new_offset(seconds), true));
     }
     
     /**
@@ -122,7 +124,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newUtc() {
-        return new TimeZone(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_new_utc(), true));
+        return new TimeZone(References.get(gtk_h.g_time_zone_new_utc(), true));
     }
     
     /**
@@ -146,7 +148,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * case.
      */
     public int findInterval(TimeType type, long time) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_find_interval(HANDLE(), type.getValue(), time);
+        var RESULT = gtk_h.g_time_zone_find_interval(handle(), type.getValue(), time);
         return RESULT;
     }
     
@@ -159,7 +161,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * is in effect.
      */
     public java.lang.String getAbbreviation(int interval) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_get_abbreviation(HANDLE(), interval);
+        var RESULT = gtk_h.g_time_zone_get_abbreviation(handle(), interval);
         return RESULT.getUtf8String(0);
     }
     
@@ -174,7 +176,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * this function.
      */
     public java.lang.String getIdentifier() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_get_identifier(HANDLE());
+        var RESULT = gtk_h.g_time_zone_get_identifier(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -187,7 +189,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * west of GMT, positive numbers for east).
      */
     public int getOffset(int interval) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_get_offset(HANDLE(), interval);
+        var RESULT = gtk_h.g_time_zone_get_offset(handle(), interval);
         return RESULT;
     }
     
@@ -196,7 +198,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * @interval of time in the time zone @tz.
      */
     public boolean isDst(int interval) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_is_dst(HANDLE(), interval);
+        var RESULT = gtk_h.g_time_zone_is_dst(handle(), interval);
         return (RESULT != 0);
     }
     
@@ -204,7 +206,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count on @tz.
      */
     public TimeZone ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_ref(HANDLE());
+        var RESULT = gtk_h.g_time_zone_ref(handle());
         return new TimeZone(References.get(RESULT, true));
     }
     
@@ -212,7 +214,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * Decreases the reference count on @tz.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_time_zone_unref(HANDLE());
+        gtk_h.g_time_zone_unref(handle());
     }
     
 }

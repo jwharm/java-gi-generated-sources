@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public class TestCase extends io.github.jwharm.javagi.interop.ResourceBase {
      * Free the @test_case.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_case_free(HANDLE());
+        gtk_h.g_test_case_free(handle());
     }
     
 }

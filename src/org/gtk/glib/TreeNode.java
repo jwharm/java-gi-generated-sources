@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the key stored at a particular tree node.
      */
     public jdk.incubator.foreign.MemoryAddress key() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_key(HANDLE());
+        var RESULT = gtk_h.g_tree_node_key(handle());
         return RESULT;
     }
     
@@ -27,7 +29,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      * if the passed node was already the last one.
      */
     public TreeNode next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_next(HANDLE());
+        var RESULT = gtk_h.g_tree_node_next(handle());
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -36,7 +38,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      * if the passed node was already the first one.
      */
     public TreeNode previous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_previous(HANDLE());
+        var RESULT = gtk_h.g_tree_node_previous(handle());
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -44,7 +46,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the value stored at a particular tree node.
      */
     public jdk.incubator.foreign.MemoryAddress value() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_value(HANDLE());
+        var RESULT = gtk_h.g_tree_node_value(handle());
         return RESULT;
     }
     

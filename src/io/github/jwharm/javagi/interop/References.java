@@ -20,7 +20,7 @@ public class References {
      */
     public static Reference get(MemoryAddress address) {
         for (Reference ref : cache) {
-            if (ref.HANDLE().equals(address)) {
+            if (ref.handle().equals(address)) {
                 return ref;
             }
         }

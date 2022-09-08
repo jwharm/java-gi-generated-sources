@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Creates a new `GtkListBoxRow`.
      */
     public ListBoxRow() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_new(), false));
+        super(References.get(gtk_h.gtk_list_box_row_new(), false));
     }
     
     /**
@@ -47,14 +49,14 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * but that is more expensive.
      */
     public void changed() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_changed(HANDLE());
+        gtk_h.gtk_list_box_row_changed(handle());
     }
     
     /**
      * Gets whether the row is activatable.
      */
     public boolean getActivatable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_activatable(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_get_activatable(handle());
         return (RESULT != 0);
     }
     
@@ -62,7 +64,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets the child widget of @row.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -75,7 +77,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * the state of it.
      */
     public Widget getHeader() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_header(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_get_header(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -83,7 +85,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets the current index of the @row in its `GtkListBox` container.
      */
     public int getIndex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_index(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_get_index(handle());
         return RESULT;
     }
     
@@ -91,7 +93,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets whether the row can be selected.
      */
     public boolean getSelectable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_selectable(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_get_selectable(handle());
         return (RESULT != 0);
     }
     
@@ -100,7 +102,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * `GtkListBox` container.
      */
     public boolean isSelected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_is_selected(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_row_is_selected(handle());
         return (RESULT != 0);
     }
     
@@ -108,14 +110,14 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Set whether the row is activatable.
      */
     public void setActivatable(boolean activatable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_set_activatable(HANDLE(), activatable ? 1 : 0);
+        gtk_h.gtk_list_box_row_set_activatable(handle(), activatable ? 1 : 0);
     }
     
     /**
      * Sets the child widget of @self.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_list_box_row_set_child(handle(), child.handle());
     }
     
     /**
@@ -127,14 +129,14 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * and be shown in front of the row in the listbox.
      */
     public void setHeader(Widget header) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_set_header(HANDLE(), header.HANDLE());
+        gtk_h.gtk_list_box_row_set_header(handle(), header.handle());
     }
     
     /**
      * Set whether the row can be selected.
      */
     public void setSelectable(boolean selectable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_set_selectable(HANDLE(), selectable ? 1 : 0);
+        gtk_h.gtk_list_box_row_set_selectable(handle(), selectable ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -153,12 +155,12 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxRowActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

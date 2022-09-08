@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class CrossFadeNode extends RenderNode {
      * Creates a `GskRenderNode` that will do a cross-fade between @start and @end.
      */
     public CrossFadeNode(RenderNode start, RenderNode end, float progress) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_new(start.HANDLE(), end.HANDLE(), progress), true));
+        super(References.get(gtk_h.gsk_cross_fade_node_new(start.handle(), end.handle(), progress), true));
     }
     
     /**
      * Retrieves the child `GskRenderNode` at the end of the cross-fade.
      */
     public RenderNode getEndChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_get_end_child(HANDLE());
+        var RESULT = gtk_h.gsk_cross_fade_node_get_end_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -38,7 +40,7 @@ public class CrossFadeNode extends RenderNode {
      * Retrieves the progress value of the cross fade.
      */
     public float getProgress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_get_progress(HANDLE());
+        var RESULT = gtk_h.gsk_cross_fade_node_get_progress(handle());
         return RESULT;
     }
     
@@ -46,7 +48,7 @@ public class CrossFadeNode extends RenderNode {
      * Retrieves the child `GskRenderNode` at the beginning of the cross-fade.
      */
     public RenderNode getStartChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cross_fade_node_get_start_child(HANDLE());
+        var RESULT = gtk_h.gsk_cross_fade_node_get_start_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -58,7 +60,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkStatusbar` ready for messages.
      */
     public Statusbar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_new(), false));
+        super(References.get(gtk_h.gtk_statusbar_new(), false));
     }
     
     /**
@@ -68,7 +70,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Note that the description is not shown in the UI.
      */
     public int getContextId(java.lang.String contextDescription) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_get_context_id(HANDLE(), Interop.allocateNativeString(contextDescription).HANDLE());
+        var RESULT = gtk_h.gtk_statusbar_get_context_id(handle(), Interop.allocateNativeString(contextDescription).handle());
         return RESULT;
     }
     
@@ -81,14 +83,14 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * context id.
      */
     public void pop(int contextId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_pop(HANDLE(), contextId);
+        gtk_h.gtk_statusbar_pop(handle(), contextId);
     }
     
     /**
      * Pushes a new message onto a statusbar’s stack.
      */
     public int push(int contextId, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_push(HANDLE(), contextId, Interop.allocateNativeString(text).HANDLE());
+        var RESULT = gtk_h.gtk_statusbar_push(handle(), contextId, Interop.allocateNativeString(text).handle());
         return RESULT;
     }
     
@@ -97,7 +99,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * The exact @context_id and @message_id must be specified.
      */
     public void remove(int contextId, int messageId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_remove(HANDLE(), contextId, messageId);
+        gtk_h.gtk_statusbar_remove(handle(), contextId, messageId);
     }
     
     /**
@@ -105,7 +107,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * stack with the exact @context_id.
      */
     public void removeAll(int contextId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_statusbar_remove_all(HANDLE(), contextId);
+        gtk_h.gtk_statusbar_remove_all(handle(), contextId);
     }
     
     @FunctionalInterface
@@ -120,12 +122,12 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPopped", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("text-popped").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("text-popped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -143,12 +145,12 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPushed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("text-pushed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("text-pushed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

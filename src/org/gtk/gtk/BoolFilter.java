@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class BoolFilter extends Filter {
      * Creates a new bool filter.
      */
     public BoolFilter(Expression expression) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_new(expression.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_bool_filter_new(expression.getReference().unowned().handle()), true));
     }
     
     /**
@@ -32,7 +34,7 @@ public class BoolFilter extends Filter {
      * an item should be filtered.
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_bool_filter_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -40,7 +42,7 @@ public class BoolFilter extends Filter {
      * Returns whether the filter inverts the expression.
      */
     public boolean getInvert() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_get_invert(HANDLE());
+        var RESULT = gtk_h.gtk_bool_filter_get_invert(handle());
         return (RESULT != 0);
     }
     
@@ -51,14 +53,14 @@ public class BoolFilter extends Filter {
      * The expression must have a value type of %G_TYPE_BOOLEAN.
      */
     public void setExpression(Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_set_expression(HANDLE(), expression.HANDLE());
+        gtk_h.gtk_bool_filter_set_expression(handle(), expression.handle());
     }
     
     /**
      * Sets whether the filter should invert the expression.
      */
     public void setInvert(boolean invert) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_set_invert(HANDLE(), invert ? 1 : 0);
+        gtk_h.gtk_bool_filter_set_invert(handle(), invert ? 1 : 0);
     }
     
 }

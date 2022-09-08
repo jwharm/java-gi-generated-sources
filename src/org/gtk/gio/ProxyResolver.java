@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAdd
      * resolver that returns %TRUE for this method.)
      */
     public default boolean isSupported() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_resolver_is_supported(HANDLE());
+        var RESULT = gtk_h.g_proxy_resolver_is_supported(handle());
         return (RESULT != 0);
     }
     

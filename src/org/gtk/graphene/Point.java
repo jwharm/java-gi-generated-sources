@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +39,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public Point() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_alloc(), true));
+        super(References.get(gtk_h.graphene_point_alloc(), true));
     }
     
     /**
@@ -49,7 +51,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * graphene_point_near() instead.
      */
     public boolean equal(Point b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_point_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -57,7 +59,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_point_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_free(HANDLE());
+        gtk_h.graphene_point_free(handle());
     }
     
     /**
@@ -66,7 +68,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * It's safe to call this function multiple times.
      */
     public Point init(float x, float y) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init(HANDLE(), x, y);
+        var RESULT = gtk_h.graphene_point_init(handle(), x, y);
         return new Point(References.get(RESULT, false));
     }
     
@@ -74,7 +76,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes @p with the same coordinates of @src.
      */
     public Point initFromPoint(Point src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init_from_point(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_point_init_from_point(handle(), src.handle());
         return new Point(References.get(RESULT, false));
     }
     
@@ -82,7 +84,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes @p with the coordinates inside the given #graphene_vec2_t.
      */
     public Point initFromVec2(Vec2 src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init_from_vec2(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_point_init_from_vec2(handle(), src.handle());
         return new Point(References.get(RESULT, false));
     }
     
@@ -91,7 +93,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * given @factor.
      */
     public void interpolate(Point b, double factor, Point res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_interpolate(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_point_interpolate(handle(), b.handle(), factor, res.handle());
     }
     
     /**
@@ -99,7 +101,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * the threshold of @epsilon.
      */
     public boolean near(Point b, float epsilon) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_near(HANDLE(), b.HANDLE(), epsilon);
+        var RESULT = gtk_h.graphene_point_near(handle(), b.handle(), epsilon);
         return RESULT;
     }
     
@@ -108,7 +110,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec2_t.
      */
     public void toVec2(Vec2 v) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_to_vec2(HANDLE(), v.HANDLE());
+        gtk_h.graphene_point_to_vec2(handle(), v.handle());
     }
     
 }

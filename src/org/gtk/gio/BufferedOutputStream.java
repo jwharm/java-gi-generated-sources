@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,21 +38,21 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      * Creates a new buffered output stream for a base stream.
      */
     public BufferedOutputStream(OutputStream baseStream) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new(baseStream.HANDLE()), true));
+        super(References.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true));
     }
     
     /**
      * Creates a new buffered output stream with a given buffer size.
      */
     public BufferedOutputStream(OutputStream baseStream, long size) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true));
     }
     
     /**
      * Checks if the buffer automatically grows as data is added.
      */
     public boolean getAutoGrow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_get_auto_grow(HANDLE());
+        var RESULT = gtk_h.g_buffered_output_stream_get_auto_grow(handle());
         return (RESULT != 0);
     }
     
@@ -58,7 +60,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      * Gets the size of the buffer in the @stream.
      */
     public long getBufferSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_get_buffer_size(HANDLE());
+        var RESULT = gtk_h.g_buffered_output_stream_get_buffer_size(handle());
         return RESULT;
     }
     
@@ -69,14 +71,14 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
      * the data to the underlying stream.
      */
     public void setAutoGrow(boolean autoGrow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_set_auto_grow(HANDLE(), autoGrow ? 1 : 0);
+        gtk_h.g_buffered_output_stream_set_auto_grow(handle(), autoGrow ? 1 : 0);
     }
     
     /**
      * Sets the size of the internal buffer to @size.
      */
     public void setBufferSize(long size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_set_buffer_size(HANDLE(), size);
+        gtk_h.g_buffered_output_stream_set_buffer_size(handle(), size);
     }
     
 }

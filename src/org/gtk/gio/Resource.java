@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -155,14 +157,14 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * with the global resource lookup functions like g_resources_lookup_data().
      */
     public void Register() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_resources_register(HANDLE());
+        gtk_h.g_resources_register(handle());
     }
     
     /**
      * Unregisters the resource from the process-global set of resources.
      */
     public void Unregister() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_resources_unregister(HANDLE());
+        gtk_h.g_resources_unregister(handle());
     }
     
     /**
@@ -183,7 +185,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.Bytes lookupData(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_resource_lookup_data(HANDLE(), Interop.allocateNativeString(path).HANDLE(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resource_lookup_data(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -198,7 +200,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public InputStream openStream(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_resource_open_stream(HANDLE(), Interop.allocateNativeString(path).HANDLE(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resource_open_stream(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -210,7 +212,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * function is MT-safe and may be called from any thread.
      */
     public Resource ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_resource_ref(HANDLE());
+        var RESULT = gtk_h.g_resource_ref(handle());
         return new Resource(References.get(RESULT, true));
     }
     
@@ -221,7 +223,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * thread.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_resource_unref(HANDLE());
+        gtk_h.g_resource_unref(handle());
     }
     
 }

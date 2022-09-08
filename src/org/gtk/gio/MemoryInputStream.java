@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,21 +29,21 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
      * Creates a new empty #GMemoryInputStream.
      */
     public MemoryInputStream() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new(), true));
+        super(References.get(gtk_h.g_memory_input_stream_new(), true));
     }
     
     /**
      * Creates a new #GMemoryInputStream with data from the given @bytes.
      */
     public MemoryInputStream(org.gtk.glib.Bytes bytes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new_from_bytes(bytes.HANDLE()), true));
+        super(References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true));
     }
     
     /**
      * Appends @bytes to data that can be read from the input stream.
      */
     public void addBytes(org.gtk.glib.Bytes bytes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_add_bytes(HANDLE(), bytes.HANDLE());
+        gtk_h.g_memory_input_stream_add_bytes(handle(), bytes.handle());
     }
     
 }

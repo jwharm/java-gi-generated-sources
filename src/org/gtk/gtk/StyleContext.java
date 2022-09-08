@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -73,7 +75,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * ```
      */
     public void addClass(java.lang.String className) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_add_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
+        gtk_h.gtk_style_context_add_class(handle(), Interop.allocateNativeString(className).handle());
     }
     
     /**
@@ -89,28 +91,28 @@ public class StyleContext extends org.gtk.gobject.Object {
      * through [func@Gtk.StyleContext.add_provider_for_display].
      */
     public void addProvider(StyleProvider provider, int priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_add_provider(HANDLE(), provider.HANDLE(), priority);
+        gtk_h.gtk_style_context_add_provider(handle(), provider.handle(), priority);
     }
     
     /**
      * Gets the border for a given state as a `GtkBorder`.
      */
     public void getBorder(Border border) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_border(HANDLE(), border.HANDLE());
+        gtk_h.gtk_style_context_get_border(handle(), border.handle());
     }
     
     /**
      * Gets the foreground color for a given state.
      */
     public void getColor(org.gtk.gdk.RGBA color) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_color(HANDLE(), color.HANDLE());
+        gtk_h.gtk_style_context_get_color(handle(), color.handle());
     }
     
     /**
      * Returns the `GdkDisplay` to which @context is attached.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_display(HANDLE());
+        var RESULT = gtk_h.gtk_style_context_get_display(handle());
         return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
@@ -118,21 +120,21 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the margin for a given state as a `GtkBorder`.
      */
     public void getMargin(Border margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_margin(HANDLE(), margin.HANDLE());
+        gtk_h.gtk_style_context_get_margin(handle(), margin.handle());
     }
     
     /**
      * Gets the padding for a given state as a `GtkBorder`.
      */
     public void getPadding(Border padding) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_padding(HANDLE(), padding.HANDLE());
+        gtk_h.gtk_style_context_get_padding(handle(), padding.handle());
     }
     
     /**
      * Returns the scale used for assets.
      */
     public int getScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_scale(HANDLE());
+        var RESULT = gtk_h.gtk_style_context_get_scale(handle());
         return RESULT;
     }
     
@@ -146,7 +148,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * [method@Gtk.Widget.get_state_flags].
      */
     public int getState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_get_state(HANDLE());
+        var RESULT = gtk_h.gtk_style_context_get_state(handle());
         return RESULT;
     }
     
@@ -155,7 +157,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * given class name.
      */
     public boolean hasClass(java.lang.String className) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_has_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
+        var RESULT = gtk_h.gtk_style_context_has_class(handle(), Interop.allocateNativeString(className).handle());
         return (RESULT != 0);
     }
     
@@ -163,7 +165,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Looks up and resolves a color name in the @context color map.
      */
     public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_lookup_color(HANDLE(), Interop.allocateNativeString(colorName).HANDLE(), color.HANDLE());
+        var RESULT = gtk_h.gtk_style_context_lookup_color(handle(), Interop.allocateNativeString(colorName).handle(), color.handle());
         return (RESULT != 0);
     }
     
@@ -171,14 +173,14 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Removes @class_name from @context.
      */
     public void removeClass(java.lang.String className) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_remove_class(HANDLE(), Interop.allocateNativeString(className).HANDLE());
+        gtk_h.gtk_style_context_remove_class(handle(), Interop.allocateNativeString(className).handle());
     }
     
     /**
      * Removes @provider from the style providers list in @context.
      */
     public void removeProvider(StyleProvider provider) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_remove_provider(HANDLE(), provider.HANDLE());
+        gtk_h.gtk_style_context_remove_provider(handle(), provider.handle());
     }
     
     /**
@@ -187,7 +189,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * See [method@Gtk.StyleContext.save].
      */
     public void restore() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_restore(HANDLE());
+        gtk_h.gtk_style_context_restore(handle());
     }
     
     /**
@@ -203,7 +205,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * must be done before GTK returns to the main loop.
      */
     public void save() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_save(HANDLE());
+        gtk_h.gtk_style_context_save(handle());
     }
     
     /**
@@ -217,21 +219,21 @@ public class StyleContext extends org.gtk.gobject.Object {
      * call this yourself.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_set_display(HANDLE(), display.HANDLE());
+        gtk_h.gtk_style_context_set_display(handle(), display.handle());
     }
     
     /**
      * Sets the scale to use when getting image assets for the style.
      */
     public void setScale(int scale) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_set_scale(HANDLE(), scale);
+        gtk_h.gtk_style_context_set_scale(handle(), scale);
     }
     
     /**
      * Sets the state to be used for style matching.
      */
     public void setState(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_set_state(HANDLE(), flags);
+        gtk_h.gtk_style_context_set_state(handle(), flags);
     }
     
     /**
@@ -247,7 +249,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * the format of the returned string, it may change.
      */
     public java.lang.String toString(int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_style_context_to_string(HANDLE(), flags);
+        var RESULT = gtk_h.gtk_style_context_to_string(handle(), flags);
         return RESULT.getUtf8String(0);
     }
     

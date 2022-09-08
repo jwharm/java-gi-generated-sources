@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.interop.Nativ
      * %G_VARIANT_TYPE_VARDICT.  If it is floating, it will be consumed.
      */
     public default void activateActionFull(java.lang.String actionName, org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_remote_action_group_activate_action_full(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), parameter.HANDLE(), platformData.HANDLE());
+        gtk_h.g_remote_action_group_activate_action_full(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle(), platformData.handle());
     }
     
     /**
@@ -57,7 +59,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.interop.Nativ
      * %G_VARIANT_TYPE_VARDICT.  If it is floating, it will be consumed.
      */
     public default void changeActionStateFull(java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_remote_action_group_change_action_state_full(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), value.HANDLE(), platformData.HANDLE());
+        gtk_h.g_remote_action_group_change_action_state_full(handle(), Interop.allocateNativeString(actionName).handle(), value.handle(), platformData.handle());
     }
     
     class RemoteActionGroupImpl extends org.gtk.gobject.Object implements RemoteActionGroup {

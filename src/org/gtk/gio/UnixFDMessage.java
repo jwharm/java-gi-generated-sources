@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,14 +38,14 @@ public class UnixFDMessage extends SocketControlMessage {
      * list.
      */
     public UnixFDMessage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new(), true));
+        super(References.get(gtk_h.g_unix_fd_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixFDMessage containing @list.
      */
     public UnixFDMessage(UnixFDList fdList) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new_with_fd_list(fdList.HANDLE()), true));
+        super(References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true));
     }
     
     /**
@@ -58,7 +60,7 @@ public class UnixFDMessage extends SocketControlMessage {
      */
     public boolean appendFd(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_append_fd(HANDLE(), fd, GERROR);
+        var RESULT = gtk_h.g_unix_fd_message_append_fd(handle(), fd, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -71,7 +73,7 @@ public class UnixFDMessage extends SocketControlMessage {
      * the lifetime of @message.
      */
     public UnixFDList getFdList() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_get_fd_list(HANDLE());
+        var RESULT = gtk_h.g_unix_fd_message_get_fd_list(handle());
         return new UnixFDList(References.get(RESULT, false));
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_link_iter_get_name(HANDLE());
+        var RESULT = gtk_h.g_menu_link_iter_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -47,7 +49,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * be unreffed using g_object_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outLink, MenuModel[] value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_link_iter_get_next(HANDLE(), Interop.allocateNativeArray(outLink), Interop.allocateNativeArray(value));
+        var RESULT = gtk_h.g_menu_link_iter_get_next(handle(), Interop.allocateNativeArray(outLink), Interop.allocateNativeArray(value));
         return (RESULT != 0);
     }
     
@@ -57,7 +59,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      */
     public MenuModel getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_link_iter_get_value(HANDLE());
+        var RESULT = gtk_h.g_menu_link_iter_get_value(handle());
         return new MenuModel(References.get(RESULT, true));
     }
     
@@ -72,7 +74,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * at all).
      */
     public boolean next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_link_iter_next(HANDLE());
+        var RESULT = gtk_h.g_menu_link_iter_next(handle());
         return (RESULT != 0);
     }
     

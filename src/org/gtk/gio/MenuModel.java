@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -145,7 +147,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * then %NULL is returned.
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_attribute_value(HANDLE(), itemIndex, Interop.allocateNativeString(attribute).HANDLE(), expectedType.HANDLE());
+        var RESULT = gtk_h.g_menu_model_get_item_attribute_value(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -157,7 +159,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * does not exist, %NULL is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_item_link(HANDLE(), itemIndex, Interop.allocateNativeString(link).HANDLE());
+        var RESULT = gtk_h.g_menu_model_get_item_link(handle(), itemIndex, Interop.allocateNativeString(link).handle());
         return new MenuModel(References.get(RESULT, true));
     }
     
@@ -165,7 +167,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * Query the number of items in @model.
      */
     public int getNItems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_get_n_items(HANDLE());
+        var RESULT = gtk_h.g_menu_model_get_n_items(handle());
         return RESULT;
     }
     
@@ -176,7 +178,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * signal. Consumers of the model may make optimisations accordingly.
      */
     public boolean isMutable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_is_mutable(HANDLE());
+        var RESULT = gtk_h.g_menu_model_is_mutable(handle());
         return (RESULT != 0);
     }
     
@@ -198,7 +200,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * user code is running without returning to the mainloop.
      */
     public void itemsChanged(int position, int removed, int added) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_items_changed(HANDLE(), position, removed, added);
+        gtk_h.g_menu_model_items_changed(handle(), position, removed, added);
     }
     
     /**
@@ -208,7 +210,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * You must free the iterator with g_object_unref() when you are done.
      */
     public MenuAttributeIter iterateItemAttributes(int itemIndex) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_iterate_item_attributes(HANDLE(), itemIndex);
+        var RESULT = gtk_h.g_menu_model_iterate_item_attributes(handle(), itemIndex);
         return new MenuAttributeIter(References.get(RESULT, true));
     }
     
@@ -219,7 +221,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * You must free the iterator with g_object_unref() when you are done.
      */
     public MenuLinkIter iterateItemLinks(int itemIndex) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_model_iterate_item_links(HANDLE(), itemIndex);
+        var RESULT = gtk_h.g_menu_model_iterate_item_links(handle(), itemIndex);
         return new MenuLinkIter(References.get(RESULT, true));
     }
     
@@ -254,12 +256,12 @@ public class MenuModel extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMenuModelItemsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("items-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("items-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

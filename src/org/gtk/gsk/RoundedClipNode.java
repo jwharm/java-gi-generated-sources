@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class RoundedClipNode extends RenderNode {
      * given by @clip.
      */
     public RoundedClipNode(RenderNode child, RoundedRect clip) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_new(child.HANDLE(), clip.HANDLE()), false));
+        super(References.get(gtk_h.gsk_rounded_clip_node_new(child.handle(), clip.handle()), false));
     }
     
     /**
      * Gets the child node that is getting clipped by the given @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_rounded_clip_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class RoundedClipNode extends RenderNode {
      * Retrieves the rounded rectangle used to clip the contents of the @node.
      */
     public RoundedRect getClip() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_clip(HANDLE());
+        var RESULT = gtk_h.gsk_rounded_clip_node_get_clip(handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     

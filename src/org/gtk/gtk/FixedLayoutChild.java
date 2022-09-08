@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class FixedLayoutChild extends LayoutChild {
      * Retrieves the transformation of the child.
      */
     public org.gtk.gsk.Transform getTransform() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_child_get_transform(HANDLE());
+        var RESULT = gtk_h.gtk_fixed_layout_child_get_transform(handle());
         return new org.gtk.gsk.Transform(References.get(RESULT, false));
     }
     
@@ -31,7 +33,7 @@ public class FixedLayoutChild extends LayoutChild {
      * Sets the transformation of the child of a `GtkFixedLayout`.
      */
     public void setTransform(org.gtk.gsk.Transform transform) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_child_set_transform(HANDLE(), transform.HANDLE());
+        gtk_h.gtk_fixed_layout_child_set_transform(handle(), transform.handle());
     }
     
 }

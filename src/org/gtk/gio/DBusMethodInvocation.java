@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets the #GDBusConnection the method was invoked on.
      */
     public DBusConnection getConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_connection(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_connection(handle());
         return new DBusConnection(References.get(RESULT, false));
     }
     
@@ -42,7 +44,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * #GDBusInterfaceVTable for more information.
      */
     public java.lang.String getInterfaceName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_interface_name(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_interface_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -57,7 +59,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * UNIX file descriptors.
      */
     public DBusMessage getMessage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_message(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_message(handle());
         return new DBusMessage(References.get(RESULT, false));
     }
     
@@ -70,7 +72,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * #GDBusInterfaceVTable for more information.
      */
     public DBusMethodInfo getMethodInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_method_info(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_method_info(handle());
         return new DBusMethodInfo(References.get(RESULT, false));
     }
     
@@ -78,7 +80,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets the name of the method that was invoked.
      */
     public java.lang.String getMethodName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_method_name(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_method_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -86,7 +88,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets the object path the method was invoked on.
      */
     public java.lang.String getObjectPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_object_path(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_object_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -95,7 +97,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * parameters then this will return a GVariant with 0 children rather than NULL.
      */
     public org.gtk.glib.Variant getParameters() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_parameters(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_parameters(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
@@ -113,7 +115,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * If the call was GetAll, %NULL will be returned.
      */
     public DBusPropertyInfo getPropertyInfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_property_info(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_property_info(handle());
         return new DBusPropertyInfo(References.get(RESULT, false));
     }
     
@@ -121,7 +123,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets the bus name that invoked the method.
      */
     public java.lang.String getSender() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_sender(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_sender(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -129,7 +131,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets the @user_data #gpointer passed to g_dbus_connection_register_object().
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_user_data(HANDLE());
+        var RESULT = gtk_h.g_dbus_method_invocation_get_user_data(handle());
         return RESULT;
     }
     
@@ -141,7 +143,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnDbusError(java.lang.String errorName, java.lang.String errorMessage) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_dbus_error(HANDLE(), Interop.allocateNativeString(errorName).HANDLE(), Interop.allocateNativeString(errorMessage).HANDLE());
+        gtk_h.g_dbus_method_invocation_return_dbus_error(handle(), Interop.allocateNativeString(errorName).handle(), Interop.allocateNativeString(errorMessage).handle());
     }
     
     /**
@@ -152,7 +154,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnErrorLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_literal(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(message).HANDLE());
+        gtk_h.g_dbus_method_invocation_return_error_literal(handle(), domain.getValue(), code, Interop.allocateNativeString(message).handle());
     }
     
     /**
@@ -164,7 +166,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnErrorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_error_valist(HANDLE(), domain.getValue(), code, Interop.allocateNativeString(format).HANDLE(), varArgs);
+        gtk_h.g_dbus_method_invocation_return_error_valist(handle(), domain.getValue(), code, Interop.allocateNativeString(format).handle(), varArgs);
     }
     
     /**
@@ -176,7 +178,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnGerror(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_gerror(HANDLE(), error.HANDLE());
+        gtk_h.g_dbus_method_invocation_return_gerror(handle(), error.handle());
     }
     
     /**
@@ -214,7 +216,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * specification).
      */
     public void returnValue(org.gtk.glib.Variant parameters) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_value(HANDLE(), parameters.HANDLE());
+        gtk_h.g_dbus_method_invocation_return_value(handle(), parameters.handle());
     }
     
     /**
@@ -227,7 +229,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void returnValueWithUnixFdList(org.gtk.glib.Variant parameters, UnixFDList fdList) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_return_value_with_unix_fd_list(HANDLE(), parameters.HANDLE(), fdList.HANDLE());
+        gtk_h.g_dbus_method_invocation_return_value_with_unix_fd_list(handle(), parameters.handle(), fdList.handle());
     }
     
     /**
@@ -239,7 +241,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @invocation.
      */
     public void takeError(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_take_error(HANDLE(), error.HANDLE());
+        gtk_h.g_dbus_method_invocation_take_error(handle(), error.handle());
     }
     
 }

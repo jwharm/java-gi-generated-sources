@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -15,7 +17,7 @@ public final class Gtk {
      * for %GDK_LOCK_MASK.
      */
     public static int acceleratorGetDefaultModMask() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_get_default_mod_mask();
+        var RESULT = gtk_h.gtk_accelerator_get_default_mod_mask();
         return RESULT;
     }
     
@@ -24,7 +26,7 @@ public final class Gtk {
      * which can be used to represent the accelerator to the user.
      */
     public static java.lang.String acceleratorGetLabel(int acceleratorKey, int acceleratorMods) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_get_label(acceleratorKey, acceleratorMods);
+        var RESULT = gtk_h.gtk_accelerator_get_label(acceleratorKey, acceleratorMods);
         return RESULT.getUtf8String(0);
     }
     
@@ -40,7 +42,7 @@ public final class Gtk {
      * instead.
      */
     public static java.lang.String acceleratorGetLabelWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_get_label_with_keycode(display.HANDLE(), acceleratorKey, keycode, acceleratorMods);
+        var RESULT = gtk_h.gtk_accelerator_get_label_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods);
         return RESULT.getUtf8String(0);
     }
     
@@ -55,7 +57,7 @@ public final class Gtk {
      * see [func@Gtk.accelerator_get_label].
      */
     public static java.lang.String acceleratorName(int acceleratorKey, int acceleratorMods) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods);
+        var RESULT = gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods);
         return RESULT.getUtf8String(0);
     }
     
@@ -68,7 +70,7 @@ public final class Gtk {
      * should use [func@Gtk.accelerator_name] instead.
      */
     public static java.lang.String acceleratorNameWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_name_with_keycode(display.HANDLE(), acceleratorKey, keycode, acceleratorMods);
+        var RESULT = gtk_h.gtk_accelerator_name_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods);
         return RESULT.getUtf8String(0);
     }
     
@@ -81,24 +83,24 @@ public final class Gtk {
      * the %GDK_KEY_Control_L keyval as an accelerator.
      */
     public static boolean acceleratorValid(int keyval, int modifiers) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accelerator_valid(keyval, modifiers);
+        var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers);
         return (RESULT != 0);
     }
     
     public static void accessiblePropertyInitValue(AccessibleProperty property, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_property_init_value(property.getValue(), value.HANDLE());
+        gtk_h.gtk_accessible_property_init_value(property.getValue(), value.handle());
     }
     
     public static void accessibleRelationInitValue(AccessibleRelation relation, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_relation_init_value(relation.getValue(), value.HANDLE());
+        gtk_h.gtk_accessible_relation_init_value(relation.getValue(), value.handle());
     }
     
     public static void accessibleStateInitValue(AccessibleState state, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_accessible_state_init_value(state.getValue(), value.HANDLE());
+        gtk_h.gtk_accessible_state_init_value(state.getValue(), value.handle());
     }
     
     public static org.gtk.glib.Quark builderErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_error_quark();
+        var RESULT = gtk_h.gtk_builder_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -128,22 +130,22 @@ public final class Gtk {
      * into an application using a newer version of GTK.
      */
     public static java.lang.String checkVersion(int requiredMajor, int requiredMinor, int requiredMicro) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_version(requiredMajor, requiredMinor, requiredMicro);
+        var RESULT = gtk_h.gtk_check_version(requiredMajor, requiredMinor, requiredMicro);
         return RESULT.getUtf8String(0);
     }
     
     public static org.gtk.glib.Quark constraintVflParserErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_vfl_parser_error_quark();
+        var RESULT = gtk_h.gtk_constraint_vfl_parser_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
     public static org.gtk.glib.Quark cssParserErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_parser_error_quark();
+        var RESULT = gtk_h.gtk_css_parser_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
     public static org.gtk.glib.Quark cssParserWarningQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_parser_warning_quark();
+        var RESULT = gtk_h.gtk_css_parser_warning_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -158,7 +160,7 @@ public final class Gtk {
      * Most programs should not need to call this function.
      */
     public static void disableSetlocale() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_disable_setlocale();
+        gtk_h.gtk_disable_setlocale();
     }
     
     /**
@@ -170,7 +172,7 @@ public final class Gtk {
      * the remaining space is returned.
      */
     public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, RequestedSize[] sizes) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_distribute_natural_allocation(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes));
+        var RESULT = gtk_h.gtk_distribute_natural_allocation(extraSpace, nRequestedSizes, Interop.allocateNativeArray(sizes));
         return RESULT;
     }
     
@@ -182,7 +184,7 @@ public final class Gtk {
      * own properties.
      */
     public static boolean editableDelegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_delegate_get_property(object.HANDLE(), propId, value.HANDLE(), pspec.HANDLE());
+        var RESULT = gtk_h.gtk_editable_delegate_get_property(object.handle(), propId, value.handle(), pspec.handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public final class Gtk {
      * own properties.
      */
     public static boolean editableDelegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_delegate_set_property(object.HANDLE(), propId, value.HANDLE(), pspec.HANDLE());
+        var RESULT = gtk_h.gtk_editable_delegate_set_property(object.handle(), propId, value.handle(), pspec.handle());
         return (RESULT != 0);
     }
     
@@ -216,7 +218,7 @@ public final class Gtk {
      * property IDs for these properties.
      */
     public static int editableInstallProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_install_properties(objectClass.HANDLE(), firstProp);
+        var RESULT = gtk_h.gtk_editable_install_properties(objectClass.handle(), firstProp);
         return RESULT;
     }
     
@@ -224,7 +226,7 @@ public final class Gtk {
      * Registers an error quark for `GtkFileChooser` errors.
      */
     public static org.gtk.glib.Quark fileChooserErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_error_quark();
+        var RESULT = gtk_h.gtk_file_chooser_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -234,7 +236,7 @@ public final class Gtk {
      * If `libtool` means nothing to you, don't worry about it.
      */
     public static int getBinaryAge() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_binary_age();
+        var RESULT = gtk_h.gtk_get_binary_age();
         return RESULT;
     }
     
@@ -245,7 +247,7 @@ public final class Gtk {
      * to adjust their debug output based on GTK debug flags.
      */
     public static int getDebugFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_debug_flags();
+        var RESULT = gtk_h.gtk_get_debug_flags();
         return RESULT;
     }
     
@@ -265,7 +267,7 @@ public final class Gtk {
      * See that function for details.
      */
     public static org.pango.Language getDefaultLanguage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_default_language();
+        var RESULT = gtk_h.gtk_get_default_language();
         return new org.pango.Language(References.get(RESULT, false));
     }
     
@@ -275,7 +277,7 @@ public final class Gtk {
      * If `libtool` means nothing to you, don't worry about it.
      */
     public static int getInterfaceAge() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_interface_age();
+        var RESULT = gtk_h.gtk_get_interface_age();
         return RESULT;
     }
     
@@ -309,7 +311,7 @@ public final class Gtk {
      * ]|
      */
     public static TextDirection getLocaleDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_locale_direction();
+        var RESULT = gtk_h.gtk_get_locale_direction();
         return TextDirection.fromValue(RESULT);
     }
     
@@ -324,7 +326,7 @@ public final class Gtk {
      * have included when compiling your code.
      */
     public static int getMajorVersion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_major_version();
+        var RESULT = gtk_h.gtk_get_major_version();
         return RESULT;
     }
     
@@ -339,7 +341,7 @@ public final class Gtk {
      * GTK headers you have included when compiling your code.
      */
     public static int getMicroVersion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_micro_version();
+        var RESULT = gtk_h.gtk_get_micro_version();
         return RESULT;
     }
     
@@ -354,12 +356,12 @@ public final class Gtk {
      * GTK headers you have included when compiling your code.
      */
     public static int getMinorVersion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_minor_version();
+        var RESULT = gtk_h.gtk_get_minor_version();
         return RESULT;
     }
     
     public static org.gtk.glib.Quark iconThemeErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_error_quark();
+        var RESULT = gtk_h.gtk_icon_theme_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -385,7 +387,7 @@ public final class Gtk {
      * similar things.
      */
     public static void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_init();
+        gtk_h.gtk_init();
     }
     
     /**
@@ -398,7 +400,7 @@ public final class Gtk {
      * interface.
      */
     public static boolean initCheck() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_init_check();
+        var RESULT = gtk_h.gtk_init_check();
         return (RESULT != 0);
     }
     
@@ -407,7 +409,7 @@ public final class Gtk {
      * or gtk_init_check().
      */
     public static boolean isInitialized() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_is_initialized();
+        var RESULT = gtk_h.gtk_is_initialized();
         return (RESULT != 0);
     }
     
@@ -415,7 +417,7 @@ public final class Gtk {
      * Finds the `GtkNative` associated with the surface.
      */
     public static Native nativeGetForSurface(org.gtk.gdk.Surface surface) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_for_surface(surface.HANDLE());
+        var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());
         return new Native.NativeImpl(References.get(RESULT, false));
     }
     
@@ -424,7 +426,7 @@ public final class Gtk {
      * `GtkOrdering` value.
      */
     public static Ordering orderingFromCmpfunc(int cmpfuncResult) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_ordering_from_cmpfunc(cmpfuncResult);
+        var RESULT = gtk_h.gtk_ordering_from_cmpfunc(cmpfuncResult);
         return Ordering.fromValue(RESULT);
     }
     
@@ -433,7 +435,7 @@ public final class Gtk {
      * depends on the current locale.
      */
     public static java.lang.String paperSizeGetDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_get_default();
+        var RESULT = gtk_h.gtk_paper_size_get_default();
         return RESULT.getUtf8String(0);
     }
     
@@ -441,7 +443,7 @@ public final class Gtk {
      * Creates a list of known paper sizes.
      */
     public static org.gtk.glib.List paperSizeGetPaperSizes(boolean includeCustom) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
+        var RESULT = gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -451,7 +453,7 @@ public final class Gtk {
      * See `g_param_spec_internal()` for details on the property strings.
      */
     public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(nick).HANDLE(), Interop.allocateNativeString(blurb).HANDLE(), flags);
+        var RESULT = gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
         return new org.gtk.gobject.ParamSpec(References.get(RESULT, true));
     }
     
@@ -459,7 +461,7 @@ public final class Gtk {
      * Registers an error quark for `GtkPrintOperation` if necessary.
      */
     public static org.gtk.glib.Quark printErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_error_quark();
+        var RESULT = gtk_h.gtk_print_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -474,12 +476,12 @@ public final class Gtk {
      * a problem.
      */
     public static PageSetup printRunPageSetupDialog(Window parent, PageSetup pageSetup, PrintSettings settings) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_run_page_setup_dialog(parent.HANDLE(), pageSetup.HANDLE(), settings.HANDLE());
+        var RESULT = gtk_h.gtk_print_run_page_setup_dialog(parent.handle(), pageSetup.handle(), settings.handle());
         return new PageSetup(References.get(RESULT, true));
     }
     
     public static org.gtk.glib.Quark recentManagerErrorQuark() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_error_quark();
+        var RESULT = gtk_h.gtk_recent_manager_error_quark();
         return new org.gtk.glib.Quark(RESULT);
     }
     
@@ -489,7 +491,7 @@ public final class Gtk {
      * activity going on.
      */
     public static void renderActivity(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_activity(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_activity(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -500,7 +502,7 @@ public final class Gtk {
      * ![](arrows.png)
      */
     public static void renderArrow(StyleContext context, org.cairographics.Context cr, double angle, double x, double y, double size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_arrow(context.HANDLE(), cr.HANDLE(), angle, x, y, size);
+        gtk_h.gtk_render_arrow(context.handle(), cr.handle(), angle, x, y, size);
     }
     
     /**
@@ -512,7 +514,7 @@ public final class Gtk {
      * ![](background.png)
      */
     public static void renderBackground(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_background(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_background(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -527,7 +529,7 @@ public final class Gtk {
      * ![](checks.png)
      */
     public static void renderCheck(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_check(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_check(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -540,7 +542,7 @@ public final class Gtk {
      * ![](expanders.png)
      */
     public static void renderExpander(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_expander(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_expander(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -551,7 +553,7 @@ public final class Gtk {
      * ![](focus.png)
      */
     public static void renderFocus(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_focus(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_focus(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -563,7 +565,7 @@ public final class Gtk {
      * ![](frames.png)
      */
     public static void renderFrame(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_frame(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_frame(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -575,7 +577,7 @@ public final class Gtk {
      * ![](handles.png)
      */
     public static void renderHandle(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_handle(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_handle(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
@@ -586,21 +588,21 @@ public final class Gtk {
      * drawing on displays with high pixel densities.
      */
     public static void renderIcon(StyleContext context, org.cairographics.Context cr, org.gtk.gdk.Texture texture, double x, double y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_icon(context.HANDLE(), cr.HANDLE(), texture.HANDLE(), x, y);
+        gtk_h.gtk_render_icon(context.handle(), cr.handle(), texture.handle(), x, y);
     }
     
     /**
      * Renders @layout on the coordinates @x, @y
      */
     public static void renderLayout(StyleContext context, org.cairographics.Context cr, double x, double y, org.pango.Layout layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_layout(context.HANDLE(), cr.HANDLE(), x, y, layout.HANDLE());
+        gtk_h.gtk_render_layout(context.handle(), cr.handle(), x, y, layout.handle());
     }
     
     /**
      * Renders a line from (x0, y0) to (x1, y1).
      */
     public static void renderLine(StyleContext context, org.cairographics.Context cr, double x0, double y0, double x1, double y1) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_line(context.HANDLE(), cr.HANDLE(), x0, y0, x1, y1);
+        gtk_h.gtk_render_line(context.handle(), cr.handle(), x0, y0, x1, y1);
     }
     
     /**
@@ -613,14 +615,14 @@ public final class Gtk {
      * ![](options.png)
      */
     public static void renderOption(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_render_option(context.HANDLE(), cr.HANDLE(), x, y, width, height);
+        gtk_h.gtk_render_option(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
      * Sets the GTK debug flags.
      */
     public static void setDebugFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_set_debug_flags(flags);
+        gtk_h.gtk_set_debug_flags(flags);
     }
     
     /**
@@ -628,7 +630,7 @@ public final class Gtk {
      * a given uri, or shows an error dialog if that fails.
      */
     public static void showUri(Window parent, java.lang.String uri, int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_show_uri(parent.HANDLE(), Interop.allocateNativeString(uri).HANDLE(), timestamp);
+        gtk_h.gtk_show_uri(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp);
     }
     
     /**
@@ -637,7 +639,7 @@ public final class Gtk {
      */
     public static boolean showUriFullFinish(Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_show_uri_full_finish(parent.HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_show_uri_full_finish(parent.handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -645,14 +647,14 @@ public final class Gtk {
     }
     
     public static void testAccessibleAssertionMessageRole(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, Accessible accessible, AccessibleRole expectedRole, AccessibleRole actualRole) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_assertion_message_role(Interop.allocateNativeString(domain).HANDLE(), Interop.allocateNativeString(file).HANDLE(), line, Interop.allocateNativeString(func).HANDLE(), Interop.allocateNativeString(expr).HANDLE(), accessible.HANDLE(), expectedRole.getValue(), actualRole.getValue());
+        gtk_h.gtk_test_accessible_assertion_message_role(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(expr).handle(), accessible.handle(), expectedRole.getValue(), actualRole.getValue());
     }
     
     /**
      * Checks whether the `GtkAccessible` has @property set.
      */
     public static boolean testAccessibleHasProperty(Accessible accessible, AccessibleProperty property) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_has_property(accessible.HANDLE(), property.getValue());
+        var RESULT = gtk_h.gtk_test_accessible_has_property(accessible.handle(), property.getValue());
         return (RESULT != 0);
     }
     
@@ -660,7 +662,7 @@ public final class Gtk {
      * Checks whether the `GtkAccessible` has @relation set.
      */
     public static boolean testAccessibleHasRelation(Accessible accessible, AccessibleRelation relation) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_has_relation(accessible.HANDLE(), relation.getValue());
+        var RESULT = gtk_h.gtk_test_accessible_has_relation(accessible.handle(), relation.getValue());
         return (RESULT != 0);
     }
     
@@ -669,7 +671,7 @@ public final class Gtk {
      * is @role.
      */
     public static boolean testAccessibleHasRole(Accessible accessible, AccessibleRole role) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_has_role(accessible.HANDLE(), role.getValue());
+        var RESULT = gtk_h.gtk_test_accessible_has_role(accessible.handle(), role.getValue());
         return (RESULT != 0);
     }
     
@@ -677,7 +679,7 @@ public final class Gtk {
      * Checks whether the `GtkAccessible` has @state set.
      */
     public static boolean testAccessibleHasState(Accessible accessible, AccessibleState state) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_accessible_has_state(accessible.HANDLE(), state.getValue());
+        var RESULT = gtk_h.gtk_test_accessible_has_state(accessible.handle(), state.getValue());
         return (RESULT != 0);
     }
     
@@ -688,7 +690,7 @@ public final class Gtk {
      * g_type_from_name() after calling this function.
      */
     public static void testRegisterAllTypes() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_register_all_types();
+        gtk_h.gtk_test_register_all_types();
     }
     
     /**
@@ -702,14 +704,14 @@ public final class Gtk {
      * server.
      */
     public static void testWidgetWaitForDraw(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_test_widget_wait_for_draw(widget.HANDLE());
+        gtk_h.gtk_test_widget_wait_for_draw(widget.handle());
     }
     
     /**
      * Creates a content provider for dragging @path from @tree_model.
      */
     public static org.gtk.gdk.ContentProvider treeCreateRowDragContent(TreeModel treeModel, TreePath path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_create_row_drag_content(treeModel.HANDLE(), path.HANDLE());
+        var RESULT = gtk_h.gtk_tree_create_row_drag_content(treeModel.handle(), path.handle());
         return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
     }
     
@@ -720,7 +722,7 @@ public final class Gtk {
      * The returned path must be freed with gtk_tree_path_free().
      */
     public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_get_row_drag_data(value.HANDLE(), Interop.allocateNativeArray(treeModel), Interop.allocateNativeArray(path));
+        var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel), Interop.allocateNativeArray(path));
         return (RESULT != 0);
     }
     
@@ -730,7 +732,7 @@ public final class Gtk {
      * model emitted the ::row-deleted signal.
      */
     public static void treeRowReferenceDeleted(org.gtk.gobject.Object proxy, TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_deleted(proxy.HANDLE(), path.HANDLE());
+        gtk_h.gtk_tree_row_reference_deleted(proxy.handle(), path.handle());
     }
     
     /**
@@ -739,7 +741,7 @@ public final class Gtk {
      * model emitted the ::row-inserted signal.
      */
     public static void treeRowReferenceInserted(org.gtk.gobject.Object proxy, TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_inserted(proxy.HANDLE(), path.HANDLE());
+        gtk_h.gtk_tree_row_reference_inserted(proxy.handle(), path.handle());
     }
     
     /**
@@ -748,7 +750,7 @@ public final class Gtk {
      * model emitted the ::rows-reordered signal.
      */
     public static void treeRowReferenceReordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_reordered(proxy.HANDLE(), path.HANDLE(), iter.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
+        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder));
     }
     
     /**
@@ -756,7 +758,7 @@ public final class Gtk {
      * a reference to it.
      */
     public static Expression valueDupExpression(org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_dup_expression(value.HANDLE());
+        var RESULT = gtk_h.gtk_value_dup_expression(value.handle());
         return new Expression(References.get(RESULT, true));
     }
     
@@ -764,7 +766,7 @@ public final class Gtk {
      * Retrieves the `GtkExpression` stored inside the given `value`.
      */
     public static Expression valueGetExpression(org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_get_expression(value.HANDLE());
+        var RESULT = gtk_h.gtk_value_get_expression(value.handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -774,7 +776,7 @@ public final class Gtk {
      * The `GValue` will acquire a reference to the `expression`.
      */
     public static void valueSetExpression(org.gtk.gobject.Value value, Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_set_expression(value.HANDLE(), expression.HANDLE());
+        gtk_h.gtk_value_set_expression(value.handle(), expression.handle());
     }
     
     /**
@@ -783,7 +785,7 @@ public final class Gtk {
      * This function transfers the ownership of the `expression` to the `GValue`.
      */
     public static void valueTakeExpression(org.gtk.gobject.Value value, Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_take_expression(value.HANDLE(), expression.getReference().unowned().HANDLE());
+        gtk_h.gtk_value_take_expression(value.handle(), expression.getReference().unowned().handle());
     }
     
 }

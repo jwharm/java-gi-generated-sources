@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getCapsLockState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_caps_lock_state(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_caps_lock_state(handle());
         return (RESULT != 0);
     }
     
@@ -37,7 +39,7 @@ public class Device extends org.gtk.gobject.Object {
      * Retrieves the current tool for @device.
      */
     public DeviceTool getDeviceTool() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_device_tool(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_device_tool(handle());
         return new DeviceTool(References.get(RESULT, false));
     }
     
@@ -50,7 +52,7 @@ public class Device extends org.gtk.gobject.Object {
      * of its symbols. See [func@Pango.unichar_direction].
      */
     public org.pango.Direction getDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_direction(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_direction(handle());
         return org.pango.Direction.fromValue(RESULT);
     }
     
@@ -58,7 +60,7 @@ public class Device extends org.gtk.gobject.Object {
      * Returns the `GdkDisplay` to which @device pertains.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -69,7 +71,7 @@ public class Device extends org.gtk.gobject.Object {
      * don't have a pointer.
      */
     public boolean getHasCursor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_has_cursor(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_has_cursor(handle());
         return (RESULT != 0);
     }
     
@@ -79,7 +81,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public int getModifierState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_modifier_state(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_modifier_state(handle());
         return RESULT;
     }
     
@@ -87,7 +89,7 @@ public class Device extends org.gtk.gobject.Object {
      * The name of the device, suitable for showing in a user interface.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_name(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -97,7 +99,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getNumLockState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_num_lock_state(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_num_lock_state(handle());
         return (RESULT != 0);
     }
     
@@ -105,7 +107,7 @@ public class Device extends org.gtk.gobject.Object {
      * Retrieves the number of touch points associated to @device.
      */
     public int getNumTouches() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_num_touches(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_num_touches(handle());
         return RESULT;
     }
     
@@ -116,7 +118,7 @@ public class Device extends org.gtk.gobject.Object {
      * See [method@Gdk.Device.get_vendor_id] for more information.
      */
     public java.lang.String getProductId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_product_id(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_product_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -126,7 +128,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getScrollLockState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_scroll_lock_state(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_scroll_lock_state(handle());
         return (RESULT != 0);
     }
     
@@ -134,7 +136,7 @@ public class Device extends org.gtk.gobject.Object {
      * Returns the `GdkSeat` the device belongs to.
      */
     public Seat getSeat() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_seat(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_seat(handle());
         return new Seat(References.get(RESULT, false));
     }
     
@@ -142,7 +144,7 @@ public class Device extends org.gtk.gobject.Object {
      * Determines the type of the device.
      */
     public InputSource getSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_source(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_source(handle());
         return InputSource.fromValue(RESULT);
     }
     
@@ -155,7 +157,7 @@ public class Device extends org.gtk.gobject.Object {
      * update the timestamp).
      */
     public int getTimestamp() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_timestamp(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_timestamp(handle());
         return RESULT;
     }
     
@@ -189,7 +191,7 @@ public class Device extends org.gtk.gobject.Object {
      * ```
      */
     public java.lang.String getVendorId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_vendor_id(HANDLE());
+        var RESULT = gtk_h.gdk_device_get_vendor_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -200,7 +202,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean hasBidiLayouts() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_has_bidi_layouts(HANDLE());
+        var RESULT = gtk_h.gdk_device_has_bidi_layouts(handle());
         return (RESULT != 0);
     }
     
@@ -222,12 +224,12 @@ public class Device extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDeviceChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -245,12 +247,12 @@ public class Device extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDeviceToolChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tool-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tool-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

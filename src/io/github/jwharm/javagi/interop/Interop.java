@@ -28,11 +28,11 @@ public class Interop {
         return allocator;
     }
 
-    public static MemorySegmentProxy allocateNativeString(String string) {
+    public static MemorySegmentReference allocateNativeString(String string) {
         if (!initialized) {
             initialize();
         }
-        return new MemorySegmentProxy(allocator.allocateUtf8String(string));
+        return new MemorySegmentReference(allocator.allocateUtf8String(string));
     }
 
     /**
@@ -92,7 +92,7 @@ public class Interop {
         MemorySegment mem = io.github.jwharm.javagi.interop.jextract.GValue.allocateArray(array.length, allocator);
         long size = io.github.jwharm.javagi.interop.jextract.GValue.sizeof();
         for (int i = 0; i < array.length; i++) {
-            MemorySegment source = MemorySegment.ofAddress(array[i].HANDLE(), size, scope);
+            MemorySegment source = MemorySegment.ofAddress(array[i].handle(), size, scope);
             MemorySegment target = mem.asSlice(i * size, size);
             target.copyFrom(source);
         }
@@ -111,7 +111,7 @@ public class Interop {
         }
         var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, array.length + 1);
         for (int i = 0; i < array.length; i++) {
-            memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i].HANDLE());
+            memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i].handle());
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
         return memorySegment;

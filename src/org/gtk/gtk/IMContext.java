@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -67,7 +69,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * It is not useful for applications.
      */
     public boolean deleteSurrounding(int offset, int nChars) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_delete_surrounding(HANDLE(), offset, nChars);
+        var RESULT = gtk_h.gtk_im_context_delete_surrounding(handle(), offset, nChars);
         return (RESULT != 0);
     }
     
@@ -77,7 +79,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * available.
      */
     public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, int state, int group) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_filter_key(HANDLE(), press ? 1 : 0, surface.HANDLE(), device.HANDLE(), time, keycode, state, group);
+        var RESULT = gtk_h.gtk_im_context_filter_key(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state, group);
         return (RESULT != 0);
     }
     
@@ -89,7 +91,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * should be done for this key event.
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_filter_keypress(HANDLE(), event.HANDLE());
+        var RESULT = gtk_h.gtk_im_context_filter_keypress(handle(), event.handle());
         return (RESULT != 0);
     }
     
@@ -101,7 +103,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * feedback to reflect this change.
      */
     public void focusIn() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_focus_in(HANDLE());
+        gtk_h.gtk_im_context_focus_in(handle());
     }
     
     /**
@@ -112,7 +114,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * feedback or reset the contexts state to reflect this change.
      */
     public void focusOut() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_focus_out(HANDLE());
+        gtk_h.gtk_im_context_focus_out(handle());
     }
     
     /**
@@ -122,7 +124,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * This will typically cause the input method to clear the preedit state.
      */
     public void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_reset(HANDLE());
+        gtk_h.gtk_im_context_reset(handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * also be used for purposes internal to the input method.
      */
     public void setClientWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_set_client_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_im_context_set_client_widget(handle(), widget.handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * The location is relative to the client widget.
      */
     public void setCursorLocation(org.gtk.gdk.Rectangle area) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_set_cursor_location(HANDLE(), area.HANDLE());
+        gtk_h.gtk_im_context_set_cursor_location(handle(), area.handle());
     }
     
     /**
@@ -153,7 +155,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * have no effect if called at other times.
      */
     public void setSurroundingWithSelection(java.lang.String text, int len, int cursorIndex, int anchorIndex) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_set_surrounding_with_selection(HANDLE(), Interop.allocateNativeString(text).HANDLE(), len, cursorIndex, anchorIndex);
+        gtk_h.gtk_im_context_set_surrounding_with_selection(handle(), Interop.allocateNativeString(text).handle(), len, cursorIndex, anchorIndex);
     }
     
     /**
@@ -165,7 +167,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * it in a child of the root window.
      */
     public void setUsePreedit(boolean usePreedit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_set_use_preedit(HANDLE(), usePreedit ? 1 : 0);
+        gtk_h.gtk_im_context_set_use_preedit(handle(), usePreedit ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -187,12 +189,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextCommit", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("commit").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("commit").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -211,12 +213,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextDeleteSurrounding", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("delete-surrounding").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("delete-surrounding").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -238,12 +240,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextPreeditChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("preedit-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("preedit-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -262,12 +264,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextPreeditEnd", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("preedit-end").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("preedit-end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -286,12 +288,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextPreeditStart", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("preedit-start").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("preedit-start").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -313,12 +315,12 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIMContextRetrieveSurrounding", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("retrieve-surrounding").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("retrieve-surrounding").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Allocates a new #graphene_matrix_t.
      */
     public Matrix() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_alloc(), true));
+        super(References.get(gtk_h.graphene_matrix_alloc(), true));
     }
     
     /**
@@ -34,7 +36,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * [available online](http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c).
      */
     public boolean decompose(Vec3 translate, Vec3 scale, Quaternion rotate, Vec3 shear, Vec4 perspective) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_decompose(HANDLE(), translate.HANDLE(), scale.HANDLE(), rotate.HANDLE(), shear.HANDLE(), perspective.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_decompose(handle(), translate.handle(), scale.handle(), rotate.handle(), shear.handle(), perspective.handle());
         return RESULT;
     }
     
@@ -42,7 +44,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Computes the determinant of the given matrix.
      */
     public float determinant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_determinant(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_determinant(handle());
         return RESULT;
     }
     
@@ -50,7 +52,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given #graphene_matrix_t matrices are equal.
      */
     public boolean equal(Matrix b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -80,7 +82,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public boolean equalFast(Matrix b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_equal_fast(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_equal_fast(handle(), b.handle());
         return RESULT;
     }
     
@@ -88,21 +90,21 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_matrix_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_free(HANDLE());
+        gtk_h.graphene_matrix_free(handle());
     }
     
     /**
      * Retrieves the given row vector at @index_ inside a matrix.
      */
     public void getRow(int index, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_row(HANDLE(), index, res.HANDLE());
+        gtk_h.graphene_matrix_get_row(handle(), index, res.handle());
     }
     
     /**
      * Retrieves the value at the given @row and @col index.
      */
     public float getValue(int row, int col) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_value(HANDLE(), row, col);
+        var RESULT = gtk_h.graphene_matrix_get_value(handle(), row, col);
         return RESULT;
     }
     
@@ -110,7 +112,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the scaling factor on the X axis in @m.
      */
     public float getXScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_x_scale(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_x_scale(handle());
         return RESULT;
     }
     
@@ -118,7 +120,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the translation component on the X axis from @m.
      */
     public float getXTranslation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_x_translation(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_x_translation(handle());
         return RESULT;
     }
     
@@ -126,7 +128,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the scaling factor on the Y axis in @m.
      */
     public float getYScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_y_scale(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_y_scale(handle());
         return RESULT;
     }
     
@@ -134,7 +136,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the translation component on the Y axis from @m.
      */
     public float getYTranslation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_y_translation(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_y_translation(handle());
         return RESULT;
     }
     
@@ -142,7 +144,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the scaling factor on the Z axis in @m.
      */
     public float getZScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_z_scale(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_z_scale(handle());
         return RESULT;
     }
     
@@ -150,7 +152,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the translation component on the Z axis from @m.
      */
     public float getZTranslation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_get_z_translation(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_get_z_translation(handle());
         return RESULT;
     }
     
@@ -170,7 +172,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * from other libraries and a #graphene_matrix_t.
      */
     public Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_from_2d(HANDLE(), xx, yx, xy, yy, x0, y0);
+        var RESULT = gtk_h.graphene_matrix_init_from_2d(handle(), xx, yx, xy, yy, x0, y0);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -179,7 +181,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * point values.
      */
     public Matrix initFromFloat(float[] v) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
+        var RESULT = gtk_h.graphene_matrix_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -188,7 +190,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * given matrix.
      */
     public Matrix initFromMatrix(Matrix src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_from_matrix(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_from_matrix(handle(), src.handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -197,7 +199,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * vectors.
      */
     public Matrix initFromVec4(Vec4 v0, Vec4 v1, Vec4 v2, Vec4 v3) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_from_vec4(HANDLE(), v0.HANDLE(), v1.HANDLE(), v2.HANDLE(), v3.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_from_vec4(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -207,7 +209,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_frustum_init_from_matrix()
      */
     public Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_frustum(HANDLE(), left, right, bottom, top, zNear, zFar);
+        var RESULT = gtk_h.graphene_matrix_init_frustum(handle(), left, right, bottom, top, zNear, zFar);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -215,7 +217,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_matrix_t with the identity matrix.
      */
     public Matrix initIdentity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_identity(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_identity(handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -238,7 +240,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * coordinates.
      */
     public Matrix initLookAt(Vec3 eye, Vec3 center, Vec3 up) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_look_at(HANDLE(), eye.HANDLE(), center.HANDLE(), up.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_look_at(handle(), eye.handle(), center.handle(), up.handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -246,7 +248,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_matrix_t with an orthographic projection.
      */
     public Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_ortho(HANDLE(), left, right, top, bottom, zNear, zFar);
+        var RESULT = gtk_h.graphene_matrix_init_ortho(handle(), left, right, top, bottom, zNear, zFar);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -254,7 +256,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_matrix_t with a perspective projection.
      */
     public Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_perspective(HANDLE(), fovy, aspect, zNear, zFar);
+        var RESULT = gtk_h.graphene_matrix_init_perspective(handle(), fovy, aspect, zNear, zFar);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -263,7 +265,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * the axis represented by the @axis vector.
      */
     public Matrix initRotate(float angle, Vec3 axis) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_rotate(HANDLE(), angle, axis.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_rotate(handle(), angle, axis.handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -271,7 +273,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_matrix_t with the given scaling factors.
      */
     public Matrix initScale(float x, float y, float z) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_scale(HANDLE(), x, y, z);
+        var RESULT = gtk_h.graphene_matrix_init_scale(handle(), x, y, z);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -280,7 +282,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * with the given factors.
      */
     public Matrix initSkew(float xSkew, float ySkew) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_skew(HANDLE(), xSkew, ySkew);
+        var RESULT = gtk_h.graphene_matrix_init_skew(handle(), xSkew, ySkew);
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -289,7 +291,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * given coordinates.
      */
     public Matrix initTranslate(Point3D p) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_init_translate(HANDLE(), p.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_init_translate(handle(), p.handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -302,14 +304,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * will return an identity matrix.
      */
     public void interpolate(Matrix b, double factor, Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_interpolate(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_matrix_interpolate(handle(), b.handle(), factor, res.handle());
     }
     
     /**
      * Inverts the given matrix.
      */
     public boolean inverse(Matrix res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_inverse(HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_inverse(handle(), res.handle());
         return RESULT;
     }
     
@@ -318,7 +320,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * a 2D affine transformation matrix.
      */
     public boolean is2d() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_is_2d(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_is_2d(handle());
         return RESULT;
     }
     
@@ -326,7 +328,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether a #graphene_matrix_t has a visible back face.
      */
     public boolean isBackfaceVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_is_backface_visible(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_is_backface_visible(handle());
         return RESULT;
     }
     
@@ -334,7 +336,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the given #graphene_matrix_t is the identity matrix.
      */
     public boolean isIdentity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_is_identity(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_is_identity(handle());
         return RESULT;
     }
     
@@ -342,7 +344,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether a matrix is singular.
      */
     public boolean isSingular() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_is_singular(HANDLE());
+        var RESULT = gtk_h.graphene_matrix_is_singular(handle());
         return RESULT;
     }
     
@@ -353,7 +355,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * The product of this multiplication is (@a × @b)
      */
     public void multiply(Matrix b, Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_multiply(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -362,7 +364,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * other.
      */
     public boolean near(Matrix b, float epsilon) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_near(HANDLE(), b.HANDLE(), epsilon);
+        var RESULT = gtk_h.graphene_matrix_near(handle(), b.handle(), epsilon);
         return RESULT;
     }
     
@@ -370,14 +372,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Normalizes the given #graphene_matrix_t.
      */
     public void normalize(Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_normalize(HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_normalize(handle(), res.handle());
     }
     
     /**
      * Applies a perspective of @depth to the matrix.
      */
     public void perspective(float depth, Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_perspective(HANDLE(), depth, res.HANDLE());
+        gtk_h.graphene_matrix_perspective(handle(), depth, res.handle());
     }
     
     /**
@@ -387,14 +389,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * made on the format of the output.
      */
     public void print() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_print(HANDLE());
+        gtk_h.graphene_matrix_print(handle());
     }
     
     /**
      * Projects a #graphene_point_t using the matrix @m.
      */
     public void projectPoint(Point p, Point res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_project_point(HANDLE(), p.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_project_point(handle(), p.handle(), res.handle());
     }
     
     /**
@@ -403,7 +405,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_project_point()
      */
     public void projectRect(Rect r, Quad res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_project_rect(HANDLE(), r.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_project_rect(handle(), r.handle(), res.handle());
     }
     
     /**
@@ -413,7 +415,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * of fully containing the projected rectangle.
      */
     public void projectRectBounds(Rect r, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_project_rect_bounds(HANDLE(), r.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_project_rect_bounds(handle(), r.handle(), res.handle());
     }
     
     /**
@@ -424,7 +426,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * then multiplying the matrix @m with the rotation matrix.
      */
     public void rotate(float angle, Vec3 axis) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate(HANDLE(), angle, axis.HANDLE());
+        gtk_h.graphene_matrix_rotate(handle(), angle, axis.handle());
     }
     
     /**
@@ -432,7 +434,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_euler_t.
      */
     public void rotateEuler(Euler e) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate_euler(HANDLE(), e.HANDLE());
+        gtk_h.graphene_matrix_rotate_euler(handle(), e.handle());
     }
     
     /**
@@ -443,7 +445,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * then multiplying @m with the rotation matrix.
      */
     public void rotateQuaternion(Quaternion q) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate_quaternion(HANDLE(), q.HANDLE());
+        gtk_h.graphene_matrix_rotate_quaternion(handle(), q.handle());
     }
     
     /**
@@ -453,7 +455,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateX(float angle) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate_x(HANDLE(), angle);
+        gtk_h.graphene_matrix_rotate_x(handle(), angle);
     }
     
     /**
@@ -463,7 +465,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateY(float angle) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate_y(HANDLE(), angle);
+        gtk_h.graphene_matrix_rotate_y(handle(), angle);
     }
     
     /**
@@ -473,7 +475,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_rotate()
      */
     public void rotateZ(float angle) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_rotate_z(HANDLE(), angle);
+        gtk_h.graphene_matrix_rotate_z(handle(), angle);
     }
     
     /**
@@ -484,28 +486,28 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * multiplying the matrix @m with the scale matrix.
      */
     public void scale(float factorX, float factorY, float factorZ) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_scale(HANDLE(), factorX, factorY, factorZ);
+        gtk_h.graphene_matrix_scale(handle(), factorX, factorY, factorZ);
     }
     
     /**
      * Adds a skew of @factor on the X and Y axis to the given matrix.
      */
     public void skewXy(float factor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_skew_xy(HANDLE(), factor);
+        gtk_h.graphene_matrix_skew_xy(handle(), factor);
     }
     
     /**
      * Adds a skew of @factor on the X and Z axis to the given matrix.
      */
     public void skewXz(float factor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_skew_xz(HANDLE(), factor);
+        gtk_h.graphene_matrix_skew_xz(handle(), factor);
     }
     
     /**
      * Adds a skew of @factor on the Y and Z axis to the given matrix.
      */
     public void skewYz(float factor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_skew_yz(HANDLE(), factor);
+        gtk_h.graphene_matrix_skew_yz(handle(), factor);
     }
     
     /**
@@ -513,7 +515,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * values.
      */
     public void toFloat(float[] v) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_to_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
+        gtk_h.graphene_matrix_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, v));
     }
     
     /**
@@ -525,7 +527,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_transform_point()
      */
     public void transformBounds(Rect r, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_bounds(HANDLE(), r.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_bounds(handle(), r.handle(), res.handle());
     }
     
     /**
@@ -535,7 +537,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * vertices.
      */
     public void transformBox(Box b, Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_box(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_box(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -548,7 +550,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_simd4x4f_point3_mul()
      */
     public void transformPoint(Point p, Point res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_point(HANDLE(), p.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_point(handle(), p.handle(), res.handle());
     }
     
     /**
@@ -561,14 +563,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_simd4x4f_point3_mul()
      */
     public void transformPoint3d(Point3D p, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_point3d(HANDLE(), p.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_point3d(handle(), p.handle(), res.handle());
     }
     
     /**
      * Transform a #graphene_ray_t using the given matrix @m.
      */
     public void transformRay(Ray r, Ray res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_ray(HANDLE(), r.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_ray(handle(), r.handle(), res.handle());
     }
     
     /**
@@ -579,7 +581,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_matrix_transform_point()
      */
     public void transformRect(Rect r, Quad res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_rect(HANDLE(), r.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_rect(handle(), r.handle(), res.handle());
     }
     
     /**
@@ -587,7 +589,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * result is the bounding sphere containing the transformed sphere.
      */
     public void transformSphere(Sphere s, Sphere res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_sphere(HANDLE(), s.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_sphere(handle(), s.handle(), res.handle());
     }
     
     /**
@@ -600,7 +602,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_simd4x4f_vec3_mul()
      */
     public void transformVec3(Vec3 v, Vec3 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_vec3(HANDLE(), v.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_vec3(handle(), v.handle(), res.handle());
     }
     
     /**
@@ -609,7 +611,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_simd4x4f_vec4_mul()
      */
     public void transformVec4(Vec4 v, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transform_vec4(HANDLE(), v.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transform_vec4(handle(), v.handle(), res.handle());
     }
     
     /**
@@ -620,14 +622,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * then multiplying @m with the translation matrix.
      */
     public void translate(Point3D pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_translate(HANDLE(), pos.HANDLE());
+        gtk_h.graphene_matrix_translate(handle(), pos.handle());
     }
     
     /**
      * Transposes the given matrix.
      */
     public void transpose(Matrix res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_transpose(HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_transpose(handle(), res.handle());
     }
     
     /**
@@ -635,7 +637,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * a @modelview matrix.
      */
     public void unprojectPoint3d(Matrix modelview, Point3D point, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_unproject_point3d(HANDLE(), modelview.HANDLE(), point.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_unproject_point3d(handle(), modelview.handle(), point.handle(), res.handle());
     }
     
     /**
@@ -643,7 +645,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * given matrix, within the given axis aligned rectangular @bounds.
      */
     public void untransformBounds(Rect r, Rect bounds, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_untransform_bounds(HANDLE(), r.HANDLE(), bounds.HANDLE(), res.HANDLE());
+        gtk_h.graphene_matrix_untransform_bounds(handle(), r.handle(), bounds.handle(), res.handle());
     }
     
     /**
@@ -651,7 +653,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * given matrix, within the given axis aligned rectangular @bounds.
      */
     public boolean untransformPoint(Point p, Rect bounds, Point res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_matrix_untransform_point(HANDLE(), p.HANDLE(), bounds.HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_matrix_untransform_point(handle(), p.handle(), bounds.handle(), res.handle());
         return RESULT;
     }
     

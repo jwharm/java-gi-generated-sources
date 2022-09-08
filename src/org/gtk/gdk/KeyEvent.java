@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class KeyEvent extends Event {
      * Extracts the consumed modifiers from a key event.
      */
     public int getConsumedModifiers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_get_consumed_modifiers(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_get_consumed_modifiers(handle());
         return RESULT;
     }
     
@@ -31,7 +33,7 @@ public class KeyEvent extends Event {
      * Extracts the keycode from a key event.
      */
     public int getKeycode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_get_keycode(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_get_keycode(handle());
         return RESULT;
     }
     
@@ -39,7 +41,7 @@ public class KeyEvent extends Event {
      * Extracts the keyval from a key event.
      */
     public int getKeyval() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_get_keyval(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_get_keyval(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class KeyEvent extends Event {
      * Extracts the layout from a key event.
      */
     public int getLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_get_layout(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_get_layout(handle());
         return RESULT;
     }
     
@@ -55,7 +57,7 @@ public class KeyEvent extends Event {
      * Extracts the shift level from a key event.
      */
     public int getLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_get_level(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_get_level(handle());
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class KeyEvent extends Event {
      * Extracts whether the key event is for a modifier key.
      */
     public boolean isModifier() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_is_modifier(HANDLE());
+        var RESULT = gtk_h.gdk_key_event_is_modifier(handle());
         return (RESULT != 0);
     }
     
@@ -78,7 +80,7 @@ public class KeyEvent extends Event {
      * Note that we ignore Caps Lock for matching.
      */
     public KeyMatch matches(int keyval, int modifiers) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_key_event_matches(HANDLE(), keyval, modifiers);
+        var RESULT = gtk_h.gdk_key_event_matches(handle(), keyval, modifiers);
         return KeyMatch.fromValue(RESULT);
     }
     

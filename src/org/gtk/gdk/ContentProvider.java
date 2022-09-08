@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,14 +34,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * the given @mime_type.
      */
     public ContentProvider(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).HANDLE(), bytes.HANDLE()), true));
+        super(References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true));
     }
     
     /**
      * Create a content provider that provides the given @value.
      */
     public ContentProvider(org.gtk.gobject.Value value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_value(value.HANDLE()), true));
+        super(References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true));
     }
     
     /**
@@ -60,14 +62,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * ```
      */
     public ContentProvider(ContentProvider[] providers, long nProviders) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
+        super(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
     }
     
     /**
      * Emits the ::content-changed signal.
      */
     public void contentChanged() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_content_changed(HANDLE());
+        gtk_h.gdk_content_provider_content_changed(handle());
     }
     
     /**
@@ -81,7 +83,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_get_value(HANDLE(), value.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_content_provider_get_value(handle(), value.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -92,7 +94,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * Gets the formats that the provider can provide its current contents in.
      */
     public ContentFormats refFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_formats(HANDLE());
+        var RESULT = gtk_h.gdk_content_provider_ref_formats(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -105,7 +107,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * This can be assumed to be a subset of [method@Gdk.ContentProvider.ref_formats].
      */
     public ContentFormats refStorableFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_storable_formats(HANDLE());
+        var RESULT = gtk_h.gdk_content_provider_ref_storable_formats(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -116,7 +118,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_write_mime_type_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_content_provider_write_mime_type_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -135,12 +137,12 @@ public class ContentProvider extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalContentProviderContentChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("content-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("content-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -35,7 +37,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * text will be wider and narrower than this.
      */
     public int getApproximateCharWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_approximate_char_width(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_approximate_char_width(handle());
         return RESULT;
     }
     
@@ -49,7 +51,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * pango_font_metrics_get_approximate_char_width() for digits.
      */
     public int getApproximateDigitWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_approximate_digit_width(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_approximate_digit_width(handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * figure where the ink will be.)
      */
     public int getAscent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_ascent(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_ascent(handle());
         return RESULT;
     }
     
@@ -75,7 +77,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * to figure where the ink will be.)
      */
     public int getDescent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_descent(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_descent(handle());
         return RESULT;
     }
     
@@ -88,7 +90,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the line height is not available, 0 is returned.
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_height(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_height(handle());
         return RESULT;
     }
     
@@ -99,7 +101,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * baseline of the top of the strikethrough.
      */
     public int getStrikethroughPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_strikethrough_position(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_strikethrough_position(handle());
         return RESULT;
     }
     
@@ -107,7 +109,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the suggested thickness to draw for the strikethrough.
      */
     public int getStrikethroughThickness() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_strikethrough_thickness(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_strikethrough_thickness(handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * the baseline, this value is typically negative.
      */
     public int getUnderlinePosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_underline_position(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_underline_position(handle());
         return RESULT;
     }
     
@@ -127,7 +129,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the suggested thickness to draw for the underline.
      */
     public int getUnderlineThickness() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_get_underline_thickness(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_get_underline_thickness(handle());
         return RESULT;
     }
     
@@ -135,7 +137,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increase the reference count of a font metrics structure by one.
      */
     public FontMetrics ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_ref(HANDLE());
+        var RESULT = gtk_h.pango_font_metrics_ref(handle());
         return new FontMetrics(References.get(RESULT, true));
     }
     
@@ -145,7 +147,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the result is zero, frees the structure and any associated memory.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_unref(HANDLE());
+        gtk_h.pango_font_metrics_unref(handle());
     }
     
 }

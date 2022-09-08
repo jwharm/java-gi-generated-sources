@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -119,14 +121,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkLevelBar`.
      */
     public LevelBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new(), false));
+        super(References.get(gtk_h.gtk_level_bar_new(), false));
     }
     
     /**
      * Creates a new `GtkLevelBar` for the specified interval.
      */
     public LevelBar(double minValue, double maxValue) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
+        super(References.get(gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
     }
     
     /**
@@ -141,14 +143,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * replaced by @value.
      */
     public void addOffsetValue(java.lang.String name, double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_add_offset_value(HANDLE(), Interop.allocateNativeString(name).HANDLE(), value);
+        gtk_h.gtk_level_bar_add_offset_value(handle(), Interop.allocateNativeString(name).handle(), value);
     }
     
     /**
      * Returns whether the levelbar is inverted.
      */
     public boolean getInverted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_get_inverted(HANDLE());
+        var RESULT = gtk_h.gtk_level_bar_get_inverted(handle());
         return (RESULT != 0);
     }
     
@@ -156,7 +158,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the `max-value` of the `GtkLevelBar`.
      */
     public double getMaxValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_get_max_value(HANDLE());
+        var RESULT = gtk_h.gtk_level_bar_get_max_value(handle());
         return RESULT;
     }
     
@@ -164,7 +166,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the `min-value of the `GtkLevelBar`.
      */
     public double getMinValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_get_min_value(HANDLE());
+        var RESULT = gtk_h.gtk_level_bar_get_min_value(handle());
         return RESULT;
     }
     
@@ -172,7 +174,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the `mode` of the `GtkLevelBar`.
      */
     public LevelBarMode getMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_get_mode(HANDLE());
+        var RESULT = gtk_h.gtk_level_bar_get_mode(handle());
         return LevelBarMode.fromValue(RESULT);
     }
     
@@ -180,7 +182,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the `value` of the `GtkLevelBar`.
      */
     public double getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_level_bar_get_value(handle());
         return RESULT;
     }
     
@@ -191,14 +193,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * [method@Gtk.LevelBar.add_offset_value].
      */
     public void removeOffsetValue(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_remove_offset_value(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_level_bar_remove_offset_value(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
      * Sets whether the `GtkLevelBar` is inverted.
      */
     public void setInverted(boolean inverted) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_set_inverted(HANDLE(), inverted ? 1 : 0);
+        gtk_h.gtk_level_bar_set_inverted(handle(), inverted ? 1 : 0);
     }
     
     /**
@@ -208,7 +210,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * this function.
      */
     public void setMaxValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_set_max_value(HANDLE(), value);
+        gtk_h.gtk_level_bar_set_max_value(handle(), value);
     }
     
     /**
@@ -218,21 +220,21 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * this function.
      */
     public void setMinValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_set_min_value(HANDLE(), value);
+        gtk_h.gtk_level_bar_set_min_value(handle(), value);
     }
     
     /**
      * Sets the `mode` of the `GtkLevelBar`.
      */
     public void setMode(LevelBarMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_set_mode(HANDLE(), mode.getValue());
+        gtk_h.gtk_level_bar_set_mode(handle(), mode.getValue());
     }
     
     /**
      * Sets the value of the `GtkLevelBar`.
      */
     public void setValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_set_value(HANDLE(), value);
+        gtk_h.gtk_level_bar_set_value(handle(), value);
     }
     
     @FunctionalInterface
@@ -254,12 +256,12 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLevelBarOffsetChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("offset-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("offset-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

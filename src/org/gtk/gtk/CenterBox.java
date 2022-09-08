@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,14 +56,14 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkCenterBox`.
      */
     public CenterBox() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_new(), false));
+        super(References.get(gtk_h.gtk_center_box_new(), false));
     }
     
     /**
      * Gets the value set by gtk_center_box_set_baseline_position().
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_baseline_position(HANDLE());
+        var RESULT = gtk_h.gtk_center_box_get_baseline_position(handle());
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -69,7 +71,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * Gets the center widget, or %NULL if there is none.
      */
     public Widget getCenterWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_center_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_box_get_center_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -77,7 +79,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * Gets the end widget, or %NULL if there is none.
      */
     public Widget getEndWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_end_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_box_get_end_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -85,7 +87,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * Gets the start widget, or %NULL if there is none.
      */
     public Widget getStartWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_start_widget(HANDLE());
+        var RESULT = gtk_h.gtk_center_box_get_start_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -99,7 +101,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * available.
      */
     public void setBaselinePosition(BaselinePosition position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_set_baseline_position(HANDLE(), position.getValue());
+        gtk_h.gtk_center_box_set_baseline_position(handle(), position.getValue());
     }
     
     /**
@@ -108,7 +110,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing center widget, pas %NULL.
      */
     public void setCenterWidget(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_set_center_widget(HANDLE(), child.HANDLE());
+        gtk_h.gtk_center_box_set_center_widget(handle(), child.handle());
     }
     
     /**
@@ -117,7 +119,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing end widget, pass %NULL.
      */
     public void setEndWidget(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_set_end_widget(HANDLE(), child.HANDLE());
+        gtk_h.gtk_center_box_set_end_widget(handle(), child.handle());
     }
     
     /**
@@ -126,7 +128,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      * To remove the existing start widget, pass %NULL.
      */
     public void setStartWidget(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_set_start_widget(HANDLE(), child.HANDLE());
+        gtk_h.gtk_center_box_set_start_widget(handle(), child.handle());
     }
     
 }

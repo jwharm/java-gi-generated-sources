@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * function [method@Gtk.TextBuffer.create_child_anchor].
      */
     public TextChildAnchor() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new(), true));
+        super(References.get(gtk_h.gtk_text_child_anchor_new(), true));
     }
     
     /**
@@ -41,7 +43,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * [method@Gtk.TextBuffer.insert_child_anchor].
      */
     public TextChildAnchor(java.lang.String character) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).HANDLE()), true));
+        super(References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true));
     }
     
     /**
@@ -55,7 +57,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * be finalized.
      */
     public boolean getDeleted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_get_deleted(HANDLE());
+        var RESULT = gtk_h.gtk_text_child_anchor_get_deleted(handle());
         return (RESULT != 0);
     }
     

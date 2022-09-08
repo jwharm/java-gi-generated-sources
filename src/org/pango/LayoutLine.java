@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * about the interpretation of the rectangles.
      */
     public void getExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_get_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_line_get_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
      * Returns the length of the line, in bytes.
      */
     public int getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_get_length(HANDLE());
+        var RESULT = gtk_h.pango_layout_line_get_length(handle());
         return RESULT;
     }
     
@@ -46,14 +48,14 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * passes them as first argument to [func@extents_to_pixels]).
      */
     public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_get_pixel_extents(HANDLE(), inkRect.HANDLE(), logicalRect.HANDLE());
+        gtk_h.pango_layout_line_get_pixel_extents(handle(), inkRect.handle(), logicalRect.handle());
     }
     
     /**
      * Returns the resolved direction of the line.
      */
     public Direction getResolvedDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_get_resolved_direction(HANDLE());
+        var RESULT = gtk_h.pango_layout_line_get_resolved_direction(handle());
         return Direction.fromValue(RESULT);
     }
     
@@ -62,7 +64,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * into the text of the layout.
      */
     public int getStartIndex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_get_start_index(HANDLE());
+        var RESULT = gtk_h.pango_layout_line_get_start_index(handle());
         return RESULT;
     }
     
@@ -70,7 +72,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns whether this is the first line of the paragraph.
      */
     public boolean isParagraphStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_is_paragraph_start(HANDLE());
+        var RESULT = gtk_h.pango_layout_line_is_paragraph_start(handle());
         return (RESULT != 0);
     }
     
@@ -78,7 +80,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increase the reference count of a `PangoLayoutLine` by one.
      */
     public LayoutLine ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_ref(HANDLE());
+        var RESULT = gtk_h.pango_layout_line_ref(handle());
         return new LayoutLine(References.get(RESULT, true));
     }
     
@@ -89,7 +91,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      * will be freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_unref(HANDLE());
+        gtk_h.pango_layout_line_unref(handle());
     }
     
 }

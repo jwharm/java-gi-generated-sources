@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class MnemonicTrigger extends ShortcutTrigger {
      * modifiers is detected.
      */
     public MnemonicTrigger(int keyval) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_new(keyval), true));
+        super(References.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true));
     }
     
     /**
      * Gets the keyval that must be pressed to succeed triggering @self.
      */
     public int getKeyval() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_get_keyval(HANDLE());
+        var RESULT = gtk_h.gtk_mnemonic_trigger_get_keyval(handle());
         return RESULT;
     }
     

@@ -4,11 +4,10 @@ import jdk.incubator.foreign.MemoryAddress;
 
 public interface NativeAddress {
 
-    MemoryAddress HANDLE();
-
+    MemoryAddress handle();
     Reference getReference();
 
-    default boolean equals(ResourceBase nativeAddress) {
-        return HANDLE() != null && HANDLE().equals(nativeAddress.HANDLE());
+    default boolean equals(NativeAddress nativeAddress) {
+        return handle() != null && handle().equals(nativeAddress.handle());
     }
 }

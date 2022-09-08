@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the queue or due to scheduling.
      */
     public int length() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_length(HANDLE());
+        var RESULT = gtk_h.g_async_queue_length(handle());
         return RESULT;
     }
     
@@ -44,7 +46,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public int lengthUnlocked() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_length_unlocked(HANDLE());
+        var RESULT = gtk_h.g_async_queue_length_unlocked(handle());
         return RESULT;
     }
     
@@ -60,7 +62,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * deadlock may occur.
      */
     public void lock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_lock(HANDLE());
+        gtk_h.g_async_queue_lock(handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * blocks until data becomes available.
      */
     public jdk.incubator.foreign.MemoryAddress pop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_pop(HANDLE());
+        var RESULT = gtk_h.g_async_queue_pop(handle());
         return RESULT;
     }
     
@@ -79,7 +81,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public jdk.incubator.foreign.MemoryAddress popUnlocked() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_pop_unlocked(HANDLE());
+        var RESULT = gtk_h.g_async_queue_pop_unlocked(handle());
         return RESULT;
     }
     
@@ -87,7 +89,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Pushes the @data into the @queue. @data must not be %NULL.
      */
     public void push(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_push(HANDLE(), data);
+        gtk_h.g_async_queue_push(handle(), data);
     }
     
     /**
@@ -97,7 +99,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * so that it will be the next one to be popped off the queue.
      */
     public void pushFront(jdk.incubator.foreign.MemoryAddress item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_push_front(HANDLE(), item);
+        gtk_h.g_async_queue_push_front(handle(), item);
     }
     
     /**
@@ -109,7 +111,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public void pushFrontUnlocked(jdk.incubator.foreign.MemoryAddress item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_push_front_unlocked(HANDLE(), item);
+        gtk_h.g_async_queue_push_front_unlocked(handle(), item);
     }
     
     /**
@@ -118,7 +120,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public void pushUnlocked(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_push_unlocked(HANDLE(), data);
+        gtk_h.g_async_queue_push_unlocked(handle(), data);
     }
     
     /**
@@ -126,7 +128,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * You do not need to hold the lock to call this function.
      */
     public AsyncQueue ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_ref(HANDLE());
+        var RESULT = gtk_h.g_async_queue_ref(handle());
         return new AsyncQueue(References.get(RESULT, false));
     }
     
@@ -134,7 +136,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * Remove an item from the queue.
      */
     public boolean remove(jdk.incubator.foreign.MemoryAddress item) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_remove(HANDLE(), item);
+        var RESULT = gtk_h.g_async_queue_remove(handle(), item);
         return (RESULT != 0);
     }
     
@@ -144,7 +146,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public boolean removeUnlocked(jdk.incubator.foreign.MemoryAddress item) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_remove_unlocked(HANDLE(), item);
+        var RESULT = gtk_h.g_async_queue_remove_unlocked(handle(), item);
         return (RESULT != 0);
     }
     
@@ -155,7 +157,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * If no data is received before the timeout, %NULL is returned.
      */
     public jdk.incubator.foreign.MemoryAddress timeoutPop(long timeout) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_timeout_pop(HANDLE(), timeout);
+        var RESULT = gtk_h.g_async_queue_timeout_pop(handle(), timeout);
         return RESULT;
     }
     
@@ -168,7 +170,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public jdk.incubator.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_timeout_pop_unlocked(HANDLE(), timeout);
+        var RESULT = gtk_h.g_async_queue_timeout_pop_unlocked(handle(), timeout);
         return RESULT;
     }
     
@@ -177,7 +179,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * %NULL is returned.
      */
     public jdk.incubator.foreign.MemoryAddress tryPop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_try_pop(HANDLE());
+        var RESULT = gtk_h.g_async_queue_try_pop(handle());
         return RESULT;
     }
     
@@ -188,7 +190,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function must be called while holding the @queue's lock.
      */
     public jdk.incubator.foreign.MemoryAddress tryPopUnlocked() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_try_pop_unlocked(HANDLE());
+        var RESULT = gtk_h.g_async_queue_try_pop_unlocked(handle());
         return RESULT;
     }
     
@@ -200,7 +202,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * behaviour.
      */
     public void unlock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_unlock(HANDLE());
+        gtk_h.g_async_queue_unlock(handle());
     }
     
     /**
@@ -212,7 +214,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * You do not need to hold the lock to call this function.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_unref(HANDLE());
+        gtk_h.g_async_queue_unref(handle());
     }
     
 }

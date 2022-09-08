@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -73,28 +75,28 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Creates a new `GtkCheckButton`.
      */
     public CheckButton() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new(), false));
+        super(References.get(gtk_h.gtk_check_button_new(), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text.
      */
     public static CheckButton newWithLabel(java.lang.String label) {
-        return new CheckButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
+        return new CheckButton(References.get(gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text and a mnemonic.
      */
     public static CheckButton newWithMnemonic(java.lang.String label) {
-        return new CheckButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new CheckButton(References.get(gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
      * Returns whether the check button is active.
      */
     public boolean getActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_get_active(HANDLE());
+        var RESULT = gtk_h.gtk_check_button_get_active(handle());
         return (RESULT != 0);
     }
     
@@ -102,7 +104,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Returns whether the check button is in an inconsistent state.
      */
     public boolean getInconsistent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_get_inconsistent(HANDLE());
+        var RESULT = gtk_h.gtk_check_button_get_inconsistent(handle());
         return (RESULT != 0);
     }
     
@@ -110,7 +112,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Returns the label of the check button.
      */
     public java.lang.String getLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_get_label(HANDLE());
+        var RESULT = gtk_h.gtk_check_button_get_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -118,7 +120,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Returns whether underlines in the label indicate mnemonics.
      */
     public boolean getUseUnderline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_get_use_underline(HANDLE());
+        var RESULT = gtk_h.gtk_check_button_get_use_underline(handle());
         return (RESULT != 0);
     }
     
@@ -126,7 +128,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Changes the check buttons active state.
      */
     public void setActive(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_set_active(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_check_button_set_active(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -147,7 +149,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * value.
      */
     public void setGroup(CheckButton group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_set_group(HANDLE(), group.HANDLE());
+        gtk_h.gtk_check_button_set_group(handle(), group.handle());
     }
     
     /**
@@ -157,7 +159,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * the check button. This has to be done manually.
      */
     public void setInconsistent(boolean inconsistent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_set_inconsistent(HANDLE(), inconsistent ? 1 : 0);
+        gtk_h.gtk_check_button_set_inconsistent(handle(), inconsistent ? 1 : 0);
     }
     
     /**
@@ -168,7 +170,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * [method@Gtk.CheckButton.set_use_underline] for details on this behavior.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.gtk_check_button_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -179,7 +181,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * to [property@Gtk.Label:use-underline].
      */
     public void setUseUnderline(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_set_use_underline(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_check_button_set_use_underline(handle(), setting ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -200,12 +202,12 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCheckButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -224,12 +226,12 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCheckButtonToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

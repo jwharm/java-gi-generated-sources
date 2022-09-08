@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * Gets a #GFile for @path.
      */
     public File getFileForPath(java.lang.String path) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        var RESULT = gtk_h.g_vfs_get_file_for_path(handle(), Interop.allocateNativeString(path).handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -35,7 +37,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * is malformed or if the URI scheme is not supported.
      */
     public File getFileForUri(java.lang.String uri) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
+        var RESULT = gtk_h.g_vfs_get_file_for_uri(handle(), Interop.allocateNativeString(uri).handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -43,7 +45,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * Checks if the VFS is active.
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_is_active(HANDLE());
+        var RESULT = gtk_h.g_vfs_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -53,7 +55,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * be parsed by the #GVfs module.
      */
     public File parseName(java.lang.String parseName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_parse_name(HANDLE(), Interop.allocateNativeString(parseName).HANDLE());
+        var RESULT = gtk_h.g_vfs_parse_name(handle(), Interop.allocateNativeString(parseName).handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -62,7 +64,7 @@ public class Vfs extends org.gtk.gobject.Object {
      * g_vfs_register_uri_scheme().
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_unregister_uri_scheme(HANDLE(), Interop.allocateNativeString(scheme).HANDLE());
+        var RESULT = gtk_h.g_vfs_unregister_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle());
         return (RESULT != 0);
     }
     

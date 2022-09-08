@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -95,14 +97,14 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * A widget should be packed into the button, as in [ctor@Gtk.Button.new].
      */
     public ToggleButton() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new(), false));
+        super(References.get(gtk_h.gtk_toggle_button_new(), false));
     }
     
     /**
      * Creates a new toggle button with a text label.
      */
     public static ToggleButton newWithLabel(java.lang.String label) {
-        return new ToggleButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
+        return new ToggleButton(References.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
@@ -112,7 +114,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
-        return new ToggleButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new ToggleButton(References.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
     }
     
     /**
@@ -122,7 +124,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * if it is raised.
      */
     public boolean getActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_get_active(HANDLE());
+        var RESULT = gtk_h.gtk_toggle_button_get_active(handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * [signal@GtkToggleButton::toggled] signal to be emitted.
      */
     public void setActive(boolean isActive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_set_active(HANDLE(), isActive ? 1 : 0);
+        gtk_h.gtk_toggle_button_set_active(handle(), isActive ? 1 : 0);
     }
     
     /**
@@ -153,7 +155,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * value.
      */
     public void setGroup(ToggleButton group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_set_group(HANDLE(), group.HANDLE());
+        gtk_h.gtk_toggle_button_set_group(handle(), group.handle());
     }
     
     /**
@@ -162,7 +164,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * There is no good reason for an application ever to call this function.
      */
     public void toggled() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_toggled(HANDLE());
+        gtk_h.gtk_toggle_button_toggled(handle());
     }
     
     @FunctionalInterface
@@ -177,12 +179,12 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalToggleButtonToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

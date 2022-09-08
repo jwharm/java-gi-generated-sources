@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,14 +27,14 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * otherwise in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true));
+        super(References.get(gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true));
     }
     
     /**
      * Copies a `PangoTabArray`.
      */
     public TabArray copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_copy(HANDLE());
+        var RESULT = gtk_h.pango_tab_array_copy(handle());
         return new TabArray(References.get(RESULT, true));
     }
     
@@ -40,7 +42,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a tab array and associated resources.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_free(HANDLE());
+        gtk_h.pango_tab_array_free(handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * decimal point according to the current locale.
      */
     public int getDecimalPoint(int tabIndex) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_get_decimal_point(HANDLE(), tabIndex);
+        var RESULT = gtk_h.pango_tab_array_get_decimal_point(handle(), tabIndex);
         return RESULT;
     }
     
@@ -63,7 +65,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * %FALSE if they are in Pango units.
      */
     public boolean getPositionsInPixels() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_get_positions_in_pixels(HANDLE());
+        var RESULT = gtk_h.pango_tab_array_get_positions_in_pixels(handle());
         return (RESULT != 0);
     }
     
@@ -71,7 +73,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the number of tab stops in @tab_array.
      */
     public int getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_get_size(HANDLE());
+        var RESULT = gtk_h.pango_tab_array_get_size(handle());
         return RESULT;
     }
     
@@ -82,7 +84,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * that were added as a result of growing the array.
      */
     public void resize(int newSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_resize(HANDLE(), newSize);
+        gtk_h.pango_tab_array_resize(handle(), newSize);
     }
     
     /**
@@ -96,7 +98,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the current locale.
      */
     public void setDecimalPoint(int tabIndex, int decimalPoint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_set_decimal_point(HANDLE(), tabIndex, decimalPoint);
+        gtk_h.pango_tab_array_set_decimal_point(handle(), tabIndex, decimalPoint);
     }
     
     /**
@@ -104,21 +106,21 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * pixels.
      */
     public void setPositionsInPixels(boolean positionsInPixels) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_set_positions_in_pixels(HANDLE(), positionsInPixels ? 1 : 0);
+        gtk_h.pango_tab_array_set_positions_in_pixels(handle(), positionsInPixels ? 1 : 0);
     }
     
     /**
      * Sets the alignment and location of a tab stop.
      */
     public void setTab(int tabIndex, TabAlign alignment, int location) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_set_tab(HANDLE(), tabIndex, alignment.getValue(), location);
+        gtk_h.pango_tab_array_set_tab(handle(), tabIndex, alignment.getValue(), location);
     }
     
     /**
      * Utility function to ensure that the tab stops are in increasing order.
      */
     public void sort() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_sort(HANDLE());
+        gtk_h.pango_tab_array_sort(handle());
     }
     
     /**
@@ -132,7 +134,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * storage format.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_tab_array_to_string(HANDLE());
+        var RESULT = gtk_h.pango_tab_array_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

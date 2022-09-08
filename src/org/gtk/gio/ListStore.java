@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * must be a subclass of #GObject.
      */
     public ListStore(Type itemType) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_new(itemType.getValue()), true));
+        super(References.get(gtk_h.g_list_store_new(itemType.getValue()), true));
     }
     
     /**
@@ -40,7 +42,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * efficiently.
      */
     public void append(org.gtk.gobject.Object item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_append(HANDLE(), item.HANDLE());
+        gtk_h.g_list_store_append(handle(), item.handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * efficiently.
      */
     public void insert(int position, org.gtk.gobject.Object item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_insert(HANDLE(), position, item.HANDLE());
+        gtk_h.g_list_store_insert(handle(), position, item.handle());
     }
     
     /**
@@ -65,14 +67,14 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * efficiently.
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_remove(HANDLE(), position);
+        gtk_h.g_list_store_remove(handle(), position);
     }
     
     /**
      * Removes all items from @store.
      */
     public void removeAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_remove_all(HANDLE());
+        gtk_h.g_list_store_remove_all(handle());
     }
     
     /**
@@ -91,7 +93,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_splice(HANDLE(), position, nRemovals, Interop.allocateNativeArray(additions), nAdditions);
+        gtk_h.g_list_store_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions), nAdditions);
     }
     
 }

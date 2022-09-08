@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -134,7 +136,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Creates a new `GtkSpinButton`.
      */
     public SpinButton(Adjustment adjustment, double climbRate, int digits) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new(adjustment.HANDLE(), climbRate, digits), false));
+        super(References.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false));
     }
     
     /**
@@ -153,7 +155,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * [method@Gtk.SpinButton.set_digits] to correct it.
      */
     public SpinButton(double min, double max, double step) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
+        super(References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
     }
     
     /**
@@ -163,14 +165,14 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * are updated accordingly.
      */
     public void configure(Adjustment adjustment, double climbRate, int digits) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_configure(HANDLE(), adjustment.HANDLE(), climbRate, digits);
+        gtk_h.gtk_spin_button_configure(handle(), adjustment.handle(), climbRate, digits);
     }
     
     /**
      * Get the adjustment associated with a `GtkSpinButton`.
      */
     public Adjustment getAdjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_adjustment(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_adjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -178,7 +180,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Returns the acceleration rate for repeated changes.
      */
     public double getClimbRate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_climb_rate(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_climb_rate(handle());
         return RESULT;
     }
     
@@ -186,7 +188,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Fetches the precision of @spin_button.
      */
     public int getDigits() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_digits(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_digits(handle());
         return RESULT;
     }
     
@@ -194,7 +196,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Returns whether non-numeric text can be typed into the spin button.
      */
     public boolean getNumeric() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_numeric(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_numeric(handle());
         return (RESULT != 0);
     }
     
@@ -202,7 +204,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Returns whether the values are corrected to the nearest step.
      */
     public boolean getSnapToTicks() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_snap_to_ticks(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_snap_to_ticks(handle());
         return (RESULT != 0);
     }
     
@@ -212,7 +214,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * See [method@Gtk.SpinButton.set_update_policy].
      */
     public SpinButtonUpdatePolicy getUpdatePolicy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_update_policy(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_update_policy(handle());
         return SpinButtonUpdatePolicy.fromValue(RESULT);
     }
     
@@ -220,7 +222,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Get the value in the @spin_button.
      */
     public double getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_value(handle());
         return RESULT;
     }
     
@@ -228,7 +230,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Get the value @spin_button represented as an integer.
      */
     public int getValueAsInt() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_value_as_int(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_value_as_int(handle());
         return RESULT;
     }
     
@@ -238,7 +240,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * exceeded.
      */
     public boolean getWrap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_get_wrap(HANDLE());
+        var RESULT = gtk_h.gtk_spin_button_get_wrap(handle());
         return (RESULT != 0);
     }
     
@@ -246,7 +248,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Replaces the `GtkAdjustment` associated with @spin_button.
      */
     public void setAdjustment(Adjustment adjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_adjustment(HANDLE(), adjustment.HANDLE());
+        gtk_h.gtk_spin_button_set_adjustment(handle(), adjustment.handle());
     }
     
     /**
@@ -254,7 +256,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * hold down a button or key.
      */
     public void setClimbRate(double climbRate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_climb_rate(HANDLE(), climbRate);
+        gtk_h.gtk_spin_button_set_climb_rate(handle(), climbRate);
     }
     
     /**
@@ -263,7 +265,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Up to 20 digit precision is allowed.
      */
     public void setDigits(int digits) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_digits(HANDLE(), digits);
+        gtk_h.gtk_spin_button_set_digits(handle(), digits);
     }
     
     /**
@@ -273,7 +275,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * the spin button’s arrows are activated.
      */
     public void setIncrements(double step, double page) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_increments(HANDLE(), step, page);
+        gtk_h.gtk_spin_button_set_increments(handle(), step, page);
     }
     
     /**
@@ -281,7 +283,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * into the spin button.
      */
     public void setNumeric(boolean numeric) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_numeric(HANDLE(), numeric ? 1 : 0);
+        gtk_h.gtk_spin_button_set_numeric(handle(), numeric ? 1 : 0);
     }
     
     /**
@@ -291,7 +293,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * to fit within the range, otherwise it will remain unchanged.
      */
     public void setRange(double min, double max) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_range(HANDLE(), min, max);
+        gtk_h.gtk_spin_button_set_range(handle(), min, max);
     }
     
     /**
@@ -300,7 +302,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * providing an invalid value.
      */
     public void setSnapToTicks(boolean snapToTicks) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_snap_to_ticks(HANDLE(), snapToTicks ? 1 : 0);
+        gtk_h.gtk_spin_button_set_snap_to_ticks(handle(), snapToTicks ? 1 : 0);
     }
     
     /**
@@ -310,14 +312,14 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * updated or only when a valid value is set.
      */
     public void setUpdatePolicy(SpinButtonUpdatePolicy policy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_update_policy(HANDLE(), policy.getValue());
+        gtk_h.gtk_spin_button_set_update_policy(handle(), policy.getValue());
     }
     
     /**
      * Sets the value of @spin_button.
      */
     public void setValue(double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_value(HANDLE(), value);
+        gtk_h.gtk_spin_button_set_value(handle(), value);
     }
     
     /**
@@ -326,7 +328,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * of the range is exceeded.
      */
     public void setWrap(boolean wrap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_set_wrap(HANDLE(), wrap ? 1 : 0);
+        gtk_h.gtk_spin_button_set_wrap(handle(), wrap ? 1 : 0);
     }
     
     /**
@@ -334,14 +336,14 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * direction by a specified amount.
      */
     public void spin(SpinType direction, double increment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_spin(HANDLE(), direction.getValue(), increment);
+        gtk_h.gtk_spin_button_spin(handle(), direction.getValue(), increment);
     }
     
     /**
      * Manually force an update of the spin button.
      */
     public void update() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spin_button_update(HANDLE());
+        gtk_h.gtk_spin_button_update(handle());
     }
     
     @FunctionalInterface
@@ -364,12 +366,12 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonChangeValue", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("change-value").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("change-value").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -393,12 +395,12 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonInput", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("input").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("input").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -436,12 +438,12 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonOutput", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("output").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("output").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -461,12 +463,12 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonValueChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("value-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -485,12 +487,12 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonWrapped", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("wrapped").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("wrapped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

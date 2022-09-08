@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -60,7 +62,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * [method@Gtk.FileChooser.get_choice].
      */
     public default void addChoice(java.lang.String id, java.lang.String label, java.lang.String[] options, java.lang.String[] optionLabels) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_add_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
+        gtk_h.gtk_file_chooser_add_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
     }
     
     /**
@@ -73,7 +75,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * so you have to ref and sink it if you want to keep a reference.
      */
     public default void addFilter(FileFilter filter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_add_filter(HANDLE(), filter.HANDLE());
+        gtk_h.gtk_file_chooser_add_filter(handle(), filter.handle());
     }
     
     /**
@@ -82,7 +84,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default boolean addShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_add_shortcut_folder(HANDLE(), folder.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_file_chooser_add_shortcut_folder(handle(), folder.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -93,7 +95,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the type of operation that the file chooser is performing.
      */
     public default FileChooserAction getAction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_action(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_action(handle());
         return FileChooserAction.fromValue(RESULT);
     }
     
@@ -101,7 +103,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the currently selected option in the 'choice' with the given ID.
      */
     public default java.lang.String getChoice(java.lang.String id) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_choice(handle(), Interop.allocateNativeString(id).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -109,7 +111,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets whether file chooser will offer to create new folders.
      */
     public default boolean getCreateFolders() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_create_folders(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_create_folders(handle());
         return (RESULT != 0);
     }
     
@@ -117,7 +119,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the current folder of @chooser as `GFile`.
      */
     public default org.gtk.gio.File getCurrentFolder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_current_folder(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_current_folder(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
     }
     
@@ -128,7 +130,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * filename when the file itself does not exist yet.
      */
     public default java.lang.String getCurrentName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_current_name(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_current_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -143,7 +145,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * the selected folder.
      */
     public default org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
     }
     
@@ -152,7 +154,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * of @chooser as `GFile`.
      */
     public default org.gtk.gio.ListModel getFiles() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_files(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_files(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -160,7 +162,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the current filter.
      */
     public default FileFilter getFilter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_filter(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_filter(handle());
         return new FileFilter(References.get(RESULT, false));
     }
     
@@ -174,7 +176,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * @chooser may or may not affect the returned model.
      */
     public default org.gtk.gio.ListModel getFilters() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_filters(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_filters(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -183,7 +185,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * chooser.
      */
     public default boolean getSelectMultiple() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_select_multiple(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_select_multiple(handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * @chooser may or may not affect the returned model.
      */
     public default org.gtk.gio.ListModel getShortcutFolders() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_get_shortcut_folders(HANDLE());
+        var RESULT = gtk_h.gtk_file_chooser_get_shortcut_folders(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -202,14 +204,14 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Removes a 'choice' that has been added with gtk_file_chooser_add_choice().
      */
     public default void removeChoice(java.lang.String id) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_remove_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE());
+        gtk_h.gtk_file_chooser_remove_choice(handle(), Interop.allocateNativeString(id).handle());
     }
     
     /**
      * Removes @filter from the list of filters that the user can select between.
      */
     public default void removeFilter(FileFilter filter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_remove_filter(HANDLE(), filter.HANDLE());
+        gtk_h.gtk_file_chooser_remove_filter(handle(), filter.handle());
     }
     
     /**
@@ -217,7 +219,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default boolean removeShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_remove_shortcut_folder(HANDLE(), folder.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_file_chooser_remove_shortcut_folder(handle(), folder.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -234,7 +236,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * action is %GTK_FILE_CHOOSER_ACTION_OPEN.
      */
     public default void setAction(FileChooserAction action) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_action(HANDLE(), action.getValue());
+        gtk_h.gtk_file_chooser_set_action(handle(), action.getValue());
     }
     
     /**
@@ -244,7 +246,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * For a boolean choice, the possible options are "true" and "false".
      */
     public default void setChoice(java.lang.String id, java.lang.String option) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_choice(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(option).HANDLE());
+        gtk_h.gtk_file_chooser_set_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(option).handle());
     }
     
     /**
@@ -254,7 +256,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * %GTK_FILE_CHOOSER_ACTION_OPEN.
      */
     public default void setCreateFolders(boolean createFolders) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_create_folders(HANDLE(), createFolders ? 1 : 0);
+        gtk_h.gtk_file_chooser_set_create_folders(handle(), createFolders ? 1 : 0);
     }
     
     /**
@@ -262,7 +264,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_current_folder(HANDLE(), file.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_file_chooser_set_current_folder(handle(), file.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -285,7 +287,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * of using [method@Gtk.FileChooser.set_current_name] as well.
      */
     public default void setCurrentName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_current_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_file_chooser_set_current_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -334,7 +336,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_file(HANDLE(), file.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_file_chooser_set_file(handle(), file.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -353,7 +355,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * set of files without letting the user change it.
      */
     public default void setFilter(FileFilter filter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_filter(HANDLE(), filter.HANDLE());
+        gtk_h.gtk_file_chooser_set_filter(handle(), filter.handle());
     }
     
     /**
@@ -364,7 +366,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * %GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER.
      */
     public default void setSelectMultiple(boolean selectMultiple) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_set_select_multiple(HANDLE(), selectMultiple ? 1 : 0);
+        gtk_h.gtk_file_chooser_set_select_multiple(handle(), selectMultiple ? 1 : 0);
     }
     
     class FileChooserImpl extends org.gtk.gobject.Object implements FileChooser {

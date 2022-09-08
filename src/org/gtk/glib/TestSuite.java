@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,21 +20,21 @@ public class TestSuite extends io.github.jwharm.javagi.interop.ResourceBase {
      * Adds @test_case to @suite.
      */
     public void add(TestCase testCase) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_suite_add(HANDLE(), testCase.HANDLE());
+        gtk_h.g_test_suite_add(handle(), testCase.handle());
     }
     
     /**
      * Adds @nestedsuite to @suite.
      */
     public void addSuite(TestSuite nestedsuite) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_suite_add_suite(HANDLE(), nestedsuite.HANDLE());
+        gtk_h.g_test_suite_add_suite(handle(), nestedsuite.handle());
     }
     
     /**
      * Free the @suite and all nested #GTestSuites.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_suite_free(HANDLE());
+        gtk_h.g_test_suite_free(handle());
     }
     
 }

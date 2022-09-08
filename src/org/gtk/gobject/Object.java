@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +39,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs), true));
+        super(References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true));
     }
     
     /**
@@ -49,7 +51,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public Object(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values)), true));
+        super(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values)), true));
     }
     
     /**
@@ -64,7 +66,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * thread. Use #GWeakRef if thread-safety is required.
      */
     public void addWeakPointer(jdk.incubator.foreign.MemoryAddress weakPointerLocation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_add_weak_pointer(HANDLE(), weakPointerLocation);
+        gtk_h.g_object_add_weak_pointer(handle(), weakPointerLocation);
     }
     
     /**
@@ -101,7 +103,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * A #GObject can have multiple bindings.
      */
     public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags);
+        var RESULT = gtk_h.g_object_bind_property(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags);
         return new Binding(References.get(RESULT, false));
     }
     
@@ -115,7 +117,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * function pointers.
      */
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_bind_property_with_closures(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags, transformTo.HANDLE(), transformFrom.HANDLE());
+        var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, transformTo.handle(), transformFrom.handle());
         return new Binding(References.get(RESULT, false));
     }
     
@@ -126,7 +128,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which usually just needs to be sunken by calling g_object_ref_sink().
      */
     public void forceFloating() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_force_floating(HANDLE());
+        gtk_h.g_object_force_floating(handle());
     }
     
     /**
@@ -141,14 +143,14 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * premature notification while the object is still being modified.
      */
     public void freezeNotify() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_freeze_notify(HANDLE());
+        gtk_h.g_object_freeze_notify(handle());
     }
     
     /**
      * Gets a named field from the objects table of associations (see g_object_set_data()).
      */
     public jdk.incubator.foreign.MemoryAddress getData(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_data(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_object_get_data(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -171,7 +173,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * bindings, g_object_get() is much more convenient for C programming.
      */
     public void getProperty(java.lang.String propertyName, Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
+        gtk_h.g_object_get_property(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
     }
     
     /**
@@ -179,7 +181,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_object_set_qdata().
      */
     public jdk.incubator.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_qdata(HANDLE(), quark.getValue());
+        var RESULT = gtk_h.g_object_get_qdata(handle(), quark.getValue());
         return RESULT;
     }
     
@@ -193,7 +195,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * See g_object_get().
      */
     public void getValist(java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_get_valist(HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
+        gtk_h.g_object_get_valist(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
     }
     
     /**
@@ -203,14 +205,14 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * properties are passed in.
      */
     public void getv(int nProperties, java.lang.String[] names, Value[] values) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_getv(HANDLE(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
+        gtk_h.g_object_getv(handle(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
     }
     
     /**
      * Checks whether @object has a [floating][floating-ref] reference.
      */
     public boolean isFloating() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_is_floating(HANDLE());
+        var RESULT = gtk_h.g_object_is_floating(handle());
         return (RESULT != 0);
     }
     
@@ -227,7 +229,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * called.
      */
     public void notify(java.lang.String propertyName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_notify(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
+        gtk_h.g_object_notify(handle(), Interop.allocateNativeString(propertyName).handle());
     }
     
     /**
@@ -271,7 +273,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public void notifyByPspec(ParamSpec pspec) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_notify_by_pspec(HANDLE(), pspec.HANDLE());
+        gtk_h.g_object_notify_by_pspec(handle(), pspec.handle());
     }
     
     /**
@@ -283,7 +285,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * explicit.
      */
     public Object ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_ref(HANDLE());
+        var RESULT = gtk_h.g_object_ref(handle());
         return new Object(References.get(RESULT, false));
     }
     
@@ -301,7 +303,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * under the same conditions as for g_object_ref().
      */
     public Object refSink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_ref_sink(HANDLE());
+        var RESULT = gtk_h.g_object_ref_sink(handle());
         return new Object(References.get(RESULT, false));
     }
     
@@ -311,7 +313,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * to match the one used with g_object_add_weak_pointer().
      */
     public void removeWeakPointer(jdk.incubator.foreign.MemoryAddress weakPointerLocation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_remove_weak_pointer(HANDLE(), weakPointerLocation);
+        gtk_h.g_object_remove_weak_pointer(handle(), weakPointerLocation);
     }
     
     /**
@@ -321,7 +323,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function should only be called from object system implementations.
      */
     public void runDispose() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_run_dispose(HANDLE());
+        gtk_h.g_object_run_dispose(handle());
     }
     
     /**
@@ -337,14 +339,14 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * for @key in your program, to avoid the #GQuark storage growing unbounded.
      */
     public void setData(java.lang.String key, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_data(HANDLE(), Interop.allocateNativeString(key).HANDLE(), data);
+        gtk_h.g_object_set_data(handle(), Interop.allocateNativeString(key).handle(), data);
     }
     
     /**
      * Sets a property on an object.
      */
     public void setProperty(java.lang.String propertyName, Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
+        gtk_h.g_object_set_property(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
     }
     
     /**
@@ -358,14 +360,14 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * removes the data stored.
      */
     public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_qdata(HANDLE(), quark.getValue(), data);
+        gtk_h.g_object_set_qdata(handle(), quark.getValue(), data);
     }
     
     /**
      * Sets properties on an object.
      */
     public void setValist(java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_set_valist(HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
+        gtk_h.g_object_set_valist(handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
     }
     
     /**
@@ -375,7 +377,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * properties are passed in.
      */
     public void setv(int nProperties, java.lang.String[] names, Value[] values) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_setv(HANDLE(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
+        gtk_h.g_object_setv(handle(), nProperties, Interop.allocateNativeArray(names), Interop.allocateNativeArray(values));
     }
     
     /**
@@ -383,7 +385,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * without invoking the association's destroy handler.
      */
     public jdk.incubator.foreign.MemoryAddress stealData(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_steal_data(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.g_object_steal_data(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -425,7 +427,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_object_set_qdata_full().
      */
     public jdk.incubator.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_steal_qdata(HANDLE(), quark.getValue());
+        var RESULT = gtk_h.g_object_steal_qdata(handle(), quark.getValue());
         return RESULT;
     }
     
@@ -467,7 +469,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * this situation.
      */
     public Object takeRef() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_take_ref(HANDLE());
+        var RESULT = gtk_h.g_object_take_ref(handle());
         return new Object(References.get(RESULT, true));
     }
     
@@ -483,7 +485,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is an error to call this function when the freeze count is zero.
      */
     public void thawNotify() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_thaw_notify(HANDLE());
+        gtk_h.g_object_thaw_notify(handle());
     }
     
     /**
@@ -496,7 +498,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * invalid #GObject instance. Use g_clear_object() for this.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_unref(HANDLE());
+        gtk_h.g_object_unref(handle());
     }
     
     /**
@@ -511,7 +513,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * use this @object as closure data.
      */
     public void watchClosure(Closure closure) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_watch_closure(HANDLE(), closure.HANDLE());
+        gtk_h.g_object_watch_closure(handle(), closure.handle());
     }
     
     @FunctionalInterface
@@ -550,12 +552,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("notify").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

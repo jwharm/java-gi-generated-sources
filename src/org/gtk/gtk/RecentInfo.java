@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_create_app_info(HANDLE(), Interop.allocateNativeString(appName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_recent_info_create_app_info(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -36,7 +38,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * to local files.
      */
     public boolean exists() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_exists(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_exists(handle());
         return (RESULT != 0);
     }
     
@@ -45,7 +47,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * was added to the recently used resources list.
      */
     public org.gtk.glib.DateTime getAdded() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_added(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_added(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
@@ -54,7 +56,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the resource pointed by @info.
      */
     public int getAge() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_age(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_age(handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the (short) description of the resource.
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_description(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -73,7 +75,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the resource is obtained.
      */
     public java.lang.String getDisplayName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_display_name(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_display_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -81,7 +83,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the icon associated to the resource MIME type.
      */
     public org.gtk.gio.Icon getGicon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_gicon(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_gicon(handle());
         return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -89,7 +91,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the MIME type of the resource.
      */
     public java.lang.String getMimeType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_mime_type(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_mime_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -98,7 +100,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * for the resource was last modified.
      */
     public org.gtk.glib.DateTime getModified() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_modified(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_modified(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
@@ -110,7 +112,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * that have registered them.
      */
     public boolean getPrivateHint() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_private_hint(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_private_hint(handle());
         return (RESULT != 0);
     }
     
@@ -122,7 +124,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * to “file:///foo/bar.txt” will yield “bar.txt”.
      */
     public java.lang.String getShortName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_short_name(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_short_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -130,7 +132,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the URI of the resource.
      */
     public java.lang.String getUri() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_uri(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_uri(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -142,7 +144,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * of [method@Gtk.RecentInfo.get_uri].
      */
     public java.lang.String getUriDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_uri_display(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_uri_display(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -151,7 +153,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * for the resource was last visited.
      */
     public org.gtk.glib.DateTime getVisited() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_visited(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_get_visited(handle());
         return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
@@ -159,7 +161,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether an application registered this resource using @app_name.
      */
     public boolean hasApplication(java.lang.String appName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_application(HANDLE(), Interop.allocateNativeString(appName).HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_has_application(handle(), Interop.allocateNativeString(appName).handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * registered for the recently used item @info.
      */
     public boolean hasGroup(java.lang.String groupName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_has_group(HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_has_group(handle(), Interop.allocateNativeString(groupName).handle());
         return (RESULT != 0);
     }
     
@@ -177,7 +179,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * scheme of its URI.
      */
     public boolean isLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_is_local(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_is_local(handle());
         return (RESULT != 0);
     }
     
@@ -186,7 +188,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * recently used resource represented by @info.
      */
     public java.lang.String lastApplication() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_last_application(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_last_application(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -194,7 +196,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether two `GtkRecentInfo` point to the same resource.
      */
     public boolean match(RecentInfo infoB) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_match(HANDLE(), infoB.HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_match(handle(), infoB.handle());
         return (RESULT != 0);
     }
     
@@ -202,7 +204,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count of @recent_info by one.
      */
     public RecentInfo ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_ref(HANDLE());
+        var RESULT = gtk_h.gtk_recent_info_ref(handle());
         return new RecentInfo(References.get(RESULT, true));
     }
     
@@ -213,7 +215,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * deallocated, and the memory freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_unref(HANDLE());
+        gtk_h.gtk_recent_info_unref(handle());
     }
     
 }

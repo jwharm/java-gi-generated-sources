@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +42,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * Creates a `GtkTextTag`.
      */
     public TextTag(java.lang.String name) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).HANDLE()), true));
+        super(References.get(gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).handle()), true));
     }
     
     /**
@@ -51,14 +53,14 @@ public class TextTag extends org.gtk.gobject.Object {
      * This function is useful for a `GtkTextTag` subclass.
      */
     public void changed(boolean sizeChanged) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_changed(HANDLE(), sizeChanged ? 1 : 0);
+        gtk_h.gtk_text_tag_changed(handle(), sizeChanged ? 1 : 0);
     }
     
     /**
      * Get the tag priority.
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_get_priority(HANDLE());
+        var RESULT = gtk_h.gtk_text_tag_get_priority(handle());
         return RESULT;
     }
     
@@ -79,7 +81,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * which adds the tag to the buffer’s table automatically.
      */
     public void setPriority(int priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_set_priority(HANDLE(), priority);
+        gtk_h.gtk_text_tag_set_priority(handle(), priority);
     }
     
 }

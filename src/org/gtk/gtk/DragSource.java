@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -98,21 +100,21 @@ public class DragSource extends GestureSingle {
      * Creates a new `GtkDragSource` object.
      */
     public DragSource() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_new(), true));
+        super(References.get(gtk_h.gtk_drag_source_new(), true));
     }
     
     /**
      * Cancels a currently ongoing drag operation.
      */
     public void dragCancel() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_drag_cancel(HANDLE());
+        gtk_h.gtk_drag_source_drag_cancel(handle());
     }
     
     /**
      * Gets the actions that are currently set on the `GtkDragSource`.
      */
     public int getActions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_actions(HANDLE());
+        var RESULT = gtk_h.gtk_drag_source_get_actions(handle());
         return RESULT;
     }
     
@@ -120,7 +122,7 @@ public class DragSource extends GestureSingle {
      * Gets the current content provider of a `GtkDragSource`.
      */
     public org.gtk.gdk.ContentProvider getContent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_content(HANDLE());
+        var RESULT = gtk_h.gtk_drag_source_get_content(handle());
         return new org.gtk.gdk.ContentProvider(References.get(RESULT, false));
     }
     
@@ -128,7 +130,7 @@ public class DragSource extends GestureSingle {
      * Returns the underlying `GdkDrag` object for an ongoing drag.
      */
     public org.gtk.gdk.Drag getDrag() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_drag(HANDLE());
+        var RESULT = gtk_h.gtk_drag_source_get_drag(handle());
         return new org.gtk.gdk.Drag(References.get(RESULT, false));
     }
     
@@ -144,7 +146,7 @@ public class DragSource extends GestureSingle {
      * or in a handler for the [signal@Gtk.DragSource::prepare] signal.
      */
     public void setActions(int actions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_set_actions(HANDLE(), actions);
+        gtk_h.gtk_drag_source_set_actions(handle(), actions);
     }
     
     /**
@@ -160,7 +162,7 @@ public class DragSource extends GestureSingle {
      * %NULL in a [signal@Gtk.DragSource::drag-end] signal handler.
      */
     public void setContent(org.gtk.gdk.ContentProvider content) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_set_content(HANDLE(), content.HANDLE());
+        gtk_h.gtk_drag_source_set_content(handle(), content.handle());
     }
     
     /**
@@ -176,7 +178,7 @@ public class DragSource extends GestureSingle {
      * [signal@Gtk.DragSource::drag-begin] signal handler.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_set_icon(HANDLE(), paintable.HANDLE(), hotX, hotY);
+        gtk_h.gtk_drag_source_set_icon(handle(), paintable.handle(), hotX, hotY);
     }
     
     @FunctionalInterface
@@ -194,12 +196,12 @@ public class DragSource extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDragSourceDragBegin", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("drag-begin").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("drag-begin").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -221,12 +223,12 @@ public class DragSource extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDragSourceDragCancel", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("drag-cancel").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("drag-cancel").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -248,12 +250,12 @@ public class DragSource extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDragSourceDragEnd", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("drag-end").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("drag-end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -276,12 +278,12 @@ public class DragSource extends GestureSingle {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDragSourcePrepare", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("prepare").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("prepare").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

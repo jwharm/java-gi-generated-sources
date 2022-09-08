@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,14 +34,14 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Creates a new `GtkPrintJob`.
      */
     public PrintJob(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).HANDLE(), printer.HANDLE(), settings.HANDLE(), pageSetup.HANDLE()), true));
+        super(References.get(gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).handle(), printer.handle(), settings.handle(), pageSetup.handle()), true));
     }
     
     /**
      * Gets whether this job is printed collated.
      */
     public boolean getCollate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_collate(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_collate(handle());
         return (RESULT != 0);
     }
     
@@ -47,7 +49,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the n-up setting for this job.
      */
     public int getNUp() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_n_up(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_n_up(handle());
         return RESULT;
     }
     
@@ -55,7 +57,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the n-up layout setting for this job.
      */
     public NumberUpLayout getNUpLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_n_up_layout(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_n_up_layout(handle());
         return NumberUpLayout.fromValue(RESULT);
     }
     
@@ -63,7 +65,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the number of copies of this job.
      */
     public int getNumCopies() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_num_copies(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_num_copies(handle());
         return RESULT;
     }
     
@@ -71,7 +73,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the `GtkPageSet` setting for this job.
      */
     public PageSet getPageSet() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_page_set(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_page_set(handle());
         return PageSet.fromValue(RESULT);
     }
     
@@ -79,7 +81,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the `GtkPrintPages` setting for this job.
      */
     public PrintPages getPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_pages(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_pages(handle());
         return PrintPages.fromValue(RESULT);
     }
     
@@ -87,7 +89,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the `GtkPrinter` of the print job.
      */
     public Printer getPrinter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_printer(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_printer(handle());
         return new Printer(References.get(RESULT, false));
     }
     
@@ -95,7 +97,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets whether this job is printed reversed.
      */
     public boolean getReverse() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_reverse(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_reverse(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets whether the job is printed rotated.
      */
     public boolean getRotate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_rotate(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_rotate(handle());
         return (RESULT != 0);
     }
     
@@ -111,7 +113,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the scale for this job.
      */
     public double getScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_scale(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_scale(handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the `GtkPrintSettings` of the print job.
      */
     public PrintSettings getSettings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_settings(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_settings(handle());
         return new PrintSettings(References.get(RESULT, false));
     }
     
@@ -127,7 +129,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the status of the print job.
      */
     public PrintStatus getStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_status(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_status(handle());
         return PrintStatus.fromValue(RESULT);
     }
     
@@ -137,7 +139,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_surface(HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_job_get_surface(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -148,7 +150,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the job title.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -158,7 +160,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * For details, see [method@Gtk.PrintJob.set_track_print_status].
      */
     public boolean getTrackPrintStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_get_track_print_status(HANDLE());
+        var RESULT = gtk_h.gtk_print_job_get_track_print_status(handle());
         return (RESULT != 0);
     }
     
@@ -166,63 +168,63 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Sets whether this job is printed collated.
      */
     public void setCollate(boolean collate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_collate(HANDLE(), collate ? 1 : 0);
+        gtk_h.gtk_print_job_set_collate(handle(), collate ? 1 : 0);
     }
     
     /**
      * Sets the n-up setting for this job.
      */
     public void setNUp(int nUp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_n_up(HANDLE(), nUp);
+        gtk_h.gtk_print_job_set_n_up(handle(), nUp);
     }
     
     /**
      * Sets the n-up layout setting for this job.
      */
     public void setNUpLayout(NumberUpLayout layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_n_up_layout(HANDLE(), layout.getValue());
+        gtk_h.gtk_print_job_set_n_up_layout(handle(), layout.getValue());
     }
     
     /**
      * Sets the number of copies for this job.
      */
     public void setNumCopies(int numCopies) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_num_copies(HANDLE(), numCopies);
+        gtk_h.gtk_print_job_set_num_copies(handle(), numCopies);
     }
     
     /**
      * Sets the page ranges for this job.
      */
     public void setPageRanges(PageRange[] ranges, int nRanges) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_page_ranges(HANDLE(), Interop.allocateNativeArray(ranges), nRanges);
+        gtk_h.gtk_print_job_set_page_ranges(handle(), Interop.allocateNativeArray(ranges), nRanges);
     }
     
     /**
      * Sets the `GtkPageSet` setting for this job.
      */
     public void setPageSet(PageSet pageSet) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_page_set(HANDLE(), pageSet.getValue());
+        gtk_h.gtk_print_job_set_page_set(handle(), pageSet.getValue());
     }
     
     /**
      * Sets the `GtkPrintPages` setting for this job.
      */
     public void setPages(PrintPages pages) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_pages(HANDLE(), pages.getValue());
+        gtk_h.gtk_print_job_set_pages(handle(), pages.getValue());
     }
     
     /**
      * Sets whether this job is printed reversed.
      */
     public void setReverse(boolean reverse) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_reverse(HANDLE(), reverse ? 1 : 0);
+        gtk_h.gtk_print_job_set_reverse(handle(), reverse ? 1 : 0);
     }
     
     /**
      * Sets whether this job is printed rotated.
      */
     public void setRotate(boolean rotate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_rotate(HANDLE(), rotate ? 1 : 0);
+        gtk_h.gtk_print_job_set_rotate(handle(), rotate ? 1 : 0);
     }
     
     /**
@@ -231,7 +233,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * 1.0 means unscaled.
      */
     public void setScale(double scale) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_scale(HANDLE(), scale);
+        gtk_h.gtk_print_job_set_scale(handle(), scale);
     }
     
     /**
@@ -249,7 +251,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean setSourceFd(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_source_fd(HANDLE(), fd, GERROR);
+        var RESULT = gtk_h.gtk_print_job_set_source_fd(handle(), fd, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -267,7 +269,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_source_file(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_job_set_source_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -285,7 +287,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * so it should not be enabled unless needed.
      */
     public void setTrackPrintStatus(boolean trackStatus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_job_set_track_print_status(HANDLE(), trackStatus ? 1 : 0);
+        gtk_h.gtk_print_job_set_track_print_status(handle(), trackStatus ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -303,12 +305,12 @@ public class PrintJob extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintJobStatusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("status-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

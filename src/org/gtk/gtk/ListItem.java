@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +39,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * gtk_list_item_set_activatable().
      */
     public boolean getActivatable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_activatable(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_activatable(handle());
         return (RESULT != 0);
     }
     
@@ -46,7 +48,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * %NULL if none was set.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -56,7 +58,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * If @self is unbound, this function returns %NULL.
      */
     public org.gtk.gobject.Object getItem() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_item(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_item(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
@@ -66,7 +68,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * If @self is unbound, %GTK_INVALID_LIST_POSITION is returned.
      */
     public int getPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_position(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_position(handle());
         return RESULT;
     }
     
@@ -77,7 +79,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * Do not confuse this function with [method@Gtk.ListItem.get_selected].
      */
     public boolean getSelectable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_selectable(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_selectable(handle());
         return (RESULT != 0);
     }
     
@@ -88,7 +90,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * and cannot be set otherwise.
      */
     public boolean getSelected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_get_selected(HANDLE());
+        var RESULT = gtk_h.gtk_list_item_get_selected(handle());
         return (RESULT != 0);
     }
     
@@ -104,7 +106,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * By default, list items are activatable.
      */
     public void setActivatable(boolean activatable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_set_activatable(HANDLE(), activatable ? 1 : 0);
+        gtk_h.gtk_list_item_set_activatable(handle(), activatable ? 1 : 0);
     }
     
     /**
@@ -115,7 +117,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * binding it multiple times.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_list_item_set_child(handle(), child.handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * a new item, they will also be reset to be selectable by GTK.
      */
     public void setSelectable(boolean selectable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_item_set_selectable(HANDLE(), selectable ? 1 : 0);
+        gtk_h.gtk_list_item_set_selectable(handle(), selectable ? 1 : 0);
     }
     
 }

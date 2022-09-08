@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public class HookList extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes all the #GHook elements from a #GHookList.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hook_list_clear(HANDLE());
+        gtk_h.g_hook_list_clear(handle());
     }
     
     /**
@@ -26,14 +28,14 @@ public class HookList extends io.github.jwharm.javagi.interop.ResourceBase {
      * This must be called before the #GHookList is used.
      */
     public void init(int hookSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hook_list_init(HANDLE(), hookSize);
+        gtk_h.g_hook_list_init(handle(), hookSize);
     }
     
     /**
      * Calls all of the #GHook functions in a #GHookList.
      */
     public void invoke(boolean mayRecurse) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hook_list_invoke(HANDLE(), mayRecurse ? 1 : 0);
+        gtk_h.g_hook_list_invoke(handle(), mayRecurse ? 1 : 0);
     }
     
     /**
@@ -41,7 +43,7 @@ public class HookList extends io.github.jwharm.javagi.interop.ResourceBase {
      * Any function which returns %FALSE is removed from the #GHookList.
      */
     public void invokeCheck(boolean mayRecurse) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hook_list_invoke_check(HANDLE(), mayRecurse ? 1 : 0);
+        gtk_h.g_hook_list_invoke_check(handle(), mayRecurse ? 1 : 0);
     }
     
 }

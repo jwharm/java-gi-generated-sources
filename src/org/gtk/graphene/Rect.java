@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether a #graphene_rect_t contains the given coordinates.
      */
     public boolean containsPoint(Point p) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_contains_point(HANDLE(), p.HANDLE());
+        var RESULT = gtk_h.graphene_rect_contains_point(handle(), p.handle());
         return RESULT;
     }
     
@@ -38,7 +40,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * rectangle.
      */
     public boolean containsRect(Rect b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_contains_rect(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_rect_contains_rect(handle(), b.handle());
         return RESULT;
     }
     
@@ -46,7 +48,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given rectangle are equal.
      */
     public boolean equal(Rect b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_rect_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -54,21 +56,21 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Expands a #graphene_rect_t to contain the given #graphene_point_t.
      */
     public void expand(Point p, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_expand(HANDLE(), p.HANDLE(), res.HANDLE());
+        gtk_h.graphene_rect_expand(handle(), p.handle(), res.handle());
     }
     
     /**
      * Frees the resources allocated by graphene_rect_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_free(HANDLE());
+        gtk_h.graphene_rect_free(handle());
     }
     
     /**
      * Compute the area of given normalized rectangle.
      */
     public float getArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_area(HANDLE());
+        var RESULT = gtk_h.graphene_rect_get_area(handle());
         return RESULT;
     }
     
@@ -76,28 +78,28 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the coordinates of the bottom-left corner of the given rectangle.
      */
     public void getBottomLeft(Point p) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_bottom_left(HANDLE(), p.HANDLE());
+        gtk_h.graphene_rect_get_bottom_left(handle(), p.handle());
     }
     
     /**
      * Retrieves the coordinates of the bottom-right corner of the given rectangle.
      */
     public void getBottomRight(Point p) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_bottom_right(HANDLE(), p.HANDLE());
+        gtk_h.graphene_rect_get_bottom_right(handle(), p.handle());
     }
     
     /**
      * Retrieves the coordinates of the center of the given rectangle.
      */
     public void getCenter(Point p) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_center(HANDLE(), p.HANDLE());
+        gtk_h.graphene_rect_get_center(handle(), p.handle());
     }
     
     /**
      * Retrieves the normalized height of the given rectangle.
      */
     public float getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_height(HANDLE());
+        var RESULT = gtk_h.graphene_rect_get_height(handle());
         return RESULT;
     }
     
@@ -105,28 +107,28 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the coordinates of the top-left corner of the given rectangle.
      */
     public void getTopLeft(Point p) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_top_left(HANDLE(), p.HANDLE());
+        gtk_h.graphene_rect_get_top_left(handle(), p.handle());
     }
     
     /**
      * Retrieves the coordinates of the top-right corner of the given rectangle.
      */
     public void getTopRight(Point p) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_top_right(HANDLE(), p.HANDLE());
+        gtk_h.graphene_rect_get_top_right(handle(), p.handle());
     }
     
     /**
      * Computes the four vertices of a #graphene_rect_t.
      */
     public void getVertices(Vec2[] vertices) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_vertices(HANDLE(), Interop.allocateNativeArray(vertices));
+        gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices));
     }
     
     /**
      * Retrieves the normalized width of the given rectangle.
      */
     public float getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_width(HANDLE());
+        var RESULT = gtk_h.graphene_rect_get_width(handle());
         return RESULT;
     }
     
@@ -135,7 +137,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * rectangle.
      */
     public float getX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_x(HANDLE());
+        var RESULT = gtk_h.graphene_rect_get_x(handle());
         return RESULT;
     }
     
@@ -144,7 +146,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * rectangle.
      */
     public float getY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_get_y(HANDLE());
+        var RESULT = gtk_h.graphene_rect_get_y(handle());
         return RESULT;
     }
     
@@ -155,7 +157,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * before returning.
      */
     public Rect init(float x, float y, float width, float height) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_init(HANDLE(), x, y, width, height);
+        var RESULT = gtk_h.graphene_rect_init(handle(), x, y, width, height);
         return new Rect(References.get(RESULT, false));
     }
     
@@ -166,7 +168,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * before returning.
      */
     public Rect initFromRect(Rect src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_init_from_rect(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_rect_init_from_rect(handle(), src.handle());
         return new Rect(References.get(RESULT, false));
     }
     
@@ -187,7 +189,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * height then the size will be set to zero.
      */
     public Rect inset(float dX, float dY) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_inset(HANDLE(), dX, dY);
+        var RESULT = gtk_h.graphene_rect_inset(handle(), dX, dY);
         return new Rect(References.get(RESULT, false));
     }
     
@@ -208,7 +210,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * height then the size will be set to zero.
      */
     public void insetR(float dX, float dY, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_inset_r(HANDLE(), dX, dY, res.HANDLE());
+        gtk_h.graphene_rect_inset_r(handle(), dX, dY, res.handle());
     }
     
     /**
@@ -216,7 +218,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * rectangles.
      */
     public void interpolate(Rect b, double factor, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_interpolate(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_rect_interpolate(handle(), b.handle(), factor, res.handle());
     }
     
     /**
@@ -230,7 +232,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * a degenerate rectangle with origin in (0, 0) and a size of 0.
      */
     public boolean intersection(Rect b, Rect res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_intersection(HANDLE(), b.HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_rect_intersection(handle(), b.handle(), res.handle());
         return RESULT;
     }
     
@@ -242,7 +244,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * the rectangle.
      */
     public Rect normalize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_normalize(HANDLE());
+        var RESULT = gtk_h.graphene_rect_normalize(handle());
         return new Rect(References.get(RESULT, false));
     }
     
@@ -254,7 +256,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the rectangle.
      */
     public void normalizeR(Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_normalize_r(HANDLE(), res.HANDLE());
+        gtk_h.graphene_rect_normalize_r(handle(), res.handle());
     }
     
     /**
@@ -263,7 +265,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * The size of the rectangle is unchanged.
      */
     public Rect offset(float dX, float dY) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_offset(HANDLE(), dX, dY);
+        var RESULT = gtk_h.graphene_rect_offset(handle(), dX, dY);
         return new Rect(References.get(RESULT, false));
     }
     
@@ -273,7 +275,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * The size of the rectangle is left unchanged.
      */
     public void offsetR(float dX, float dY, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_offset_r(HANDLE(), dX, dY, res.HANDLE());
+        gtk_h.graphene_rect_offset_r(handle(), dX, dY, res.handle());
     }
     
     /**
@@ -300,7 +302,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * original rectangle outside the rounded one.
      */
     public void roundExtents(Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_round_extents(HANDLE(), res.HANDLE());
+        gtk_h.graphene_rect_round_extents(handle(), res.handle());
     }
     
     /**
@@ -308,7 +310,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * and vertically by @s_v. The result @res is normalized.
      */
     public void scale(float sH, float sV, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_scale(HANDLE(), sH, sV, res.HANDLE());
+        gtk_h.graphene_rect_scale(handle(), sH, sV, res.handle());
     }
     
     /**
@@ -319,7 +321,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      * The union in the image above is the blue outline.
      */
     public void union(Rect b, Rect res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_union(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_rect_union(handle(), b.handle(), res.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,14 +38,14 @@ public class GridLayout extends LayoutManager {
      * Creates a new `GtkGridLayout`.
      */
     public GridLayout() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_new(), true));
+        super(References.get(gtk_h.gtk_grid_layout_new(), true));
     }
     
     /**
      * Retrieves the row set with gtk_grid_layout_set_baseline_row().
      */
     public int getBaselineRow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_baseline_row(HANDLE());
+        var RESULT = gtk_h.gtk_grid_layout_get_baseline_row(handle());
         return RESULT;
     }
     
@@ -51,7 +53,7 @@ public class GridLayout extends LayoutManager {
      * Checks whether all columns of @grid should have the same width.
      */
     public boolean getColumnHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_column_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_grid_layout_get_column_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class GridLayout extends LayoutManager {
      * Retrieves the spacing set with gtk_grid_layout_set_column_spacing().
      */
     public int getColumnSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_column_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_grid_layout_get_column_spacing(handle());
         return RESULT;
     }
     
@@ -72,7 +74,7 @@ public class GridLayout extends LayoutManager {
      * is returned.
      */
     public BaselinePosition getRowBaselinePosition(int row) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_row_baseline_position(HANDLE(), row);
+        var RESULT = gtk_h.gtk_grid_layout_get_row_baseline_position(handle(), row);
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -80,7 +82,7 @@ public class GridLayout extends LayoutManager {
      * Checks whether all rows of @grid should have the same height.
      */
     public boolean getRowHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_row_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_grid_layout_get_row_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -88,7 +90,7 @@ public class GridLayout extends LayoutManager {
      * Retrieves the spacing set with gtk_grid_layout_set_row_spacing().
      */
     public int getRowSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_get_row_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_grid_layout_get_row_spacing(handle());
         return RESULT;
     }
     
@@ -100,21 +102,21 @@ public class GridLayout extends LayoutManager {
      * parent of the @grid.
      */
     public void setBaselineRow(int row) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_baseline_row(HANDLE(), row);
+        gtk_h.gtk_grid_layout_set_baseline_row(handle(), row);
     }
     
     /**
      * Sets whether all columns of @grid should have the same width.
      */
     public void setColumnHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_column_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_grid_layout_set_column_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets the amount of space to insert between consecutive columns.
      */
     public void setColumnSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_column_spacing(HANDLE(), spacing);
+        gtk_h.gtk_grid_layout_set_column_spacing(handle(), spacing);
     }
     
     /**
@@ -122,21 +124,21 @@ public class GridLayout extends LayoutManager {
      * grid, in case that row is assigned more space than is requested.
      */
     public void setRowBaselinePosition(int row, BaselinePosition pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_row_baseline_position(HANDLE(), row, pos.getValue());
+        gtk_h.gtk_grid_layout_set_row_baseline_position(handle(), row, pos.getValue());
     }
     
     /**
      * Sets whether all rows of @grid should have the same height.
      */
     public void setRowHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_row_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_grid_layout_set_row_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets the amount of space to insert between consecutive rows.
      */
     public void setRowSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_set_row_spacing(HANDLE(), spacing);
+        gtk_h.gtk_grid_layout_set_row_spacing(handle(), spacing);
     }
     
 }

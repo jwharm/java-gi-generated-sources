@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * and will be related only when g_variant_iter_free() is called.
      */
     public VariantIter copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_copy(HANDLE());
+        var RESULT = gtk_h.g_variant_iter_copy(handle());
         return new VariantIter(References.get(RESULT, true));
     }
     
@@ -38,7 +40,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_iter_copy().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_free(HANDLE());
+        gtk_h.g_variant_iter_free(handle());
     }
     
     /**
@@ -50,7 +52,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * be freed in any way.
      */
     public long init(Variant value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_init(HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.g_variant_iter_init(handle(), value.handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function might be useful for preallocation of arrays.
      */
     public long nChildren() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_n_children(HANDLE());
+        var RESULT = gtk_h.g_variant_iter_n_children(handle());
         return RESULT;
     }
     
@@ -96,7 +98,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public Variant nextValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_next_value(HANDLE());
+        var RESULT = gtk_h.g_variant_iter_next_value(handle());
         return new Variant(References.get(RESULT, true));
     }
     

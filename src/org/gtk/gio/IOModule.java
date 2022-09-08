@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * shared library when in use.
      */
     public IOModule(java.lang.String filename) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_new(Interop.allocateNativeString(filename).HANDLE()), true));
+        super(References.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true));
     }
     
     /**
@@ -45,7 +47,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public void load() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_load(HANDLE());
+        gtk_h.g_io_module_load(handle());
     }
     
     /**
@@ -63,7 +65,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public void unload() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_unload(HANDLE());
+        gtk_h.g_io_module_unload(handle());
     }
     
 }

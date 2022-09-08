@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -162,7 +164,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * you will have to fill it completely yourself.
      */
     public Pixbuf(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true));
+        super(References.get(gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true));
     }
     
     /**
@@ -174,7 +176,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * for language bindings.
      */
     public Pixbuf(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_bytes(data.HANDLE(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
+        super(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
     }
     
     /**
@@ -184,7 +186,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * program's C source.
      */
     public Pixbuf(java.lang.String[] data) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data)), true));
+        super(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data)), true));
     }
     
     /**
@@ -203,7 +205,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * will be ignored.
      */
     public Pixbuf addAlpha(boolean substituteColor, byte r, byte g, byte b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_add_alpha(HANDLE(), substituteColor ? 1 : 0, r, g, b);
+        var RESULT = gtk_h.gdk_pixbuf_add_alpha(handle(), substituteColor ? 1 : 0, r, g, b);
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -220,7 +222,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * will be performed so that the pixbuf is oriented correctly.
      */
     public Pixbuf applyEmbeddedOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_apply_embedded_orientation(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_apply_embedded_orientation(handle());
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -240,7 +242,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * ![](composite.png)
      */
     public void composite(Pixbuf dest, int destX, int destY, int destWidth, int destHeight, double offsetX, double offsetY, double scaleX, double scaleY, InterpType interpType, int overallAlpha) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_composite(HANDLE(), dest.HANDLE(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha);
+        gtk_h.gdk_pixbuf_composite(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha);
     }
     
     /**
@@ -258,7 +260,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * function suitable for many tasks.
      */
     public void compositeColor(Pixbuf dest, int destX, int destY, int destWidth, int destHeight, double offsetX, double offsetY, double scaleX, double scaleY, InterpType interpType, int overallAlpha, int checkX, int checkY, int checkSize, int color1, int color2) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_composite_color(HANDLE(), dest.HANDLE(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha, checkX, checkY, checkSize, color1, color2);
+        gtk_h.gdk_pixbuf_composite_color(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue(), overallAlpha, checkX, checkY, checkSize, color1, color2);
     }
     
     /**
@@ -267,7 +269,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * and `color2`.
      */
     public Pixbuf compositeColorSimple(int destWidth, int destHeight, InterpType interpType, int overallAlpha, int checkSize, int color1, int color2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_composite_color_simple(HANDLE(), destWidth, destHeight, interpType.getValue(), overallAlpha, checkSize, color1, color2);
+        var RESULT = gtk_h.gdk_pixbuf_composite_color_simple(handle(), destWidth, destHeight, interpType.getValue(), overallAlpha, checkSize, color1, color2);
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -279,7 +281,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * use gdk_pixbuf_copy_options() for this.
      */
     public Pixbuf copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_copy(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_copy(handle());
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -293,7 +295,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Therefore, you can not use this function to scroll a pixbuf.
      */
     public void copyArea(int srcX, int srcY, int width, int height, Pixbuf destPixbuf, int destX, int destY) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_copy_area(HANDLE(), srcX, srcY, width, height, destPixbuf.HANDLE(), destX, destY);
+        gtk_h.gdk_pixbuf_copy_area(handle(), srcX, srcY, width, height, destPixbuf.handle(), destX, destY);
     }
     
     /**
@@ -305,7 +307,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * applied, such as the "orientation" option after rotating the image.
      */
     public boolean copyOptions(Pixbuf destPixbuf) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_copy_options(HANDLE(), destPixbuf.HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_copy_options(handle(), destPixbuf.handle());
         return (RESULT != 0);
     }
     
@@ -317,7 +319,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * channel.
      */
     public void fill(int pixel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_fill(HANDLE(), pixel);
+        gtk_h.gdk_pixbuf_fill(handle(), pixel);
     }
     
     /**
@@ -325,7 +327,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * result in a new pixbuf.
      */
     public Pixbuf flip(boolean horizontal) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_flip(HANDLE(), horizontal ? 1 : 0);
+        var RESULT = gtk_h.gdk_pixbuf_flip(handle(), horizontal ? 1 : 0);
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -333,7 +335,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries the number of bits per color sample in a pixbuf.
      */
     public int getBitsPerSample() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_bits_per_sample(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_bits_per_sample(handle());
         return RESULT;
     }
     
@@ -341,7 +343,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Returns the length of the pixel data, in bytes.
      */
     public long getByteLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_byte_length(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_byte_length(handle());
         return RESULT;
     }
     
@@ -349,7 +351,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries the color space of a pixbuf.
      */
     public Colorspace getColorspace() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_colorspace(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_colorspace(handle());
         return Colorspace.fromValue(RESULT);
     }
     
@@ -357,7 +359,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries whether a pixbuf has an alpha channel (opacity information).
      */
     public boolean getHasAlpha() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_has_alpha(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_has_alpha(handle());
         return (RESULT != 0);
     }
     
@@ -365,7 +367,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries the height of a pixbuf.
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_height(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_height(handle());
         return RESULT;
     }
     
@@ -373,7 +375,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries the number of channels of a pixbuf.
      */
     public int getNChannels() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_n_channels(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_n_channels(handle());
         return RESULT;
     }
     
@@ -395,7 +397,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * EXIF tag.
      */
     public java.lang.String getOption(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_option(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_option(handle(), Interop.allocateNativeString(key).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -405,7 +407,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * attached by another function using [method@GdkPixbuf.Pixbuf.set_option].
      */
     public org.gtk.glib.HashTable getOptions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_options(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_options(handle());
         return new org.gtk.glib.HashTable(References.get(RESULT, false));
     }
     
@@ -414,7 +416,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * the start of a row and the start of the next row.
      */
     public int getRowstride() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_rowstride(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_rowstride(handle());
         return RESULT;
     }
     
@@ -422,7 +424,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Queries the width of a pixbuf.
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_get_width(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_get_width(handle());
         return RESULT;
     }
     
@@ -438,7 +440,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * to be mutable.
      */
     public Pixbuf newSubpixbuf(int srcX, int srcY, int width, int height) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_new_subpixbuf(HANDLE(), srcX, srcY, width, height);
+        var RESULT = gtk_h.gdk_pixbuf_new_subpixbuf(handle(), srcX, srcY, width, height);
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -450,7 +452,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * if gdk_pixbuf_get_pixels() is called on a read-only pixbuf.
      */
     public org.gtk.glib.Bytes readPixelBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_read_pixel_bytes(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_read_pixel_bytes(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -458,7 +460,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Removes the key/value pair option attached to a `GdkPixbuf`.
      */
     public boolean removeOption(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_remove_option(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_remove_option(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -469,7 +471,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * If `angle` is 0, this function will return a copy of `src`.
      */
     public Pixbuf rotateSimple(PixbufRotation angle) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_rotate_simple(HANDLE(), angle.getValue());
+        var RESULT = gtk_h.gdk_pixbuf_rotate_simple(handle(), angle.getValue());
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -490,7 +492,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * create a pixelated image.
      */
     public void saturateAndPixelate(Pixbuf dest, float saturation, boolean pixelate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_saturate_and_pixelate(HANDLE(), dest.HANDLE(), saturation, pixelate ? 1 : 0);
+        gtk_h.gdk_pixbuf_saturate_and_pixelate(handle(), dest.handle(), saturation, pixelate ? 1 : 0);
     }
     
     /**
@@ -503,7 +505,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_save_to_streamv(HANDLE(), stream.HANDLE(), Interop.allocateNativeString(type).HANDLE(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_pixbuf_save_to_streamv(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -521,7 +523,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_savev(HANDLE(), Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(type).HANDLE(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), GERROR);
+        var RESULT = gtk_h.gdk_pixbuf_savev(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys), Interop.allocateNativeArray(optionValues), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -544,7 +546,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * results in rendering artifacts.
      */
     public void scale(Pixbuf dest, int destX, int destY, int destWidth, int destHeight, double offsetX, double offsetY, double scaleX, double scaleY, InterpType interpType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_scale(HANDLE(), dest.HANDLE(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue());
+        gtk_h.gdk_pixbuf_scale(handle(), dest.handle(), destX, destY, destWidth, destHeight, offsetX, offsetY, scaleX, scaleY, interpType.getValue());
     }
     
     /**
@@ -568,7 +570,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * and [method@GdkPixbuf.Pixbuf.composite].
      */
     public Pixbuf scaleSimple(int destWidth, int destHeight, InterpType interpType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_scale_simple(HANDLE(), destWidth, destHeight, interpType.getValue());
+        var RESULT = gtk_h.gdk_pixbuf_scale_simple(handle(), destWidth, destHeight, interpType.getValue());
         return new Pixbuf(References.get(RESULT, true));
     }
     
@@ -579,7 +581,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * the new value is ignored and `FALSE` is returned.
      */
     public boolean setOption(java.lang.String key, java.lang.String value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_set_option(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_set_option(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
         return (RESULT != 0);
     }
     

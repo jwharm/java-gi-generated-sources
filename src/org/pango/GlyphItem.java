@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +41,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * as one of the elements in the list.
      */
     public org.gtk.glib.SList applyAttrs(java.lang.String text, AttrList list) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_apply_attrs(HANDLE(), Interop.allocateNativeString(text).HANDLE(), list.HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_apply_attrs(handle(), Interop.allocateNativeString(text).handle(), list.handle());
         return new org.gtk.glib.SList(References.get(RESULT, true));
     }
     
@@ -47,7 +49,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * Make a deep copy of an existing `PangoGlyphItem` structure.
      */
     public GlyphItem copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_copy(HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_copy(handle());
         return new GlyphItem(References.get(RESULT, true));
     }
     
@@ -55,7 +57,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a `PangoGlyphItem` and resources to which it points.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_free(HANDLE());
+        gtk_h.pango_glyph_item_free(handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also [method@Pango.GlyphString.get_logical_widths].
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_get_logical_widths(HANDLE(), Interop.allocateNativeString(text).HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
+        gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths));
     }
     
     /**
@@ -76,7 +78,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * give the effect of typographic letter spacing.
      */
     public void letterSpace(java.lang.String text, LogAttr[] logAttrs, int letterSpacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_letter_space(HANDLE(), Interop.allocateNativeString(text).HANDLE(), Interop.allocateNativeArray(logAttrs), letterSpacing);
+        gtk_h.pango_glyph_item_letter_space(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logAttrs), letterSpacing);
     }
     
     /**
@@ -93,7 +95,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      * it internally.)
      */
     public GlyphItem split(java.lang.String text, int splitIndex) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_split(HANDLE(), Interop.allocateNativeString(text).HANDLE(), splitIndex);
+        var RESULT = gtk_h.pango_glyph_item_split(handle(), Interop.allocateNativeString(text).handle(), splitIndex);
         return new GlyphItem(References.get(RESULT, true));
     }
     

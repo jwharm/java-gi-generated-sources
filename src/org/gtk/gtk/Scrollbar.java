@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -64,14 +66,14 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new scrollbar with the given orientation.
      */
     public Scrollbar(Orientation orientation, Adjustment adjustment) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.HANDLE()), false));
+        super(References.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false));
     }
     
     /**
      * Returns the scrollbar's adjustment.
      */
     public Adjustment getAdjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_get_adjustment(HANDLE());
+        var RESULT = gtk_h.gtk_scrollbar_get_adjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -79,7 +81,7 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
      * Makes the scrollbar use the given adjustment.
      */
     public void setAdjustment(Adjustment adjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollbar_set_adjustment(HANDLE(), adjustment.HANDLE());
+        gtk_h.gtk_scrollbar_set_adjustment(handle(), adjustment.handle());
     }
     
 }

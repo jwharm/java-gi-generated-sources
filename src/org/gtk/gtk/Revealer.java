@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,14 +45,14 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkRevealer`.
      */
     public Revealer() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_new(), false));
+        super(References.get(gtk_h.gtk_revealer_new(), false));
     }
     
     /**
      * Gets the child widget of @revealer.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_revealer_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * to the revealed state is completed.
      */
     public boolean getChildRevealed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_child_revealed(HANDLE());
+        var RESULT = gtk_h.gtk_revealer_get_child_revealed(handle());
         return (RESULT != 0);
     }
     
@@ -74,7 +76,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * use [method@Gtk.Revealer.get_child_revealed].
      */
     public boolean getRevealChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_reveal_child(HANDLE());
+        var RESULT = gtk_h.gtk_revealer_get_reveal_child(handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * transitions will take.
      */
     public int getTransitionDuration() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_transition_duration(HANDLE());
+        var RESULT = gtk_h.gtk_revealer_get_transition_duration(handle());
         return RESULT;
     }
     
@@ -92,7 +94,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * for transitions in @revealer.
      */
     public RevealerTransitionType getTransitionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_transition_type(HANDLE());
+        var RESULT = gtk_h.gtk_revealer_get_transition_type(handle());
         return RevealerTransitionType.fromValue(RESULT);
     }
     
@@ -100,7 +102,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * Sets the child widget of @revealer.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_revealer_set_child(handle(), child.handle());
     }
     
     /**
@@ -110,14 +112,14 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * transition type of @revealer.
      */
     public void setRevealChild(boolean revealChild) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_set_reveal_child(HANDLE(), revealChild ? 1 : 0);
+        gtk_h.gtk_revealer_set_reveal_child(handle(), revealChild ? 1 : 0);
     }
     
     /**
      * Sets the duration that transitions will take.
      */
     public void setTransitionDuration(int duration) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_set_transition_duration(HANDLE(), duration);
+        gtk_h.gtk_revealer_set_transition_duration(handle(), duration);
     }
     
     /**
@@ -127,7 +129,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * Available types include various kinds of fades and slides.
      */
     public void setTransitionType(RevealerTransitionType transition) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_set_transition_type(HANDLE(), transition.getValue());
+        gtk_h.gtk_revealer_set_transition_type(handle(), transition.getValue());
     }
     
 }

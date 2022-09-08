@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class CairoNode extends RenderNode {
      * You can draw to the cairo surface using [method@Gsk.CairoNode.get_draw_context].
      */
     public CairoNode(org.gtk.graphene.Rect bounds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_new(bounds.HANDLE()), true));
+        super(References.get(gtk_h.gsk_cairo_node_new(bounds.handle()), true));
     }
     
     /**
@@ -37,7 +39,7 @@ public class CairoNode extends RenderNode {
      * rendering to @renderer.
      */
     public org.cairographics.Context getDrawContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_get_draw_context(HANDLE());
+        var RESULT = gtk_h.gsk_cairo_node_get_draw_context(handle());
         return new org.cairographics.Context(References.get(RESULT, true));
     }
     
@@ -45,7 +47,7 @@ public class CairoNode extends RenderNode {
      * Retrieves the Cairo surface used by the render node.
      */
     public org.cairographics.Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_node_get_surface(HANDLE());
+        var RESULT = gtk_h.gsk_cairo_node_get_surface(handle());
         return new org.cairographics.Surface(References.get(RESULT, false));
     }
     

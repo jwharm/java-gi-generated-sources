@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     public Transform() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_new(), true));
+        super(References.get(gtk_h.gsk_transform_new(), true));
     }
     
     /**
      * Checks two transforms for equality.
      */
     public boolean equal(Transform second) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_equal(HANDLE(), second.HANDLE());
+        var RESULT = gtk_h.gsk_transform_equal(handle(), second.handle());
         return (RESULT != 0);
     }
     
@@ -38,7 +40,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the category this transform belongs to.
      */
     public TransformCategory getCategory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_get_category(HANDLE());
+        var RESULT = gtk_h.gsk_transform_get_category(handle());
         return TransformCategory.fromValue(RESULT);
     }
     
@@ -52,7 +54,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * before calling this function.
      */
     public Transform invert() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_invert(HANDLE());
+        var RESULT = gtk_h.gsk_transform_invert(handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -60,7 +62,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Multiplies @next with the given @matrix.
      */
     public Transform matrix(org.gtk.graphene.Matrix matrix) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_matrix(HANDLE(), matrix.HANDLE());
+        var RESULT = gtk_h.gsk_transform_matrix(handle(), matrix.handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -73,7 +75,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * on the z=0 plane are unchanged.
      */
     public Transform perspective(float depth) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_perspective(HANDLE(), depth);
+        var RESULT = gtk_h.gsk_transform_perspective(handle(), depth);
         return new Transform(References.get(RESULT, true));
     }
     
@@ -85,14 +87,14 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * [func@Gsk.Transform.parse].
      */
     public void print(org.gtk.glib.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_print(HANDLE(), string.HANDLE());
+        gtk_h.gsk_transform_print(handle(), string.handle());
     }
     
     /**
      * Acquires a reference on the given `GskTransform`.
      */
     public Transform ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_ref(HANDLE());
+        var RESULT = gtk_h.gsk_transform_ref(handle());
         return new Transform(References.get(RESULT, false));
     }
     
@@ -100,7 +102,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Rotates @next @angle degrees in 2D - or in 3D-speak, around the z axis.
      */
     public Transform rotate(float angle) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_rotate(HANDLE(), angle);
+        var RESULT = gtk_h.gsk_transform_rotate(handle(), angle);
         return new Transform(References.get(RESULT, true));
     }
     
@@ -110,7 +112,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * For a rotation in 2D space, use [method@Gsk.Transform.rotate]
      */
     public Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_rotate_3d(HANDLE(), angle, axis.HANDLE());
+        var RESULT = gtk_h.gsk_transform_rotate_3d(handle(), angle, axis.handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -120,7 +122,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use [method@Gsk.Transform.scale_3d] to scale in all 3 dimensions.
      */
     public Transform scale(float factorX, float factorY) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_scale(HANDLE(), factorX, factorY);
+        var RESULT = gtk_h.gsk_transform_scale(handle(), factorX, factorY);
         return new Transform(References.get(RESULT, true));
     }
     
@@ -128,7 +130,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Scales @next by the given factors.
      */
     public Transform scale3d(float factorX, float factorY, float factorZ) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_scale_3d(HANDLE(), factorX, factorY, factorZ);
+        var RESULT = gtk_h.gsk_transform_scale_3d(handle(), factorX, factorY, factorZ);
         return new Transform(References.get(RESULT, true));
     }
     
@@ -136,7 +138,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Applies a skew transform.
      */
     public Transform skew(float skewX, float skewY) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_skew(HANDLE(), skewX, skewY);
+        var RESULT = gtk_h.gsk_transform_skew(handle(), skewX, skewY);
         return new Transform(References.get(RESULT, true));
     }
     
@@ -146,7 +148,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * The previous value of @out_matrix will be ignored.
      */
     public void toMatrix(org.gtk.graphene.Matrix outMatrix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_to_matrix(HANDLE(), outMatrix.HANDLE());
+        gtk_h.gsk_transform_to_matrix(handle(), outMatrix.handle());
     }
     
     /**
@@ -157,7 +159,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is a wrapper around [method@Gsk.Transform.print].
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_to_string(HANDLE());
+        var RESULT = gtk_h.gsk_transform_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -165,7 +167,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Applies all the operations from @other to @next.
      */
     public Transform transform(Transform other) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_transform(HANDLE(), other.HANDLE());
+        var RESULT = gtk_h.gsk_transform_transform(handle(), other.handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -175,21 +177,21 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * The result is the bounding box containing the coplanar quad.
      */
     public void transformBounds(org.gtk.graphene.Rect rect, org.gtk.graphene.Rect outRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_transform_bounds(HANDLE(), rect.HANDLE(), outRect.HANDLE());
+        gtk_h.gsk_transform_transform_bounds(handle(), rect.handle(), outRect.handle());
     }
     
     /**
      * Transforms a `graphene_point_t` using the given transform @self.
      */
     public void transformPoint(org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_transform_point(HANDLE(), point.HANDLE(), outPoint.HANDLE());
+        gtk_h.gsk_transform_transform_point(handle(), point.handle(), outPoint.handle());
     }
     
     /**
      * Translates @next in 2-dimensional space by @point.
      */
     public Transform translate(org.gtk.graphene.Point point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_translate(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.gsk_transform_translate(handle(), point.handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -197,7 +199,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * Translates @next by @point.
      */
     public Transform translate3d(org.gtk.graphene.Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_translate_3d(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.gsk_transform_translate_3d(handle(), point.handle());
         return new Transform(References.get(RESULT, true));
     }
     
@@ -208,7 +210,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_unref(HANDLE());
+        gtk_h.gsk_transform_unref(handle());
     }
     
 }

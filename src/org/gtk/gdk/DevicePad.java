@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
      * f the feature or index do not exist in @pad, -1 is returned.
      */
     public default int getFeatureGroup(DevicePadFeature feature, int featureIdx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_pad_get_feature_group(HANDLE(), feature.getValue(), featureIdx);
+        var RESULT = gtk_h.gdk_device_pad_get_feature_group(handle(), feature.getValue(), featureIdx);
         return RESULT;
     }
     
@@ -40,7 +42,7 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns the number of modes that @group may have.
      */
     public default int getGroupNModes(int groupIdx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_pad_get_group_n_modes(HANDLE(), groupIdx);
+        var RESULT = gtk_h.gdk_device_pad_get_group_n_modes(handle(), groupIdx);
         return RESULT;
     }
     
@@ -48,7 +50,7 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
      * Returns the number of features a tablet pad has.
      */
     public default int getNFeatures(DevicePadFeature feature) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_pad_get_n_features(HANDLE(), feature.getValue());
+        var RESULT = gtk_h.gdk_device_pad_get_n_features(handle(), feature.getValue());
         return RESULT;
     }
     
@@ -60,7 +62,7 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
      * current mode.
      */
     public default int getNGroups() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_pad_get_n_groups(HANDLE());
+        var RESULT = gtk_h.gdk_device_pad_get_n_groups(handle());
         return RESULT;
     }
     

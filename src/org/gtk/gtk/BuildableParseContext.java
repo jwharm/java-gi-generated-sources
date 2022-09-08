@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class BuildableParseContext extends io.github.jwharm.javagi.interop.Resou
      * elements, see gtk_buildable_parse_context_get_element_stack().
      */
     public java.lang.String getElement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_buildable_parse_context_get_element(HANDLE());
+        var RESULT = gtk_h.gtk_buildable_parse_context_get_element(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -42,7 +44,7 @@ public class BuildableParseContext extends io.github.jwharm.javagi.interop.Resou
      * interface.
      */
     public jdk.incubator.foreign.MemoryAddress pop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_buildable_parse_context_pop(HANDLE());
+        var RESULT = gtk_h.gtk_buildable_parse_context_pop(handle());
         return RESULT;
     }
     
@@ -78,7 +80,7 @@ public class BuildableParseContext extends io.github.jwharm.javagi.interop.Resou
      * has the same kind of API.
      */
     public void push(BuildableParser parser, jdk.incubator.foreign.MemoryAddress userData) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_buildable_parse_context_push(HANDLE(), parser.HANDLE(), userData);
+        gtk_h.gtk_buildable_parse_context_push(handle(), parser.handle(), userData);
     }
     
 }

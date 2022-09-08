@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,7 +41,7 @@ public class Drop extends org.gtk.gobject.Object {
      * available via [method@Gdk.Drop.get_actions].
      */
     public void finish(int action) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_finish(HANDLE(), action);
+        gtk_h.gdk_drop_finish(handle(), action);
     }
     
     /**
@@ -59,7 +61,7 @@ public class Drop extends org.gtk.gobject.Object {
      * side will not change this value anymore once a drop has started.
      */
     public int getActions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_actions(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_actions(handle());
         return RESULT;
     }
     
@@ -67,7 +69,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Returns the `GdkDevice` performing the drop.
      */
     public Device getDevice() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_device(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_device(handle());
         return new Device(References.get(RESULT, false));
     }
     
@@ -75,7 +77,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Gets the `GdkDisplay` that @self was created for.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -86,7 +88,7 @@ public class Drop extends org.gtk.gobject.Object {
      * If it is not, %NULL is returned.
      */
     public Drag getDrag() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_drag(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_drag(handle());
         return new Drag(References.get(RESULT, false));
     }
     
@@ -95,7 +97,7 @@ public class Drop extends org.gtk.gobject.Object {
      * to be read in.
      */
     public ContentFormats getFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_formats(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_formats(handle());
         return new ContentFormats(References.get(RESULT, false));
     }
     
@@ -103,7 +105,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Returns the `GdkSurface` performing the drop.
      */
     public Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_surface(HANDLE());
+        var RESULT = gtk_h.gdk_drop_get_surface(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -119,7 +121,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, java.lang.String[] outMimeType) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_read_finish(HANDLE(), result.HANDLE(), Interop.allocateNativeArray(outMimeType), GERROR);
+        var RESULT = gtk_h.gdk_drop_read_finish(handle(), result.handle(), Interop.allocateNativeArray(outMimeType), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -133,7 +135,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_read_value_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_drop_read_value_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -156,7 +158,7 @@ public class Drop extends org.gtk.gobject.Object {
      * actions first and then later call this function again.
      */
     public void status(int actions, int preferred) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_status(HANDLE(), actions, preferred);
+        gtk_h.gdk_drop_status(handle(), actions, preferred);
     }
     
 }

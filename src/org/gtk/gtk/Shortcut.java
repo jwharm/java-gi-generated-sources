@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,14 +40,14 @@ public class Shortcut extends org.gtk.gobject.Object {
      * @trigger and then activates @action.
      */
     public Shortcut(ShortcutTrigger trigger, ShortcutAction action) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_new(trigger.getReference().unowned().HANDLE(), action.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_shortcut_new(trigger.getReference().unowned().handle(), action.getReference().unowned().handle()), true));
     }
     
     /**
      * Gets the action that is activated by this shortcut.
      */
     public ShortcutAction getAction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_action(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_get_action(handle());
         return new ShortcutAction(References.get(RESULT, false));
     }
     
@@ -53,7 +55,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      * Gets the arguments that are passed when activating the shortcut.
      */
     public org.gtk.glib.Variant getArguments() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_arguments(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_get_arguments(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      * Gets the trigger used to trigger @self.
      */
     public ShortcutTrigger getTrigger() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_trigger(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_get_trigger(handle());
         return new ShortcutTrigger(References.get(RESULT, false));
     }
     
@@ -69,21 +71,21 @@ public class Shortcut extends org.gtk.gobject.Object {
      * Sets the new action for @self to be @action.
      */
     public void setAction(ShortcutAction action) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_action(HANDLE(), action.getReference().unowned().HANDLE());
+        gtk_h.gtk_shortcut_set_action(handle(), action.getReference().unowned().handle());
     }
     
     /**
      * Sets the arguments to pass when activating the shortcut.
      */
     public void setArguments(org.gtk.glib.Variant args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_arguments(HANDLE(), args.HANDLE());
+        gtk_h.gtk_shortcut_set_arguments(handle(), args.handle());
     }
     
     /**
      * Sets the new trigger for @self to be @trigger.
      */
     public void setTrigger(ShortcutTrigger trigger) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_trigger(HANDLE(), trigger.getReference().unowned().HANDLE());
+        gtk_h.gtk_shortcut_set_trigger(handle(), trigger.getReference().unowned().handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * items as equal.
      */
     public MultiSorter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_new(), true));
+        super(References.get(gtk_h.gtk_multi_sorter_new(), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * sort with the given @sorter.
      */
     public void append(Sorter sorter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_append(HANDLE(), sorter.getReference().unowned().HANDLE());
+        gtk_h.gtk_multi_sorter_append(handle(), sorter.getReference().unowned().handle());
     }
     
     /**
@@ -52,7 +54,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * If @position is larger than the number of sorters, nothing happens.
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_remove(HANDLE(), position);
+        gtk_h.gtk_multi_sorter_remove(handle(), position);
     }
     
 }

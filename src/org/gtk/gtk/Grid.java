@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -104,7 +106,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Creates a new grid widget.
      */
     public Grid() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_new(), false));
+        super(References.get(gtk_h.gtk_grid_new(), false));
     }
     
     /**
@@ -115,7 +117,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * by @width and @height.
      */
     public void attach(Widget child, int column, int row, int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_attach(HANDLE(), child.HANDLE(), column, row, width, height);
+        gtk_h.gtk_grid_attach(handle(), child.handle(), column, row, width, height);
     }
     
     /**
@@ -130,14 +132,14 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * `@side == %GTK_POS_LEFT` yields a layout of `[3][2][1]`.
      */
     public void attachNextTo(Widget child, Widget sibling, PositionType side, int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_attach_next_to(HANDLE(), child.HANDLE(), sibling.HANDLE(), side.getValue(), width, height);
+        gtk_h.gtk_grid_attach_next_to(handle(), child.handle(), sibling.handle(), side.getValue(), width, height);
     }
     
     /**
      * Returns which row defines the global baseline of @grid.
      */
     public int getBaselineRow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_baseline_row(HANDLE());
+        var RESULT = gtk_h.gtk_grid_get_baseline_row(handle());
         return RESULT;
     }
     
@@ -146,7 +148,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * cell at @column, @row.
      */
     public Widget getChildAt(int column, int row) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_child_at(HANDLE(), column, row);
+        var RESULT = gtk_h.gtk_grid_get_child_at(handle(), column, row);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -154,7 +156,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Returns whether all columns of @grid have the same width.
      */
     public boolean getColumnHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_column_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_grid_get_column_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -162,7 +164,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Returns the amount of space between the columns of @grid.
      */
     public int getColumnSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_column_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_grid_get_column_spacing(handle());
         return RESULT;
     }
     
@@ -172,7 +174,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Grid.set_row_baseline_position].
      */
     public BaselinePosition getRowBaselinePosition(int row) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_row_baseline_position(HANDLE(), row);
+        var RESULT = gtk_h.gtk_grid_get_row_baseline_position(handle(), row);
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -180,7 +182,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Returns whether all rows of @grid have the same height.
      */
     public boolean getRowHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_row_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_grid_get_row_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -188,7 +190,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Returns the amount of space between the rows of @grid.
      */
     public int getRowSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_row_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_grid_get_row_spacing(handle());
         return RESULT;
     }
     
@@ -200,7 +202,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * position are grown to span the new column.
      */
     public void insertColumn(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_insert_column(HANDLE(), position);
+        gtk_h.gtk_grid_insert_column(handle(), position);
     }
     
     /**
@@ -212,7 +214,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * a column is inserted.
      */
     public void insertNextTo(Widget sibling, PositionType side) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_insert_next_to(HANDLE(), sibling.HANDLE(), side.getValue());
+        gtk_h.gtk_grid_insert_next_to(handle(), sibling.handle(), side.getValue());
     }
     
     /**
@@ -223,7 +225,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * position are grown to span the new row.
      */
     public void insertRow(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_insert_row(HANDLE(), position);
+        gtk_h.gtk_grid_insert_row(handle(), position);
     }
     
     /**
@@ -233,7 +235,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * [method@Gtk.Grid.attach] or [method@Gtk.Grid.attach_next_to].
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_grid_remove(handle(), child.handle());
     }
     
     /**
@@ -245,7 +247,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * are moved to the left.
      */
     public void removeColumn(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_remove_column(HANDLE(), position);
+        gtk_h.gtk_grid_remove_column(handle(), position);
     }
     
     /**
@@ -257,7 +259,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * are moved up.
      */
     public void removeRow(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_remove_row(HANDLE(), position);
+        gtk_h.gtk_grid_remove_row(handle(), position);
     }
     
     /**
@@ -268,21 +270,21 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * parent of the @grid.
      */
     public void setBaselineRow(int row) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_baseline_row(HANDLE(), row);
+        gtk_h.gtk_grid_set_baseline_row(handle(), row);
     }
     
     /**
      * Sets whether all columns of @grid will have the same width.
      */
     public void setColumnHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_column_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_grid_set_column_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets the amount of space between columns of @grid.
      */
     public void setColumnSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_column_spacing(HANDLE(), spacing);
+        gtk_h.gtk_grid_set_column_spacing(handle(), spacing);
     }
     
     /**
@@ -292,21 +294,21 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * The default baseline position is %GTK_BASELINE_POSITION_CENTER.
      */
     public void setRowBaselinePosition(int row, BaselinePosition pos) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_row_baseline_position(HANDLE(), row, pos.getValue());
+        gtk_h.gtk_grid_set_row_baseline_position(handle(), row, pos.getValue());
     }
     
     /**
      * Sets whether all rows of @grid will have the same height.
      */
     public void setRowHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_row_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_grid_set_row_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets the amount of space between rows of @grid.
      */
     public void setRowSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_set_row_spacing(HANDLE(), spacing);
+        gtk_h.gtk_grid_set_row_spacing(handle(), spacing);
     }
     
 }

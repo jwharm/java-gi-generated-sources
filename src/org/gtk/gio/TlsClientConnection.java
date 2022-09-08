@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      * ticket to be copied without regard for privacy considerations.
      */
     public default void copySessionState(TlsClientConnection source) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_copy_session_state(HANDLE(), source.HANDLE());
+        gtk_h.g_tls_client_connection_copy_session_state(handle(), source.handle());
     }
     
     /**
@@ -55,7 +57,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      * subject DN of the certificate authority.
      */
     public default org.gtk.glib.List getAcceptedCas() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_get_accepted_cas(HANDLE());
+        var RESULT = gtk_h.g_tls_client_connection_get_accepted_cas(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -63,7 +65,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      * Gets @conn's expected server identity
      */
     public default SocketConnectable getServerIdentity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_get_server_identity(HANDLE());
+        var RESULT = gtk_h.g_tls_client_connection_get_server_identity(handle());
         return new SocketConnectable.SocketConnectableImpl(References.get(RESULT, false));
     }
     
@@ -74,7 +76,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      * performing %G_TLS_CERTIFICATE_BAD_IDENTITY validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_set_server_identity(HANDLE(), identity.HANDLE());
+        gtk_h.g_tls_client_connection_set_server_identity(handle(), identity.handle());
     }
     
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {

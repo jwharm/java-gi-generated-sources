@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -82,7 +84,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Creates a new empty `GtkComboBox`.
      */
     public ComboBox() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new(), false));
+        super(References.get(gtk_h.gtk_combo_box_new(), false));
     }
     
     /**
@@ -93,14 +95,14 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * by calling [method@Gtk.ComboBox.set_entry_text_column].
      */
     public static ComboBox newWithEntry() {
-        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_entry(), false));
+        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_entry(), false));
     }
     
     /**
      * Creates a new `GtkComboBox` with a model.
      */
     public static ComboBox newWithModel(TreeModel model) {
-        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model(model.HANDLE()), false));
+        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_model(model.handle()), false));
     }
     
     /**
@@ -109,7 +111,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * See also [ctor@Gtk.ComboBox.new_with_entry].
      */
     public static ComboBox newWithModelAndEntry(TreeModel model) {
-        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model_and_entry(model.HANDLE()), false));
+        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_model_and_entry(model.handle()), false));
     }
     
     /**
@@ -121,7 +123,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * [struct@Gtk.TreePath] of the active item.
      */
     public int getActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_active(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_active(handle());
         return RESULT;
     }
     
@@ -141,7 +143,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * ID value, then %NULL is returned.
      */
     public java.lang.String getActiveId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_active_id(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_active_id(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -151,7 +153,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * If no item is active, @iter is left unchanged.
      */
     public boolean getActiveIter(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_active_iter(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_active_iter(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -160,7 +162,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * sensitive or not when there are no items in the model.
      */
     public SensitivityType getButtonSensitivity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_button_sensitivity(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_button_sensitivity(handle());
         return SensitivityType.fromValue(RESULT);
     }
     
@@ -168,7 +170,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Gets the child widget of @combo_box.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -177,7 +179,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * from to display in the internal entry.
      */
     public int getEntryTextColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_entry_text_column(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_entry_text_column(handle());
         return RESULT;
     }
     
@@ -185,7 +187,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Returns whether the combo box has an entry.
      */
     public boolean getHasEntry() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_has_entry(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_has_entry(handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * for values from.
      */
     public int getIdColumn() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_id_column(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_id_column(handle());
         return RESULT;
     }
     
@@ -202,7 +204,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Returns the `GtkTreeModel` of @combo_box.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -210,7 +212,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Gets whether the popup uses a fixed width.
      */
     public boolean getPopupFixedWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_popup_fixed_width(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_get_popup_fixed_width(handle());
         return (RESULT != 0);
     }
     
@@ -221,7 +223,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * applications should have little use for it.
      */
     public void popdown() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_popdown(HANDLE());
+        gtk_h.gtk_combo_box_popdown(handle());
     }
     
     /**
@@ -233,7 +235,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Before calling this, @combo_box must be mapped, or nothing will happen.
      */
     public void popup() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_popup(HANDLE());
+        gtk_h.gtk_combo_box_popup(handle());
     }
     
     /**
@@ -245,14 +247,14 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * back later.
      */
     public void popupForDevice(org.gtk.gdk.Device device) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_popup_for_device(HANDLE(), device.HANDLE());
+        gtk_h.gtk_combo_box_popup_for_device(handle(), device.handle());
     }
     
     /**
      * Sets the active item of @combo_box to be the item at @index.
      */
     public void setActive(int index) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_active(HANDLE(), index);
+        gtk_h.gtk_combo_box_set_active(handle(), index);
     }
     
     /**
@@ -267,7 +269,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * and returns %FALSE.
      */
     public boolean setActiveId(java.lang.String activeId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_active_id(HANDLE(), Interop.allocateNativeString(activeId).HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_set_active_id(handle(), Interop.allocateNativeString(activeId).handle());
         return (RESULT != 0);
     }
     
@@ -277,7 +279,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * If @iter is %NULL, the active item is unset.
      */
     public void setActiveIter(TreeIter iter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_active_iter(HANDLE(), iter.HANDLE());
+        gtk_h.gtk_combo_box_set_active_iter(handle(), iter.handle());
     }
     
     /**
@@ -285,14 +287,14 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * its sensitivity depending on the model contents.
      */
     public void setButtonSensitivity(SensitivityType sensitivity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_button_sensitivity(HANDLE(), sensitivity.getValue());
+        gtk_h.gtk_combo_box_set_button_sensitivity(handle(), sensitivity.getValue());
     }
     
     /**
      * Sets the child widget of @combo_box.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_combo_box_set_child(handle(), child.handle());
     }
     
     /**
@@ -309,7 +311,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * [property@Gtk.ComboBox:has-entry] as %TRUE.
      */
     public void setEntryTextColumn(int textColumn) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_entry_text_column(HANDLE(), textColumn);
+        gtk_h.gtk_combo_box_set_entry_text_column(handle(), textColumn);
     }
     
     /**
@@ -320,7 +322,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * %G_TYPE_STRING.
      */
     public void setIdColumn(int idColumn) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_id_column(HANDLE(), idColumn);
+        gtk_h.gtk_combo_box_set_id_column(handle(), idColumn);
     }
     
     /**
@@ -334,7 +336,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * cell renderers for the new model.
      */
     public void setModel(TreeModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_combo_box_set_model(handle(), model.handle());
     }
     
     /**
@@ -344,7 +346,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * allocated width of the combo box.
      */
     public void setPopupFixedWidth(boolean fixed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_set_popup_fixed_width(HANDLE(), fixed ? 1 : 0);
+        gtk_h.gtk_combo_box_set_popup_fixed_width(handle(), fixed ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -362,12 +364,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -389,12 +391,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -442,12 +444,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxFormatEntryText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("format-entry-text").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("format-entry-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -467,12 +469,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxMoveActive", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-active").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-active").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -494,12 +496,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxPopdown", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("popdown").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("popdown").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -521,12 +523,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxPopup", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("popup").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("popup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

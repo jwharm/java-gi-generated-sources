@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Box() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_alloc(), true));
+        super(References.get(gtk_h.graphene_box_alloc(), true));
     }
     
     /**
@@ -29,7 +31,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_box_t @b.
      */
     public boolean containsBox(Box b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_contains_box(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_box_contains_box(handle(), b.handle());
         return RESULT;
     }
     
@@ -37,7 +39,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether @box contains the given @point.
      */
     public boolean containsPoint(Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_contains_point(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_box_contains_point(handle(), point.handle());
         return RESULT;
     }
     
@@ -45,7 +47,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given boxes are equal.
      */
     public boolean equal(Box b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_box_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -53,7 +55,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Expands the dimensions of @box to include the coordinates at @point.
      */
     public void expand(Point3D point, Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_expand(HANDLE(), point.HANDLE(), res.HANDLE());
+        gtk_h.graphene_box_expand(handle(), point.handle(), res.handle());
     }
     
     /**
@@ -63,7 +65,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * negative, the #graphene_box_t will shrink.
      */
     public void expandScalar(float scalar, Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_expand_scalar(HANDLE(), scalar, res.HANDLE());
+        gtk_h.graphene_box_expand_scalar(handle(), scalar, res.handle());
     }
     
     /**
@@ -71,14 +73,14 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * given vector.
      */
     public void expandVec3(Vec3 vec, Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_expand_vec3(HANDLE(), vec.HANDLE(), res.HANDLE());
+        gtk_h.graphene_box_expand_vec3(handle(), vec.handle(), res.handle());
     }
     
     /**
      * Frees the resources allocated by graphene_box_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_free(HANDLE());
+        gtk_h.graphene_box_free(handle());
     }
     
     /**
@@ -86,21 +88,21 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_box_t.
      */
     public void getBoundingSphere(Sphere sphere) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_bounding_sphere(HANDLE(), sphere.HANDLE());
+        gtk_h.graphene_box_get_bounding_sphere(handle(), sphere.handle());
     }
     
     /**
      * Retrieves the coordinates of the center of a #graphene_box_t.
      */
     public void getCenter(Point3D center) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_center(HANDLE(), center.HANDLE());
+        gtk_h.graphene_box_get_center(handle(), center.handle());
     }
     
     /**
      * Retrieves the size of the @box on the Z axis.
      */
     public float getDepth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_depth(HANDLE());
+        var RESULT = gtk_h.graphene_box_get_depth(handle());
         return RESULT;
     }
     
@@ -108,7 +110,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the size of the @box on the Y axis.
      */
     public float getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_height(HANDLE());
+        var RESULT = gtk_h.graphene_box_get_height(handle());
         return RESULT;
     }
     
@@ -117,7 +119,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_box_t.
      */
     public void getMax(Point3D max) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_max(HANDLE(), max.HANDLE());
+        gtk_h.graphene_box_get_max(handle(), max.handle());
     }
     
     /**
@@ -125,7 +127,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_box_t.
      */
     public void getMin(Point3D min) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_min(HANDLE(), min.HANDLE());
+        gtk_h.graphene_box_get_min(handle(), min.handle());
     }
     
     /**
@@ -133,21 +135,21 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * it into the given @size vector.
      */
     public void getSize(Vec3 size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_size(HANDLE(), size.HANDLE());
+        gtk_h.graphene_box_get_size(handle(), size.handle());
     }
     
     /**
      * Computes the vertices of the given #graphene_box_t.
      */
     public void getVertices(Vec3[] vertices) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_vertices(HANDLE(), Interop.allocateNativeArray(vertices));
+        gtk_h.graphene_box_get_vertices(handle(), Interop.allocateNativeArray(vertices));
     }
     
     /**
      * Retrieves the size of the @box on the X axis.
      */
     public float getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_get_width(HANDLE());
+        var RESULT = gtk_h.graphene_box_get_width(handle());
         return RESULT;
     }
     
@@ -155,7 +157,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes the given #graphene_box_t with two vertices.
      */
     public Box init(Point3D min, Point3D max) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init(HANDLE(), min.HANDLE(), max.HANDLE());
+        var RESULT = gtk_h.graphene_box_init(handle(), min.handle(), max.handle());
         return new Box(References.get(RESULT, false));
     }
     
@@ -164,7 +166,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * another #graphene_box_t.
      */
     public Box initFromBox(Box src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_box(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_box_init_from_box(handle(), src.handle());
         return new Box(References.get(RESULT, false));
     }
     
@@ -176,7 +178,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * graphene_box_empty().
      */
     public Box initFromPoints(int nPoints, Point3D[] points) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_points(HANDLE(), nPoints, Interop.allocateNativeArray(points));
+        var RESULT = gtk_h.graphene_box_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points));
         return new Box(References.get(RESULT, false));
     }
     
@@ -185,7 +187,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * stored inside #graphene_vec3_t.
      */
     public Box initFromVec3(Vec3 min, Vec3 max) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_vec3(HANDLE(), min.HANDLE(), max.HANDLE());
+        var RESULT = gtk_h.graphene_box_init_from_vec3(handle(), min.handle(), max.handle());
         return new Box(References.get(RESULT, false));
     }
     
@@ -197,7 +199,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * graphene_box_empty().
      */
     public Box initFromVectors(int nVectors, Vec3[] vectors) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_init_from_vectors(HANDLE(), nVectors, Interop.allocateNativeArray(vectors));
+        var RESULT = gtk_h.graphene_box_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors));
         return new Box(References.get(RESULT, false));
     }
     
@@ -208,7 +210,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * initialized with graphene_box_empty().
      */
     public boolean intersection(Box b, Box res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_intersection(HANDLE(), b.HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_box_intersection(handle(), b.handle(), res.handle());
         return RESULT;
     }
     
@@ -216,7 +218,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * Unions the two given #graphene_box_t.
      */
     public void union(Box b, Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_box_union(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_box_union(handle(), b.handle(), res.handle());
     }
     
 }

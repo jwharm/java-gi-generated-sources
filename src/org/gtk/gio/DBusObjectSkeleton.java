@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * Creates a new #GDBusObjectSkeleton.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).handle()), true));
     }
     
     /**
@@ -40,7 +42,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * it until removed.
      */
     public void addInterface(DBusInterfaceSkeleton interface_) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_add_interface(HANDLE(), interface_.HANDLE());
+        gtk_h.g_dbus_object_skeleton_add_interface(handle(), interface_.handle());
     }
     
     /**
@@ -49,14 +51,14 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * is useful.
      */
     public void flush() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_flush(HANDLE());
+        gtk_h.g_dbus_object_skeleton_flush(handle());
     }
     
     /**
      * Removes @interface_ from @object.
      */
     public void removeInterface(DBusInterfaceSkeleton interface_) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_remove_interface(HANDLE(), interface_.HANDLE());
+        gtk_h.g_dbus_object_skeleton_remove_interface(handle(), interface_.handle());
     }
     
     /**
@@ -66,14 +68,14 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * does nothing.
      */
     public void removeInterfaceByName(java.lang.String interfaceName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_remove_interface_by_name(HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE());
+        gtk_h.g_dbus_object_skeleton_remove_interface_by_name(handle(), Interop.allocateNativeString(interfaceName).handle());
     }
     
     /**
      * Sets the object path for @object.
      */
     public void setObjectPath(java.lang.String objectPath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_set_object_path(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE());
+        gtk_h.g_dbus_object_skeleton_set_object_path(handle(), Interop.allocateNativeString(objectPath).handle());
     }
     
     @FunctionalInterface
@@ -95,12 +97,12 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectSkeletonAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("authorize-method").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

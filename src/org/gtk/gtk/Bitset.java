@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,21 +34,21 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new empty bitset.
      */
     public Bitset() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_empty(), true));
+        super(References.get(gtk_h.gtk_bitset_new_empty(), true));
     }
     
     /**
      * Creates a bitset with the given range set.
      */
     public Bitset(int start, int nItems) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_new_range(start, nItems), true));
+        super(References.get(gtk_h.gtk_bitset_new_range(start, nItems), true));
     }
     
     /**
      * Adds @value to @self if it wasn't part of it before.
      */
     public boolean add(int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_add(HANDLE(), value);
+        var RESULT = gtk_h.gtk_bitset_add(handle(), value);
         return (RESULT != 0);
     }
     
@@ -55,7 +57,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * (exclusive) in @self.
      */
     public void addRange(int start, int nItems) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_add_range(HANDLE(), start, nItems);
+        gtk_h.gtk_bitset_add_range(handle(), start, nItems);
     }
     
     /**
@@ -63,7 +65,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * values in between. @first must be smaller than @last.
      */
     public void addRangeClosed(int first, int last) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_add_range_closed(HANDLE(), first, last);
+        gtk_h.gtk_bitset_add_range_closed(handle(), first, last);
     }
     
     /**
@@ -71,14 +73,14 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * and inside that grid, adds a rectangle with the given @width and @height.
      */
     public void addRectangle(int start, int width, int height, int stride) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_add_rectangle(HANDLE(), start, width, height, stride);
+        gtk_h.gtk_bitset_add_rectangle(handle(), start, width, height, stride);
     }
     
     /**
      * Checks if the given @value has been added to @self
      */
     public boolean contains(int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_contains(HANDLE(), value);
+        var RESULT = gtk_h.gtk_bitset_contains(handle(), value);
         return (RESULT != 0);
     }
     
@@ -86,7 +88,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a copy of @self.
      */
     public Bitset copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_copy(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_copy(handle());
         return new Bitset(References.get(RESULT, true));
     }
     
@@ -101,14 +103,14 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * will be emptied in that case.
      */
     public void difference(Bitset other) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_difference(HANDLE(), other.HANDLE());
+        gtk_h.gtk_bitset_difference(handle(), other.handle());
     }
     
     /**
      * Returns %TRUE if @self and @other contain the same values.
      */
     public boolean equals(Bitset other) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_equals(HANDLE(), other.HANDLE());
+        var RESULT = gtk_h.gtk_bitset_equals(handle(), other.handle());
         return (RESULT != 0);
     }
     
@@ -118,7 +120,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @self is empty, 0 is returned.
      */
     public int getMaximum() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_get_maximum(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_get_maximum(handle());
         return RESULT;
     }
     
@@ -128,7 +130,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @self is empty, `G_MAXUINT` is returned.
      */
     public int getMinimum() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_get_minimum(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_get_minimum(handle());
         return RESULT;
     }
     
@@ -138,7 +140,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @nth is >= the size of @self, 0 is returned.
      */
     public int getNth(int nth) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_get_nth(HANDLE(), nth);
+        var RESULT = gtk_h.gtk_bitset_get_nth(handle(), nth);
         return RESULT;
     }
     
@@ -153,7 +155,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * to use a 64bit type.
      */
     public long getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_get_size(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_get_size(handle());
         return RESULT;
     }
     
@@ -166,7 +168,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * happen (it can't with `GListModel`), be sure to use a 64bit type.
      */
     public long getSizeInRange(int first, int last) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_get_size_in_range(HANDLE(), first, last);
+        var RESULT = gtk_h.gtk_bitset_get_size_in_range(handle(), first, last);
         return RESULT;
     }
     
@@ -179,14 +181,14 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * happen in that case.
      */
     public void intersect(Bitset other) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_intersect(HANDLE(), other.HANDLE());
+        gtk_h.gtk_bitset_intersect(handle(), other.handle());
     }
     
     /**
      * Check if no value is contained in bitset.
      */
     public boolean isEmpty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_is_empty(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_is_empty(handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Acquires a reference on the given `GtkBitset`.
      */
     public Bitset ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_ref(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_ref(handle());
         return new Bitset(References.get(RESULT, false));
     }
     
@@ -202,7 +204,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes @value from @self if it was part of it before.
      */
     public boolean remove(int value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_remove(HANDLE(), value);
+        var RESULT = gtk_h.gtk_bitset_remove(handle(), value);
         return (RESULT != 0);
     }
     
@@ -210,7 +212,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes all values from the bitset so that it is empty again.
      */
     public void removeAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_remove_all(HANDLE());
+        gtk_h.gtk_bitset_remove_all(handle());
     }
     
     /**
@@ -218,7 +220,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * in @self.
      */
     public void removeRange(int start, int nItems) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_remove_range(HANDLE(), start, nItems);
+        gtk_h.gtk_bitset_remove_range(handle(), start, nItems);
     }
     
     /**
@@ -226,7 +228,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * values in between. @first must be smaller than @last.
      */
     public void removeRangeClosed(int first, int last) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_remove_range_closed(HANDLE(), first, last);
+        gtk_h.gtk_bitset_remove_range_closed(handle(), first, last);
     }
     
     /**
@@ -234,7 +236,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * and inside that grid, removes a rectangle with the given @width and @height.
      */
     public void removeRectangle(int start, int width, int height, int stride) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_remove_rectangle(HANDLE(), start, width, height, stride);
+        gtk_h.gtk_bitset_remove_rectangle(handle(), start, width, height, stride);
     }
     
     /**
@@ -243,7 +245,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Values smaller than @amount are discarded.
      */
     public void shiftLeft(int amount) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_shift_left(HANDLE(), amount);
+        gtk_h.gtk_bitset_shift_left(handle(), amount);
     }
     
     /**
@@ -252,7 +254,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * Values that end up too large to be held in a #guint are discarded.
      */
     public void shiftRight(int amount) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_shift_right(HANDLE(), amount);
+        gtk_h.gtk_bitset_shift_right(handle(), amount);
     }
     
     /**
@@ -268,7 +270,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * up space that can then be filled.
      */
     public void splice(int position, int removed, int added) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_splice(HANDLE(), position, removed, added);
+        gtk_h.gtk_bitset_splice(handle(), position, removed, added);
     }
     
     /**
@@ -280,7 +282,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * will be emptied in that case.
      */
     public void subtract(Bitset other) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_subtract(HANDLE(), other.HANDLE());
+        gtk_h.gtk_bitset_subtract(handle(), other.handle());
     }
     
     /**
@@ -292,7 +294,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * happen in that case.
      */
     public void union(Bitset other) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_union(HANDLE(), other.HANDLE());
+        gtk_h.gtk_bitset_union(handle(), other.handle());
     }
     
     /**
@@ -302,7 +304,7 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_unref(HANDLE());
+        gtk_h.gtk_bitset_unref(handle());
     }
     
 }

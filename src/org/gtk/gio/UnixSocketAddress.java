@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +45,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use g_unix_socket_address_new_abstract().
      */
     public UnixSocketAddress(java.lang.String path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -80,14 +82,14 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * its listening socket.
      */
     public UnixSocketAddress(byte[] path, int pathLen, UnixSocketAddressType type) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
+        super(References.get(gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
     }
     
     /**
      * Gets @address's type.
      */
     public UnixSocketAddressType getAddressType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_get_address_type(HANDLE());
+        var RESULT = gtk_h.g_unix_socket_address_get_address_type(handle());
         return UnixSocketAddressType.fromValue(RESULT);
     }
     
@@ -100,7 +102,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * of this string.
      */
     public java.lang.String getPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_get_path(HANDLE());
+        var RESULT = gtk_h.g_unix_socket_address_get_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -110,7 +112,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * For details, see g_unix_socket_address_get_path().
      */
     public long getPathLen() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_get_path_len(HANDLE());
+        var RESULT = gtk_h.g_unix_socket_address_get_path_len(handle());
         return RESULT;
     }
     

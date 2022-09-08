@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,7 +32,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.68
      */
     public void add(java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_add(HANDLE(), Interop.allocateNativeString(value).HANDLE());
+        gtk_h.g_strv_builder_add(handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
@@ -39,7 +41,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.70
      */
     public void addv(java.lang.String[] value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_addv(HANDLE(), Interop.allocateNativeArray(value));
+        gtk_h.g_strv_builder_addv(handle(), Interop.allocateNativeArray(value));
     }
     
     /**
@@ -47,7 +49,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is thread-safe and may be called from any thread.
      */
     public StrvBuilder ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_ref(HANDLE());
+        var RESULT = gtk_h.g_strv_builder_ref(handle());
         return new StrvBuilder(References.get(RESULT, true));
     }
     
@@ -58,7 +60,7 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
      * associated with the #GStrvBuilder.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_strv_builder_unref(HANDLE());
+        gtk_h.g_strv_builder_unref(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -65,14 +67,14 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public GridView(SelectionModel model, ListItemFactory factory) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_new(model.getReference().unowned().HANDLE(), factory.getReference().unowned().HANDLE()), false));
+        super(References.get(gtk_h.gtk_grid_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false));
     }
     
     /**
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_enable_rubberband(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_enable_rubberband(handle());
         return (RESULT != 0);
     }
     
@@ -80,7 +82,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * Gets the factory that's currently used to populate list items.
      */
     public ListItemFactory getFactory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_factory(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_factory(handle());
         return new ListItemFactory(References.get(RESULT, false));
     }
     
@@ -88,7 +90,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * Gets the maximum number of columns that the grid will use.
      */
     public int getMaxColumns() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_max_columns(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_max_columns(handle());
         return RESULT;
     }
     
@@ -96,7 +98,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * Gets the minimum number of columns that the grid will use.
      */
     public int getMinColumns() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_min_columns(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_min_columns(handle());
         return RESULT;
     }
     
@@ -104,7 +106,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * Gets the model that's currently used to read the items displayed.
      */
     public SelectionModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_model(handle());
         return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
@@ -113,7 +115,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_single_click_activate(HANDLE());
+        var RESULT = gtk_h.gtk_grid_view_get_single_click_activate(handle());
         return (RESULT != 0);
     }
     
@@ -121,14 +123,14 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * Sets whether selections can be changed by dragging with the mouse.
      */
     public void setEnableRubberband(boolean enableRubberband) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_enable_rubberband(HANDLE(), enableRubberband ? 1 : 0);
+        gtk_h.gtk_grid_view_set_enable_rubberband(handle(), enableRubberband ? 1 : 0);
     }
     
     /**
      * Sets the `GtkListItemFactory` to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_factory(HANDLE(), factory.HANDLE());
+        gtk_h.gtk_grid_view_set_factory(handle(), factory.handle());
     }
     
     /**
@@ -140,7 +142,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * [method@Gtk.GridView.set_min_columns], that value is used instead.
      */
     public void setMaxColumns(int maxColumns) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_max_columns(HANDLE(), maxColumns);
+        gtk_h.gtk_grid_view_set_max_columns(handle(), maxColumns);
     }
     
     /**
@@ -152,7 +154,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * [method@Gtk.GridView.set_max_columns], that value is ignored.
      */
     public void setMinColumns(int minColumns) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_min_columns(HANDLE(), minColumns);
+        gtk_h.gtk_grid_view_set_min_columns(handle(), minColumns);
     }
     
     /**
@@ -161,7 +163,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * This must be a [iface@Gtk.SelectionModel].
      */
     public void setModel(SelectionModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_grid_view_set_model(handle(), model.handle());
     }
     
     /**
@@ -169,7 +171,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public void setSingleClickActivate(boolean singleClickActivate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_set_single_click_activate(HANDLE(), singleClickActivate ? 1 : 0);
+        gtk_h.gtk_grid_view_set_single_click_activate(handle(), singleClickActivate ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -189,12 +191,12 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGridViewActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

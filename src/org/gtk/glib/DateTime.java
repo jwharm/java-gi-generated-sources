@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -45,7 +47,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new(tz.HANDLE(), year, month, day, hour, minute, seconds), true));
+        super(References.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true));
     }
     
     /**
@@ -94,7 +96,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(java.lang.String text, TimeZone defaultTz) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).HANDLE(), defaultTz.HANDLE()), true));
+        super(References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true));
     }
     
     /**
@@ -112,7 +114,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalLocal(TimeVal tv) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_local(tv.HANDLE()), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true));
     }
     
     /**
@@ -128,7 +130,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalUtc(TimeVal tv) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_utc(tv.HANDLE()), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true));
     }
     
     /**
@@ -145,7 +147,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixLocal(long t) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_local(t), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_from_unix_local(t), true));
     }
     
     /**
@@ -161,7 +163,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixUtc(long t) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_utc(t), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_from_unix_utc(t), true));
     }
     
     /**
@@ -172,7 +174,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true));
     }
     
     /**
@@ -187,7 +189,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(TimeZone tz) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now(tz.HANDLE()), true));
+        super(References.get(gtk_h.g_date_time_new_now(tz.handle()), true));
     }
     
     /**
@@ -198,7 +200,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newNowLocal() {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_local(), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_now_local(), true));
     }
     
     /**
@@ -208,7 +210,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newNowUtc() {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_utc(), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_now_utc(), true));
     }
     
     /**
@@ -219,14 +221,14 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true));
+        return new DateTime(References.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true));
     }
     
     /**
      * Creates a copy of @datetime and adds the specified timespan to the copy.
      */
     public DateTime add(TimeSpan timespan) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add(HANDLE(), timespan.getValue());
+        var RESULT = gtk_h.g_date_time_add(handle(), timespan.getValue());
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -235,7 +237,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * copy. Add negative values to subtract days.
      */
     public DateTime addDays(int days) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_days(HANDLE(), days);
+        var RESULT = gtk_h.g_date_time_add_days(handle(), days);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -244,7 +246,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * time in @datetime. Add negative values to subtract.
      */
     public DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_full(HANDLE(), years, months, days, hours, minutes, seconds);
+        var RESULT = gtk_h.g_date_time_add_full(handle(), years, months, days, hours, minutes, seconds);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -253,7 +255,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Add negative values to subtract hours.
      */
     public DateTime addHours(int hours) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_hours(HANDLE(), hours);
+        var RESULT = gtk_h.g_date_time_add_hours(handle(), hours);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -262,7 +264,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Add negative values to subtract minutes.
      */
     public DateTime addMinutes(int minutes) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_minutes(HANDLE(), minutes);
+        var RESULT = gtk_h.g_date_time_add_minutes(handle(), minutes);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -276,7 +278,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * year), the result would be 29th February.
      */
     public DateTime addMonths(int months) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_months(HANDLE(), months);
+        var RESULT = gtk_h.g_date_time_add_months(handle(), months);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -285,7 +287,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Add negative values to subtract seconds.
      */
     public DateTime addSeconds(double seconds) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_seconds(HANDLE(), seconds);
+        var RESULT = gtk_h.g_date_time_add_seconds(handle(), seconds);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -294,7 +296,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * copy. Add negative values to subtract weeks.
      */
     public DateTime addWeeks(int weeks) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_weeks(HANDLE(), weeks);
+        var RESULT = gtk_h.g_date_time_add_weeks(handle(), weeks);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -306,7 +308,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * February on a non-leap year, the day will be clamped to 28th February.
      */
     public DateTime addYears(int years) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_years(HANDLE(), years);
+        var RESULT = gtk_h.g_date_time_add_years(handle(), years);
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -315,7 +317,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * as a #GCompareFunc. Both #GDateTimes must be non-%NULL.
      */
     public int compare(DateTime dt2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_compare(HANDLE(), dt2.HANDLE());
+        var RESULT = gtk_h.g_date_time_compare(handle(), dt2.handle());
         return RESULT;
     }
     
@@ -325,7 +327,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * positive if the first parameter is larger).
      */
     public TimeSpan difference(DateTime begin) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_difference(HANDLE(), begin.HANDLE());
+        var RESULT = gtk_h.g_date_time_difference(handle(), begin.handle());
         return new TimeSpan(RESULT);
     }
     
@@ -336,7 +338,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * them to the same time zone.
      */
     public boolean equal(DateTime dt2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_equal(HANDLE(), dt2.HANDLE());
+        var RESULT = gtk_h.g_date_time_equal(handle(), dt2.handle());
         return (RESULT != 0);
     }
     
@@ -442,7 +444,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * \\%Ob and \\%Oh are GNU strftime() extensions. Since: 2.56
      */
     public java.lang.String format(java.lang.String format) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_format(HANDLE(), Interop.allocateNativeString(format).HANDLE());
+        var RESULT = gtk_h.g_date_time_format(handle(), Interop.allocateNativeString(format).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -454,7 +456,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since GLib 2.66, this will output to sub-second precision if needed.
      */
     public java.lang.String formatIso8601() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_format_iso8601(HANDLE());
+        var RESULT = gtk_h.g_date_time_format_iso8601(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -463,7 +465,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * calendar.
      */
     public int getDayOfMonth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_day_of_month(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_day_of_month(handle());
         return RESULT;
     }
     
@@ -472,7 +474,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Monday, 2 is Tuesday... 7 is Sunday).
      */
     public int getDayOfWeek() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_day_of_week(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_day_of_week(handle());
         return RESULT;
     }
     
@@ -481,7 +483,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * calendar.
      */
     public int getDayOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_day_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_day_of_year(handle());
         return RESULT;
     }
     
@@ -489,7 +491,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the hour of the day represented by @datetime
      */
     public int getHour() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_hour(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_hour(handle());
         return RESULT;
     }
     
@@ -497,7 +499,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the microsecond of the date represented by @datetime
      */
     public int getMicrosecond() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_microsecond(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_microsecond(handle());
         return RESULT;
     }
     
@@ -505,7 +507,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the minute of the hour represented by @datetime
      */
     public int getMinute() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_minute(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_minute(handle());
         return RESULT;
     }
     
@@ -514,7 +516,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * calendar.
      */
     public int getMonth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_month(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_month(handle());
         return RESULT;
     }
     
@@ -522,7 +524,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the second of the minute represented by @datetime
      */
     public int getSecond() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_second(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_second(handle());
         return RESULT;
     }
     
@@ -531,7 +533,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * including the fractional part.
      */
     public double getSeconds() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_seconds(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_seconds(handle());
         return RESULT;
     }
     
@@ -539,7 +541,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Get the time zone for this @datetime.
      */
     public TimeZone getTimezone() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_timezone(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_timezone(handle());
         return new TimeZone(References.get(RESULT, false));
     }
     
@@ -552,7 +554,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * time is in effect.
      */
     public java.lang.String getTimezoneAbbreviation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_timezone_abbreviation(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_timezone_abbreviation(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -567,7 +569,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @datetime represents UTC time, then the offset is always zero.
      */
     public TimeSpan getUtcOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_utc_offset(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_utc_offset(handle());
         return new TimeSpan(RESULT);
     }
     
@@ -605,7 +607,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Monday, so this function never returns 0.
      */
     public int getWeekNumberingYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_week_numbering_year(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_week_numbering_year(handle());
         return RESULT;
     }
     
@@ -627,7 +629,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * if 4 or more days of that week are contained within the new year.
      */
     public int getWeekOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_week_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_week_of_year(handle());
         return RESULT;
     }
     
@@ -635,7 +637,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the year represented by @datetime in the Gregorian calendar.
      */
     public int getYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_year(HANDLE());
+        var RESULT = gtk_h.g_date_time_get_year(handle());
         return RESULT;
     }
     
@@ -643,7 +645,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Hashes @datetime into a #guint, suitable for use within #GHashTable.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_hash(HANDLE());
+        var RESULT = gtk_h.g_date_time_hash(handle());
         return RESULT;
     }
     
@@ -652,7 +654,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * the time zone of @datetime.
      */
     public boolean isDaylightSavings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_is_daylight_savings(HANDLE());
+        var RESULT = gtk_h.g_date_time_is_daylight_savings(handle());
         return (RESULT != 0);
     }
     
@@ -660,7 +662,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Atomically increments the reference count of @datetime by one.
      */
     public DateTime ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_ref(HANDLE());
+        var RESULT = gtk_h.g_date_time_ref(handle());
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -672,7 +674,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * time zone returned by g_time_zone_new_local().
      */
     public DateTime toLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_local(HANDLE());
+        var RESULT = gtk_h.g_date_time_to_local(handle());
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -685,7 +687,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * Greenwich will fail (due to the year 0 being out of range).
      */
     public DateTime toTimezone(TimeZone tz) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_timezone(HANDLE(), tz.HANDLE());
+        var RESULT = gtk_h.g_date_time_to_timezone(handle(), tz.handle());
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -697,7 +699,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * 00:00:00 UTC, regardless of the time zone associated with @datetime.
      */
     public long toUnix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_unix(HANDLE());
+        var RESULT = gtk_h.g_date_time_to_unix(handle());
         return RESULT;
     }
     
@@ -709,7 +711,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * time zone returned by g_time_zone_new_utc().
      */
     public DateTime toUtc() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_utc(HANDLE());
+        var RESULT = gtk_h.g_date_time_to_utc(handle());
         return new DateTime(References.get(RESULT, true));
     }
     
@@ -720,7 +722,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * @datetime are freed
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_unref(HANDLE());
+        gtk_h.g_date_time_unref(handle());
     }
     
 }

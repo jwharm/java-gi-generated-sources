@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -381,7 +383,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * gtk_widget_class_install_action().
      */
     public void actionSetEnabled(java.lang.String actionName, boolean enabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_action_set_enabled(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), enabled ? 1 : 0);
+        gtk_h.gtk_widget_action_set_enabled(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
     }
     
     /**
@@ -401,7 +403,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * If @widget isn't activatable, the function returns %FALSE.
      */
     public boolean activate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_activate(HANDLE());
+        var RESULT = gtk_h.gtk_widget_activate(handle());
         return (RESULT != 0);
     }
     
@@ -418,7 +420,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * as returned by `g_action_get_parameter_type()`.
      */
     public boolean activateActionVariant(java.lang.String name, org.gtk.glib.Variant args) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_activate_action_variant(HANDLE(), Interop.allocateNativeString(name).HANDLE(), args.HANDLE());
+        var RESULT = gtk_h.gtk_widget_activate_action_variant(handle(), Interop.allocateNativeString(name).handle(), args.handle());
         return (RESULT != 0);
     }
     
@@ -426,7 +428,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Activates the `default.activate` action from @widget.
      */
     public void activateDefault() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_activate_default(HANDLE());
+        gtk_h.gtk_widget_activate_default(handle());
     }
     
     /**
@@ -436,7 +438,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * creating any kind of [class@Gtk.EventController].
      */
     public void addController(EventController controller) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_add_controller(HANDLE(), controller.getReference().unowned().HANDLE());
+        gtk_h.gtk_widget_add_controller(handle(), controller.getReference().unowned().handle());
     }
     
     /**
@@ -449,7 +451,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * style again.
      */
     public void addCssClass(java.lang.String cssClass) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_add_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
+        gtk_h.gtk_widget_add_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
     }
     
     /**
@@ -461,7 +463,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * its internal state at this point as well.
      */
     public void addMnemonicLabel(Widget label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_add_mnemonic_label(HANDLE(), label.HANDLE());
+        gtk_h.gtk_widget_add_mnemonic_label(handle(), label.handle());
     }
     
     /**
@@ -477,7 +479,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [method@Gtk.Widget.size_allocate].
      */
     public void allocate(int width, int height, int baseline, org.gtk.gsk.Transform transform) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_allocate(HANDLE(), width, height, baseline, transform.HANDLE());
+        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.handle());
     }
     
     /**
@@ -503,7 +505,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the focus to a particular widget.
      */
     public boolean childFocus(DirectionType direction) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_child_focus(HANDLE(), direction.getValue());
+        var RESULT = gtk_h.gtk_widget_child_focus(handle(), direction.getValue());
         return (RESULT != 0);
     }
     
@@ -520,7 +522,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * It is valid for @widget and @target to be the same widget.
      */
     public boolean computeBounds(Widget target, org.gtk.graphene.Rect outBounds) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_compute_bounds(HANDLE(), target.HANDLE(), outBounds.HANDLE());
+        var RESULT = gtk_h.gtk_widget_compute_bounds(handle(), target.handle(), outBounds.handle());
         return (RESULT != 0);
     }
     
@@ -540,7 +542,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the widget may expand if some of its children do.
      */
     public boolean computeExpand(Orientation orientation) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_compute_expand(HANDLE(), orientation.getValue());
+        var RESULT = gtk_h.gtk_widget_compute_expand(handle(), orientation.getValue());
         return (RESULT != 0);
     }
     
@@ -552,7 +554,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * common ancestor.
      */
     public boolean computePoint(Widget target, org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_compute_point(HANDLE(), target.HANDLE(), point.HANDLE(), outPoint.HANDLE());
+        var RESULT = gtk_h.gtk_widget_compute_point(handle(), target.handle(), point.handle(), outPoint.handle());
         return (RESULT != 0);
     }
     
@@ -565,7 +567,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * case @out_transform gets set to the identity matrix.
      */
     public boolean computeTransform(Widget target, org.gtk.graphene.Matrix outTransform) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_compute_transform(HANDLE(), target.HANDLE(), outTransform.HANDLE());
+        var RESULT = gtk_h.gtk_widget_compute_transform(handle(), target.handle(), outTransform.handle());
         return (RESULT != 0);
     }
     
@@ -576,7 +578,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * (0, 0) is assumed to be the top left of @widget's content area.
      */
     public boolean contains(double x, double y) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_contains(HANDLE(), x, y);
+        var RESULT = gtk_h.gtk_widget_contains(handle(), x, y);
         return (RESULT != 0);
     }
     
@@ -588,7 +590,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also [method@Gtk.Widget.get_pango_context].
      */
     public org.pango.Context createPangoContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_context(HANDLE());
+        var RESULT = gtk_h.gtk_widget_create_pango_context(handle());
         return new org.pango.Context(References.get(RESULT, true));
     }
     
@@ -603,7 +605,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of the [property@Gtk.Widget:root] property on the widget.
      */
     public org.pango.Layout createPangoLayout(java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_create_pango_layout(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        var RESULT = gtk_h.gtk_widget_create_pango_layout(handle(), Interop.allocateNativeString(text).handle());
         return new org.pango.Layout(References.get(RESULT, true));
     }
     
@@ -611,7 +613,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Checks to see if a drag movement has passed the GTK drag threshold.
      */
     public boolean dragCheckThreshold(int startX, int startY, int currentX, int currentY) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_check_threshold(HANDLE(), startX, startY, currentX, currentY);
+        var RESULT = gtk_h.gtk_drag_check_threshold(handle(), startX, startY, currentX, currentY);
         return (RESULT != 0);
     }
     
@@ -626,7 +628,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * environment or window manager that is used.
      */
     public void errorBell() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_error_bell(HANDLE());
+        gtk_h.gtk_widget_error_bell(handle());
     }
     
     /**
@@ -637,7 +639,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * child widgets in `GtkWidget`Class.size_allocate().
      */
     public int getAllocatedBaseline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_allocated_baseline(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_allocated_baseline(handle());
         return RESULT;
     }
     
@@ -645,7 +647,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the height that has currently been allocated to @widget.
      */
     public int getAllocatedHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_allocated_height(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_allocated_height(handle());
         return RESULT;
     }
     
@@ -653,7 +655,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the width that has currently been allocated to @widget.
      */
     public int getAllocatedWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_allocated_width(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_allocated_width(handle());
         return RESULT;
     }
     
@@ -675,7 +677,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * container assigned.
      */
     public void getAllocation(Allocation allocation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_allocation(HANDLE(), allocation.HANDLE());
+        gtk_h.gtk_widget_get_allocation(handle(), allocation.handle());
     }
     
     /**
@@ -690,7 +692,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * considers @widget to be an ancestor of itself.
      */
     public Widget getAncestor(Type widgetType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_ancestor(HANDLE(), widgetType.getValue());
+        var RESULT = gtk_h.gtk_widget_get_ancestor(handle(), widgetType.getValue());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -701,7 +703,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_focusable].
      */
     public boolean getCanFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_can_focus(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_can_focus(handle());
         return (RESULT != 0);
     }
     
@@ -709,7 +711,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Queries whether @widget can be the target of pointer events.
      */
     public boolean getCanTarget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_can_target(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_can_target(handle());
         return (RESULT != 0);
     }
     
@@ -723,7 +725,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and should never be called by an application.
      */
     public boolean getChildVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_child_visible(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_child_visible(handle());
         return (RESULT != 0);
     }
     
@@ -737,7 +739,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * realized yet.
      */
     public org.gtk.gdk.Clipboard getClipboard() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_clipboard(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_clipboard(handle());
         return new org.gtk.gdk.Clipboard(References.get(RESULT, false));
     }
     
@@ -745,7 +747,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the CSS name that is used for @self.
      */
     public java.lang.String getCssName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_css_name(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_css_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -755,7 +757,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_cursor] for details.
      */
     public org.gtk.gdk.Cursor getCursor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_cursor(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_cursor(handle());
         return new org.gtk.gdk.Cursor(References.get(RESULT, false));
     }
     
@@ -765,7 +767,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_direction].
      */
     public TextDirection getDirection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_direction(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_direction(handle());
         return TextDirection.fromValue(RESULT);
     }
     
@@ -781,7 +783,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * free those resources when the widget is unrealized.
      */
     public org.gtk.gdk.Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_display(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_display(handle());
         return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
@@ -791,7 +793,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getFirstChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_first_child(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_first_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -799,7 +801,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the current focus child of @widget.
      */
     public Widget getFocusChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_focus_child(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_focus_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -810,7 +812,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_focus_on_click].
      */
     public boolean getFocusOnClick() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_focus_on_click(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_focus_on_click(handle());
         return (RESULT != 0);
     }
     
@@ -820,7 +822,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_focusable].
      */
     public boolean getFocusable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_focusable(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_focusable(handle());
         return (RESULT != 0);
     }
     
@@ -830,7 +832,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_font_map].
      */
     public org.pango.FontMap getFontMap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_font_map(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_font_map(handle());
         return new org.pango.FontMap(References.get(RESULT, false));
     }
     
@@ -840,7 +842,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Seee [method@Gtk.Widget.set_font_options].
      */
     public org.cairographics.FontOptions getFontOptions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_font_options(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_font_options(handle());
         return new org.cairographics.FontOptions(References.get(RESULT, false));
     }
     
@@ -869,7 +871,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Unrealized widgets do not have a frame clock.
      */
     public org.gtk.gdk.FrameClock getFrameClock() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_frame_clock(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_frame_clock(handle());
         return new org.gtk.gdk.FrameClock(References.get(RESULT, false));
     }
     
@@ -882,7 +884,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * alignment.
      */
     public Align getHalign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_halign(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_halign(handle());
         return Align.fromValue(RESULT);
     }
     
@@ -890,7 +892,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the current value of the `has-tooltip` property.
      */
     public boolean getHasTooltip() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_has_tooltip(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_has_tooltip(handle());
         return (RESULT != 0);
     }
     
@@ -904,7 +906,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * For pointer events, see [method@Gtk.Widget.contains].
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_height(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_height(handle());
         return RESULT;
     }
     
@@ -927,7 +929,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * wants to expand.
      */
     public boolean getHexpand() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_hexpand(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_hexpand(handle());
         return (RESULT != 0);
     }
     
@@ -944,7 +946,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for completeness and consistency.
      */
     public boolean getHexpandSet() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_hexpand_set(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_hexpand_set(handle());
         return (RESULT != 0);
     }
     
@@ -954,7 +956,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getLastChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_last_child(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_last_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -964,7 +966,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_layout_manager].
      */
     public LayoutManager getLayoutManager() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_layout_manager(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_layout_manager(handle());
         return new LayoutManager(References.get(RESULT, false));
     }
     
@@ -972,7 +974,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Whether the widget is mapped.
      */
     public boolean getMapped() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_mapped(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_mapped(handle());
         return (RESULT != 0);
     }
     
@@ -980,7 +982,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the bottom margin of @widget.
      */
     public int getMarginBottom() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_margin_bottom(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_margin_bottom(handle());
         return RESULT;
     }
     
@@ -988,7 +990,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the end margin of @widget.
      */
     public int getMarginEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_margin_end(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_margin_end(handle());
         return RESULT;
     }
     
@@ -996,7 +998,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the start margin of @widget.
      */
     public int getMarginStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_margin_start(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_margin_start(handle());
         return RESULT;
     }
     
@@ -1004,7 +1006,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the top margin of @widget.
      */
     public int getMarginTop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_margin_top(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_margin_top(handle());
         return RESULT;
     }
     
@@ -1014,7 +1016,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_name] for the significance of widget names.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -1027,7 +1029,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * `GtkNative` widgets will return themselves here.
      */
     public Native getNative() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_native(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_native(handle());
         return new Native.NativeImpl(References.get(RESULT, false));
     }
     
@@ -1037,7 +1039,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getNextSibling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_next_sibling(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_next_sibling(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -1047,7 +1049,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_opacity].
      */
     public double getOpacity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_opacity(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_opacity(handle());
         return RESULT;
     }
     
@@ -1055,7 +1057,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the widgets overflow value.
      */
     public Overflow getOverflow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_overflow(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_overflow(handle());
         return Overflow.fromValue(RESULT);
     }
     
@@ -1071,7 +1073,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [property@Gtk.Widget:root] property on the widget.
      */
     public org.pango.Context getPangoContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_pango_context(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_pango_context(handle());
         return new org.pango.Context(References.get(RESULT, false));
     }
     
@@ -1079,7 +1081,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns the parent widget of @widget.
      */
     public Widget getParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_parent(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_parent(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -1100,7 +1102,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Use [id@gtk_widget_measure] if you want to support baseline alignment.
      */
     public void getPreferredSize(Requisition minimumSize, Requisition naturalSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_preferred_size(HANDLE(), minimumSize.HANDLE(), naturalSize.HANDLE());
+        gtk_h.gtk_widget_get_preferred_size(handle(), minimumSize.handle(), naturalSize.handle());
     }
     
     /**
@@ -1109,7 +1111,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This API is primarily meant for widget implementations.
      */
     public Widget getPrevSibling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_prev_sibling(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_prev_sibling(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -1123,7 +1125,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * realized yet.
      */
     public org.gtk.gdk.Clipboard getPrimaryClipboard() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_primary_clipboard(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_primary_clipboard(handle());
         return new org.gtk.gdk.Clipboard(References.get(RESULT, false));
     }
     
@@ -1131,7 +1133,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Determines whether @widget is realized.
      */
     public boolean getRealized() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_realized(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_realized(handle());
         return (RESULT != 0);
     }
     
@@ -1143,7 +1145,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_receives_default].
      */
     public boolean getReceivesDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_receives_default(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_receives_default(handle());
         return (RESULT != 0);
     }
     
@@ -1157,7 +1159,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * allocation capabilities.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_request_mode(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_request_mode(handle());
         return SizeRequestMode.fromValue(RESULT);
     }
     
@@ -1170,7 +1172,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * `GtkRoot` widgets will return themselves here.
      */
     public Root getRoot() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_root(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_root(handle());
         return new Root.RootImpl(References.get(RESULT, false));
     }
     
@@ -1184,7 +1186,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gdk.Surface.get_scale_factor].
      */
     public int getScaleFactor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_scale_factor(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_scale_factor(handle());
         return RESULT;
     }
     
@@ -1199,7 +1201,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.is_sensitive].
      */
     public boolean getSensitive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_sensitive(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_sensitive(handle());
         return (RESULT != 0);
     }
     
@@ -1212,7 +1214,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * changes in its settings, connect to the `notify::display` signal.
      */
     public Settings getSettings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_settings(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_settings(handle());
         return new Settings(References.get(RESULT, false));
     }
     
@@ -1228,7 +1230,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementing [iface@Gtk.Orientable] widgets.
      */
     public int getSize(Orientation orientation) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_size(HANDLE(), orientation.getValue());
+        var RESULT = gtk_h.gtk_widget_get_size(handle(), orientation.getValue());
         return RESULT;
     }
     
@@ -1244,7 +1246,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * method, you should look at [method@Gtk.StyleContext.get_state].
      */
     public int getStateFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_state_flags(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_state_flags(handle());
         return RESULT;
     }
     
@@ -1255,7 +1257,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for the lifetime of @widget.
      */
     public StyleContext getStyleContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_style_context(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_style_context(handle());
         return new StyleContext(References.get(RESULT, false));
     }
     
@@ -1272,7 +1274,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * bindings which cannot easily make use of the GObject structure offsets.
      */
     public org.gtk.gobject.Object getTemplateChild(Type widgetType, java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_template_child(HANDLE(), widgetType.getValue(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_template_child(handle(), widgetType.getValue(), Interop.allocateNativeString(name).handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
@@ -1284,7 +1286,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * function returns %NULL.
      */
     public java.lang.String getTooltipMarkup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_tooltip_markup(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_tooltip_markup(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -1296,7 +1298,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * this function will return the escaped text.
      */
     public java.lang.String getTooltipText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_tooltip_text(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_tooltip_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -1304,7 +1306,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the vertical alignment of @widget.
      */
     public Align getValign() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_valign(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_valign(handle());
         return Align.fromValue(RESULT);
     }
     
@@ -1315,7 +1317,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.get_hexpand] for more detail.
      */
     public boolean getVexpand() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_vexpand(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_vexpand(handle());
         return (RESULT != 0);
     }
     
@@ -1326,7 +1328,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.get_hexpand_set] for more detail.
      */
     public boolean getVexpandSet() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_vexpand_set(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_vexpand_set(handle());
         return (RESULT != 0);
     }
     
@@ -1343,7 +1345,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_visible].
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_visible(handle());
         return (RESULT != 0);
     }
     
@@ -1357,7 +1359,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * For pointer events, see [method@Gtk.Widget.contains].
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_get_width(HANDLE());
+        var RESULT = gtk_h.gtk_widget_get_width(handle());
         return RESULT;
     }
     
@@ -1372,7 +1374,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * is allowed, should not have an effect, and return %TRUE.
      */
     public boolean grabFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_grab_focus(HANDLE());
+        var RESULT = gtk_h.gtk_widget_grab_focus(handle());
         return (RESULT != 0);
     }
     
@@ -1380,7 +1382,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns whether @css_class is currently applied to @widget.
      */
     public boolean hasCssClass(java.lang.String cssClass) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
+        var RESULT = gtk_h.gtk_widget_has_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
         return (RESULT != 0);
     }
     
@@ -1389,7 +1391,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * within its toplevel.
      */
     public boolean hasDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_default(HANDLE());
+        var RESULT = gtk_h.gtk_widget_has_default(handle());
         return (RESULT != 0);
     }
     
@@ -1401,7 +1403,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * within a toplevel.
      */
     public boolean hasFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_focus(HANDLE());
+        var RESULT = gtk_h.gtk_widget_has_focus(handle());
         return (RESULT != 0);
     }
     
@@ -1418,7 +1420,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [method@Gtk.Widget.has_focus].
      */
     public boolean hasVisibleFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_has_visible_focus(HANDLE());
+        var RESULT = gtk_h.gtk_widget_has_visible_focus(handle());
         return (RESULT != 0);
     }
     
@@ -1428,7 +1430,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This is causing the widget to be hidden (invisible to the user).
      */
     public void hide() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_hide(HANDLE());
+        gtk_h.gtk_widget_hide(handle());
     }
     
     /**
@@ -1438,7 +1440,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * unnecessary work.
      */
     public boolean inDestruction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_in_destruction(HANDLE());
+        var RESULT = gtk_h.gtk_widget_in_destruction(handle());
         return (RESULT != 0);
     }
     
@@ -1465,7 +1467,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * an instance initialization function.
      */
     public void initTemplate() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_init_template(HANDLE());
+        gtk_h.gtk_widget_init_template(handle());
     }
     
     /**
@@ -1484,7 +1486,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * removed from @widget.
      */
     public void insertActionGroup(java.lang.String name, org.gtk.gio.ActionGroup group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_insert_action_group(HANDLE(), Interop.allocateNativeString(name).HANDLE(), group.HANDLE());
+        gtk_h.gtk_widget_insert_action_group(handle(), Interop.allocateNativeString(name).handle(), group.handle());
     }
     
     /**
@@ -1504,7 +1506,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * just using a widget, you *must* use its own API for adding children.
      */
     public void insertAfter(Widget parent, Widget previousSibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_insert_after(HANDLE(), parent.HANDLE(), previousSibling.HANDLE());
+        gtk_h.gtk_widget_insert_after(handle(), parent.handle(), previousSibling.handle());
     }
     
     /**
@@ -1523,7 +1525,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * just using a widget, you *must* use its own API for adding children.
      */
     public void insertBefore(Widget parent, Widget nextSibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_insert_before(HANDLE(), parent.HANDLE(), nextSibling.HANDLE());
+        gtk_h.gtk_widget_insert_before(handle(), parent.handle(), nextSibling.handle());
     }
     
     /**
@@ -1531,7 +1533,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * possibly with intermediate containers.
      */
     public boolean isAncestor(Widget ancestor) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_is_ancestor(HANDLE(), ancestor.HANDLE());
+        var RESULT = gtk_h.gtk_widget_is_ancestor(handle(), ancestor.handle());
         return (RESULT != 0);
     }
     
@@ -1541,7 +1543,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * A widget can be drawn if it is mapped and visible.
      */
     public boolean isDrawable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_is_drawable(HANDLE());
+        var RESULT = gtk_h.gtk_widget_is_drawable(handle());
         return (RESULT != 0);
     }
     
@@ -1555,7 +1557,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * global input focus.
      */
     public boolean isFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_is_focus(HANDLE());
+        var RESULT = gtk_h.gtk_widget_is_focus(handle());
         return (RESULT != 0);
     }
     
@@ -1566,7 +1568,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * parent widget is sensitive.
      */
     public boolean isSensitive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_is_sensitive(HANDLE());
+        var RESULT = gtk_h.gtk_widget_is_sensitive(handle());
         return (RESULT != 0);
     }
     
@@ -1580,7 +1582,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [method@Gtk.Widget.set_visible].
      */
     public boolean isVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_is_visible(HANDLE());
+        var RESULT = gtk_h.gtk_widget_is_visible(handle());
         return (RESULT != 0);
     }
     
@@ -1614,7 +1616,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * interfaces that require entering license keys.
      */
     public boolean keynavFailed(DirectionType direction) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_keynav_failed(HANDLE(), direction.getValue());
+        var RESULT = gtk_h.gtk_widget_keynav_failed(handle(), direction.getValue());
         return (RESULT != 0);
     }
     
@@ -1632,7 +1634,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * first, and then unref all the widgets afterwards.
      */
     public org.gtk.glib.List listMnemonicLabels() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_list_mnemonic_labels(HANDLE());
+        var RESULT = gtk_h.gtk_widget_list_mnemonic_labels(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -1642,7 +1644,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void map() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_map(HANDLE());
+        gtk_h.gtk_widget_map(handle());
     }
     
     /**
@@ -1651,7 +1653,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [signal@Gtk.Widget::mnemonic-activate].
      */
     public boolean mnemonicActivate(boolean groupCycling) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_mnemonic_activate(HANDLE(), groupCycling ? 1 : 0);
+        var RESULT = gtk_h.gtk_widget_mnemonic_activate(handle(), groupCycling ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -1666,7 +1668,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeChildren() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_observe_children(HANDLE());
+        var RESULT = gtk_h.gtk_widget_observe_children(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -1682,7 +1684,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeControllers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_observe_controllers(HANDLE());
+        var RESULT = gtk_h.gtk_widget_observe_controllers(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -1703,7 +1705,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * delivering events.
      */
     public Widget pick(double x, double y, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_pick(HANDLE(), x, y, flags);
+        var RESULT = gtk_h.gtk_widget_pick(handle(), x, y, flags);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -1720,7 +1722,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void queueAllocate() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_queue_allocate(HANDLE());
+        gtk_h.gtk_widget_queue_allocate(handle());
     }
     
     /**
@@ -1731,7 +1733,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementation will be called.
      */
     public void queueDraw() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_queue_draw(HANDLE());
+        gtk_h.gtk_widget_queue_draw(handle());
     }
     
     /**
@@ -1750,7 +1752,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void queueResize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_queue_resize(HANDLE());
+        gtk_h.gtk_widget_queue_resize(handle());
     }
     
     /**
@@ -1772,7 +1774,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [signal@Gtk.Widget::realize].
      */
     public void realize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_realize(HANDLE());
+        gtk_h.gtk_widget_realize(handle());
     }
     
     /**
@@ -1785,7 +1787,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * are destroyed, there is normally no need to call this function.
      */
     public void removeController(EventController controller) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_controller(HANDLE(), controller.HANDLE());
+        gtk_h.gtk_widget_remove_controller(handle(), controller.handle());
     }
     
     /**
@@ -1794,7 +1796,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * After this, the style of @widget will stop matching for @css_class.
      */
     public void removeCssClass(java.lang.String cssClass) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_css_class(HANDLE(), Interop.allocateNativeString(cssClass).HANDLE());
+        gtk_h.gtk_widget_remove_css_class(handle(), Interop.allocateNativeString(cssClass).handle());
     }
     
     /**
@@ -1805,7 +1807,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [method@Gtk.Widget.add_mnemonic_label].
      */
     public void removeMnemonicLabel(Widget label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_mnemonic_label(HANDLE(), label.HANDLE());
+        gtk_h.gtk_widget_remove_mnemonic_label(handle(), label.handle());
     }
     
     /**
@@ -1813,7 +1815,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * gtk_widget_add_tick_callback().
      */
     public void removeTickCallback(int id) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_remove_tick_callback(HANDLE(), id);
+        gtk_h.gtk_widget_remove_tick_callback(handle(), id);
     }
     
     /**
@@ -1833,14 +1835,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the input focus on a widget.
      */
     public void setCanFocus(boolean canFocus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_can_focus(HANDLE(), canFocus ? 1 : 0);
+        gtk_h.gtk_widget_set_can_focus(handle(), canFocus ? 1 : 0);
     }
     
     /**
      * Sets whether @widget can be the target of pointer events.
      */
     public void setCanTarget(boolean canTarget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_can_target(HANDLE(), canTarget ? 1 : 0);
+        gtk_h.gtk_widget_set_can_target(handle(), canTarget ? 1 : 0);
     }
     
     /**
@@ -1862,7 +1864,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and should never be called by an application.
      */
     public void setChildVisible(boolean childVisible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_child_visible(HANDLE(), childVisible ? 1 : 0);
+        gtk_h.gtk_widget_set_child_visible(handle(), childVisible ? 1 : 0);
     }
     
     /**
@@ -1870,7 +1872,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and replace them with @classes.
      */
     public void setCssClasses(java.lang.String[] classes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_css_classes(HANDLE(), Interop.allocateNativeArray(classes));
+        gtk_h.gtk_widget_set_css_classes(handle(), Interop.allocateNativeArray(classes));
     }
     
     /**
@@ -1881,7 +1883,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * inherited from the parent widget.
      */
     public void setCursor(org.gtk.gdk.Cursor cursor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_cursor(HANDLE(), cursor.HANDLE());
+        gtk_h.gtk_widget_set_cursor(handle(), cursor.handle());
     }
     
     /**
@@ -1898,7 +1900,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * with a %NULL cursor.
      */
     public void setCursorFromName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_cursor_from_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_widget_set_cursor_from_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -1917,7 +1919,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * set by [func@Gtk.Widget.set_default_direction] will be used.
      */
     public void setDirection(TextDirection dir) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_direction(HANDLE(), dir.getValue());
+        gtk_h.gtk_widget_set_direction(handle(), dir.getValue());
     }
     
     /**
@@ -1928,7 +1930,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * [method@Gtk.Widget.grab_focus] on it.
      */
     public void setFocusChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_focus_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_widget_set_focus_child(handle(), child.handle());
     }
     
     /**
@@ -1940,7 +1942,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the main area of the application.
      */
     public void setFocusOnClick(boolean focusOnClick) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_focus_on_click(HANDLE(), focusOnClick ? 1 : 0);
+        gtk_h.gtk_widget_set_focus_on_click(handle(), focusOnClick ? 1 : 0);
     }
     
     /**
@@ -1959,7 +1961,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the input focus on a widget.
      */
     public void setFocusable(boolean focusable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_focusable(HANDLE(), focusable ? 1 : 0);
+        gtk_h.gtk_widget_set_focusable(handle(), focusable ? 1 : 0);
     }
     
     /**
@@ -1973,7 +1975,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * When not set, the widget will inherit the font map from its parent.
      */
     public void setFontMap(org.pango.FontMap fontMap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_font_map(HANDLE(), fontMap.HANDLE());
+        gtk_h.gtk_widget_set_font_map(handle(), fontMap.handle());
     }
     
     /**
@@ -1984,21 +1986,21 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * will be used.
      */
     public void setFontOptions(org.cairographics.FontOptions options) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_font_options(HANDLE(), options.HANDLE());
+        gtk_h.gtk_widget_set_font_options(handle(), options.handle());
     }
     
     /**
      * Sets the horizontal alignment of @widget.
      */
     public void setHalign(Align align) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_halign(HANDLE(), align.getValue());
+        gtk_h.gtk_widget_set_halign(handle(), align.getValue());
     }
     
     /**
      * Sets the `has-tooltip` property on @widget to @has_tooltip.
      */
     public void setHasTooltip(boolean hasTooltip) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_has_tooltip(HANDLE(), hasTooltip ? 1 : 0);
+        gtk_h.gtk_widget_set_has_tooltip(handle(), hasTooltip ? 1 : 0);
     }
     
     /**
@@ -2031,7 +2033,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * value to be used, rather than looking at children and widget state.
      */
     public void setHexpand(boolean expand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_hexpand(HANDLE(), expand ? 1 : 0);
+        gtk_h.gtk_widget_set_hexpand(handle(), expand ? 1 : 0);
     }
     
     /**
@@ -2051,7 +2053,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for completeness and consistency.
      */
     public void setHexpandSet(boolean set) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_hexpand_set(HANDLE(), set ? 1 : 0);
+        gtk_h.gtk_widget_set_hexpand_set(handle(), set ? 1 : 0);
     }
     
     /**
@@ -2059,35 +2061,35 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * implementation for measuring and allocating the children of @widget.
      */
     public void setLayoutManager(LayoutManager layoutManager) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_layout_manager(HANDLE(), layoutManager.getReference().unowned().HANDLE());
+        gtk_h.gtk_widget_set_layout_manager(handle(), layoutManager.getReference().unowned().handle());
     }
     
     /**
      * Sets the bottom margin of @widget.
      */
     public void setMarginBottom(int margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_margin_bottom(HANDLE(), margin);
+        gtk_h.gtk_widget_set_margin_bottom(handle(), margin);
     }
     
     /**
      * Sets the end margin of @widget.
      */
     public void setMarginEnd(int margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_margin_end(HANDLE(), margin);
+        gtk_h.gtk_widget_set_margin_end(handle(), margin);
     }
     
     /**
      * Sets the start margin of @widget.
      */
     public void setMarginStart(int margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_margin_start(HANDLE(), margin);
+        gtk_h.gtk_widget_set_margin_start(handle(), margin);
     }
     
     /**
      * Sets the top margin of @widget.
      */
     public void setMarginTop(int margin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_margin_top(HANDLE(), margin);
+        gtk_h.gtk_widget_set_margin_top(handle(), margin);
     }
     
     /**
@@ -2104,7 +2106,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of alphanumeric symbols, dashes and underscores will suffice.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_widget_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -2132,7 +2134,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * even if they are attached to a toplevel that is translucent.
      */
     public void setOpacity(double opacity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_opacity(HANDLE(), opacity);
+        gtk_h.gtk_widget_set_opacity(handle(), opacity);
     }
     
     /**
@@ -2147,7 +2149,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * The default value is %GTK_OVERFLOW_VISIBLE.
      */
     public void setOverflow(Overflow overflow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_overflow(HANDLE(), overflow.getValue());
+        gtk_h.gtk_widget_set_overflow(handle(), overflow.getValue());
     }
     
     /**
@@ -2161,7 +2163,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * `GtkWidget`.
      */
     public void setParent(Widget parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_parent(HANDLE(), parent.HANDLE());
+        gtk_h.gtk_widget_set_parent(handle(), parent.handle());
     }
     
     /**
@@ -2170,7 +2172,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * another widget is the default.
      */
     public void setReceivesDefault(boolean receivesDefault) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_receives_default(HANDLE(), receivesDefault ? 1 : 0);
+        gtk_h.gtk_widget_set_receives_default(handle(), receivesDefault ? 1 : 0);
     }
     
     /**
@@ -2182,7 +2184,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * “inactive”, “disabled”, or “ghosted” in some other toolkits.
      */
     public void setSensitive(boolean sensitive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_sensitive(HANDLE(), sensitive ? 1 : 0);
+        gtk_h.gtk_widget_set_sensitive(handle(), sensitive ? 1 : 0);
     }
     
     /**
@@ -2223,7 +2225,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of `GtkWidget`.
      */
     public void setSizeRequest(int width, int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_size_request(HANDLE(), width, height);
+        gtk_h.gtk_widget_set_size_request(handle(), width, height);
     }
     
     /**
@@ -2238,7 +2240,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is for use in widget implementations.
      */
     public void setStateFlags(int flags, boolean clear) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_state_flags(HANDLE(), flags, clear ? 1 : 0);
+        gtk_h.gtk_widget_set_state_flags(handle(), flags, clear ? 1 : 0);
     }
     
     /**
@@ -2252,7 +2254,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also [method@Gtk.Tooltip.set_markup].
      */
     public void setTooltipMarkup(java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE());
+        gtk_h.gtk_widget_set_tooltip_markup(handle(), Interop.allocateNativeString(markup).handle());
     }
     
     /**
@@ -2268,14 +2270,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See also [method@Gtk.Tooltip.set_text].
      */
     public void setTooltipText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_tooltip_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_widget_set_tooltip_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
      * Sets the vertical alignment of @widget.
      */
     public void setValign(Align align) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_valign(HANDLE(), align.getValue());
+        gtk_h.gtk_widget_set_valign(handle(), align.getValue());
     }
     
     /**
@@ -2285,7 +2287,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_hexpand] for more detail.
      */
     public void setVexpand(boolean expand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_vexpand(HANDLE(), expand ? 1 : 0);
+        gtk_h.gtk_widget_set_vexpand(handle(), expand ? 1 : 0);
     }
     
     /**
@@ -2294,7 +2296,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * See [method@Gtk.Widget.set_hexpand_set] for more detail.
      */
     public void setVexpandSet(boolean set) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_vexpand_set(HANDLE(), set ? 1 : 0);
+        gtk_h.gtk_widget_set_vexpand_set(handle(), set ? 1 : 0);
     }
     
     /**
@@ -2308,7 +2310,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * visibility of the widget depends on some condition.
      */
     public void setVisible(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_set_visible(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_widget_set_visible(handle(), visible ? 1 : 0);
     }
     
     /**
@@ -2319,7 +2321,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * for children that have their own surface.
      */
     public boolean shouldLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_should_layout(HANDLE());
+        var RESULT = gtk_h.gtk_widget_should_layout(handle());
         return (RESULT != 0);
     }
     
@@ -2336,7 +2338,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * toplevel container is realized and mapped.
      */
     public void show() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_show(HANDLE());
+        gtk_h.gtk_widget_show(handle());
     }
     
     /**
@@ -2346,7 +2348,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This is a simple form of [method@Gtk.Widget.allocate].
      */
     public void sizeAllocate(Allocation allocation, int baseline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_size_allocate(HANDLE(), allocation.HANDLE(), baseline);
+        gtk_h.gtk_widget_size_allocate(handle(), allocation.handle(), baseline);
     }
     
     /**
@@ -2366,7 +2368,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function does nothing for children that implement `GtkNative`.
      */
     public void snapshotChild(Widget child, Snapshot snapshot) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_snapshot_child(HANDLE(), child.HANDLE(), snapshot.HANDLE());
+        gtk_h.gtk_widget_snapshot_child(handle(), child.handle(), snapshot.handle());
     }
     
     /**
@@ -2374,7 +2376,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * of @widget is located.
      */
     public void triggerTooltipQuery() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_trigger_tooltip_query(HANDLE());
+        gtk_h.gtk_widget_trigger_tooltip_query(handle());
     }
     
     /**
@@ -2383,7 +2385,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only for use in widget implementations.
      */
     public void unmap() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_unmap(HANDLE());
+        gtk_h.gtk_widget_unmap(handle());
     }
     
     /**
@@ -2393,7 +2395,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * typically in dispose.
      */
     public void unparent() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_unparent(HANDLE());
+        gtk_h.gtk_widget_unparent(handle());
     }
     
     /**
@@ -2403,7 +2405,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is only useful in widget implementations.
      */
     public void unrealize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_unrealize(HANDLE());
+        gtk_h.gtk_widget_unrealize(handle());
     }
     
     /**
@@ -2414,7 +2416,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * This function is for use in widget implementations.
      */
     public void unsetStateFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_unset_state_flags(HANDLE(), flags);
+        gtk_h.gtk_widget_unset_state_flags(handle(), flags);
     }
     
     @FunctionalInterface
@@ -2434,12 +2436,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDestroy", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("destroy").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("destroy").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2457,12 +2459,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDirectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("direction-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("direction-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2480,12 +2482,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetHide", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("hide").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("hide").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2505,12 +2507,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetKeynavFailed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("keynav-failed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("keynav-failed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2536,12 +2538,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("map").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("map").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2562,12 +2564,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMnemonicActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("mnemonic-activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("mnemonic-activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2585,12 +2587,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMoveFocus", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-focus").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-focus").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2621,12 +2623,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetQueryTooltip", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("query-tooltip").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("query-tooltip").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2647,12 +2649,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetRealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("realize").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("realize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2670,12 +2672,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetShow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("show").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("show").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2695,12 +2697,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetStateFlagsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("state-flags-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("state-flags-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2724,12 +2726,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnmap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unmap").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("unmap").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -2750,12 +2752,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnrealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unrealize").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("unrealize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

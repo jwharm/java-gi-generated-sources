@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -98,7 +100,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkPopover`.
      */
     public Popover() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_new(), false));
+        super(References.get(gtk_h.gtk_popover_new(), false));
     }
     
     /**
@@ -108,7 +110,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * implications of this.
      */
     public boolean getAutohide() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_autohide(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_autohide(handle());
         return (RESULT != 0);
     }
     
@@ -116,7 +118,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the popover will close after a modal child is closed.
      */
     public boolean getCascadePopdown() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_cascade_popdown(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_cascade_popdown(handle());
         return (RESULT != 0);
     }
     
@@ -124,7 +126,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Gets the child widget of @popover.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -133,7 +135,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * pointing at the widget that it is relative to.
      */
     public boolean getHasArrow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_has_arrow(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_has_arrow(handle());
         return (RESULT != 0);
     }
     
@@ -141,7 +143,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Gets whether mnemonics are visible.
      */
     public boolean getMnemonicsVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_mnemonics_visible(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_mnemonics_visible(handle());
         return (RESULT != 0);
     }
     
@@ -154,7 +156,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * widget coordinates.
      */
     public boolean getPointingTo(org.gtk.gdk.Rectangle rect) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_pointing_to(HANDLE(), rect.HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_pointing_to(handle(), rect.handle());
         return (RESULT != 0);
     }
     
@@ -162,7 +164,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Returns the preferred position of @popover.
      */
     public PositionType getPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_position(HANDLE());
+        var RESULT = gtk_h.gtk_popover_get_position(handle());
         return PositionType.fromValue(RESULT);
     }
     
@@ -173,21 +175,21 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * as well. See [property@Gtk.Popover:cascade-popdown].
      */
     public void popdown() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_popdown(HANDLE());
+        gtk_h.gtk_popover_popdown(handle());
     }
     
     /**
      * Pops @popover up.
      */
     public void popup() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_popup(HANDLE());
+        gtk_h.gtk_popover_popup(handle());
     }
     
     /**
      * Presents the popover to the user.
      */
     public void present() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_present(HANDLE());
+        gtk_h.gtk_popover_present(handle());
     }
     
     /**
@@ -202,7 +204,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * popup to be hidden.
      */
     public void setAutohide(boolean autohide) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_autohide(HANDLE(), autohide ? 1 : 0);
+        gtk_h.gtk_popover_set_autohide(handle(), autohide ? 1 : 0);
     }
     
     /**
@@ -212,14 +214,14 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * If %FALSE, @popover will stay visible.
      */
     public void setCascadePopdown(boolean cascadePopdown) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_cascade_popdown(HANDLE(), cascadePopdown ? 1 : 0);
+        gtk_h.gtk_popover_set_cascade_popdown(handle(), cascadePopdown ? 1 : 0);
     }
     
     /**
      * Sets the child widget of @popover.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_popover_set_child(handle(), child.handle());
     }
     
     /**
@@ -230,7 +232,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * unsets the default widget for a `GtkPopover`.
      */
     public void setDefaultWidget(Widget widget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_default_widget(HANDLE(), widget.HANDLE());
+        gtk_h.gtk_popover_set_default_widget(handle(), widget.handle());
     }
     
     /**
@@ -238,14 +240,14 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * pointing at the widget it is relative to.
      */
     public void setHasArrow(boolean hasArrow) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_has_arrow(HANDLE(), hasArrow ? 1 : 0);
+        gtk_h.gtk_popover_set_has_arrow(handle(), hasArrow ? 1 : 0);
     }
     
     /**
      * Sets whether mnemonics should be visible.
      */
     public void setMnemonicsVisible(boolean mnemonicsVisible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_mnemonics_visible(HANDLE(), mnemonicsVisible ? 1 : 0);
+        gtk_h.gtk_popover_set_mnemonics_visible(handle(), mnemonicsVisible ? 1 : 0);
     }
     
     /**
@@ -256,7 +258,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * for positioning the popover.
      */
     public void setOffset(int xOffset, int yOffset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_offset(HANDLE(), xOffset, yOffset);
+        gtk_h.gtk_popover_set_offset(handle(), xOffset, yOffset);
     }
     
     /**
@@ -265,7 +267,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * This is in the coordinate space of the @popover parent.
      */
     public void setPointingTo(org.gtk.gdk.Rectangle rect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_pointing_to(HANDLE(), rect.HANDLE());
+        gtk_h.gtk_popover_set_pointing_to(handle(), rect.handle());
     }
     
     /**
@@ -279,7 +281,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * `GtkPopover` may choose to appear on the opposite side.
      */
     public void setPosition(PositionType position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_set_position(HANDLE(), position.getValue());
+        gtk_h.gtk_popover_set_position(handle(), position.getValue());
     }
     
     @FunctionalInterface
@@ -296,12 +298,12 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPopoverActivateDefault", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-default").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-default").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -319,12 +321,12 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPopoverClosed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("closed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("closed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -64,7 +66,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * when implementing new types of closures.
      */
     public Closure(int sizeofClosure, Object object) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_object(sizeofClosure, object.HANDLE()), true));
+        super(References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true));
     }
     
     /**
@@ -107,7 +109,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public Closure(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_simple(sizeofClosure, data), false));
+        super(References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false));
     }
     
     /**
@@ -128,14 +130,14 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * been invalidated before).
      */
     public void invalidate() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_invalidate(HANDLE());
+        gtk_h.g_closure_invalidate(handle());
     }
     
     /**
      * Invokes the closure, i.e. executes the callback represented by the @closure.
      */
     public void invoke(Value returnValue, int nParamValues, Value[] paramValues, jdk.incubator.foreign.MemoryAddress invocationHint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_invoke(HANDLE(), returnValue.HANDLE(), nParamValues, Interop.allocateNativeArray(paramValues), invocationHint);
+        gtk_h.g_closure_invoke(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues), invocationHint);
     }
     
     /**
@@ -143,7 +145,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * alive while the caller holds a pointer to it.
      */
     public Closure ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_ref(HANDLE());
+        var RESULT = gtk_h.g_closure_ref(handle());
         return new Closure(References.get(RESULT, false));
     }
     
@@ -197,7 +199,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_closure_ref() should be called prior to this function.
      */
     public void sink() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_sink(HANDLE());
+        gtk_h.g_closure_sink(handle());
     }
     
     /**
@@ -208,7 +210,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * destroyed and freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_unref(HANDLE());
+        gtk_h.g_closure_unref(handle());
     }
     
 }

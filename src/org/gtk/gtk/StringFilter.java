@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class StringFilter extends Filter {
      * and by providing a property to look up on the item.
      */
     public StringFilter(Expression expression) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_new(expression.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_string_filter_new(expression.getReference().unowned().handle()), true));
     }
     
     /**
@@ -46,7 +48,7 @@ public class StringFilter extends Filter {
      * obtain strings from items.
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_string_filter_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -54,7 +56,7 @@ public class StringFilter extends Filter {
      * Returns whether the filter ignores case differences.
      */
     public boolean getIgnoreCase() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_get_ignore_case(HANDLE());
+        var RESULT = gtk_h.gtk_string_filter_get_ignore_case(handle());
         return (RESULT != 0);
     }
     
@@ -62,7 +64,7 @@ public class StringFilter extends Filter {
      * Returns the match mode that the filter is using.
      */
     public StringFilterMatchMode getMatchMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_get_match_mode(HANDLE());
+        var RESULT = gtk_h.gtk_string_filter_get_match_mode(handle());
         return StringFilterMatchMode.fromValue(RESULT);
     }
     
@@ -70,7 +72,7 @@ public class StringFilter extends Filter {
      * Gets the search term.
      */
     public java.lang.String getSearch() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_get_search(HANDLE());
+        var RESULT = gtk_h.gtk_string_filter_get_search(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -81,28 +83,28 @@ public class StringFilter extends Filter {
      * The expression must have a value type of %G_TYPE_STRING.
      */
     public void setExpression(Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_expression(HANDLE(), expression.HANDLE());
+        gtk_h.gtk_string_filter_set_expression(handle(), expression.handle());
     }
     
     /**
      * Sets whether the filter ignores case differences.
      */
     public void setIgnoreCase(boolean ignoreCase) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_ignore_case(HANDLE(), ignoreCase ? 1 : 0);
+        gtk_h.gtk_string_filter_set_ignore_case(handle(), ignoreCase ? 1 : 0);
     }
     
     /**
      * Sets the match mode for the filter.
      */
     public void setMatchMode(StringFilterMatchMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_match_mode(HANDLE(), mode.getValue());
+        gtk_h.gtk_string_filter_set_match_mode(handle(), mode.getValue());
     }
     
     /**
      * Sets the string to search for.
      */
     public void setSearch(java.lang.String search) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_set_search(HANDLE(), Interop.allocateNativeString(search).HANDLE());
+        gtk_h.gtk_string_filter_set_search(handle(), Interop.allocateNativeString(search).handle());
     }
     
 }

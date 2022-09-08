@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns the renderer that is used for this `GtkNative`.
      */
     public default org.gtk.gsk.Renderer getRenderer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_renderer(HANDLE());
+        var RESULT = gtk_h.gtk_native_get_renderer(handle());
         return new org.gtk.gsk.Renderer(References.get(RESULT, false));
     }
     
@@ -36,7 +38,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns the surface of this `GtkNative`.
      */
     public default org.gtk.gdk.Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_surface(HANDLE());
+        var RESULT = gtk_h.gtk_native_get_surface(handle());
         return new org.gtk.gdk.Surface(References.get(RESULT, false));
     }
     
@@ -46,7 +48,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      * This should only be used by subclasses.
      */
     public default void realize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_realize(HANDLE());
+        gtk_h.gtk_native_realize(handle());
     }
     
     /**
@@ -55,7 +57,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      * This should only be used by subclasses.
      */
     public default void unrealize() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_unrealize(HANDLE());
+        gtk_h.gtk_native_unrealize(handle());
     }
     
     class NativeImpl extends org.gtk.gobject.Object implements Native {

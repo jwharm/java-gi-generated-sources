@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -81,7 +83,7 @@ public class FileFilter extends Filter implements Buildable {
      * ```
      */
     public FileFilter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new(), true));
+        super(References.get(gtk_h.gtk_file_filter_new(), true));
     }
     
     /**
@@ -91,14 +93,14 @@ public class FileFilter extends Filter implements Buildable {
      * [method@Gtk.FileFilter.to_gvariant].
      */
     public FileFilter(org.gtk.glib.Variant variant) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true));
     }
     
     /**
      * Adds a rule allowing a given mime type to @filter.
      */
     public void addMimeType(java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
+        gtk_h.gtk_file_filter_add_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
     }
     
     /**
@@ -109,7 +111,7 @@ public class FileFilter extends Filter implements Buildable {
      * other platforms, it doesn't.
      */
     public void addPattern(java.lang.String pattern) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_pattern(HANDLE(), Interop.allocateNativeString(pattern).HANDLE());
+        gtk_h.gtk_file_filter_add_pattern(handle(), Interop.allocateNativeString(pattern).handle());
     }
     
     /**
@@ -120,7 +122,7 @@ public class FileFilter extends Filter implements Buildable {
      * for all the supported mime types.
      */
     public void addPixbufFormats() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_pixbuf_formats(HANDLE());
+        gtk_h.gtk_file_filter_add_pixbuf_formats(handle());
     }
     
     /**
@@ -133,7 +135,7 @@ public class FileFilter extends Filter implements Buildable {
      * are *always* case-insensitive.
      */
     public void addSuffix(java.lang.String suffix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_add_suffix(HANDLE(), Interop.allocateNativeString(suffix).HANDLE());
+        gtk_h.gtk_file_filter_add_suffix(handle(), Interop.allocateNativeString(suffix).handle());
     }
     
     /**
@@ -142,7 +144,7 @@ public class FileFilter extends Filter implements Buildable {
      * See [method@Gtk.FileFilter.set_name].
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_file_filter_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -153,14 +155,14 @@ public class FileFilter extends Filter implements Buildable {
      * if there is a selectable list of filters.
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_file_filter_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
      * Serialize a file filter to an `a{sv}` variant.
      */
     public org.gtk.glib.Variant toGvariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_to_gvariant(HANDLE());
+        var RESULT = gtk_h.gtk_file_filter_to_gvariant(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     

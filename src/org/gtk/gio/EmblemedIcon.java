@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,28 +30,28 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
      * Creates a new emblemed icon for @icon with the emblem @emblem.
      */
     public EmblemedIcon(Icon icon, Emblem emblem) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_new(icon.HANDLE(), emblem.HANDLE()), true));
+        super(References.get(gtk_h.g_emblemed_icon_new(icon.handle(), emblem.handle()), true));
     }
     
     /**
      * Adds @emblem to the #GList of #GEmblems.
      */
     public void addEmblem(Emblem emblem) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_add_emblem(HANDLE(), emblem.HANDLE());
+        gtk_h.g_emblemed_icon_add_emblem(handle(), emblem.handle());
     }
     
     /**
      * Removes all the emblems from @icon.
      */
     public void clearEmblems() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_clear_emblems(HANDLE());
+        gtk_h.g_emblemed_icon_clear_emblems(handle());
     }
     
     /**
      * Gets the list of emblems for the @icon.
      */
     public org.gtk.glib.List getEmblems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_get_emblems(HANDLE());
+        var RESULT = gtk_h.g_emblemed_icon_get_emblems(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
      * Gets the main icon for @emblemed.
      */
     public Icon getIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_emblemed_icon_get_icon(HANDLE());
+        var RESULT = gtk_h.g_emblemed_icon_get_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, false));
     }
     

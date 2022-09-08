@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_detailed_action() for more information.
      */
     public MenuItem(java.lang.String label, java.lang.String detailedAction) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new(Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE()), true));
+        super(References.get(gtk_h.g_menu_item_new(Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle()), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_model_get_n_items() first).
      */
     public MenuItem(MenuModel model, int itemIndex) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_from_model(model.HANDLE(), itemIndex), true));
+        super(References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true));
     }
     
     /**
@@ -108,7 +110,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * ]|
      */
     public static MenuItem newSection(java.lang.String label, MenuModel section) {
-        return new MenuItem(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).HANDLE(), section.HANDLE()), true));
+        return new MenuItem(References.get(gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).handle(), section.handle()), true));
     }
     
     /**
@@ -118,7 +120,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_submenu().
      */
     public static MenuItem newSubmenu(java.lang.String label, MenuModel submenu) {
-        return new MenuItem(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).HANDLE(), submenu.HANDLE()), true));
+        return new MenuItem(References.get(gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).handle(), submenu.handle()), true));
     }
     
     /**
@@ -129,7 +131,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * simply does not exist.
      */
     public org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_get_attribute_value(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), expectedType.HANDLE());
+        var RESULT = gtk_h.g_menu_item_get_attribute_value(handle(), Interop.allocateNativeString(attribute).handle(), expectedType.handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -137,7 +139,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Queries the named @link on @menu_item.
      */
     public MenuModel getLink(java.lang.String link) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_get_link(HANDLE(), Interop.allocateNativeString(link).HANDLE());
+        var RESULT = gtk_h.g_menu_item_get_link(handle(), Interop.allocateNativeString(link).handle());
         return new MenuModel(References.get(RESULT, true));
     }
     
@@ -180,7 +182,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * probably more convenient for most uses.
      */
     public void setActionAndTargetValue(java.lang.String action, org.gtk.glib.Variant targetValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_action_and_target_value(HANDLE(), Interop.allocateNativeString(action).HANDLE(), targetValue.HANDLE());
+        gtk_h.g_menu_item_set_action_and_target_value(handle(), Interop.allocateNativeString(action).handle(), targetValue.handle());
     }
     
     /**
@@ -205,7 +207,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the same.
      */
     public void setAttributeValue(java.lang.String attribute, org.gtk.glib.Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_attribute_value(HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), value.HANDLE());
+        gtk_h.g_menu_item_set_attribute_value(handle(), Interop.allocateNativeString(attribute).handle(), value.handle());
     }
     
     /**
@@ -222,7 +224,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the semantics of the action and target attributes.
      */
     public void setDetailedAction(java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_detailed_action(HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_menu_item_set_detailed_action(handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -240,7 +242,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * If @icon is %NULL then the icon is unset.
      */
     public void setIcon(Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_icon(HANDLE(), icon.HANDLE());
+        gtk_h.g_menu_item_set_icon(handle(), icon.handle());
     }
     
     /**
@@ -250,7 +252,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * it is %NULL then the label attribute is unset.
      */
     public void setLabel(java.lang.String label) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_label(HANDLE(), Interop.allocateNativeString(label).HANDLE());
+        gtk_h.g_menu_item_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
@@ -266,7 +268,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * must not end with a '-', and must not contain consecutive dashes.
      */
     public void setLink(java.lang.String link, MenuModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_link(HANDLE(), Interop.allocateNativeString(link).HANDLE(), model.HANDLE());
+        gtk_h.g_menu_item_set_link(handle(), Interop.allocateNativeString(link).handle(), model.handle());
     }
     
     /**
@@ -279,7 +281,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * section.
      */
     public void setSection(MenuModel section) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_section(HANDLE(), section.HANDLE());
+        gtk_h.g_menu_item_set_section(handle(), section.handle());
     }
     
     /**
@@ -292,7 +294,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * exactly as it sounds.
      */
     public void setSubmenu(MenuModel submenu) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_item_set_submenu(HANDLE(), submenu.HANDLE());
+        gtk_h.g_menu_item_set_submenu(handle(), submenu.handle());
     }
     
 }

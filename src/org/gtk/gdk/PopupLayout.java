@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -61,14 +63,14 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_new(anchorRect.HANDLE(), rectAnchor.getValue(), surfaceAnchor.getValue()), true));
+        super(References.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true));
     }
     
     /**
      * Makes a copy of @layout.
      */
     public PopupLayout copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_copy(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_copy(handle());
         return new PopupLayout(References.get(RESULT, true));
     }
     
@@ -76,7 +78,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Check whether @layout and @other has identical layout properties.
      */
     public boolean equal(PopupLayout other) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_equal(HANDLE(), other.HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_equal(handle(), other.handle());
         return (RESULT != 0);
     }
     
@@ -84,7 +86,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Get the `GdkAnchorHints`.
      */
     public int getAnchorHints() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_get_anchor_hints(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_get_anchor_hints(handle());
         return RESULT;
     }
     
@@ -92,7 +94,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Get the anchor rectangle.
      */
     public Rectangle getAnchorRect() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_get_anchor_rect(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_get_anchor_rect(handle());
         return new Rectangle(References.get(RESULT, false));
     }
     
@@ -100,7 +102,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the anchor position on the anchor rectangle.
      */
     public Gravity getRectAnchor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_get_rect_anchor(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_get_rect_anchor(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -108,7 +110,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the anchor position on the popup surface.
      */
     public Gravity getSurfaceAnchor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_get_surface_anchor(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_get_surface_anchor(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -116,7 +118,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count of @value.
      */
     public PopupLayout ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_ref(HANDLE());
+        var RESULT = gtk_h.gdk_popup_layout_ref(handle());
         return new PopupLayout(References.get(RESULT, true));
     }
     
@@ -130,28 +132,28 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * beyond the left or right edges of the monitor.
      */
     public void setAnchorHints(int anchorHints) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_anchor_hints(HANDLE(), anchorHints);
+        gtk_h.gdk_popup_layout_set_anchor_hints(handle(), anchorHints);
     }
     
     /**
      * Set the anchor rectangle.
      */
     public void setAnchorRect(Rectangle anchorRect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_anchor_rect(HANDLE(), anchorRect.HANDLE());
+        gtk_h.gdk_popup_layout_set_anchor_rect(handle(), anchorRect.handle());
     }
     
     /**
      * Offset the position of the anchor rectangle with the given delta.
      */
     public void setOffset(int dx, int dy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_offset(HANDLE(), dx, dy);
+        gtk_h.gdk_popup_layout_set_offset(handle(), dx, dy);
     }
     
     /**
      * Set the anchor on the anchor rectangle.
      */
     public void setRectAnchor(Gravity anchor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_rect_anchor(HANDLE(), anchor.getValue());
+        gtk_h.gdk_popup_layout_set_rect_anchor(handle(), anchor.getValue());
     }
     
     /**
@@ -162,21 +164,21 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * surrounding the window, would there be any.
      */
     public void setShadowWidth(int left, int right, int top, int bottom) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_shadow_width(HANDLE(), left, right, top, bottom);
+        gtk_h.gdk_popup_layout_set_shadow_width(handle(), left, right, top, bottom);
     }
     
     /**
      * Set the anchor on the popup surface.
      */
     public void setSurfaceAnchor(Gravity anchor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_set_surface_anchor(HANDLE(), anchor.getValue());
+        gtk_h.gdk_popup_layout_set_surface_anchor(handle(), anchor.getValue());
     }
     
     /**
      * Decreases the reference count of @value.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_unref(HANDLE());
+        gtk_h.gdk_popup_layout_unref(handle());
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import jdk.incubator.foreign.*;
 import java.util.HashMap;
 import io.github.jwharm.javagi.interop.*;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
     

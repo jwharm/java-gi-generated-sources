@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * use by database editors, commandline tools, etc.
      */
     public void listSchemas(boolean recursive, java.lang.String[] nonRelocatable, java.lang.String[] relocatable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_list_schemas(HANDLE(), recursive ? 1 : 0, Interop.allocateNativeArray(nonRelocatable), Interop.allocateNativeArray(relocatable));
+        gtk_h.g_settings_schema_source_list_schemas(handle(), recursive ? 1 : 0, Interop.allocateNativeArray(nonRelocatable), Interop.allocateNativeArray(relocatable));
     }
     
     /**
@@ -45,7 +47,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * If the schema isn't found, %NULL is returned.
      */
     public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_lookup(HANDLE(), Interop.allocateNativeString(schemaId).HANDLE(), recursive ? 1 : 0);
+        var RESULT = gtk_h.g_settings_schema_source_lookup(handle(), Interop.allocateNativeString(schemaId).handle(), recursive ? 1 : 0);
         return new SettingsSchema(References.get(RESULT, true));
     }
     
@@ -53,7 +55,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * Increase the reference count of @source, returning a new reference.
      */
     public SettingsSchemaSource ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_ref(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_source_ref(handle());
         return new SettingsSchemaSource(References.get(RESULT, true));
     }
     
@@ -61,7 +63,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * Decrease the reference count of @source, possibly freeing it.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_source_unref(HANDLE());
+        gtk_h.g_settings_schema_source_unref(handle());
     }
     
 }

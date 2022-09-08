@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Frustum() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_alloc(), true));
+        super(References.get(gtk_h.graphene_frustum_alloc(), true));
     }
     
     /**
@@ -31,7 +33,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_frustum_t.
      */
     public boolean containsPoint(Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_contains_point(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_contains_point(handle(), point.handle());
         return RESULT;
     }
     
@@ -39,7 +41,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given #graphene_frustum_t are equal.
      */
     public boolean equal(Frustum b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -47,14 +49,14 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_frustum_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_free(HANDLE());
+        gtk_h.graphene_frustum_free(handle());
     }
     
     /**
      * Retrieves the planes that define the given #graphene_frustum_t.
      */
     public void getPlanes(Plane[] planes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_get_planes(HANDLE(), Interop.allocateNativeArray(planes));
+        gtk_h.graphene_frustum_get_planes(handle(), Interop.allocateNativeArray(planes));
     }
     
     /**
@@ -62,7 +64,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * clipping planes.
      */
     public Frustum init(Plane p0, Plane p1, Plane p2, Plane p3, Plane p4, Plane p5) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init(HANDLE(), p0.HANDLE(), p1.HANDLE(), p2.HANDLE(), p3.HANDLE(), p4.HANDLE(), p5.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_init(handle(), p0.handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle(), p5.handle());
         return new Frustum(References.get(RESULT, false));
     }
     
@@ -71,7 +73,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * planes of another #graphene_frustum_t.
      */
     public Frustum initFromFrustum(Frustum src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init_from_frustum(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_init_from_frustum(handle(), src.handle());
         return new Frustum(References.get(RESULT, false));
     }
     
@@ -79,7 +81,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_frustum_t using the given @matrix.
      */
     public Frustum initFromMatrix(Matrix matrix) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init_from_matrix(HANDLE(), matrix.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_init_from_matrix(handle(), matrix.handle());
         return new Frustum(References.get(RESULT, false));
     }
     
@@ -88,7 +90,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * a #graphene_frustum_t.
      */
     public boolean intersectsBox(Box box) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_intersects_box(HANDLE(), box.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_intersects_box(handle(), box.handle());
         return RESULT;
     }
     
@@ -97,7 +99,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * a #graphene_frustum_t.
      */
     public boolean intersectsSphere(Sphere sphere) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_intersects_sphere(HANDLE(), sphere.HANDLE());
+        var RESULT = gtk_h.graphene_frustum_intersects_sphere(handle(), sphere.handle());
         return RESULT;
     }
     

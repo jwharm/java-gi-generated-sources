@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -90,14 +92,14 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * to add columns next.
      */
     public ColumnView(SelectionModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_new(model.getReference().unowned().HANDLE()), false));
+        super(References.get(gtk_h.gtk_column_view_new(model.getReference().unowned().handle()), false));
     }
     
     /**
      * Appends the @column to the end of the columns in @self.
      */
     public void appendColumn(ColumnViewColumn column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_append_column(HANDLE(), column.HANDLE());
+        gtk_h.gtk_column_view_append_column(handle(), column.handle());
     }
     
     /**
@@ -108,7 +110,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * ::items-changed signal.
      */
     public org.gtk.gio.ListModel getColumns() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_columns(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_columns(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -116,7 +118,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_enable_rubberband(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_enable_rubberband(handle());
         return (RESULT != 0);
     }
     
@@ -124,7 +126,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Gets the model that's currently used to read the items displayed.
      */
     public SelectionModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_model(handle());
         return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
@@ -132,7 +134,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Returns whether columns are reorderable.
      */
     public boolean getReorderable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_reorderable(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_reorderable(handle());
         return (RESULT != 0);
     }
     
@@ -141,7 +143,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between columns.
      */
     public boolean getShowColumnSeparators() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_show_column_separators(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_show_column_separators(handle());
         return (RESULT != 0);
     }
     
@@ -150,7 +152,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between rows.
      */
     public boolean getShowRowSeparators() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_show_row_separators(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_show_row_separators(handle());
         return (RESULT != 0);
     }
     
@@ -159,7 +161,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_single_click_activate(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_single_click_activate(handle());
         return (RESULT != 0);
     }
     
@@ -185,7 +187,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * ```
      */
     public Sorter getSorter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_sorter(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_get_sorter(handle());
         return new Sorter(References.get(RESULT, false));
     }
     
@@ -195,21 +197,21 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * If @column is already a column of @self, it will be repositioned.
      */
     public void insertColumn(int position, ColumnViewColumn column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_insert_column(HANDLE(), position, column.HANDLE());
+        gtk_h.gtk_column_view_insert_column(handle(), position, column.handle());
     }
     
     /**
      * Removes the @column from the list of columns of @self.
      */
     public void removeColumn(ColumnViewColumn column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_remove_column(HANDLE(), column.HANDLE());
+        gtk_h.gtk_column_view_remove_column(handle(), column.handle());
     }
     
     /**
      * Sets whether selections can be changed by dragging with the mouse.
      */
     public void setEnableRubberband(boolean enableRubberband) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_enable_rubberband(HANDLE(), enableRubberband ? 1 : 0);
+        gtk_h.gtk_column_view_set_enable_rubberband(handle(), enableRubberband ? 1 : 0);
     }
     
     /**
@@ -218,14 +220,14 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * This must be a [iface@Gtk.SelectionModel].
      */
     public void setModel(SelectionModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_column_view_set_model(handle(), model.handle());
     }
     
     /**
      * Sets whether columns should be reorderable by dragging.
      */
     public void setReorderable(boolean reorderable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_reorderable(HANDLE(), reorderable ? 1 : 0);
+        gtk_h.gtk_column_view_set_reorderable(handle(), reorderable ? 1 : 0);
     }
     
     /**
@@ -233,7 +235,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between columns.
      */
     public void setShowColumnSeparators(boolean showColumnSeparators) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_show_column_separators(HANDLE(), showColumnSeparators ? 1 : 0);
+        gtk_h.gtk_column_view_set_show_column_separators(handle(), showColumnSeparators ? 1 : 0);
     }
     
     /**
@@ -241,7 +243,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between rows.
      */
     public void setShowRowSeparators(boolean showRowSeparators) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_show_row_separators(HANDLE(), showRowSeparators ? 1 : 0);
+        gtk_h.gtk_column_view_set_show_row_separators(handle(), showRowSeparators ? 1 : 0);
     }
     
     /**
@@ -249,7 +251,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public void setSingleClickActivate(boolean singleClickActivate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_set_single_click_activate(HANDLE(), singleClickActivate ? 1 : 0);
+        gtk_h.gtk_column_view_set_single_click_activate(handle(), singleClickActivate ? 1 : 0);
     }
     
     /**
@@ -267,7 +269,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * If @column is %NULL, the view will be unsorted.
      */
     public void sortByColumn(ColumnViewColumn column, SortType direction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_sort_by_column(HANDLE(), column.HANDLE(), direction.getValue());
+        gtk_h.gtk_column_view_sort_by_column(handle(), column.handle(), direction.getValue());
     }
     
     @FunctionalInterface
@@ -287,12 +289,12 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColumnViewActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

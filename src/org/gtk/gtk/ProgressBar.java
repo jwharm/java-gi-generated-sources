@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +70,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Creates a new `GtkProgressBar`.
      */
     public ProgressBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_new(), false));
+        super(References.get(gtk_h.gtk_progress_bar_new(), false));
     }
     
     /**
@@ -77,7 +79,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * See [method@Gtk.ProgressBar.set_ellipsize].
      */
     public org.pango.EllipsizeMode getEllipsize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_ellipsize(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_ellipsize(handle());
         return org.pango.EllipsizeMode.fromValue(RESULT);
     }
     
@@ -85,7 +87,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Returns the current fraction of the task that’s been completed.
      */
     public double getFraction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_fraction(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_fraction(handle());
         return RESULT;
     }
     
@@ -93,7 +95,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Returns whether the progress bar is inverted.
      */
     public boolean getInverted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_inverted(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_inverted(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * See [method@Gtk.ProgressBar.set_pulse_step].
      */
     public double getPulseStep() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_pulse_step(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_pulse_step(handle());
         return RESULT;
     }
     
@@ -113,7 +115,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * See [method@Gtk.ProgressBar.set_show_text].
      */
     public boolean getShowText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_show_text(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_show_text(handle());
         return (RESULT != 0);
     }
     
@@ -124,7 +126,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * so will become invalid if you change the text in the progress bar.
      */
     public java.lang.String getText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_get_text(HANDLE());
+        var RESULT = gtk_h.gtk_progress_bar_get_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -137,7 +139,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * per pulse is determined by [method@Gtk.ProgressBar.set_pulse_step]).
      */
     public void pulse() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_pulse(HANDLE());
+        gtk_h.gtk_progress_bar_pulse(handle());
     }
     
     /**
@@ -147,7 +149,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * to render the entire string.
      */
     public void setEllipsize(org.pango.EllipsizeMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_ellipsize(HANDLE(), mode.getValue());
+        gtk_h.gtk_progress_bar_set_ellipsize(handle(), mode.getValue());
     }
     
     /**
@@ -157,7 +159,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
     public void setFraction(double fraction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_fraction(HANDLE(), fraction);
+        gtk_h.gtk_progress_bar_set_fraction(handle(), fraction);
     }
     
     /**
@@ -167,7 +169,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Inverted progress bars grow in the opposite direction.
      */
     public void setInverted(boolean inverted) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_inverted(HANDLE(), inverted ? 1 : 0);
+        gtk_h.gtk_progress_bar_set_inverted(handle(), inverted ? 1 : 0);
     }
     
     /**
@@ -178,7 +180,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * is called.
      */
     public void setPulseStep(double fraction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_pulse_step(HANDLE(), fraction);
+        gtk_h.gtk_progress_bar_set_pulse_step(handle(), fraction);
     }
     
     /**
@@ -193,7 +195,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * to %TRUE and [property@Gtk.ProgressBar:text] to the empty string (not %NULL).
      */
     public void setShowText(boolean showText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_show_text(HANDLE(), showText ? 1 : 0);
+        gtk_h.gtk_progress_bar_set_show_text(handle(), showText ? 1 : 0);
     }
     
     /**
@@ -210,7 +212,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * [property@Gtk.ProgressBar:show-text] is %TRUE.
      */
     public void setText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_progress_bar_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_progress_bar_set_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class DNDEvent extends Event {
      * Gets the `GdkDrop` object from a DND event.
      */
     public Drop getDrop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_dnd_event_get_drop(HANDLE());
+        var RESULT = gtk_h.gdk_dnd_event_get_drop(handle());
         return new Drop(References.get(RESULT, false));
     }
     

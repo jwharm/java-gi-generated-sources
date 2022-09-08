@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class Menu extends MenuModel {
      * The new menu has no items.
      */
     public Menu() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_new(), true));
+        super(References.get(gtk_h.g_menu_new(), true));
     }
     
     /**
@@ -41,7 +43,7 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void append(java.lang.String label, java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_append(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_menu_append(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -50,7 +52,7 @@ public class Menu extends MenuModel {
      * See g_menu_insert_item() for more information.
      */
     public void appendItem(MenuItem item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_append_item(HANDLE(), item.HANDLE());
+        gtk_h.g_menu_append_item(handle(), item.handle());
     }
     
     /**
@@ -59,7 +61,7 @@ public class Menu extends MenuModel {
      * more flexible alternative.
      */
     public void appendSection(java.lang.String label, MenuModel section) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_append_section(HANDLE(), Interop.allocateNativeString(label).HANDLE(), section.HANDLE());
+        gtk_h.g_menu_append_section(handle(), Interop.allocateNativeString(label).handle(), section.handle());
     }
     
     /**
@@ -68,7 +70,7 @@ public class Menu extends MenuModel {
      * more flexible alternative.
      */
     public void appendSubmenu(java.lang.String label, MenuModel submenu) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_append_submenu(HANDLE(), Interop.allocateNativeString(label).HANDLE(), submenu.HANDLE());
+        gtk_h.g_menu_append_submenu(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
     }
     
     /**
@@ -82,7 +84,7 @@ public class Menu extends MenuModel {
      * %FALSE, which has some positive performance implications.
      */
     public void freeze() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_freeze(HANDLE());
+        gtk_h.g_menu_freeze(handle());
     }
     
     /**
@@ -91,7 +93,7 @@ public class Menu extends MenuModel {
      * alternative.
      */
     public void insert(int position, java.lang.String label, java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_insert(HANDLE(), position, Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_menu_insert(handle(), position, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class Menu extends MenuModel {
      * each of these functions.
      */
     public void insertItem(int position, MenuItem item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_insert_item(HANDLE(), position, item.HANDLE());
+        gtk_h.g_menu_insert_item(handle(), position, item.handle());
     }
     
     /**
@@ -123,7 +125,7 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void insertSection(int position, java.lang.String label, MenuModel section) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_insert_section(HANDLE(), position, Interop.allocateNativeString(label).HANDLE(), section.HANDLE());
+        gtk_h.g_menu_insert_section(handle(), position, Interop.allocateNativeString(label).handle(), section.handle());
     }
     
     /**
@@ -132,7 +134,7 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void insertSubmenu(int position, java.lang.String label, MenuModel submenu) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_insert_submenu(HANDLE(), position, Interop.allocateNativeString(label).HANDLE(), submenu.HANDLE());
+        gtk_h.g_menu_insert_submenu(handle(), position, Interop.allocateNativeString(label).handle(), submenu.handle());
     }
     
     /**
@@ -141,7 +143,7 @@ public class Menu extends MenuModel {
      * flexible alternative.
      */
     public void prepend(java.lang.String label, java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_prepend(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_menu_prepend(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -150,7 +152,7 @@ public class Menu extends MenuModel {
      * See g_menu_insert_item() for more information.
      */
     public void prependItem(MenuItem item) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_prepend_item(HANDLE(), item.HANDLE());
+        gtk_h.g_menu_prepend_item(handle(), item.handle());
     }
     
     /**
@@ -159,7 +161,7 @@ public class Menu extends MenuModel {
      * a more flexible alternative.
      */
     public void prependSection(java.lang.String label, MenuModel section) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_prepend_section(HANDLE(), Interop.allocateNativeString(label).HANDLE(), section.HANDLE());
+        gtk_h.g_menu_prepend_section(handle(), Interop.allocateNativeString(label).handle(), section.handle());
     }
     
     /**
@@ -168,7 +170,7 @@ public class Menu extends MenuModel {
      * a more flexible alternative.
      */
     public void prependSubmenu(java.lang.String label, MenuModel submenu) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_prepend_submenu(HANDLE(), Interop.allocateNativeString(label).HANDLE(), submenu.HANDLE());
+        gtk_h.g_menu_prepend_submenu(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
     }
     
     /**
@@ -184,14 +186,14 @@ public class Menu extends MenuModel {
      * identity of the item itself is not preserved).
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_remove(HANDLE(), position);
+        gtk_h.g_menu_remove(handle(), position);
     }
     
     /**
      * Removes all items in the menu.
      */
     public void removeAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_remove_all(HANDLE());
+        gtk_h.g_menu_remove_all(handle());
     }
     
 }

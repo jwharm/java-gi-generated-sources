@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +42,7 @@ public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
      * ```
      */
     public java.lang.String getSampleString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_get_sample_string(HANDLE());
+        var RESULT = gtk_h.pango_language_get_sample_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -60,7 +62,7 @@ public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function uses [method@Pango.Language.get_scripts] internally.
      */
     public boolean includesScript(Script script) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_includes_script(HANDLE(), script.getValue());
+        var RESULT = gtk_h.pango_language_includes_script(handle(), script.getValue());
         return (RESULT != 0);
     }
     
@@ -73,7 +75,7 @@ public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the tag, and the character after it in the tag is '-'.
      */
     public boolean matches(java.lang.String rangeList) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_matches(HANDLE(), Interop.allocateNativeString(rangeList).HANDLE());
+        var RESULT = gtk_h.pango_language_matches(handle(), Interop.allocateNativeString(rangeList).handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns (transfer none): a string representing the language tag
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_language_to_string(HANDLE());
+        var RESULT = gtk_h.pango_language_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

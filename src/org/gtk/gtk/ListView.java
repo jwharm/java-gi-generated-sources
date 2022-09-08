@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -127,14 +129,14 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public ListView(SelectionModel model, ListItemFactory factory) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_new(model.getReference().unowned().HANDLE(), factory.getReference().unowned().HANDLE()), false));
+        super(References.get(gtk_h.gtk_list_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false));
     }
     
     /**
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_enable_rubberband(HANDLE());
+        var RESULT = gtk_h.gtk_list_view_get_enable_rubberband(handle());
         return (RESULT != 0);
     }
     
@@ -142,7 +144,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Gets the factory that's currently used to populate list items.
      */
     public ListItemFactory getFactory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_factory(HANDLE());
+        var RESULT = gtk_h.gtk_list_view_get_factory(handle());
         return new ListItemFactory(References.get(RESULT, false));
     }
     
@@ -150,7 +152,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Gets the model that's currently used to read the items displayed.
      */
     public SelectionModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_list_view_get_model(handle());
         return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
@@ -159,7 +161,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * between rows.
      */
     public boolean getShowSeparators() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_show_separators(HANDLE());
+        var RESULT = gtk_h.gtk_list_view_get_show_separators(handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_single_click_activate(HANDLE());
+        var RESULT = gtk_h.gtk_list_view_get_single_click_activate(handle());
         return (RESULT != 0);
     }
     
@@ -176,14 +178,14 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Sets whether selections can be changed by dragging with the mouse.
      */
     public void setEnableRubberband(boolean enableRubberband) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_set_enable_rubberband(HANDLE(), enableRubberband ? 1 : 0);
+        gtk_h.gtk_list_view_set_enable_rubberband(handle(), enableRubberband ? 1 : 0);
     }
     
     /**
      * Sets the `GtkListItemFactory` to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_set_factory(HANDLE(), factory.HANDLE());
+        gtk_h.gtk_list_view_set_factory(handle(), factory.handle());
     }
     
     /**
@@ -192,7 +194,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * This must be a [iface@Gtk.SelectionModel] to use.
      */
     public void setModel(SelectionModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_list_view_set_model(handle(), model.handle());
     }
     
     /**
@@ -200,7 +202,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * between rows.
      */
     public void setShowSeparators(boolean showSeparators) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_set_show_separators(HANDLE(), showSeparators ? 1 : 0);
+        gtk_h.gtk_list_view_set_show_separators(handle(), showSeparators ? 1 : 0);
     }
     
     /**
@@ -208,7 +210,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public void setSingleClickActivate(boolean singleClickActivate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_set_single_click_activate(HANDLE(), singleClickActivate ? 1 : 0);
+        gtk_h.gtk_list_view_set_single_click_activate(handle(), singleClickActivate ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -228,12 +230,12 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListViewActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

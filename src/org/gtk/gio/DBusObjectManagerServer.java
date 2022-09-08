@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -50,7 +52,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).handle()), true));
     }
     
     /**
@@ -66,7 +68,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * it is exported.
      */
     public void export(DBusObjectSkeleton object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_export(HANDLE(), object.HANDLE());
+        gtk_h.g_dbus_object_manager_server_export(handle(), object.handle());
     }
     
     /**
@@ -76,14 +78,14 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * #GDBusObjectProxy:g-object-path property of @object may be modified.
      */
     public void exportUniquely(DBusObjectSkeleton object) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_export_uniquely(HANDLE(), object.HANDLE());
+        gtk_h.g_dbus_object_manager_server_export_uniquely(handle(), object.handle());
     }
     
     /**
      * Gets the #GDBusConnection used by @manager.
      */
     public DBusConnection getConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_get_connection(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_server_get_connection(handle());
         return new DBusConnection(References.get(RESULT, true));
     }
     
@@ -91,7 +93,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * Returns whether @object is currently exported on @manager.
      */
     public boolean isExported(DBusObjectSkeleton object) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_is_exported(HANDLE(), object.HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_server_is_exported(handle(), object.handle());
         return (RESULT != 0);
     }
     
@@ -100,7 +102,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * @connection is %NULL, stops exporting objects.
      */
     public void setConnection(DBusConnection connection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_set_connection(HANDLE(), connection.HANDLE());
+        gtk_h.g_dbus_object_manager_server_set_connection(handle(), connection.handle());
     }
     
     /**
@@ -111,7 +113,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * object path for @manager.
      */
     public boolean unexport(java.lang.String objectPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_unexport(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_server_unexport(handle(), Interop.allocateNativeString(objectPath).handle());
         return (RESULT != 0);
     }
     

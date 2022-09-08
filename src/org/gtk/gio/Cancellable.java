@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,7 +34,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_new(), true));
+        super(References.get(gtk_h.g_cancellable_new(), true));
     }
     
     /**
@@ -54,7 +56,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * the application returns to the main loop.
      */
     public void cancel() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_cancel(HANDLE());
+        gtk_h.g_cancellable_cancel(handle());
     }
     
     /**
@@ -74,7 +76,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * nothing.
      */
     public void disconnect(long handlerId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_disconnect(HANDLE(), handlerId);
+        gtk_h.g_cancellable_disconnect(handle(), handlerId);
     }
     
     /**
@@ -93,7 +95,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * See also g_cancellable_make_pollfd().
      */
     public int getFd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_get_fd(HANDLE());
+        var RESULT = gtk_h.g_cancellable_get_fd(handle());
         return RESULT;
     }
     
@@ -101,7 +103,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * Checks if a cancellable job has been cancelled.
      */
     public boolean isCancelled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_is_cancelled(HANDLE());
+        var RESULT = gtk_h.g_cancellable_is_cancelled(handle());
         return (RESULT != 0);
     }
     
@@ -126,7 +128,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * with g_cancellable_reset().
      */
     public boolean makePollfd(org.gtk.glib.PollFD pollfd) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_make_pollfd(HANDLE(), pollfd.HANDLE());
+        var RESULT = gtk_h.g_cancellable_make_pollfd(handle(), pollfd.handle());
         return (RESULT != 0);
     }
     
@@ -135,7 +137,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * is on the top of the stack).
      */
     public void popCurrent() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_pop_current(HANDLE());
+        gtk_h.g_cancellable_pop_current(handle());
     }
     
     /**
@@ -149,7 +151,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * so you rarely have to call this yourself.
      */
     public void pushCurrent() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_push_current(HANDLE());
+        gtk_h.g_cancellable_push_current(handle());
     }
     
     /**
@@ -164,7 +166,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * descriptors when many #GCancellables are used at the same time.
      */
     public void releaseFd() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_release_fd(HANDLE());
+        gtk_h.g_cancellable_release_fd(handle());
     }
     
     /**
@@ -181,7 +183,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * create a fresh cancellable for further async operations.
      */
     public void reset() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_reset(HANDLE());
+        gtk_h.g_cancellable_reset(handle());
     }
     
     /**
@@ -190,7 +192,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_set_error_if_cancelled(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_cancellable_set_error_if_cancelled(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -209,7 +211,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * The new #GSource will hold a reference to the #GCancellable.
      */
     public org.gtk.glib.Source sourceNew() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_source_new(HANDLE());
+        var RESULT = gtk_h.g_cancellable_source_new(handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
@@ -275,12 +277,12 @@ public class Cancellable extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCancellableCancelled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("cancelled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("cancelled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

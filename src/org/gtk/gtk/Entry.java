@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -109,21 +111,21 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Creates a new entry.
      */
     public Entry() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_new(), false));
+        super(References.get(gtk_h.gtk_entry_new(), false));
     }
     
     /**
      * Creates a new entry with the specified text buffer.
      */
     public Entry(EntryBuffer buffer) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_new_with_buffer(buffer.HANDLE()), false));
+        super(References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false));
     }
     
     /**
      * Retrieves the value set by gtk_entry_set_activates_default().
      */
     public boolean getActivatesDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_activates_default(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_activates_default(handle());
         return (RESULT != 0);
     }
     
@@ -133,7 +135,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See also: [property@Gtk.Editable:xalign]
      */
     public float getAlignment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_alignment(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_alignment(handle());
         return RESULT;
     }
     
@@ -143,7 +145,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See [method@Gtk.Entry.set_attributes].
      */
     public org.pango.AttrList getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_attributes(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_attributes(handle());
         return new org.pango.AttrList(References.get(RESULT, false));
     }
     
@@ -152,7 +154,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * this widget.
      */
     public EntryBuffer getBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_buffer(handle());
         return new EntryBuffer(References.get(RESULT, false));
     }
     
@@ -161,7 +163,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in use by @entry.
      */
     public EntryCompletion getCompletion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_completion(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_completion(handle());
         return new EntryCompletion(References.get(RESULT, false));
     }
     
@@ -170,7 +172,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * current  DND operation, or -1.
      */
     public int getCurrentIconDragSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_current_icon_drag_source(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_current_icon_drag_source(handle());
         return RESULT;
     }
     
@@ -178,7 +180,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Gets the menu model set with gtk_entry_set_extra_menu().
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_extra_menu(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_extra_menu(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -186,7 +188,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Gets the value set by gtk_entry_set_has_frame().
      */
     public boolean getHasFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_has_frame(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_has_frame(handle());
         return (RESULT != 0);
     }
     
@@ -194,7 +196,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Returns whether the icon is activatable.
      */
     public boolean getIconActivatable(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_activatable(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_activatable(handle(), iconPos.getValue());
         return (RESULT != 0);
     }
     
@@ -210,7 +212,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * relative to @entry's allocation.
      */
     public void getIconArea(EntryIconPosition iconPos, org.gtk.gdk.Rectangle iconArea) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_area(HANDLE(), iconPos.getValue(), iconArea.HANDLE());
+        gtk_h.gtk_entry_get_icon_area(handle(), iconPos.getValue(), iconArea.handle());
     }
     
     /**
@@ -222,7 +224,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      *  [signal@Gtk.Widget::query-tooltip] signal handler.
      */
     public int getIconAtPos(int x, int y) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_at_pos(HANDLE(), x, y);
+        var RESULT = gtk_h.gtk_entry_get_icon_at_pos(handle(), x, y);
         return RESULT;
     }
     
@@ -233,7 +235,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * set by some other method (e.g., by `GdkPaintable` or icon name).
      */
     public org.gtk.gio.Icon getIconGicon(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_gicon(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_gicon(handle(), iconPos.getValue());
         return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, false));
     }
     
@@ -244,7 +246,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * by some other method (e.g., by `GdkPaintable` or gicon).
      */
     public java.lang.String getIconName(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_name(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_name(handle(), iconPos.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -254,7 +256,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If no `GdkPaintable` was used for the icon, %NULL is returned.
      */
     public org.gtk.gdk.Paintable getIconPaintable(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_paintable(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_paintable(handle(), iconPos.getValue());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
@@ -262,7 +264,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Returns whether the icon appears sensitive or insensitive.
      */
     public boolean getIconSensitive(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_sensitive(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_sensitive(handle(), iconPos.getValue());
         return (RESULT != 0);
     }
     
@@ -274,7 +276,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * be %GTK_IMAGE_EMPTY.
      */
     public ImageType getIconStorageType(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_storage_type(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_storage_type(handle(), iconPos.getValue());
         return ImageType.fromValue(RESULT);
     }
     
@@ -283,7 +285,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * position in @entry.
      */
     public java.lang.String getIconTooltipMarkup(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_tooltip_markup(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_tooltip_markup(handle(), iconPos.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -292,7 +294,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * position in @entry.
      */
     public java.lang.String getIconTooltipText(EntryIconPosition iconPos) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_icon_tooltip_text(HANDLE(), iconPos.getValue());
+        var RESULT = gtk_h.gtk_entry_get_icon_tooltip_text(handle(), iconPos.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -300,7 +302,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Gets the input hints of this `GtkEntry`.
      */
     public int getInputHints() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_input_hints(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_input_hints(handle());
         return RESULT;
     }
     
@@ -308,7 +310,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Gets the input purpose of the `GtkEntry`.
      */
     public InputPurpose getInputPurpose() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_input_purpose(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_input_purpose(handle());
         return InputPurpose.fromValue(RESULT);
     }
     
@@ -317,7 +319,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in “password mode”.
      */
     public int getInvisibleChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_invisible_char(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_invisible_char(handle());
         return RESULT;
     }
     
@@ -327,7 +329,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See [method@Gtk.Entry.set_max_length].
      */
     public int getMaxLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_max_length(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_max_length(handle());
         return RESULT;
     }
     
@@ -335,7 +337,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Gets whether the `GtkEntry` is in overwrite mode.
      */
     public boolean getOverwriteMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_overwrite_mode(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_overwrite_mode(handle());
         return (RESULT != 0);
     }
     
@@ -344,7 +346,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * is empty and unfocused
      */
     public java.lang.String getPlaceholderText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_placeholder_text(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_placeholder_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -354,7 +356,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See [method@Gtk.Entry.set_progress_fraction].
      */
     public double getProgressFraction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_progress_fraction(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_progress_fraction(handle());
         return RESULT;
     }
     
@@ -363,7 +365,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * gtk_entry_set_progress_pulse_step().
      */
     public double getProgressPulseStep() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_progress_pulse_step(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_progress_pulse_step(handle());
         return RESULT;
     }
     
@@ -373,7 +375,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See [method@Gtk.Entry.set_tabs].
      */
     public org.pango.TabArray getTabs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_tabs(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_tabs(handle());
         return new org.pango.TabArray(References.get(RESULT, false));
     }
     
@@ -384,7 +386,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * and calling [method@Gtk.EntryBuffer.get_length] on it.
      */
     public short getTextLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_text_length(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_text_length(handle());
         return RESULT;
     }
     
@@ -394,7 +396,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See [method@Gtk.Entry.set_visibility].
      */
     public boolean getVisibility() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_get_visibility(HANDLE());
+        var RESULT = gtk_h.gtk_entry_get_visibility(handle());
         return (RESULT != 0);
     }
     
@@ -407,7 +409,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in, such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_grab_focus_without_selecting(HANDLE());
+        var RESULT = gtk_h.gtk_entry_grab_focus_without_selecting(handle());
         return (RESULT != 0);
     }
     
@@ -422,7 +424,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * by [method@Gtk.Entry.set_progress_pulse_step]).
      */
     public void progressPulse() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_progress_pulse(HANDLE());
+        gtk_h.gtk_entry_progress_pulse(handle());
     }
     
     /**
@@ -432,7 +434,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * would confuse on-going input method behavior.
      */
     public void resetImContext() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_reset_im_context(HANDLE());
+        gtk_h.gtk_entry_reset_im_context(handle());
     }
     
     /**
@@ -443,7 +445,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * since the default widget is usually one of the dialog buttons.
      */
     public void setActivatesDefault(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_activates_default(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_entry_set_activates_default(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -455,7 +457,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * See also: [property@Gtk.Editable:xalign]
      */
     public void setAlignment(float xalign) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_alignment(HANDLE(), xalign);
+        gtk_h.gtk_entry_set_alignment(handle(), xalign);
     }
     
     /**
@@ -468,7 +470,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * with unlimited extent.
      */
     public void setAttributes(org.pango.AttrList attrs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_attributes(HANDLE(), attrs.HANDLE());
+        gtk_h.gtk_entry_set_attributes(handle(), attrs.handle());
     }
     
     /**
@@ -476,7 +478,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_buffer(HANDLE(), buffer.HANDLE());
+        gtk_h.gtk_entry_set_buffer(handle(), buffer.handle());
     }
     
     /**
@@ -488,7 +490,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Completion is disabled if @completion is set to %NULL.
      */
     public void setCompletion(EntryCompletion completion) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_completion(HANDLE(), completion.HANDLE());
+        gtk_h.gtk_entry_set_completion(handle(), completion.handle());
     }
     
     /**
@@ -496,21 +498,21 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * the context menu for @entry.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_extra_menu(HANDLE(), model.HANDLE());
+        gtk_h.gtk_entry_set_extra_menu(handle(), model.handle());
     }
     
     /**
      * Sets whether the entry has a beveled frame around it.
      */
     public void setHasFrame(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_has_frame(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_entry_set_has_frame(handle(), setting ? 1 : 0);
     }
     
     /**
      * Sets whether the icon is activatable.
      */
     public void setIconActivatable(EntryIconPosition iconPos, boolean activatable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_activatable(HANDLE(), iconPos.getValue(), activatable ? 1 : 0);
+        gtk_h.gtk_entry_set_icon_activatable(handle(), iconPos.getValue(), activatable ? 1 : 0);
     }
     
     /**
@@ -520,7 +522,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * operation when the user clicks and drags the icon.
      */
     public void setIconDragSource(EntryIconPosition iconPos, org.gtk.gdk.ContentProvider provider, int actions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_drag_source(HANDLE(), iconPos.getValue(), provider.HANDLE(), actions);
+        gtk_h.gtk_entry_set_icon_drag_source(handle(), iconPos.getValue(), provider.handle(), actions);
     }
     
     /**
@@ -534,7 +536,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * specified position.
      */
     public void setIconFromGicon(EntryIconPosition iconPos, org.gtk.gio.Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_from_gicon(HANDLE(), iconPos.getValue(), icon.HANDLE());
+        gtk_h.gtk_entry_set_icon_from_gicon(handle(), iconPos.getValue(), icon.handle());
     }
     
     /**
@@ -548,7 +550,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * specified position.
      */
     public void setIconFromIconName(EntryIconPosition iconPos, java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_from_icon_name(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_entry_set_icon_from_icon_name(handle(), iconPos.getValue(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -557,14 +559,14 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If @paintable is %NULL, no icon will be shown in the specified position.
      */
     public void setIconFromPaintable(EntryIconPosition iconPos, org.gtk.gdk.Paintable paintable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_from_paintable(HANDLE(), iconPos.getValue(), paintable.HANDLE());
+        gtk_h.gtk_entry_set_icon_from_paintable(handle(), iconPos.getValue(), paintable.handle());
     }
     
     /**
      * Sets the sensitivity for the specified icon.
      */
     public void setIconSensitive(EntryIconPosition iconPos, boolean sensitive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_sensitive(HANDLE(), iconPos.getValue(), sensitive ? 1 : 0);
+        gtk_h.gtk_entry_set_icon_sensitive(handle(), iconPos.getValue(), sensitive ? 1 : 0);
     }
     
     /**
@@ -579,7 +581,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * [method@Gtk.Entry.set_icon_tooltip_text].
      */
     public void setIconTooltipMarkup(EntryIconPosition iconPos, java.lang.String tooltip) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_markup(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(tooltip).HANDLE());
+        gtk_h.gtk_entry_set_icon_tooltip_markup(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
     }
     
     /**
@@ -602,7 +604,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * achieves the same result.
      */
     public void setIconTooltipText(EntryIconPosition iconPos, java.lang.String tooltip) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_icon_tooltip_text(HANDLE(), iconPos.getValue(), Interop.allocateNativeString(tooltip).HANDLE());
+        gtk_h.gtk_entry_set_icon_tooltip_text(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
     }
     
     /**
@@ -610,7 +612,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * fine-tune their behavior.
      */
     public void setInputHints(int hints) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_input_hints(HANDLE(), hints);
+        gtk_h.gtk_entry_set_input_hints(handle(), hints);
     }
     
     /**
@@ -618,7 +620,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * to adjust their behavior.
      */
     public void setInputPurpose(InputPurpose purpose) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_input_purpose(HANDLE(), purpose.getValue());
+        gtk_h.gtk_entry_set_input_purpose(handle(), purpose.getValue());
     }
     
     /**
@@ -634,7 +636,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * on the screen as they type.
      */
     public void setInvisibleChar(int ch) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_invisible_char(HANDLE(), ch);
+        gtk_h.gtk_entry_set_invisible_char(handle(), ch);
     }
     
     /**
@@ -647,14 +649,14 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * calling [method@Gtk.EntryBuffer.set_max_length] on it.
      */
     public void setMaxLength(int max) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_max_length(HANDLE(), max);
+        gtk_h.gtk_entry_set_max_length(handle(), max);
     }
     
     /**
      * Sets whether the text is overwritten when typing in the `GtkEntry`.
      */
     public void setOverwriteMode(boolean overwrite) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_overwrite_mode(HANDLE(), overwrite ? 1 : 0);
+        gtk_h.gtk_entry_set_overwrite_mode(handle(), overwrite ? 1 : 0);
     }
     
     /**
@@ -664,7 +666,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * contents of the `GtkEntry`.
      */
     public void setPlaceholderText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_placeholder_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_entry_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -674,7 +676,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
     public void setProgressFraction(double fraction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_progress_fraction(HANDLE(), fraction);
+        gtk_h.gtk_entry_set_progress_fraction(handle(), fraction);
     }
     
     /**
@@ -685,7 +687,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * the progress.
      */
     public void setProgressPulseStep(double fraction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_progress_pulse_step(HANDLE(), fraction);
+        gtk_h.gtk_entry_set_progress_pulse_step(handle(), fraction);
     }
     
     /**
@@ -694,7 +696,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * The tabstops in the array are applied to the entry text.
      */
     public void setTabs(org.pango.TabArray tabs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_tabs(HANDLE(), tabs.HANDLE());
+        gtk_h.gtk_entry_set_tabs(handle(), tabs.handle());
     }
     
     /**
@@ -714,7 +716,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * in addition to setting visibility to %FALSE.
      */
     public void setVisibility(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_set_visibility(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_entry_set_visibility(handle(), visible ? 1 : 0);
     }
     
     /**
@@ -722,7 +724,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * is used again. See [method@Gtk.Entry.set_invisible_char].
      */
     public void unsetInvisibleChar() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_unset_invisible_char(HANDLE());
+        gtk_h.gtk_entry_unset_invisible_char(handle());
     }
     
     @FunctionalInterface
@@ -739,12 +741,12 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -762,12 +764,12 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconPress", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("icon-press").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("icon-press").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -786,12 +788,12 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconRelease", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("icon-release").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("icon-release").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

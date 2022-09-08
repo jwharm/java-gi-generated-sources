@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -120,7 +122,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate(HANDLE(), stdinBuf.HANDLE(), cancellable.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -132,7 +134,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate_finish(HANDLE(), result.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -148,7 +150,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate_utf8(HANDLE(), Interop.allocateNativeString(stdinBuf).HANDLE(), cancellable.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_utf8(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -160,7 +162,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_communicate_utf8_finish(HANDLE(), result.HANDLE(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
+        var RESULT = gtk_h.g_subprocess_communicate_utf8_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf), Interop.allocateNativeArray(stderrBuf), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -177,7 +179,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * On Unix, this function sends %SIGKILL.
      */
     public void forceExit() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_force_exit(HANDLE());
+        gtk_h.g_subprocess_force_exit(handle());
     }
     
     /**
@@ -191,7 +193,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * unless g_subprocess_get_if_exited() returned %TRUE.
      */
     public int getExitStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_exit_status(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_exit_status(handle());
         return RESULT;
     }
     
@@ -201,7 +203,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * If the subprocess has terminated, this will return %NULL.
      */
     public java.lang.String getIdentifier() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_identifier(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_identifier(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -215,7 +217,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getIfExited() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_if_exited(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_if_exited(handle());
         return (RESULT != 0);
     }
     
@@ -228,7 +230,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getIfSignaled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_if_signaled(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_if_signaled(handle());
         return (RESULT != 0);
     }
     
@@ -246,7 +248,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public int getStatus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_status(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_status(handle());
         return RESULT;
     }
     
@@ -258,7 +260,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * otherwise %NULL will be returned.
      */
     public InputStream getStderrPipe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stderr_pipe(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_stderr_pipe(handle());
         return new InputStream(References.get(RESULT, false));
     }
     
@@ -270,7 +272,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * not %G_SUBPROCESS_FLAGS_STDIN_INHERIT, otherwise %NULL will be returned.
      */
     public OutputStream getStdinPipe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdin_pipe(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_stdin_pipe(handle());
         return new OutputStream(References.get(RESULT, false));
     }
     
@@ -282,7 +284,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * otherwise %NULL will be returned.
      */
     public InputStream getStdoutPipe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdout_pipe(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_stdout_pipe(handle());
         return new InputStream(References.get(RESULT, false));
     }
     
@@ -295,7 +297,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * returned.
      */
     public boolean getSuccessful() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_successful(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_successful(handle());
         return (RESULT != 0);
     }
     
@@ -309,7 +311,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * unless g_subprocess_get_if_signaled() returned %TRUE.
      */
     public int getTermSig() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_term_sig(HANDLE());
+        var RESULT = gtk_h.g_subprocess_get_term_sig(handle());
         return RESULT;
     }
     
@@ -323,7 +325,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This API is not available on Windows.
      */
     public void sendSignal(int signalNum) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_send_signal(HANDLE(), signalNum);
+        gtk_h.g_subprocess_send_signal(handle(), signalNum);
     }
     
     /**
@@ -341,7 +343,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_wait(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_subprocess_wait(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -353,7 +355,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_wait_check(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_subprocess_wait_check(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -366,7 +368,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean waitCheckFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_wait_check_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_subprocess_wait_check_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -379,7 +381,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public boolean waitFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_wait_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_subprocess_wait_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

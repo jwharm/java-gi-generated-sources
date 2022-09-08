@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +46,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * ```
      */
     public ColumnViewColumn(java.lang.String title, ListItemFactory factory) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).HANDLE(), factory.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).handle(), factory.getReference().unowned().handle()), true));
     }
     
     /**
@@ -53,7 +55,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * If @self has not been added to a column view yet, %NULL is returned.
      */
     public ColumnView getColumnView() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_column_view(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_column_view(handle());
         return new ColumnView(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Returns whether this column should expand.
      */
     public boolean getExpand() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_expand(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_expand(handle());
         return (RESULT != 0);
     }
     
@@ -70,7 +72,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * this column.
      */
     public ListItemFactory getFactory() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_factory(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_factory(handle());
         return new ListItemFactory(References.get(RESULT, false));
     }
     
@@ -78,7 +80,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Gets the fixed width of the column.
      */
     public int getFixedWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_fixed_width(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_fixed_width(handle());
         return RESULT;
     }
     
@@ -87,7 +89,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * for the column header.
      */
     public org.gtk.gio.MenuModel getHeaderMenu() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_header_menu(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_header_menu(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -95,7 +97,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Returns whether this column is resizable.
      */
     public boolean getResizable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_resizable(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_resizable(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Returns the sorter that is associated with the column.
      */
     public Sorter getSorter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_sorter(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_sorter(handle());
         return new Sorter(References.get(RESULT, false));
     }
     
@@ -111,7 +113,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Returns the title set with gtk_column_view_column_set_title().
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -119,7 +121,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Returns whether this column is visible.
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_column_view_column_get_visible(handle());
         return (RESULT != 0);
     }
     
@@ -130,7 +132,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * have the expand set to %TRUE.
      */
     public void setExpand(boolean expand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_expand(HANDLE(), expand ? 1 : 0);
+        gtk_h.gtk_column_view_column_set_expand(handle(), expand ? 1 : 0);
     }
     
     /**
@@ -138,7 +140,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * column.
      */
     public void setFactory(ListItemFactory factory) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_factory(HANDLE(), factory.HANDLE());
+        gtk_h.gtk_column_view_column_set_factory(handle(), factory.handle());
     }
     
     /**
@@ -149,7 +151,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * width. Interactive resizing also sets the “fixed-width” property.
      */
     public void setFixedWidth(int fixedWidth) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_fixed_width(HANDLE(), fixedWidth);
+        gtk_h.gtk_column_view_column_set_fixed_width(handle(), fixedWidth);
     }
     
     /**
@@ -157,14 +159,14 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * for the column header.
      */
     public void setHeaderMenu(org.gtk.gio.MenuModel menu) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_header_menu(HANDLE(), menu.HANDLE());
+        gtk_h.gtk_column_view_column_set_header_menu(handle(), menu.handle());
     }
     
     /**
      * Sets whether this column should be resizable by dragging.
      */
     public void setResizable(boolean resizable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_resizable(HANDLE(), resizable ? 1 : 0);
+        gtk_h.gtk_column_view_column_set_resizable(handle(), resizable ? 1 : 0);
     }
     
     /**
@@ -180,7 +182,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * for setting up customizable sorting for [class@Gtk.ColumnView].
      */
     public void setSorter(Sorter sorter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_sorter(HANDLE(), sorter.HANDLE());
+        gtk_h.gtk_column_view_column_set_sorter(handle(), sorter.handle());
     }
     
     /**
@@ -191,14 +193,14 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * be translated.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_column_view_column_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
      * Sets whether this column should be visible in views.
      */
     public void setVisible(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_set_visible(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_column_view_column_set_visible(handle(), visible ? 1 : 0);
     }
     
 }

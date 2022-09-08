@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -48,7 +50,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * If the @parameter GVariant is floating, it is consumed.
      */
     public default void activate(org.gtk.glib.Variant parameter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_activate(HANDLE(), parameter.HANDLE());
+        gtk_h.g_action_activate(handle(), parameter.handle());
     }
     
     /**
@@ -64,7 +66,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * If the @value GVariant is floating, it is consumed.
      */
     public default void changeState(org.gtk.glib.Variant value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_change_state(HANDLE(), value.HANDLE());
+        gtk_h.g_action_change_state(handle(), value.handle());
     }
     
     /**
@@ -74,7 +76,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * have its state changed from outside callers.
      */
     public default boolean getEnabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_enabled(HANDLE());
+        var RESULT = gtk_h.g_action_get_enabled(handle());
         return (RESULT != 0);
     }
     
@@ -82,7 +84,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * Queries the name of @action.
      */
     public default java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_name(HANDLE());
+        var RESULT = gtk_h.g_action_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -97,7 +99,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * #GVariant, but %NULL instead.
      */
     public default org.gtk.glib.VariantType getParameterType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_parameter_type(HANDLE());
+        var RESULT = gtk_h.g_action_get_parameter_type(handle());
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     
@@ -112,7 +114,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getState() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state(HANDLE());
+        var RESULT = gtk_h.g_action_get_state(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -137,7 +139,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getStateHint() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state_hint(HANDLE());
+        var RESULT = gtk_h.g_action_get_state_hint(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -156,7 +158,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * will return %NULL and you must not call g_action_change_state().
      */
     public default org.gtk.glib.VariantType getStateType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_action_get_state_type(HANDLE());
+        var RESULT = gtk_h.g_action_get_state_type(handle());
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     

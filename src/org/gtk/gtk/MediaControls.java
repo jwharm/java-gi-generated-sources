@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,14 +29,14 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkMediaControls` managing the @stream passed to it.
      */
     public MediaControls(MediaStream stream) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_new(stream.HANDLE()), false));
+        super(References.get(gtk_h.gtk_media_controls_new(stream.handle()), false));
     }
     
     /**
      * Gets the media stream managed by @controls or %NULL if none.
      */
     public MediaStream getMediaStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_get_media_stream(HANDLE());
+        var RESULT = gtk_h.gtk_media_controls_get_media_stream(handle());
         return new MediaStream(References.get(RESULT, false));
     }
     
@@ -42,7 +44,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      * Sets the stream that is controlled by @controls.
      */
     public void setMediaStream(MediaStream stream) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_set_media_stream(HANDLE(), stream.HANDLE());
+        gtk_h.gtk_media_controls_set_media_stream(handle(), stream.handle());
     }
     
 }

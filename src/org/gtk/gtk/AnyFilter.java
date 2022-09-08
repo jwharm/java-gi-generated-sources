@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Bui
      * has been added to it, the filter matches no item.
      */
     public AnyFilter() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_any_filter_new(), true));
+        super(References.get(gtk_h.gtk_any_filter_new(), true));
     }
     
 }

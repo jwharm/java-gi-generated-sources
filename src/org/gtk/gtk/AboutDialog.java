@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -69,21 +71,21 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Creates a new `GtkAboutDialog`.
      */
     public AboutDialog() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_new(), false));
+        super(References.get(gtk_h.gtk_about_dialog_new(), false));
     }
     
     /**
      * Creates a new section in the "Credits" page.
      */
     public void addCreditSection(java.lang.String sectionName, java.lang.String[] people) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_add_credit_section(HANDLE(), Interop.allocateNativeString(sectionName).HANDLE(), Interop.allocateNativeArray(people));
+        gtk_h.gtk_about_dialog_add_credit_section(handle(), Interop.allocateNativeString(sectionName).handle(), Interop.allocateNativeArray(people));
     }
     
     /**
      * Returns the comments string.
      */
     public java.lang.String getComments() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_comments(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_comments(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -91,7 +93,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the copyright string.
      */
     public java.lang.String getCopyright() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_copyright(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_copyright(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -99,7 +101,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the license information.
      */
     public java.lang.String getLicense() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_license(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_license(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -107,7 +109,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Retrieves the license type.
      */
     public License getLicenseType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_license_type(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_license_type(handle());
         return License.fromValue(RESULT);
     }
     
@@ -115,7 +117,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the paintable displayed as logo in the about dialog.
      */
     public org.gtk.gdk.Paintable getLogo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_logo(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_logo(handle());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
@@ -123,7 +125,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the icon name displayed as logo in the about dialog.
      */
     public java.lang.String getLogoIconName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_logo_icon_name(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_logo_icon_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -131,7 +133,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the program name displayed in the about dialog.
      */
     public java.lang.String getProgramName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_program_name(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_program_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -139,7 +141,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the system information that is shown in the about dialog.
      */
     public java.lang.String getSystemInformation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_system_information(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_system_information(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -148,7 +150,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the credits page.
      */
     public java.lang.String getTranslatorCredits() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_translator_credits(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_translator_credits(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -156,7 +158,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the version string.
      */
     public java.lang.String getVersion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_version(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_version(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -164,7 +166,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the website URL.
      */
     public java.lang.String getWebsite() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_website(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_website(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -172,7 +174,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Returns the label used for the website link.
      */
     public java.lang.String getWebsiteLabel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_website_label(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_website_label(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -181,7 +183,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * automatically wrapped.
      */
     public boolean getWrapLicense() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_wrap_license(HANDLE());
+        var RESULT = gtk_h.gtk_about_dialog_get_wrap_license(handle());
         return (RESULT != 0);
     }
     
@@ -190,7 +192,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page.
      */
     public void setArtists(java.lang.String[] artists) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_artists(HANDLE(), Interop.allocateNativeArray(artists));
+        gtk_h.gtk_about_dialog_set_artists(handle(), Interop.allocateNativeArray(artists));
     }
     
     /**
@@ -198,7 +200,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page of the about dialog.
      */
     public void setAuthors(java.lang.String[] authors) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_authors(HANDLE(), Interop.allocateNativeArray(authors));
+        gtk_h.gtk_about_dialog_set_authors(handle(), Interop.allocateNativeArray(authors));
     }
     
     /**
@@ -207,7 +209,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * This should be a short string of one or two lines.
      */
     public void setComments(java.lang.String comments) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_comments(HANDLE(), Interop.allocateNativeString(comments).HANDLE());
+        gtk_h.gtk_about_dialog_set_comments(handle(), Interop.allocateNativeString(comments).handle());
     }
     
     /**
@@ -216,7 +218,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * This should be a short string of one or two lines.
      */
     public void setCopyright(java.lang.String copyright) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_copyright(HANDLE(), Interop.allocateNativeString(copyright).HANDLE());
+        gtk_h.gtk_about_dialog_set_copyright(handle(), Interop.allocateNativeString(copyright).handle());
     }
     
     /**
@@ -224,7 +226,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * in the "Credits" page.
      */
     public void setDocumenters(java.lang.String[] documenters) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_documenters(HANDLE(), Interop.allocateNativeArray(documenters));
+        gtk_h.gtk_about_dialog_set_documenters(handle(), Interop.allocateNativeArray(documenters));
     }
     
     /**
@@ -234,7 +236,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * If `license` is `NULL`, the license page is hidden.
      */
     public void setLicense(java.lang.String license) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_license(HANDLE(), Interop.allocateNativeString(license).HANDLE());
+        gtk_h.gtk_about_dialog_set_license(handle(), Interop.allocateNativeString(license).handle());
     }
     
     /**
@@ -245,21 +247,21 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * [method@Gtk.AboutDialog.set_license].
      */
     public void setLicenseType(License licenseType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_license_type(HANDLE(), licenseType.getValue());
+        gtk_h.gtk_about_dialog_set_license_type(handle(), licenseType.getValue());
     }
     
     /**
      * Sets the logo in the about dialog.
      */
     public void setLogo(org.gtk.gdk.Paintable logo) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_logo(HANDLE(), logo.HANDLE());
+        gtk_h.gtk_about_dialog_set_logo(handle(), logo.handle());
     }
     
     /**
      * Sets the icon name to be displayed as logo in the about dialog.
      */
     public void setLogoIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_logo_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_about_dialog_set_logo_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -269,7 +271,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * by `g_get_application_name()` is used.
      */
     public void setProgramName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_program_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_about_dialog_set_program_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -282,7 +284,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * See [property@Gtk.AboutDialog:system-information].
      */
     public void setSystemInformation(java.lang.String systemInformation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_system_information(HANDLE(), Interop.allocateNativeString(systemInformation).HANDLE());
+        gtk_h.gtk_about_dialog_set_system_information(handle(), Interop.allocateNativeString(systemInformation).handle());
     }
     
     /**
@@ -306,28 +308,28 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * is untranslated and omit translator credits.
      */
     public void setTranslatorCredits(java.lang.String translatorCredits) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_translator_credits(HANDLE(), Interop.allocateNativeString(translatorCredits).HANDLE());
+        gtk_h.gtk_about_dialog_set_translator_credits(handle(), Interop.allocateNativeString(translatorCredits).handle());
     }
     
     /**
      * Sets the version string to display in the about dialog.
      */
     public void setVersion(java.lang.String version) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_version(HANDLE(), Interop.allocateNativeString(version).HANDLE());
+        gtk_h.gtk_about_dialog_set_version(handle(), Interop.allocateNativeString(version).handle());
     }
     
     /**
      * Sets the URL to use for the website link.
      */
     public void setWebsite(java.lang.String website) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_website(HANDLE(), Interop.allocateNativeString(website).HANDLE());
+        gtk_h.gtk_about_dialog_set_website(handle(), Interop.allocateNativeString(website).handle());
     }
     
     /**
      * Sets the label to be used for the website link.
      */
     public void setWebsiteLabel(java.lang.String websiteLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_website_label(HANDLE(), Interop.allocateNativeString(websiteLabel).HANDLE());
+        gtk_h.gtk_about_dialog_set_website_label(handle(), Interop.allocateNativeString(websiteLabel).handle());
     }
     
     /**
@@ -335,7 +337,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * automatically wrapped.
      */
     public void setWrapLicense(boolean wrapLicense) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_set_wrap_license(HANDLE(), wrapLicense ? 1 : 0);
+        gtk_h.gtk_about_dialog_set_wrap_license(handle(), wrapLicense ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -353,12 +355,12 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAboutDialogActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-link").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

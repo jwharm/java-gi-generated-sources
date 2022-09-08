@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * Creates a new #GInetSocketAddress for @address and @port.
      */
     public InetSocketAddress(InetAddress address, short port) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new(address.HANDLE(), port), true));
+        super(References.get(gtk_h.g_inet_socket_address_new(address.handle(), port), true));
     }
     
     /**
@@ -34,14 +36,14 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * (separated from the address by a `%`).
      */
     public InetSocketAddress(java.lang.String address, int port) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).HANDLE(), port), true));
+        super(References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true));
     }
     
     /**
      * Gets @address's #GInetAddress.
      */
     public InetAddress getAddress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_get_address(HANDLE());
+        var RESULT = gtk_h.g_inet_socket_address_get_address(handle());
         return new InetAddress(References.get(RESULT, false));
     }
     
@@ -50,7 +52,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * which must be an IPv6 address.
      */
     public int getFlowinfo() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_get_flowinfo(HANDLE());
+        var RESULT = gtk_h.g_inet_socket_address_get_flowinfo(handle());
         return RESULT;
     }
     
@@ -58,7 +60,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * Gets @address's port.
      */
     public short getPort() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_get_port(HANDLE());
+        var RESULT = gtk_h.g_inet_socket_address_get_port(handle());
         return RESULT;
     }
     
@@ -67,7 +69,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * which must be an IPv6 address.
      */
     public int getScopeId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_socket_address_get_scope_id(HANDLE());
+        var RESULT = gtk_h.g_inet_socket_address_get_scope_id(handle());
         return RESULT;
     }
     

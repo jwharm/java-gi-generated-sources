@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -40,7 +42,7 @@ public class Context extends org.gtk.gobject.Object {
      * `gtk_widget_get_pango_context()`. Use those instead.
      */
     public Context() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_new(), true));
+        super(References.get(gtk_h.pango_context_new(), true));
     }
     
     /**
@@ -53,7 +55,7 @@ public class Context extends org.gtk.gobject.Object {
      * and such data is changed.
      */
     public void changed() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_changed(HANDLE());
+        gtk_h.pango_context_changed(handle());
     }
     
     /**
@@ -62,7 +64,7 @@ public class Context extends org.gtk.gobject.Object {
      * See [method@Pango.Context.set_base_dir].
      */
     public Direction getBaseDir() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_base_dir(HANDLE());
+        var RESULT = gtk_h.pango_context_get_base_dir(handle());
         return Direction.fromValue(RESULT);
     }
     
@@ -72,7 +74,7 @@ public class Context extends org.gtk.gobject.Object {
      * See [method@Pango.Context.set_base_gravity].
      */
     public Gravity getBaseGravity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_base_gravity(HANDLE());
+        var RESULT = gtk_h.pango_context_get_base_gravity(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -80,7 +82,7 @@ public class Context extends org.gtk.gobject.Object {
      * Retrieve the default font description for the context.
      */
     public FontDescription getFontDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_font_description(HANDLE());
+        var RESULT = gtk_h.pango_context_get_font_description(handle());
         return new FontDescription(References.get(RESULT, false));
     }
     
@@ -88,7 +90,7 @@ public class Context extends org.gtk.gobject.Object {
      * Gets the `PangoFontMap` used to look up fonts for this context.
      */
     public FontMap getFontMap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_font_map(HANDLE());
+        var RESULT = gtk_h.pango_context_get_font_map(handle());
         return new FontMap(References.get(RESULT, false));
     }
     
@@ -101,7 +103,7 @@ public class Context extends org.gtk.gobject.Object {
      * gravity from the current context matrix.
      */
     public Gravity getGravity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_gravity(HANDLE());
+        var RESULT = gtk_h.pango_context_get_gravity(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -111,7 +113,7 @@ public class Context extends org.gtk.gobject.Object {
      * See [method@Pango.Context.set_gravity_hint] for details.
      */
     public GravityHint getGravityHint() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_gravity_hint(HANDLE());
+        var RESULT = gtk_h.pango_context_get_gravity_hint(handle());
         return GravityHint.fromValue(RESULT);
     }
     
@@ -119,7 +121,7 @@ public class Context extends org.gtk.gobject.Object {
      * Retrieves the global language tag for the context.
      */
     public Language getLanguage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_language(HANDLE());
+        var RESULT = gtk_h.pango_context_get_language(handle());
         return new Language(References.get(RESULT, true));
     }
     
@@ -130,7 +132,7 @@ public class Context extends org.gtk.gobject.Object {
      * See [method@Pango.Context.set_matrix].
      */
     public Matrix getMatrix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_matrix(HANDLE());
+        var RESULT = gtk_h.pango_context_get_matrix(handle());
         return new Matrix(References.get(RESULT, false));
     }
     
@@ -148,7 +150,7 @@ public class Context extends org.gtk.gobject.Object {
      * for the individual families.
      */
     public FontMetrics getMetrics(FontDescription desc, Language language) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_metrics(HANDLE(), desc.HANDLE(), language.HANDLE());
+        var RESULT = gtk_h.pango_context_get_metrics(handle(), desc.handle(), language.handle());
         return new FontMetrics(References.get(RESULT, true));
     }
     
@@ -157,7 +159,7 @@ public class Context extends org.gtk.gobject.Object {
      * round glyph positions and widths.
      */
     public boolean getRoundGlyphPositions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_round_glyph_positions(HANDLE());
+        var RESULT = gtk_h.pango_context_get_round_glyph_positions(handle());
         return (RESULT != 0);
     }
     
@@ -176,7 +178,7 @@ public class Context extends org.gtk.gobject.Object {
      * `PangoContext` changes, like `PangoLayout`.
      */
     public int getSerial() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_get_serial(HANDLE());
+        var RESULT = gtk_h.pango_context_get_serial(handle());
         return RESULT;
     }
     
@@ -185,7 +187,7 @@ public class Context extends org.gtk.gobject.Object {
      * that is the closest match for @desc.
      */
     public Font loadFont(FontDescription desc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_load_font(HANDLE(), desc.HANDLE());
+        var RESULT = gtk_h.pango_context_load_font(handle(), desc.handle());
         return new Font(References.get(RESULT, true));
     }
     
@@ -194,7 +196,7 @@ public class Context extends org.gtk.gobject.Object {
      * a font matching @desc.
      */
     public Fontset loadFontset(FontDescription desc, Language language) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_load_fontset(HANDLE(), desc.HANDLE(), language.HANDLE());
+        var RESULT = gtk_h.pango_context_load_fontset(handle(), desc.handle(), language.handle());
         return new Fontset(References.get(RESULT, true));
     }
     
@@ -209,7 +211,7 @@ public class Context extends org.gtk.gobject.Object {
      * for paragraphs that do not contain any strong characters themselves.
      */
     public void setBaseDir(Direction direction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_base_dir(HANDLE(), direction.getValue());
+        gtk_h.pango_context_set_base_dir(handle(), direction.getValue());
     }
     
     /**
@@ -218,14 +220,14 @@ public class Context extends org.gtk.gobject.Object {
      * The base gravity is used in laying vertical text out.
      */
     public void setBaseGravity(Gravity gravity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_base_gravity(HANDLE(), gravity.getValue());
+        gtk_h.pango_context_set_base_gravity(handle(), gravity.getValue());
     }
     
     /**
      * Set the default font description for the context
      */
     public void setFontDescription(FontDescription desc) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_font_description(HANDLE(), desc.HANDLE());
+        gtk_h.pango_context_set_font_description(handle(), desc.handle());
     }
     
     /**
@@ -237,7 +239,7 @@ public class Context extends org.gtk.gobject.Object {
      * suitable font map.
      */
     public void setFontMap(FontMap fontMap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_font_map(HANDLE(), fontMap.HANDLE());
+        gtk_h.pango_context_set_font_map(handle(), fontMap.handle());
     }
     
     /**
@@ -249,7 +251,7 @@ public class Context extends org.gtk.gobject.Object {
      * or %PANGO_GRAVITY_WEST.
      */
     public void setGravityHint(GravityHint hint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_gravity_hint(HANDLE(), hint.getValue());
+        gtk_h.pango_context_set_gravity_hint(handle(), hint.getValue());
     }
     
     /**
@@ -259,7 +261,7 @@ public class Context extends org.gtk.gobject.Object {
      * can be found using [func@Pango.Language.get_default].
      */
     public void setLanguage(Language language) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_language(HANDLE(), language.HANDLE());
+        gtk_h.pango_context_set_language(handle(), language.handle());
     }
     
     /**
@@ -273,7 +275,7 @@ public class Context extends org.gtk.gobject.Object {
      * text is fit to the pixel grid.
      */
     public void setMatrix(Matrix matrix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_matrix(HANDLE(), matrix.HANDLE());
+        gtk_h.pango_context_set_matrix(handle(), matrix.handle());
     }
     
     /**
@@ -288,7 +290,7 @@ public class Context extends org.gtk.gobject.Object {
      * compatible with previous Pango behavior.
      */
     public void setRoundGlyphPositions(boolean roundPositions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_context_set_round_glyph_positions(HANDLE(), roundPositions ? 1 : 0);
+        gtk_h.pango_context_set_round_glyph_positions(handle(), roundPositions ? 1 : 0);
     }
     
 }

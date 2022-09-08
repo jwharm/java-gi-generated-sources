@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -97,14 +99,14 @@ public class DropTarget extends EventController {
      * [method@Gtk.DropTarget.set_gtypes].
      */
     public DropTarget(Type type, int actions) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_new(type.getValue(), actions), true));
+        super(References.get(gtk_h.gtk_drop_target_new(type.getValue(), actions), true));
     }
     
     /**
      * Gets the actions that this drop target supports.
      */
     public int getActions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_actions(HANDLE());
+        var RESULT = gtk_h.gtk_drop_target_get_actions(handle());
         return RESULT;
     }
     
@@ -114,7 +116,7 @@ public class DropTarget extends EventController {
      * If no drop operation is going on, %NULL is returned.
      */
     public org.gtk.gdk.Drop getCurrentDrop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_current_drop(HANDLE());
+        var RESULT = gtk_h.gtk_drop_target_get_current_drop(handle());
         return new org.gtk.gdk.Drop(References.get(RESULT, false));
     }
     
@@ -124,7 +126,7 @@ public class DropTarget extends EventController {
      * If the result is %NULL, all formats are expected to be supported.
      */
     public org.gtk.gdk.ContentFormats getFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_formats(HANDLE());
+        var RESULT = gtk_h.gtk_drop_target_get_formats(handle());
         return new org.gtk.gdk.ContentFormats(References.get(RESULT, false));
     }
     
@@ -132,7 +134,7 @@ public class DropTarget extends EventController {
      * Gets whether data should be preloaded on hover.
      */
     public boolean getPreload() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_preload(HANDLE());
+        var RESULT = gtk_h.gtk_drop_target_get_preload(handle());
         return (RESULT != 0);
     }
     
@@ -140,7 +142,7 @@ public class DropTarget extends EventController {
      * Gets the current drop data, as a `GValue`.
      */
     public org.gtk.gobject.Value getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_drop_target_get_value(handle());
         return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
@@ -155,28 +157,28 @@ public class DropTarget extends EventController {
      * the data.
      */
     public void reject() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_reject(HANDLE());
+        gtk_h.gtk_drop_target_reject(handle());
     }
     
     /**
      * Sets the actions that this drop target supports.
      */
     public void setActions(int actions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_set_actions(HANDLE(), actions);
+        gtk_h.gtk_drop_target_set_actions(handle(), actions);
     }
     
     /**
      * Sets the supported `GTypes` for this drop target.
      */
     public void setGtypes(org.gtk.gobject.Type[] types, long nTypes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_set_gtypes(HANDLE(), Interop.allocateNativeArray(types), nTypes);
+        gtk_h.gtk_drop_target_set_gtypes(handle(), Interop.allocateNativeArray(types), nTypes);
     }
     
     /**
      * Sets whether data should be preloaded on hover.
      */
     public void setPreload(boolean preload) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_set_preload(HANDLE(), preload ? 1 : 0);
+        gtk_h.gtk_drop_target_set_preload(handle(), preload ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -206,12 +208,12 @@ public class DropTarget extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropTargetAccept", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("accept").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("accept").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -237,12 +239,12 @@ public class DropTarget extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropTargetDrop", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("drop").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("drop").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -262,12 +264,12 @@ public class DropTarget extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropTargetEnter", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("enter").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("enter").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -288,12 +290,12 @@ public class DropTarget extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropTargetLeave", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("leave").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("leave").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -311,12 +313,12 @@ public class DropTarget extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDropTargetMotion", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("motion").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("motion").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new selection to handle @model.
      */
     public SingleSelection(org.gtk.gio.ListModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_new(model.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_single_selection_new(model.getReference().unowned().handle()), true));
     }
     
     /**
@@ -37,7 +39,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * gtk_single_selection_set_autoselect().
      */
     public boolean getAutoselect() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_autoselect(HANDLE());
+        var RESULT = gtk_h.gtk_single_selection_get_autoselect(handle());
         return (RESULT != 0);
     }
     
@@ -46,7 +48,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * unselecting the selected item.
      */
     public boolean getCanUnselect() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_can_unselect(HANDLE());
+        var RESULT = gtk_h.gtk_single_selection_get_can_unselect(handle());
         return (RESULT != 0);
     }
     
@@ -54,7 +56,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * Gets the model that @self is wrapping.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_single_selection_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -64,7 +66,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * If no item is selected, %GTK_INVALID_LIST_POSITION is returned.
      */
     public int getSelected() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_selected(HANDLE());
+        var RESULT = gtk_h.gtk_single_selection_get_selected(handle());
         return RESULT;
     }
     
@@ -74,7 +76,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * If no item is selected, %NULL is returned.
      */
     public org.gtk.gobject.Object getSelectedItem() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_selected_item(HANDLE());
+        var RESULT = gtk_h.gtk_single_selection_get_selected_item(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
@@ -86,7 +88,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * item is deleted and it will disallow unselecting the current item.
      */
     public void setAutoselect(boolean autoselect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_set_autoselect(HANDLE(), autoselect ? 1 : 0);
+        gtk_h.gtk_single_selection_set_autoselect(handle(), autoselect ? 1 : 0);
     }
     
     /**
@@ -98,7 +100,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * to set both at the same time the same time.
      */
     public void setCanUnselect(boolean canUnselect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_set_can_unselect(HANDLE(), canUnselect ? 1 : 0);
+        gtk_h.gtk_single_selection_set_can_unselect(handle(), canUnselect ? 1 : 0);
     }
     
     /**
@@ -107,7 +109,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * If @model is %NULL, @self will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_single_selection_set_model(handle(), model.handle());
     }
     
     /**
@@ -121,7 +123,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * will be selected.
      */
     public void setSelected(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_set_selected(HANDLE(), position);
+        gtk_h.gtk_single_selection_set_selected(handle(), position);
     }
     
 }

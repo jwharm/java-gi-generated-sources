@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -127,7 +129,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * In this context "attribute" and "property" are used interchangeably.
      */
     public default void addAttribute(CellRenderer cell, java.lang.String attribute, int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_add_attribute(HANDLE(), cell.HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), column);
+        gtk_h.gtk_cell_layout_add_attribute(handle(), cell.handle(), Interop.allocateNativeString(attribute).handle(), column);
     }
     
     /**
@@ -135,7 +137,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * removes all renderers from @cell_layout.
      */
     public default void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_clear(HANDLE());
+        gtk_h.gtk_cell_layout_clear(handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * gtk_cell_layout_set_attributes().
      */
     public default void clearAttributes(CellRenderer cell) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_clear_attributes(HANDLE(), cell.HANDLE());
+        gtk_h.gtk_cell_layout_clear_attributes(handle(), cell.handle());
     }
     
     /**
@@ -152,7 +154,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * is used by @cell_layout.
      */
     public default CellArea getArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_get_area(HANDLE());
+        var RESULT = gtk_h.gtk_cell_layout_get_area(handle());
         return new CellArea(References.get(RESULT, false));
     }
     
@@ -160,7 +162,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * Returns the cell renderers which have been added to @cell_layout.
      */
     public default org.gtk.glib.List getCells() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_get_cells(HANDLE());
+        var RESULT = gtk_h.gtk_cell_layout_get_cells(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -172,7 +174,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * Note that reusing the same cell renderer is not supported.
      */
     public default void packEnd(CellRenderer cell, boolean expand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_pack_end(HANDLE(), cell.HANDLE(), expand ? 1 : 0);
+        gtk_h.gtk_cell_layout_pack_end(handle(), cell.handle(), expand ? 1 : 0);
     }
     
     /**
@@ -183,7 +185,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * Note that reusing the same cell renderer is not supported.
      */
     public default void packStart(CellRenderer cell, boolean expand) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_pack_start(HANDLE(), cell.HANDLE(), expand ? 1 : 0);
+        gtk_h.gtk_cell_layout_pack_start(handle(), cell.handle(), expand ? 1 : 0);
     }
     
     /**
@@ -193,7 +195,7 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * for this to function properly.
      */
     public default void reorder(CellRenderer cell, int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_layout_reorder(HANDLE(), cell.HANDLE(), position);
+        gtk_h.gtk_cell_layout_reorder(handle(), cell.handle(), position);
     }
     
     class CellLayoutImpl extends org.gtk.gobject.Object implements CellLayout {

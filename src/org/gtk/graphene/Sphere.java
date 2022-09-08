@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,7 +22,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the newly allocated structure are undefined.
      */
     public Sphere() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_alloc(), true));
+        super(References.get(gtk_h.graphene_sphere_alloc(), true));
     }
     
     /**
@@ -28,7 +30,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * of a #graphene_sphere_t.
      */
     public boolean containsPoint(Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_contains_point(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_sphere_contains_point(handle(), point.handle());
         return RESULT;
     }
     
@@ -37,7 +39,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * a #graphene_sphere_t.
      */
     public float distance(Point3D point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_distance(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.graphene_sphere_distance(handle(), point.handle());
         return RESULT;
     }
     
@@ -45,7 +47,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether two #graphene_sphere_t are equal.
      */
     public boolean equal(Sphere b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_sphere_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -53,7 +55,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_sphere_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_free(HANDLE());
+        gtk_h.graphene_sphere_free(handle());
     }
     
     /**
@@ -61,21 +63,21 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * given #graphene_sphere_t.
      */
     public void getBoundingBox(Box box) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_get_bounding_box(HANDLE(), box.HANDLE());
+        gtk_h.graphene_sphere_get_bounding_box(handle(), box.handle());
     }
     
     /**
      * Retrieves the coordinates of the center of a #graphene_sphere_t.
      */
     public void getCenter(Point3D center) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_get_center(HANDLE(), center.HANDLE());
+        gtk_h.graphene_sphere_get_center(handle(), center.handle());
     }
     
     /**
      * Retrieves the radius of a #graphene_sphere_t.
      */
     public float getRadius() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_get_radius(HANDLE());
+        var RESULT = gtk_h.graphene_sphere_get_radius(handle());
         return RESULT;
     }
     
@@ -83,7 +85,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes the given #graphene_sphere_t with the given @center and @radius.
      */
     public Sphere init(Point3D center, float radius) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init(HANDLE(), center.HANDLE(), radius);
+        var RESULT = gtk_h.graphene_sphere_init(handle(), center.handle(), radius);
         return new Sphere(References.get(RESULT, false));
     }
     
@@ -95,7 +97,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the 3D volume that encompasses all @points.
      */
     public Sphere initFromPoints(int nPoints, Point3D[] points, Point3D center) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init_from_points(HANDLE(), nPoints, Interop.allocateNativeArray(points), center.HANDLE());
+        var RESULT = gtk_h.graphene_sphere_init_from_points(handle(), nPoints, Interop.allocateNativeArray(points), center.handle());
         return new Sphere(References.get(RESULT, false));
     }
     
@@ -107,7 +109,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the 3D volume that encompasses all @vectors.
      */
     public Sphere initFromVectors(int nVectors, Vec3[] vectors, Point3D center) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init_from_vectors(HANDLE(), nVectors, Interop.allocateNativeArray(vectors), center.HANDLE());
+        var RESULT = gtk_h.graphene_sphere_init_from_vectors(handle(), nVectors, Interop.allocateNativeArray(vectors), center.handle());
         return new Sphere(References.get(RESULT, false));
     }
     
@@ -115,7 +117,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the sphere has a zero radius.
      */
     public boolean isEmpty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_is_empty(HANDLE());
+        var RESULT = gtk_h.graphene_sphere_is_empty(handle());
         return RESULT;
     }
     
@@ -124,7 +126,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * coordinates as the delta of the translation.
      */
     public void translate(Point3D point, Sphere res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_translate(HANDLE(), point.HANDLE(), res.HANDLE());
+        gtk_h.graphene_sphere_translate(handle(), point.handle(), res.handle());
     }
     
 }

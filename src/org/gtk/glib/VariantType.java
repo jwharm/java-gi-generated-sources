@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -169,7 +171,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * string.  Use g_variant_type_string_is_valid() if you are unsure.
      */
     public VariantType(java.lang.String typeString) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).HANDLE()), true));
+        super(References.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true));
     }
     
     /**
@@ -179,7 +181,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newArray(VariantType element) {
-        return new VariantType(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_array(element.HANDLE()), true));
+        return new VariantType(References.get(gtk_h.g_variant_type_new_array(element.handle()), true));
     }
     
     /**
@@ -189,7 +191,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public VariantType(VariantType key, VariantType value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_dict_entry(key.HANDLE(), value.HANDLE()), true));
+        super(References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true));
     }
     
     /**
@@ -199,7 +201,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newMaybe(VariantType element) {
-        return new VariantType(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_maybe(element.HANDLE()), true));
+        return new VariantType(References.get(gtk_h.g_variant_type_new_maybe(element.handle()), true));
     }
     
     /**
@@ -211,7 +213,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public VariantType(VariantType[] items, int length) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items), length), true));
+        super(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items), length), true));
     }
     
     /**
@@ -219,7 +221,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_type_free() on the return value.  @type may not be %NULL.
      */
     public VariantType copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_copy(HANDLE());
+        var RESULT = gtk_h.g_variant_type_copy(handle());
         return new VariantType(References.get(RESULT, true));
     }
     
@@ -229,7 +231,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * call g_free() on the return value.
      */
     public java.lang.String dupString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_dup_string(HANDLE());
+        var RESULT = gtk_h.g_variant_type_dup_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -239,7 +241,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function may only be used with array or maybe types.
      */
     public VariantType element() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_element(HANDLE());
+        var RESULT = gtk_h.g_variant_type_element(handle());
         return new VariantType(References.get(RESULT, false));
     }
     
@@ -256,7 +258,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * both arguments, a valid #GVariantType must be provided.
      */
     public boolean equal(VariantType type2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_equal(HANDLE(), type2.HANDLE());
+        var RESULT = gtk_h.g_variant_type_equal(handle(), type2.handle());
         return (RESULT != 0);
     }
     
@@ -277,7 +279,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * interface over tuple and dictionary entry types.
      */
     public VariantType first() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_first(HANDLE());
+        var RESULT = gtk_h.g_variant_type_first(handle());
         return new VariantType(References.get(RESULT, false));
     }
     
@@ -291,7 +293,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.24
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_free(HANDLE());
+        gtk_h.g_variant_type_free(handle());
     }
     
     /**
@@ -300,7 +302,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * the memory region returned by g_variant_type_peek_string().
      */
     public long getStringLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_get_string_length(HANDLE());
+        var RESULT = gtk_h.g_variant_type_get_string_length(handle());
         return RESULT;
     }
     
@@ -312,7 +314,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * #GVariantType must be provided.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_hash(HANDLE());
+        var RESULT = gtk_h.g_variant_type_hash(handle());
         return RESULT;
     }
     
@@ -325,7 +327,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * example.
      */
     public boolean isArray() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_array(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_array(handle());
         return (RESULT != 0);
     }
     
@@ -341,7 +343,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * %G_VARIANT_TYPE_BASIC.
      */
     public boolean isBasic() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_basic(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_basic(handle());
         return (RESULT != 0);
     }
     
@@ -356,7 +358,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * example.
      */
     public boolean isContainer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_container(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_container(handle());
         return (RESULT != 0);
     }
     
@@ -373,7 +375,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * %FALSE being returned.
      */
     public boolean isDefinite() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_definite(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_definite(handle());
         return (RESULT != 0);
     }
     
@@ -386,7 +388,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * %G_VARIANT_TYPE_DICT_ENTRY, for example.
      */
     public boolean isDictEntry() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_dict_entry(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_dict_entry(handle());
         return (RESULT != 0);
     }
     
@@ -399,7 +401,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * example.
      */
     public boolean isMaybe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_maybe(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_maybe(handle());
         return (RESULT != 0);
     }
     
@@ -411,7 +413,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * only indefinite types can have subtypes.
      */
     public boolean isSubtypeOf(VariantType supertype) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_subtype_of(HANDLE(), supertype.HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_subtype_of(handle(), supertype.handle());
         return (RESULT != 0);
     }
     
@@ -425,7 +427,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * example.
      */
     public boolean isTuple() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_tuple(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_tuple(handle());
         return (RESULT != 0);
     }
     
@@ -433,7 +435,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * Determines if the given @type is the variant type.
      */
     public boolean isVariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_is_variant(HANDLE());
+        var RESULT = gtk_h.g_variant_type_is_variant(handle());
         return (RESULT != 0);
     }
     
@@ -445,7 +447,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_type_first().
      */
     public VariantType key() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_key(HANDLE());
+        var RESULT = gtk_h.g_variant_type_key(handle());
         return new VariantType(References.get(RESULT, false));
     }
     
@@ -461,7 +463,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * return 2.
      */
     public long nItems() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_n_items(HANDLE());
+        var RESULT = gtk_h.g_variant_type_n_items(handle());
         return RESULT;
     }
     
@@ -479,7 +481,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * For tuples, %NULL is returned when @type is the last item in a tuple.
      */
     public VariantType next() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_next(HANDLE());
+        var RESULT = gtk_h.g_variant_type_next(handle());
         return new VariantType(References.get(RESULT, false));
     }
     
@@ -491,7 +493,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * To get a nul-terminated string, see g_variant_type_dup_string().
      */
     public java.lang.String peekString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_peek_string(HANDLE());
+        var RESULT = gtk_h.g_variant_type_peek_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -501,7 +503,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function may only be used with a dictionary entry type.
      */
     public VariantType value() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_type_value(HANDLE());
+        var RESULT = gtk_h.g_variant_type_value(handle());
         return new VariantType(References.get(RESULT, false));
     }
     

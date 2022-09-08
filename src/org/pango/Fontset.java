@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * glyph for a Unicode character.
      */
     public Font getFont(int wc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_get_font(HANDLE(), wc);
+        var RESULT = gtk_h.pango_fontset_get_font(handle(), wc);
         return new Font(References.get(RESULT, true));
     }
     
@@ -37,7 +39,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * Get overall metric information for the fonts in the fontset.
      */
     public FontMetrics getMetrics() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_get_metrics(HANDLE());
+        var RESULT = gtk_h.pango_fontset_get_metrics(handle());
         return new FontMetrics(References.get(RESULT, true));
     }
     

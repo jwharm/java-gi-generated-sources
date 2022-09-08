@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * the key with the given @keyval and @modifiers is pressed.
      */
     public KeyvalTrigger(int keyval, int modifiers) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
+        super(References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
     }
     
     /**
@@ -32,7 +34,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * triggering @self.
      */
     public int getKeyval() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_get_keyval(HANDLE());
+        var RESULT = gtk_h.gtk_keyval_trigger_get_keyval(handle());
         return RESULT;
     }
     
@@ -41,7 +43,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * triggering @self.
      */
     public int getModifiers() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_get_modifiers(HANDLE());
+        var RESULT = gtk_h.gtk_keyval_trigger_get_modifiers(handle());
         return RESULT;
     }
     

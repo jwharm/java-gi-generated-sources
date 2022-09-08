@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,7 +36,7 @@ public class CellRendererToggle extends CellRenderer {
      * the model.
      */
     public CellRendererToggle() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_new(), false));
+        super(References.get(gtk_h.gtk_cell_renderer_toggle_new(), false));
     }
     
     /**
@@ -42,7 +44,7 @@ public class CellRendererToggle extends CellRenderer {
      * gtk_cell_renderer_toggle_set_activatable().
      */
     public boolean getActivatable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_get_activatable(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_activatable(handle());
         return (RESULT != 0);
     }
     
@@ -51,7 +53,7 @@ public class CellRendererToggle extends CellRenderer {
      * gtk_cell_renderer_toggle_set_active().
      */
     public boolean getActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_get_active(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_active(handle());
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class CellRendererToggle extends CellRenderer {
      * Returns whether we’re rendering radio toggles rather than checkboxes.
      */
     public boolean getRadio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_get_radio(HANDLE());
+        var RESULT = gtk_h.gtk_cell_renderer_toggle_get_radio(handle());
         return (RESULT != 0);
     }
     
@@ -67,14 +69,14 @@ public class CellRendererToggle extends CellRenderer {
      * Makes the cell renderer activatable.
      */
     public void setActivatable(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_set_activatable(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_cell_renderer_toggle_set_activatable(handle(), setting ? 1 : 0);
     }
     
     /**
      * Activates or deactivates a cell renderer.
      */
     public void setActive(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_set_active(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_cell_renderer_toggle_set_active(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -87,7 +89,7 @@ public class CellRendererToggle extends CellRenderer {
      * columns with cell renderer properties).
      */
     public void setRadio(boolean radio) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_set_radio(HANDLE(), radio ? 1 : 0);
+        gtk_h.gtk_cell_renderer_toggle_set_radio(handle(), radio ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -106,12 +108,12 @@ public class CellRendererToggle extends CellRenderer {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererToggleToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggled").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

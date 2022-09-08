@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class GrabBrokenEvent extends Event {
      * Extracts the grab surface from a grab broken event.
      */
     public Surface getGrabSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_grab_broken_event_get_grab_surface(HANDLE());
+        var RESULT = gtk_h.gdk_grab_broken_event_get_grab_surface(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -31,7 +33,7 @@ public class GrabBrokenEvent extends Event {
      * Checks whether the grab broken event is for an implicit grab.
      */
     public boolean getImplicit() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_grab_broken_event_get_implicit(HANDLE());
+        var RESULT = gtk_h.gdk_grab_broken_event_get_implicit(handle());
         return (RESULT != 0);
     }
     

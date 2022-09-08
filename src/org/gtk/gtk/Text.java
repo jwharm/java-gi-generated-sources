@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -84,14 +86,14 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Creates a new `GtkText`.
      */
     public Text() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new(), false));
+        super(References.get(gtk_h.gtk_text_new(), false));
     }
     
     /**
      * Creates a new `GtkText` with the specified text buffer.
      */
     public Text(EntryBuffer buffer) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new_with_buffer(buffer.HANDLE()), false));
+        super(References.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false));
     }
     
     /**
@@ -107,7 +109,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * The rectangle positions are in widget coordinates.
      */
     public void computeCursorExtents(long position, org.gtk.graphene.Rect strong, org.gtk.graphene.Rect weak) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_compute_cursor_extents(HANDLE(), position, strong.HANDLE(), weak.HANDLE());
+        gtk_h.gtk_text_compute_cursor_extents(handle(), position, strong.handle(), weak.handle());
     }
     
     /**
@@ -117,7 +119,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Text.set_activates_default].
      */
     public boolean getActivatesDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_activates_default(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_activates_default(handle());
         return (RESULT != 0);
     }
     
@@ -127,7 +129,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Text.set_attributes].
      */
     public org.pango.AttrList getAttributes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_attributes(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_attributes(handle());
         return new org.pango.AttrList(References.get(RESULT, false));
     }
     
@@ -136,7 +138,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * this widget.
      */
     public EntryBuffer getBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_buffer(handle());
         return new EntryBuffer(References.get(RESULT, false));
     }
     
@@ -145,7 +147,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * `GtkText` widget.
      */
     public boolean getEnableEmojiCompletion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_enable_emoji_completion(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_enable_emoji_completion(handle());
         return (RESULT != 0);
     }
     
@@ -155,7 +157,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Text.set_extra_menu].
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_extra_menu(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_extra_menu(handle());
         return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
@@ -163,7 +165,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Gets the input hints of the `GtkText`.
      */
     public int getInputHints() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_input_hints(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_input_hints(handle());
         return RESULT;
     }
     
@@ -171,7 +173,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Gets the input purpose of the `GtkText`.
      */
     public InputPurpose getInputPurpose() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_input_purpose(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_input_purpose(handle());
         return InputPurpose.fromValue(RESULT);
     }
     
@@ -183,7 +185,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * it has been explicitly set with [method@Gtk.Text.set_invisible_char].
      */
     public int getInvisibleChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_invisible_char(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_invisible_char(handle());
         return RESULT;
     }
     
@@ -196,7 +198,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * calling [method@Gtk.EntryBuffer.get_max_length] on it.
      */
     public int getMaxLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_max_length(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_max_length(handle());
         return RESULT;
     }
     
@@ -206,7 +208,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Text.set_overwrite_mode].
      */
     public boolean getOverwriteMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_overwrite_mode(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_overwrite_mode(handle());
         return (RESULT != 0);
     }
     
@@ -217,7 +219,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * If no placeholder text has been set, %NULL will be returned.
      */
     public java.lang.String getPlaceholderText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_placeholder_text(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_placeholder_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -226,7 +228,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * with the content.
      */
     public boolean getPropagateTextWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_propagate_text_width(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_propagate_text_width(handle());
         return (RESULT != 0);
     }
     
@@ -236,7 +238,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * See [method@Gtk.Text.set_tabs].
      */
     public org.pango.TabArray getTabs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_tabs(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_tabs(handle());
         return new org.pango.TabArray(References.get(RESULT, false));
     }
     
@@ -247,7 +249,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * and calling [method@Gtk.EntryBuffer.get_length] on it.
      */
     public short getTextLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_text_length(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_text_length(handle());
         return RESULT;
     }
     
@@ -256,7 +258,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * that is pasted into the widget
      */
     public boolean getTruncateMultiline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_truncate_multiline(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_truncate_multiline(handle());
         return (RESULT != 0);
     }
     
@@ -264,7 +266,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Retrieves whether the text in @self is visible.
      */
     public boolean getVisibility() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_visibility(HANDLE());
+        var RESULT = gtk_h.gtk_text_get_visibility(handle());
         return (RESULT != 0);
     }
     
@@ -278,7 +280,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_grab_focus_without_selecting(HANDLE());
+        var RESULT = gtk_h.gtk_text_grab_focus_without_selecting(handle());
         return (RESULT != 0);
     }
     
@@ -291,14 +293,14 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * the dialog buttons.
      */
     public void setActivatesDefault(boolean activates) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_activates_default(HANDLE(), activates ? 1 : 0);
+        gtk_h.gtk_text_set_activates_default(handle(), activates ? 1 : 0);
     }
     
     /**
      * Sets attributes that are applied to the text.
      */
     public void setAttributes(org.pango.AttrList attrs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_attributes(HANDLE(), attrs.HANDLE());
+        gtk_h.gtk_text_set_attributes(handle(), attrs.handle());
     }
     
     /**
@@ -306,7 +308,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_buffer(HANDLE(), buffer.HANDLE());
+        gtk_h.gtk_text_set_buffer(handle(), buffer.handle());
     }
     
     /**
@@ -317,7 +319,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * keyword.
      */
     public void setEnableEmojiCompletion(boolean enableEmojiCompletion) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_enable_emoji_completion(HANDLE(), enableEmojiCompletion ? 1 : 0);
+        gtk_h.gtk_text_set_enable_emoji_completion(handle(), enableEmojiCompletion ? 1 : 0);
     }
     
     /**
@@ -325,7 +327,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * the context menu for @self.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_extra_menu(HANDLE(), model.HANDLE());
+        gtk_h.gtk_text_set_extra_menu(handle(), model.handle());
     }
     
     /**
@@ -333,7 +335,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * to fine-tune their behaviour.
      */
     public void setInputHints(int hints) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_input_hints(HANDLE(), hints);
+        gtk_h.gtk_text_set_input_hints(handle(), hints);
     }
     
     /**
@@ -343,7 +345,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * input methods to adjust their behaviour.
      */
     public void setInputPurpose(InputPurpose purpose) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_input_purpose(HANDLE(), purpose.getValue());
+        gtk_h.gtk_text_set_input_purpose(handle(), purpose.getValue());
     }
     
     /**
@@ -355,7 +357,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * as they type.
      */
     public void setInvisibleChar(int ch) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_invisible_char(HANDLE(), ch);
+        gtk_h.gtk_text_set_invisible_char(handle(), ch);
     }
     
     /**
@@ -368,7 +370,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * calling [method@Gtk.EntryBuffer.set_max_length] on it.
      */
     public void setMaxLength(int length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_max_length(HANDLE(), length);
+        gtk_h.gtk_text_set_max_length(handle(), length);
     }
     
     /**
@@ -376,7 +378,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * in the `GtkText`.
      */
     public void setOverwriteMode(boolean overwrite) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_overwrite_mode(HANDLE(), overwrite ? 1 : 0);
+        gtk_h.gtk_text_set_overwrite_mode(handle(), overwrite ? 1 : 0);
     }
     
     /**
@@ -386,21 +388,21 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * contents of the `GtkText`.
      */
     public void setPlaceholderText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_placeholder_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_text_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
      * Sets whether the `GtkText` should grow and shrink with the content.
      */
     public void setPropagateTextWidth(boolean propagateTextWidth) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_propagate_text_width(HANDLE(), propagateTextWidth ? 1 : 0);
+        gtk_h.gtk_text_set_propagate_text_width(handle(), propagateTextWidth ? 1 : 0);
     }
     
     /**
      * Sets tabstops that are applied to the text.
      */
     public void setTabs(org.pango.TabArray tabs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_tabs(HANDLE(), tabs.HANDLE());
+        gtk_h.gtk_text_set_tabs(handle(), tabs.handle());
     }
     
     /**
@@ -408,7 +410,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * that is pasted into the widget.
      */
     public void setTruncateMultiline(boolean truncateMultiline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_truncate_multiline(HANDLE(), truncateMultiline ? 1 : 0);
+        gtk_h.gtk_text_set_truncate_multiline(handle(), truncateMultiline ? 1 : 0);
     }
     
     /**
@@ -428,7 +430,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * in addition to setting visibility to %FALSE.
      */
     public void setVisibility(boolean visible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_set_visibility(HANDLE(), visible ? 1 : 0);
+        gtk_h.gtk_text_set_visibility(handle(), visible ? 1 : 0);
     }
     
     /**
@@ -438,7 +440,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * char is used again.
      */
     public void unsetInvisibleChar() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_unset_invisible_char(HANDLE());
+        gtk_h.gtk_text_unset_invisible_char(handle());
     }
     
     @FunctionalInterface
@@ -456,12 +458,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -484,12 +486,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBackspace", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("backspace").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("backspace").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -513,12 +515,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextCopyClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("copy-clipboard").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("copy-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -542,12 +544,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextCutClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("cut-clipboard").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("cut-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -575,12 +577,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextDeleteFromCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("delete-from-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("delete-from-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -603,12 +605,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextInsertAtCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-at-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("insert-at-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -632,12 +634,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextInsertEmoji", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("insert-emoji").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("insert-emoji").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -674,12 +676,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -702,12 +704,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextPasteClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("paste-clipboard").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("paste-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -729,12 +731,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextPreeditChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("preedit-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("preedit-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -756,12 +758,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextToggleOverwrite", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggle-overwrite").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggle-overwrite").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -72,14 +74,14 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * Creates a new `GtkWindowControls`.
      */
     public WindowControls(PackType side) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_new(side.getValue()), false));
+        super(References.get(gtk_h.gtk_window_controls_new(side.getValue()), false));
     }
     
     /**
      * Gets the decoration layout of this `GtkWindowControls`.
      */
     public java.lang.String getDecorationLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_get_decoration_layout(HANDLE());
+        var RESULT = gtk_h.gtk_window_controls_get_decoration_layout(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -87,7 +89,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * Gets whether the widget has any window buttons.
      */
     public boolean getEmpty() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_get_empty(HANDLE());
+        var RESULT = gtk_h.gtk_window_controls_get_empty(handle());
         return (RESULT != 0);
     }
     
@@ -95,7 +97,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * Gets the side to which this `GtkWindowControls` instance belongs.
      */
     public PackType getSide() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_get_side(HANDLE());
+        var RESULT = gtk_h.gtk_window_controls_get_side(handle());
         return PackType.fromValue(RESULT);
     }
     
@@ -117,7 +119,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * will display the part before the colon, otherwise after that.
      */
     public void setDecorationLayout(java.lang.String layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_set_decoration_layout(HANDLE(), Interop.allocateNativeString(layout).HANDLE());
+        gtk_h.gtk_window_controls_set_decoration_layout(handle(), Interop.allocateNativeString(layout).handle());
     }
     
     /**
@@ -126,7 +128,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * See [property@Gtk.WindowControls:decoration-layout].
      */
     public void setSide(PackType side) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_set_side(HANDLE(), side.getValue());
+        gtk_h.gtk_window_controls_set_side(handle(), side.getValue());
     }
     
 }

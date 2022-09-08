@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -273,21 +275,21 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public Variant(VariantType childType, Variant[] children, long nChildren) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_array(childType.HANDLE(), Interop.allocateNativeArray(children), nChildren), false));
+        super(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children), nChildren), false));
     }
     
     /**
      * Creates a new boolean #GVariant instance -- either %TRUE or %FALSE.
      */
     public Variant(boolean value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_boolean(value ? 1 : 0), false));
+        super(References.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false));
     }
     
     /**
      * Creates a new byte #GVariant instance.
      */
     public Variant(byte value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_byte(value), false));
+        super(References.get(gtk_h.g_variant_new_byte(value), false));
     }
     
     /**
@@ -299,7 +301,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the array.
      */
     public Variant(byte[] string) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_bytestring(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)), false));
+        super(References.get(gtk_h.g_variant_new_bytestring(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)), false));
     }
     
     /**
@@ -309,7 +311,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv), length), false));
     }
     
     /**
@@ -320,14 +322,14 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public Variant(Variant key, Variant value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_dict_entry(key.HANDLE(), value.HANDLE()), false));
+        super(References.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false));
     }
     
     /**
      * Creates a new double #GVariant instance.
      */
     public Variant(double value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_double(value), false));
+        super(References.get(gtk_h.g_variant_new_double(value), false));
     }
     
     /**
@@ -346,7 +348,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * @n_elements must be the length of the @elements array.
      */
     public Variant(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_fixed_array(elementType.HANDLE(), elements, nElements, elementSize), false));
+        super(References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false));
     }
     
     /**
@@ -361,7 +363,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * GLib 2.60) or (in older versions) fail and exit the process.
      */
     public Variant(VariantType type, Bytes bytes, boolean trusted) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_from_bytes(type.HANDLE(), bytes.HANDLE(), trusted ? 1 : 0), false));
+        super(References.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false));
     }
     
     /**
@@ -372,28 +374,28 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * with D-Bus, you probably don't need them.
      */
     public static Variant newHandle(int value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_handle(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_handle(value), false));
     }
     
     /**
      * Creates a new int16 #GVariant instance.
      */
     public static Variant newInt16(short value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_int16(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_int16(value), false));
     }
     
     /**
      * Creates a new int32 #GVariant instance.
      */
     public static Variant newInt32(int value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_int32(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_int32(value), false));
     }
     
     /**
      * Creates a new int64 #GVariant instance.
      */
     public static Variant newInt64(long value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_int64(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_int64(value), false));
     }
     
     /**
@@ -409,7 +411,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * instance takes ownership of @child.
      */
     public Variant(VariantType childType, Variant child) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_maybe(childType.HANDLE(), child.HANDLE()), false));
+        super(References.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false));
     }
     
     /**
@@ -418,7 +420,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_object_path() if you're not sure.
      */
     public static Variant newObjectPath(java.lang.String objectPath) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).HANDLE()), false));
+        return new Variant(References.get(gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).handle()), false));
     }
     
     /**
@@ -431,7 +433,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newObjv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv), length), false));
     }
     
     /**
@@ -458,7 +460,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public Variant(java.lang.String format, VaList app) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).HANDLE(), app), true));
+        super(References.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true));
     }
     
     /**
@@ -467,7 +469,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_signature() if you're not sure.
      */
     public static Variant newSignature(java.lang.String signature) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).HANDLE()), false));
+        return new Variant(References.get(gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).handle()), false));
     }
     
     /**
@@ -478,7 +480,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [format string][gvariant-format-strings-maybe-types].
      */
     public static Variant newString(java.lang.String string) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_string(Interop.allocateNativeString(string).HANDLE()), false));
+        return new Variant(References.get(gtk_h.g_variant_new_string(Interop.allocateNativeString(string).handle()), false));
     }
     
     /**
@@ -488,7 +490,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newStrv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv), length), false));
+        return new Variant(References.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv), length), false));
     }
     
     /**
@@ -505,7 +507,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed.
      */
     public static Variant newTakeString(java.lang.String string) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).HANDLE()), false));
+        return new Variant(References.get(gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).handle()), false));
     }
     
     /**
@@ -519,28 +521,28 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newTuple(Variant[] children, long nChildren) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children), nChildren), false));
+        return new Variant(References.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children), nChildren), false));
     }
     
     /**
      * Creates a new uint16 #GVariant instance.
      */
     public static Variant newUint16(short value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_uint16(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_uint16(value), false));
     }
     
     /**
      * Creates a new uint32 #GVariant instance.
      */
     public static Variant newUint32(int value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_uint32(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_uint32(value), false));
     }
     
     /**
      * Creates a new uint64 #GVariant instance.
      */
     public static Variant newUint64(long value) {
-        return new Variant(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_uint64(value), false));
+        return new Variant(References.get(gtk_h.g_variant_new_uint64(value), false));
     }
     
     /**
@@ -582,7 +584,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public Variant(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).HANDLE(), Interop.allocateNativeArray(endptr), app), true));
+        super(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr), app), true));
     }
     
     /**
@@ -593,7 +595,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * instance takes ownership of @child.
      */
     public Variant(Variant value) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_new_variant(value.HANDLE()), false));
+        super(References.get(gtk_h.g_variant_new_variant(value.handle()), false));
     }
     
     /**
@@ -610,7 +612,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * The returned value is always in normal form and is marked as trusted.
      */
     public Variant byteswap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_byteswap(HANDLE());
+        var RESULT = gtk_h.g_variant_byteswap(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -631,7 +633,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_lookup() or g_menu_model_get_item_attribute()).
      */
     public boolean checkFormatString(java.lang.String formatString, boolean copyOnly) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_check_format_string(HANDLE(), Interop.allocateNativeString(formatString).HANDLE(), copyOnly ? 1 : 0);
+        var RESULT = gtk_h.g_variant_check_format_string(handle(), Interop.allocateNativeString(formatString).handle(), copyOnly ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -639,7 +641,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * Classifies @value according to its top-level type.
      */
     public VariantClass classify() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_classify(HANDLE());
+        var RESULT = gtk_h.g_variant_classify(handle());
         return VariantClass.fromValue(RESULT);
     }
     
@@ -665,7 +667,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * general.
      */
     public int compare(Variant two) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_compare(HANDLE(), two.HANDLE());
+        var RESULT = gtk_h.g_variant_compare(handle(), two.handle());
         return RESULT;
     }
     
@@ -676,7 +678,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * this function with #GHashTable.  They must each be a #GVariant.
      */
     public boolean equal(Variant two) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_equal(HANDLE(), two.HANDLE());
+        var RESULT = gtk_h.g_variant_equal(handle(), two.handle());
         return (RESULT != 0);
     }
     
@@ -687,7 +689,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_BOOLEAN.
      */
     public boolean getBoolean() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_boolean(HANDLE());
+        var RESULT = gtk_h.g_variant_get_boolean(handle());
         return (RESULT != 0);
     }
     
@@ -698,7 +700,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_BYTE.
      */
     public byte getByte() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_byte(HANDLE());
+        var RESULT = gtk_h.g_variant_get_byte(handle());
         return RESULT;
     }
     
@@ -728,7 +730,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is O(1).
      */
     public Variant getChildValue(long index) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_child_value(HANDLE(), index);
+        var RESULT = gtk_h.g_variant_get_child_value(handle(), index);
         return new Variant(References.get(RESULT, true));
     }
     
@@ -760,7 +762,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * serialized data).
      */
     public jdk.incubator.foreign.MemoryAddress getData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_data(HANDLE());
+        var RESULT = gtk_h.g_variant_get_data(handle());
         return RESULT;
     }
     
@@ -771,7 +773,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * a reference to the variant data.
      */
     public Bytes getDataAsBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_data_as_bytes(HANDLE());
+        var RESULT = gtk_h.g_variant_get_data_as_bytes(handle());
         return new Bytes(References.get(RESULT, true));
     }
     
@@ -782,7 +784,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_DOUBLE.
      */
     public double getDouble() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_double(HANDLE());
+        var RESULT = gtk_h.g_variant_get_double(handle());
         return RESULT;
     }
     
@@ -797,7 +799,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * with D-Bus, you probably don't need them.
      */
     public int getHandle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_handle(HANDLE());
+        var RESULT = gtk_h.g_variant_get_handle(handle());
         return RESULT;
     }
     
@@ -808,7 +810,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_INT16.
      */
     public short getInt16() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_int16(HANDLE());
+        var RESULT = gtk_h.g_variant_get_int16(handle());
         return RESULT;
     }
     
@@ -819,7 +821,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_INT32.
      */
     public int getInt32() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_int32(HANDLE());
+        var RESULT = gtk_h.g_variant_get_int32(handle());
         return RESULT;
     }
     
@@ -830,7 +832,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_INT64.
      */
     public long getInt64() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_int64(HANDLE());
+        var RESULT = gtk_h.g_variant_get_int64(handle());
         return RESULT;
     }
     
@@ -839,7 +841,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * value is Nothing, then this function returns %NULL.
      */
     public Variant getMaybe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_maybe(HANDLE());
+        var RESULT = gtk_h.g_variant_get_maybe(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -869,7 +871,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * reference to it.
      */
     public Variant getNormalForm() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_normal_form(HANDLE());
+        var RESULT = gtk_h.g_variant_get_normal_form(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -887,7 +889,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * involved.
      */
     public long getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_size(HANDLE());
+        var RESULT = gtk_h.g_variant_get_size(handle());
         return RESULT;
     }
     
@@ -898,7 +900,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * be freed.
      */
     public VariantType getType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_type(HANDLE());
+        var RESULT = gtk_h.g_variant_get_type(handle());
         return new VariantType(References.get(RESULT, false));
     }
     
@@ -908,7 +910,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * string belongs to #GVariant and must not be freed.
      */
     public java.lang.String getTypeString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_type_string(HANDLE());
+        var RESULT = gtk_h.g_variant_get_type_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -919,7 +921,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_UINT16.
      */
     public short getUint16() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_uint16(HANDLE());
+        var RESULT = gtk_h.g_variant_get_uint16(handle());
         return RESULT;
     }
     
@@ -930,7 +932,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_UINT32.
      */
     public int getUint32() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_uint32(HANDLE());
+        var RESULT = gtk_h.g_variant_get_uint32(handle());
         return RESULT;
     }
     
@@ -941,7 +943,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * other than %G_VARIANT_TYPE_UINT64.
      */
     public long getUint64() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_uint64(HANDLE());
+        var RESULT = gtk_h.g_variant_get_uint64(handle());
         return RESULT;
     }
     
@@ -972,7 +974,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [GVariant format strings][gvariant-format-strings-pointers].
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_va(HANDLE(), Interop.allocateNativeString(formatString).HANDLE(), Interop.allocateNativeArray(endptr), app);
+        gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr), app);
     }
     
     /**
@@ -980,7 +982,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * contained in @value.
      */
     public Variant getVariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_get_variant(HANDLE());
+        var RESULT = gtk_h.g_variant_get_variant(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -996,7 +998,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * function with #GHashTable.  @value must be a #GVariant.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_hash(HANDLE());
+        var RESULT = gtk_h.g_variant_hash(handle());
         return RESULT;
     }
     
@@ -1004,7 +1006,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if @value is a container.
      */
     public boolean isContainer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_is_container(HANDLE());
+        var RESULT = gtk_h.g_variant_is_container(handle());
         return (RESULT != 0);
     }
     
@@ -1020,7 +1022,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * counts.
      */
     public boolean isFloating() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_is_floating(HANDLE());
+        var RESULT = gtk_h.g_variant_is_floating(handle());
         return (RESULT != 0);
     }
     
@@ -1040,7 +1042,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * GVariant is guaranteed to handle nesting up to at least 64 levels.
      */
     public boolean isNormalForm() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_is_normal_form(HANDLE());
+        var RESULT = gtk_h.g_variant_is_normal_form(handle());
         return (RESULT != 0);
     }
     
@@ -1048,7 +1050,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if a value has a type matching the provided type.
      */
     public boolean isOfType(VariantType type) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_is_of_type(HANDLE(), type.HANDLE());
+        var RESULT = gtk_h.g_variant_is_of_type(handle(), type.handle());
         return (RESULT != 0);
     }
     
@@ -1063,7 +1065,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_iter_free() is called.
      */
     public VariantIter iterNew() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_new(HANDLE());
+        var RESULT = gtk_h.g_variant_iter_new(handle());
         return new VariantIter(References.get(RESULT, true));
     }
     
@@ -1091,7 +1093,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * plan to do many lookups then #GVariantDict may be more efficient.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_lookup_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), expectedType.HANDLE());
+        var RESULT = gtk_h.g_variant_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -1109,7 +1111,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is O(1).
      */
     public long nChildren() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_n_children(HANDLE());
+        var RESULT = gtk_h.g_variant_n_children(handle());
         return RESULT;
     }
     
@@ -1122,7 +1124,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the output.
      */
     public java.lang.String print(boolean typeAnnotate) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_print(HANDLE(), typeAnnotate ? 1 : 0);
+        var RESULT = gtk_h.g_variant_print(handle(), typeAnnotate ? 1 : 0);
         return RESULT.getUtf8String(0);
     }
     
@@ -1133,7 +1135,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * a new empty #GString is allocated and it is returned.
      */
     public String printString(String string, boolean typeAnnotate) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_print_string(HANDLE(), string.HANDLE(), typeAnnotate ? 1 : 0);
+        var RESULT = gtk_h.g_variant_print_string(handle(), string.handle(), typeAnnotate ? 1 : 0);
         return new String(References.get(RESULT, true));
     }
     
@@ -1141,7 +1143,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count of @value.
      */
     public Variant ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_ref(HANDLE());
+        var RESULT = gtk_h.g_variant_ref(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -1170,7 +1172,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * are not floating.
      */
     public Variant refSink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_ref_sink(HANDLE());
+        var RESULT = gtk_h.g_variant_ref_sink(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -1189,7 +1191,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function is approximately O(n) in the size of @data.
      */
     public void store(jdk.incubator.foreign.MemoryAddress data) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_store(HANDLE(), data);
+        gtk_h.g_variant_store(handle(), data);
     }
     
     /**
@@ -1227,7 +1229,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * avoid this situation.
      */
     public Variant takeRef() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_take_ref(HANDLE());
+        var RESULT = gtk_h.g_variant_take_ref(handle());
         return new Variant(References.get(RESULT, true));
     }
     
@@ -1236,7 +1238,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * drops to 0, the memory used by the variant is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_unref(HANDLE());
+        gtk_h.g_variant_unref(handle());
     }
     
 }

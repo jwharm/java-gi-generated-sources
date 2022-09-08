@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -105,14 +107,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Creates a new scrolled window.
      */
     public ScrolledWindow() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_new(), false));
+        super(References.get(gtk_h.gtk_scrolled_window_new(), false));
     }
     
     /**
      * Gets the child widget of @scrolled_window.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -123,7 +125,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * to the child widget’s horizontal scroll functionality.
      */
     public Adjustment getHadjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_hadjustment(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_hadjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -131,7 +133,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Gets whether the scrolled window draws a frame.
      */
     public boolean getHasFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_has_frame(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_has_frame(handle());
         return (RESULT != 0);
     }
     
@@ -139,7 +141,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns the horizontal scrollbar of @scrolled_window.
      */
     public Widget getHscrollbar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_hscrollbar(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_hscrollbar(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -147,7 +149,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns the specified kinetic scrolling behavior.
      */
     public boolean getKineticScrolling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_kinetic_scrolling(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_kinetic_scrolling(handle());
         return (RESULT != 0);
     }
     
@@ -155,7 +157,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns the maximum content height set.
      */
     public int getMaxContentHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_max_content_height(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_max_content_height(handle());
         return RESULT;
     }
     
@@ -163,7 +165,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns the maximum content width set.
      */
     public int getMaxContentWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_max_content_width(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_max_content_width(handle());
         return RESULT;
     }
     
@@ -171,7 +173,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Gets the minimal content height of @scrolled_window.
      */
     public int getMinContentHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_min_content_height(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_min_content_height(handle());
         return RESULT;
     }
     
@@ -179,7 +181,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Gets the minimum content width of @scrolled_window.
      */
     public int getMinContentWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_min_content_width(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_min_content_width(handle());
         return RESULT;
     }
     
@@ -187,7 +189,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns whether overlay scrolling is enabled for this scrolled window.
      */
     public boolean getOverlayScrolling() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_overlay_scrolling(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_overlay_scrolling(handle());
         return (RESULT != 0);
     }
     
@@ -195,7 +197,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Gets the placement of the contents with respect to the scrollbars.
      */
     public CornerType getPlacement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_placement(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_placement(handle());
         return CornerType.fromValue(RESULT);
     }
     
@@ -204,7 +206,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * and propagated through the scrolled window’s requested natural height.
      */
     public boolean getPropagateNaturalHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_propagate_natural_height(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_height(handle());
         return (RESULT != 0);
     }
     
@@ -213,7 +215,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * and propagated through the scrolled window’s requested natural width.
      */
     public boolean getPropagateNaturalWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_propagate_natural_width(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_width(handle());
         return (RESULT != 0);
     }
     
@@ -224,7 +226,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * scrollbar to the child widget’s vertical scroll functionality.
      */
     public Adjustment getVadjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_vadjustment(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_vadjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -232,7 +234,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Returns the vertical scrollbar of @scrolled_window.
      */
     public Widget getVscrollbar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_vscrollbar(HANDLE());
+        var RESULT = gtk_h.gtk_scrolled_window_get_vscrollbar(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -240,21 +242,21 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Sets the child widget of @scrolled_window.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_scrolled_window_set_child(handle(), child.handle());
     }
     
     /**
      * Sets the `GtkAdjustment` for the horizontal scrollbar.
      */
     public void setHadjustment(Adjustment hadjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_hadjustment(HANDLE(), hadjustment.HANDLE());
+        gtk_h.gtk_scrolled_window_set_hadjustment(handle(), hadjustment.handle());
     }
     
     /**
      * Changes the frame drawn around the contents of @scrolled_window.
      */
     public void setHasFrame(boolean hasFrame) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_has_frame(HANDLE(), hasFrame ? 1 : 0);
+        gtk_h.gtk_scrolled_window_set_has_frame(handle(), hasFrame ? 1 : 0);
     }
     
     /**
@@ -264,7 +266,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * %GDK_SOURCE_TOUCHSCREEN.
      */
     public void setKineticScrolling(boolean kineticScrolling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_kinetic_scrolling(HANDLE(), kineticScrolling ? 1 : 0);
+        gtk_h.gtk_scrolled_window_set_kinetic_scrolling(handle(), kineticScrolling ? 1 : 0);
     }
     
     /**
@@ -277,7 +279,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * smaller than [property@Gtk.ScrolledWindow:min-content-height].
      */
     public void setMaxContentHeight(int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_max_content_height(HANDLE(), height);
+        gtk_h.gtk_scrolled_window_set_max_content_height(handle(), height);
     }
     
     /**
@@ -290,7 +292,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * value smaller than [property@Gtk.ScrolledWindow:min-content-width].
      */
     public void setMaxContentWidth(int width) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_max_content_width(HANDLE(), width);
+        gtk_h.gtk_scrolled_window_set_max_content_width(handle(), width);
     }
     
     /**
@@ -303,7 +305,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * value greater than [property@Gtk.ScrolledWindow:max-content-height].
      */
     public void setMinContentHeight(int height) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_min_content_height(HANDLE(), height);
+        gtk_h.gtk_scrolled_window_set_min_content_height(handle(), height);
     }
     
     /**
@@ -316,14 +318,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * value greater than [property@Gtk.ScrolledWindow:max-content-width].
      */
     public void setMinContentWidth(int width) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_min_content_width(HANDLE(), width);
+        gtk_h.gtk_scrolled_window_set_min_content_width(handle(), width);
     }
     
     /**
      * Enables or disables overlay scrolling for this scrolled window.
      */
     public void setOverlayScrolling(boolean overlayScrolling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_overlay_scrolling(HANDLE(), overlayScrolling ? 1 : 0);
+        gtk_h.gtk_scrolled_window_set_overlay_scrolling(handle(), overlayScrolling ? 1 : 0);
     }
     
     /**
@@ -339,7 +341,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * [method@Gtk.ScrolledWindow.unset_placement].
      */
     public void setPlacement(CornerType windowPlacement) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_placement(HANDLE(), windowPlacement.getValue());
+        gtk_h.gtk_scrolled_window_set_placement(handle(), windowPlacement.getValue());
     }
     
     /**
@@ -353,7 +355,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * than the trough — the display is larger than the page size).
      */
     public void setPolicy(PolicyType hscrollbarPolicy, PolicyType vscrollbarPolicy) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_policy(HANDLE(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
+        gtk_h.gtk_scrolled_window_set_policy(handle(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
     }
     
     /**
@@ -361,7 +363,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * and propagated through the scrolled window’s requested natural height.
      */
     public void setPropagateNaturalHeight(boolean propagate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_propagate_natural_height(HANDLE(), propagate ? 1 : 0);
+        gtk_h.gtk_scrolled_window_set_propagate_natural_height(handle(), propagate ? 1 : 0);
     }
     
     /**
@@ -369,14 +371,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * and propagated through the scrolled window’s requested natural width.
      */
     public void setPropagateNaturalWidth(boolean propagate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_propagate_natural_width(HANDLE(), propagate ? 1 : 0);
+        gtk_h.gtk_scrolled_window_set_propagate_natural_width(handle(), propagate ? 1 : 0);
     }
     
     /**
      * Sets the `GtkAdjustment` for the vertical scrollbar.
      */
     public void setVadjustment(Adjustment vadjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_set_vadjustment(HANDLE(), vadjustment.HANDLE());
+        gtk_h.gtk_scrolled_window_set_vadjustment(handle(), vadjustment.handle());
     }
     
     /**
@@ -386,7 +388,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * it defaults to %GTK_CORNER_TOP_LEFT.
      */
     public void unsetPlacement() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_unset_placement(HANDLE());
+        gtk_h.gtk_scrolled_window_unset_placement(handle());
     }
     
     @FunctionalInterface
@@ -409,12 +411,12 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalScrolledWindowEdgeOvershot", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("edge-overshot").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("edge-overshot").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -440,12 +442,12 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalScrolledWindowEdgeReached", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("edge-reached").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("edge-reached").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -470,12 +472,12 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalScrolledWindowMoveFocusOut", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-focus-out").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-focus-out").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -498,12 +500,12 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalScrolledWindowScrollChild", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("scroll-child").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("scroll-child").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

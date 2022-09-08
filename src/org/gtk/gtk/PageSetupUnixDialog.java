@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * Creates a new page setup dialog.
      */
     public PageSetupUnixDialog(java.lang.String title, Window parent) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false));
     }
     
     /**
      * Gets the currently selected page setup from the dialog.
      */
     public PageSetup getPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_page_setup(handle());
         return new PageSetup(References.get(RESULT, false));
     }
     
@@ -45,7 +47,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * Gets the current print settings from the dialog.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_print_settings(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_unix_dialog_get_print_settings(handle());
         return new PrintSettings(References.get(RESULT, false));
     }
     
@@ -54,7 +56,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * dialog takes its values.
      */
     public void setPageSetup(PageSetup pageSetup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_set_page_setup(HANDLE(), pageSetup.HANDLE());
+        gtk_h.gtk_page_setup_unix_dialog_set_page_setup(handle(), pageSetup.handle());
     }
     
     /**
@@ -62,7 +64,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      * takes its values.
      */
     public void setPrintSettings(PrintSettings printSettings) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_set_print_settings(HANDLE(), printSettings.HANDLE());
+        gtk_h.gtk_page_setup_unix_dialog_set_print_settings(handle(), printSettings.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,14 +27,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec4_init() to initialize the vector.
      */
     public Vec4() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_alloc(), true));
+        super(References.get(gtk_h.graphene_vec4_alloc(), true));
     }
     
     /**
      * Adds each component of the two given vectors.
      */
     public void add(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_add(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_add(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -41,14 +43,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * vector @res.
      */
     public void divide(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_divide(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_divide(handle(), b.handle(), res.handle());
     }
     
     /**
      * Computes the dot product of the two given vectors.
      */
     public float dot(Vec4 b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_dot(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_vec4_dot(handle(), b.handle());
         return RESULT;
     }
     
@@ -56,7 +58,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given #graphene_vec4_t are equal.
      */
     public boolean equal(Vec4 v2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_equal(HANDLE(), v2.HANDLE());
+        var RESULT = gtk_h.graphene_vec4_equal(handle(), v2.handle());
         return RESULT;
     }
     
@@ -64,14 +66,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by @v
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_free(HANDLE());
+        gtk_h.graphene_vec4_free(handle());
     }
     
     /**
      * Retrieves the value of the fourth component of the given #graphene_vec4_t.
      */
     public float getW() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_w(HANDLE());
+        var RESULT = gtk_h.graphene_vec4_get_w(handle());
         return RESULT;
     }
     
@@ -79,7 +81,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the value of the first component of the given #graphene_vec4_t.
      */
     public float getX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_x(HANDLE());
+        var RESULT = gtk_h.graphene_vec4_get_x(handle());
         return RESULT;
     }
     
@@ -88,7 +90,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the given #graphene_vec4_t.
      */
     public void getXy(Vec2 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_xy(HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_get_xy(handle(), res.handle());
     }
     
     /**
@@ -96,14 +98,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the given #graphene_vec4_t.
      */
     public void getXyz(Vec3 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_xyz(HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_get_xyz(handle(), res.handle());
     }
     
     /**
      * Retrieves the value of the second component of the given #graphene_vec4_t.
      */
     public float getY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_y(HANDLE());
+        var RESULT = gtk_h.graphene_vec4_get_y(handle());
         return RESULT;
     }
     
@@ -111,7 +113,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the value of the third component of the given #graphene_vec4_t.
      */
     public float getZ() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_get_z(HANDLE());
+        var RESULT = gtk_h.graphene_vec4_get_z(handle());
         return RESULT;
     }
     
@@ -121,7 +123,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function can be called multiple times.
      */
     public Vec4 init(float x, float y, float z, float w) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init(HANDLE(), x, y, z, w);
+        var RESULT = gtk_h.graphene_vec4_init(handle(), x, y, z, w);
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -129,7 +131,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_vec4_t with the values inside the given array.
      */
     public Vec4 initFromFloat(float[] src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
+        var RESULT = gtk_h.graphene_vec4_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -138,7 +140,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec2_t and the values of @z and @w.
      */
     public Vec4 initFromVec2(Vec2 src, float z, float w) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec2(HANDLE(), src.HANDLE(), z, w);
+        var RESULT = gtk_h.graphene_vec4_init_from_vec2(handle(), src.handle(), z, w);
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -147,7 +149,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec3_t and the value of @w.
      */
     public Vec4 initFromVec3(Vec3 src, float w) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec3(HANDLE(), src.HANDLE(), w);
+        var RESULT = gtk_h.graphene_vec4_init_from_vec3(handle(), src.handle(), w);
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -156,7 +158,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * another #graphene_vec4_t.
      */
     public Vec4 initFromVec4(Vec4 src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_init_from_vec4(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_vec4_init_from_vec4(handle(), src.handle());
         return new Vec4(References.get(RESULT, false));
     }
     
@@ -164,14 +166,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Linearly interpolates @v1 and @v2 using the given @factor.
      */
     public void interpolate(Vec4 v2, double factor, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_interpolate(HANDLE(), v2.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_vec4_interpolate(handle(), v2.handle(), factor, res.handle());
     }
     
     /**
      * Computes the length of the given #graphene_vec4_t.
      */
     public float length() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_length(HANDLE());
+        var RESULT = gtk_h.graphene_vec4_length(handle());
         return RESULT;
     }
     
@@ -180,7 +182,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * vector that contains the maximum values.
      */
     public void max(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_max(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_max(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -188,14 +190,14 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * vector that contains the minimum values.
      */
     public void min(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_min(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_min(handle(), b.handle(), res.handle());
     }
     
     /**
      * Multiplies each component of the two given vectors.
      */
     public void multiply(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_multiply(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -203,7 +205,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * whether their values are within the given @epsilon.
      */
     public boolean near(Vec4 v2, float epsilon) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_near(HANDLE(), v2.HANDLE(), epsilon);
+        var RESULT = gtk_h.graphene_vec4_near(handle(), v2.handle(), epsilon);
         return RESULT;
     }
     
@@ -211,21 +213,21 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Negates the given #graphene_vec4_t.
      */
     public void negate(Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_negate(HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_negate(handle(), res.handle());
     }
     
     /**
      * Normalizes the given #graphene_vec4_t.
      */
     public void normalize(Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_normalize(HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_normalize(handle(), res.handle());
     }
     
     /**
      * Multiplies all components of the given vector with the given scalar @factor.
      */
     public void scale(float factor, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_scale(HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_vec4_scale(handle(), factor, res.handle());
     }
     
     /**
@@ -234,7 +236,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * each result into the components of @res.
      */
     public void subtract(Vec4 b, Vec4 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_subtract(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_vec4_subtract(handle(), b.handle(), res.handle());
     }
     
     /**
@@ -242,7 +244,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * of floating point values.
      */
     public void toFloat(float[] dest) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec4_to_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest));
+        gtk_h.graphene_vec4_to_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest));
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -71,7 +73,7 @@ public class GLContext extends DrawContext {
      * Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().
      */
     public int getAllowedApis() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_allowed_apis(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_allowed_apis(handle());
         return RESULT;
     }
     
@@ -81,7 +83,7 @@ public class GLContext extends DrawContext {
      * If the renderer has not been realized yet, 0 is returned.
      */
     public int getApi() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_api(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_api(handle());
         return RESULT;
     }
     
@@ -91,7 +93,7 @@ public class GLContext extends DrawContext {
      * See [method@Gdk.GLContext.set_debug_enabled].
      */
     public boolean getDebugEnabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_debug_enabled(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_debug_enabled(handle());
         return (RESULT != 0);
     }
     
@@ -99,7 +101,7 @@ public class GLContext extends DrawContext {
      * Retrieves the display the @context is created for
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -109,7 +111,7 @@ public class GLContext extends DrawContext {
      * See [method@Gdk.GLContext.set_forward_compatible].
      */
     public boolean getForwardCompatible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_forward_compatible(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_forward_compatible(handle());
         return (RESULT != 0);
     }
     
@@ -117,7 +119,7 @@ public class GLContext extends DrawContext {
      * Retrieves the surface used by the @context.
      */
     public Surface getSurface() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_surface(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_surface(handle());
         return new Surface(References.get(RESULT, false));
     }
     
@@ -125,7 +127,7 @@ public class GLContext extends DrawContext {
      * Checks whether the @context is using an OpenGL or OpenGL ES profile.
      */
     public boolean getUseEs() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_use_es(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_get_use_es(handle());
         return (RESULT != 0);
     }
     
@@ -148,7 +150,7 @@ public class GLContext extends DrawContext {
      * kind of shader programs to load.
      */
     public boolean isLegacy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_is_legacy(HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_is_legacy(handle());
         return (RESULT != 0);
     }
     
@@ -167,7 +169,7 @@ public class GLContext extends DrawContext {
      * is not, this function will return %FALSE.
      */
     public boolean isShared(GLContext other) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_is_shared(HANDLE(), other.HANDLE());
+        var RESULT = gtk_h.gdk_gl_context_is_shared(handle(), other.handle());
         return (RESULT != 0);
     }
     
@@ -175,7 +177,7 @@ public class GLContext extends DrawContext {
      * Makes the @context the current one.
      */
     public void makeCurrent() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_make_current(HANDLE());
+        gtk_h.gdk_gl_context_make_current(handle());
     }
     
     /**
@@ -185,7 +187,7 @@ public class GLContext extends DrawContext {
      */
     public boolean realize() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_realize(HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_gl_context_realize(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -202,7 +204,7 @@ public class GLContext extends DrawContext {
      * By default, all APIs are allowed.
      */
     public void setAllowedApis(int apis) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_set_allowed_apis(HANDLE(), apis);
+        gtk_h.gdk_gl_context_set_allowed_apis(handle(), apis);
     }
     
     /**
@@ -215,7 +217,7 @@ public class GLContext extends DrawContext {
      * calling this function.
      */
     public void setDebugEnabled(boolean enabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_set_debug_enabled(HANDLE(), enabled ? 1 : 0);
+        gtk_h.gdk_gl_context_set_debug_enabled(handle(), enabled ? 1 : 0);
     }
     
     /**
@@ -230,7 +232,7 @@ public class GLContext extends DrawContext {
      * this function.
      */
     public void setForwardCompatible(boolean compatible) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_set_forward_compatible(HANDLE(), compatible ? 1 : 0);
+        gtk_h.gdk_gl_context_set_forward_compatible(handle(), compatible ? 1 : 0);
     }
     
     /**
@@ -242,7 +244,7 @@ public class GLContext extends DrawContext {
      * this function.
      */
     public void setRequiredVersion(int major, int minor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_set_required_version(HANDLE(), major, minor);
+        gtk_h.gdk_gl_context_set_required_version(handle(), major, minor);
     }
     
     /**
@@ -261,7 +263,7 @@ public class GLContext extends DrawContext {
      * the OpenGL or OpenGL ES API, extensions, or shaders.
      */
     public void setUseEs(int useEs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_set_use_es(HANDLE(), useEs);
+        gtk_h.gdk_gl_context_set_use_es(handle(), useEs);
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -58,21 +60,21 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Creates a new `GtkAssistant`.
      */
     public Assistant() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_new(), false));
+        super(References.get(gtk_h.gtk_assistant_new(), false));
     }
     
     /**
      * Adds a widget to the action area of a `GtkAssistant`.
      */
     public void addActionWidget(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_add_action_widget(HANDLE(), child.HANDLE());
+        gtk_h.gtk_assistant_add_action_widget(handle(), child.handle());
     }
     
     /**
      * Appends a page to the @assistant.
      */
     public int appendPage(Widget page) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_append_page(HANDLE(), page.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_append_page(handle(), page.handle());
         return RESULT;
     }
     
@@ -89,14 +91,14 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * clicked apply on a confirmation page.
      */
     public void commit() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_commit(HANDLE());
+        gtk_h.gtk_assistant_commit(handle());
     }
     
     /**
      * Returns the page number of the current page.
      */
     public int getCurrentPage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_current_page(HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_current_page(handle());
         return RESULT;
     }
     
@@ -104,7 +106,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Returns the number of pages in the @assistant
      */
     public int getNPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_n_pages(HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_n_pages(handle());
         return RESULT;
     }
     
@@ -112,7 +114,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Returns the child widget contained in page number @page_num.
      */
     public Widget getNthPage(int pageNum) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_nth_page(HANDLE(), pageNum);
+        var RESULT = gtk_h.gtk_assistant_get_nth_page(handle(), pageNum);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -120,7 +122,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Returns the `GtkAssistantPage` object for @child.
      */
     public AssistantPage getPage(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_page(handle(), child.handle());
         return new AssistantPage(References.get(RESULT, false));
     }
     
@@ -128,7 +130,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Gets whether @page is complete.
      */
     public boolean getPageComplete(Widget page) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page_complete(HANDLE(), page.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_page_complete(handle(), page.handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Gets the title for @page.
      */
     public java.lang.String getPageTitle(Widget page) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page_title(HANDLE(), page.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_page_title(handle(), page.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -144,7 +146,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Gets the page type of @page.
      */
     public AssistantPageType getPageType(Widget page) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page_type(HANDLE(), page.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_page_type(handle(), page.handle());
         return AssistantPageType.fromValue(RESULT);
     }
     
@@ -152,7 +154,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Gets a list model of the assistant pages.
      */
     public org.gtk.gio.ListModel getPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_pages(HANDLE());
+        var RESULT = gtk_h.gtk_assistant_get_pages(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -160,7 +162,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Inserts a page in the @assistant at a given position.
      */
     public int insertPage(Widget page, int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_insert_page(HANDLE(), page.HANDLE(), position);
+        var RESULT = gtk_h.gtk_assistant_insert_page(handle(), page.handle(), position);
         return RESULT;
     }
     
@@ -174,14 +176,14 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * %GTK_ASSISTANT_PAGE_CUSTOM type.
      */
     public void nextPage() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_next_page(HANDLE());
+        gtk_h.gtk_assistant_next_page(handle());
     }
     
     /**
      * Prepends a page to the @assistant.
      */
     public int prependPage(Widget page) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_prepend_page(HANDLE(), page.HANDLE());
+        var RESULT = gtk_h.gtk_assistant_prepend_page(handle(), page.handle());
         return RESULT;
     }
     
@@ -195,21 +197,21 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * %GTK_ASSISTANT_PAGE_CUSTOM type.
      */
     public void previousPage() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_previous_page(HANDLE());
+        gtk_h.gtk_assistant_previous_page(handle());
     }
     
     /**
      * Removes a widget from the action area of a `GtkAssistant`.
      */
     public void removeActionWidget(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_remove_action_widget(HANDLE(), child.HANDLE());
+        gtk_h.gtk_assistant_remove_action_widget(handle(), child.handle());
     }
     
     /**
      * Removes the @page_num’s page from @assistant.
      */
     public void removePage(int pageNum) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_remove_page(HANDLE(), pageNum);
+        gtk_h.gtk_assistant_remove_page(handle(), pageNum);
     }
     
     /**
@@ -220,7 +222,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * gtk_assistant_set_forward_page_func().
      */
     public void setCurrentPage(int pageNum) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_set_current_page(HANDLE(), pageNum);
+        gtk_h.gtk_assistant_set_current_page(handle(), pageNum);
     }
     
     /**
@@ -230,7 +232,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * to be able to continue the task.
      */
     public void setPageComplete(Widget page, boolean complete) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_set_page_complete(HANDLE(), page.HANDLE(), complete ? 1 : 0);
+        gtk_h.gtk_assistant_set_page_complete(handle(), page.handle(), complete ? 1 : 0);
     }
     
     /**
@@ -240,7 +242,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * when @page is the current page.
      */
     public void setPageTitle(Widget page, java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_set_page_title(HANDLE(), page.HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_assistant_set_page_title(handle(), page.handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
@@ -249,7 +251,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * The page type determines the page behavior in the @assistant.
      */
     public void setPageType(Widget page, AssistantPageType type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_set_page_type(HANDLE(), page.HANDLE(), type.getValue());
+        gtk_h.gtk_assistant_set_page_type(handle(), page.handle(), type.getValue());
     }
     
     /**
@@ -264,7 +266,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * affects the future page flow of the assistant.
      */
     public void updateButtonsState() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_update_buttons_state(HANDLE());
+        gtk_h.gtk_assistant_update_buttons_state(handle());
     }
     
     @FunctionalInterface
@@ -289,12 +291,12 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantApply", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("apply").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("apply").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -312,12 +314,12 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantCancel", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("cancel").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("cancel").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -337,12 +339,12 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantClose", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("close").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("close").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -360,12 +362,12 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantEscape", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("escape").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("escape").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -387,12 +389,12 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantPrepare", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("prepare").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("prepare").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

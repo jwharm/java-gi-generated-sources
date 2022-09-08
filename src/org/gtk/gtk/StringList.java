@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -48,7 +50,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Creates a new `GtkStringList` with the given @strings.
      */
     public StringList(java.lang.String[] strings) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
+        super(References.get(gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
     }
     
     /**
@@ -58,7 +60,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * [method@Gtk.StringList.take] for a way to avoid that.
      */
     public void append(java.lang.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_append(HANDLE(), Interop.allocateNativeString(string).HANDLE());
+        gtk_h.gtk_string_list_append(handle(), Interop.allocateNativeString(string).handle());
     }
     
     /**
@@ -70,7 +72,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * object wrapping it, use g_list_model_get_item().
      */
     public java.lang.String getString(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_get_string(HANDLE(), position);
+        var RESULT = gtk_h.gtk_string_list_get_string(handle(), position);
         return RESULT.getUtf8String(0);
     }
     
@@ -81,7 +83,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * length of the list.
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_remove(HANDLE(), position);
+        gtk_h.gtk_string_list_remove(handle(), position);
     }
     
     /**
@@ -99,7 +101,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * of the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, java.lang.String[] additions) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_splice(HANDLE(), position, nRemovals, Interop.allocateNativeArray(additions));
+        gtk_h.gtk_string_list_splice(handle(), position, nRemovals, Interop.allocateNativeArray(additions));
     }
     
     /**
@@ -114,7 +116,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * ```
      */
     public void take(java.lang.String string) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_take(HANDLE(), Interop.allocateNativeString(string).HANDLE());
+        gtk_h.gtk_string_list_take(handle(), Interop.allocateNativeString(string).handle());
     }
     
 }

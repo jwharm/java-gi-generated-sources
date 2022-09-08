@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -118,7 +120,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * Creates a new `GtkTreeModelSort`, with @child_model as the child model.
      */
     public TreeModelSort(TreeModel childModel) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_new_with_model(childModel.HANDLE()), true));
+        super(References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true));
     }
     
     /**
@@ -130,7 +132,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * iters will be invalid.
      */
     public void clearCache() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_clear_cache(HANDLE());
+        gtk_h.gtk_tree_model_sort_clear_cache(handle());
     }
     
     /**
@@ -139,7 +141,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * is returned.  Note: a boolean is only returned since 2.14.
      */
     public boolean convertChildIterToIter(TreeIter sortIter, TreeIter childIter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_child_iter_to_iter(HANDLE(), sortIter.HANDLE(), childIter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_sort_convert_child_iter_to_iter(handle(), sortIter.handle(), childIter.handle());
         return (RESULT != 0);
     }
     
@@ -150,7 +152,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * path on the child model, then %NULL is returned.
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_child_path_to_path(HANDLE(), childPath.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_sort_convert_child_path_to_path(handle(), childPath.handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -158,7 +160,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * Sets @child_iter to point to the row pointed to by @sorted_iter.
      */
     public void convertIterToChildIter(TreeIter childIter, TreeIter sortedIter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_iter_to_child_iter(HANDLE(), childIter.HANDLE(), sortedIter.HANDLE());
+        gtk_h.gtk_tree_model_sort_convert_iter_to_child_iter(handle(), childIter.handle(), sortedIter.handle());
     }
     
     /**
@@ -169,7 +171,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * %NULL is returned.
      */
     public TreePath convertPathToChildPath(TreePath sortedPath) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_path_to_child_path(HANDLE(), sortedPath.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_sort_convert_path_to_child_path(handle(), sortedPath.handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -177,7 +179,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * Returns the model the `GtkTreeModelSort` is sorting.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_sort_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -188,7 +190,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * Checks if the given iter is a valid iter for this `GtkTreeModelSort`.
      */
     public boolean iterIsValid(TreeIter iter) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_iter_is_valid(HANDLE(), iter.HANDLE());
+        var RESULT = gtk_h.gtk_tree_model_sort_iter_is_valid(handle(), iter.handle());
         return (RESULT != 0);
     }
     
@@ -199,7 +201,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * is in “unsorted” state.
      */
     public void resetDefaultSortFunc() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_reset_default_sort_func(HANDLE());
+        gtk_h.gtk_tree_model_sort_reset_default_sort_func(handle());
     }
     
 }

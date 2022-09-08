@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -88,7 +90,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sine: 2.32
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_clear(HANDLE());
+        gtk_h.g_rw_lock_clear(handle());
     }
     
     /**
@@ -118,7 +120,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * to undefined behaviour.
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_init(HANDLE());
+        gtk_h.g_rw_lock_init(handle());
     }
     
     /**
@@ -139,7 +141,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * or if a deadlock is detected, a critical warning will be emitted.
      */
     public void readerLock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_reader_lock(HANDLE());
+        gtk_h.g_rw_lock_reader_lock(handle());
     }
     
     /**
@@ -148,7 +150,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * returns %FALSE.
      */
     public boolean readerTrylock() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_reader_trylock(HANDLE());
+        var RESULT = gtk_h.g_rw_lock_reader_trylock(handle());
         return (RESULT != 0);
     }
     
@@ -159,7 +161,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * by the current thread leads to undefined behaviour.
      */
     public void readerUnlock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_reader_unlock(HANDLE());
+        gtk_h.g_rw_lock_reader_unlock(handle());
     }
     
     /**
@@ -171,7 +173,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * owns a read or write lock on @rw_lock leads to undefined behaviour.
      */
     public void writerLock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_writer_lock(HANDLE());
+        gtk_h.g_rw_lock_writer_lock(handle());
     }
     
     /**
@@ -181,7 +183,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * Otherwise it locks @rw_lock and returns %TRUE.
      */
     public boolean writerTrylock() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_writer_trylock(HANDLE());
+        var RESULT = gtk_h.g_rw_lock_writer_trylock(handle());
         return (RESULT != 0);
     }
     
@@ -192,7 +194,7 @@ public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
      * by the current thread leads to undefined behaviour.
      */
     public void writerUnlock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rw_lock_writer_unlock(HANDLE());
+        gtk_h.g_rw_lock_writer_unlock(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -43,7 +45,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * Looks up the #GParamSpec for a property of a class.
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_find_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
+        var RESULT = gtk_h.g_object_class_find_property(handle(), Interop.allocateNativeString(propertyName).handle());
         return new ParamSpec(References.get(RESULT, false));
     }
     
@@ -111,7 +113,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public void installProperties(int nPspecs, ParamSpec[] pspecs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_install_properties(HANDLE(), nPspecs, Interop.allocateNativeArray(pspecs));
+        gtk_h.g_object_class_install_properties(handle(), nPspecs, Interop.allocateNativeArray(pspecs));
     }
     
     /**
@@ -127,7 +129,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * e.g. to change the range of allowed values or the default value.
      */
     public void installProperty(int propertyId, ParamSpec pspec) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_install_property(HANDLE(), propertyId, pspec.HANDLE());
+        gtk_h.g_object_class_install_property(handle(), propertyId, pspec.handle());
     }
     
     /**
@@ -149,7 +151,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_param_spec_get_redirect_target().
      */
     public void overrideProperty(int propertyId, java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_override_property(HANDLE(), propertyId, Interop.allocateNativeString(name).HANDLE());
+        gtk_h.g_object_class_override_property(handle(), propertyId, Interop.allocateNativeString(name).handle());
     }
     
 }

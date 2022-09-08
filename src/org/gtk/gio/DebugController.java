@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public interface DebugController extends io.github.jwharm.javagi.interop.NativeA
      * Get the value of #GDebugController:debug-enabled.
      */
     public default boolean getDebugEnabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_debug_controller_get_debug_enabled(HANDLE());
+        var RESULT = gtk_h.g_debug_controller_get_debug_enabled(handle());
         return (RESULT != 0);
     }
     
@@ -36,7 +38,7 @@ public interface DebugController extends io.github.jwharm.javagi.interop.NativeA
      * Set the value of #GDebugController:debug-enabled.
      */
     public default void setDebugEnabled(boolean debugEnabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_debug_controller_set_debug_enabled(HANDLE(), debugEnabled ? 1 : 0);
+        gtk_h.g_debug_controller_set_debug_enabled(handle(), debugEnabled ? 1 : 0);
     }
     
     class DebugControllerImpl extends org.gtk.gobject.Object implements DebugController {

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,14 +25,14 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Create a new #GTlsPassword object.
      */
     public TlsPassword(int flags, java.lang.String description) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).HANDLE()), true));
+        super(References.get(gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).handle()), true));
     }
     
     /**
      * Get a description string about what the password will be used for.
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_get_description(HANDLE());
+        var RESULT = gtk_h.g_tls_password_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -38,7 +40,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Get flags about the password.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_get_flags(HANDLE());
+        var RESULT = gtk_h.g_tls_password_get_flags(handle());
         return RESULT;
     }
     
@@ -48,7 +50,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * g_tls_password_get_flags().
      */
     public java.lang.String getWarning() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_get_warning(HANDLE());
+        var RESULT = gtk_h.g_tls_password_get_warning(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -56,14 +58,14 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Set a description string about what the password will be used for.
      */
     public void setDescription(java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_description(HANDLE(), Interop.allocateNativeString(description).HANDLE());
+        gtk_h.g_tls_password_set_description(handle(), Interop.allocateNativeString(description).handle());
     }
     
     /**
      * Set flags about the password.
      */
     public void setFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_flags(HANDLE(), flags);
+        gtk_h.g_tls_password_set_flags(handle(), flags);
     }
     
     /**
@@ -76,7 +78,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * considered part of the password in this case.)
      */
     public void setValue(byte[] value, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_value(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, value), length);
+        gtk_h.g_tls_password_set_value(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, value), length);
     }
     
     /**
@@ -85,7 +87,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * g_tls_password_get_flags().
      */
     public void setWarning(java.lang.String warning) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_set_warning(HANDLE(), Interop.allocateNativeString(warning).HANDLE());
+        gtk_h.g_tls_password_set_warning(handle(), Interop.allocateNativeString(warning).handle());
     }
     
 }

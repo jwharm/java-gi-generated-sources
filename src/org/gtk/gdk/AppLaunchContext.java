@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +43,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * Gets the `GdkDisplay` that @context is for.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_app_launch_context_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * be the current workspace.
      */
     public void setDesktop(int desktop) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_desktop(HANDLE(), desktop);
+        gtk_h.gdk_app_launch_context_set_desktop(handle(), desktop);
     }
     
     /**
@@ -74,7 +76,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * See also [method@Gdk.AppLaunchContext.set_icon_name].
      */
     public void setIcon(org.gtk.gio.Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_icon(HANDLE(), icon.HANDLE());
+        gtk_h.gdk_app_launch_context_set_icon(handle(), icon.handle());
     }
     
     /**
@@ -89,7 +91,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * for the launched application itself.
      */
     public void setIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gdk_app_launch_context_set_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -104,7 +106,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * prevention'.
      */
     public void setTimestamp(int timestamp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_set_timestamp(HANDLE(), timestamp);
+        gtk_h.gdk_app_launch_context_set_timestamp(handle(), timestamp);
     }
     
 }

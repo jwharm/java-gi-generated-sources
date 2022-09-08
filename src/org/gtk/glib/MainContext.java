@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,14 +21,14 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GMainContext structure.
      */
     public MainContext() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new(), true));
+        super(References.get(gtk_h.g_main_context_new(), true));
     }
     
     /**
      * Creates a new #GMainContext structure.
      */
     public MainContext(int flags) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_new_with_flags(flags), true));
+        super(References.get(gtk_h.g_main_context_new_with_flags(flags), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_main_context_check(), g_main_context_dispatch().
      */
     public boolean acquire() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_acquire(HANDLE());
+        var RESULT = gtk_h.g_main_context_acquire(handle());
         return (RESULT != 0);
     }
     
@@ -52,7 +54,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * a typical event source will use g_source_add_unix_fd() instead.
      */
     public void addPoll(PollFD fd, int priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_add_poll(HANDLE(), fd.HANDLE(), priority);
+        gtk_h.g_main_context_add_poll(handle(), fd.handle(), priority);
     }
     
     /**
@@ -65,7 +67,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public boolean check(int maxPriority, PollFD[] fds, int nFds) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_check(HANDLE(), maxPriority, Interop.allocateNativeArray(fds), nFds);
+        var RESULT = gtk_h.g_main_context_check(handle(), maxPriority, Interop.allocateNativeArray(fds), nFds);
         return (RESULT != 0);
     }
     
@@ -76,7 +78,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_main_context_acquire() before you may call this function.
      */
     public void dispatch() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_dispatch(HANDLE());
+        gtk_h.g_main_context_dispatch(handle());
     }
     
     /**
@@ -85,7 +87,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * the first one found will be returned.
      */
     public Source findSourceByFuncsUserData(SourceFuncs funcs, jdk.incubator.foreign.MemoryAddress userData) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_funcs_user_data(HANDLE(), funcs.HANDLE(), userData);
+        var RESULT = gtk_h.g_main_context_find_source_by_funcs_user_data(handle(), funcs.handle(), userData);
         return new Source(References.get(RESULT, false));
     }
     
@@ -104,7 +106,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * wrong source.
      */
     public Source findSourceById(int sourceId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_id(HANDLE(), sourceId);
+        var RESULT = gtk_h.g_main_context_find_source_by_id(handle(), sourceId);
         return new Source(References.get(RESULT, false));
     }
     
@@ -114,7 +116,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * one found will be returned.
      */
     public Source findSourceByUserData(jdk.incubator.foreign.MemoryAddress userData) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_find_source_by_user_data(HANDLE(), userData);
+        var RESULT = gtk_h.g_main_context_find_source_by_user_data(handle(), userData);
         return new Source(References.get(RESULT, false));
     }
     
@@ -125,7 +127,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * blocking to get ownership of @context.
      */
     public boolean isOwner() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_is_owner(HANDLE());
+        var RESULT = gtk_h.g_main_context_is_owner(handle());
         return (RESULT != 0);
     }
     
@@ -144,7 +146,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * be interrupted for other reasons than an event source becoming ready.
      */
     public boolean iteration(boolean mayBlock) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_iteration(HANDLE(), mayBlock ? 1 : 0);
+        var RESULT = gtk_h.g_main_context_iteration(handle(), mayBlock ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -152,7 +154,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if any sources have pending events for the given context.
      */
     public boolean pending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_pending(HANDLE());
+        var RESULT = gtk_h.g_main_context_pending(handle());
         return (RESULT != 0);
     }
     
@@ -161,7 +163,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * it was on the top of the stack).
      */
     public void popThreadDefault() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_pop_thread_default(HANDLE());
+        gtk_h.g_main_context_pop_thread_default(handle());
     }
     
     /**
@@ -205,14 +207,14 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * see g_file_supports_thread_contexts().
      */
     public void pushThreadDefault() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_push_thread_default(HANDLE());
+        gtk_h.g_main_context_push_thread_default(handle());
     }
     
     /**
      * Increases the reference count on a #GMainContext object by one.
      */
     public MainContext ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_ref(HANDLE());
+        var RESULT = gtk_h.g_main_context_ref(handle());
         return new MainContext(References.get(RESULT, true));
     }
     
@@ -223,7 +225,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * is called as many times as it was acquired.
      */
     public void release() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_release(HANDLE());
+        gtk_h.g_main_context_release(handle());
     }
     
     /**
@@ -231,7 +233,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * polled for a particular context.
      */
     public void removePoll(PollFD fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_remove_poll(HANDLE(), fd.HANDLE());
+        gtk_h.g_main_context_remove_poll(handle(), fd.handle());
     }
     
     /**
@@ -239,7 +241,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * the result is zero, free the context and free all associated memory.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_unref(HANDLE());
+        gtk_h.g_main_context_unref(handle());
     }
     
     /**
@@ -273,7 +275,7 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public void wakeup() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_context_wakeup(HANDLE());
+        gtk_h.g_main_context_wakeup(handle());
     }
     
 }

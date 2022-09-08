@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -77,14 +79,14 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * Creates a new `GtkComboBoxText`.
      */
     public ComboBoxText() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new(), false));
+        super(References.get(gtk_h.gtk_combo_box_text_new(), false));
     }
     
     /**
      * Creates a new `GtkComboBoxText` with an entry.
      */
     public static ComboBoxText newWithEntry() {
-        return new ComboBoxText(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new_with_entry(), false));
+        return new ComboBoxText(References.get(gtk_h.gtk_combo_box_text_new_with_entry(), false));
     }
     
     /**
@@ -96,7 +98,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * with a position of -1.
      */
     public void append(java.lang.String id, java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_append(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_append(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -106,7 +108,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * with a position of -1.
      */
     public void appendText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_append_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_append_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -118,7 +120,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * be an item from the list).
      */
     public java.lang.String getActiveText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_get_active_text(HANDLE());
+        var RESULT = gtk_h.gtk_combo_box_text_get_active_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -131,7 +133,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * If @position is negative then @text is appended.
      */
     public void insert(int position, java.lang.String id, java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_insert(HANDLE(), position, Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_insert(handle(), position, Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * with a %NULL ID string.
      */
     public void insertText(int position, java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_insert_text(HANDLE(), position, Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_insert_text(handle(), position, Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -155,7 +157,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * with a position of 0.
      */
     public void prepend(java.lang.String id, java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_prepend(HANDLE(), Interop.allocateNativeString(id).HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_prepend(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -165,21 +167,21 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * with a position of 0.
      */
     public void prependText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_prepend_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_combo_box_text_prepend_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
      * Removes the string at @position from @combo_box.
      */
     public void remove(int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_remove(HANDLE(), position);
+        gtk_h.gtk_combo_box_text_remove(handle(), position);
     }
     
     /**
      * Removes all the text entries from the combo box.
      */
     public void removeAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_remove_all(HANDLE());
+        gtk_h.gtk_combo_box_text_remove_all(handle());
     }
     
 }

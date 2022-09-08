@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,7 +31,7 @@ public class BindingGroup extends Object {
      * Creates a new #GBindingGroup.
      */
     public BindingGroup() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_new(), true));
+        super(References.get(gtk_h.g_binding_group_new(), true));
     }
     
     /**
@@ -41,7 +43,7 @@ public class BindingGroup extends Object {
      * See g_object_bind_property() for more information.
      */
     public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags);
+        gtk_h.g_binding_group_bind(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags);
     }
     
     /**
@@ -57,14 +59,14 @@ public class BindingGroup extends Object {
      * See g_object_bind_property_with_closures() for more information.
      */
     public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_bind_with_closures(HANDLE(), Interop.allocateNativeString(sourceProperty).HANDLE(), target.HANDLE(), Interop.allocateNativeString(targetProperty).HANDLE(), flags, transformTo.HANDLE(), transformFrom.HANDLE());
+        gtk_h.g_binding_group_bind_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, transformTo.handle(), transformFrom.handle());
     }
     
     /**
      * Gets the source object used for binding properties.
      */
     public Object dupSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_dup_source(HANDLE());
+        var RESULT = gtk_h.g_binding_group_dup_source(handle());
         return new Object(References.get(RESULT, false));
     }
     
@@ -76,7 +78,7 @@ public class BindingGroup extends Object {
      * Note that all properties that have been bound must exist on @source.
      */
     public void setSource(Object source) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_set_source(HANDLE(), source.HANDLE());
+        gtk_h.g_binding_group_set_source(handle(), source.handle());
     }
     
 }

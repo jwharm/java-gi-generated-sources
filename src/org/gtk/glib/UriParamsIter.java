@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -58,7 +60,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * ]|
      */
     public void init(java.lang.String params, long length, java.lang.String separators, int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_params_iter_init(HANDLE(), Interop.allocateNativeString(params).HANDLE(), length, Interop.allocateNativeString(separators).HANDLE(), flags);
+        gtk_h.g_uri_params_iter_init(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags);
     }
     
     /**
@@ -74,7 +76,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public boolean next(java.lang.String[] attribute, java.lang.String[] value) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_uri_params_iter_next(HANDLE(), Interop.allocateNativeArray(attribute), Interop.allocateNativeArray(value), GERROR);
+        var RESULT = gtk_h.g_uri_params_iter_next(handle(), Interop.allocateNativeArray(attribute), Interop.allocateNativeArray(value), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      * Creates a new selection to handle @model.
      */
     public MultiSelection(org.gtk.gio.ListModel model) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_new(model.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_multi_selection_new(model.getReference().unowned().handle()), true));
     }
     
     /**
      * Returns the underlying model of @self.
      */
     public org.gtk.gio.ListModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_multi_selection_get_model(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      * If @model is %NULL, @self will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_multi_selection_set_model(handle(), model.handle());
     }
     
 }

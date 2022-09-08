@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,14 +32,14 @@ public class Coverage extends org.gtk.gobject.Object {
      * Create a new `PangoCoverage`
      */
     public Coverage() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_new(), true));
+        super(References.get(gtk_h.pango_coverage_new(), true));
     }
     
     /**
      * Copy an existing `PangoCoverage`.
      */
     public Coverage copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_copy(HANDLE());
+        var RESULT = gtk_h.pango_coverage_copy(handle());
         return new Coverage(References.get(RESULT, true));
     }
     
@@ -45,7 +47,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * Determine whether a particular index is covered by @coverage.
      */
     public CoverageLevel get(int index) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_get(HANDLE(), index);
+        var RESULT = gtk_h.pango_coverage_get(handle(), index);
         return CoverageLevel.fromValue(RESULT);
     }
     
@@ -53,7 +55,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * Modify a particular index within @coverage
      */
     public void set(int index, CoverageLevel level) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_set(HANDLE(), index, level.getValue());
+        gtk_h.pango_coverage_set(handle(), index, level.getValue());
     }
     
 }

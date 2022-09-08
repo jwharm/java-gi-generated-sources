@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class TransformNode extends RenderNode {
      * with the given @transform.
      */
     public TransformNode(RenderNode child, Transform transform) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_new(child.HANDLE(), transform.HANDLE()), true));
+        super(References.get(gtk_h.gsk_transform_node_new(child.handle(), transform.handle()), true));
     }
     
     /**
      * Gets the child node that is getting transformed by the given @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_transform_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class TransformNode extends RenderNode {
      * Retrieves the `GskTransform` used by the @node.
      */
     public Transform getTransform() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_transform(HANDLE());
+        var RESULT = gtk_h.gsk_transform_node_get_transform(handle());
         return new Transform(References.get(RESULT, false));
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,14 +43,14 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * Creates a new `GtkCellAreaBox`.
      */
     public CellAreaBox() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_new(), false));
+        super(References.get(gtk_h.gtk_cell_area_box_new(), false));
     }
     
     /**
      * Gets the spacing added between cell renderers.
      */
     public int getSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_get_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_box_get_spacing(handle());
         return RESULT;
     }
     
@@ -59,7 +61,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * `GtkCellRenderer` packed with reference to the end of @box.
      */
     public void packEnd(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_pack_end(HANDLE(), renderer.HANDLE(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        gtk_h.gtk_cell_area_box_pack_end(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
     }
     
     /**
@@ -69,14 +71,14 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * with reference to the start of @box.
      */
     public void packStart(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_pack_start(HANDLE(), renderer.HANDLE(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+        gtk_h.gtk_cell_area_box_pack_start(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
     }
     
     /**
      * Sets the spacing to add between cell renderers in @box.
      */
     public void setSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_set_spacing(HANDLE(), spacing);
+        gtk_h.gtk_cell_area_box_set_spacing(handle(), spacing);
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GString, initialized with the given string.
      */
     public String(java.lang.String init) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new(Interop.allocateNativeString(init).HANDLE()), true));
+        super(References.get(gtk_h.g_string_new(Interop.allocateNativeString(init).handle()), true));
     }
     
     /**
@@ -31,7 +33,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * bytes.
      */
     public String(java.lang.String init, long len) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_new_len(Interop.allocateNativeString(init).HANDLE(), len), true));
+        super(References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true));
     }
     
     /**
@@ -41,7 +43,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * too often.
      */
     public String(long dflSize) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_sized_new(dflSize), true));
+        super(References.get(gtk_h.g_string_sized_new(dflSize), true));
     }
     
     /**
@@ -49,7 +51,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * it if necessary.
      */
     public String append(java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append(HANDLE(), Interop.allocateNativeString(val).HANDLE());
+        var RESULT = gtk_h.g_string_append(handle(), Interop.allocateNativeString(val).handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -58,7 +60,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * it if necessary.
      */
     public String appendC(byte c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_c(HANDLE(), c);
+        var RESULT = gtk_h.g_string_append_c(handle(), c);
         return new String(References.get(RESULT, false));
     }
     
@@ -74,7 +76,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * makes g_string_append_len() equivalent to g_string_append().
      */
     public String appendLen(java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_len(HANDLE(), Interop.allocateNativeString(val).HANDLE(), len);
+        var RESULT = gtk_h.g_string_append_len(handle(), Interop.allocateNativeString(val).handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -83,7 +85,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the string.
      */
     public String appendUnichar(int wc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_unichar(HANDLE(), wc);
+        var RESULT = gtk_h.g_string_append_unichar(handle(), wc);
         return new String(References.get(RESULT, false));
     }
     
@@ -92,7 +94,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * are reserved in URIs using URI-style escape sequences.
      */
     public String appendUriEscaped(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_uri_escaped(HANDLE(), Interop.allocateNativeString(unescaped).HANDLE(), Interop.allocateNativeString(reservedCharsAllowed).HANDLE(), allowUtf8 ? 1 : 0);
+        var RESULT = gtk_h.g_string_append_uri_escaped(handle(), Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
         return new String(References.get(RESULT, false));
     }
     
@@ -103,14 +105,14 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * as a va_list.
      */
     public void appendVprintf(java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_append_vprintf(HANDLE(), Interop.allocateNativeString(format).HANDLE(), args);
+        gtk_h.g_string_append_vprintf(handle(), Interop.allocateNativeString(format).handle(), args);
     }
     
     /**
      * Converts all uppercase ASCII letters to lowercase ASCII letters.
      */
     public String asciiDown() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_ascii_down(HANDLE());
+        var RESULT = gtk_h.g_string_ascii_down(handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -118,7 +120,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Converts all lowercase ASCII letters to uppercase ASCII letters.
      */
     public String asciiUp() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_ascii_up(HANDLE());
+        var RESULT = gtk_h.g_string_ascii_up(handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -129,7 +131,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * have to worry about having enough space to copy the string.
      */
     public String assign(java.lang.String rval) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_assign(HANDLE(), Interop.allocateNativeString(rval).HANDLE());
+        var RESULT = gtk_h.g_string_assign(handle(), Interop.allocateNativeString(rval).handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -138,7 +140,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * For use with #GHashTable.
      */
     public boolean equal(String v2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_equal(HANDLE(), v2.HANDLE());
+        var RESULT = gtk_h.g_string_equal(handle(), v2.handle());
         return (RESULT != 0);
     }
     
@@ -147,7 +149,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * The rest of the #GString is shifted down to fill the gap.
      */
     public String erase(long pos, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_erase(HANDLE(), pos, len);
+        var RESULT = gtk_h.g_string_erase(handle(), pos, len);
         return new String(References.get(RESULT, false));
     }
     
@@ -158,7 +160,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * free it after use with g_free().
      */
     public java.lang.String free(boolean freeSegment) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_free(HANDLE(), freeSegment ? 1 : 0);
+        var RESULT = gtk_h.g_string_free(handle(), freeSegment ? 1 : 0);
         return RESULT.getUtf8String(0);
     }
     
@@ -173,7 +175,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * equal to the "len" member.
      */
     public Bytes freeToBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_free_to_bytes(HANDLE());
+        var RESULT = gtk_h.g_string_free_to_bytes(handle());
         return new Bytes(References.get(RESULT, true));
     }
     
@@ -181,7 +183,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a hash code for @str; for use with #GHashTable.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_hash(HANDLE());
+        var RESULT = gtk_h.g_string_hash(handle());
         return RESULT;
     }
     
@@ -190,7 +192,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * expanding it if necessary.
      */
     public String insert(long pos, java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE());
+        var RESULT = gtk_h.g_string_insert(handle(), pos, Interop.allocateNativeString(val).handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -198,7 +200,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a byte into a #GString, expanding it if necessary.
      */
     public String insertC(long pos, byte c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert_c(HANDLE(), pos, c);
+        var RESULT = gtk_h.g_string_insert_c(handle(), pos, c);
         return new String(References.get(RESULT, false));
     }
     
@@ -215,7 +217,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @pos is -1, bytes are inserted at the end of the string.
      */
     public String insertLen(long pos, java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert_len(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE(), len);
+        var RESULT = gtk_h.g_string_insert_len(handle(), pos, Interop.allocateNativeString(val).handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -224,7 +226,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * into the string at the given position.
      */
     public String insertUnichar(long pos, int wc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_insert_unichar(HANDLE(), pos, wc);
+        var RESULT = gtk_h.g_string_insert_unichar(handle(), pos, wc);
         return new String(References.get(RESULT, false));
     }
     
@@ -232,7 +234,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Overwrites part of a string, lengthening it if necessary.
      */
     public String overwrite(long pos, java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE());
+        var RESULT = gtk_h.g_string_overwrite(handle(), pos, Interop.allocateNativeString(val).handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -241,7 +243,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will work with embedded nuls.
      */
     public String overwriteLen(long pos, java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_overwrite_len(HANDLE(), pos, Interop.allocateNativeString(val).HANDLE(), len);
+        var RESULT = gtk_h.g_string_overwrite_len(handle(), pos, Interop.allocateNativeString(val).handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -250,7 +252,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * expanding it if necessary.
      */
     public String prepend(java.lang.String val) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend(HANDLE(), Interop.allocateNativeString(val).HANDLE());
+        var RESULT = gtk_h.g_string_prepend(handle(), Interop.allocateNativeString(val).handle());
         return new String(References.get(RESULT, false));
     }
     
@@ -259,7 +261,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * expanding it if necessary.
      */
     public String prependC(byte c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend_c(HANDLE(), c);
+        var RESULT = gtk_h.g_string_prepend_c(handle(), c);
         return new String(References.get(RESULT, false));
     }
     
@@ -275,7 +277,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * makes g_string_prepend_len() equivalent to g_string_prepend().
      */
     public String prependLen(java.lang.String val, long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend_len(HANDLE(), Interop.allocateNativeString(val).HANDLE(), len);
+        var RESULT = gtk_h.g_string_prepend_len(handle(), Interop.allocateNativeString(val).handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -284,7 +286,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the string.
      */
     public String prependUnichar(int wc) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_prepend_unichar(HANDLE(), wc);
+        var RESULT = gtk_h.g_string_prepend_unichar(handle(), wc);
         return new String(References.get(RESULT, false));
     }
     
@@ -300,7 +302,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * not work correctly in earlier versions.
      */
     public int replace(java.lang.String find, java.lang.String replace, int limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_replace(HANDLE(), Interop.allocateNativeString(find).HANDLE(), Interop.allocateNativeString(replace).HANDLE(), limit);
+        var RESULT = gtk_h.g_string_replace(handle(), Interop.allocateNativeString(find).handle(), Interop.allocateNativeString(replace).handle(), limit);
         return RESULT;
     }
     
@@ -312,7 +314,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * always, string->str[string->len] will be a nul byte.)
      */
     public String setSize(long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_set_size(HANDLE(), len);
+        var RESULT = gtk_h.g_string_set_size(handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -320,7 +322,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * Cuts off the end of the GString, leaving the first @len bytes.
      */
     public String truncate(long len) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_truncate(HANDLE(), len);
+        var RESULT = gtk_h.g_string_truncate(handle(), len);
         return new String(References.get(RESULT, false));
     }
     
@@ -330,7 +332,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * the arguments to the format string are passed as a va_list.
      */
     public void vprintf(java.lang.String format, VaList args) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_string_vprintf(HANDLE(), Interop.allocateNativeString(format).HANDLE(), args);
+        gtk_h.g_string_vprintf(handle(), Interop.allocateNativeString(format).handle(), args);
     }
     
 }

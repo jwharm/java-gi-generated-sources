@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -72,7 +74,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * the @widget using the layout management policy of @manager.
      */
     public void allocate(Widget widget, int width, int height, int baseline) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_allocate(HANDLE(), widget.HANDLE(), width, height, baseline);
+        gtk_h.gtk_layout_manager_allocate(handle(), widget.handle(), width, height, baseline);
     }
     
     /**
@@ -86,7 +88,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * `GtkWidget` using the given `GtkLayoutManager`.
      */
     public LayoutChild getLayoutChild(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_get_layout_child(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_layout_manager_get_layout_child(handle(), child.handle());
         return new LayoutChild(References.get(RESULT, false));
     }
     
@@ -94,7 +96,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * Retrieves the request mode of @manager.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_get_request_mode(HANDLE());
+        var RESULT = gtk_h.gtk_layout_manager_get_request_mode(handle());
         return SizeRequestMode.fromValue(RESULT);
     }
     
@@ -102,7 +104,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * Retrieves the `GtkWidget` using the given `GtkLayoutManager`.
      */
     public Widget getWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_get_widget(HANDLE());
+        var RESULT = gtk_h.gtk_layout_manager_get_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -113,7 +115,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * in response to changes to their layout management policies.
      */
     public void layoutChanged() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_manager_layout_changed(HANDLE());
+        gtk_h.gtk_layout_manager_layout_changed(handle());
     }
     
 }

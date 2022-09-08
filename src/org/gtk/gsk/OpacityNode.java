@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class OpacityNode extends RenderNode {
      * @opacity.
      */
     public OpacityNode(RenderNode child, float opacity) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_new(child.HANDLE(), opacity), true));
+        super(References.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true));
     }
     
     /**
      * Gets the child node that is getting opacityed by the given @node.
      */
     public RenderNode getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_get_child(HANDLE());
+        var RESULT = gtk_h.gsk_opacity_node_get_child(handle());
         return new RenderNode(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public class OpacityNode extends RenderNode {
      * Gets the transparency factor for an opacity node.
      */
     public float getOpacity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_get_opacity(HANDLE());
+        var RESULT = gtk_h.gsk_opacity_node_get_opacity(handle());
         return RESULT;
     }
     

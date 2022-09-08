@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,7 +27,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GTree.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_destroy(HANDLE());
+        gtk_h.g_tree_destroy(handle());
     }
     
     /**
@@ -36,7 +38,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the root node has children the height is 2, etc.
      */
     public int height() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_height(HANDLE());
+        var RESULT = gtk_h.g_tree_height(handle());
         return RESULT;
     }
     
@@ -47,7 +49,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * only this function does not return the inserted or set node.
      */
     public void insert(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_insert(HANDLE(), key, value);
+        gtk_h.g_tree_insert(handle(), key, value);
     }
     
     /**
@@ -66,7 +68,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * are O(log(n)).
      */
     public TreeNode insertNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_insert_node(HANDLE(), key, value);
+        var RESULT = gtk_h.g_tree_insert_node(handle(), key, value);
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -76,7 +78,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
     public jdk.incubator.foreign.MemoryAddress lookup(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lookup(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_lookup(handle(), key);
         return RESULT;
     }
     
@@ -87,7 +89,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_tree_remove().
      */
     public boolean lookupExtended(jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lookup_extended(HANDLE(), lookupKey, origKey, value);
+        var RESULT = gtk_h.g_tree_lookup_extended(handle(), lookupKey, origKey, value);
         return (RESULT != 0);
     }
     
@@ -97,7 +99,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
     public TreeNode lookupNode(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lookup_node(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_lookup_node(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -110,7 +112,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * than or equal to the searched key.
      */
     public TreeNode lowerBound(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lower_bound(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_lower_bound(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -118,7 +120,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the number of nodes in a #GTree.
      */
     public int nnodes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_nnodes(HANDLE());
+        var RESULT = gtk_h.g_tree_nnodes(handle());
         return RESULT;
     }
     
@@ -127,7 +129,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * for an empty tree.
      */
     public TreeNode nodeFirst() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_first(HANDLE());
+        var RESULT = gtk_h.g_tree_node_first(handle());
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -136,7 +138,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * for an empty tree.
      */
     public TreeNode nodeLast() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_last(HANDLE());
+        var RESULT = gtk_h.g_tree_node_last(handle());
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -146,7 +148,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is safe to call this function from any thread.
      */
     public Tree ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_ref(HANDLE());
+        var RESULT = gtk_h.g_tree_ref(handle());
         return new Tree(References.get(RESULT, true));
     }
     
@@ -163,7 +165,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * are O(log(n)).
      */
     public boolean remove(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_remove(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_remove(handle(), key);
         return (RESULT != 0);
     }
     
@@ -172,7 +174,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * then resets the #GTree’s root to %NULL.
      */
     public void removeAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_remove_all(HANDLE());
+        gtk_h.g_tree_remove_all(handle());
     }
     
     /**
@@ -180,7 +182,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * only this function does not return the inserted or set node.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_replace(HANDLE(), key, value);
+        gtk_h.g_tree_replace(handle(), key, value);
     }
     
     /**
@@ -195,7 +197,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * so that the distance from the root to every leaf is as small as possible.
      */
     public TreeNode replaceNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_replace_node(HANDLE(), key, value);
+        var RESULT = gtk_h.g_tree_replace_node(handle(), key, value);
         return new TreeNode(References.get(RESULT, false));
     }
     
@@ -206,7 +208,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the key does not exist in the #GTree, the function does nothing.
      */
     public boolean steal(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_steal(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_steal(handle(), key);
         return (RESULT != 0);
     }
     
@@ -219,7 +221,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is safe to call this function from any thread.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_unref(HANDLE());
+        gtk_h.g_tree_unref(handle());
     }
     
     /**
@@ -231,7 +233,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      * than the searched key.
      */
     public TreeNode upperBound(jdk.incubator.foreign.MemoryAddress key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_upper_bound(HANDLE(), key);
+        var RESULT = gtk_h.g_tree_upper_bound(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }
     

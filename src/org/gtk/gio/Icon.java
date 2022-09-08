@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +43,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
      * Checks if two icons are equal.
      */
     public default boolean equal(Icon icon2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_icon_equal(HANDLE(), icon2.HANDLE());
+        var RESULT = gtk_h.g_icon_equal(handle(), icon2.handle());
         return (RESULT != 0);
     }
     
@@ -53,7 +55,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
      * (as opposed to over the network), and within the same file system namespace.
      */
     public default org.gtk.glib.Variant serialize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_icon_serialize(HANDLE());
+        var RESULT = gtk_h.g_icon_serialize(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -76,7 +78,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
      *   the encoding is simply the name (such as `network-server`).
      */
     public default java.lang.String toString_() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_icon_to_string(HANDLE());
+        var RESULT = gtk_h.g_icon_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

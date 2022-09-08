@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * executed.
      */
     public Source(SourceFuncs sourceFuncs, int structSize) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_new(sourceFuncs.HANDLE(), structSize), true));
+        super(References.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true));
     }
     
     /**
@@ -49,7 +51,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Do not call this API on a #GSource that you did not create.
      */
     public void addChildSource(Source childSource) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_add_child_source(HANDLE(), childSource.HANDLE());
+        gtk_h.g_source_add_child_source(handle(), childSource.handle());
     }
     
     /**
@@ -67,7 +69,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_source_add_unix_fd() instead of this API.
      */
     public void addPoll(PollFD fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_add_poll(HANDLE(), fd.HANDLE());
+        gtk_h.g_source_add_poll(handle(), fd.handle());
     }
     
     /**
@@ -86,7 +88,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public jdk.incubator.foreign.MemoryAddress addUnixFd(int fd, int events) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_add_unix_fd(HANDLE(), fd, events);
+        var RESULT = gtk_h.g_source_add_unix_fd(handle(), fd, events);
         return RESULT;
     }
     
@@ -98,7 +100,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * the @context is running in.
      */
     public int attach(MainContext context) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_attach(HANDLE(), context.HANDLE());
+        var RESULT = gtk_h.g_source_attach(handle(), context.handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * This can mean, that the data's #GDestroyNotify gets called right away.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_destroy(HANDLE());
+        gtk_h.g_source_destroy(handle());
     }
     
     /**
@@ -127,7 +129,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * see g_source_set_can_recurse().
      */
     public boolean getCanRecurse() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_can_recurse(HANDLE());
+        var RESULT = gtk_h.g_source_get_can_recurse(handle());
         return (RESULT != 0);
     }
     
@@ -142,7 +144,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * whose #GMainContext has been destroyed is an error.
      */
     public MainContext getContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_context(HANDLE());
+        var RESULT = gtk_h.g_source_get_context(handle());
         return new MainContext(References.get(RESULT, false));
     }
     
@@ -158,7 +160,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * is unique within the #GMainContext instance passed to g_source_attach().
      */
     public int getId() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_id(HANDLE());
+        var RESULT = gtk_h.g_source_get_id(handle());
         return RESULT;
     }
     
@@ -167,7 +169,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * name may be #NULL if it has never been set with g_source_set_name().
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_name(HANDLE());
+        var RESULT = gtk_h.g_source_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -175,7 +177,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Gets the priority of a source.
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_priority(HANDLE());
+        var RESULT = gtk_h.g_source_get_priority(handle());
         return RESULT;
     }
     
@@ -187,7 +189,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * indication that the source will fire immediately.
      */
     public long getReadyTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_ready_time(HANDLE());
+        var RESULT = gtk_h.g_source_get_ready_time(handle());
         return RESULT;
     }
     
@@ -201,7 +203,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * other reasonable alternative otherwise.  See g_get_monotonic_time().
      */
     public long getTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_time(HANDLE());
+        var RESULT = gtk_h.g_source_get_time(handle());
         return RESULT;
     }
     
@@ -286,7 +288,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * used for opportunistic checks from any thread.
      */
     public boolean isDestroyed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_is_destroyed(HANDLE());
+        var RESULT = gtk_h.g_source_is_destroyed(handle());
         return (RESULT != 0);
     }
     
@@ -304,7 +306,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public void modifyUnixFd(jdk.incubator.foreign.MemoryAddress tag, int newEvents) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_modify_unix_fd(HANDLE(), tag, newEvents);
+        gtk_h.g_source_modify_unix_fd(handle(), tag, newEvents);
     }
     
     /**
@@ -320,7 +322,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public int queryUnixFd(jdk.incubator.foreign.MemoryAddress tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_query_unix_fd(HANDLE(), tag);
+        var RESULT = gtk_h.g_source_query_unix_fd(handle(), tag);
         return RESULT;
     }
     
@@ -328,7 +330,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count on a source by one.
      */
     public Source ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_ref(HANDLE());
+        var RESULT = gtk_h.g_source_ref(handle());
         return new Source(References.get(RESULT, true));
     }
     
@@ -339,7 +341,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Do not call this API on a #GSource that you did not create.
      */
     public void removeChildSource(Source childSource) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_remove_child_source(HANDLE(), childSource.HANDLE());
+        gtk_h.g_source_remove_child_source(handle(), childSource.handle());
     }
     
     /**
@@ -350,7 +352,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Do not call this API on a #GSource that you did not create.
      */
     public void removePoll(PollFD fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_remove_poll(HANDLE(), fd.HANDLE());
+        gtk_h.g_source_remove_poll(handle(), fd.handle());
     }
     
     /**
@@ -366,7 +368,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * As the name suggests, this function is not available on Windows.
      */
     public void removeUnixFd(jdk.incubator.foreign.MemoryAddress tag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_remove_unix_fd(HANDLE(), tag);
+        gtk_h.g_source_remove_unix_fd(handle(), tag);
     }
     
     /**
@@ -382,7 +384,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * the source is dispatched after this call returns.
      */
     public void setCallbackIndirect(jdk.incubator.foreign.MemoryAddress callbackData, SourceCallbackFuncs callbackFuncs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_callback_indirect(HANDLE(), callbackData, callbackFuncs.HANDLE());
+        gtk_h.g_source_set_callback_indirect(handle(), callbackData, callbackFuncs.handle());
     }
     
     /**
@@ -392,7 +394,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * source is blocked until the dispatch function returns.
      */
     public void setCanRecurse(boolean canRecurse) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_can_recurse(HANDLE(), canRecurse ? 1 : 0);
+        gtk_h.g_source_set_can_recurse(handle(), canRecurse ? 1 : 0);
     }
     
     /**
@@ -400,7 +402,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * default implementations) of an unattached source.
      */
     public void setFuncs(SourceFuncs funcs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_funcs(HANDLE(), funcs.HANDLE());
+        gtk_h.g_source_set_funcs(handle(), funcs.handle());
     }
     
     /**
@@ -424,7 +426,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Also see g_source_set_static_name().
      */
     public void setName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.g_source_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -438,7 +440,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * as a child of another source.
      */
     public void setPriority(int priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_priority(HANDLE(), priority);
+        gtk_h.g_source_set_priority(handle(), priority);
     }
     
     /**
@@ -466,7 +468,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Do not call this API on a #GSource that you did not create.
      */
     public void setReadyTime(long readyTime) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_ready_time(HANDLE(), readyTime);
+        gtk_h.g_source_set_ready_time(handle(), readyTime);
     }
     
     /**
@@ -475,7 +477,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * string literals.
      */
     public void setStaticName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_set_static_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.g_source_set_static_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -484,7 +486,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * memory will be destroyed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_unref(HANDLE());
+        gtk_h.g_source_unref(handle());
     }
     
 }

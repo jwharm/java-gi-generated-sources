@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,21 +43,21 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * within the same `GtkWindowGroup`.
      */
     public WindowGroup() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_new(), true));
+        super(References.get(gtk_h.gtk_window_group_new(), true));
     }
     
     /**
      * Adds a window to a `GtkWindowGroup`.
      */
     public void addWindow(Window window) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_add_window(HANDLE(), window.HANDLE());
+        gtk_h.gtk_window_group_add_window(handle(), window.handle());
     }
     
     /**
      * Returns a list of the `GtkWindows` that belong to @window_group.
      */
     public org.gtk.glib.List listWindows() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_list_windows(HANDLE());
+        var RESULT = gtk_h.gtk_window_group_list_windows(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -63,7 +65,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * Removes a window from a `GtkWindowGroup`.
      */
     public void removeWindow(Window window) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_remove_window(HANDLE(), window.HANDLE());
+        gtk_h.gtk_window_group_remove_window(handle(), window.handle());
     }
     
 }

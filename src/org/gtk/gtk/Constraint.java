@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute on a source and a layout attribute on a target.
      */
     public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), source.HANDLE(), sourceAttribute.getValue(), multiplier, constant, strength), true));
+        super(References.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true));
     }
     
     /**
@@ -46,14 +48,14 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute on a target and a constant value.
      */
     public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_new_constant(target.HANDLE(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
+        super(References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
     }
     
     /**
      * Retrieves the constant factor added to the source attributes' value.
      */
     public double getConstant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_constant(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_constant(handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute's value.
      */
     public double getMultiplier() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_multiplier(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_multiplier(handle());
         return RESULT;
     }
     
@@ -70,7 +72,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * The order relation between the terms of the constraint.
      */
     public ConstraintRelation getRelation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_relation(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_relation(handle());
         return ConstraintRelation.fromValue(RESULT);
     }
     
@@ -82,7 +84,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * the widget using the [class@Gtk.ConstraintLayout] as the source.
      */
     public ConstraintTarget getSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_source(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_source(handle());
         return new ConstraintTarget.ConstraintTargetImpl(References.get(RESULT, false));
     }
     
@@ -90,7 +92,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * Retrieves the attribute of the source to be read by the constraint.
      */
     public ConstraintAttribute getSourceAttribute() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_source_attribute(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_source_attribute(handle());
         return ConstraintAttribute.fromValue(RESULT);
     }
     
@@ -98,7 +100,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * Retrieves the strength of the constraint.
      */
     public int getStrength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_strength(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_strength(handle());
         return RESULT;
     }
     
@@ -110,7 +112,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * the widget using the [class@Gtk.ConstraintLayout] as the target.
      */
     public ConstraintTarget getTarget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_target(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_target(handle());
         return new ConstraintTarget.ConstraintTargetImpl(References.get(RESULT, false));
     }
     
@@ -118,7 +120,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * Retrieves the attribute of the target to be set by the constraint.
      */
     public ConstraintAttribute getTargetAttribute() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_get_target_attribute(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_get_target_attribute(handle());
         return ConstraintAttribute.fromValue(RESULT);
     }
     
@@ -127,7 +129,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * and it is contributing to the layout.
      */
     public boolean isAttached() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_is_attached(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_is_attached(handle());
         return (RESULT != 0);
     }
     
@@ -136,7 +138,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * on the [property@Gtk.Constraint:target] and a constant value.
      */
     public boolean isConstant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_is_constant(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_is_constant(handle());
         return (RESULT != 0);
     }
     
@@ -145,7 +147,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * constraint layout.
      */
     public boolean isRequired() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_is_required(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_is_required(handle());
         return (RESULT != 0);
     }
     

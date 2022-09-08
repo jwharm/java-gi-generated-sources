@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -85,7 +87,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * while calling this function, though not required.
      */
     public void broadcast() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_broadcast(HANDLE());
+        gtk_h.g_cond_broadcast(handle());
     }
     
     /**
@@ -98,7 +100,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * blocking leads to undefined behaviour.
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_clear(HANDLE());
+        gtk_h.g_cond_clear(handle());
     }
     
     /**
@@ -115,7 +117,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * to undefined behaviour.
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_init(HANDLE());
+        gtk_h.g_cond_init(handle());
     }
     
     /**
@@ -125,7 +127,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * while calling this function, though not required.
      */
     public void signal() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_signal(HANDLE());
+        gtk_h.g_cond_signal(handle());
     }
     
     /**
@@ -145,7 +147,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * the documentation for #GCond for a complete example.
      */
     public void wait(Mutex mutex) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_wait(HANDLE(), mutex.HANDLE());
+        gtk_h.g_cond_wait(handle(), mutex.handle());
     }
     
     /**
@@ -199,7 +201,7 @@ public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
      * time of more than 5 seconds).
      */
     public boolean waitUntil(Mutex mutex, long endTime) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cond_wait_until(HANDLE(), mutex.HANDLE(), endTime);
+        var RESULT = gtk_h.g_cond_wait_until(handle(), mutex.handle(), endTime);
         return (RESULT != 0);
     }
     

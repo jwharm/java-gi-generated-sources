@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,14 +22,14 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned value are undefined.
      */
     public Size() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_alloc(), true));
+        super(References.get(gtk_h.graphene_size_alloc(), true));
     }
     
     /**
      * Checks whether the two give #graphene_size_t are equal.
      */
     public boolean equal(Size b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_size_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -35,14 +37,14 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_size_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_free(HANDLE());
+        gtk_h.graphene_size_free(handle());
     }
     
     /**
      * Initializes a #graphene_size_t using the given @width and @height.
      */
     public Size init(float width, float height) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_init(HANDLE(), width, height);
+        var RESULT = gtk_h.graphene_size_init(handle(), width, height);
         return new Size(References.get(RESULT, false));
     }
     
@@ -51,7 +53,7 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * the given @src.
      */
     public Size initFromSize(Size src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_init_from_size(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_size_init_from_size(handle(), src.handle());
         return new Size(References.get(RESULT, false));
     }
     
@@ -60,14 +62,14 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * interpolation @factor.
      */
     public void interpolate(Size b, double factor, Size res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_interpolate(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_size_interpolate(handle(), b.handle(), factor, res.handle());
     }
     
     /**
      * Scales the components of a #graphene_size_t using the given @factor.
      */
     public void scale(float factor, Size res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_size_scale(HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_size_scale(handle(), factor, res.handle());
     }
     
 }

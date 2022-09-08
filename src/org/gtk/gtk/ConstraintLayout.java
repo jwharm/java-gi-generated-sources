@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -185,7 +187,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Creates a new `GtkConstraintLayout` layout manager.
      */
     public ConstraintLayout() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_new(), true));
+        super(References.get(gtk_h.gtk_constraint_layout_new(), true));
     }
     
     /**
@@ -204,7 +206,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addConstraint(Constraint constraint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_add_constraint(HANDLE(), constraint.getReference().unowned().HANDLE());
+        gtk_h.gtk_constraint_layout_add_constraint(handle(), constraint.getReference().unowned().handle());
     }
     
     /**
@@ -288,7 +290,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      */
     public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(HANDLE(), Interop.allocateNativeArray(lines), nLines, hspacing, vspacing, views.HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(handle(), Interop.allocateNativeArray(lines), nLines, hspacing, vspacing, views.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -305,7 +307,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * this function.
      */
     public void addGuide(ConstraintGuide guide) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_add_guide(HANDLE(), guide.getReference().unowned().HANDLE());
+        gtk_h.gtk_constraint_layout_add_guide(handle(), guide.getReference().unowned().handle());
     }
     
     /**
@@ -320,7 +322,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeConstraints() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_observe_constraints(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_layout_observe_constraints(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -336,7 +338,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * because of the slowdowns.
      */
     public org.gtk.gio.ListModel observeGuides() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_observe_guides(HANDLE());
+        var RESULT = gtk_h.gtk_constraint_layout_observe_guides(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
@@ -344,7 +346,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Removes all constraints from the layout manager.
      */
     public void removeAllConstraints() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_remove_all_constraints(HANDLE());
+        gtk_h.gtk_constraint_layout_remove_all_constraints(handle());
     }
     
     /**
@@ -352,7 +354,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * so that it no longer influences the layout.
      */
     public void removeConstraint(Constraint constraint) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_remove_constraint(HANDLE(), constraint.HANDLE());
+        gtk_h.gtk_constraint_layout_remove_constraint(handle(), constraint.handle());
     }
     
     /**
@@ -360,7 +362,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * so that it no longer influences the layout.
      */
     public void removeGuide(ConstraintGuide guide) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_layout_remove_guide(HANDLE(), guide.HANDLE());
+        gtk_h.gtk_constraint_layout_remove_guide(handle(), guide.handle());
     }
     
 }

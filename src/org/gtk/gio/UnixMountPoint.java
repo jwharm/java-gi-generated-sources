@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Compares two unix mount points.
      */
     public int compare(UnixMountPoint mount2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_compare(HANDLE(), mount2.HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_compare(handle(), mount2.handle());
         return RESULT;
     }
     
@@ -27,7 +29,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Makes a copy of @mount_point.
      */
     public UnixMountPoint copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_copy(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_copy(handle());
         return new UnixMountPoint(References.get(RESULT, true));
     }
     
@@ -35,14 +37,14 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Frees a unix mount point.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_free(HANDLE());
+        gtk_h.g_unix_mount_point_free(handle());
     }
     
     /**
      * Gets the device path for a unix mount point.
      */
     public java.lang.String getDevicePath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_get_device_path(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_get_device_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -50,7 +52,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Gets the file system type for the mount point.
      */
     public java.lang.String getFsType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_get_fs_type(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_get_fs_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -58,7 +60,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Gets the mount path for a unix mount point.
      */
     public java.lang.String getMountPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_get_mount_path(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_get_mount_path(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -66,7 +68,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Gets the options for the mount point.
      */
     public java.lang.String getOptions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_get_options(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_get_options(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -74,7 +76,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Guesses whether a Unix mount point can be ejected.
      */
     public boolean guessCanEject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_can_eject(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_guess_can_eject(handle());
         return (RESULT != 0);
     }
     
@@ -82,7 +84,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Guesses the icon of a Unix mount point.
      */
     public Icon guessIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_icon(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_guess_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -91,7 +93,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * The result is a translated string.
      */
     public java.lang.String guessName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_name(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_guess_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -99,7 +101,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Guesses the symbolic icon of a Unix mount point.
      */
     public Icon guessSymbolicIcon() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_guess_symbolic_icon(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_guess_symbolic_icon(handle());
         return new Icon.IconImpl(References.get(RESULT, true));
     }
     
@@ -107,7 +109,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if a unix mount point is a loopback device.
      */
     public boolean isLoopback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_is_loopback(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_is_loopback(handle());
         return (RESULT != 0);
     }
     
@@ -115,7 +117,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if a unix mount point is read only.
      */
     public boolean isReadonly() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_is_readonly(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_is_readonly(handle());
         return (RESULT != 0);
     }
     
@@ -123,7 +125,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.interop.ResourceBase
      * Checks if a unix mount point is mountable by the user.
      */
     public boolean isUserMountable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_mount_point_is_user_mountable(HANDLE());
+        var RESULT = gtk_h.g_unix_mount_point_is_user_mountable(handle());
         return (RESULT != 0);
     }
     

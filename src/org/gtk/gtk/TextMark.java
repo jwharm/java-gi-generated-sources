@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -65,7 +67,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * right side of the text you’re typing).
      */
     public TextMark(java.lang.String name, boolean leftGravity) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).HANDLE(), leftGravity ? 1 : 0), true));
+        super(References.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true));
     }
     
     /**
@@ -74,7 +76,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * Returns %NULL if the mark is deleted.
      */
     public TextBuffer getBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_text_mark_get_buffer(handle());
         return new TextBuffer(References.get(RESULT, false));
     }
     
@@ -85,7 +87,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * to a buffer again.
      */
     public boolean getDeleted() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_deleted(HANDLE());
+        var RESULT = gtk_h.gtk_text_mark_get_deleted(handle());
         return (RESULT != 0);
     }
     
@@ -93,7 +95,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * Determines whether the mark has left gravity.
      */
     public boolean getLeftGravity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_left_gravity(HANDLE());
+        var RESULT = gtk_h.gtk_text_mark_get_left_gravity(handle());
         return (RESULT != 0);
     }
     
@@ -103,7 +105,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * Returns %NULL for anonymous marks.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_name(HANDLE());
+        var RESULT = gtk_h.gtk_text_mark_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -113,12 +115,12 @@ public class TextMark extends org.gtk.gobject.Object {
      * A cursor is displayed for visible marks.
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_text_mark_get_visible(handle());
         return (RESULT != 0);
     }
     
     public void setVisible(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_set_visible(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_text_mark_set_visible(handle(), setting ? 1 : 0);
     }
     
 }

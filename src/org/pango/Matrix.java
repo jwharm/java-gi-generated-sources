@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,14 +30,14 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * given by @new_matrix then applying the original transformation.
      */
     public void concat(Matrix newMatrix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_concat(HANDLE(), newMatrix.HANDLE());
+        gtk_h.pango_matrix_concat(handle(), newMatrix.handle());
     }
     
     /**
      * Copies a `PangoMatrix`.
      */
     public Matrix copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_copy(HANDLE());
+        var RESULT = gtk_h.pango_matrix_copy(handle());
         return new Matrix(References.get(RESULT, true));
     }
     
@@ -43,7 +45,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * Free a `PangoMatrix`.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_free(HANDLE());
+        gtk_h.pango_matrix_free(handle());
     }
     
     /**
@@ -54,7 +56,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * coordinate is needed as well, use [method@Pango.Matrix.get_font_scale_factors].
      */
     public double getFontScaleFactor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_get_font_scale_factor(HANDLE());
+        var RESULT = gtk_h.pango_matrix_get_font_scale_factor(handle());
         return RESULT;
     }
     
@@ -69,7 +71,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * this is simply λ.
      */
     public double getSlantRatio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_get_slant_ratio(HANDLE());
+        var RESULT = gtk_h.pango_matrix_get_slant_ratio(handle());
         return RESULT;
     }
     
@@ -79,7 +81,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * counter-clockwise then applying the original transformation.
      */
     public void rotate(double degrees) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_rotate(HANDLE(), degrees);
+        gtk_h.pango_matrix_rotate(handle(), degrees);
     }
     
     /**
@@ -89,7 +91,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * transformation.
      */
     public void scale(double scaleX, double scaleY) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_scale(HANDLE(), scaleX, scaleY);
+        gtk_h.pango_matrix_scale(handle(), scaleX, scaleY);
     }
     
     /**
@@ -105,7 +107,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * using [func@extents_to_pixels]'s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_transform_pixel_rectangle(HANDLE(), rect.HANDLE());
+        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.handle());
     }
     
     /**
@@ -129,7 +131,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * example).
      */
     public void transformRectangle(Rectangle rect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_transform_rectangle(HANDLE(), rect.HANDLE());
+        gtk_h.pango_matrix_transform_rectangle(handle(), rect.handle());
     }
     
     /**
@@ -138,7 +140,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      * then applying the original transformation.
      */
     public void translate(double tx, double ty) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_translate(HANDLE(), tx, ty);
+        gtk_h.pango_matrix_translate(handle(), tx, ty);
     }
     
 }

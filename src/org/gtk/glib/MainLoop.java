@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,14 +21,14 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * Creates a new #GMainLoop structure.
      */
     public MainLoop(MainContext context, boolean isRunning) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_new(context.HANDLE(), isRunning ? 1 : 0), true));
+        super(References.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true));
     }
     
     /**
      * Returns the #GMainContext of @loop.
      */
     public MainContext getContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_get_context(HANDLE());
+        var RESULT = gtk_h.g_main_loop_get_context(handle());
         return new MainContext(References.get(RESULT, false));
     }
     
@@ -34,7 +36,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks to see if the main loop is currently being run via g_main_loop_run().
      */
     public boolean isRunning() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_is_running(HANDLE());
+        var RESULT = gtk_h.g_main_loop_is_running(handle());
         return (RESULT != 0);
     }
     
@@ -46,14 +48,14 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_main_loop_quit() is called will still be executed.
      */
     public void quit() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_quit(HANDLE());
+        gtk_h.g_main_loop_quit(handle());
     }
     
     /**
      * Increases the reference count on a #GMainLoop object by one.
      */
     public MainLoop ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_ref(HANDLE());
+        var RESULT = gtk_h.g_main_loop_ref(handle());
         return new MainLoop(References.get(RESULT, true));
     }
     
@@ -64,7 +66,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * simply wait.
      */
     public void run() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_run(HANDLE());
+        gtk_h.g_main_loop_run(handle());
     }
     
     /**
@@ -72,7 +74,7 @@ public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
      * the result is zero, free the loop and free all associated memory.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_main_loop_unref(HANDLE());
+        gtk_h.g_main_loop_unref(handle());
     }
     
 }

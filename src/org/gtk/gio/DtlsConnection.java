@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -51,7 +53,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_close(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_close(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -64,7 +66,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_close_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_close_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -76,7 +78,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * #GDtlsConnection::accept-certificate signal.
      */
     public default boolean emitAcceptCertificate(TlsCertificate peerCert, int errors) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_emit_accept_certificate(HANDLE(), peerCert.HANDLE(), errors);
+        var RESULT = gtk_h.g_dtls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors);
         return (RESULT != 0);
     }
     
@@ -85,7 +87,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * g_dtls_connection_set_certificate().
      */
     public default TlsCertificate getCertificate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_certificate(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_certificate(handle());
         return new TlsCertificate(References.get(RESULT, false));
     }
     
@@ -106,7 +108,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_channel_binding_data(HANDLE(), type.getValue(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -124,7 +126,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * is not recommended.
      */
     public default java.lang.String getCiphersuiteName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_ciphersuite_name(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_ciphersuite_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -133,7 +135,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * peer certificates. See g_dtls_connection_set_database().
      */
     public default TlsDatabase getDatabase() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_database(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_database(handle());
         return new TlsDatabase(References.get(RESULT, false));
     }
     
@@ -143,7 +145,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * no user interaction will occur for this connection.
      */
     public default TlsInteraction getInteraction() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_interaction(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_interaction(handle());
         return new TlsInteraction(References.get(RESULT, false));
     }
     
@@ -157,7 +159,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * g_dtls_connection_set_advertised_protocols().
      */
     public default java.lang.String getNegotiatedProtocol() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_negotiated_protocol(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_negotiated_protocol(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -167,7 +169,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * #GDtlsConnection::accept-certificate.)
      */
     public default TlsCertificate getPeerCertificate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_peer_certificate(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_peer_certificate(handle());
         return new TlsCertificate(References.get(RESULT, false));
     }
     
@@ -177,7 +179,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * not set during the emission of #GDtlsConnection::accept-certificate.)
      */
     public default int getPeerCertificateErrors() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_peer_certificate_errors(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_peer_certificate_errors(handle());
         return RESULT;
     }
     
@@ -188,7 +190,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * that is not a recognized #GTlsProtocolVersion.
      */
     public default TlsProtocolVersion getProtocolVersion() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_protocol_version(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_protocol_version(handle());
         return TlsProtocolVersion.fromValue(RESULT);
     }
     
@@ -198,7 +200,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * g_dtls_connection_set_require_close_notify() for details.
      */
     public default boolean getRequireCloseNotify() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_require_close_notify(HANDLE());
+        var RESULT = gtk_h.g_dtls_connection_get_require_close_notify(handle());
         return (RESULT != 0);
     }
     
@@ -232,7 +234,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_handshake(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_handshake(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -245,7 +247,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_handshake_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_handshake_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -265,7 +267,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * for a list of registered protocol IDs.
      */
     public default void setAdvertisedProtocols(java.lang.String[] protocols) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_set_advertised_protocols(HANDLE(), Interop.allocateNativeArray(protocols));
+        gtk_h.g_dtls_connection_set_advertised_protocols(handle(), Interop.allocateNativeArray(protocols));
     }
     
     /**
@@ -289,7 +291,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * non-%NULL.)
      */
     public default void setCertificate(TlsCertificate certificate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_set_certificate(HANDLE(), certificate.HANDLE());
+        gtk_h.g_dtls_connection_set_certificate(handle(), certificate.handle());
     }
     
     /**
@@ -306,7 +308,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * database. See #GDtlsConnection:database for details.
      */
     public default void setDatabase(TlsDatabase database) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_set_database(HANDLE(), database.HANDLE());
+        gtk_h.g_dtls_connection_set_database(handle(), database.handle());
     }
     
     /**
@@ -318,7 +320,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * should occur for this connection.
      */
     public default void setInteraction(TlsInteraction interaction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_set_interaction(HANDLE(), interaction.HANDLE());
+        gtk_h.g_dtls_connection_set_interaction(handle(), interaction.handle());
     }
     
     /**
@@ -349,7 +351,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * than closing @conn itself.
      */
     public default void setRequireCloseNotify(boolean requireCloseNotify) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_set_require_close_notify(HANDLE(), requireCloseNotify ? 1 : 0);
+        gtk_h.g_dtls_connection_set_require_close_notify(handle(), requireCloseNotify ? 1 : 0);
     }
     
     /**
@@ -372,7 +374,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_shutdown(HANDLE(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_shutdown(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -385,7 +387,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default boolean shutdownFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_shutdown_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_dtls_connection_shutdown_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -445,12 +447,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDtlsConnectionAcceptCertificate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("accept-certificate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("accept-certificate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

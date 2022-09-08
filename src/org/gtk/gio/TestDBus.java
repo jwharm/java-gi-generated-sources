@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -94,7 +96,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * Create a new #GTestDBus object.
      */
     public TestDBus(int flags) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_new(flags), true));
+        super(References.get(gtk_h.g_test_dbus_new(flags), true));
     }
     
     /**
@@ -102,7 +104,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * called after g_test_dbus_up().
      */
     public void addServiceDir(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_add_service_dir(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.g_test_dbus_add_service_dir(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -113,7 +115,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * leaked singleton from this test.
      */
     public void down() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_down(HANDLE());
+        gtk_h.g_test_dbus_down(handle());
     }
     
     /**
@@ -122,7 +124,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * g_dbus_connection_new_for_address().
      */
     public java.lang.String getBusAddress() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_get_bus_address(HANDLE());
+        var RESULT = gtk_h.g_test_dbus_get_bus_address(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -130,7 +132,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * Get the flags of the #GTestDBus object.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_get_flags(HANDLE());
+        var RESULT = gtk_h.g_test_dbus_get_flags(handle());
         return RESULT;
     }
     
@@ -143,7 +145,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * can use this function but should still call g_test_dbus_down() when done.
      */
     public void stop() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_stop(HANDLE());
+        gtk_h.g_test_dbus_stop(handle());
     }
     
     /**
@@ -157,7 +159,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * must be called after g_test_run().
      */
     public void up() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_up(HANDLE());
+        gtk_h.g_test_dbus_up(handle());
     }
     
 }

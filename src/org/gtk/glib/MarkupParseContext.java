@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      */
     public boolean endParse() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_end_parse(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_markup_parse_context_end_parse(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -41,7 +43,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * #GMarkupParser functions or while a subparser is pushed.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_free(HANDLE());
+        gtk_h.g_markup_parse_context_free(handle());
     }
     
     /**
@@ -52,7 +54,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * elements, see g_markup_parse_context_get_element_stack().
      */
     public java.lang.String getElement() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_get_element(HANDLE());
+        var RESULT = gtk_h.g_markup_parse_context_get_element(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -70,7 +72,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * processed.
      */
     public org.gtk.glib.SList getElementStack() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_get_element_stack(HANDLE());
+        var RESULT = gtk_h.g_markup_parse_context_get_element_stack(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -82,7 +84,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * of g_markup_parse_context_push().
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_get_user_data(HANDLE());
+        var RESULT = gtk_h.g_markup_parse_context_get_user_data(handle());
         return RESULT;
     }
     
@@ -100,7 +102,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      */
     public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_parse(HANDLE(), Interop.allocateNativeString(text).HANDLE(), textLen, GERROR);
+        var RESULT = gtk_h.g_markup_parse_context_parse(handle(), Interop.allocateNativeString(text).handle(), textLen, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -123,7 +125,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * interface.
      */
     public jdk.incubator.foreign.MemoryAddress pop() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_pop(HANDLE());
+        var RESULT = gtk_h.g_markup_parse_context_pop(handle());
         return RESULT;
     }
     
@@ -244,14 +246,14 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * ]|
      */
     public void push(MarkupParser parser, jdk.incubator.foreign.MemoryAddress userData) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_push(HANDLE(), parser.HANDLE(), userData);
+        gtk_h.g_markup_parse_context_push(handle(), parser.handle(), userData);
     }
     
     /**
      * Increases the reference count of @context.
      */
     public MarkupParseContext ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_ref(HANDLE());
+        var RESULT = gtk_h.g_markup_parse_context_ref(handle());
         return new MarkupParseContext(References.get(RESULT, true));
     }
     
@@ -260,7 +262,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * drops to 0, it is freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_markup_parse_context_unref(HANDLE());
+        gtk_h.g_markup_parse_context_unref(handle());
     }
     
 }

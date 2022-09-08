@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * otherwise it is not guaranteed that the shortcut will be installed.
      */
     public void addShortcut(Shortcut shortcut) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_add_shortcut(HANDLE(), shortcut.HANDLE());
+        gtk_h.gtk_widget_class_add_shortcut(handle(), shortcut.handle());
     }
     
     /**
@@ -58,7 +60,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * initializer after calling [method@Gtk.WidgetClass.set_template].
      */
     public void bindTemplateChildFull(java.lang.String name, boolean internalChild, long structOffset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_bind_template_child_full(HANDLE(), Interop.allocateNativeString(name).HANDLE(), internalChild ? 1 : 0, structOffset);
+        gtk_h.gtk_widget_class_bind_template_child_full(handle(), Interop.allocateNativeString(name).handle(), internalChild ? 1 : 0, structOffset);
     }
     
     /**
@@ -70,7 +72,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: [method@Gtk.Accessible.get_accessible_role].
      */
     public AccessibleRole getAccessibleRole() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_get_accessible_role(HANDLE());
+        var RESULT = gtk_h.gtk_widget_class_get_accessible_role(handle());
         return AccessibleRole.fromValue(RESULT);
     }
     
@@ -81,7 +83,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.WidgetClass.set_activate_signal].
      */
     public int getActivateSignal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_get_activate_signal(HANDLE());
+        var RESULT = gtk_h.gtk_widget_class_get_activate_signal(handle());
         return RESULT;
     }
     
@@ -91,7 +93,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.WidgetClass.set_css_name] for details.
      */
     public java.lang.String getCssName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_get_css_name(HANDLE());
+        var RESULT = gtk_h.gtk_widget_class_get_css_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -102,7 +104,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: [method@Gtk.WidgetClass.set_layout_manager_type].
      */
     public org.gtk.gobject.Type getLayoutManagerType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_get_layout_manager_type(HANDLE());
+        var RESULT = gtk_h.gtk_widget_class_get_layout_manager_type(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -124,7 +126,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the same type as the property.
      */
     public void installPropertyAction(java.lang.String actionName, java.lang.String propertyName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_install_property_action(HANDLE(), Interop.allocateNativeString(actionName).HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
+        gtk_h.gtk_widget_class_install_property_action(handle(), Interop.allocateNativeString(actionName).handle(), Interop.allocateNativeString(propertyName).handle());
     }
     
     /**
@@ -134,7 +136,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * rendered differently by assistive technologies.
      */
     public void setAccessibleRole(AccessibleRole accessibleRole) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_accessible_role(HANDLE(), accessibleRole.getValue());
+        gtk_h.gtk_widget_class_set_accessible_role(handle(), accessibleRole.getValue());
     }
     
     /**
@@ -147,7 +149,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * or g_signal_newv() before calling this function.
      */
     public void setActivateSignal(int signalId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_activate_signal(HANDLE(), signalId);
+        gtk_h.gtk_widget_class_set_activate_signal(handle(), signalId);
     }
     
     /**
@@ -160,7 +162,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_signal_new() or g_signal_newv() before calling this function.
      */
     public void setActivateSignalFromName(java.lang.String signalName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_activate_signal_from_name(HANDLE(), Interop.allocateNativeString(signalName).HANDLE());
+        gtk_h.gtk_widget_class_set_activate_signal_from_name(handle(), Interop.allocateNativeString(signalName).handle());
     }
     
     /**
@@ -171,7 +173,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * uses the name "widget".
      */
     public void setCssName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_css_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_widget_class_set_css_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
@@ -184,7 +186,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * of widgets.
      */
     public void setLayoutManagerType(Type type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_layout_manager_type(HANDLE(), type.getValue());
+        gtk_h.gtk_widget_class_set_layout_manager_type(handle(), type.getValue());
     }
     
     /**
@@ -198,7 +200,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.Widget.init_template] in the widget’s instance initializer.
      */
     public void setTemplate(org.gtk.glib.Bytes templateBytes) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_template(HANDLE(), templateBytes.HANDLE());
+        gtk_h.gtk_widget_class_set_template(handle(), templateBytes.handle());
     }
     
     /**
@@ -210,7 +212,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * initializer.
      */
     public void setTemplateFromResource(java.lang.String resourceName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_template_from_resource(HANDLE(), Interop.allocateNativeString(resourceName).HANDLE());
+        gtk_h.gtk_widget_class_set_template_from_resource(handle(), Interop.allocateNativeString(resourceName).handle());
     }
     
     /**
@@ -222,7 +224,7 @@ public class WidgetClass extends io.github.jwharm.javagi.interop.ResourceBase {
      * initializer after calling [method@GtkWidgetClass.set_template].
      */
     public void setTemplateScope(BuilderScope scope) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_class_set_template_scope(HANDLE(), scope.HANDLE());
+        gtk_h.gtk_widget_class_set_template_scope(handle(), scope.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -71,7 +73,7 @@ public class Notification extends org.gtk.gobject.Object {
      * resending @notification.
      */
     public Notification(java.lang.String title) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_new(Interop.allocateNativeString(title).HANDLE()), true));
+        super(References.get(gtk_h.g_notification_new(Interop.allocateNativeString(title).handle()), true));
     }
     
     /**
@@ -85,7 +87,7 @@ public class Notification extends org.gtk.gobject.Object {
      * for @detailed_action.
      */
     public void addButton(java.lang.String label, java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_notification_add_button(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -96,14 +98,14 @@ public class Notification extends org.gtk.gobject.Object {
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_add_button_with_target_value(HANDLE(), Interop.allocateNativeString(label).HANDLE(), Interop.allocateNativeString(action).HANDLE(), target.HANDLE());
+        gtk_h.g_notification_add_button_with_target_value(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(action).handle(), target.handle());
     }
     
     /**
      * Sets the body of @notification to @body.
      */
     public void setBody(java.lang.String body) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_body(HANDLE(), Interop.allocateNativeString(body).HANDLE());
+        gtk_h.g_notification_set_body(handle(), Interop.allocateNativeString(body).handle());
     }
     
     /**
@@ -115,7 +117,7 @@ public class Notification extends org.gtk.gobject.Object {
      * Standard categories are [listed in the specification](https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
      */
     public void setCategory(java.lang.String category) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_category(HANDLE(), Interop.allocateNativeString(category).HANDLE());
+        gtk_h.g_notification_set_category(handle(), Interop.allocateNativeString(category).handle());
     }
     
     /**
@@ -132,7 +134,7 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultAction(java.lang.String detailedAction) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action(HANDLE(), Interop.allocateNativeString(detailedAction).HANDLE());
+        gtk_h.g_notification_set_default_action(handle(), Interop.allocateNativeString(detailedAction).handle());
     }
     
     /**
@@ -147,14 +149,14 @@ public class Notification extends org.gtk.gobject.Object {
      * was sent on is activated.
      */
     public void setDefaultActionAndTargetValue(java.lang.String action, org.gtk.glib.Variant target) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_default_action_and_target_value(HANDLE(), Interop.allocateNativeString(action).HANDLE(), target.HANDLE());
+        gtk_h.g_notification_set_default_action_and_target_value(handle(), Interop.allocateNativeString(action).handle(), target.handle());
     }
     
     /**
      * Sets the icon of @notification to @icon.
      */
     public void setIcon(Icon icon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_icon(HANDLE(), icon.HANDLE());
+        gtk_h.g_notification_set_icon(handle(), icon.handle());
     }
     
     /**
@@ -162,14 +164,14 @@ public class Notification extends org.gtk.gobject.Object {
      * #GNotificationPriority for possible values.
      */
     public void setPriority(NotificationPriority priority) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_priority(HANDLE(), priority.getValue());
+        gtk_h.g_notification_set_priority(handle(), priority.getValue());
     }
     
     /**
      * Sets the title of @notification to @title.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_notification_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.g_notification_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
 }

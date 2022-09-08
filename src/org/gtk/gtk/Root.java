@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      * Returns the display that this `GtkRoot` is on.
      */
     public default org.gtk.gdk.Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_display(HANDLE());
+        var RESULT = gtk_h.gtk_root_get_display(handle());
         return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
@@ -39,7 +41,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      * widget.
      */
     public default Widget getFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_focus(HANDLE());
+        var RESULT = gtk_h.gtk_root_get_focus(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -54,7 +56,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      * this function.
      */
     public default void setFocus(Widget focus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_set_focus(HANDLE(), focus.HANDLE());
+        gtk_h.gtk_root_set_focus(handle(), focus.handle());
     }
     
     class RootImpl extends org.gtk.gobject.Object implements Root {

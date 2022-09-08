@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -97,7 +99,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the source object from a #GAsyncResult.
      */
     public default org.gtk.gobject.Object getSourceObject() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_result_get_source_object(HANDLE());
+        var RESULT = gtk_h.g_async_result_get_source_object(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
@@ -105,7 +107,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the user data from a #GAsyncResult.
      */
     public default jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_result_get_user_data(HANDLE());
+        var RESULT = gtk_h.g_async_result_get_user_data(handle());
         return RESULT;
     }
     
@@ -114,7 +116,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      * pointer indicating the function @res was created by).
      */
     public default boolean isTagged(jdk.incubator.foreign.MemoryAddress sourceTag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_result_is_tagged(HANDLE(), sourceTag);
+        var RESULT = gtk_h.g_async_result_is_tagged(handle(), sourceTag);
         return (RESULT != 0);
     }
     
@@ -132,7 +134,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      */
     public default boolean legacyPropagateError() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_result_legacy_propagate_error(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_async_result_legacy_propagate_error(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

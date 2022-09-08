@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -44,7 +46,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * and update the display with the new pixbuf.
      */
     public boolean advance(org.gtk.glib.TimeVal currentTime) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_iter_advance(HANDLE(), currentTime.HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_iter_advance(handle(), currentTime.handle());
         return (RESULT != 0);
     }
     
@@ -60,7 +62,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * for GIF images is currently 20 milliseconds.
      */
     public int getDelayTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_iter_get_delay_time(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_iter_get_delay_time(handle());
         return RESULT;
     }
     
@@ -82,7 +84,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * recycled as you advance the iterator.
      */
     public Pixbuf getPixbuf() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_iter_get_pixbuf(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_iter_get_pixbuf(handle());
         return new Pixbuf(References.get(RESULT, false));
     }
     
@@ -95,7 +97,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * you will need to redraw the screen for the updated area.
      */
     public boolean onCurrentlyLoadingFrame() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_iter_on_currently_loading_frame(HANDLE());
+        var RESULT = gtk_h.gdk_pixbuf_animation_iter_on_currently_loading_frame(handle());
         return (RESULT != 0);
     }
     

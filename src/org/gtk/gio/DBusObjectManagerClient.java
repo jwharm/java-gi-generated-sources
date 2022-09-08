@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -97,7 +99,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * Gets the #GDBusConnection used by @manager.
      */
     public DBusConnection getConnection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_connection(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_client_get_connection(handle());
         return new DBusConnection(References.get(RESULT, false));
     }
     
@@ -105,7 +107,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * Gets the flags that @manager was constructed with.
      */
     public int getFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_flags(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_client_get_flags(handle());
         return RESULT;
     }
     
@@ -114,7 +116,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * connection.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_name(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_client_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -125,7 +127,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * #GDBusObjectManagerClient:name-owner property.
      */
     public java.lang.String getNameOwner() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_name_owner(HANDLE());
+        var RESULT = gtk_h.g_dbus_object_manager_client_get_name_owner(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -151,12 +153,12 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerClientInterfaceProxyPropertiesChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-proxy-properties-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("interface-proxy-properties-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -181,12 +183,12 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerClientInterfaceProxySignal", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("interface-proxy-signal").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("interface-proxy-signal").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +70,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Creates a new empty `GtkPicture` widget.
      */
     public Picture() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new(), false));
+        super(References.get(gtk_h.gtk_picture_new(), false));
     }
     
     /**
@@ -82,7 +84,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * then create the `GtkPicture` from the texture.
      */
     public Picture(org.gtk.gio.File file) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_file(file.HANDLE()), false));
+        super(References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false));
     }
     
     /**
@@ -92,7 +94,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForFilename(java.lang.String filename) {
-        return new Picture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
+        return new Picture(References.get(gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).handle()), false));
     }
     
     /**
@@ -102,7 +104,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * its size and contents in response to it.
      */
     public Picture(org.gtk.gdk.Paintable paintable) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_paintable(paintable.HANDLE()), false));
+        super(References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false));
     }
     
     /**
@@ -114,7 +116,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The pixbuf must not be modified after passing it to this function.
      */
     public Picture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_pixbuf(pixbuf.HANDLE()), false));
+        super(References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false));
     }
     
     /**
@@ -124,7 +126,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForResource(java.lang.String resourcePath) {
-        return new Picture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
+        return new Picture(References.get(gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false));
     }
     
     /**
@@ -133,7 +135,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The returned string will be %NULL if the picture cannot be described textually.
      */
     public java.lang.String getAlternativeText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_alternative_text(HANDLE());
+        var RESULT = gtk_h.gtk_picture_get_alternative_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -141,7 +143,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the `GtkPicture` respects its contents size.
      */
     public boolean getCanShrink() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_can_shrink(HANDLE());
+        var RESULT = gtk_h.gtk_picture_get_can_shrink(handle());
         return (RESULT != 0);
     }
     
@@ -152,7 +154,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * [method@Gtk.Picture.set_paintable] was used, then %NULL is returned.
      */
     public org.gtk.gio.File getFile() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_file(HANDLE());
+        var RESULT = gtk_h.gtk_picture_get_file(handle());
         return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
@@ -160,7 +162,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the `GtkPicture` preserves its contents aspect ratio.
      */
     public boolean getKeepAspectRatio() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_keep_aspect_ratio(HANDLE());
+        var RESULT = gtk_h.gtk_picture_get_keep_aspect_ratio(handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Gets the `GdkPaintable` being displayed by the `GtkPicture`.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_paintable(HANDLE());
+        var RESULT = gtk_h.gtk_picture_get_paintable(handle());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
@@ -182,7 +184,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * If the picture cannot be described textually, set this property to %NULL.
      */
     public void setAlternativeText(java.lang.String alternativeText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_alternative_text(HANDLE(), Interop.allocateNativeString(alternativeText).HANDLE());
+        gtk_h.gtk_picture_set_alternative_text(handle(), Interop.allocateNativeString(alternativeText).handle());
     }
     
     /**
@@ -198,7 +200,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * [method@Gtk.Widget.set_halign] and [method@Gtk.Widget.set_valign].
      */
     public void setCanShrink(boolean canShrink) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_can_shrink(HANDLE(), canShrink ? 1 : 0);
+        gtk_h.gtk_picture_set_can_shrink(handle(), canShrink ? 1 : 0);
     }
     
     /**
@@ -207,7 +209,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See [ctor@Gtk.Picture.new_for_file] for details.
      */
     public void setFile(org.gtk.gio.File file) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_file(HANDLE(), file.HANDLE());
+        gtk_h.gtk_picture_set_file(handle(), file.handle());
     }
     
     /**
@@ -216,7 +218,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls [method@Gtk.Picture.set_file].
      */
     public void setFilename(java.lang.String filename) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_filename(HANDLE(), Interop.allocateNativeString(filename).HANDLE());
+        gtk_h.gtk_picture_set_filename(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
@@ -230,7 +232,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * the contents will be stretched over the picture's whole area.
      */
     public void setKeepAspectRatio(boolean keepAspectRatio) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_keep_aspect_ratio(HANDLE(), keepAspectRatio ? 1 : 0);
+        gtk_h.gtk_picture_set_keep_aspect_ratio(handle(), keepAspectRatio ? 1 : 0);
     }
     
     /**
@@ -241,7 +243,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See [ctor@Gtk.Picture.new_for_paintable] for details.
      */
     public void setPaintable(org.gtk.gdk.Paintable paintable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_paintable(HANDLE(), paintable.HANDLE());
+        gtk_h.gtk_picture_set_paintable(handle(), paintable.handle());
     }
     
     /**
@@ -252,7 +254,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls [method@Gtk.Picture.set_paintable].
      */
     public void setPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_pixbuf(HANDLE(), pixbuf.HANDLE());
+        gtk_h.gtk_picture_set_pixbuf(handle(), pixbuf.handle());
     }
     
     /**
@@ -262,7 +264,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls [method@Gtk.Picture.set_file].
      */
     public void setResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_set_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
+        gtk_h.gtk_picture_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
     }
     
 }

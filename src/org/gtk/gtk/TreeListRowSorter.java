@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,14 +41,14 @@ public class TreeListRowSorter extends Sorter {
      * being %FALSE as it can only sort [class@Gtk.TreeListRow]s.
      */
     public TreeListRowSorter(Sorter sorter) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().handle()), true));
     }
     
     /**
      * Returns the sorter used by @self.
      */
     public Sorter getSorter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_get_sorter(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_sorter_get_sorter(handle());
         return new Sorter(References.get(RESULT, false));
     }
     
@@ -57,7 +59,7 @@ public class TreeListRowSorter extends Sorter {
      * the tree list rows passed to @self.
      */
     public void setSorter(Sorter sorter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_set_sorter(HANDLE(), sorter.HANDLE());
+        gtk_h.gtk_tree_list_row_sorter_set_sorter(handle(), sorter.handle());
     }
     
 }

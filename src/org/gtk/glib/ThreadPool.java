@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,14 +35,14 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * After calling this function @pool must not be used anymore.
      */
     public void free(boolean immediate, boolean wait) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_free(HANDLE(), immediate ? 1 : 0, wait ? 1 : 0);
+        gtk_h.g_thread_pool_free(handle(), immediate ? 1 : 0, wait ? 1 : 0);
     }
     
     /**
      * Returns the maximal number of threads for @pool.
      */
     public int getMaxThreads() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_get_max_threads(HANDLE());
+        var RESULT = gtk_h.g_thread_pool_get_max_threads(handle());
         return RESULT;
     }
     
@@ -48,7 +50,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the number of threads currently running in @pool.
      */
     public int getNumThreads() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_get_num_threads(HANDLE());
+        var RESULT = gtk_h.g_thread_pool_get_num_threads(handle());
         return RESULT;
     }
     
@@ -57,7 +59,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * items, so that it will be processed next.
      */
     public boolean moveToFront(jdk.incubator.foreign.MemoryAddress data) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_move_to_front(HANDLE(), data);
+        var RESULT = gtk_h.g_thread_pool_move_to_front(handle(), data);
         return (RESULT != 0);
     }
     
@@ -79,7 +81,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean push(jdk.incubator.foreign.MemoryAddress data) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_push(HANDLE(), data, GERROR);
+        var RESULT = gtk_h.g_thread_pool_push(handle(), data, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -110,7 +112,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_set_max_threads(HANDLE(), maxThreads, GERROR);
+        var RESULT = gtk_h.g_thread_pool_set_max_threads(handle(), maxThreads, GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -121,7 +123,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the number of tasks still unprocessed in @pool.
      */
     public int unprocessed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_pool_unprocessed(HANDLE());
+        var RESULT = gtk_h.g_thread_pool_unprocessed(handle());
         return RESULT;
     }
     

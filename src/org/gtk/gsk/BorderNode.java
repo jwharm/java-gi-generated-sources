@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,14 +28,14 @@ public class BorderNode extends RenderNode {
      * The 4 sides of the border can have different widths and colors.
      */
     public BorderNode(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_new(outline.HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor)), true));
+        super(References.get(gtk_h.gsk_border_node_new(outline.handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth), Interop.allocateNativeArray(borderColor)), true));
     }
     
     /**
      * Retrieves the colors of the border.
      */
     public org.gtk.gdk.RGBA getColors() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_get_colors(HANDLE());
+        var RESULT = gtk_h.gsk_border_node_get_colors(handle());
         return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class BorderNode extends RenderNode {
      * Retrieves the outline of the border.
      */
     public RoundedRect getOutline() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_border_node_get_outline(HANDLE());
+        var RESULT = gtk_h.gsk_border_node_get_outline(handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     

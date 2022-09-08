@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,7 +36,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * number of children, %NULL is returned.
      */
     public TreeListRow getChildRow(int position) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_child_row(HANDLE(), position);
+        var RESULT = gtk_h.gtk_tree_list_row_get_child_row(handle(), position);
         return new TreeListRow(References.get(RESULT, true));
     }
     
@@ -47,7 +49,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * [property@Gtk.TreeListModel:passthrough] is set to.
      */
     public org.gtk.gio.ListModel getChildren() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_children(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_children(handle());
         return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
@@ -61,7 +63,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * The depth of a row never changes until the row is destroyed.
      */
     public int getDepth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_depth(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_depth(handle());
         return RESULT;
     }
     
@@ -69,7 +71,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * Gets if a row is currently expanded.
      */
     public boolean getExpanded() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_expanded(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_expanded(handle());
         return (RESULT != 0);
     }
     
@@ -80,7 +82,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * row is destroyed.
      */
     public org.gtk.gobject.Object getItem() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_item(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_item(handle());
         return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
@@ -97,7 +99,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * until the row is destroyed.
      */
     public TreeListRow getParent() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_parent(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_parent(handle());
         return new TreeListRow(References.get(RESULT, true));
     }
     
@@ -106,7 +108,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * at the moment.
      */
     public int getPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_position(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_get_position(handle());
         return RESULT;
     }
     
@@ -119,7 +121,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * If a row is expandable never changes until the row is destroyed.
      */
     public boolean isExpandable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_is_expandable(HANDLE());
+        var RESULT = gtk_h.gtk_tree_list_row_is_expandable(handle());
         return (RESULT != 0);
     }
     
@@ -134,7 +136,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * If the row is not expandable, this function does nothing.
      */
     public void setExpanded(boolean expanded) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_set_expanded(HANDLE(), expanded ? 1 : 0);
+        gtk_h.gtk_tree_list_row_set_expanded(handle(), expanded ? 1 : 0);
     }
     
 }

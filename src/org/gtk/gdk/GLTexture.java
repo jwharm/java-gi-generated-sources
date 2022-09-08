@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * function has been called.
      */
     public void release() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_texture_release(HANDLE());
+        gtk_h.gdk_gl_texture_release(handle());
     }
     
 }

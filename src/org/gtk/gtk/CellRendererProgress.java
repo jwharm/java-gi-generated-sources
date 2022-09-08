@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
      * Creates a new `GtkCellRendererProgress`.
      */
     public CellRendererProgress() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_progress_new(), false));
+        super(References.get(gtk_h.gtk_cell_renderer_progress_new(), false));
     }
     
 }

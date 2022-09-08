@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,14 +27,14 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Creates a new `GtkShortcutLabel` with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).HANDLE()), false));
+        super(References.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false));
     }
     
     /**
      * Retrieves the current accelerator of @self.
      */
     public java.lang.String getAccelerator() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_get_accelerator(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_label_get_accelerator(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -40,7 +42,7 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Retrieves the text that is displayed when no accelerator is set.
      */
     public java.lang.String getDisabledText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_get_disabled_text(HANDLE());
+        var RESULT = gtk_h.gtk_shortcut_label_get_disabled_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -48,14 +50,14 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
      * Sets the accelerator to be displayed by @self.
      */
     public void setAccelerator(java.lang.String accelerator) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_accelerator(HANDLE(), Interop.allocateNativeString(accelerator).HANDLE());
+        gtk_h.gtk_shortcut_label_set_accelerator(handle(), Interop.allocateNativeString(accelerator).handle());
     }
     
     /**
      * Sets the text to be displayed by @self when no accelerator is set.
      */
     public void setDisabledText(java.lang.String disabledText) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_set_disabled_text(HANDLE(), Interop.allocateNativeString(disabledText).HANDLE());
+        gtk_h.gtk_shortcut_label_set_disabled_text(handle(), Interop.allocateNativeString(disabledText).handle());
     }
     
 }

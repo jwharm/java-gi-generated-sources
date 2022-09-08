@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -69,14 +71,14 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new `GtkStack`.
      */
     public Stack() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_new(), false));
+        super(References.get(gtk_h.gtk_stack_new(), false));
     }
     
     /**
      * Adds a child to @stack.
      */
     public StackPage addChild(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_child(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_stack_add_child(handle(), child.handle());
         return new StackPage(References.get(RESULT, false));
     }
     
@@ -86,7 +88,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * The child is identified by the @name.
      */
     public StackPage addNamed(Widget child, java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_named(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gtk_stack_add_named(handle(), child.handle(), Interop.allocateNativeString(name).handle());
         return new StackPage(References.get(RESULT, false));
     }
     
@@ -98,7 +100,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * @child in a tab bar, so it should be short.
      */
     public StackPage addTitled(Widget child, java.lang.String name, java.lang.String title) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_titled(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        var RESULT = gtk_h.gtk_stack_add_titled(handle(), child.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(title).handle());
         return new StackPage(References.get(RESULT, false));
     }
     
@@ -108,7 +110,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns %NULL if there is no child with this name.
      */
     public Widget getChildByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_child_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -116,7 +118,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets whether @stack is horizontally homogeneous.
      */
     public boolean getHhomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_hhomogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_hhomogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -125,7 +127,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * the sizes of children on page switch.
      */
     public boolean getInterpolateSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_interpolate_size(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_interpolate_size(handle());
         return (RESULT != 0);
     }
     
@@ -133,7 +135,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns the `GtkStackPage` object for @child or NULL if @child isn't a `GtkStack` child.
      */
     public StackPage getPage(Widget child) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_page(HANDLE(), child.HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_page(handle(), child.handle());
         return new StackPage(References.get(RESULT, false));
     }
     
@@ -145,7 +147,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * and modify the visible page.
      */
     public SelectionModel getPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_pages(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_pages(handle());
         return new SelectionModel.SelectionModelImpl(References.get(RESULT, true));
     }
     
@@ -154,7 +156,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * transitions between pages in @stack will take.
      */
     public int getTransitionDuration() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_transition_duration(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_transition_duration(handle());
         return RESULT;
     }
     
@@ -163,7 +165,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * another.
      */
     public boolean getTransitionRunning() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_transition_running(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_transition_running(handle());
         return (RESULT != 0);
     }
     
@@ -172,7 +174,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * for transitions between pages in @stack.
      */
     public StackTransitionType getTransitionType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_transition_type(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_transition_type(handle());
         return StackTransitionType.fromValue(RESULT);
     }
     
@@ -180,7 +182,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets whether @stack is vertically homogeneous.
      */
     public boolean getVhomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_vhomogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_vhomogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -190,7 +192,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns %NULL if there are no visible children.
      */
     public Widget getVisibleChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_visible_child(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_visible_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -200,7 +202,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns %NULL if there is no visible child.
      */
     public java.lang.String getVisibleChildName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_visible_child_name(HANDLE());
+        var RESULT = gtk_h.gtk_stack_get_visible_child_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -208,7 +210,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Removes a child widget from @stack.
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_stack_remove(handle(), child.handle());
     }
     
     /**
@@ -219,7 +221,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * may change width when a different child becomes visible.
      */
     public void setHhomogeneous(boolean hhomogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_hhomogeneous(HANDLE(), hhomogeneous ? 1 : 0);
+        gtk_h.gtk_stack_set_hhomogeneous(handle(), hhomogeneous ? 1 : 0);
     }
     
     /**
@@ -232,7 +234,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * according to the set transition duration.
      */
     public void setInterpolateSize(boolean interpolateSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_interpolate_size(HANDLE(), interpolateSize ? 1 : 0);
+        gtk_h.gtk_stack_set_interpolate_size(handle(), interpolateSize ? 1 : 0);
     }
     
     /**
@@ -240,7 +242,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * will take.
      */
     public void setTransitionDuration(int duration) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_transition_duration(HANDLE(), duration);
+        gtk_h.gtk_stack_set_transition_duration(handle(), duration);
     }
     
     /**
@@ -254,7 +256,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * based on the page that is about to become current.
      */
     public void setTransitionType(StackTransitionType transition) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_transition_type(HANDLE(), transition.getValue());
+        gtk_h.gtk_stack_set_transition_type(handle(), transition.getValue());
     }
     
     /**
@@ -265,7 +267,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * may change height when a different child becomes visible.
      */
     public void setVhomogeneous(boolean vhomogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_vhomogeneous(HANDLE(), vhomogeneous ? 1 : 0);
+        gtk_h.gtk_stack_set_vhomogeneous(handle(), vhomogeneous ? 1 : 0);
     }
     
     /**
@@ -280,7 +282,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * child of @stack.
      */
     public void setVisibleChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_stack_set_visible_child(handle(), child.handle());
     }
     
     /**
@@ -291,7 +293,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * child of @stack.
      */
     public void setVisibleChildFull(java.lang.String name, StackTransitionType transition) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_full(HANDLE(), Interop.allocateNativeString(name).HANDLE(), transition.getValue());
+        gtk_h.gtk_stack_set_visible_child_full(handle(), Interop.allocateNativeString(name).handle(), transition.getValue());
     }
     
     /**
@@ -306,7 +308,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * child of @stack.
      */
     public void setVisibleChildName(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_set_visible_child_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_stack_set_visible_child_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
 }

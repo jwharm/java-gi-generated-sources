@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -23,7 +25,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * Creates a new font description structure with all fields unset.
      */
     public FontDescription() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_new(), true));
+        super(References.get(gtk_h.pango_font_description_new(), true));
     }
     
     /**
@@ -40,7 +42,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * Note that @old_match must match @desc.
      */
     public boolean betterMatch(FontDescription oldMatch, FontDescription newMatch) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_better_match(HANDLE(), oldMatch.HANDLE(), newMatch.HANDLE());
+        var RESULT = gtk_h.pango_font_description_better_match(handle(), oldMatch.handle(), newMatch.handle());
         return (RESULT != 0);
     }
     
@@ -48,7 +50,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * Make a copy of a `PangoFontDescription`.
      */
     public FontDescription copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_copy(HANDLE());
+        var RESULT = gtk_h.pango_font_description_copy(handle());
         return new FontDescription(References.get(RESULT, true));
     }
     
@@ -62,7 +64,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * to be used when the copy is only needed temporarily.
      */
     public FontDescription copyStatic() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_copy_static(HANDLE());
+        var RESULT = gtk_h.pango_font_description_copy_static(handle());
         return new FontDescription(References.get(RESULT, true));
     }
     
@@ -75,7 +77,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * result in identical fonts being loaded, but still compare %FALSE.)
      */
     public boolean equal(FontDescription desc2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_equal(HANDLE(), desc2.HANDLE());
+        var RESULT = gtk_h.pango_font_description_equal(handle(), desc2.handle());
         return (RESULT != 0);
     }
     
@@ -83,7 +85,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * Frees a font description.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_free(HANDLE());
+        gtk_h.pango_font_description_free(handle());
     }
     
     /**
@@ -92,7 +94,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_family].
      */
     public java.lang.String getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_family(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_family(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -102,7 +104,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_gravity].
      */
     public Gravity getGravity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_gravity(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_gravity(handle());
         return Gravity.fromValue(RESULT);
     }
     
@@ -110,7 +112,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * Determines which fields in a font description have been set.
      */
     public int getSetFields() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_set_fields(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_set_fields(handle());
         return RESULT;
     }
     
@@ -120,7 +122,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_size].
      */
     public int getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_size(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_size(handle());
         return RESULT;
     }
     
@@ -132,7 +134,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * and [method@Pango.FontDescription.set_absolute_size].
      */
     public boolean getSizeIsAbsolute() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_size_is_absolute(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_size_is_absolute(handle());
         return (RESULT != 0);
     }
     
@@ -142,7 +144,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_stretch].
      */
     public Stretch getStretch() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_stretch(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_stretch(handle());
         return Stretch.fromValue(RESULT);
     }
     
@@ -152,7 +154,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_style].
      */
     public Style getStyle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_style(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_style(handle());
         return Style.fromValue(RESULT);
     }
     
@@ -162,7 +164,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_variant].
      */
     public Variant getVariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_variant(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_variant(handle());
         return Variant.fromValue(RESULT);
     }
     
@@ -172,7 +174,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_variations].
      */
     public java.lang.String getVariations() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_variations(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_variations(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -182,7 +184,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * See [method@Pango.FontDescription.set_weight].
      */
     public Weight getWeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_get_weight(HANDLE());
+        var RESULT = gtk_h.pango_font_description_get_weight(handle());
         return Weight.fromValue(RESULT);
     }
     
@@ -193,7 +195,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * to g_hash_table_new(). The hash value is independent of @desc->mask.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_hash(HANDLE());
+        var RESULT = gtk_h.pango_font_description_hash(handle());
         return RESULT;
     }
     
@@ -208,7 +210,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * If @desc_to_merge is %NULL, this function performs nothing.
      */
     public void merge(FontDescription descToMerge, boolean replaceExisting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_merge(HANDLE(), descToMerge.HANDLE(), replaceExisting ? 1 : 0);
+        gtk_h.pango_font_description_merge(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
     }
     
     /**
@@ -221,7 +223,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * be used when the merged font description is only needed temporarily.
      */
     public void mergeStatic(FontDescription descToMerge, boolean replaceExisting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_merge_static(HANDLE(), descToMerge.HANDLE(), replaceExisting ? 1 : 0);
+        gtk_h.pango_font_description_merge_static(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
     }
     
     /**
@@ -231,7 +233,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * which sets the font size in points.
      */
     public void setAbsoluteSize(double size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_absolute_size(HANDLE(), size);
+        gtk_h.pango_font_description_set_absolute_size(handle(), size);
     }
     
     /**
@@ -244,7 +246,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * separated list of family names for this field.
      */
     public void setFamily(java.lang.String family) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family(HANDLE(), Interop.allocateNativeString(family).HANDLE());
+        gtk_h.pango_font_description_set_family(handle(), Interop.allocateNativeString(family).handle());
     }
     
     /**
@@ -257,7 +259,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * string such as a C string literal, or if @desc is only needed temporarily.
      */
     public void setFamilyStatic(java.lang.String family) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_family_static(HANDLE(), Interop.allocateNativeString(family).HANDLE());
+        gtk_h.pango_font_description_set_family_static(handle(), Interop.allocateNativeString(family).handle());
     }
     
     /**
@@ -272,7 +274,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * be set on a `PangoContext`.
      */
     public void setGravity(Gravity gravity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_gravity(HANDLE(), gravity.getValue());
+        gtk_h.pango_font_description_set_gravity(handle(), gravity.getValue());
     }
     
     /**
@@ -282,7 +284,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * [method@Pango.FontDescription.set_absolute_size].
      */
     public void setSize(int size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_size(HANDLE(), size);
+        gtk_h.pango_font_description_set_size(handle(), size);
     }
     
     /**
@@ -292,7 +294,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * wide the font should be.
      */
     public void setStretch(Stretch stretch) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_stretch(HANDLE(), stretch.getValue());
+        gtk_h.pango_font_description_set_stretch(handle(), stretch.getValue());
     }
     
     /**
@@ -308,7 +310,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * match is not found.
      */
     public void setStyle(Style style) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_style(HANDLE(), style.getValue());
+        gtk_h.pango_font_description_set_style(handle(), style.getValue());
     }
     
     /**
@@ -318,7 +320,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * or %PANGO_VARIANT_SMALL_CAPS.
      */
     public void setVariant(Variant variant) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variant(HANDLE(), variant.getValue());
+        gtk_h.pango_font_description_set_variant(handle(), variant.getValue());
     }
     
     /**
@@ -340,7 +342,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * for example [hb_ot_var_get_axis_infos](https://harfbuzz.github.io/harfbuzz-hb-ot-var.html#hb-ot-var-get-axis-infos).
      */
     public void setVariations(java.lang.String variations) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations(HANDLE(), Interop.allocateNativeString(variations).HANDLE());
+        gtk_h.pango_font_description_set_variations(handle(), Interop.allocateNativeString(variations).handle());
     }
     
     /**
@@ -354,7 +356,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * or if @desc is only needed temporarily.
      */
     public void setVariationsStatic(java.lang.String variations) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_variations_static(HANDLE(), Interop.allocateNativeString(variations).HANDLE());
+        gtk_h.pango_font_description_set_variations_static(handle(), Interop.allocateNativeString(variations).handle());
     }
     
     /**
@@ -366,7 +368,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * intermediate numeric values are possible.
      */
     public void setWeight(Weight weight) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_set_weight(HANDLE(), weight.getValue());
+        gtk_h.pango_font_description_set_weight(handle(), weight.getValue());
     }
     
     /**
@@ -378,7 +380,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * lower case only.
      */
     public java.lang.String toFilename() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_to_filename(HANDLE());
+        var RESULT = gtk_h.pango_font_description_to_filename(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -391,7 +393,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * the last word of the list is a valid style option.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_to_string(HANDLE());
+        var RESULT = gtk_h.pango_font_description_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -401,7 +403,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      * The unset fields will get back to their default values.
      */
     public void unsetFields(int toUnset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_unset_fields(HANDLE(), toUnset);
+        gtk_h.pango_font_description_unset_fields(handle(), toUnset);
     }
     
 }

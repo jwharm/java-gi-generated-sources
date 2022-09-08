@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -46,21 +48,21 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * color when the user finishes.
      */
     public ColorButton() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new(), false));
+        super(References.get(gtk_h.gtk_color_button_new(), false));
     }
     
     /**
      * Creates a new color button showing the given color.
      */
     public ColorButton(org.gtk.gdk.RGBA rgba) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new_with_rgba(rgba.HANDLE()), false));
+        super(References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false));
     }
     
     /**
      * Gets whether the dialog is modal.
      */
     public boolean getModal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_get_modal(HANDLE());
+        var RESULT = gtk_h.gtk_color_button_get_modal(handle());
         return (RESULT != 0);
     }
     
@@ -68,7 +70,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * Gets the title of the color chooser dialog.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_color_button_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -76,14 +78,14 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * Sets whether the dialog should be modal.
      */
     public void setModal(boolean modal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_set_modal(HANDLE(), modal ? 1 : 0);
+        gtk_h.gtk_color_button_set_modal(handle(), modal ? 1 : 0);
     }
     
     /**
      * Sets the title for the color chooser dialog.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_color_button_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     @FunctionalInterface
@@ -101,12 +103,12 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -131,12 +133,12 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorButtonColorSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("color-set").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("color-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

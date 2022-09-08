@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * will be unset.
      */
     public FontDescription describe() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_describe(HANDLE());
+        var RESULT = gtk_h.pango_font_face_describe(handle());
         return new FontDescription(References.get(RESULT, true));
     }
     
@@ -40,7 +42,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * face for the same style).
      */
     public java.lang.String getFaceName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_get_face_name(HANDLE());
+        var RESULT = gtk_h.pango_font_face_get_face_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -48,7 +50,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * Gets the `PangoFontFamily` that @face belongs to.
      */
     public FontFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_get_family(HANDLE());
+        var RESULT = gtk_h.pango_font_face_get_family(handle());
         return new FontFamily(References.get(RESULT, false));
     }
     
@@ -60,7 +62,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * lightening or modifying it in some other way.
      */
     public boolean isSynthesized() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_face_is_synthesized(HANDLE());
+        var RESULT = gtk_h.pango_font_face_is_synthesized(handle());
         return (RESULT != 0);
     }
     

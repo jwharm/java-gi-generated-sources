@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * that could include printf() escape sequences.
      */
     public Error(Quark domain, int code, java.lang.String message) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).HANDLE()), true));
+        super(References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true));
     }
     
     /**
@@ -30,14 +32,14 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * and a message formatted with @format.
      */
     public Error(Quark domain, int code, java.lang.String format, VaList args) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).HANDLE(), args), true));
+        super(References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true));
     }
     
     /**
      * Makes a copy of @error.
      */
     public Error copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_copy(HANDLE());
+        var RESULT = gtk_h.g_error_copy(handle());
         return new Error(References.get(RESULT, true));
     }
     
@@ -45,7 +47,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a #GError and associated resources.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_free(HANDLE());
+        gtk_h.g_error_free(handle());
     }
     
     /**
@@ -61,7 +63,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * a certain case, your code will still work.
      */
     public boolean matches(Quark domain, int code) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_matches(HANDLE(), domain.getValue(), code);
+        var RESULT = gtk_h.g_error_matches(handle(), domain.getValue(), code);
         return (RESULT != 0);
     }
     

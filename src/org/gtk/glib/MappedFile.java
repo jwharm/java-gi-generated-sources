@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * bytes object, because a #GBytes should be immutable.
      */
     public Bytes getBytes() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_get_bytes(HANDLE());
+        var RESULT = gtk_h.g_mapped_file_get_bytes(handle());
         return new Bytes(References.get(RESULT, true));
     }
     
@@ -35,7 +37,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the file is empty then %NULL is returned.
      */
     public java.lang.String getContents() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_get_contents(HANDLE());
+        var RESULT = gtk_h.g_mapped_file_get_contents(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -43,7 +45,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the length of the contents of a #GMappedFile.
      */
     public long getLength() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_get_length(HANDLE());
+        var RESULT = gtk_h.g_mapped_file_get_length(handle());
         return RESULT;
     }
     
@@ -52,7 +54,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * this function from any thread.
      */
     public MappedFile ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_ref(HANDLE());
+        var RESULT = gtk_h.g_mapped_file_ref(handle());
         return new MappedFile(References.get(RESULT, true));
     }
     
@@ -65,7 +67,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Since 2.22
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_mapped_file_unref(HANDLE());
+        gtk_h.g_mapped_file_unref(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.interop.Nativ
      * colors.
      */
     public default void snapshotSymbolic(org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_symbolic_paintable_snapshot_symbolic(HANDLE(), snapshot.HANDLE(), width, height, Interop.allocateNativeArray(colors), nColors);
+        gtk_h.gtk_symbolic_paintable_snapshot_symbolic(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors), nColors);
     }
     
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {

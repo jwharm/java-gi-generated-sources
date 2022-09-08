@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * font descriptions.
      */
     public default java.lang.String getFont() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -45,7 +47,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * font descriptions.
      */
     public default org.pango.FontDescription getFontDesc() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_desc(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_desc(handle());
         return new org.pango.FontDescription(References.get(RESULT, true));
     }
     
@@ -56,7 +58,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * If the selected font is not installed, returns %NULL.
      */
     public default org.pango.FontFace getFontFace() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_face(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_face(handle());
         return new org.pango.FontFace(References.get(RESULT, false));
     }
     
@@ -68,7 +70,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * If the selected font is not installed, returns %NULL.
      */
     public default org.pango.FontFamily getFontFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_family(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_family(handle());
         return new org.pango.FontFamily(References.get(RESULT, false));
     }
     
@@ -76,7 +78,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the currently-selected font features.
      */
     public default java.lang.String getFontFeatures() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_features(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_features(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -85,7 +87,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * or %NULL if it does not have one.
      */
     public default org.pango.FontMap getFontMap() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_map(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_map(handle());
         return new org.pango.FontMap(References.get(RESULT, true));
     }
     
@@ -93,7 +95,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * The selected font size.
      */
     public default int getFontSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_font_size(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_font_size(handle());
         return RESULT;
     }
     
@@ -101,7 +103,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the language that is used for font features.
      */
     public default java.lang.String getLanguage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_language(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_language(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -109,7 +111,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Returns the current level of granularity for selecting fonts.
      */
     public default int getLevel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_level(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_level(handle());
         return RESULT;
     }
     
@@ -117,7 +119,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Gets the text displayed in the preview area.
      */
     public default java.lang.String getPreviewText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_preview_text(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_preview_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -125,7 +127,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Returns whether the preview entry is shown or not.
      */
     public default boolean getShowPreviewEntry() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_get_show_preview_entry(HANDLE());
+        var RESULT = gtk_h.gtk_font_chooser_get_show_preview_entry(handle());
         return (RESULT != 0);
     }
     
@@ -133,14 +135,14 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Sets the currently-selected font.
      */
     public default void setFont(java.lang.String fontname) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_font(HANDLE(), Interop.allocateNativeString(fontname).HANDLE());
+        gtk_h.gtk_font_chooser_set_font(handle(), Interop.allocateNativeString(fontname).handle());
     }
     
     /**
      * Sets the currently-selected font from @font_desc.
      */
     public default void setFontDesc(org.pango.FontDescription fontDesc) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_font_desc(HANDLE(), fontDesc.HANDLE());
+        gtk_h.gtk_font_chooser_set_font_desc(handle(), fontDesc.handle());
     }
     
     /**
@@ -171,21 +173,21 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * ```
      */
     public default void setFontMap(org.pango.FontMap fontmap) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_font_map(HANDLE(), fontmap.HANDLE());
+        gtk_h.gtk_font_chooser_set_font_map(handle(), fontmap.handle());
     }
     
     /**
      * Sets the language to use for font features.
      */
     public default void setLanguage(java.lang.String language) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_language(HANDLE(), Interop.allocateNativeString(language).HANDLE());
+        gtk_h.gtk_font_chooser_set_language(handle(), Interop.allocateNativeString(language).handle());
     }
     
     /**
      * Sets the desired level of granularity for selecting fonts.
      */
     public default void setLevel(int level) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_level(HANDLE(), level);
+        gtk_h.gtk_font_chooser_set_level(handle(), level);
     }
     
     /**
@@ -194,14 +196,14 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * The @text is used to show how the selected font looks.
      */
     public default void setPreviewText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_preview_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_font_chooser_set_preview_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
      * Shows or hides the editable preview entry.
      */
     public default void setShowPreviewEntry(boolean showPreviewEntry) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_set_show_preview_entry(HANDLE(), showPreviewEntry ? 1 : 0);
+        gtk_h.gtk_font_chooser_set_show_preview_entry(handle(), showPreviewEntry ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -220,12 +222,12 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontChooserFontActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("font-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("font-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

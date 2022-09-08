@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,7 +20,7 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
      * Closes the directory and deallocates all related resources.
      */
     public void close() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dir_close(HANDLE());
+        gtk_h.g_dir_close(handle());
     }
     
     /**
@@ -37,7 +39,7 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
      * filenames, the returned name is in UTF-8.
      */
     public java.lang.String readName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dir_read_name(HANDLE());
+        var RESULT = gtk_h.g_dir_read_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -46,7 +48,7 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
      * will return the first entry again.
      */
     public void rewind() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dir_rewind(HANDLE());
+        gtk_h.g_dir_rewind(handle());
     }
     
 }

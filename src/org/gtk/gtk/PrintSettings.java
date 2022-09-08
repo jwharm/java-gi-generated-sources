@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,7 +36,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Creates a new `GtkPrintSettings` object.
      */
     public PrintSettings() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new(), true));
+        super(References.get(gtk_h.gtk_print_settings_new(), true));
     }
     
     /**
@@ -44,14 +46,14 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * [method@Gtk.PrintSettings.to_gvariant].
      */
     public PrintSettings(org.gtk.glib.Variant variant) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true));
     }
     
     /**
      * Copies a `GtkPrintSettings` object.
      */
     public PrintSettings copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_copy(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_copy(handle());
         return new PrintSettings(References.get(RESULT, true));
     }
     
@@ -59,7 +61,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Looks up the string value associated with @key.
      */
     public java.lang.String get(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get(handle(), Interop.allocateNativeString(key).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -71,7 +73,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * string %FALSE.
      */
     public boolean getBool(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_bool(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_bool(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -79,7 +81,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_COLLATE.
      */
     public boolean getCollate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_collate(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_collate(handle());
         return (RESULT != 0);
     }
     
@@ -87,7 +89,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_DEFAULT_SOURCE.
      */
     public java.lang.String getDefaultSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_default_source(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_default_source(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -95,7 +97,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_DITHER.
      */
     public java.lang.String getDither() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_dither(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_dither(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -103,7 +105,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the double value associated with @key, or 0.
      */
     public double getDouble(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_double(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -115,7 +117,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Floating point numbers are parsed with g_ascii_strtod().
      */
     public double getDoubleWithDefault(java.lang.String key, double def) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_double_with_default(HANDLE(), Interop.allocateNativeString(key).HANDLE(), def);
+        var RESULT = gtk_h.gtk_print_settings_get_double_with_default(handle(), Interop.allocateNativeString(key).handle(), def);
         return RESULT;
     }
     
@@ -123,7 +125,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_DUPLEX.
      */
     public PrintDuplex getDuplex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_duplex(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_duplex(handle());
         return PrintDuplex.fromValue(RESULT);
     }
     
@@ -131,7 +133,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_FINISHINGS.
      */
     public java.lang.String getFinishings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_finishings(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_finishings(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -139,7 +141,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the integer value of @key, or 0.
      */
     public int getInt(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_int(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
     
@@ -148,7 +150,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * an integer, or the default value.
      */
     public int getIntWithDefault(java.lang.String key, int def) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_int_with_default(HANDLE(), Interop.allocateNativeString(key).HANDLE(), def);
+        var RESULT = gtk_h.gtk_print_settings_get_int_with_default(handle(), Interop.allocateNativeString(key).handle(), def);
         return RESULT;
     }
     
@@ -159,7 +161,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The returned value is converted to @units.
      */
     public double getLength(java.lang.String key, Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_length(HANDLE(), Interop.allocateNativeString(key).HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_print_settings_get_length(handle(), Interop.allocateNativeString(key).handle(), unit.getValue());
         return RESULT;
     }
     
@@ -169,7 +171,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The set of media types is defined in PWG 5101.1-2002 PWG.
      */
     public java.lang.String getMediaType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_media_type(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_media_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -177,7 +179,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_N_COPIES.
      */
     public int getNCopies() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_n_copies(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_n_copies(handle());
         return RESULT;
     }
     
@@ -185,7 +187,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_NUMBER_UP.
      */
     public int getNumberUp() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_number_up(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_number_up(handle());
         return RESULT;
     }
     
@@ -193,7 +195,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT.
      */
     public NumberUpLayout getNumberUpLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_number_up_layout(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_number_up_layout(handle());
         return NumberUpLayout.fromValue(RESULT);
     }
     
@@ -202,7 +204,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * converted to a `GtkPageOrientation`.
      */
     public PageOrientation getOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_orientation(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_orientation(handle());
         return PageOrientation.fromValue(RESULT);
     }
     
@@ -210,7 +212,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_OUTPUT_BIN.
      */
     public java.lang.String getOutputBin() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_output_bin(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_output_bin(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -218,7 +220,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_PAGE_SET.
      */
     public PageSet getPageSet() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_page_set(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_page_set(handle());
         return PageSet.fromValue(RESULT);
     }
     
@@ -227,7 +229,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * converted to @unit.
      */
     public double getPaperHeight(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_paper_height(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_print_settings_get_paper_height(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -236,7 +238,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * converted to a `GtkPaperSize`.
      */
     public PaperSize getPaperSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_paper_size(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_paper_size(handle());
         return new PaperSize(References.get(RESULT, true));
     }
     
@@ -245,7 +247,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * converted to @unit.
      */
     public double getPaperWidth(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_paper_width(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_print_settings_get_paper_width(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -253,7 +255,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_PRINT_PAGES.
      */
     public PrintPages getPrintPages() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_print_pages(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_print_pages(handle());
         return PrintPages.fromValue(RESULT);
     }
     
@@ -262,7 +264,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * %GTK_PRINT_SETTINGS_PRINTER.
      */
     public java.lang.String getPrinter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_printer(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_printer(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -270,7 +272,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_PRINTER_LPI.
      */
     public double getPrinterLpi() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_printer_lpi(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_printer_lpi(handle());
         return RESULT;
     }
     
@@ -278,7 +280,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_QUALITY.
      */
     public PrintQuality getQuality() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_quality(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_quality(handle());
         return PrintQuality.fromValue(RESULT);
     }
     
@@ -286,7 +288,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_RESOLUTION.
      */
     public int getResolution() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_resolution(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_resolution(handle());
         return RESULT;
     }
     
@@ -294,7 +296,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_RESOLUTION_X.
      */
     public int getResolutionX() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_resolution_x(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_resolution_x(handle());
         return RESULT;
     }
     
@@ -302,7 +304,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_RESOLUTION_Y.
      */
     public int getResolutionY() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_resolution_y(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_resolution_y(handle());
         return RESULT;
     }
     
@@ -310,7 +312,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_REVERSE.
      */
     public boolean getReverse() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_reverse(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_reverse(handle());
         return (RESULT != 0);
     }
     
@@ -318,7 +320,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_SCALE.
      */
     public double getScale() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_scale(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_scale(handle());
         return RESULT;
     }
     
@@ -326,7 +328,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of %GTK_PRINT_SETTINGS_USE_COLOR.
      */
     public boolean getUseColor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_use_color(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_get_use_color(handle());
         return (RESULT != 0);
     }
     
@@ -334,7 +336,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns %TRUE, if a value is associated with @key.
      */
     public boolean hasKey(java.lang.String key) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_has_key(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_has_key(handle(), Interop.allocateNativeString(key).handle());
         return (RESULT != 0);
     }
     
@@ -348,7 +350,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_settings_load_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -363,7 +365,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_load_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_settings_load_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -374,70 +376,70 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Associates @value with @key.
      */
     public void set(java.lang.String key, java.lang.String value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set(HANDLE(), Interop.allocateNativeString(key).HANDLE(), Interop.allocateNativeString(value).HANDLE());
+        gtk_h.gtk_print_settings_set(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
      * Sets @key to a boolean value.
      */
     public void setBool(java.lang.String key, boolean value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_bool(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value ? 1 : 0);
+        gtk_h.gtk_print_settings_set_bool(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_COLLATE.
      */
     public void setCollate(boolean collate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_collate(HANDLE(), collate ? 1 : 0);
+        gtk_h.gtk_print_settings_set_collate(handle(), collate ? 1 : 0);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_DEFAULT_SOURCE.
      */
     public void setDefaultSource(java.lang.String defaultSource) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_default_source(HANDLE(), Interop.allocateNativeString(defaultSource).HANDLE());
+        gtk_h.gtk_print_settings_set_default_source(handle(), Interop.allocateNativeString(defaultSource).handle());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_DITHER.
      */
     public void setDither(java.lang.String dither) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_dither(HANDLE(), Interop.allocateNativeString(dither).HANDLE());
+        gtk_h.gtk_print_settings_set_dither(handle(), Interop.allocateNativeString(dither).handle());
     }
     
     /**
      * Sets @key to a double value.
      */
     public void setDouble(java.lang.String key, double value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_double(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        gtk_h.gtk_print_settings_set_double(handle(), Interop.allocateNativeString(key).handle(), value);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_DUPLEX.
      */
     public void setDuplex(PrintDuplex duplex) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_duplex(HANDLE(), duplex.getValue());
+        gtk_h.gtk_print_settings_set_duplex(handle(), duplex.getValue());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_FINISHINGS.
      */
     public void setFinishings(java.lang.String finishings) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_finishings(HANDLE(), Interop.allocateNativeString(finishings).HANDLE());
+        gtk_h.gtk_print_settings_set_finishings(handle(), Interop.allocateNativeString(finishings).handle());
     }
     
     /**
      * Sets @key to an integer value.
      */
     public void setInt(java.lang.String key, int value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_int(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value);
+        gtk_h.gtk_print_settings_set_int(handle(), Interop.allocateNativeString(key).handle(), value);
     }
     
     /**
      * Associates a length in units of @unit with @key.
      */
     public void setLength(java.lang.String key, double value, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_length(HANDLE(), Interop.allocateNativeString(key).HANDLE(), value, unit.getValue());
+        gtk_h.gtk_print_settings_set_length(handle(), Interop.allocateNativeString(key).handle(), value, unit.getValue());
     }
     
     /**
@@ -446,63 +448,63 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The set of media types is defined in PWG 5101.1-2002 PWG.
      */
     public void setMediaType(java.lang.String mediaType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_media_type(HANDLE(), Interop.allocateNativeString(mediaType).HANDLE());
+        gtk_h.gtk_print_settings_set_media_type(handle(), Interop.allocateNativeString(mediaType).handle());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_N_COPIES.
      */
     public void setNCopies(int numCopies) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_n_copies(HANDLE(), numCopies);
+        gtk_h.gtk_print_settings_set_n_copies(handle(), numCopies);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_NUMBER_UP.
      */
     public void setNumberUp(int numberUp) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_number_up(HANDLE(), numberUp);
+        gtk_h.gtk_print_settings_set_number_up(handle(), numberUp);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT.
      */
     public void setNumberUpLayout(NumberUpLayout numberUpLayout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_number_up_layout(HANDLE(), numberUpLayout.getValue());
+        gtk_h.gtk_print_settings_set_number_up_layout(handle(), numberUpLayout.getValue());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_ORIENTATION.
      */
     public void setOrientation(PageOrientation orientation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_orientation(HANDLE(), orientation.getValue());
+        gtk_h.gtk_print_settings_set_orientation(handle(), orientation.getValue());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_OUTPUT_BIN.
      */
     public void setOutputBin(java.lang.String outputBin) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_output_bin(HANDLE(), Interop.allocateNativeString(outputBin).HANDLE());
+        gtk_h.gtk_print_settings_set_output_bin(handle(), Interop.allocateNativeString(outputBin).handle());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PAGE_RANGES.
      */
     public void setPageRanges(PageRange[] pageRanges, int numRanges) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_page_ranges(HANDLE(), Interop.allocateNativeArray(pageRanges), numRanges);
+        gtk_h.gtk_print_settings_set_page_ranges(handle(), Interop.allocateNativeArray(pageRanges), numRanges);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PAGE_SET.
      */
     public void setPageSet(PageSet pageSet) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_page_set(HANDLE(), pageSet.getValue());
+        gtk_h.gtk_print_settings_set_page_set(handle(), pageSet.getValue());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PAPER_HEIGHT.
      */
     public void setPaperHeight(double height, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_paper_height(HANDLE(), height, unit.getValue());
+        gtk_h.gtk_print_settings_set_paper_height(handle(), height, unit.getValue());
     }
     
     /**
@@ -511,21 +513,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * %GTK_PRINT_SETTINGS_PAPER_HEIGHT.
      */
     public void setPaperSize(PaperSize paperSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_paper_size(HANDLE(), paperSize.HANDLE());
+        gtk_h.gtk_print_settings_set_paper_size(handle(), paperSize.handle());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PAPER_WIDTH.
      */
     public void setPaperWidth(double width, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_paper_width(HANDLE(), width, unit.getValue());
+        gtk_h.gtk_print_settings_set_paper_width(handle(), width, unit.getValue());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PRINT_PAGES.
      */
     public void setPrintPages(PrintPages pages) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_print_pages(HANDLE(), pages.getValue());
+        gtk_h.gtk_print_settings_set_print_pages(handle(), pages.getValue());
     }
     
     /**
@@ -533,21 +535,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * to @printer.
      */
     public void setPrinter(java.lang.String printer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_printer(HANDLE(), Interop.allocateNativeString(printer).HANDLE());
+        gtk_h.gtk_print_settings_set_printer(handle(), Interop.allocateNativeString(printer).handle());
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_PRINTER_LPI.
      */
     public void setPrinterLpi(double lpi) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_printer_lpi(HANDLE(), lpi);
+        gtk_h.gtk_print_settings_set_printer_lpi(handle(), lpi);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_QUALITY.
      */
     public void setQuality(PrintQuality quality) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_quality(HANDLE(), quality.getValue());
+        gtk_h.gtk_print_settings_set_quality(handle(), quality.getValue());
     }
     
     /**
@@ -556,7 +558,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * %GTK_PRINT_SETTINGS_RESOLUTION_Y.
      */
     public void setResolution(int resolution) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_resolution(HANDLE(), resolution);
+        gtk_h.gtk_print_settings_set_resolution(handle(), resolution);
     }
     
     /**
@@ -565,28 +567,28 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * %GTK_PRINT_SETTINGS_RESOLUTION_Y.
      */
     public void setResolutionXy(int resolutionX, int resolutionY) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_resolution_xy(HANDLE(), resolutionX, resolutionY);
+        gtk_h.gtk_print_settings_set_resolution_xy(handle(), resolutionX, resolutionY);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_REVERSE.
      */
     public void setReverse(boolean reverse) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_reverse(HANDLE(), reverse ? 1 : 0);
+        gtk_h.gtk_print_settings_set_reverse(handle(), reverse ? 1 : 0);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_SCALE.
      */
     public void setScale(double scale) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_scale(HANDLE(), scale);
+        gtk_h.gtk_print_settings_set_scale(handle(), scale);
     }
     
     /**
      * Sets the value of %GTK_PRINT_SETTINGS_USE_COLOR.
      */
     public void setUseColor(boolean useColor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_set_use_color(HANDLE(), useColor ? 1 : 0);
+        gtk_h.gtk_print_settings_set_use_color(handle(), useColor ? 1 : 0);
     }
     
     /**
@@ -597,7 +599,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_print_settings_to_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -608,7 +610,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Serialize print settings to an a{sv} variant.
      */
     public org.gtk.glib.Variant toGvariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_gvariant(HANDLE());
+        var RESULT = gtk_h.gtk_print_settings_to_gvariant(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
@@ -616,7 +618,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * This function adds the print settings from @settings to @key_file.
      */
     public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
+        gtk_h.gtk_print_settings_to_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle());
     }
     
     /**
@@ -625,7 +627,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * This has the same effect as setting the value to %NULL.
      */
     public void unset(java.lang.String key) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_unset(HANDLE(), Interop.allocateNativeString(key).HANDLE());
+        gtk_h.gtk_print_settings_unset(handle(), Interop.allocateNativeString(key).handle());
     }
     
 }

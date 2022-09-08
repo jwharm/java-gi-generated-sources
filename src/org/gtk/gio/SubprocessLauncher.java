@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,7 +36,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * and will be used as the environment that the process is launched in.
      */
     public SubprocessLauncher(int flags) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_new(flags), true));
+        super(References.get(gtk_h.g_subprocess_launcher_new(flags), true));
     }
     
     /**
@@ -50,7 +52,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * language bindings can call it earlier to guarantee when FDs are closed.
      */
     public void close() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_close(HANDLE());
+        gtk_h.g_subprocess_launcher_close(handle());
     }
     
     /**
@@ -61,7 +63,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On Windows, it will be UTF-8.
      */
     public java.lang.String getenv(java.lang.String variable) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_getenv(HANDLE(), Interop.allocateNativeString(variable).HANDLE());
+        var RESULT = gtk_h.g_subprocess_launcher_getenv(handle(), Interop.allocateNativeString(variable).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -73,7 +75,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * of the launching process at the time of launch.
      */
     public void setCwd(java.lang.String cwd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_cwd(HANDLE(), Interop.allocateNativeString(cwd).HANDLE());
+        gtk_h.g_subprocess_launcher_set_cwd(handle(), Interop.allocateNativeString(cwd).handle());
     }
     
     /**
@@ -98,7 +100,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On Windows, they should be in UTF-8.
      */
     public void setEnviron(java.lang.String[] env) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_environ(HANDLE(), Interop.allocateNativeArray(env));
+        gtk_h.g_subprocess_launcher_set_environ(handle(), Interop.allocateNativeArray(env));
     }
     
     /**
@@ -116,7 +118,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * g_subprocess_launcher_take_stdout_fd().
      */
     public void setFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_flags(HANDLE(), flags);
+        gtk_h.g_subprocess_launcher_set_flags(handle(), flags);
     }
     
     /**
@@ -136,7 +138,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void setStderrFilePath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_stderr_file_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.g_subprocess_launcher_set_stderr_file_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -152,7 +154,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void setStdinFilePath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_stdin_file_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.g_subprocess_launcher_set_stdin_file_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -169,7 +171,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void setStdoutFilePath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_set_stdout_file_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.g_subprocess_launcher_set_stdout_file_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -181,7 +183,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On Windows, they should be in UTF-8.
      */
     public void setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_setenv(HANDLE(), Interop.allocateNativeString(variable).HANDLE(), Interop.allocateNativeString(value).HANDLE(), overwrite ? 1 : 0);
+        gtk_h.g_subprocess_launcher_setenv(handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
     }
     
     /**
@@ -189,7 +191,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      */
     public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_spawnv(HANDLE(), Interop.allocateNativeArray(argv), GERROR);
+        var RESULT = gtk_h.g_subprocess_launcher_spawnv(handle(), Interop.allocateNativeArray(argv), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -211,7 +213,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * the passphrase to be written.
      */
     public void takeFd(int sourceFd, int targetFd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_take_fd(HANDLE(), sourceFd, targetFd);
+        gtk_h.g_subprocess_launcher_take_fd(handle(), sourceFd, targetFd);
     }
     
     /**
@@ -233,7 +235,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void takeStderrFd(int fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_take_stderr_fd(HANDLE(), fd);
+        gtk_h.g_subprocess_launcher_take_stderr_fd(handle(), fd);
     }
     
     /**
@@ -257,7 +259,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void takeStdinFd(int fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_take_stdin_fd(HANDLE(), fd);
+        gtk_h.g_subprocess_launcher_take_stdin_fd(handle(), fd);
     }
     
     /**
@@ -280,7 +282,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * This feature is only available on UNIX.
      */
     public void takeStdoutFd(int fd) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_take_stdout_fd(HANDLE(), fd);
+        gtk_h.g_subprocess_launcher_take_stdout_fd(handle(), fd);
     }
     
     /**
@@ -291,7 +293,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * containing '='. On Windows, it should be in UTF-8.
      */
     public void unsetenv(java.lang.String variable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_unsetenv(HANDLE(), Interop.allocateNativeString(variable).HANDLE());
+        gtk_h.g_subprocess_launcher_unsetenv(handle(), Interop.allocateNativeString(variable).handle());
     }
     
 }

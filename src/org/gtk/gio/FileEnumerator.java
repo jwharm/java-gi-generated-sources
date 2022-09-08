@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_close(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_close(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -75,7 +77,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_close_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_close_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -98,7 +100,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * ]|
      */
     public File getChild(FileInfo info) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_get_child(HANDLE(), info.HANDLE());
+        var RESULT = gtk_h.g_file_enumerator_get_child(handle(), info.handle());
         return new File.FileImpl(References.get(RESULT, true));
     }
     
@@ -106,7 +108,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * Get the #GFile container which is being enumerated.
      */
     public File getContainer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_get_container(HANDLE());
+        var RESULT = gtk_h.g_file_enumerator_get_container(handle());
         return new File.FileImpl(References.get(RESULT, false));
     }
     
@@ -114,7 +116,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * Checks if the file enumerator has pending operations.
      */
     public boolean hasPending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_has_pending(HANDLE());
+        var RESULT = gtk_h.g_file_enumerator_has_pending(handle());
         return (RESULT != 0);
     }
     
@@ -122,7 +124,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * Checks if the file enumerator has been closed.
      */
     public boolean isClosed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_is_closed(HANDLE());
+        var RESULT = gtk_h.g_file_enumerator_is_closed(handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_iterate(HANDLE(), Interop.allocateNativeArray(outInfo), Interop.allocateNativeArray(outChild), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_iterate(handle(), Interop.allocateNativeArray(outInfo), Interop.allocateNativeArray(outChild), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -190,7 +192,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public FileInfo nextFile(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_next_file(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_next_file(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -202,7 +204,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List nextFilesFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_next_files_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_file_enumerator_next_files_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -213,7 +215,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * Sets the file enumerator as having pending operations.
      */
     public void setPending(boolean pending) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_set_pending(HANDLE(), pending ? 1 : 0);
+        gtk_h.g_file_enumerator_set_pending(handle(), pending ? 1 : 0);
     }
     
 }

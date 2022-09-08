@@ -31,7 +31,7 @@ public class Reference {
         cleanable = cleaner.register(this, state);
     }
 
-    public final MemoryAddress HANDLE() {
+    public final MemoryAddress handle() {
         return state.address;
     }
 

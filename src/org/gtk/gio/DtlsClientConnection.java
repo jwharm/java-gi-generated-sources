@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -21,7 +23,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * subject DN of the certificate authority.
      */
     public default org.gtk.glib.List getAcceptedCas() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_get_accepted_cas(HANDLE());
+        var RESULT = gtk_h.g_dtls_client_connection_get_accepted_cas(handle());
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
@@ -29,7 +31,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * Gets @conn's expected server identity
      */
     public default SocketConnectable getServerIdentity() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_get_server_identity(HANDLE());
+        var RESULT = gtk_h.g_dtls_client_connection_get_server_identity(handle());
         return new SocketConnectable.SocketConnectableImpl(References.get(RESULT, false));
     }
     
@@ -37,7 +39,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * Gets @conn's validation flags
      */
     public default int getValidationFlags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_get_validation_flags(HANDLE());
+        var RESULT = gtk_h.g_dtls_client_connection_get_validation_flags(handle());
         return RESULT;
     }
     
@@ -48,7 +50,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * performing %G_TLS_CERTIFICATE_BAD_IDENTITY validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_set_server_identity(HANDLE(), identity.HANDLE());
+        gtk_h.g_dtls_client_connection_set_server_identity(handle(), identity.handle());
     }
     
     /**
@@ -57,7 +59,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * %G_TLS_CERTIFICATE_VALIDATE_ALL is used.
      */
     public default void setValidationFlags(int flags) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_client_connection_set_validation_flags(HANDLE(), flags);
+        gtk_h.g_dtls_client_connection_set_validation_flags(handle(), flags);
     }
     
     class DtlsClientConnectionImpl extends org.gtk.gobject.Object implements DtlsClientConnection {

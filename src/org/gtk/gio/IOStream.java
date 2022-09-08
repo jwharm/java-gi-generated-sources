@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -68,7 +70,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * Clears the pending flag on @stream.
      */
     public void clearPending() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_clear_pending(HANDLE());
+        gtk_h.g_io_stream_clear_pending(handle());
     }
     
     /**
@@ -108,7 +110,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_close(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_io_stream_close(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -120,7 +122,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_close_finish(HANDLE(), result.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_io_stream_close_finish(handle(), result.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -132,7 +134,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * for reading.
      */
     public InputStream getInputStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_get_input_stream(HANDLE());
+        var RESULT = gtk_h.g_io_stream_get_input_stream(handle());
         return new InputStream(References.get(RESULT, false));
     }
     
@@ -141,7 +143,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * writing.
      */
     public OutputStream getOutputStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_get_output_stream(HANDLE());
+        var RESULT = gtk_h.g_io_stream_get_output_stream(handle());
         return new OutputStream(References.get(RESULT, false));
     }
     
@@ -149,7 +151,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * Checks if a stream has pending actions.
      */
     public boolean hasPending() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_has_pending(HANDLE());
+        var RESULT = gtk_h.g_io_stream_has_pending(handle());
         return (RESULT != 0);
     }
     
@@ -157,7 +159,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * Checks if a stream is closed.
      */
     public boolean isClosed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_is_closed(HANDLE());
+        var RESULT = gtk_h.g_io_stream_is_closed(handle());
         return (RESULT != 0);
     }
     
@@ -168,7 +170,7 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public boolean setPending() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_stream_set_pending(HANDLE(), GERROR);
+        var RESULT = gtk_h.g_io_stream_set_pending(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

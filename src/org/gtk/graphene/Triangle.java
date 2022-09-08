@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -20,14 +22,14 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Triangle() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_alloc(), true));
+        super(References.get(gtk_h.graphene_triangle_alloc(), true));
     }
     
     /**
      * Checks whether the given triangle @t contains the point @p.
      */
     public boolean containsPoint(Point3D p) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_contains_point(HANDLE(), p.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_contains_point(handle(), p.handle());
         return RESULT;
     }
     
@@ -35,7 +37,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether the two given #graphene_triangle_t are equal.
      */
     public boolean equal(Triangle b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -43,14 +45,14 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated by graphene_triangle_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_free(HANDLE());
+        gtk_h.graphene_triangle_free(handle());
     }
     
     /**
      * Computes the area of the given #graphene_triangle_t.
      */
     public float getArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_area(HANDLE());
+        var RESULT = gtk_h.graphene_triangle_get_area(handle());
         return RESULT;
     }
     
@@ -73,7 +75,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      *  - `res.y = v`
      */
     public boolean getBarycoords(Point3D p, Vec2 res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_barycoords(HANDLE(), p.HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_get_barycoords(handle(), p.handle(), res.handle());
         return RESULT;
     }
     
@@ -81,7 +83,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Computes the bounding box of the given #graphene_triangle_t.
      */
     public void getBoundingBox(Box res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_bounding_box(HANDLE(), res.HANDLE());
+        gtk_h.graphene_triangle_get_bounding_box(handle(), res.handle());
     }
     
     /**
@@ -91,21 +93,21 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the triangle, i.e. the intersection of its medians.
      */
     public void getMidpoint(Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_midpoint(HANDLE(), res.HANDLE());
+        gtk_h.graphene_triangle_get_midpoint(handle(), res.handle());
     }
     
     /**
      * Computes the normal vector of the given #graphene_triangle_t.
      */
     public void getNormal(Vec3 res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_normal(HANDLE(), res.HANDLE());
+        gtk_h.graphene_triangle_get_normal(handle(), res.handle());
     }
     
     /**
      * Computes the plane based on the vertices of the given #graphene_triangle_t.
      */
     public void getPlane(Plane res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_plane(HANDLE(), res.HANDLE());
+        gtk_h.graphene_triangle_get_plane(handle(), res.handle());
     }
     
     /**
@@ -113,7 +115,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * their coordinates as #graphene_point3d_t.
      */
     public void getPoints(Point3D a, Point3D b, Point3D c) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_points(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
+        gtk_h.graphene_triangle_get_points(handle(), a.handle(), b.handle(), c.handle());
     }
     
     /**
@@ -131,7 +133,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * See also: graphene_triangle_get_barycoords()
      */
     public boolean getUv(Point3D p, Vec2 uvA, Vec2 uvB, Vec2 uvC, Vec2 res) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_uv(HANDLE(), p.HANDLE(), uvA.HANDLE(), uvB.HANDLE(), uvC.HANDLE(), res.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_get_uv(handle(), p.handle(), uvA.handle(), uvB.handle(), uvC.handle(), res.handle());
         return RESULT;
     }
     
@@ -139,7 +141,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Retrieves the three vertices of the given #graphene_triangle_t.
      */
     public void getVertices(Vec3 a, Vec3 b, Vec3 c) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_get_vertices(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
+        gtk_h.graphene_triangle_get_vertices(handle(), a.handle(), b.handle(), c.handle());
     }
     
     /**
@@ -148,7 +150,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * a point in 3D space.
      */
     public Triangle initFromFloat(float[] a, float[] b, float[] c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c));
+        var RESULT = gtk_h.graphene_triangle_init_from_float(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c));
         return new Triangle(References.get(RESULT, false));
     }
     
@@ -156,7 +158,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_triangle_t using the three given 3D points.
      */
     public Triangle initFromPoint3d(Point3D a, Point3D b, Point3D c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_point3d(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_init_from_point3d(handle(), a.handle(), b.handle(), c.handle());
         return new Triangle(References.get(RESULT, false));
     }
     
@@ -164,7 +166,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes a #graphene_triangle_t using the three given vectors.
      */
     public Triangle initFromVec3(Vec3 a, Vec3 b, Vec3 c) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_vec3(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
+        var RESULT = gtk_h.graphene_triangle_init_from_vec3(handle(), a.handle(), b.handle(), c.handle());
         return new Triangle(References.get(RESULT, false));
     }
     

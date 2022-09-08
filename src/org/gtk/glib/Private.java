@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class Private extends io.github.jwharm.javagi.interop.ResourceBase {
      * created, for example).
      */
     public jdk.incubator.foreign.MemoryAddress get() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_private_get(HANDLE());
+        var RESULT = gtk_h.g_private_get(handle());
         return RESULT;
     }
     
@@ -51,7 +53,7 @@ public class Private extends io.github.jwharm.javagi.interop.ResourceBase {
      * @key is run on it.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_private_replace(HANDLE(), value);
+        gtk_h.g_private_replace(handle(), value);
     }
     
     /**
@@ -62,7 +64,7 @@ public class Private extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GDestroyNotify for @key is not called on the old value.
      */
     public void set(jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_private_set(HANDLE(), value);
+        gtk_h.g_private_set(handle(), value);
     }
     
 }

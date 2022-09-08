@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,14 +26,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * Creates a new data input stream for the @base_stream.
      */
     public DataInputStream(InputStream baseStream) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_new(baseStream.HANDLE()), true));
+        super(References.get(gtk_h.g_data_input_stream_new(baseStream.handle()), true));
     }
     
     /**
      * Gets the byte order for the data input stream.
      */
     public DataStreamByteOrder getByteOrder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_get_byte_order(HANDLE());
+        var RESULT = gtk_h.g_data_input_stream_get_byte_order(handle());
         return DataStreamByteOrder.fromValue(RESULT);
     }
     
@@ -39,7 +41,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * Gets the current newline type for the @stream.
      */
     public DataStreamNewlineType getNewlineType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_get_newline_type(HANDLE());
+        var RESULT = gtk_h.g_data_input_stream_get_newline_type(handle());
         return DataStreamNewlineType.fromValue(RESULT);
     }
     
@@ -48,7 +50,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public byte readByte(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_byte(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_byte(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -63,7 +65,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public short readInt16(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_int16(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_int16(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -82,7 +84,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public int readInt32(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_int32(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_int32(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -101,7 +103,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public long readInt64(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_int64(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_int64(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -116,7 +118,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public short readUint16(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_uint16(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_uint16(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -135,7 +137,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public int readUint32(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_uint32(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_uint32(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -154,7 +156,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public long readUint64(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_read_uint64(HANDLE(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_data_input_stream_read_uint64(handle(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -166,7 +168,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * reads from the @stream will be read in the given @order.
      */
     public void setByteOrder(DataStreamByteOrder order) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_set_byte_order(HANDLE(), order.getValue());
+        gtk_h.g_data_input_stream_set_byte_order(handle(), order.getValue());
     }
     
     /**
@@ -177,7 +179,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * "CR LF", and this might block if there is no more data available.
      */
     public void setNewlineType(DataStreamNewlineType type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_set_newline_type(HANDLE(), type.getValue());
+        gtk_h.g_data_input_stream_set_newline_type(handle(), type.getValue());
     }
     
 }

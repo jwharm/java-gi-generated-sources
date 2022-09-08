@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -64,7 +66,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Creates a new `GtkPageSetup`.
      */
     public PageSetup() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new(), true));
+        super(References.get(gtk_h.gtk_page_setup_new(), true));
     }
     
     /**
@@ -74,14 +76,14 @@ public class PageSetup extends org.gtk.gobject.Object {
      * [method@Gtk.PageSetup.to_gvariant].
      */
     public PageSetup(org.gtk.glib.Variant variant) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true));
     }
     
     /**
      * Copies a `GtkPageSetup`.
      */
     public PageSetup copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_copy(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_copy(handle());
         return new PageSetup(References.get(RESULT, true));
     }
     
@@ -89,7 +91,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the bottom margin in units of @unit.
      */
     public double getBottomMargin(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_bottom_margin(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_bottom_margin(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -97,7 +99,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the left margin in units of @unit.
      */
     public double getLeftMargin(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_left_margin(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_left_margin(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -105,7 +107,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the page orientation of the `GtkPageSetup`.
      */
     public PageOrientation getOrientation() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_orientation(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_get_orientation(handle());
         return PageOrientation.fromValue(RESULT);
     }
     
@@ -117,7 +119,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.get_paper_height].
      */
     public double getPageHeight(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_page_height(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_page_height(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -129,7 +131,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.get_paper_width].
      */
     public double getPageWidth(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_page_width(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_page_width(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -141,7 +143,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.get_page_height].
      */
     public double getPaperHeight(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_paper_height(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_paper_height(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -149,7 +151,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the paper size of the `GtkPageSetup`.
      */
     public PaperSize getPaperSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_paper_size(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_get_paper_size(handle());
         return new PaperSize(References.get(RESULT, false));
     }
     
@@ -161,7 +163,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.get_page_width].
      */
     public double getPaperWidth(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_paper_width(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_paper_width(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -169,7 +171,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the right margin in units of @unit.
      */
     public double getRightMargin(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_right_margin(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_right_margin(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -177,7 +179,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Gets the top margin in units of @unit.
      */
     public double getTopMargin(Unit unit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_top_margin(HANDLE(), unit.getValue());
+        var RESULT = gtk_h.gtk_page_setup_get_top_margin(handle(), unit.getValue());
         return RESULT;
     }
     
@@ -188,7 +190,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_load_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_page_setup_load_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -201,7 +203,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_load_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_page_setup_load_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -212,21 +214,21 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Sets the bottom margin of the `GtkPageSetup`.
      */
     public void setBottomMargin(double margin, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_bottom_margin(HANDLE(), margin, unit.getValue());
+        gtk_h.gtk_page_setup_set_bottom_margin(handle(), margin, unit.getValue());
     }
     
     /**
      * Sets the left margin of the `GtkPageSetup`.
      */
     public void setLeftMargin(double margin, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_left_margin(HANDLE(), margin, unit.getValue());
+        gtk_h.gtk_page_setup_set_left_margin(handle(), margin, unit.getValue());
     }
     
     /**
      * Sets the page orientation of the `GtkPageSetup`.
      */
     public void setOrientation(PageOrientation orientation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_orientation(HANDLE(), orientation.getValue());
+        gtk_h.gtk_page_setup_set_orientation(handle(), orientation.getValue());
     }
     
     /**
@@ -236,7 +238,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.set_paper_size_and_default_margins].
      */
     public void setPaperSize(PaperSize size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_paper_size(HANDLE(), size.HANDLE());
+        gtk_h.gtk_page_setup_set_paper_size(handle(), size.handle());
     }
     
     /**
@@ -244,21 +246,21 @@ public class PageSetup extends org.gtk.gobject.Object {
      * the margins according to the new paper size.
      */
     public void setPaperSizeAndDefaultMargins(PaperSize size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_paper_size_and_default_margins(HANDLE(), size.HANDLE());
+        gtk_h.gtk_page_setup_set_paper_size_and_default_margins(handle(), size.handle());
     }
     
     /**
      * Sets the right margin of the `GtkPageSetup`.
      */
     public void setRightMargin(double margin, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_right_margin(HANDLE(), margin, unit.getValue());
+        gtk_h.gtk_page_setup_set_right_margin(handle(), margin, unit.getValue());
     }
     
     /**
      * Sets the top margin of the `GtkPageSetup`.
      */
     public void setTopMargin(double margin, Unit unit) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_set_top_margin(HANDLE(), margin, unit.getValue());
+        gtk_h.gtk_page_setup_set_top_margin(handle(), margin, unit.getValue());
     }
     
     /**
@@ -266,7 +268,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_to_file(HANDLE(), Interop.allocateNativeString(fileName).HANDLE(), GERROR);
+        var RESULT = gtk_h.gtk_page_setup_to_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -277,7 +279,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Serialize page setup to an a{sv} variant.
      */
     public org.gtk.glib.Variant toGvariant() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_to_gvariant(HANDLE());
+        var RESULT = gtk_h.gtk_page_setup_to_gvariant(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
@@ -285,7 +287,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * This function adds the page setup from @setup to @key_file.
      */
     public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_to_key_file(HANDLE(), keyFile.HANDLE(), Interop.allocateNativeString(groupName).HANDLE());
+        gtk_h.gtk_page_setup_to_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle());
     }
     
 }

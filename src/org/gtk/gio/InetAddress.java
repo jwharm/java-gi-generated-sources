@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * care") for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
-        return new InetAddress(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_any(family.getValue()), true));
+        return new InetAddress(References.get(gtk_h.g_inet_address_new_any(family.getValue()), true));
     }
     
     /**
@@ -42,28 +44,28 @@ public class InetAddress extends org.gtk.gobject.Object {
      * %G_SOCKET_FAMILY_IPV6.
      */
     public InetAddress(byte[] bytes, SocketFamily family) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
+        super(References.get(gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
     }
     
     /**
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
     public InetAddress(java.lang.String string) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**
      * Creates a #GInetAddress for the loopback address for @family.
      */
     public static InetAddress newLoopback(SocketFamily family) {
-        return new InetAddress(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_loopback(family.getValue()), true));
+        return new InetAddress(References.get(gtk_h.g_inet_address_new_loopback(family.getValue()), true));
     }
     
     /**
      * Checks if two #GInetAddress instances are equal, e.g. the same address.
      */
     public boolean equal(InetAddress otherAddress) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_equal(HANDLE(), otherAddress.HANDLE());
+        var RESULT = gtk_h.g_inet_address_equal(handle(), otherAddress.handle());
         return (RESULT != 0);
     }
     
@@ -71,7 +73,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Gets @address's family
      */
     public SocketFamily getFamily() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_family(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_family(handle());
         return SocketFamily.fromValue(RESULT);
     }
     
@@ -79,7 +81,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is the "any" address for its family.
      */
     public boolean getIsAny() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_any(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_any(handle());
         return (RESULT != 0);
     }
     
@@ -89,7 +91,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Internet).
      */
     public boolean getIsLinkLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_link_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_link_local(handle());
         return (RESULT != 0);
     }
     
@@ -97,7 +99,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is the loopback address for its family.
      */
     public boolean getIsLoopback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_loopback(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_loopback(handle());
         return (RESULT != 0);
     }
     
@@ -105,7 +107,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is a global multicast address.
      */
     public boolean getIsMcGlobal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_mc_global(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_mc_global(handle());
         return (RESULT != 0);
     }
     
@@ -113,7 +115,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is a link-local multicast address.
      */
     public boolean getIsMcLinkLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_mc_link_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_mc_link_local(handle());
         return (RESULT != 0);
     }
     
@@ -121,7 +123,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is a node-local multicast address.
      */
     public boolean getIsMcNodeLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_mc_node_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_mc_node_local(handle());
         return (RESULT != 0);
     }
     
@@ -129,7 +131,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is an organization-local multicast address.
      */
     public boolean getIsMcOrgLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_mc_org_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_mc_org_local(handle());
         return (RESULT != 0);
     }
     
@@ -137,7 +139,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is a site-local multicast address.
      */
     public boolean getIsMcSiteLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_mc_site_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_mc_site_local(handle());
         return (RESULT != 0);
     }
     
@@ -145,7 +147,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Tests whether @address is a multicast address.
      */
     public boolean getIsMulticast() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_multicast(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_multicast(handle());
         return (RESULT != 0);
     }
     
@@ -156,7 +158,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * outgoing Internet connectivity via a NAT or firewall).
      */
     public boolean getIsSiteLocal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_is_site_local(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_is_site_local(handle());
         return (RESULT != 0);
     }
     
@@ -165,7 +167,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * is the size of the data that you get from g_inet_address_to_bytes().
      */
     public long getNativeSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_get_native_size(HANDLE());
+        var RESULT = gtk_h.g_inet_address_get_native_size(handle());
         return RESULT;
     }
     
@@ -173,7 +175,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * Converts @address to string form.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_to_string(HANDLE());
+        var RESULT = gtk_h.g_inet_address_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -51,7 +53,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * Returns a newly created `GtkCssProvider`.
      */
     public CssProvider() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_new(), true));
+        super(References.get(gtk_h.gtk_css_provider_new(), true));
     }
     
     /**
@@ -60,7 +62,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromData(byte[] data, long length) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_data(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
+        gtk_h.gtk_css_provider_load_from_data(handle(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), length);
     }
     
     /**
@@ -69,7 +71,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromFile(org.gtk.gio.File file) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_file(HANDLE(), file.HANDLE());
+        gtk_h.gtk_css_provider_load_from_file(handle(), file.handle());
     }
     
     /**
@@ -78,7 +80,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromPath(java.lang.String path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
+        gtk_h.gtk_css_provider_load_from_path(handle(), Interop.allocateNativeString(path).handle());
     }
     
     /**
@@ -88,7 +90,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * This clears any previously loaded information.
      */
     public void loadFromResource(java.lang.String resourcePath) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_from_resource(HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE());
+        gtk_h.gtk_css_provider_load_from_resource(handle(), Interop.allocateNativeString(resourcePath).handle());
     }
     
     /**
@@ -99,7 +101,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * mechanism to load the theme that GTK uses for loading its own theme.
      */
     public void loadNamed(java.lang.String name, java.lang.String variant) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_load_named(HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(variant).HANDLE());
+        gtk_h.gtk_css_provider_load_named(handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(variant).handle());
     }
     
     /**
@@ -112,7 +114,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * of this @provider.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_to_string(HANDLE());
+        var RESULT = gtk_h.gtk_css_provider_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -140,12 +142,12 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCssProviderParsingError", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("parsing-error").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("parsing-error").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

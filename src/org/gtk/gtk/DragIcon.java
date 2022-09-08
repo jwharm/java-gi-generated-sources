@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -33,7 +35,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * Gets the widget currently used as drag icon.
      */
     public Widget getChild() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_icon_get_child(HANDLE());
+        var RESULT = gtk_h.gtk_drag_icon_get_child(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -41,7 +43,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * Sets the widget to display as the drag icon.
      */
     public void setChild(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_icon_set_child(HANDLE(), child.HANDLE());
+        gtk_h.gtk_drag_icon_set_child(handle(), child.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -78,21 +80,21 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Creates a new `GtkPrintUnixDialog`.
      */
     public PrintUnixDialog(java.lang.String title, Window parent) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false));
     }
     
     /**
      * Adds a custom tab to the print dialog.
      */
     public void addCustomTab(Widget child, Widget tabLabel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_add_custom_tab(HANDLE(), child.HANDLE(), tabLabel.HANDLE());
+        gtk_h.gtk_print_unix_dialog_add_custom_tab(handle(), child.handle(), tabLabel.handle());
     }
     
     /**
      * Gets the current page of the `GtkPrintUnixDialog`.
      */
     public int getCurrentPage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_current_page(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_current_page(handle());
         return RESULT;
     }
     
@@ -100,7 +102,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets whether to embed the page setup.
      */
     public boolean getEmbedPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_embed_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_embed_page_setup(handle());
         return (RESULT != 0);
     }
     
@@ -108,7 +110,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets whether there is a selection.
      */
     public boolean getHasSelection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_has_selection(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_has_selection(handle());
         return (RESULT != 0);
     }
     
@@ -116,7 +118,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets the capabilities that have been set on this `GtkPrintUnixDialog`.
      */
     public int getManualCapabilities() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_manual_capabilities(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_manual_capabilities(handle());
         return RESULT;
     }
     
@@ -124,7 +126,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets the page setup that is used by the `GtkPrintUnixDialog`.
      */
     public PageSetup getPageSetup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_page_setup(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup(handle());
         return new PageSetup(References.get(RESULT, false));
     }
     
@@ -132,7 +134,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets whether a page setup was set by the user.
      */
     public boolean getPageSetupSet() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_page_setup_set(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup_set(handle());
         return (RESULT != 0);
     }
     
@@ -140,7 +142,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets the currently selected printer.
      */
     public Printer getSelectedPrinter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_selected_printer(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_selected_printer(handle());
         return new Printer(References.get(RESULT, false));
     }
     
@@ -152,7 +154,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * it if don’t want to keep it.
      */
     public PrintSettings getPrintSettings() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_settings(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_settings(handle());
         return new PrintSettings(References.get(RESULT, true));
     }
     
@@ -160,7 +162,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * Gets whether the print dialog allows user to print a selection.
      */
     public boolean getSupportSelection() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_support_selection(HANDLE());
+        var RESULT = gtk_h.gtk_print_unix_dialog_get_support_selection(handle());
         return (RESULT != 0);
     }
     
@@ -171,21 +173,21 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * for the range of pages to print.
      */
     public void setCurrentPage(int currentPage) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_current_page(HANDLE(), currentPage);
+        gtk_h.gtk_print_unix_dialog_set_current_page(handle(), currentPage);
     }
     
     /**
      * Embed page size combo box and orientation combo box into page setup page.
      */
     public void setEmbedPageSetup(boolean embed) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_embed_page_setup(HANDLE(), embed ? 1 : 0);
+        gtk_h.gtk_print_unix_dialog_set_embed_page_setup(handle(), embed ? 1 : 0);
     }
     
     /**
      * Sets whether a selection exists.
      */
     public void setHasSelection(boolean hasSelection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_has_selection(HANDLE(), hasSelection ? 1 : 0);
+        gtk_h.gtk_print_unix_dialog_set_has_selection(handle(), hasSelection ? 1 : 0);
     }
     
     /**
@@ -198,14 +200,14 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * handles scaling.
      */
     public void setManualCapabilities(int capabilities) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_manual_capabilities(HANDLE(), capabilities);
+        gtk_h.gtk_print_unix_dialog_set_manual_capabilities(handle(), capabilities);
     }
     
     /**
      * Sets the page setup of the `GtkPrintUnixDialog`.
      */
     public void setPageSetup(PageSetup pageSetup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_page_setup(HANDLE(), pageSetup.HANDLE());
+        gtk_h.gtk_print_unix_dialog_set_page_setup(handle(), pageSetup.handle());
     }
     
     /**
@@ -216,14 +218,14 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * is shown.
      */
     public void setSettings(PrintSettings settings) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_settings(HANDLE(), settings.HANDLE());
+        gtk_h.gtk_print_unix_dialog_set_settings(handle(), settings.handle());
     }
     
     /**
      * Sets whether the print dialog allows user to print a selection.
      */
     public void setSupportSelection(boolean supportSelection) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_set_support_selection(HANDLE(), supportSelection ? 1 : 0);
+        gtk_h.gtk_print_unix_dialog_set_support_selection(handle(), supportSelection ? 1 : 0);
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class SocketService extends SocketListener {
      * called before.
      */
     public SocketService() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_new(), true));
+        super(References.get(gtk_h.g_socket_service_new(), true));
     }
     
     /**
@@ -64,7 +66,7 @@ public class SocketService extends SocketListener {
      * up until the service is started.
      */
     public boolean isActive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_is_active(HANDLE());
+        var RESULT = gtk_h.g_socket_service_is_active(handle());
         return (RESULT != 0);
     }
     
@@ -78,7 +80,7 @@ public class SocketService extends SocketListener {
      * handling an incoming client request.
      */
     public void start() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_start(HANDLE());
+        gtk_h.g_socket_service_start(handle());
     }
     
     /**
@@ -99,7 +101,7 @@ public class SocketService extends SocketListener {
      * when a new socket is added.
      */
     public void stop() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_stop(HANDLE());
+        gtk_h.g_socket_service_stop(handle());
     }
     
     @FunctionalInterface
@@ -120,12 +122,12 @@ public class SocketService extends SocketListener {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketServiceIncoming", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("incoming").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("incoming").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -42,7 +44,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
      * custom callbacks via [method@Gtk.BuilderCScope.add_callback_symbol].
      */
     public BuilderCScope() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_cscope_new(), true));
+        super(References.get(gtk_h.gtk_builder_cscope_new(), true));
     }
     
 }

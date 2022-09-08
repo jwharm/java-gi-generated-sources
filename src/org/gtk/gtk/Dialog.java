@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -147,7 +149,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * as described above.
      */
     public Dialog() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_new(), false));
+        super(References.get(gtk_h.gtk_dialog_new(), false));
     }
     
     /**
@@ -162,7 +164,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * the @action_area field of the `GtkDialog` struct.
      */
     public void addActionWidget(Widget child, int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_add_action_widget(HANDLE(), child.HANDLE(), responseId);
+        gtk_h.gtk_dialog_add_action_widget(handle(), child.handle(), responseId);
     }
     
     /**
@@ -174,7 +176,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * The button widget is returned, but usually you don’t need it.
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_add_button(HANDLE(), Interop.allocateNativeString(buttonText).HANDLE(), responseId);
+        var RESULT = gtk_h.gtk_dialog_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -182,7 +184,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Returns the content area of @dialog.
      */
     public Box getContentArea() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_content_area(HANDLE());
+        var RESULT = gtk_h.gtk_dialog_get_content_area(handle());
         return new Box(References.get(RESULT, false));
     }
     
@@ -193,7 +195,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * [property@Gtk.Dialog:use-header-bar] property is %TRUE.
      */
     public HeaderBar getHeaderBar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_header_bar(HANDLE());
+        var RESULT = gtk_h.gtk_dialog_get_header_bar(handle());
         return new HeaderBar(References.get(RESULT, false));
     }
     
@@ -202,7 +204,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * of a dialog.
      */
     public int getResponseForWidget(Widget widget) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_response_for_widget(HANDLE(), widget.HANDLE());
+        var RESULT = gtk_h.gtk_dialog_get_response_for_widget(handle(), widget.handle());
         return RESULT;
     }
     
@@ -211,7 +213,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * of a dialog.
      */
     public Widget getWidgetForResponse(int responseId) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_widget_for_response(HANDLE(), responseId);
+        var RESULT = gtk_h.gtk_dialog_get_widget_for_response(handle(), responseId);
         return new Widget(References.get(RESULT, false));
     }
     
@@ -221,7 +223,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Used to indicate that the user has responded to the dialog in some way.
      */
     public void response(int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_response(HANDLE(), responseId);
+        gtk_h.gtk_dialog_response(handle(), responseId);
     }
     
     /**
@@ -230,7 +232,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Pressing “Enter” normally activates the default widget.
      */
     public void setDefaultResponse(int responseId) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_set_default_response(HANDLE(), responseId);
+        gtk_h.gtk_dialog_set_default_response(handle(), responseId);
     }
     
     /**
@@ -240,7 +242,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * for each widget in the dialog’s action area with the given @response_id.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_set_response_sensitive(HANDLE(), responseId, setting ? 1 : 0);
+        gtk_h.gtk_dialog_set_response_sensitive(handle(), responseId, setting ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -259,12 +261,12 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDialogClose", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("close").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("close").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -287,12 +289,12 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDialogResponse", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("response").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("response").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

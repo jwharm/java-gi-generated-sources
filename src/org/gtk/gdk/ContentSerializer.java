@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This is the `GCancellable` that was passed to [func@content_serialize_async].
      */
     public org.gtk.gio.Cancellable getCancellable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_cancellable(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_cancellable(handle());
         return new org.gtk.gio.Cancellable(References.get(RESULT, false));
     }
     
@@ -44,7 +46,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the `GType` to of the object to serialize.
      */
     public org.gtk.gobject.Type getGtype() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_gtype(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_gtype(handle());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -52,7 +54,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the mime type to serialize to.
      */
     public java.lang.String getMimeType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_mime_type(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_mime_type(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -62,7 +64,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This is the stream that was passed to [func@content_serialize_async].
      */
     public org.gtk.gio.OutputStream getOutputStream() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_output_stream(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_output_stream(handle());
         return new org.gtk.gio.OutputStream(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This is the priority that was passed to [func@content_serialize_async].
      */
     public int getPriority() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_priority(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_priority(handle());
         return RESULT;
     }
     
@@ -82,7 +84,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * See [method@Gdk.ContentSerializer.set_task_data].
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_task_data(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_task_data(handle());
         return RESULT;
     }
     
@@ -90,7 +92,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the user data that was passed when the serializer was registered.
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_user_data(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_user_data(handle());
         return RESULT;
     }
     
@@ -98,7 +100,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the `GValue` to read the object to serialize from.
      */
     public org.gtk.gobject.Value getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_value(HANDLE());
+        var RESULT = gtk_h.gdk_content_serializer_get_value(handle());
         return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
@@ -108,14 +110,14 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This function consumes @error.
      */
     public void returnError(org.gtk.glib.Error error) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_return_error(HANDLE(), error.HANDLE());
+        gtk_h.gdk_content_serializer_return_error(handle(), error.handle());
     }
     
     /**
      * Indicate that the serialization has been successfully completed.
      */
     public void returnSuccess() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_return_success(HANDLE());
+        gtk_h.gdk_content_serializer_return_success(handle());
     }
     
 }

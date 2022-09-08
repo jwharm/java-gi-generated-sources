@@ -1,6 +1,8 @@
 package org.gtk.graphene;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -18,21 +20,21 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * Allocates a #graphene_point3d_t structure.
      */
     public Point3D() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_alloc(), true));
+        super(References.get(gtk_h.graphene_point3d_alloc(), true));
     }
     
     /**
      * Computes the cross product of the two given #graphene_point3d_t.
      */
     public void cross(Point3D b, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_cross(HANDLE(), b.HANDLE(), res.HANDLE());
+        gtk_h.graphene_point3d_cross(handle(), b.handle(), res.handle());
     }
     
     /**
      * Computes the distance between the two given #graphene_point3d_t.
      */
     public float distance(Point3D b, Vec3 delta) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_distance(HANDLE(), b.HANDLE(), delta.HANDLE());
+        var RESULT = gtk_h.graphene_point3d_distance(handle(), b.handle(), delta.handle());
         return RESULT;
     }
     
@@ -40,7 +42,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * Computes the dot product of the two given #graphene_point3d_t.
      */
     public float dot(Point3D b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_dot(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_point3d_dot(handle(), b.handle());
         return RESULT;
     }
     
@@ -48,7 +50,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks whether two given points are equal.
      */
     public boolean equal(Point3D b) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_equal(HANDLE(), b.HANDLE());
+        var RESULT = gtk_h.graphene_point3d_equal(handle(), b.handle());
         return RESULT;
     }
     
@@ -56,14 +58,14 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees the resources allocated via graphene_point3d_alloc().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_free(HANDLE());
+        gtk_h.graphene_point3d_free(handle());
     }
     
     /**
      * Initializes a #graphene_point3d_t with the given coordinates.
      */
     public Point3D init(float x, float y, float z) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init(HANDLE(), x, y, z);
+        var RESULT = gtk_h.graphene_point3d_init(handle(), x, y, z);
         return new Point3D(References.get(RESULT, false));
     }
     
@@ -72,7 +74,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * another #graphene_point3d_t.
      */
     public Point3D initFromPoint(Point3D src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init_from_point(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.graphene_point3d_init_from_point(handle(), src.handle());
         return new Point3D(References.get(RESULT, false));
     }
     
@@ -81,7 +83,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * of a #graphene_vec3_t.
      */
     public Point3D initFromVec3(Vec3 v) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_init_from_vec3(HANDLE(), v.HANDLE());
+        var RESULT = gtk_h.graphene_point3d_init_from_vec3(handle(), v.handle());
         return new Point3D(References.get(RESULT, false));
     }
     
@@ -90,7 +92,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * provided @factor, and places the result in @res.
      */
     public void interpolate(Point3D b, double factor, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_interpolate(HANDLE(), b.HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_point3d_interpolate(handle(), b.handle(), factor, res.handle());
     }
     
     /**
@@ -98,7 +100,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * coordinates of the given #graphene_point3d_t.
      */
     public float length() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_length(HANDLE());
+        var RESULT = gtk_h.graphene_point3d_length(handle());
         return RESULT;
     }
     
@@ -107,7 +109,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * an @epsilon factor.
      */
     public boolean near(Point3D b, float epsilon) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_near(HANDLE(), b.HANDLE(), epsilon);
+        var RESULT = gtk_h.graphene_point3d_near(handle(), b.handle(), epsilon);
         return RESULT;
     }
     
@@ -116,7 +118,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * coordinates of the given #graphene_point3d_t.
      */
     public void normalize(Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_normalize(HANDLE(), res.HANDLE());
+        gtk_h.graphene_point3d_normalize(handle(), res.handle());
     }
     
     /**
@@ -127,7 +129,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the [ -1, 1 ] range.
      */
     public void normalizeViewport(Rect viewport, float zNear, float zFar, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_normalize_viewport(HANDLE(), viewport.HANDLE(), zNear, zFar, res.HANDLE());
+        gtk_h.graphene_point3d_normalize_viewport(handle(), viewport.handle(), zNear, zFar, res.handle());
     }
     
     /**
@@ -135,7 +137,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * the given @factor.
      */
     public void scale(float factor, Point3D res) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_scale(HANDLE(), factor, res.HANDLE());
+        gtk_h.graphene_point3d_scale(handle(), factor, res.handle());
     }
     
     /**
@@ -143,7 +145,7 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
      * #graphene_vec3_t.
      */
     public void toVec3(Vec3 v) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point3d_to_vec3(HANDLE(), v.HANDLE());
+        gtk_h.graphene_point3d_to_vec3(handle(), v.handle());
     }
     
 }

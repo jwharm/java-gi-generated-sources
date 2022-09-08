@@ -1,6 +1,8 @@
 package org.pango;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -57,7 +59,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * Make a shallow copy of an existing `PangoGlyphItemIter` structure.
      */
     public GlyphItemIter copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_copy(HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_iter_copy(handle());
         return new GlyphItemIter(References.get(RESULT, true));
     }
     
@@ -65,7 +67,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * Frees a `PangoGlyphItem`Iter.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_free(HANDLE());
+        gtk_h.pango_glyph_item_iter_free(handle());
     }
     
     /**
@@ -75,7 +77,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean initEnd(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_end(HANDLE(), glyphItem.HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_iter_init_end(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
         return (RESULT != 0);
     }
     
@@ -86,7 +88,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean initStart(GlyphItem glyphItem, java.lang.String text) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_init_start(HANDLE(), glyphItem.HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_iter_init_start(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
         return (RESULT != 0);
     }
     
@@ -96,7 +98,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean nextCluster() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_next_cluster(HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_iter_next_cluster(handle());
         return (RESULT != 0);
     }
     
@@ -105,7 +107,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * See `PangoGlyphItemIter` for details of cluster orders.
      */
     public boolean prevCluster() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_prev_cluster(HANDLE());
+        var RESULT = gtk_h.pango_glyph_item_iter_prev_cluster(handle());
         return (RESULT != 0);
     }
     

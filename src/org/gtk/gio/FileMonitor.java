@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,7 +38,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * Cancels a file monitor.
      */
     public boolean cancel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_monitor_cancel(HANDLE());
+        var RESULT = gtk_h.g_file_monitor_cancel(handle());
         return (RESULT != 0);
     }
     
@@ -50,14 +52,14 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * thread that the monitor was created in.
      */
     public void emitEvent(File child, File otherFile, FileMonitorEvent eventType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_monitor_emit_event(HANDLE(), child.HANDLE(), otherFile.HANDLE(), eventType.getValue());
+        gtk_h.g_file_monitor_emit_event(handle(), child.handle(), otherFile.handle(), eventType.getValue());
     }
     
     /**
      * Returns whether the monitor is canceled.
      */
     public boolean isCancelled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_monitor_is_cancelled(HANDLE());
+        var RESULT = gtk_h.g_file_monitor_is_cancelled(handle());
         return (RESULT != 0);
     }
     
@@ -66,7 +68,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * consecutive change events to the same file.
      */
     public void setRateLimit(int limitMsecs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_monitor_set_rate_limit(HANDLE(), limitMsecs);
+        gtk_h.g_file_monitor_set_rate_limit(handle(), limitMsecs);
     }
     
     @FunctionalInterface
@@ -108,12 +110,12 @@ public class FileMonitor extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFileMonitorChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

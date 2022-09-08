@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -135,14 +137,14 @@ public class GLShader extends org.gtk.gobject.Object {
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(org.gtk.glib.Bytes sourcecode) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.HANDLE()), true));
+        super(References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true));
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(java.lang.String resourcePath) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        super(References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
     }
     
     /**
@@ -161,7 +163,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public boolean compile(Renderer renderer) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_compile(HANDLE(), renderer.HANDLE(), GERROR);
+        var RESULT = gtk_h.gsk_gl_shader_compile(handle(), renderer.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -173,7 +175,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * of the uniform, or -1 if it was not found.
      */
     public int findUniformByName(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_find_uniform_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_find_uniform_by_name(handle(), Interop.allocateNativeString(name).handle());
         return RESULT;
     }
     
@@ -191,7 +193,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * are zero-initialized.
      */
     public org.gtk.glib.Bytes formatArgsVa(VaList uniforms) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_format_args_va(HANDLE(), uniforms);
+        var RESULT = gtk_h.gsk_gl_shader_format_args_va(handle(), uniforms);
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -201,7 +203,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of bool type.
      */
     public boolean getArgBool(org.gtk.glib.Bytes args, int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_bool(HANDLE(), args.HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_arg_bool(handle(), args.handle(), idx);
         return (RESULT != 0);
     }
     
@@ -211,7 +213,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of float type.
      */
     public float getArgFloat(org.gtk.glib.Bytes args, int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_float(HANDLE(), args.HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_arg_float(handle(), args.handle(), idx);
         return RESULT;
     }
     
@@ -221,7 +223,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of int type.
      */
     public int getArgInt(org.gtk.glib.Bytes args, int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_int(HANDLE(), args.HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_arg_int(handle(), args.handle(), idx);
         return RESULT;
     }
     
@@ -231,7 +233,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of uint type.
      */
     public int getArgUint(org.gtk.glib.Bytes args, int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_uint(HANDLE(), args.HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_arg_uint(handle(), args.handle(), idx);
         return RESULT;
     }
     
@@ -241,7 +243,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of vec2 type.
      */
     public void getArgVec2(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec2 outValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_vec2(HANDLE(), args.HANDLE(), idx, outValue.HANDLE());
+        gtk_h.gsk_gl_shader_get_arg_vec2(handle(), args.handle(), idx, outValue.handle());
     }
     
     /**
@@ -250,7 +252,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of vec3 type.
      */
     public void getArgVec3(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec3 outValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_vec3(HANDLE(), args.HANDLE(), idx, outValue.HANDLE());
+        gtk_h.gsk_gl_shader_get_arg_vec3(handle(), args.handle(), idx, outValue.handle());
     }
     
     /**
@@ -259,14 +261,14 @@ public class GLShader extends org.gtk.gobject.Object {
      * The uniform must be of vec4 type.
      */
     public void getArgVec4(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec4 outValue) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_arg_vec4(HANDLE(), args.HANDLE(), idx, outValue.HANDLE());
+        gtk_h.gsk_gl_shader_get_arg_vec4(handle(), args.handle(), idx, outValue.handle());
     }
     
     /**
      * Get the size of the data block used to specify arguments for this shader.
      */
     public long getArgsSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_args_size(HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_get_args_size(handle());
         return RESULT;
     }
     
@@ -278,7 +280,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * u_textureN value that the shader defines.
      */
     public int getNTextures() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_n_textures(HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_get_n_textures(handle());
         return RESULT;
     }
     
@@ -286,7 +288,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Get the number of declared uniforms for this shader.
      */
     public int getNUniforms() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_n_uniforms(HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_get_n_uniforms(handle());
         return RESULT;
     }
     
@@ -295,7 +297,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * to render this shader.
      */
     public java.lang.String getResource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_resource(HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_get_resource(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -303,7 +305,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Gets the GLSL sourcecode being used to render this shader.
      */
     public org.gtk.glib.Bytes getSource() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_source(HANDLE());
+        var RESULT = gtk_h.gsk_gl_shader_get_source(handle());
         return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
@@ -311,7 +313,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Get the name of the declared uniform for this shader at index @idx.
      */
     public java.lang.String getUniformName(int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_uniform_name(HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_uniform_name(handle(), idx);
         return RESULT.getUtf8String(0);
     }
     
@@ -319,7 +321,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Get the offset into the data block where data for this uniforms is stored.
      */
     public int getUniformOffset(int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_uniform_offset(HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_uniform_offset(handle(), idx);
         return RESULT;
     }
     
@@ -327,7 +329,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Get the type of the declared uniform for this shader at index @idx.
      */
     public GLUniformType getUniformType(int idx) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_uniform_type(HANDLE(), idx);
+        var RESULT = gtk_h.gsk_gl_shader_get_uniform_type(handle(), idx);
         return GLUniformType.fromValue(RESULT);
     }
     

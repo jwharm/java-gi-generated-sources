@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -26,7 +28,7 @@ public class BitsetIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * returns %FALSE, this function returns 0.
      */
     public int getValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_iter_get_value(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());
         return RESULT;
     }
     
@@ -34,7 +36,7 @@ public class BitsetIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if @iter points to a valid value.
      */
     public boolean isValid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bitset_iter_is_valid(HANDLE());
+        var RESULT = gtk_h.gtk_bitset_iter_is_valid(handle());
         return (RESULT != 0);
     }
     

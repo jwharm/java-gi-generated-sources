@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -45,7 +47,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * The table contains no tags by default.
      */
     public TextTagTable() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_new(), true));
+        super(References.get(gtk_h.gtk_text_tag_table_new(), true));
     }
     
     /**
@@ -57,7 +59,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * the same name as an already-added tag.
      */
     public boolean add(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_add(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_tag_table_add(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -65,7 +67,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Returns the size of the table (number of tags)
      */
     public int getSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_get_size(HANDLE());
+        var RESULT = gtk_h.gtk_text_tag_table_get_size(handle());
         return RESULT;
     }
     
@@ -73,7 +75,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Look up a named tag.
      */
     public TextTag lookup(java.lang.String name) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_lookup(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        var RESULT = gtk_h.gtk_text_tag_table_lookup(handle(), Interop.allocateNativeString(name).handle());
         return new TextTag(References.get(RESULT, false));
     }
     
@@ -86,7 +88,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * a reference to it.
      */
     public void remove(TextTag tag) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_remove(HANDLE(), tag.HANDLE());
+        gtk_h.gtk_text_tag_table_remove(handle(), tag.handle());
     }
     
     @FunctionalInterface
@@ -101,12 +103,12 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextTagTableTagAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tag-added").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tag-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -124,12 +126,12 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextTagTableTagChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tag-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tag-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -150,12 +152,12 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextTagTableTagRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("tag-removed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("tag-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

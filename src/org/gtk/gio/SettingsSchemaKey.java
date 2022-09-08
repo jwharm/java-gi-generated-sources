@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * administrator defaults and lockdown are not visible via this API.
      */
     public org.gtk.glib.Variant getDefaultValue() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_default_value(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_default_value(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -43,7 +45,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * directory.
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_description(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -51,7 +53,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * Gets the name of @key.
      */
     public java.lang.String getName() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_name(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_name(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -94,7 +96,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * no longer needed.
      */
     public org.gtk.glib.Variant getRange() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_range(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_range(handle());
         return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
@@ -114,7 +116,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * directory.
      */
     public java.lang.String getSummary() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_summary(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_summary(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -122,7 +124,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * Gets the #GVariantType of @key.
      */
     public org.gtk.glib.VariantType getValueType() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_get_value_type(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_get_value_type(handle());
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     
@@ -134,7 +136,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * must check for this first.
      */
     public boolean rangeCheck(org.gtk.glib.Variant value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_range_check(HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_range_check(handle(), value.handle());
         return (RESULT != 0);
     }
     
@@ -142,7 +144,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * Increase the reference count of @key, returning a new reference.
      */
     public SettingsSchemaKey ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_ref(HANDLE());
+        var RESULT = gtk_h.g_settings_schema_key_ref(handle());
         return new SettingsSchemaKey(References.get(RESULT, true));
     }
     
@@ -150,7 +152,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.interop.ResourceB
      * Decrease the reference count of @key, possibly freeing it.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_key_unref(HANDLE());
+        gtk_h.g_settings_schema_key_unref(handle());
     }
     
 }

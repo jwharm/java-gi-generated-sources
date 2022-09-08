@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -54,7 +56,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * and gtk_tooltip_set_icon().
      */
     public void setCustom(Widget customWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_custom(HANDLE(), customWidget.HANDLE());
+        gtk_h.gtk_tooltip_set_custom(handle(), customWidget.handle());
     }
     
     /**
@@ -62,7 +64,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * @paintable.  If @paintable is %NULL, the image will be hidden.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_icon(HANDLE(), paintable.HANDLE());
+        gtk_h.gtk_tooltip_set_icon(handle(), paintable.handle());
     }
     
     /**
@@ -71,7 +73,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * by @size. If @gicon is %NULL, the image will be hidden.
      */
     public void setIconFromGicon(org.gtk.gio.Icon gicon) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_icon_from_gicon(HANDLE(), gicon.HANDLE());
+        gtk_h.gtk_tooltip_set_icon_from_gicon(handle(), gicon.handle());
     }
     
     /**
@@ -80,7 +82,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * by @size.  If @icon_name is %NULL, the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_icon_from_icon_name(HANDLE(), Interop.allocateNativeString(iconName).HANDLE());
+        gtk_h.gtk_tooltip_set_icon_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
@@ -90,7 +92,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * If @markup is %NULL, the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_markup(HANDLE(), Interop.allocateNativeString(markup).HANDLE());
+        gtk_h.gtk_tooltip_set_markup(handle(), Interop.allocateNativeString(markup).handle());
     }
     
     /**
@@ -100,7 +102,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * See also [method@Gtk.Tooltip.set_markup].
      */
     public void setText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_tooltip_set_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -114,7 +116,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * gtk_tree_view_set_tooltip_cell().
      */
     public void setTipArea(org.gtk.gdk.Rectangle rect) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tooltip_set_tip_area(HANDLE(), rect.HANDLE());
+        gtk_h.gtk_tooltip_set_tip_area(handle(), rect.handle());
     }
     
 }

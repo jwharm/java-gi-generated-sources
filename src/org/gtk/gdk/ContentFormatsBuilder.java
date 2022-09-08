@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_new(), true));
+        super(References.get(gtk_h.gdk_content_formats_builder_new(), true));
     }
     
     /**
@@ -30,21 +32,21 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * already exist.
      */
     public void addFormats(ContentFormats formats) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_add_formats(HANDLE(), formats.HANDLE());
+        gtk_h.gdk_content_formats_builder_add_formats(handle(), formats.handle());
     }
     
     /**
      * Appends @type to @builder if it has not already been added.
      */
     public void addGtype(Type type) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_add_gtype(HANDLE(), type.getValue());
+        gtk_h.gdk_content_formats_builder_add_gtype(handle(), type.getValue());
     }
     
     /**
      * Appends @mime_type to @builder if it has not already been added.
      */
     public void addMimeType(java.lang.String mimeType) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_add_mime_type(HANDLE(), Interop.allocateNativeString(mimeType).HANDLE());
+        gtk_h.gdk_content_formats_builder_add_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
     }
     
     /**
@@ -52,7 +54,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * given @builder, and frees the @builder instance.
      */
     public ContentFormats freeToFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_free_to_formats(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_builder_free_to_formats(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -63,7 +65,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * `GdkContentFormatsBuilder` objects should not be kept around.
      */
     public ContentFormatsBuilder ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_ref(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_builder_ref(handle());
         return new ContentFormatsBuilder(References.get(RESULT, false));
     }
     
@@ -77,7 +79,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * [method@Gdk.ContentFormatsBuilder.free_to_formats].
      */
     public ContentFormats toFormats() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_to_formats(HANDLE());
+        var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());
         return new ContentFormats(References.get(RESULT, true));
     }
     
@@ -85,7 +87,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * Releases a reference on the given @builder.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_unref(HANDLE());
+        gtk_h.gdk_content_formats_builder_unref(handle());
     }
     
 }

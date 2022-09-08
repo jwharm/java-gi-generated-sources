@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -19,7 +21,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.interop.NativeAddr
      * a @dest no longer found in the model!
      */
     public default boolean dragDataReceived(TreePath dest, org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_dest_drag_data_received(HANDLE(), dest.HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.gtk_tree_drag_dest_drag_data_received(handle(), dest.handle(), value.handle());
         return (RESULT != 0);
     }
     
@@ -31,7 +33,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.interop.NativeAddr
      * parent of @dest_path doesn’t exist, though.
      */
     public default boolean rowDropPossible(TreePath destPath, org.gtk.gobject.Value value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_drag_dest_row_drop_possible(HANDLE(), destPath.HANDLE(), value.HANDLE());
+        var RESULT = gtk_h.gtk_tree_drag_dest_row_drop_possible(handle(), destPath.handle(), value.handle());
         return (RESULT != 0);
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -27,7 +29,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      * Tests if the stream supports the #GSeekableIface.
      */
     public default boolean canSeek() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_seekable_can_seek(HANDLE());
+        var RESULT = gtk_h.g_seekable_can_seek(handle());
         return (RESULT != 0);
     }
     
@@ -36,7 +38,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      * g_seekable_truncate().
      */
     public default boolean canTruncate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_seekable_can_truncate(HANDLE());
+        var RESULT = gtk_h.g_seekable_can_truncate(handle());
         return (RESULT != 0);
     }
     
@@ -58,7 +60,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      */
     public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_seekable_seek(HANDLE(), offset, type.getValue(), cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_seekable_seek(handle(), offset, type.getValue(), cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -69,7 +71,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      * Tells the current position within the stream.
      */
     public default long tell() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_seekable_tell(HANDLE());
+        var RESULT = gtk_h.g_seekable_tell(handle());
         return RESULT;
     }
     
@@ -86,7 +88,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      */
     public default boolean truncate(long offset, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_seekable_truncate(HANDLE(), offset, cancellable.HANDLE(), GERROR);
+        var RESULT = gtk_h.g_seekable_truncate(handle(), offset, cancellable.handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }

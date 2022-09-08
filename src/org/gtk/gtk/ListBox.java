@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -72,7 +74,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Creates a new `GtkListBox` container.
      */
     public ListBox() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_new(), false));
+        super(References.get(gtk_h.gtk_list_box_new(), false));
     }
     
     /**
@@ -82,7 +84,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * actually be inserted at the calculated position.
      */
     public void append(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_append(HANDLE(), child.HANDLE());
+        gtk_h.gtk_list_box_append(handle(), child.handle());
     }
     
     /**
@@ -97,7 +99,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * a drag leave event.
      */
     public void dragHighlightRow(ListBoxRow row) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_drag_highlight_row(HANDLE(), row.HANDLE());
+        gtk_h.gtk_list_box_drag_highlight_row(handle(), row.handle());
     }
     
     /**
@@ -105,14 +107,14 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * it will have the highlight removed.
      */
     public void dragUnhighlightRow() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_drag_unhighlight_row(HANDLE());
+        gtk_h.gtk_list_box_drag_unhighlight_row(handle());
     }
     
     /**
      * Returns whether rows activate on single clicks.
      */
     public boolean getActivateOnSingleClick() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_activate_on_single_click(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_activate_on_single_click(handle());
         return (RESULT != 0);
     }
     
@@ -121,7 +123,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * for vertical scrolling.
      */
     public Adjustment getAdjustment() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_adjustment(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_adjustment(handle());
         return new Adjustment(References.get(RESULT, false));
     }
     
@@ -132,7 +134,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * list, %NULL is returned.
      */
     public ListBoxRow getRowAtIndex(int index) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_row_at_index(HANDLE(), index);
+        var RESULT = gtk_h.gtk_list_box_get_row_at_index(handle(), index);
         return new ListBoxRow(References.get(RESULT, false));
     }
     
@@ -140,7 +142,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Gets the row at the @y position.
      */
     public ListBoxRow getRowAtY(int y) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_row_at_y(HANDLE(), y);
+        var RESULT = gtk_h.gtk_list_box_get_row_at_y(handle(), y);
         return new ListBoxRow(References.get(RESULT, false));
     }
     
@@ -152,7 +154,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * find all selected rows.
      */
     public ListBoxRow getSelectedRow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_selected_row(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_selected_row(handle());
         return new ListBoxRow(References.get(RESULT, false));
     }
     
@@ -160,7 +162,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Creates a list of all selected children.
      */
     public org.gtk.glib.List getSelectedRows() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_selected_rows(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_selected_rows(handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -168,7 +170,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Gets the selection mode of the listbox.
      */
     public SelectionMode getSelectionMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_selection_mode(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_selection_mode(handle());
         return SelectionMode.fromValue(RESULT);
     }
     
@@ -177,7 +179,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * between rows.
      */
     public boolean getShowSeparators() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_get_show_separators(HANDLE());
+        var RESULT = gtk_h.gtk_list_box_get_show_separators(handle());
         return (RESULT != 0);
     }
     
@@ -191,7 +193,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * @box, then the @child will be appended to the end.
      */
     public void insert(Widget child, int position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_insert(HANDLE(), child.HANDLE(), position);
+        gtk_h.gtk_list_box_insert(handle(), child.handle(), position);
     }
     
     /**
@@ -204,7 +206,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * string and the entry with the search string has changed.
      */
     public void invalidateFilter() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_invalidate_filter(HANDLE());
+        gtk_h.gtk_list_box_invalidate_filter(handle());
     }
     
     /**
@@ -215,7 +217,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * to an external factor.
      */
     public void invalidateHeaders() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_invalidate_headers(HANDLE());
+        gtk_h.gtk_list_box_invalidate_headers(handle());
     }
     
     /**
@@ -226,7 +228,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * to an external factor.
      */
     public void invalidateSort() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_invalidate_sort(HANDLE());
+        gtk_h.gtk_list_box_invalidate_sort(handle());
     }
     
     /**
@@ -236,28 +238,28 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * actually be inserted at the calculated position.
      */
     public void prepend(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_prepend(HANDLE(), child.HANDLE());
+        gtk_h.gtk_list_box_prepend(handle(), child.handle());
     }
     
     /**
      * Removes a child from @box.
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_list_box_remove(handle(), child.handle());
     }
     
     /**
      * Select all children of @box, if the selection mode allows it.
      */
     public void selectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_select_all(HANDLE());
+        gtk_h.gtk_list_box_select_all(handle());
     }
     
     /**
      * Make @row the currently selected row.
      */
     public void selectRow(ListBoxRow row) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_select_row(HANDLE(), row.HANDLE());
+        gtk_h.gtk_list_box_select_row(handle(), row.handle());
     }
     
     /**
@@ -265,7 +267,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_set_activate_on_single_click(HANDLE(), single ? 1 : 0);
+        gtk_h.gtk_list_box_set_activate_on_single_click(handle(), single ? 1 : 0);
     }
     
     /**
@@ -281,7 +283,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * to manually do that.
      */
     public void setAdjustment(Adjustment adjustment) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_set_adjustment(HANDLE(), adjustment.HANDLE());
+        gtk_h.gtk_list_box_set_adjustment(handle(), adjustment.handle());
     }
     
     /**
@@ -289,14 +291,14 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * it doesn't display any visible children.
      */
     public void setPlaceholder(Widget placeholder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_set_placeholder(HANDLE(), placeholder.HANDLE());
+        gtk_h.gtk_list_box_set_placeholder(handle(), placeholder.handle());
     }
     
     /**
      * Sets how selection works in the listbox.
      */
     public void setSelectionMode(SelectionMode mode) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_set_selection_mode(HANDLE(), mode.getValue());
+        gtk_h.gtk_list_box_set_selection_mode(handle(), mode.getValue());
     }
     
     /**
@@ -304,21 +306,21 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * between rows.
      */
     public void setShowSeparators(boolean showSeparators) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_set_show_separators(HANDLE(), showSeparators ? 1 : 0);
+        gtk_h.gtk_list_box_set_show_separators(handle(), showSeparators ? 1 : 0);
     }
     
     /**
      * Unselect all children of @box, if the selection mode allows it.
      */
     public void unselectAll() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_unselect_all(HANDLE());
+        gtk_h.gtk_list_box_unselect_all(handle());
     }
     
     /**
      * Unselects a single row of @box, if the selection mode allows it.
      */
     public void unselectRow(ListBoxRow row) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_unselect_row(HANDLE(), row.HANDLE());
+        gtk_h.gtk_list_box_unselect_row(handle(), row.handle());
     }
     
     @FunctionalInterface
@@ -330,12 +332,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxActivateCursorRow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate-cursor-row").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate-cursor-row").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -350,12 +352,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("move-cursor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -373,12 +375,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxRowActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -401,12 +403,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxRowSelected", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("row-selected").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("row-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -429,12 +431,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxSelectAll", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("select-all").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("select-all").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -452,12 +454,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxSelectedRowsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("selected-rows-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("selected-rows-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -472,12 +474,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxToggleCursorRow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("toggle-cursor-row").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("toggle-cursor-row").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -501,12 +503,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxUnselectAll", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("unselect-all").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("unselect-all").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

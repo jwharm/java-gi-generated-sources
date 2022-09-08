@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -41,7 +43,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new `GtkCellView` widget.
      */
     public CellView() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new(), false));
+        super(References.get(gtk_h.gtk_cell_view_new(), false));
     }
     
     /**
@@ -54,7 +56,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * possible.
      */
     public CellView(CellArea area, CellAreaContext context) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_context(area.HANDLE(), context.HANDLE()), false));
+        super(References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false));
     }
     
     /**
@@ -63,7 +65,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
      */
     public static CellView newWithMarkup(java.lang.String markup) {
-        return new CellView(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).HANDLE()), false));
+        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false));
     }
     
     /**
@@ -71,7 +73,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @text.
      */
     public static CellView newWithText(java.lang.String text) {
-        return new CellView(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).HANDLE()), false));
+        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false));
     }
     
     /**
@@ -79,7 +81,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @texture.
      */
     public CellView(org.gtk.gdk.Texture texture) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_texture(texture.HANDLE()), false));
+        super(References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false));
     }
     
     /**
@@ -88,7 +90,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * %NULL is returned.
      */
     public TreePath getDisplayedRow() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_displayed_row(HANDLE());
+        var RESULT = gtk_h.gtk_cell_view_get_displayed_row(handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -97,7 +99,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * cells in a sensitive state.
      */
     public boolean getDrawSensitive() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_draw_sensitive(HANDLE());
+        var RESULT = gtk_h.gtk_cell_view_get_draw_sensitive(handle());
         return (RESULT != 0);
     }
     
@@ -106,7 +108,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to fit the entire `GtkTreeModel`.
      */
     public boolean getFitModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_fit_model(HANDLE());
+        var RESULT = gtk_h.gtk_cell_view_get_fit_model(handle());
         return (RESULT != 0);
     }
     
@@ -115,7 +117,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * returned.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_cell_view_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -128,7 +130,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the `GtkCellView` becomes temporarily empty.
      */
     public void setDisplayedRow(TreePath path) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_set_displayed_row(HANDLE(), path.HANDLE());
+        gtk_h.gtk_cell_view_set_displayed_row(handle(), path.handle());
     }
     
     /**
@@ -138,7 +140,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * children appear sensitive in the parent menu item.
      */
     public void setDrawSensitive(boolean drawSensitive) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_set_draw_sensitive(HANDLE(), drawSensitive ? 1 : 0);
+        gtk_h.gtk_cell_view_set_draw_sensitive(handle(), drawSensitive ? 1 : 0);
     }
     
     /**
@@ -149,7 +151,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * when selection changes.
      */
     public void setFitModel(boolean fitModel) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_set_fit_model(HANDLE(), fitModel ? 1 : 0);
+        gtk_h.gtk_cell_view_set_fit_model(handle(), fitModel ? 1 : 0);
     }
     
     /**
@@ -158,7 +160,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * %NULL, then it will unset the old model.
      */
     public void setModel(TreeModel model) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_set_model(HANDLE(), model.HANDLE());
+        gtk_h.gtk_cell_view_set_model(handle(), model.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -29,14 +31,14 @@ public class NumericSorter extends Sorter {
      * [method@Gtk.NumericSorter.set_sort_order] to change this.
      */
     public NumericSorter(Expression expression) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_new(expression.getReference().unowned().HANDLE()), true));
+        super(References.get(gtk_h.gtk_numeric_sorter_new(expression.getReference().unowned().handle()), true));
     }
     
     /**
      * Gets the expression that is evaluated to obtain numbers from items.
      */
     public Expression getExpression() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_get_expression(HANDLE());
+        var RESULT = gtk_h.gtk_numeric_sorter_get_expression(handle());
         return new Expression(References.get(RESULT, false));
     }
     
@@ -44,7 +46,7 @@ public class NumericSorter extends Sorter {
      * Gets whether this sorter will sort smaller numbers first.
      */
     public SortType getSortOrder() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_get_sort_order(HANDLE());
+        var RESULT = gtk_h.gtk_numeric_sorter_get_sort_order(handle());
         return SortType.fromValue(RESULT);
     }
     
@@ -58,14 +60,14 @@ public class NumericSorter extends Sorter {
      * numerically, such as %G_TYPE_INT or %G_TYPE_DOUBLE.
      */
     public void setExpression(Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_set_expression(HANDLE(), expression.HANDLE());
+        gtk_h.gtk_numeric_sorter_set_expression(handle(), expression.handle());
     }
     
     /**
      * Sets whether to sort smaller numbers before larger ones.
      */
     public void setSortOrder(SortType sortOrder) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_set_sort_order(HANDLE(), sortOrder.getValue());
+        gtk_h.gtk_numeric_sorter_set_sort_order(handle(), sortOrder.getValue());
     }
     
 }

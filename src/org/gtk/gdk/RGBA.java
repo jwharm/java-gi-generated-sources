@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * The result must be freed through [method@Gdk.RGBA.free].
      */
     public RGBA copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_copy(HANDLE());
+        var RESULT = gtk_h.gdk_rgba_copy(handle());
         return new RGBA(References.get(RESULT, true));
     }
     
@@ -36,7 +38,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * Compares two `GdkRGBA` colors.
      */
     public boolean equal(RGBA p2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_equal(HANDLE(), p2.HANDLE());
+        var RESULT = gtk_h.gdk_rgba_equal(handle(), p2.handle());
         return (RESULT != 0);
     }
     
@@ -44,7 +46,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a `GdkRGBA`.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_free(HANDLE());
+        gtk_h.gdk_rgba_free(handle());
     }
     
     /**
@@ -52,7 +54,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * table that stores `GdkRGBA`s.
      */
     public int hash() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_hash(HANDLE());
+        var RESULT = gtk_h.gdk_rgba_hash(handle());
         return RESULT;
     }
     
@@ -62,7 +64,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * That is, drawing with the value would not produce any change.
      */
     public boolean isClear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_is_clear(HANDLE());
+        var RESULT = gtk_h.gdk_rgba_is_clear(handle());
         return (RESULT != 0);
     }
     
@@ -73,7 +75,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * from previous contents.
      */
     public boolean isOpaque() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_is_opaque(HANDLE());
+        var RESULT = gtk_h.gdk_rgba_is_opaque(handle());
         return (RESULT != 0);
     }
     
@@ -98,7 +100,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the range 0 to 1.
      */
     public boolean parse(java.lang.String spec) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_parse(HANDLE(), Interop.allocateNativeString(spec).HANDLE());
+        var RESULT = gtk_h.gdk_rgba_parse(handle(), Interop.allocateNativeString(spec).handle());
         return (RESULT != 0);
     }
     
@@ -118,7 +120,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      * this is a concern, you should use a different representation.
      */
     public java.lang.String toString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_to_string(HANDLE());
+        var RESULT = gtk_h.gdk_rgba_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

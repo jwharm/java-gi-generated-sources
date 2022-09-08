@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -93,14 +95,14 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Creates a new `GtkHeaderBar` widget.
      */
     public HeaderBar() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_new(), false));
+        super(References.get(gtk_h.gtk_header_bar_new(), false));
     }
     
     /**
      * Gets the decoration layout of the `GtkHeaderBar`.
      */
     public java.lang.String getDecorationLayout() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_get_decoration_layout(HANDLE());
+        var RESULT = gtk_h.gtk_header_bar_get_decoration_layout(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -109,7 +111,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * title buttons.
      */
     public boolean getShowTitleButtons() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_get_show_title_buttons(HANDLE());
+        var RESULT = gtk_h.gtk_header_bar_get_show_title_buttons(handle());
         return (RESULT != 0);
     }
     
@@ -119,7 +121,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * See [method@Gtk.HeaderBar.set_title_widget].
      */
     public Widget getTitleWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_get_title_widget(HANDLE());
+        var RESULT = gtk_h.gtk_header_bar_get_title_widget(handle());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -128,7 +130,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * end of the @bar.
      */
     public void packEnd(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_pack_end(HANDLE(), child.HANDLE());
+        gtk_h.gtk_header_bar_pack_end(handle(), child.handle());
     }
     
     /**
@@ -136,7 +138,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * start of the @bar.
      */
     public void packStart(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_pack_start(HANDLE(), child.HANDLE());
+        gtk_h.gtk_header_bar_pack_start(handle(), child.handle());
     }
     
     /**
@@ -148,7 +150,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * [method@Gtk.HeaderBar.set_title_widget].
      */
     public void remove(Widget child) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_remove(HANDLE(), child.HANDLE());
+        gtk_h.gtk_header_bar_remove(handle(), child.handle());
     }
     
     /**
@@ -171,7 +173,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * on the left, and minimize, maximize and close buttons on the right.
      */
     public void setDecorationLayout(java.lang.String layout) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_set_decoration_layout(HANDLE(), Interop.allocateNativeString(layout).HANDLE());
+        gtk_h.gtk_header_bar_set_decoration_layout(handle(), Interop.allocateNativeString(layout).handle());
     }
     
     /**
@@ -179,7 +181,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * title buttons.
      */
     public void setShowTitleButtons(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_set_show_title_buttons(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_header_bar_set_show_title_buttons(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -196,7 +198,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * title label to be visible again.
      */
     public void setTitleWidget(Widget titleWidget) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_set_title_widget(HANDLE(), titleWidget.HANDLE());
+        gtk_h.gtk_header_bar_set_title_widget(handle(), titleWidget.handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,14 +33,14 @@ public class EventControllerFocus extends EventController {
      * Creates a new event controller that will handle focus events.
      */
     public EventControllerFocus() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_new(), true));
+        super(References.get(gtk_h.gtk_event_controller_focus_new(), true));
     }
     
     /**
      * Returns %TRUE if focus is within @self or one of its children.
      */
     public boolean containsFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_contains_focus(HANDLE());
+        var RESULT = gtk_h.gtk_event_controller_focus_contains_focus(handle());
         return (RESULT != 0);
     }
     
@@ -46,7 +48,7 @@ public class EventControllerFocus extends EventController {
      * Returns %TRUE if focus is within @self, but not one of its children.
      */
     public boolean isFocus() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_is_focus(HANDLE());
+        var RESULT = gtk_h.gtk_event_controller_focus_is_focus(handle());
         return (RESULT != 0);
     }
     
@@ -71,12 +73,12 @@ public class EventControllerFocus extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEventControllerFocusEnter", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("enter").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("enter").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -102,12 +104,12 @@ public class EventControllerFocus extends EventController {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEventControllerFocusLeave", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("leave").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("leave").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

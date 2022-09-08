@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -70,7 +72,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
      * Creates a #GSocketAddressEnumerator for @connectable.
      */
     public default SocketAddressEnumerator enumerate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connectable_enumerate(HANDLE());
+        var RESULT = gtk_h.g_socket_connectable_enumerate(handle());
         return new SocketAddressEnumerator(References.get(RESULT, true));
     }
     
@@ -84,7 +86,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
      * calling g_socket_connectable_enumerate().
      */
     public default SocketAddressEnumerator proxyEnumerate() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connectable_proxy_enumerate(HANDLE());
+        var RESULT = gtk_h.g_socket_connectable_proxy_enumerate(handle());
         return new SocketAddressEnumerator(References.get(RESULT, true));
     }
     
@@ -98,7 +100,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
      * the implementation’s type name will be returned as a fallback.
      */
     public default java.lang.String toString_() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connectable_to_string(HANDLE());
+        var RESULT = gtk_h.g_socket_connectable_to_string(handle());
         return RESULT.getUtf8String(0);
     }
     

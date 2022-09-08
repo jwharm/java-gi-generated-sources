@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -32,14 +34,14 @@ public class ATContext extends org.gtk.gobject.Object {
      * platform.
      */
     public ATContext(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.HANDLE(), display.HANDLE()), true));
+        super(References.get(gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.handle(), display.handle()), true));
     }
     
     /**
      * Retrieves the `GtkAccessible` using this context.
      */
     public Accessible getAccessible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_get_accessible(HANDLE());
+        var RESULT = gtk_h.gtk_at_context_get_accessible(handle());
         return new Accessible.AccessibleImpl(References.get(RESULT, false));
     }
     
@@ -47,7 +49,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * Retrieves the accessible role of this context.
      */
     public AccessibleRole getAccessibleRole() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_get_accessible_role(HANDLE());
+        var RESULT = gtk_h.gtk_at_context_get_accessible_role(handle());
         return AccessibleRole.fromValue(RESULT);
     }
     
@@ -64,12 +66,12 @@ public class ATContext extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalATContextStateChange", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("state-change").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("state-change").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

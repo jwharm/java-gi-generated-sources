@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -22,7 +24,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * ownership of the @group and thus the @group should not be freed.
      */
     public void addGroup(OptionGroup group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_add_group(HANDLE(), group.HANDLE());
+        gtk_h.g_option_context_add_group(handle(), group.handle());
     }
     
     /**
@@ -30,7 +32,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * exist, adds the @entries to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_add_main_entries(HANDLE(), Interop.allocateNativeArray(entries), Interop.allocateNativeString(translationDomain).HANDLE());
+        gtk_h.g_option_context_add_main_entries(handle(), Interop.allocateNativeArray(entries), Interop.allocateNativeString(translationDomain).handle());
     }
     
     /**
@@ -41,14 +43,14 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * #GOptionEntry).
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_free(HANDLE());
+        gtk_h.g_option_context_free(handle());
     }
     
     /**
      * Returns the description. See g_option_context_set_description().
      */
     public java.lang.String getDescription() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_description(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_description(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -62,7 +64,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * `g_option_context_get_help (context, FALSE, group)`.
      */
     public java.lang.String getHelp(boolean mainHelp, OptionGroup group) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_help(HANDLE(), mainHelp ? 1 : 0, group.HANDLE());
+        var RESULT = gtk_h.g_option_context_get_help(handle(), mainHelp ? 1 : 0, group.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -71,7 +73,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * is turned on for @context. See g_option_context_set_help_enabled().
      */
     public boolean getHelpEnabled() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_help_enabled(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_help_enabled(handle());
         return (RESULT != 0);
     }
     
@@ -80,7 +82,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * g_option_context_set_ignore_unknown_options().
      */
     public boolean getIgnoreUnknownOptions() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_ignore_unknown_options(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_ignore_unknown_options(handle());
         return (RESULT != 0);
     }
     
@@ -88,7 +90,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * Returns a pointer to the main group of @context.
      */
     public OptionGroup getMainGroup() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_main_group(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_main_group(handle());
         return new OptionGroup(References.get(RESULT, false));
     }
     
@@ -98,7 +100,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * See g_option_context_set_strict_posix() for more information.
      */
     public boolean getStrictPosix() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_strict_posix(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_strict_posix(handle());
         return (RESULT != 0);
     }
     
@@ -106,7 +108,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * Returns the summary. See g_option_context_set_summary().
      */
     public java.lang.String getSummary() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_summary(HANDLE());
+        var RESULT = gtk_h.g_option_context_get_summary(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -130,7 +132,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_parse_strv(HANDLE(), Interop.allocateNativeArray(arguments), GERROR);
+        var RESULT = gtk_h.g_option_context_parse_strv(handle(), Interop.allocateNativeArray(arguments), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -145,7 +147,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * g_option_context_set_translate_func()).
      */
     public void setDescription(java.lang.String description) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_description(HANDLE(), Interop.allocateNativeString(description).HANDLE());
+        gtk_h.g_option_context_set_description(handle(), Interop.allocateNativeString(description).handle());
     }
     
     /**
@@ -155,7 +157,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * output to stdout.
      */
     public void setHelpEnabled(boolean helpEnabled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_help_enabled(HANDLE(), helpEnabled ? 1 : 0);
+        gtk_h.g_option_context_set_help_enabled(handle(), helpEnabled ? 1 : 0);
     }
     
     /**
@@ -168,7 +170,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * determine whether a non-option belongs to a preceding unknown option.
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_ignore_unknown_options(HANDLE(), ignoreUnknown ? 1 : 0);
+        gtk_h.g_option_context_set_ignore_unknown_options(handle(), ignoreUnknown ? 1 : 0);
     }
     
     /**
@@ -178,7 +180,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * treated differently when generating `--help` output.
      */
     public void setMainGroup(OptionGroup group) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_main_group(HANDLE(), group.HANDLE());
+        gtk_h.g_option_context_set_main_group(handle(), group.handle());
     }
     
     /**
@@ -208,7 +210,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * parsing).
      */
     public void setStrictPosix(boolean strictPosix) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_strict_posix(HANDLE(), strictPosix ? 1 : 0);
+        gtk_h.g_option_context_set_strict_posix(handle(), strictPosix ? 1 : 0);
     }
     
     /**
@@ -220,7 +222,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * g_option_context_set_translation_domain()).
      */
     public void setSummary(java.lang.String summary) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_summary(HANDLE(), Interop.allocateNativeString(summary).HANDLE());
+        gtk_h.g_option_context_set_summary(handle(), Interop.allocateNativeString(summary).handle());
     }
     
     /**
@@ -228,7 +230,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      * user-visible strings.
      */
     public void setTranslationDomain(java.lang.String domain) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_set_translation_domain(HANDLE(), Interop.allocateNativeString(domain).HANDLE());
+        gtk_h.g_option_context_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
     }
     
 }

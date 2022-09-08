@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -28,7 +30,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * The function is used by language bindings.
      */
     public void assign(TextIter other) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_assign(HANDLE(), other.HANDLE());
+        gtk_h.gtk_text_iter_assign(handle(), other.handle());
     }
     
     /**
@@ -39,7 +41,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for convenience when writing loops.
      */
     public boolean backwardChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_char(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_char(handle());
         return (RESULT != 0);
     }
     
@@ -55,7 +57,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * the function does nothing and returns %FALSE.
      */
     public boolean backwardChars(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_chars(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_chars(handle(), count);
         return (RESULT != 0);
     }
     
@@ -63,7 +65,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Like gtk_text_iter_forward_cursor_position(), but moves backward.
      */
     public boolean backwardCursorPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_cursor_position(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_cursor_position(handle());
         return (RESULT != 0);
     }
     
@@ -73,7 +75,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.forward_cursor_position] for details.
      */
     public boolean backwardCursorPositions(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_cursor_positions(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_cursor_positions(handle(), count);
         return (RESULT != 0);
     }
     
@@ -89,7 +91,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * every iteration, if your first iteration is on line 0.)
      */
     public boolean backwardLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_line(handle());
         return (RESULT != 0);
     }
     
@@ -106,7 +108,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * moves forward by 0 - @count lines.
      */
     public boolean backwardLines(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_lines(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_lines(handle(), count);
         return (RESULT != 0);
     }
     
@@ -117,7 +119,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * even if there is a possible @match_start before or at @iter.
      */
     public boolean backwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_search(HANDLE(), Interop.allocateNativeString(str).HANDLE(), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
         return (RESULT != 0);
     }
     
@@ -131,7 +133,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean backwardSentenceStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_sentence_start(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_sentence_start(handle());
         return (RESULT != 0);
     }
     
@@ -141,7 +143,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @count is negative, moves forward instead of backward.
      */
     public boolean backwardSentenceStarts(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_sentence_starts(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_sentence_starts(handle(), count);
         return (RESULT != 0);
     }
     
@@ -157,7 +159,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * if no toggle is found.
      */
     public boolean backwardToTagToggle(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_to_tag_toggle(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_to_tag_toggle(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -167,7 +169,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.backward_cursor_position] for details.
      */
     public boolean backwardVisibleCursorPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_cursor_position(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_position(handle());
         return (RESULT != 0);
     }
     
@@ -177,7 +179,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.backward_cursor_position] for details.
      */
     public boolean backwardVisibleCursorPositions(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_cursor_positions(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_positions(handle(), count);
         return (RESULT != 0);
     }
     
@@ -193,7 +195,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * every iteration, if your first iteration is on line 0.)
      */
     public boolean backwardVisibleLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_line(handle());
         return (RESULT != 0);
     }
     
@@ -210,7 +212,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * moves forward by 0 - @count lines.
      */
     public boolean backwardVisibleLines(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_lines(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_lines(handle(), count);
         return (RESULT != 0);
     }
     
@@ -224,7 +226,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language.
      */
     public boolean backwardVisibleWordStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_word_start(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_word_start(handle());
         return (RESULT != 0);
     }
     
@@ -232,7 +234,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls gtk_text_iter_backward_visible_word_start() up to @count times.
      */
     public boolean backwardVisibleWordStarts(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_visible_word_starts(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_visible_word_starts(handle(), count);
         return (RESULT != 0);
     }
     
@@ -246,7 +248,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language
      */
     public boolean backwardWordStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_word_start(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_backward_word_start(handle());
         return (RESULT != 0);
     }
     
@@ -254,7 +256,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls gtk_text_iter_backward_word_start() up to @count times.
      */
     public boolean backwardWordStarts(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_backward_word_starts(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_backward_word_starts(handle(), count);
         return (RESULT != 0);
     }
     
@@ -269,7 +271,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * to decide whether insertions are allowed at a given position.
      */
     public boolean canInsert(boolean defaultEditability) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_can_insert(HANDLE(), defaultEditability ? 1 : 0);
+        var RESULT = gtk_h.gtk_text_iter_can_insert(handle(), defaultEditability ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -281,7 +283,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the buffer is less than the second character in the buffer.
      */
     public int compare(TextIter rhs) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_compare(HANDLE(), rhs.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_compare(handle(), rhs.handle());
         return RESULT;
     }
     
@@ -295,7 +297,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * The function is used by language bindings.
      */
     public TextIter copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_copy(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_copy(handle());
         return new TextIter(References.get(RESULT, true));
     }
     
@@ -315,7 +317,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * case.
      */
     public boolean editable(boolean defaultSetting) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_editable(HANDLE(), defaultSetting ? 1 : 0);
+        var RESULT = gtk_h.gtk_text_iter_editable(handle(), defaultSetting ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -333,7 +335,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * are no paragraph delimiter chars there.
      */
     public boolean endsLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_ends_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_ends_line(handle());
         return (RESULT != 0);
     }
     
@@ -344,7 +346,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean endsSentence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_ends_sentence(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_ends_sentence(handle());
         return (RESULT != 0);
     }
     
@@ -361,7 +363,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * %FALSE for the same parameters.
      */
     public boolean endsTag(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_ends_tag(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_ends_tag(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -372,7 +374,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language.
      */
     public boolean endsWord() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_ends_word(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_ends_word(handle());
         return (RESULT != 0);
     }
     
@@ -386,7 +388,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * bit faster than [method@Gtk.TextIter.compare].
      */
     public boolean equal(TextIter rhs) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_equal(HANDLE(), rhs.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_equal(handle(), rhs.handle());
         return (RESULT != 0);
     }
     
@@ -400,7 +402,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * and this function returns %FALSE for convenience when writing loops.
      */
     public boolean forwardChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_char(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_char(handle());
         return (RESULT != 0);
     }
     
@@ -416,7 +418,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * is 0, the function does nothing and returns %FALSE.
      */
     public boolean forwardChars(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_chars(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_chars(handle(), count);
         return (RESULT != 0);
     }
     
@@ -438,7 +440,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * function.
      */
     public boolean forwardCursorPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_cursor_position(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_cursor_position(handle());
         return (RESULT != 0);
     }
     
@@ -448,7 +450,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.forward_cursor_position] for details.
      */
     public boolean forwardCursorPositions(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_cursor_positions(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_cursor_positions(handle(), count);
         return (RESULT != 0);
     }
     
@@ -461,7 +463,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * dereferenceable, returns %FALSE. Otherwise, returns %TRUE.
      */
     public boolean forwardLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_line(handle());
         return (RESULT != 0);
     }
     
@@ -478,7 +480,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * moves backward by 0 - @count lines.
      */
     public boolean forwardLines(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_lines(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_lines(handle(), count);
         return (RESULT != 0);
     }
     
@@ -495,7 +497,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * even if there is a possible @match_end after or at @iter.
      */
     public boolean forwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_search(HANDLE(), Interop.allocateNativeString(str).HANDLE(), flags, matchStart.HANDLE(), matchEnd.HANDLE(), limit.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
         return (RESULT != 0);
     }
     
@@ -509,7 +511,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * be correct for nearly any language.
      */
     public boolean forwardSentenceEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_sentence_end(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_sentence_end(handle());
         return (RESULT != 0);
     }
     
@@ -519,7 +521,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @count is negative, moves backward instead of forward.
      */
     public boolean forwardSentenceEnds(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_sentence_ends(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_sentence_ends(handle(), count);
         return (RESULT != 0);
     }
     
@@ -531,7 +533,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * returns 0, which is convenient for writing loops.
      */
     public void forwardToEnd() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_to_end(HANDLE());
+        gtk_h.gtk_text_iter_forward_to_end(handle());
     }
     
     /**
@@ -548,7 +550,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * the last line), and returns %FALSE.
      */
     public boolean forwardToLineEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_to_line_end(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_to_line_end(handle());
         return (RESULT != 0);
     }
     
@@ -564,7 +566,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * if no toggle is found.
      */
     public boolean forwardToTagToggle(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_to_tag_toggle(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_to_tag_toggle(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -574,7 +576,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.forward_cursor_position] for details.
      */
     public boolean forwardVisibleCursorPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_cursor_position(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_position(handle());
         return (RESULT != 0);
     }
     
@@ -584,7 +586,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * See [method@Gtk.TextIter.forward_cursor_position] for details.
      */
     public boolean forwardVisibleCursorPositions(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_cursor_positions(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_positions(handle(), count);
         return (RESULT != 0);
     }
     
@@ -597,7 +599,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * already at the end of the buffer.
      */
     public boolean forwardVisibleLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_line(handle());
         return (RESULT != 0);
     }
     
@@ -614,7 +616,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * moves backward by 0 - @count lines.
      */
     public boolean forwardVisibleLines(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_lines(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_lines(handle(), count);
         return (RESULT != 0);
     }
     
@@ -628,7 +630,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language
      */
     public boolean forwardVisibleWordEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_word_end(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_word_end(handle());
         return (RESULT != 0);
     }
     
@@ -636,7 +638,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls gtk_text_iter_forward_visible_word_end() up to @count times.
      */
     public boolean forwardVisibleWordEnds(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_visible_word_ends(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_visible_word_ends(handle(), count);
         return (RESULT != 0);
     }
     
@@ -650,7 +652,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language.
      */
     public boolean forwardWordEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_word_end(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_forward_word_end(handle());
         return (RESULT != 0);
     }
     
@@ -658,7 +660,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls gtk_text_iter_forward_word_end() up to @count times.
      */
     public boolean forwardWordEnds(int count) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_forward_word_ends(HANDLE(), count);
+        var RESULT = gtk_h.gtk_text_iter_forward_word_ends(handle(), count);
         return (RESULT != 0);
     }
     
@@ -670,14 +672,14 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterators can simply be allocated on the stack.
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_free(HANDLE());
+        gtk_h.gtk_text_iter_free(handle());
     }
     
     /**
      * Returns the `GtkTextBuffer` this iterator is associated with.
      */
     public TextBuffer getBuffer() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_buffer(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_buffer(handle());
         return new TextBuffer(References.get(RESULT, false));
     }
     
@@ -686,7 +688,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * including the paragraph delimiters.
      */
     public int getBytesInLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_bytes_in_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_bytes_in_line(handle());
         return RESULT;
     }
     
@@ -702,7 +704,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * So you can write a loop which ends when this function returns 0.
      */
     public int getChar() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_char(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_char(handle());
         return RESULT;
     }
     
@@ -711,7 +713,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * including the paragraph delimiters.
      */
     public int getCharsInLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_chars_in_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_chars_in_line(handle());
         return RESULT;
     }
     
@@ -722,7 +724,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Otherwise, %NULL is returned.
      */
     public TextChildAnchor getChildAnchor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_child_anchor(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_child_anchor(handle());
         return new TextChildAnchor(References.get(RESULT, false));
     }
     
@@ -733,7 +735,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * value is identical to that of [func@Gtk.get_default_language].
      */
     public org.pango.Language getLanguage() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_language(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_language(handle());
         return new org.pango.Language(References.get(RESULT, true));
     }
     
@@ -744,7 +746,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * with 0 for the first line in the buffer.
      */
     public int getLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_line(handle());
         return RESULT;
     }
     
@@ -757,7 +759,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * number of bytes to represent.
      */
     public int getLineIndex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_line_index(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_line_index(handle());
         return RESULT;
     }
     
@@ -768,7 +770,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * The first character on the line has offset 0.
      */
     public int getLineOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_line_offset(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_line_offset(handle());
         return RESULT;
     }
     
@@ -782,7 +784,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * The returned list is not in any meaningful order.
      */
     public org.gtk.glib.SList getMarks() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_marks(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_marks(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -795,7 +797,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * an offset back into an iterator.
      */
     public int getOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_offset(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_offset(handle());
         return RESULT;
     }
     
@@ -805,7 +807,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Otherwise, %NULL is returned.
      */
     public org.gtk.gdk.Paintable getPaintable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_paintable(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_paintable(handle());
         return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
@@ -822,7 +824,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * widget is in the buffer.
      */
     public java.lang.String getSlice(TextIter end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_slice(HANDLE(), end.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_slice(handle(), end.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -836,7 +838,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * but you have to free the list itself.
      */
     public org.gtk.glib.SList getTags() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_tags(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_tags(handle());
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -850,7 +852,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.TextIter.get_slice].
      */
     public java.lang.String getText(TextIter end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_text(HANDLE(), end.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_text(handle(), end.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -865,7 +867,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * does not have the tag applied to it.
      */
     public org.gtk.glib.SList getToggledTags(boolean toggledOn) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_toggled_tags(HANDLE(), toggledOn ? 1 : 0);
+        var RESULT = gtk_h.gtk_text_iter_get_toggled_tags(handle(), toggledOn ? 1 : 0);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
@@ -876,7 +878,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * toggled on.
      */
     public int getVisibleLineIndex() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_visible_line_index(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_visible_line_index(handle());
         return RESULT;
     }
     
@@ -887,7 +889,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * toggled on.
      */
     public int getVisibleLineOffset() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_visible_line_offset(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_visible_line_offset(handle());
         return RESULT;
     }
     
@@ -900,7 +902,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * been applied to it.
      */
     public java.lang.String getVisibleSlice(TextIter end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_visible_slice(HANDLE(), end.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_visible_slice(handle(), end.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -913,7 +915,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * been applied to it.
      */
     public java.lang.String getVisibleText(TextIter end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_get_visible_text(HANDLE(), end.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_get_visible_text(handle(), end.handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -925,7 +927,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.TextIter.ends_tag].
      */
     public boolean hasTag(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_has_tag(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_has_tag(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -935,7 +937,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * @start and @end must be in ascending order.
      */
     public boolean inRange(TextIter start, TextIter end) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_in_range(HANDLE(), start.HANDLE(), end.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_in_range(handle(), start.handle(), end.handle());
         return (RESULT != 0);
     }
     
@@ -948,7 +950,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language.
      */
     public boolean insideSentence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_inside_sentence(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_inside_sentence(handle());
         return (RESULT != 0);
     }
     
@@ -964,7 +966,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * the first character of the word.
      */
     public boolean insideWord() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_inside_word(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_inside_word(handle());
         return (RESULT != 0);
     }
     
@@ -976,7 +978,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * on what a cursor position is.
      */
     public boolean isCursorPosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_is_cursor_position(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_is_cursor_position(handle());
         return (RESULT != 0);
     }
     
@@ -988,7 +990,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * way to check whether an iterator is the end iterator.
      */
     public boolean isEnd() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_is_end(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_is_end(handle());
         return (RESULT != 0);
     }
     
@@ -996,7 +998,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns %TRUE if @iter is the first iterator in the buffer.
      */
     public boolean isStart() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_is_start(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_is_start(handle());
         return (RESULT != 0);
     }
     
@@ -1012,7 +1014,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * pre-sorted range.
      */
     public void order(TextIter second) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_order(HANDLE(), second.HANDLE());
+        gtk_h.gtk_text_iter_order(handle(), second.handle());
     }
     
     /**
@@ -1022,7 +1024,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the buffer, moves @iter to the start of the last line in the buffer.
      */
     public void setLine(int lineNumber) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_line(HANDLE(), lineNumber);
+        gtk_h.gtk_text_iter_set_line(handle(), lineNumber);
     }
     
     /**
@@ -1032,7 +1034,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * encoded character.
      */
     public void setLineIndex(int byteOnLine) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_line_index(HANDLE(), byteOnLine);
+        gtk_h.gtk_text_iter_set_line_index(handle(), byteOnLine);
     }
     
     /**
@@ -1044,7 +1046,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * index rather than a character offset.
      */
     public void setLineOffset(int charOnLine) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_line_offset(HANDLE(), charOnLine);
+        gtk_h.gtk_text_iter_set_line_offset(handle(), charOnLine);
     }
     
     /**
@@ -1054,7 +1056,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * of the entire text buffer, starting with 0.
      */
     public void setOffset(int charOffset) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_offset(HANDLE(), charOffset);
+        gtk_h.gtk_text_iter_set_offset(handle(), charOffset);
     }
     
     /**
@@ -1063,7 +1065,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * in the index.
      */
     public void setVisibleLineIndex(int byteOnLine) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_visible_line_index(HANDLE(), byteOnLine);
+        gtk_h.gtk_text_iter_set_visible_line_index(handle(), byteOnLine);
     }
     
     /**
@@ -1072,7 +1074,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * counted in the offset.
      */
     public void setVisibleLineOffset(int charOnLine) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_set_visible_line_offset(HANDLE(), charOnLine);
+        gtk_h.gtk_text_iter_set_visible_line_offset(handle(), charOnLine);
     }
     
     /**
@@ -1085,7 +1087,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * whether it’s 0.
      */
     public boolean startsLine() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_starts_line(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_starts_line(handle());
         return (RESULT != 0);
     }
     
@@ -1096,7 +1098,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * should be correct for nearly any language.
      */
     public boolean startsSentence() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_starts_sentence(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_starts_sentence(handle());
         return (RESULT != 0);
     }
     
@@ -1113,7 +1115,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * will also return %TRUE for the same parameters.
      */
     public boolean startsTag(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_starts_tag(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_starts_tag(handle(), tag.handle());
         return (RESULT != 0);
     }
     
@@ -1124,7 +1126,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * for nearly any language.
      */
     public boolean startsWord() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_starts_word(HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_starts_word(handle());
         return (RESULT != 0);
     }
     
@@ -1136,7 +1138,7 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * gtk_text_iter_ends_tag())
      */
     public boolean togglesTag(TextTag tag) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_iter_toggles_tag(HANDLE(), tag.HANDLE());
+        var RESULT = gtk_h.gtk_text_iter_toggles_tag(handle(), tag.handle());
         return (RESULT != 0);
     }
     

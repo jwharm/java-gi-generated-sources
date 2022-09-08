@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -52,7 +54,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * value for this setting.
      */
     public void resetProperty(java.lang.String name) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_settings_reset_property(HANDLE(), Interop.allocateNativeString(name).HANDLE());
+        gtk_h.gtk_settings_reset_property(handle(), Interop.allocateNativeString(name).handle());
     }
     
 }

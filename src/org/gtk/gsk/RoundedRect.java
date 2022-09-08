@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -30,7 +32,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if the given @point is inside the rounded rectangle.
      */
     public boolean containsPoint(org.gtk.graphene.Point point) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_contains_point(HANDLE(), point.HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_contains_point(handle(), point.handle());
         return (RESULT != 0);
     }
     
@@ -38,7 +40,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if the given @rect is contained inside the rounded rectangle.
      */
     public boolean containsRect(org.gtk.graphene.Rect rect) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_contains_rect(HANDLE(), rect.HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_contains_rect(handle(), rect.handle());
         return (RESULT != 0);
     }
     
@@ -49,7 +51,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * before returning.
      */
     public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init(HANDLE(), bounds.HANDLE(), topLeft.HANDLE(), topRight.HANDLE(), bottomRight.HANDLE(), bottomLeft.HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_init(handle(), bounds.handle(), topLeft.handle(), topRight.handle(), bottomRight.handle(), bottomLeft.handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -60,7 +62,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * so make sure the source is normalized.
      */
     public RoundedRect initCopy(RoundedRect src) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init_copy(HANDLE(), src.HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_init_copy(handle(), src.handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -69,7 +71,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * of all four corners to @radius.
      */
     public RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init_from_rect(HANDLE(), bounds.HANDLE(), radius);
+        var RESULT = gtk_h.gsk_rounded_rect_init_from_rect(handle(), bounds.handle(), radius);
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -77,7 +79,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * Checks if part of the given @rect is contained inside the rounded rectangle.
      */
     public boolean intersectsRect(org.gtk.graphene.Rect rect) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_intersects_rect(HANDLE(), rect.HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_intersects_rect(handle(), rect.handle());
         return (RESULT != 0);
     }
     
@@ -89,7 +91,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * or [ctor@Gsk.RoundedClipNode.new] should be called.
      */
     public boolean isRectilinear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_is_rectilinear(HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_is_rectilinear(handle());
         return (RESULT != 0);
     }
     
@@ -101,7 +103,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * and the corners do not overlap.
      */
     public RoundedRect normalize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_normalize(HANDLE());
+        var RESULT = gtk_h.gsk_rounded_rect_normalize(handle());
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -111,7 +113,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * The size and corners of the rectangle are unchanged.
      */
     public RoundedRect offset(float dx, float dy) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_offset(HANDLE(), dx, dy);
+        var RESULT = gtk_h.gsk_rounded_rect_offset(handle(), dx, dy);
         return new RoundedRect(References.get(RESULT, false));
     }
     
@@ -126,7 +128,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      * negative values for the @top, @right, @bottom or @left.
      */
     public RoundedRect shrink(float top, float right, float bottom, float left) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_shrink(HANDLE(), top, right, bottom, left);
+        var RESULT = gtk_h.gsk_rounded_rect_shrink(handle(), top, right, bottom, left);
         return new RoundedRect(References.get(RESULT, false));
     }
     

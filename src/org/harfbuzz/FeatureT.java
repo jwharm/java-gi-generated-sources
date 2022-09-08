@@ -1,6 +1,8 @@
 package org.harfbuzz;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class FeatureT extends io.github.jwharm.javagi.interop.ResourceBase {
      * allocating big enough size for @buf, 128 bytes is more than enough.
      */
     public void String(java.lang.String[] buf, int size) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.hb_feature_to_string(HANDLE(), Interop.allocateNativeArray(buf), size);
+        gtk_h.hb_feature_to_string(handle(), Interop.allocateNativeArray(buf), size);
     }
     
 }

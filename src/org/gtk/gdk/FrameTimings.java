@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -37,7 +39,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * stored in the `GdkFrameTimings`.
      */
     public boolean getComplete() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_complete(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_complete(handle());
         return (RESULT != 0);
     }
     
@@ -46,7 +48,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * this frame was drawn.
      */
     public long getFrameCounter() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_frame_counter(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_frame_counter(handle());
         return RESULT;
     }
     
@@ -57,7 +59,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * animations for the frame. See [method@Gdk.FrameClock.get_frame_time].
      */
     public long getFrameTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_frame_time(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_frame_time(handle());
         return RESULT;
     }
     
@@ -76,7 +78,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * for Audio/Video synchronization.
      */
     public long getPredictedPresentationTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_predicted_presentation_time(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_predicted_presentation_time(handle());
         return RESULT;
     }
     
@@ -86,7 +88,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is the time at which the frame became visible to the user.
      */
     public long getPresentationTime() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_presentation_time(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_presentation_time(handle());
         return RESULT;
     }
     
@@ -98,7 +100,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * blanking interval”.
      */
     public long getRefreshInterval() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_get_refresh_interval(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_get_refresh_interval(handle());
         return RESULT;
     }
     
@@ -106,7 +108,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * Increases the reference count of @timings.
      */
     public FrameTimings ref() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_ref(HANDLE());
+        var RESULT = gtk_h.gdk_frame_timings_ref(handle());
         return new FrameTimings(References.get(RESULT, true));
     }
     
@@ -116,7 +118,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @timings is no longer referenced, it will be freed.
      */
     public void unref() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_unref(HANDLE());
+        gtk_h.gdk_frame_timings_unref(handle());
     }
     
 }

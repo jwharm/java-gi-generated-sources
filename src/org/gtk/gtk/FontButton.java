@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -39,21 +41,21 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Creates a new font picker widget.
      */
     public FontButton() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new(), false));
+        super(References.get(gtk_h.gtk_font_button_new(), false));
     }
     
     /**
      * Creates a new font picker widget showing the given font.
      */
     public FontButton(java.lang.String fontname) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).HANDLE()), false));
+        super(References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false));
     }
     
     /**
      * Gets whether the dialog is modal.
      */
     public boolean getModal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_get_modal(HANDLE());
+        var RESULT = gtk_h.gtk_font_button_get_modal(handle());
         return (RESULT != 0);
     }
     
@@ -61,7 +63,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Retrieves the title of the font chooser dialog.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_font_button_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -69,7 +71,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Returns whether the selected font is used in the label.
      */
     public boolean getUseFont() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_get_use_font(HANDLE());
+        var RESULT = gtk_h.gtk_font_button_get_use_font(handle());
         return (RESULT != 0);
     }
     
@@ -77,7 +79,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Returns whether the selected size is used in the label.
      */
     public boolean getUseSize() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_get_use_size(HANDLE());
+        var RESULT = gtk_h.gtk_font_button_get_use_size(handle());
         return (RESULT != 0);
     }
     
@@ -85,14 +87,14 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * Sets whether the dialog should be modal.
      */
     public void setModal(boolean modal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_set_modal(HANDLE(), modal ? 1 : 0);
+        gtk_h.gtk_font_button_set_modal(handle(), modal ? 1 : 0);
     }
     
     /**
      * Sets the title for the font chooser dialog.
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_font_button_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
@@ -100,7 +102,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * using the selected font.
      */
     public void setUseFont(boolean useFont) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_set_use_font(HANDLE(), useFont ? 1 : 0);
+        gtk_h.gtk_font_button_set_use_font(handle(), useFont ? 1 : 0);
     }
     
     /**
@@ -108,7 +110,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * the selected size.
      */
     public void setUseSize(boolean useSize) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_set_use_size(HANDLE(), useSize ? 1 : 0);
+        gtk_h.gtk_font_button_set_use_size(handle(), useSize ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -126,12 +128,12 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("activate").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -156,12 +158,12 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontButtonFontSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("font-set").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("font-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

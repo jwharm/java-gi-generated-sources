@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -24,7 +26,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * Returns the #GHashTable associated with @iter.
      */
     public org.gtk.glib.HashTable getHashTable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_get_hash_table(HANDLE());
+        var RESULT = gtk_h.g_hash_table_iter_get_hash_table(handle());
         return new org.gtk.glib.HashTable(References.get(RESULT, false));
     }
     
@@ -48,7 +50,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * ]|
      */
     public void init(org.gtk.glib.HashTable hashTable) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_init(HANDLE(), hashTable.HANDLE());
+        gtk_h.g_hash_table_iter_init(handle(), hashTable.handle());
     }
     
     /**
@@ -57,7 +59,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * @key and @value are not set, and the iterator becomes invalid.
      */
     public boolean next(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_next(HANDLE(), key, value);
+        var RESULT = gtk_h.g_hash_table_iter_next(handle(), key, value);
         return (RESULT != 0);
     }
     
@@ -82,7 +84,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * ]|
      */
     public void remove() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_remove(HANDLE());
+        gtk_h.g_hash_table_iter_remove(handle());
     }
     
     /**
@@ -94,7 +96,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * #GHashTable, the old value is freed using that function.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_replace(HANDLE(), value);
+        gtk_h.g_hash_table_iter_replace(handle(), value);
     }
     
     /**
@@ -105,7 +107,7 @@ public class HashTableIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * be called more than once for the same key/value pair.
      */
     public void steal() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_hash_table_iter_steal(HANDLE());
+        gtk_h.g_hash_table_iter_steal(handle());
     }
     
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -46,7 +48,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * that can handle content of the given type.
      */
     public AppChooserWidget(java.lang.String contentType) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).HANDLE()), false));
+        super(References.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false));
     }
     
     /**
@@ -54,7 +56,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * that can handle the content type.
      */
     public java.lang.String getDefaultText() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_default_text(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_default_text(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -63,7 +65,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * in a flat list.
      */
     public boolean getShowAll() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_show_all(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_all(handle());
         return (RESULT != 0);
     }
     
@@ -72,7 +74,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public boolean getShowDefault() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_show_default(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_default(handle());
         return (RESULT != 0);
     }
     
@@ -81,7 +83,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public boolean getShowFallback() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_show_fallback(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_fallback(handle());
         return (RESULT != 0);
     }
     
@@ -90,7 +92,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * which are unrelated to the content type.
      */
     public boolean getShowOther() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_show_other(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_other(handle());
         return (RESULT != 0);
     }
     
@@ -99,7 +101,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public boolean getShowRecommended() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_get_show_recommended(HANDLE());
+        var RESULT = gtk_h.gtk_app_chooser_widget_get_show_recommended(handle());
         return (RESULT != 0);
     }
     
@@ -108,7 +110,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * that can handle the content type.
      */
     public void setDefaultText(java.lang.String text) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_default_text(HANDLE(), Interop.allocateNativeString(text).HANDLE());
+        gtk_h.gtk_app_chooser_widget_set_default_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
@@ -116,7 +118,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * in a flat list.
      */
     public void setShowAll(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_show_all(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_app_chooser_widget_set_show_all(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -124,7 +126,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public void setShowDefault(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_show_default(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_app_chooser_widget_set_show_default(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -132,7 +134,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public void setShowFallback(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_show_fallback(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_app_chooser_widget_set_show_fallback(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -140,7 +142,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * which are unrelated to the content type.
      */
     public void setShowOther(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_show_other(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_app_chooser_widget_set_show_other(handle(), setting ? 1 : 0);
     }
     
     /**
@@ -148,7 +150,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * for the content type in a separate section.
      */
     public void setShowRecommended(boolean setting) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_set_show_recommended(HANDLE(), setting ? 1 : 0);
+        gtk_h.gtk_app_chooser_widget_set_show_recommended(handle(), setting ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -167,12 +169,12 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserWidgetApplicationActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("application-activated").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("application-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -190,12 +192,12 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserWidgetApplicationSelected", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("application-selected").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("application-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

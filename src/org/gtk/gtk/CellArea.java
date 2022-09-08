@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -337,7 +339,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * can also activate a widget if it currently has the focus.
      */
     public boolean activate(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int flags, boolean editOnly) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_activate(HANDLE(), context.HANDLE(), widget.HANDLE(), cellArea.HANDLE(), flags, editOnly ? 1 : 0);
+        var RESULT = gtk_h.gtk_cell_area_activate(handle(), context.handle(), widget.handle(), cellArea.handle(), flags, editOnly ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -348,7 +350,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * implementation.
      */
     public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_activate_cell(HANDLE(), widget.HANDLE(), renderer.HANDLE(), event.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = gtk_h.gtk_cell_area_activate_cell(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags);
         return (RESULT != 0);
     }
     
@@ -356,7 +358,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Adds @renderer to @area with the default child cell properties.
      */
     public void add(CellRenderer renderer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_add(HANDLE(), renderer.HANDLE());
+        gtk_h.gtk_cell_area_add(handle(), renderer.handle());
     }
     
     /**
@@ -368,7 +370,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * focusable @renderer.
      */
     public void addFocusSibling(CellRenderer renderer, CellRenderer sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_add_focus_sibling(HANDLE(), renderer.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_cell_area_add_focus_sibling(handle(), renderer.handle(), sibling.handle());
     }
     
     /**
@@ -376,7 +378,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * @area by pulling the values from @tree_model.
      */
     public void applyAttributes(TreeModel treeModel, TreeIter iter, boolean isExpander, boolean isExpanded) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_apply_attributes(HANDLE(), treeModel.HANDLE(), iter.HANDLE(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
+        gtk_h.gtk_cell_area_apply_attributes(handle(), treeModel.handle(), iter.handle(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
     }
     
     /**
@@ -384,7 +386,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * `GtkTreeModel` in use.
      */
     public void attributeConnect(CellRenderer renderer, java.lang.String attribute, int column) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_connect(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE(), column);
+        gtk_h.gtk_cell_area_attribute_connect(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle(), column);
     }
     
     /**
@@ -393,7 +395,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * model.
      */
     public void attributeDisconnect(CellRenderer renderer, java.lang.String attribute) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_disconnect(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
+        gtk_h.gtk_cell_area_attribute_disconnect(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle());
     }
     
     /**
@@ -401,7 +403,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * or -1 if the attribute is not mapped.
      */
     public int attributeGetColumn(CellRenderer renderer, java.lang.String attribute) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_attribute_get_column(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_attribute_get_column(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle());
         return RESULT;
     }
     
@@ -409,28 +411,28 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the value of a cell property for @renderer in @area.
      */
     public void cellGetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_property(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
+        gtk_h.gtk_cell_area_cell_get_property(handle(), renderer.handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
     }
     
     /**
      * Gets the values of one or more cell properties for @renderer in @area.
      */
     public void cellGetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_get_valist(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
+        gtk_h.gtk_cell_area_cell_get_valist(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
     }
     
     /**
      * Sets a cell property for @renderer in @area.
      */
     public void cellSetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_property(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE(), value.HANDLE());
+        gtk_h.gtk_cell_area_cell_set_property(handle(), renderer.handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
     }
     
     /**
      * Sets one or more cell properties for @renderer in @area.
      */
     public void cellSetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_cell_set_valist(HANDLE(), renderer.HANDLE(), Interop.allocateNativeString(firstPropertyName).HANDLE(), varArgs);
+        gtk_h.gtk_cell_area_cell_set_valist(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
     }
     
     /**
@@ -447,7 +449,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * to be displayed.
      */
     public CellAreaContext copyContext(CellAreaContext context) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_copy_context(HANDLE(), context.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_copy_context(handle(), context.handle());
         return new CellAreaContext(References.get(RESULT, true));
     }
     
@@ -460,7 +462,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * which was used to request the size of those rows of data).
      */
     public CellAreaContext createContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_create_context(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_create_context(handle());
         return new CellAreaContext(References.get(RESULT, true));
     }
     
@@ -468,7 +470,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Delegates event handling to a `GtkCellArea`.
      */
     public int event(CellAreaContext context, Widget widget, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_event(HANDLE(), context.HANDLE(), widget.HANDLE(), event.HANDLE(), cellArea.HANDLE(), flags);
+        var RESULT = gtk_h.gtk_cell_area_event(handle(), context.handle(), widget.handle(), event.handle(), cellArea.handle(), flags);
         return RESULT;
     }
     
@@ -482,7 +484,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * to how it lays out cells.
      */
     public boolean focus(DirectionType direction) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_focus(HANDLE(), direction.getValue());
+        var RESULT = gtk_h.gtk_cell_area_focus(handle(), direction.getValue());
         return (RESULT != 0);
     }
     
@@ -491,7 +493,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * were to be renderered in @cell_area.
      */
     public void getCellAllocation(CellAreaContext context, Widget widget, CellRenderer renderer, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle allocation) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_cell_allocation(HANDLE(), context.HANDLE(), widget.HANDLE(), renderer.HANDLE(), cellArea.HANDLE(), allocation.HANDLE());
+        gtk_h.gtk_cell_area_get_cell_allocation(handle(), context.handle(), widget.handle(), renderer.handle(), cellArea.handle(), allocation.handle());
     }
     
     /**
@@ -499,7 +501,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * returns the full cell allocation for it inside @cell_area.
      */
     public CellRenderer getCellAtPosition(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int x, int y, org.gtk.gdk.Rectangle allocArea) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_cell_at_position(HANDLE(), context.HANDLE(), widget.HANDLE(), cellArea.HANDLE(), x, y, allocArea.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_cell_at_position(handle(), context.handle(), widget.handle(), cellArea.handle(), x, y, allocArea.handle());
         return new CellRenderer(References.get(RESULT, false));
     }
     
@@ -511,7 +513,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * subclasses.
      */
     public java.lang.String getCurrentPathString() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_current_path_string(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_current_path_string(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -520,7 +522,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * to edit the currently edited cell.
      */
     public CellEditable getEditWidget() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_edit_widget(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_edit_widget(handle());
         return new CellEditable.CellEditableImpl(References.get(RESULT, false));
     }
     
@@ -529,7 +531,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * being edited.
      */
     public CellRenderer getEditedCell() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_edited_cell(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_edited_cell(handle());
         return new CellRenderer(References.get(RESULT, false));
     }
     
@@ -537,7 +539,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Retrieves the currently focused cell for @area
      */
     public CellRenderer getFocusCell() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_cell(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_focus_cell(handle());
         return new CellRenderer(References.get(RESULT, false));
     }
     
@@ -551,7 +553,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * cell may have been a sibling.
      */
     public CellRenderer getFocusFromSibling(CellRenderer renderer) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_from_sibling(HANDLE(), renderer.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_focus_from_sibling(handle(), renderer.handle());
         return new CellRenderer(References.get(RESULT, false));
     }
     
@@ -559,7 +561,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the focus sibling cell renderers for @renderer.
      */
     public org.gtk.glib.List getFocusSiblings(CellRenderer renderer) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_siblings(HANDLE(), renderer.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_focus_siblings(handle(), renderer.handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
@@ -568,7 +570,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * or a width-for-height layout.
      */
     public SizeRequestMode getRequestMode() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_request_mode(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_get_request_mode(handle());
         return SizeRequestMode.fromValue(RESULT);
     }
     
@@ -576,7 +578,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Checks if @area contains @renderer.
      */
     public boolean hasRenderer(CellRenderer renderer) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_has_renderer(HANDLE(), renderer.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_has_renderer(handle(), renderer.handle());
         return (RESULT != 0);
     }
     
@@ -586,7 +588,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * rendered. It removes any padding previously added by gtk_cell_area_request_renderer().
      */
     public void innerCellArea(Widget widget, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle innerArea) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_inner_cell_area(HANDLE(), widget.HANDLE(), cellArea.HANDLE(), innerArea.HANDLE());
+        gtk_h.gtk_cell_area_inner_cell_area(handle(), widget.handle(), cellArea.handle(), innerArea.handle());
     }
     
     /**
@@ -594,7 +596,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * after applying new attributes to @area.
      */
     public boolean isActivatable() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_is_activatable(HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_is_activatable(handle());
         return (RESULT != 0);
     }
     
@@ -603,7 +605,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * (see gtk_cell_area_add_focus_sibling()).
      */
     public boolean isFocusSibling(CellRenderer renderer, CellRenderer sibling) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_is_focus_sibling(HANDLE(), renderer.HANDLE(), sibling.HANDLE());
+        var RESULT = gtk_h.gtk_cell_area_is_focus_sibling(handle(), renderer.handle(), sibling.handle());
         return (RESULT != 0);
     }
     
@@ -611,7 +613,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Removes @renderer from @area.
      */
     public void remove(CellRenderer renderer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_remove(HANDLE(), renderer.HANDLE());
+        gtk_h.gtk_cell_area_remove(handle(), renderer.handle());
     }
     
     /**
@@ -619,7 +621,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * (see gtk_cell_area_add_focus_sibling()).
      */
     public void removeFocusSibling(CellRenderer renderer, CellRenderer sibling) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_remove_focus_sibling(HANDLE(), renderer.HANDLE(), sibling.HANDLE());
+        gtk_h.gtk_cell_area_remove_focus_sibling(handle(), renderer.handle(), sibling.handle());
     }
     
     /**
@@ -631,7 +633,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * as gtk_tree_view_set_cursor_on_cell().
      */
     public void setFocusCell(CellRenderer renderer) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_set_focus_cell(HANDLE(), renderer.HANDLE());
+        gtk_h.gtk_cell_area_set_focus_cell(handle(), renderer.handle());
     }
     
     /**
@@ -639,7 +641,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * the given coordinates.
      */
     public void snapshot(CellAreaContext context, Widget widget, Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags, boolean paintFocus) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_snapshot(HANDLE(), context.HANDLE(), widget.HANDLE(), snapshot.HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags, paintFocus ? 1 : 0);
+        gtk_h.gtk_cell_area_snapshot(handle(), context.handle(), widget.handle(), snapshot.handle(), backgroundArea.handle(), cellArea.handle(), flags, paintFocus ? 1 : 0);
     }
     
     /**
@@ -653,7 +655,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * See gtk_cell_area_get_edited_cell() and gtk_cell_area_get_edit_widget().
      */
     public void stopEditing(boolean canceled) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_stop_editing(HANDLE(), canceled ? 1 : 0);
+        gtk_h.gtk_cell_area_stop_editing(handle(), canceled ? 1 : 0);
     }
     
     @FunctionalInterface
@@ -669,12 +671,12 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaAddEditable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("add-editable").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("add-editable").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -692,12 +694,12 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaApplyAttributes", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("apply-attributes").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("apply-attributes").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -722,12 +724,12 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaFocusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("focus-changed").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("focus-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -746,12 +748,12 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellAreaRemoveEditable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("remove-editable").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("remove-editable").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

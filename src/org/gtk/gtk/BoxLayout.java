@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -36,14 +38,14 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Creates a new `GtkBoxLayout`.
      */
     public BoxLayout(Orientation orientation) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_new(orientation.getValue()), true));
+        super(References.get(gtk_h.gtk_box_layout_new(orientation.getValue()), true));
     }
     
     /**
      * Gets the value set by gtk_box_layout_set_baseline_position().
      */
     public BaselinePosition getBaselinePosition() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_get_baseline_position(HANDLE());
+        var RESULT = gtk_h.gtk_box_layout_get_baseline_position(handle());
         return BaselinePosition.fromValue(RESULT);
     }
     
@@ -51,7 +53,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Returns whether the layout is set to be homogeneous.
      */
     public boolean getHomogeneous() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_get_homogeneous(HANDLE());
+        var RESULT = gtk_h.gtk_box_layout_get_homogeneous(handle());
         return (RESULT != 0);
     }
     
@@ -59,7 +61,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Returns the space that @box_layout puts between children.
      */
     public int getSpacing() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_get_spacing(HANDLE());
+        var RESULT = gtk_h.gtk_box_layout_get_spacing(handle());
         return RESULT;
     }
     
@@ -73,7 +75,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * space available.
      */
     public void setBaselinePosition(BaselinePosition position) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_set_baseline_position(HANDLE(), position.getValue());
+        gtk_h.gtk_box_layout_set_baseline_position(handle(), position.getValue());
     }
     
     /**
@@ -81,14 +83,14 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * size to all children.
      */
     public void setHomogeneous(boolean homogeneous) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_set_homogeneous(HANDLE(), homogeneous ? 1 : 0);
+        gtk_h.gtk_box_layout_set_homogeneous(handle(), homogeneous ? 1 : 0);
     }
     
     /**
      * Sets how much spacing to put between children.
      */
     public void setSpacing(int spacing) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_set_spacing(HANDLE(), spacing);
+        gtk_h.gtk_box_layout_set_spacing(handle(), spacing);
     }
     
 }

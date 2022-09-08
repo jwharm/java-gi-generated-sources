@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -38,7 +40,7 @@ public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sine: 2.32
      */
     public void clear() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rec_mutex_clear(HANDLE());
+        gtk_h.g_rec_mutex_clear(handle());
     }
     
     /**
@@ -70,7 +72,7 @@ public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
      * is no longer needed, use g_rec_mutex_clear().
      */
     public void init() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rec_mutex_init(HANDLE());
+        gtk_h.g_rec_mutex_init(handle());
     }
     
     /**
@@ -82,7 +84,7 @@ public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
      * as many times as it has been locked.
      */
     public void lock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rec_mutex_lock(HANDLE());
+        gtk_h.g_rec_mutex_lock(handle());
     }
     
     /**
@@ -91,7 +93,7 @@ public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
      * it locks @rec_mutex and returns %TRUE.
      */
     public boolean trylock() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rec_mutex_trylock(HANDLE());
+        var RESULT = gtk_h.g_rec_mutex_trylock(handle());
         return (RESULT != 0);
     }
     
@@ -104,7 +106,7 @@ public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
      * locked by the current thread leads to undefined behaviour.
      */
     public void unlock() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_rec_mutex_unlock(HANDLE());
+        gtk_h.g_rec_mutex_unlock(handle());
     }
     
 }

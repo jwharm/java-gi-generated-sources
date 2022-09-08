@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -34,14 +36,14 @@ public class Surface extends org.gtk.gobject.Object {
      * relative to it using [method@Gdk.Popup.present].
      */
     public Surface(Surface parent, boolean autohide) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_popup(parent.HANDLE(), autohide ? 1 : 0), true));
+        super(References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true));
     }
     
     /**
      * Creates a new toplevel surface.
      */
     public Surface(Display display) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_new_toplevel(display.HANDLE()), true));
+        super(References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true));
     }
     
     /**
@@ -51,14 +53,14 @@ public class Surface extends org.gtk.gobject.Object {
      * emits a short beep on the display just as [method@Gdk.Display.beep].
      */
     public void beep() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_beep(HANDLE());
+        gtk_h.gdk_surface_beep(handle());
     }
     
     /**
      * Creates a new `GdkCairoContext` for rendering on @surface.
      */
     public CairoContext createCairoContext() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_cairo_context(HANDLE());
+        var RESULT = gtk_h.gdk_surface_create_cairo_context(handle());
         return new CairoContext(References.get(RESULT, true));
     }
     
@@ -72,7 +74,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_gl_context(HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_surface_create_gl_context(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -97,7 +99,7 @@ public class Surface extends org.gtk.gobject.Object {
      * or any other error occurs.
      */
     public org.cairographics.Surface createSimilarSurface(org.cairographics.Content content, int width, int height) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_similar_surface(HANDLE(), content.getValue(), width, height);
+        var RESULT = gtk_h.gdk_surface_create_similar_surface(handle(), content.getValue(), width, height);
         return new org.cairographics.Surface(References.get(RESULT, true));
     }
     
@@ -108,7 +110,7 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.interop.GErrorException {
         MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_create_vulkan_context(HANDLE(), GERROR);
+        var RESULT = gtk_h.gdk_surface_create_vulkan_context(handle(), GERROR);
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
@@ -127,7 +129,7 @@ public class Surface extends org.gtk.gobject.Object {
      * before that happens.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_destroy(HANDLE());
+        gtk_h.gdk_surface_destroy(handle());
     }
     
     /**
@@ -140,7 +142,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Use [method@Gdk.Surface.set_cursor] to unset the cursor of the surface.
      */
     public Cursor getCursor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_cursor(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_cursor(handle());
         return new Cursor(References.get(RESULT, false));
     }
     
@@ -154,7 +156,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Use [method@Gdk.Surface.set_cursor] to unset the cursor of the surface.
      */
     public Cursor getDeviceCursor(Device device) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_device_cursor(HANDLE(), device.HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_device_cursor(handle(), device.handle());
         return new Cursor(References.get(RESULT, false));
     }
     
@@ -162,7 +164,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Gets the `GdkDisplay` associated with a `GdkSurface`.
      */
     public Display getDisplay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_display(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_display(handle());
         return new Display(References.get(RESULT, false));
     }
     
@@ -173,7 +175,7 @@ public class Surface extends org.gtk.gobject.Object {
      * reparented to a new toplevel surface.
      */
     public FrameClock getFrameClock() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_frame_clock(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_frame_clock(handle());
         return new FrameClock(References.get(RESULT, false));
     }
     
@@ -184,7 +186,7 @@ public class Surface extends org.gtk.gobject.Object {
      * ”device pixels” (see [method@Gdk.Surface.get_scale_factor]).
      */
     public int getHeight() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_height(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_height(handle());
         return RESULT;
     }
     
@@ -195,7 +197,7 @@ public class Surface extends org.gtk.gobject.Object {
      * or [method@Gdk.Popup.present].
      */
     public boolean getMapped() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_mapped(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_mapped(handle());
         return (RESULT != 0);
     }
     
@@ -213,7 +215,7 @@ public class Surface extends org.gtk.gobject.Object {
      * The scale of a surface may change during runtime.
      */
     public int getScaleFactor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_scale_factor(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_scale_factor(handle());
         return RESULT;
     }
     
@@ -224,7 +226,7 @@ public class Surface extends org.gtk.gobject.Object {
      * ”device pixels” (see [method@Gdk.Surface.get_scale_factor]).
      */
     public int getWidth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_get_width(HANDLE());
+        var RESULT = gtk_h.gdk_surface_get_width(handle());
         return RESULT;
     }
     
@@ -237,14 +239,14 @@ public class Surface extends org.gtk.gobject.Object {
      * part of [method@Gtk.Widget.hide].
      */
     public void hide() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_hide(HANDLE());
+        gtk_h.gdk_surface_hide(handle());
     }
     
     /**
      * Check to see if a surface is destroyed.
      */
     public boolean isDestroyed() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_is_destroyed(HANDLE());
+        var RESULT = gtk_h.gdk_surface_is_destroyed(handle());
         return (RESULT != 0);
     }
     
@@ -256,7 +258,7 @@ public class Surface extends org.gtk.gobject.Object {
      * regions on their own.
      */
     public void queueRender() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_queue_render(HANDLE());
+        gtk_h.gdk_surface_queue_render(handle());
     }
     
     /**
@@ -265,7 +267,7 @@ public class Surface extends org.gtk.gobject.Object {
      * See [method@Gdk.FrameClock.request_phase].
      */
     public void requestLayout() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_request_layout(HANDLE());
+        gtk_h.gdk_surface_request_layout(handle());
     }
     
     /**
@@ -279,7 +281,7 @@ public class Surface extends org.gtk.gobject.Object {
      * to create the cursor. To make the cursor invisible, use %GDK_BLANK_CURSOR.
      */
     public void setCursor(Cursor cursor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_set_cursor(HANDLE(), cursor.HANDLE());
+        gtk_h.gdk_surface_set_cursor(handle(), cursor.handle());
     }
     
     /**
@@ -292,7 +294,7 @@ public class Surface extends org.gtk.gobject.Object {
      * to create the cursor. To make the cursor invisible, use %GDK_BLANK_CURSOR.
      */
     public void setDeviceCursor(Device device, Cursor cursor) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_set_device_cursor(HANDLE(), device.HANDLE(), cursor.HANDLE());
+        gtk_h.gdk_surface_set_device_cursor(handle(), device.handle(), cursor.handle());
     }
     
     /**
@@ -312,7 +314,7 @@ public class Surface extends org.gtk.gobject.Object {
      * a particular backend supports input regions.
      */
     public void setInputRegion(org.cairographics.Region region) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_set_input_region(HANDLE(), region.HANDLE());
+        gtk_h.gdk_surface_set_input_region(handle(), region.handle());
     }
     
     /**
@@ -333,7 +335,7 @@ public class Surface extends org.gtk.gobject.Object {
      * [vfunc@Gtk.Widget.css_changed] handler.
      */
     public void setOpaqueRegion(org.cairographics.Region region) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_surface_set_opaque_region(HANDLE(), region.HANDLE());
+        gtk_h.gdk_surface_set_opaque_region(handle(), region.handle());
     }
     
     @FunctionalInterface
@@ -348,12 +350,12 @@ public class Surface extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceEnterMonitor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("enter-monitor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("enter-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -371,12 +373,12 @@ public class Surface extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("event").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -398,12 +400,12 @@ public class Surface extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceLayout", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("layout").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("layout").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -421,12 +423,12 @@ public class Surface extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceLeaveMonitor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("leave-monitor").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("leave-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -444,12 +446,12 @@ public class Surface extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceRender", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("render").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("render").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

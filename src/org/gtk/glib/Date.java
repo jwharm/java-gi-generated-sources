@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -31,7 +33,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * represent an existing day). Free the return value with g_date_free().
      */
     public Date() {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new(), true));
+        super(References.get(gtk_h.g_date_new(), true));
     }
     
     /**
@@ -42,7 +44,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * and valid.
      */
     public Date(DateDay day, DateMonth month, DateYear year) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
+        super(References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
     }
     
     /**
@@ -53,7 +55,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * valid.
      */
     public Date(int julianDay) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_new_julian(julianDay), true));
+        super(References.get(gtk_h.g_date_new_julian(julianDay), true));
     }
     
     /**
@@ -62,7 +64,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * The date must be valid.
      */
     public void addDays(int nDays) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_add_days(HANDLE(), nDays);
+        gtk_h.g_date_add_days(handle(), nDays);
     }
     
     /**
@@ -73,7 +75,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * the current day in it). The date must be valid.
      */
     public void addMonths(int nMonths) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_add_months(HANDLE(), nMonths);
+        gtk_h.g_date_add_months(handle(), nMonths);
     }
     
     /**
@@ -83,7 +85,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * to February 28. The date must be valid.
      */
     public void addYears(int nYears) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_add_years(HANDLE(), nYears);
+        gtk_h.g_date_add_years(handle(), nYears);
     }
     
     /**
@@ -94,7 +96,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * All non-%NULL dates must be valid.
      */
     public void clamp(Date minDate, Date maxDate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_clamp(HANDLE(), minDate.HANDLE(), maxDate.HANDLE());
+        gtk_h.g_date_clamp(handle(), minDate.handle(), maxDate.handle());
     }
     
     /**
@@ -104,7 +106,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Validity can be tested with g_date_valid().
      */
     public void clear(int nDates) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_clear(HANDLE(), nDates);
+        gtk_h.g_date_clear(handle(), nDates);
     }
     
     /**
@@ -112,7 +114,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Both dates must be valid.
      */
     public int compare(Date rhs) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_compare(HANDLE(), rhs.HANDLE());
+        var RESULT = gtk_h.g_date_compare(handle(), rhs.handle());
         return RESULT;
     }
     
@@ -122,7 +124,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * as is into the new object.
      */
     public Date copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_copy(HANDLE());
+        var RESULT = gtk_h.g_date_copy(handle());
         return new Date(References.get(RESULT, true));
     }
     
@@ -132,7 +134,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Both dates must be valid.
      */
     public int daysBetween(Date date2) {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_days_between(HANDLE(), date2.HANDLE());
+        var RESULT = gtk_h.g_date_days_between(handle(), date2.handle());
         return RESULT;
     }
     
@@ -140,14 +142,14 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Frees a #GDate returned from g_date_new().
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_free(HANDLE());
+        gtk_h.g_date_free(handle());
     }
     
     /**
      * Returns the day of the month. The date must be valid.
      */
     public DateDay getDay() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_day(HANDLE());
+        var RESULT = gtk_h.g_date_get_day(handle());
         return new DateDay(RESULT);
     }
     
@@ -156,7 +158,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * year. The date must be valid.
      */
     public int getDayOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_day_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_get_day_of_year(handle());
         return RESULT;
     }
     
@@ -165,7 +167,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * to ISO 8601.
      */
     public int getIso8601WeekOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_iso8601_week_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_get_iso8601_week_of_year(handle());
         return RESULT;
     }
     
@@ -176,7 +178,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * etc. The date must be valid.
      */
     public int getJulian() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_julian(HANDLE());
+        var RESULT = gtk_h.g_date_get_julian(handle());
         return RESULT;
     }
     
@@ -186,7 +188,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * The date must be valid.
      */
     public int getMondayWeekOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_monday_week_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_get_monday_week_of_year(handle());
         return RESULT;
     }
     
@@ -194,7 +196,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the month of the year. The date must be valid.
      */
     public DateMonth getMonth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_month(HANDLE());
+        var RESULT = gtk_h.g_date_get_month(handle());
         return DateMonth.fromValue(RESULT);
     }
     
@@ -204,7 +206,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Can return 0 if the day is before the first Sunday of the year.
      */
     public int getSundayWeekOfYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_sunday_week_of_year(HANDLE());
+        var RESULT = gtk_h.g_date_get_sunday_week_of_year(handle());
         return RESULT;
     }
     
@@ -212,7 +214,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the day of the week for a #GDate. The date must be valid.
      */
     public DateWeekday getWeekday() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_weekday(HANDLE());
+        var RESULT = gtk_h.g_date_get_weekday(handle());
         return DateWeekday.fromValue(RESULT);
     }
     
@@ -220,7 +222,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Returns the year of a #GDate. The date must be valid.
      */
     public DateYear getYear() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_get_year(HANDLE());
+        var RESULT = gtk_h.g_date_get_year(handle());
         return new DateYear(RESULT);
     }
     
@@ -229,7 +231,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * The date must be valid.
      */
     public boolean isFirstOfMonth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_is_first_of_month(HANDLE());
+        var RESULT = gtk_h.g_date_is_first_of_month(handle());
         return (RESULT != 0);
     }
     
@@ -238,7 +240,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * The date must be valid.
      */
     public boolean isLastOfMonth() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_is_last_of_month(HANDLE());
+        var RESULT = gtk_h.g_date_is_last_of_month(handle());
         return (RESULT != 0);
     }
     
@@ -247,7 +249,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * and swap the values if this is not the case.
      */
     public void order(Date date2) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_order(HANDLE(), date2.HANDLE());
+        gtk_h.g_date_order(handle(), date2.handle());
     }
     
     /**
@@ -255,7 +257,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * day-month-year triplet is invalid, the date will be invalid.
      */
     public void setDay(DateDay day) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_day(HANDLE(), day.getValue());
+        gtk_h.g_date_set_day(handle(), day.getValue());
     }
     
     /**
@@ -265,14 +267,14 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * set it.
      */
     public void setDmy(DateDay day, DateMonth month, DateYear y) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_dmy(HANDLE(), day.getValue(), month.getValue(), y.getValue());
+        gtk_h.g_date_set_dmy(handle(), day.getValue(), month.getValue(), y.getValue());
     }
     
     /**
      * Sets the value of a #GDate from a Julian day number.
      */
     public void setJulian(int julianDate) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_julian(HANDLE(), julianDate);
+        gtk_h.g_date_set_julian(handle(), julianDate);
     }
     
     /**
@@ -280,7 +282,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * day-month-year triplet is invalid, the date will be invalid.
      */
     public void setMonth(DateMonth month) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_month(HANDLE(), month.getValue());
+        gtk_h.g_date_set_month(handle(), month.getValue());
     }
     
     /**
@@ -297,7 +299,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * capacity).
      */
     public void setParse(java.lang.String str) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_parse(HANDLE(), Interop.allocateNativeString(str).HANDLE());
+        gtk_h.g_date_set_parse(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
@@ -314,7 +316,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public void setTimeT(long timet) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_time_t(HANDLE(), timet);
+        gtk_h.g_date_set_time_t(handle(), timet);
     }
     
     /**
@@ -322,7 +324,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * triplet is invalid, the date will be invalid.
      */
     public void setYear(DateYear year) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_set_year(HANDLE(), year.getValue());
+        gtk_h.g_date_set_year(handle(), year.getValue());
     }
     
     /**
@@ -331,7 +333,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * The date must be valid.
      */
     public void subtractDays(int nDays) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_subtract_days(HANDLE(), nDays);
+        gtk_h.g_date_subtract_days(handle(), nDays);
     }
     
     /**
@@ -341,7 +343,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * may change. The date must be valid.
      */
     public void subtractMonths(int nMonths) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_subtract_months(HANDLE(), nMonths);
+        gtk_h.g_date_subtract_months(handle(), nMonths);
     }
     
     /**
@@ -352,7 +354,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * must be valid.
      */
     public void subtractYears(int nYears) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_subtract_years(HANDLE(), nYears);
+        gtk_h.g_date_subtract_years(handle(), nYears);
     }
     
     /**
@@ -360,7 +362,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * Initializes the non-date parts with something safe but meaningless.
      */
     public void toStructTm(jdk.incubator.foreign.MemoryAddress tm) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_to_struct_tm(HANDLE(), tm);
+        gtk_h.g_date_to_struct_tm(handle(), tm);
     }
     
     /**
@@ -369,7 +371,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * if it wasn't allocated by one of the g_date_new() variants.
      */
     public boolean valid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_valid(HANDLE());
+        var RESULT = gtk_h.g_date_valid(handle());
         return (RESULT != 0);
     }
     

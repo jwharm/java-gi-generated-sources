@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -25,7 +27,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * @path isn’t a valid path in @model, then %NULL is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_new(model.HANDLE(), path.HANDLE()), true));
+        super(References.get(gtk_h.gtk_tree_row_reference_new(model.handle(), path.handle()), true));
     }
     
     /**
@@ -55,14 +57,14 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * itself, and is not generally needed by most applications.
      */
     public TreeRowReference(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
-        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_new_proxy(proxy.HANDLE(), model.HANDLE(), path.HANDLE()), true));
+        super(References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true));
     }
     
     /**
      * Copies a `GtkTreeRowReference`.
      */
     public TreeRowReference copy() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_copy(HANDLE());
+        var RESULT = gtk_h.gtk_tree_row_reference_copy(handle());
         return new TreeRowReference(References.get(RESULT, true));
     }
     
@@ -70,14 +72,14 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * Free’s @reference. @reference may be %NULL
      */
     public void free() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_free(HANDLE());
+        gtk_h.gtk_tree_row_reference_free(handle());
     }
     
     /**
      * Returns the model that the row reference is monitoring.
      */
     public TreeModel getModel() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_get_model(HANDLE());
+        var RESULT = gtk_h.gtk_tree_row_reference_get_model(handle());
         return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
@@ -86,7 +88,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * or %NULL if the path pointed to is no longer valid.
      */
     public TreePath getPath() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_get_path(HANDLE());
+        var RESULT = gtk_h.gtk_tree_row_reference_get_path(handle());
         return new TreePath(References.get(RESULT, true));
     }
     
@@ -95,7 +97,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * a current valid path.
      */
     public boolean valid() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_row_reference_valid(HANDLE());
+        var RESULT = gtk_h.gtk_tree_row_reference_valid(handle());
         return (RESULT != 0);
     }
     

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import org.gtk.gobject.*;
+import io.github.jwharm.javagi.interop.jextract.gtk_h;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.interop.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
@@ -49,14 +51,14 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * windowing system to the `GtkNativeDialog`.
      */
     public void destroy() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_destroy(HANDLE());
+        gtk_h.gtk_native_dialog_destroy(handle());
     }
     
     /**
      * Returns whether the dialog is modal.
      */
     public boolean getModal() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_modal(HANDLE());
+        var RESULT = gtk_h.gtk_native_dialog_get_modal(handle());
         return (RESULT != 0);
     }
     
@@ -64,7 +66,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Gets the title of the `GtkNativeDialog`.
      */
     public java.lang.String getTitle() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_title(HANDLE());
+        var RESULT = gtk_h.gtk_native_dialog_get_title(handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -72,7 +74,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Fetches the transient parent for this window.
      */
     public Window getTransientFor() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_transient_for(HANDLE());
+        var RESULT = gtk_h.gtk_native_dialog_get_transient_for(handle());
         return new Window(References.get(RESULT, false));
     }
     
@@ -80,7 +82,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Determines whether the dialog is visible.
      */
     public boolean getVisible() {
-        var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_visible(HANDLE());
+        var RESULT = gtk_h.gtk_native_dialog_get_visible(handle());
         return (RESULT != 0);
     }
     
@@ -94,7 +96,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * If the dialog is not visible this does nothing.
      */
     public void hide() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_hide(HANDLE());
+        gtk_h.gtk_native_dialog_hide(handle());
     }
     
     /**
@@ -107,14 +109,14 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * then disallow lowering the dialog below the parent.
      */
     public void setModal(boolean modal) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_set_modal(HANDLE(), modal ? 1 : 0);
+        gtk_h.gtk_native_dialog_set_modal(handle(), modal ? 1 : 0);
     }
     
     /**
      * Sets the title of the `GtkNativeDialog.`
      */
     public void setTitle(java.lang.String title) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_set_title(HANDLE(), Interop.allocateNativeString(title).HANDLE());
+        gtk_h.gtk_native_dialog_set_title(handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
@@ -127,7 +129,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Passing %NULL for @parent unsets the current transient window.
      */
     public void setTransientFor(Window parent) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_set_transient_for(HANDLE(), parent.HANDLE());
+        gtk_h.gtk_native_dialog_set_transient_for(handle(), parent.handle());
     }
     
     /**
@@ -140,7 +142,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Multiple calls while the dialog is visible will be ignored.
      */
     public void show() {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_show(HANDLE());
+        gtk_h.gtk_native_dialog_show(handle());
     }
     
     @FunctionalInterface
@@ -160,12 +162,12 @@ public class NativeDialog extends org.gtk.gobject.Object {
         try {
             int hash = handler.hashCode();
             JVMCallbacks.signalRegistry.put(hash, handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT, hash);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNativeDialogResponse", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_connect_data(this.HANDLE(), Interop.allocateNativeString("response").HANDLE(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("response").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
