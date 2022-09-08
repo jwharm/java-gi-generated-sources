@@ -12,20 +12,20 @@ import java.lang.invoke.*;
  */
 public class FilenameCompleter extends org.gtk.gobject.Object {
 
-    public FilenameCompleter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FilenameCompleter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FilenameCompleter */
     public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
-        return new FilenameCompleter(gobject.getProxy());
+        return new FilenameCompleter(gobject.getReference());
     }
     
     /**
      * Creates a new filename completer.
      */
     public FilenameCompleter() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_filename_completer_new(), true));
     }
     
     /**

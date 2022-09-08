@@ -56,7 +56,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      */
     public default org.gtk.glib.List getAcceptedCas() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_get_accepted_cas(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_client_connection_get_server_identity(HANDLE());
-        return new SocketConnectable.SocketConnectableImpl(ProxyFactory.get(RESULT, false));
+        return new SocketConnectable.SocketConnectableImpl(References.get(RESULT, false));
     }
     
     /**
@@ -78,8 +78,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
     }
     
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {
-        public TlsClientConnectionImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TlsClientConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

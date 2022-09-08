@@ -97,8 +97,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
     }
     
     class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {
-        public ColorChooserImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ColorChooserImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

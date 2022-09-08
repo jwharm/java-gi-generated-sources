@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class CellRendererText extends CellRenderer {
 
-    public CellRendererText(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererText(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererText */
     public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererText(gobject.getProxy());
+        return new CellRendererText(gobject.getReference());
     }
     
     /**
@@ -36,7 +36,7 @@ public class CellRendererText extends CellRenderer {
      * of the `GtkTreeView`.
      */
     public CellRendererText() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_text_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_text_new(), false));
     }
     
     /**

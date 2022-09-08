@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ButtonEvent extends Event {
 
-    public ButtonEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ButtonEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ButtonEvent */
     public static ButtonEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ButtonEvent(gobject.getProxy());
+        return new ButtonEvent(gobject.getReference());
     }
     
     /**

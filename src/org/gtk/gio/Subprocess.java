@@ -66,13 +66,13 @@ import java.lang.invoke.*;
  */
 public class Subprocess extends org.gtk.gobject.Object implements Initable {
 
-    public Subprocess(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Subprocess(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Subprocess */
     public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        return new Subprocess(gobject.getProxy());
+        return new Subprocess(gobject.getReference());
     }
     
     /**
@@ -259,7 +259,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStderrPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stderr_pipe(HANDLE());
-        return new InputStream(ProxyFactory.get(RESULT, false));
+        return new InputStream(References.get(RESULT, false));
     }
     
     /**
@@ -271,7 +271,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public OutputStream getStdinPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdin_pipe(HANDLE());
-        return new OutputStream(ProxyFactory.get(RESULT, false));
+        return new OutputStream(References.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      */
     public InputStream getStdoutPipe() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_get_stdout_pipe(HANDLE());
-        return new InputStream(ProxyFactory.get(RESULT, false));
+        return new InputStream(References.get(RESULT, false));
     }
     
     /**

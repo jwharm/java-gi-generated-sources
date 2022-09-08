@@ -76,13 +76,13 @@ import java.lang.invoke.*;
  */
 public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragSource, TreeModel {
 
-    public TreeModelFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeModelFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeModelFilter */
     public static TreeModelFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeModelFilter(gobject.getProxy());
+        return new TreeModelFilter(gobject.getReference());
     }
     
     /**
@@ -116,7 +116,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_child_path_to_path(HANDLE(), childPath.HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**
@@ -134,7 +134,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      */
     public TreePath convertPathToChildPath(TreePath filterPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_convert_path_to_child_path(HANDLE(), filterPath.HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**
@@ -142,7 +142,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_filter_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**

@@ -57,13 +57,13 @@ import java.lang.invoke.*;
  */
 public class ListItemFactory extends org.gtk.gobject.Object {
 
-    public ListItemFactory(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListItemFactory(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListItemFactory */
     public static ListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new ListItemFactory(gobject.getProxy());
+        return new ListItemFactory(gobject.getReference());
     }
     
 }

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class AttrSize extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrSize(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrSize(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class TlsConnection extends IOStream {
 
-    public TlsConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TlsConnection */
     public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsConnection(gobject.getProxy());
+        return new TlsConnection(gobject.getReference());
     }
     
     /**
@@ -39,7 +39,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.get(RESULT, false));
+        return new TlsCertificate(References.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsDatabase getDatabase() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_database(HANDLE());
-        return new TlsDatabase(ProxyFactory.get(RESULT, false));
+        return new TlsDatabase(References.get(RESULT, false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsInteraction getInteraction() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_interaction(HANDLE());
-        return new TlsInteraction(ProxyFactory.get(RESULT, false));
+        return new TlsInteraction(References.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsCertificate getPeerCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_connection_get_peer_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.get(RESULT, false));
+        return new TlsCertificate(References.get(RESULT, false));
     }
     
     /**

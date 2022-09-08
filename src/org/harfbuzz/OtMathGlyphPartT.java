@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class OtMathGlyphPartT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OtMathGlyphPartT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OtMathGlyphPartT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

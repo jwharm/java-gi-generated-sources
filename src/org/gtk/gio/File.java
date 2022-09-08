@@ -115,7 +115,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -128,7 +128,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -209,7 +209,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -222,7 +222,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -256,7 +256,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -269,7 +269,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -330,7 +330,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File dup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_dup(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -379,7 +379,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileEnumerator(ProxyFactory.get(RESULT, true));
+        return new FileEnumerator(References.get(RESULT, true));
     }
     
     /**
@@ -392,7 +392,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileEnumerator(ProxyFactory.get(RESULT, true));
+        return new FileEnumerator(References.get(RESULT, true));
     }
     
     /**
@@ -426,7 +426,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Mount.MountImpl(ProxyFactory.get(RESULT, true));
+        return new Mount.MountImpl(References.get(RESULT, true));
     }
     
     /**
@@ -439,7 +439,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Mount.MountImpl(ProxyFactory.get(RESULT, true));
+        return new Mount.MountImpl(References.get(RESULT, true));
     }
     
     /**
@@ -473,7 +473,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getChild(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_child(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -492,7 +492,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -504,7 +504,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_get_parent(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -667,7 +667,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -687,7 +687,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -783,7 +783,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileMonitor(ProxyFactory.get(RESULT, true));
+        return new FileMonitor(References.get(RESULT, true));
     }
     
     /**
@@ -806,7 +806,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileMonitor(ProxyFactory.get(RESULT, true));
+        return new FileMonitor(References.get(RESULT, true));
     }
     
     /**
@@ -831,7 +831,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileMonitor(ProxyFactory.get(RESULT, true));
+        return new FileMonitor(References.get(RESULT, true));
     }
     
     /**
@@ -858,7 +858,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -898,7 +898,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -911,7 +911,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -957,7 +957,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(ProxyFactory.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
     /**
@@ -969,7 +969,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new AppInfo.AppInfoImpl(ProxyFactory.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
     /**
@@ -1046,7 +1046,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -1059,7 +1059,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -1100,7 +1100,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -1113,7 +1113,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -1134,7 +1134,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileAttributeInfoList(ProxyFactory.get(RESULT, true));
+        return new FileAttributeInfoList(References.get(RESULT, true));
     }
     
     /**
@@ -1152,7 +1152,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileAttributeInfoList(ProxyFactory.get(RESULT, true));
+        return new FileAttributeInfoList(References.get(RESULT, true));
     }
     
     /**
@@ -1174,7 +1174,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInputStream(ProxyFactory.get(RESULT, true));
+        return new FileInputStream(References.get(RESULT, true));
     }
     
     /**
@@ -1187,7 +1187,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInputStream(ProxyFactory.get(RESULT, true));
+        return new FileInputStream(References.get(RESULT, true));
     }
     
     /**
@@ -1239,7 +1239,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -1293,7 +1293,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileOutputStream(ProxyFactory.get(RESULT, true));
+        return new FileOutputStream(References.get(RESULT, true));
     }
     
     /**
@@ -1314,7 +1314,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -1327,7 +1327,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileIOStream(ProxyFactory.get(RESULT, true));
+        return new FileIOStream(References.get(RESULT, true));
     }
     
     /**
@@ -1340,7 +1340,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File resolveRelativePath(java.lang.String relativePath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_resolve_relative_path(HANDLE(), Interop.allocateNativeString(relativePath).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -1523,7 +1523,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -1536,7 +1536,7 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -1631,8 +1631,8 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class FileImpl extends org.gtk.gobject.Object implements File {
-        public FileImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public FileImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

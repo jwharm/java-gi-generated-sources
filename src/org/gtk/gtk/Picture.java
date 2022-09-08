@@ -55,20 +55,20 @@ import java.lang.invoke.*;
  */
 public class Picture extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Picture(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Picture(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Picture */
     public static Picture castFrom(org.gtk.gobject.Object gobject) {
-        return new Picture(gobject.getProxy());
+        return new Picture(gobject.getReference());
     }
     
     /**
      * Creates a new empty `GtkPicture` widget.
      */
     public Picture() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new(), false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * then create the `GtkPicture` from the texture.
      */
     public Picture(org.gtk.gio.File file) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_file(file.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_file(file.HANDLE()), false));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForFilename(java.lang.String filename) {
-        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
+        return new Picture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).HANDLE()), false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * its size and contents in response to it.
      */
     public Picture(org.gtk.gdk.Paintable paintable) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_paintable(paintable.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_paintable(paintable.HANDLE()), false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The pixbuf must not be modified after passing it to this function.
      */
     public Picture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_pixbuf(pixbuf.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_pixbuf(pixbuf.HANDLE()), false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForResource(java.lang.String resourcePath) {
-        return new Picture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
+        return new Picture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).HANDLE()), false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
     /**
@@ -169,7 +169,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.gdk.Paintable getPaintable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_picture_get_paintable(HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
     /**

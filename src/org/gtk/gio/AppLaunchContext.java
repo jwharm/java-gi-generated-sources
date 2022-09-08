@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class AppLaunchContext extends org.gtk.gobject.Object {
 
-    public AppLaunchContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppLaunchContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AppLaunchContext */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.getProxy());
+        return new AppLaunchContext(gobject.getReference());
     }
     
     /**
@@ -26,7 +26,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * instead you instantiate a subclass of this, such as #GdkAppLaunchContext.
      */
     public AppLaunchContext() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_launch_context_new(), true));
     }
     
     /**

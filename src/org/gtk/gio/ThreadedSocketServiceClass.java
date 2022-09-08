@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ThreadedSocketServiceClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ThreadedSocketServiceClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ThreadedSocketServiceClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

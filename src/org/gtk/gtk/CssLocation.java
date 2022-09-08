@@ -21,8 +21,8 @@ import java.lang.invoke.*;
  */
 public class CssLocation extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CssLocation(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CssLocation(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

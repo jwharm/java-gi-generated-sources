@@ -30,13 +30,13 @@ import java.lang.invoke.*;
  */
 public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
 
-    public TextTagTable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextTagTable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextTagTable */
     public static TextTagTable castFrom(org.gtk.gobject.Object gobject) {
-        return new TextTagTable(gobject.getProxy());
+        return new TextTagTable(gobject.getReference());
     }
     
     /**
@@ -45,7 +45,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * The table contains no tags by default.
      */
     public TextTagTable() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      */
     public TextTag lookup(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_table_lookup(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new TextTag(ProxyFactory.get(RESULT, false));
+        return new TextTag(References.get(RESULT, false));
     }
     
     /**

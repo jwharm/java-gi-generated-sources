@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public MultiSelection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MultiSelection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MultiSelection */
     public static MultiSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSelection(gobject.getProxy());
+        return new MultiSelection(gobject.getReference());
     }
     
     /**
      * Creates a new selection to handle @model.
      */
     public MultiSelection(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_new(model.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_new(model.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_selection_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**

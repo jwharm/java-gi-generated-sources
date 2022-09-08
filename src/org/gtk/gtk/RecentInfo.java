@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RecentInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecentInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -27,7 +27,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.DateTime getAdded() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_added(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
     /**
@@ -82,7 +82,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gio.Icon getGicon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_gicon(HANDLE());
-        return new org.gtk.gio.Icon.IconImpl(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(References.get(RESULT, true));
     }
     
     /**
@@ -99,7 +99,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.DateTime getModified() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_modified(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
     /**
@@ -152,7 +152,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.DateTime getVisited() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_get_visited(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.DateTime(References.get(RESULT, false));
     }
     
     /**
@@ -203,7 +203,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RecentInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_info_ref(HANDLE());
-        return new RecentInfo(ProxyFactory.get(RESULT, true));
+        return new RecentInfo(References.get(RESULT, true));
     }
     
     /**

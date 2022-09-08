@@ -27,13 +27,13 @@ import java.lang.invoke.*;
  */
 public class DBusServer extends org.gtk.gobject.Object implements Initable {
 
-    public DBusServer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusServer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusServer */
     public static DBusServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusServer(gobject.getProxy());
+        return new DBusServer(gobject.getReference());
     }
     
     /**

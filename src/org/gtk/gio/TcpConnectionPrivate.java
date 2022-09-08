@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TcpConnectionPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TcpConnectionPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TcpConnectionPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

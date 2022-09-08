@@ -12,25 +12,25 @@ public final class JVMCallbacks {
     public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PixbufLoader.AreaPreparedHandler) signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(ProxyFactory.get(source)));
+        handler.signalReceived(new PixbufLoader(References.get(source)));
     }
     
     public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PixbufLoader.AreaUpdatedHandler) signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(ProxyFactory.get(source)), x, y, width, height);
+        handler.signalReceived(new PixbufLoader(References.get(source)), x, y, width, height);
     }
     
     public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PixbufLoader.ClosedHandler) signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(ProxyFactory.get(source)));
+        handler.signalReceived(new PixbufLoader(References.get(source)));
     }
     
     public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PixbufLoader.SizePreparedHandler) signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(ProxyFactory.get(source)), width, height);
+        handler.signalReceived(new PixbufLoader(References.get(source)), width, height);
     }
     
 }

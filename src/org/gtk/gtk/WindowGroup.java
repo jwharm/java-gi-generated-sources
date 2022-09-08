@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class WindowGroup extends org.gtk.gobject.Object {
 
-    public WindowGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WindowGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to WindowGroup */
     public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowGroup(gobject.getProxy());
+        return new WindowGroup(gobject.getReference());
     }
     
     /**
@@ -41,7 +41,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * within the same `GtkWindowGroup`.
      */
     public WindowGroup() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_new(), true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listWindows() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_group_list_windows(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

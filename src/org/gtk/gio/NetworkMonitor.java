@@ -126,8 +126,8 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
     }
     
     class NetworkMonitorImpl extends org.gtk.gobject.Object implements NetworkMonitor {
-        public NetworkMonitorImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public NetworkMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

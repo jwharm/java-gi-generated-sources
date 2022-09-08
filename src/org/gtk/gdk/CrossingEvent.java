@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class CrossingEvent extends Event {
 
-    public CrossingEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CrossingEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CrossingEvent */
     public static CrossingEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new CrossingEvent(gobject.getProxy());
+        return new CrossingEvent(gobject.getReference());
     }
     
     /**

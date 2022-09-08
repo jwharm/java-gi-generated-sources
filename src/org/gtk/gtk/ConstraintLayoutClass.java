@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ConstraintLayoutClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ConstraintLayoutClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConstraintLayoutClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

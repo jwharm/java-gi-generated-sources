@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class DataOutputStream extends FilterOutputStream implements Seekable {
 
-    public DataOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DataOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DataOutputStream */
     public static DataOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new DataOutputStream(gobject.getProxy());
+        return new DataOutputStream(gobject.getReference());
     }
     
     /**
      * Creates a new data output stream for @base_stream.
      */
     public DataOutputStream(OutputStream baseStream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_output_stream_new(baseStream.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_output_stream_new(baseStream.HANDLE()), true));
     }
     
     /**

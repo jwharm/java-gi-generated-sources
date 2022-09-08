@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class AsyncResultIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AsyncResultIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AsyncResultIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class AppInfoMonitor extends org.gtk.gobject.Object {
 
-    public AppInfoMonitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppInfoMonitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AppInfoMonitor */
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new AppInfoMonitor(gobject.getProxy());
+        return new AppInfoMonitor(gobject.getReference());
     }
     
     @FunctionalInterface

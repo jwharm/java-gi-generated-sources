@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ConicGradientNode extends RenderNode {
 
-    public ConicGradientNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConicGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ConicGradientNode */
     public static ConicGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ConicGradientNode(gobject.getProxy());
+        return new ConicGradientNode(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class ConicGradientNode extends RenderNode {
      * that the gradient points up. Color stops are then added clockwise.
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_new(bounds.HANDLE(), center.HANDLE(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_new(bounds.HANDLE(), center.HANDLE(), rotation, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class ConicGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getCenter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_conic_gradient_node_get_center(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
     /**

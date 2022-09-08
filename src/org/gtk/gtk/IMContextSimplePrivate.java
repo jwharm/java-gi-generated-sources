@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class IMContextSimplePrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IMContextSimplePrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IMContextSimplePrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

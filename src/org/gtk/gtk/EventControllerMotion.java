@@ -18,20 +18,20 @@ import java.lang.invoke.*;
  */
 public class EventControllerMotion extends EventController {
 
-    public EventControllerMotion(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerMotion(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EventControllerMotion */
     public static EventControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerMotion(gobject.getProxy());
+        return new EventControllerMotion(gobject.getReference());
     }
     
     /**
      * Creates a new event controller that will handle motion events.
      */
     public EventControllerMotion() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_motion_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_motion_new(), true));
     }
     
     /**

@@ -19,13 +19,13 @@ import java.lang.invoke.*;
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
-    public EntryBuffer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EntryBuffer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EntryBuffer */
     public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryBuffer(gobject.getProxy());
+        return new EntryBuffer(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Optionally, specify initial text to set in the buffer.
      */
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).HANDLE(), nInitialChars), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).HANDLE(), nInitialChars), true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EventControllerFocusClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EventControllerFocusClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerFocusClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

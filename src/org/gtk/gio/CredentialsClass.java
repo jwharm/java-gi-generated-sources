@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class CredentialsClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CredentialsClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CredentialsClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

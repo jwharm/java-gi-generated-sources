@@ -4,17 +4,17 @@ import jdk.incubator.foreign.MemoryAddress;
 
 public class ResourceBase implements NativeAddress {
 
-    private Proxy proxy;
+    private Reference reference;
 
-    public ResourceBase(Proxy proxy) {
-        this.proxy = proxy;
+    public ResourceBase(Reference reference) {
+        this.reference = reference;
     }
 
     public MemoryAddress HANDLE() {
-        return proxy.HANDLE();
+        return reference.HANDLE();
     }
 
-    public Proxy getProxy() {
-        return this.proxy;
+    public Reference getReference() {
+        return this.reference;
     }
 }

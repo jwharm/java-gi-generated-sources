@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FilenameCompleterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FilenameCompleterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FilenameCompleterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

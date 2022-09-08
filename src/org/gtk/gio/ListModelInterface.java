@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ListModelInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ListModelInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListModelInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

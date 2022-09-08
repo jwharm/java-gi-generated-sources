@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpinner extends CellRenderer {
 
-    public CellRendererSpinner(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererSpinner(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererSpinner */
     public static CellRendererSpinner castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererSpinner(gobject.getProxy());
+        return new CellRendererSpinner(gobject.getReference());
     }
     
     /**
@@ -35,7 +35,7 @@ public class CellRendererSpinner extends CellRenderer {
      * activity.
      */
     public CellRendererSpinner() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spinner_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spinner_new(), false));
     }
     
 }

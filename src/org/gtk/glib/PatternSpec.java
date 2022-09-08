@@ -11,15 +11,15 @@ import java.lang.invoke.*;
  */
 public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PatternSpec(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PatternSpec(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
      * Compiles a pattern to a #GPatternSpec.
      */
     public PatternSpec(java.lang.String pattern) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).HANDLE()), true));
     }
     
     /**
@@ -27,7 +27,7 @@ public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PatternSpec copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_pattern_spec_copy(HANDLE());
-        return new PatternSpec(ProxyFactory.get(RESULT, true));
+        return new PatternSpec(References.get(RESULT, true));
     }
     
     /**

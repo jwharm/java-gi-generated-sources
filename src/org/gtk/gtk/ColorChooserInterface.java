@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ColorChooserInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ColorChooserInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColorChooserInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

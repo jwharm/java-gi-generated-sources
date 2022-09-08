@@ -55,7 +55,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default Adjustment getHadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_hadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.get(RESULT, false));
+        return new Adjustment(References.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
      */
     public default Adjustment getVadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrollable_get_vadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.get(RESULT, false));
+        return new Adjustment(References.get(RESULT, false));
     }
     
     /**
@@ -117,8 +117,8 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class ScrollableImpl extends org.gtk.gobject.Object implements Scrollable {
-        public ScrollableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ScrollableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

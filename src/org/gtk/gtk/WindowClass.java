@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WindowClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public WindowClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WindowClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

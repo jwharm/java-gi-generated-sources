@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public TreeListModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeListModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeListModel */
     public static TreeListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListModel(gobject.getProxy());
+        return new TreeListModel(gobject.getReference());
     }
     
     /**
@@ -42,7 +42,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_child_row(HANDLE(), position);
-        return new TreeListRow(ProxyFactory.get(RESULT, true));
+        return new TreeListRow(References.get(RESULT, true));
     }
     
     /**
@@ -50,7 +50,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public TreeListRow getRow(int position) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_model_get_row(HANDLE(), position);
-        return new TreeListRow(ProxyFactory.get(RESULT, true));
+        return new TreeListRow(References.get(RESULT, true));
     }
     
     /**

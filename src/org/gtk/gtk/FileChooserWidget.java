@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class FileChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FileChooser {
 
-    public FileChooserWidget(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileChooserWidget */
     public static FileChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserWidget(gobject.getProxy());
+        return new FileChooserWidget(gobject.getReference());
     }
     
     /**
@@ -35,7 +35,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * `GtkFileChooserDialog`.
      */
     public FileChooserWidget(FileChooserAction action) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_widget_new(action.getValue()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_widget_new(action.getValue()), false));
     }
     
     @FunctionalInterface

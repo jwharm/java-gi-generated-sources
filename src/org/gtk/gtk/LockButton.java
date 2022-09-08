@@ -46,20 +46,20 @@ import java.lang.invoke.*;
  */
 public class LockButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LockButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LockButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to LockButton */
     public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LockButton(gobject.getProxy());
+        return new LockButton(gobject.getReference());
     }
     
     /**
      * Creates a new lock button which reflects the @permission.
      */
     public LockButton(org.gtk.gio.Permission permission) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_new(permission.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_new(permission.HANDLE()), false));
     }
     
     /**
@@ -67,7 +67,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
      */
     public org.gtk.gio.Permission getPermission() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_lock_button_get_permission(HANDLE());
-        return new org.gtk.gio.Permission(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.Permission(References.get(RESULT, false));
     }
     
     /**

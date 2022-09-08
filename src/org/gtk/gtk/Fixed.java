@@ -46,20 +46,20 @@ import java.lang.invoke.*;
  */
 public class Fixed extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Fixed(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Fixed(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Fixed */
     public static Fixed castFrom(org.gtk.gobject.Object gobject) {
-        return new Fixed(gobject.getProxy());
+        return new Fixed(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkFixed`.
      */
     public Fixed() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_new(), false));
     }
     
     /**
@@ -68,7 +68,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gsk.Transform getChildTransform(Widget widget) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_get_child_transform(HANDLE(), widget.HANDLE());
-        return new org.gtk.gsk.Transform(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gsk.Transform(References.get(RESULT, false));
     }
     
     /**

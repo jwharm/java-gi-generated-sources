@@ -15,20 +15,20 @@ import java.lang.invoke.*;
  */
 public class IMMulticontext extends IMContext {
 
-    public IMMulticontext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IMMulticontext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IMMulticontext */
     public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMMulticontext(gobject.getProxy());
+        return new IMMulticontext(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkIMMulticontext`.
      */
     public IMMulticontext() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_multicontext_new(), true));
     }
     
     /**

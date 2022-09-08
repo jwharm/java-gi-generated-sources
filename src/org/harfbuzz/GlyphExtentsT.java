@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class GlyphExtentsT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphExtentsT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphExtentsT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

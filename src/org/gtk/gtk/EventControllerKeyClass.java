@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EventControllerKeyClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EventControllerKeyClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerKeyClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class CellRendererCombo extends CellRendererText {
 
-    public CellRendererCombo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererCombo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererCombo */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererCombo(gobject.getProxy());
+        return new CellRendererCombo(gobject.getReference());
     }
     
     /**
@@ -40,7 +40,7 @@ public class CellRendererCombo extends CellRendererText {
      * a different string in each row of the `GtkTreeView`.
      */
     public CellRendererCombo() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_combo_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_combo_new(), false));
     }
     
     @FunctionalInterface

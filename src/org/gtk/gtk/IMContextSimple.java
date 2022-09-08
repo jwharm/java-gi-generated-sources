@@ -46,20 +46,20 @@ import java.lang.invoke.*;
  */
 public class IMContextSimple extends IMContext {
 
-    public IMContextSimple(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IMContextSimple(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IMContextSimple */
     public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContextSimple(gobject.getProxy());
+        return new IMContextSimple(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkIMContextSimple`.
      */
     public IMContextSimple() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_im_context_simple_new(), true));
     }
     
     /**

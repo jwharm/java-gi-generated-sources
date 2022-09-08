@@ -322,13 +322,13 @@ import java.lang.invoke.*;
  */
 public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
-    public CellArea(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellArea(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellArea */
     public static CellArea castFrom(org.gtk.gobject.Object gobject) {
-        return new CellArea(gobject.getProxy());
+        return new CellArea(gobject.getReference());
     }
     
     /**
@@ -448,7 +448,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellAreaContext copyContext(CellAreaContext context) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_copy_context(HANDLE(), context.HANDLE());
-        return new CellAreaContext(ProxyFactory.get(RESULT, true));
+        return new CellAreaContext(References.get(RESULT, true));
     }
     
     /**
@@ -461,7 +461,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellAreaContext createContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_create_context(HANDLE());
-        return new CellAreaContext(ProxyFactory.get(RESULT, true));
+        return new CellAreaContext(References.get(RESULT, true));
     }
     
     /**
@@ -500,7 +500,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getCellAtPosition(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int x, int y, org.gtk.gdk.Rectangle allocArea) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_cell_at_position(HANDLE(), context.HANDLE(), widget.HANDLE(), cellArea.HANDLE(), x, y, allocArea.HANDLE());
-        return new CellRenderer(ProxyFactory.get(RESULT, false));
+        return new CellRenderer(References.get(RESULT, false));
     }
     
     /**
@@ -521,7 +521,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellEditable getEditWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_edit_widget(HANDLE());
-        return new CellEditable.CellEditableImpl(ProxyFactory.get(RESULT, false));
+        return new CellEditable.CellEditableImpl(References.get(RESULT, false));
     }
     
     /**
@@ -530,7 +530,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getEditedCell() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_edited_cell(HANDLE());
-        return new CellRenderer(ProxyFactory.get(RESULT, false));
+        return new CellRenderer(References.get(RESULT, false));
     }
     
     /**
@@ -538,7 +538,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getFocusCell() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_cell(HANDLE());
-        return new CellRenderer(ProxyFactory.get(RESULT, false));
+        return new CellRenderer(References.get(RESULT, false));
     }
     
     /**
@@ -552,7 +552,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public CellRenderer getFocusFromSibling(CellRenderer renderer) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_from_sibling(HANDLE(), renderer.HANDLE());
-        return new CellRenderer(ProxyFactory.get(RESULT, false));
+        return new CellRenderer(References.get(RESULT, false));
     }
     
     /**
@@ -560,7 +560,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public org.gtk.glib.List getFocusSiblings(CellRenderer renderer) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_get_focus_siblings(HANDLE(), renderer.HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

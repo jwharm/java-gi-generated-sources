@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixFDMessageClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnixFDMessageClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixFDMessageClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

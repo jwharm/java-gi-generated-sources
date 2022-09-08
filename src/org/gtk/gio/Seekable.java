@@ -94,8 +94,8 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class SeekableImpl extends org.gtk.gobject.Object implements Seekable {
-        public SeekableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public SeekableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class PixbufAnimation extends org.gtk.gobject.Object {
 
-    public PixbufAnimation(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufAnimation(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PixbufAnimation */
     public static PixbufAnimation castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufAnimation(gobject.getProxy());
+        return new PixbufAnimation(gobject.getReference());
     }
     
     /**
@@ -77,7 +77,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_iter(HANDLE(), startTime.HANDLE());
-        return new PixbufAnimationIter(ProxyFactory.get(RESULT, true));
+        return new PixbufAnimationIter(References.get(RESULT, true));
     }
     
     /**
@@ -95,7 +95,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      */
     public Pixbuf getStaticImage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_animation_get_static_image(HANDLE());
-        return new Pixbuf(ProxyFactory.get(RESULT, false));
+        return new Pixbuf(References.get(RESULT, false));
     }
     
     /**

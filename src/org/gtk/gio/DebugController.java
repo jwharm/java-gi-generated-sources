@@ -40,8 +40,8 @@ public interface DebugController extends io.github.jwharm.javagi.interop.NativeA
     }
     
     class DebugControllerImpl extends org.gtk.gobject.Object implements DebugController {
-        public DebugControllerImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DebugControllerImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class HookList extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public HookList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public HookList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

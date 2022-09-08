@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SettingsClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SettingsClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SettingsClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

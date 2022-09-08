@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class GestureClick extends GestureSingle {
 
-    public GestureClick(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureClick(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureClick */
     public static GestureClick castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureClick(gobject.getProxy());
+        return new GestureClick(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class GestureClick extends GestureSingle {
      * single and multiple presses.
      */
     public GestureClick() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_click_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_click_new(), true));
     }
     
     @FunctionalInterface

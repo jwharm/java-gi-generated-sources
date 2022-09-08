@@ -72,8 +72,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.interop.NativeAddr
     }
     
     class TreeSortableImpl extends org.gtk.gobject.Object implements TreeSortable {
-        public TreeSortableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TreeSortableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

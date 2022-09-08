@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class OtMathGlyphVariantT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OtMathGlyphVariantT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OtMathGlyphVariantT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

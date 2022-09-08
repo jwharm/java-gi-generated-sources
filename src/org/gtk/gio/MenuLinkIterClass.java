@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MenuLinkIterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MenuLinkIterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MenuLinkIterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

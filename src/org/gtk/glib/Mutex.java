@@ -51,8 +51,8 @@ import jdk.incubator.foreign.MemoryAddress;
  */
 public class Mutex extends io.github.jwharm.javagi.interop.ResourceBase {
     
-    public Mutex(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Mutex(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

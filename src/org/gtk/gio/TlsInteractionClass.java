@@ -23,8 +23,8 @@ import java.lang.invoke.*;
  */
 public class TlsInteractionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsInteractionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsInteractionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

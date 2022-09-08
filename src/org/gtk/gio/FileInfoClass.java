@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileInfoClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileInfoClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileInfoClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

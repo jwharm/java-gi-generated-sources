@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class DropControllerMotion extends EventController {
 
-    public DropControllerMotion(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DropControllerMotion(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DropControllerMotion */
     public static DropControllerMotion castFrom(org.gtk.gobject.Object gobject) {
-        return new DropControllerMotion(gobject.getProxy());
+        return new DropControllerMotion(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class DropControllerMotion extends EventController {
      * events during drag and drop.
      */
     public DropControllerMotion() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_new(), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class DropControllerMotion extends EventController {
      */
     public org.gtk.gdk.Drop getDrop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_controller_motion_get_drop(HANDLE());
-        return new org.gtk.gdk.Drop(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Drop(References.get(RESULT, false));
     }
     
     /**

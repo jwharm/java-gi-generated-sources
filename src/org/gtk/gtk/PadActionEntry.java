@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class PadActionEntry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PadActionEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PadActionEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

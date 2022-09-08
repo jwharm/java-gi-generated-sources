@@ -49,8 +49,8 @@ import java.lang.invoke.*;
  */
 public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphItemIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphItemIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -58,7 +58,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public GlyphItemIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_iter_copy(HANDLE());
-        return new GlyphItemIter(ProxyFactory.get(RESULT, true));
+        return new GlyphItemIter(References.get(RESULT, true));
     }
     
     /**

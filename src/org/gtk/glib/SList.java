@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

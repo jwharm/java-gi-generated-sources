@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Surface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Surface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Surface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

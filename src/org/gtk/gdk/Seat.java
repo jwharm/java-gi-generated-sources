@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class Seat extends org.gtk.gobject.Object {
 
-    public Seat(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Seat(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Seat */
     public static Seat castFrom(org.gtk.gobject.Object gobject) {
-        return new Seat(gobject.getProxy());
+        return new Seat(gobject.getReference());
     }
     
     /**
@@ -33,7 +33,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getDevices(int capabilities) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_devices(HANDLE(), capabilities);
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -41,7 +41,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getKeyboard() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_keyboard(HANDLE());
-        return new Device(ProxyFactory.get(RESULT, false));
+        return new Device(References.get(RESULT, false));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public Device getPointer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_pointer(HANDLE());
-        return new Device(ProxyFactory.get(RESULT, false));
+        return new Device(References.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Seat extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getTools() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_seat_get_tools(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     @FunctionalInterface

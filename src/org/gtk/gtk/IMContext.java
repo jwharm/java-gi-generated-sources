@@ -38,13 +38,13 @@ import java.lang.invoke.*;
  */
 public class IMContext extends org.gtk.gobject.Object {
 
-    public IMContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IMContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IMContext */
     public static IMContext castFrom(org.gtk.gobject.Object gobject) {
-        return new IMContext(gobject.getProxy());
+        return new IMContext(gobject.getReference());
     }
     
     /**

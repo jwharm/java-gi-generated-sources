@@ -106,13 +106,13 @@ import java.lang.invoke.*;
  */
 public class ListView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public ListView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListView */
     public static ListView castFrom(org.gtk.gobject.Object gobject) {
-        return new ListView(gobject.getProxy());
+        return new ListView(gobject.getReference());
     }
     
     /**
@@ -127,7 +127,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public ListView(SelectionModel model, ListItemFactory factory) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_new(model.getProxy().unowned().HANDLE(), factory.getProxy().unowned().HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_new(model.getReference().unowned().HANDLE(), factory.getReference().unowned().HANDLE()), false));
     }
     
     /**
@@ -143,7 +143,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      */
     public ListItemFactory getFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.get(RESULT, false));
+        return new ListItemFactory(References.get(RESULT, false));
     }
     
     /**
@@ -151,7 +151,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_view_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
     /**

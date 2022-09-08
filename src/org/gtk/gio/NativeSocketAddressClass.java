@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NativeSocketAddressClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public NativeSocketAddressClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NativeSocketAddressClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

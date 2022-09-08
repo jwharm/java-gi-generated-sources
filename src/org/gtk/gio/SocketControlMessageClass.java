@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class SocketControlMessageClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SocketControlMessageClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketControlMessageClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

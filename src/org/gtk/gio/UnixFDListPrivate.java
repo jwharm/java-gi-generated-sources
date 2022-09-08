@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixFDListPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnixFDListPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixFDListPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

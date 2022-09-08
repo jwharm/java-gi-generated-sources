@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class AdjustmentClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AdjustmentClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AdjustmentClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ActionMapInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ActionMapInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ActionMapInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

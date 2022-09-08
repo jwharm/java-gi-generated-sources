@@ -20,8 +20,8 @@ import java.lang.invoke.*;
  */
 public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -29,7 +29,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * count of one.
      */
     public AttrList() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_new(), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrList copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_copy(HANDLE());
-        return new AttrList(ProxyFactory.get(RESULT, true));
+        return new AttrList(References.get(RESULT, true));
     }
     
     /**
@@ -76,7 +76,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.SList getAttributes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_get_attributes(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.SList(References.get(RESULT, true));
     }
     
     /**
@@ -86,7 +86,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrIterator getIterator() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_get_iterator(HANDLE());
-        return new AttrIterator(ProxyFactory.get(RESULT, true));
+        return new AttrIterator(References.get(RESULT, true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrList ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attr_list_ref(HANDLE());
-        return new AttrList(ProxyFactory.get(RESULT, true));
+        return new AttrList(References.get(RESULT, true));
     }
     
     /**

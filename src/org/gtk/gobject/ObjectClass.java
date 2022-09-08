@@ -35,8 +35,8 @@ import java.lang.invoke.*;
  */
 public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ObjectClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ObjectClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -44,7 +44,7 @@ public class ObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_object_class_find_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, false));
+        return new ParamSpec(References.get(RESULT, false));
     }
     
     /**

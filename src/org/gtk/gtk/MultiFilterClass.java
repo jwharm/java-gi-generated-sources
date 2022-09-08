@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MultiFilterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MultiFilterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MultiFilterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

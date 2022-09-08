@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Buildable {
 
-    public MultiSorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MultiSorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MultiSorter */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new MultiSorter(gobject.getProxy());
+        return new MultiSorter(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * items as equal.
      */
     public MultiSorter() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_new(), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * sort with the given @sorter.
      */
     public void append(Sorter sorter) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_append(HANDLE(), sorter.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_multi_sorter_append(HANDLE(), sorter.getReference().unowned().HANDLE());
     }
     
     /**

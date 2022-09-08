@@ -131,12 +131,12 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {
-        public AsyncInitableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public AsyncInitableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

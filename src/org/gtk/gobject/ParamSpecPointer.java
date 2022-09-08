@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecPointer extends ParamSpec {
 
-    public ParamSpecPointer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecPointer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecPointer */
     public static ParamSpecPointer castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecPointer(gobject.getProxy());
+        return new ParamSpecPointer(gobject.getReference());
     }
     
 }

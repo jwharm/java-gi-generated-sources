@@ -98,8 +98,8 @@ import java.lang.invoke.*;
  */
 public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VariantDict(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VariantDict(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -115,7 +115,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * using #GVariantDict to construct a #GVariant.
      */
     public VariantDict(Variant fromAsv) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_new(fromAsv.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_new(fromAsv.HANDLE()), true));
     }
     
     /**
@@ -157,7 +157,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Variant end() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_end(HANDLE());
-        return new Variant(ProxyFactory.get(RESULT, false));
+        return new Variant(References.get(RESULT, false));
     }
     
     /**
@@ -206,7 +206,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_lookup_value(HANDLE(), Interop.allocateNativeString(key).HANDLE(), expectedType.HANDLE());
-        return new Variant(ProxyFactory.get(RESULT, true));
+        return new Variant(References.get(RESULT, true));
     }
     
     /**
@@ -217,7 +217,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantDict ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_dict_ref(HANDLE());
-        return new VariantDict(ProxyFactory.get(RESULT, true));
+        return new VariantDict(References.get(RESULT, true));
     }
     
     /**

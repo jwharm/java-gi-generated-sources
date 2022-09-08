@@ -71,20 +71,20 @@ import java.lang.invoke.*;
  */
 public class PrintOperation extends org.gtk.gobject.Object implements PrintOperationPreview {
 
-    public PrintOperation(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PrintOperation(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PrintOperation */
     public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintOperation(gobject.getProxy());
+        return new PrintOperation(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPrintOperation`.
      */
     public PrintOperation() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_new(), true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PageSetup getDefaultPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_default_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, false));
+        return new PageSetup(References.get(RESULT, false));
     }
     
     /**
@@ -178,7 +178,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintSettings getPrintSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_operation_get_print_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.get(RESULT, false));
+        return new PrintSettings(References.get(RESULT, false));
     }
     
     /**

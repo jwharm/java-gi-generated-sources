@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class CustomSorter extends Sorter {
 
-    public CustomSorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CustomSorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CustomSorter */
     public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomSorter(gobject.getProxy());
+        return new CustomSorter(gobject.getReference());
     }
     
 }

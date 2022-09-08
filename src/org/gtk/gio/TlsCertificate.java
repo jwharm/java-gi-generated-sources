@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class TlsCertificate extends org.gtk.gobject.Object {
 
-    public TlsCertificate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsCertificate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TlsCertificate */
     public static TlsCertificate castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsCertificate(gobject.getProxy());
+        return new TlsCertificate(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public TlsCertificate getIssuer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_issuer(HANDLE());
-        return new TlsCertificate(ProxyFactory.get(RESULT, false));
+        return new TlsCertificate(References.get(RESULT, false));
     }
     
     /**
@@ -44,7 +44,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getNotValidAfter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_not_valid_after(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getNotValidBefore() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_certificate_get_not_valid_before(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**

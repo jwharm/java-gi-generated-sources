@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class GlyphPositionT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphPositionT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphPositionT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

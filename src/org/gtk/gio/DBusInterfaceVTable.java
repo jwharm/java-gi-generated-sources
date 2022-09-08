@@ -50,8 +50,8 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceVTable extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusInterfaceVTable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusInterfaceVTable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

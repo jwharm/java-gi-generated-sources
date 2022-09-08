@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SignalActionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SignalActionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalActionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

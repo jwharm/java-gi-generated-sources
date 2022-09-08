@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class AttrColor extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrColor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrColor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

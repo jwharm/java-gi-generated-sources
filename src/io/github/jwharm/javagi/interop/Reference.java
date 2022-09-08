@@ -4,10 +4,10 @@ import jdk.incubator.foreign.MemoryAddress;
 
 import java.lang.ref.Cleaner;
 
-public class Proxy {
+public class Reference {
 
     private final static Cleaner cleaner = Cleaner.create();
-    private Proxy.State state;
+    private Reference.State state;
     private Cleaner.Cleanable cleanable;
 
     private static class State implements Runnable {
@@ -26,8 +26,8 @@ public class Proxy {
         }
     }
 
-    public Proxy(MemoryAddress handle, boolean owned) {
-        state = new Proxy.State(handle, owned);
+    public Reference(MemoryAddress handle, boolean owned) {
+        state = new Reference.State(handle, owned);
         cleanable = cleaner.register(this, state);
     }
 
@@ -39,12 +39,12 @@ public class Proxy {
         state.owned = owned;
     }
 
-    public Proxy unowned() {
+    public Reference unowned() {
         setOwnership(false);
         return this;
     }
 
-    public Proxy owned() {
+    public Reference owned() {
         setOwnership(true);
         return this;
     }

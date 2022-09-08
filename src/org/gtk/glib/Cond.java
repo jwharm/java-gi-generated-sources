@@ -74,8 +74,8 @@ import java.lang.invoke.*;
  */
 public class Cond extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Cond(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Cond(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

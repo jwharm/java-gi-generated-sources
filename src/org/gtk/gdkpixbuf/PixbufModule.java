@@ -54,8 +54,8 @@ import java.lang.invoke.*;
  */
 public class PixbufModule extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PixbufModule(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufModule(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

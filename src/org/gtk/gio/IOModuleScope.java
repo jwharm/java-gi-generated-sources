@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class IOModuleScope extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IOModuleScope(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOModuleScope(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

@@ -35,20 +35,20 @@ import java.lang.invoke.*;
  */
 public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, Buildable {
 
-    public StringList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StringList */
     public static StringList castFrom(org.gtk.gobject.Object gobject) {
-        return new StringList(gobject.getProxy());
+        return new StringList(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkStringList` with the given @strings.
      */
     public StringList(java.lang.String[] strings) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_list_new(Interop.allocateNativeArray(strings)), true));
     }
     
     /**

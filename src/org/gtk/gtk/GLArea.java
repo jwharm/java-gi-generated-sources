@@ -111,20 +111,20 @@ import java.lang.invoke.*;
  */
 public class GLArea extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public GLArea(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLArea(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GLArea */
     public static GLArea castFrom(org.gtk.gobject.Object gobject) {
-        return new GLArea(gobject.getProxy());
+        return new GLArea(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkGLArea` widget.
      */
     public GLArea() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_new(), false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.gdk.GLContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_context(HANDLE());
-        return new org.gtk.gdk.GLContext(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.GLContext(References.get(RESULT, false));
     }
     
     /**
@@ -163,7 +163,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gl_area_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
     /**

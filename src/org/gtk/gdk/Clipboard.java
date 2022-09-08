@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class Clipboard extends org.gtk.gobject.Object {
 
-    public Clipboard(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Clipboard(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Clipboard */
     public static Clipboard castFrom(org.gtk.gobject.Object gobject) {
-        return new Clipboard(gobject.getProxy());
+        return new Clipboard(gobject.getReference());
     }
     
     /**
@@ -43,7 +43,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public ContentProvider getContent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_content(HANDLE());
-        return new ContentProvider(ProxyFactory.get(RESULT, false));
+        return new ContentProvider(References.get(RESULT, false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_clipboard_get_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, false));
+        return new ContentFormats(References.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.InputStream(References.get(RESULT, true));
     }
     
     /**
@@ -115,7 +115,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Texture(ProxyFactory.get(RESULT, true));
+        return new Texture(References.get(RESULT, true));
     }
     
     /**
@@ -129,7 +129,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
     /**

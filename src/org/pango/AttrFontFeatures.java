@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class AttrFontFeatures extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrFontFeatures(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrFontFeatures(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class CairoContext extends DrawContext {
 
-    public CairoContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CairoContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CairoContext */
     public static CairoContext castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoContext(gobject.getProxy());
+        return new CairoContext(gobject.getReference());
     }
     
     /**
@@ -36,7 +36,7 @@ public class CairoContext extends DrawContext {
      */
     public org.cairographics.Context cairoCreate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cairo_context_cairo_create(HANDLE());
-        return new org.cairographics.Context(ProxyFactory.get(RESULT, true));
+        return new org.cairographics.Context(References.get(RESULT, true));
     }
     
 }

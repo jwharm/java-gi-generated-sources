@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class TreeListRow extends org.gtk.gobject.Object {
 
-    public TreeListRow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeListRow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeListRow */
     public static TreeListRow castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRow(gobject.getProxy());
+        return new TreeListRow(gobject.getReference());
     }
     
     /**
@@ -35,7 +35,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_child_row(HANDLE(), position);
-        return new TreeListRow(ProxyFactory.get(RESULT, true));
+        return new TreeListRow(References.get(RESULT, true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.ListModel getChildren() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_children(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
     /**
@@ -98,7 +98,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      */
     public TreeListRow getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_get_parent(HANDLE());
-        return new TreeListRow(ProxyFactory.get(RESULT, true));
+        return new TreeListRow(References.get(RESULT, true));
     }
     
     /**

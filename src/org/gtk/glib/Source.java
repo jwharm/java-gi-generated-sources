@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Source(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Source(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -26,7 +26,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * executed.
      */
     public Source(SourceFuncs sourceFuncs, int structSize) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_new(sourceFuncs.HANDLE(), structSize), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_new(sourceFuncs.HANDLE(), structSize), true));
     }
     
     /**
@@ -143,7 +143,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MainContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_get_context(HANDLE());
-        return new MainContext(ProxyFactory.get(RESULT, false));
+        return new MainContext(References.get(RESULT, false));
     }
     
     /**
@@ -329,7 +329,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Source ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_source_ref(HANDLE());
-        return new Source(ProxyFactory.get(RESULT, true));
+        return new Source(References.get(RESULT, true));
     }
     
     /**

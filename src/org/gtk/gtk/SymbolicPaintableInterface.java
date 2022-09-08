@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SymbolicPaintableInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SymbolicPaintableInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SymbolicPaintableInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

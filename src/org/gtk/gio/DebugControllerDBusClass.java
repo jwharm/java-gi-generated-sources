@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DebugControllerDBusClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DebugControllerDBusClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DebugControllerDBusClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

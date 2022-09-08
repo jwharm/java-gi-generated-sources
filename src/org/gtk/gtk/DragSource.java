@@ -85,20 +85,20 @@ import java.lang.invoke.*;
  */
 public class DragSource extends GestureSingle {
 
-    public DragSource(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DragSource(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DragSource */
     public static DragSource castFrom(org.gtk.gobject.Object gobject) {
-        return new DragSource(gobject.getProxy());
+        return new DragSource(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkDragSource` object.
      */
     public DragSource() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_new(), true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.ContentProvider getContent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_content(HANDLE());
-        return new org.gtk.gdk.ContentProvider(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.ContentProvider(References.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class DragSource extends GestureSingle {
      */
     public org.gtk.gdk.Drag getDrag() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_source_get_drag(HANDLE());
-        return new org.gtk.gdk.Drag(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Drag(References.get(RESULT, false));
     }
     
     /**

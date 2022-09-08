@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ConverterOutputStreamPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ConverterOutputStreamPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConverterOutputStreamPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class DataInputStream extends BufferedInputStream implements Seekable {
 
-    public DataInputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DataInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DataInputStream */
     public static DataInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new DataInputStream(gobject.getProxy());
+        return new DataInputStream(gobject.getReference());
     }
     
     /**
      * Creates a new data input stream for the @base_stream.
      */
     public DataInputStream(InputStream baseStream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_new(baseStream.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_data_input_stream_new(baseStream.HANDLE()), true));
     }
     
     /**

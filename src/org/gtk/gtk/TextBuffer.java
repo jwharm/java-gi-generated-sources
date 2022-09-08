@@ -18,20 +18,20 @@ import java.lang.invoke.*;
  */
 public class TextBuffer extends org.gtk.gobject.Object {
 
-    public TextBuffer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextBuffer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextBuffer */
     public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new TextBuffer(gobject.getProxy());
+        return new TextBuffer(gobject.getReference());
     }
     
     /**
      * Creates a new text buffer.
      */
     public TextBuffer(TextTagTable table) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_new(table.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_new(table.HANDLE()), true));
     }
     
     /**
@@ -159,7 +159,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextChildAnchor createChildAnchor(TextIter iter) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_create_child_anchor(HANDLE(), iter.HANDLE());
-        return new TextChildAnchor(ProxyFactory.get(RESULT, false));
+        return new TextChildAnchor(References.get(RESULT, false));
     }
     
     /**
@@ -185,7 +185,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark createMark(java.lang.String markName, TextIter where, boolean leftGravity) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_create_mark(HANDLE(), Interop.allocateNativeString(markName).HANDLE(), where.HANDLE(), leftGravity ? 1 : 0);
-        return new TextMark(ProxyFactory.get(RESULT, false));
+        return new TextMark(References.get(RESULT, false));
     }
     
     /**
@@ -374,7 +374,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getInsert() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_insert(HANDLE());
-        return new TextMark(ProxyFactory.get(RESULT, false));
+        return new TextMark(References.get(RESULT, false));
     }
     
     /**
@@ -460,7 +460,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getMark(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_mark(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new TextMark(ProxyFactory.get(RESULT, false));
+        return new TextMark(References.get(RESULT, false));
     }
     
     /**
@@ -503,7 +503,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextMark getSelectionBound() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_selection_bound(HANDLE());
-        return new TextMark(ProxyFactory.get(RESULT, false));
+        return new TextMark(References.get(RESULT, false));
     }
     
     /**
@@ -528,7 +528,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.ContentProvider getSelectionContent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_selection_content(HANDLE());
-        return new org.gtk.gdk.ContentProvider(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
     }
     
     /**
@@ -563,7 +563,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      */
     public TextTagTable getTagTable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_buffer_get_tag_table(HANDLE());
-        return new TextTagTable(ProxyFactory.get(RESULT, false));
+        return new TextTagTable(References.get(RESULT, false));
     }
     
     /**

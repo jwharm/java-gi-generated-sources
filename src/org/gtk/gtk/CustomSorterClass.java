@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CustomSorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CustomSorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CustomSorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -38,20 +38,20 @@ import java.lang.invoke.*;
  */
 public class FileInfo extends org.gtk.gobject.Object {
 
-    public FileInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileInfo */
     public static FileInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new FileInfo(gobject.getProxy());
+        return new FileInfo(gobject.getReference());
     }
     
     /**
      * Creates a new file info structure.
      */
     public FileInfo() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileInfo dup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_dup(HANDLE());
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -87,7 +87,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getAccessDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_access_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -144,7 +144,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_attribute_object(HANDLE(), Interop.allocateNativeString(attribute).HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
     /**
@@ -210,7 +210,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getCreationDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_creation_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -220,7 +220,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getDeletionDate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_deletion_date(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -262,7 +262,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
+        return new Icon.IconImpl(References.get(RESULT, false));
     }
     
     /**
@@ -299,7 +299,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.DateTime getModificationDateTime() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_modification_date_time(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -334,7 +334,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public Icon getSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_info_get_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
+        return new Icon.IconImpl(References.get(RESULT, false));
     }
     
     /**

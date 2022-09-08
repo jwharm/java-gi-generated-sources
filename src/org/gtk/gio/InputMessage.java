@@ -28,8 +28,8 @@ import java.lang.invoke.*;
  */
 public class InputMessage extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InputMessage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InputMessage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

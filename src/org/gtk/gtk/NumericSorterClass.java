@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NumericSorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public NumericSorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NumericSorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class StringObjectClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StringObjectClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringObjectClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

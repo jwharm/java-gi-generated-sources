@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class VolumeButton extends ScaleButton implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public VolumeButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VolumeButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to VolumeButton */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
-        return new VolumeButton(gobject.getProxy());
+        return new VolumeButton(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
      * [class@Gtk.ScaleButton].
      */
     public VolumeButton() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_volume_button_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_volume_button_new(), false));
     }
     
 }

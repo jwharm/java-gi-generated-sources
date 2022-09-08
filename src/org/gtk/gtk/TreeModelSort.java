@@ -105,20 +105,20 @@ import java.lang.invoke.*;
  */
 public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSource, TreeModel, TreeSortable {
 
-    public TreeModelSort(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeModelSort(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeModelSort */
     public static TreeModelSort castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeModelSort(gobject.getProxy());
+        return new TreeModelSort(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkTreeModelSort`, with @child_model as the child model.
      */
     public TreeModelSort(TreeModel childModel) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_new_with_model(childModel.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_new_with_model(childModel.HANDLE()), true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_child_path_to_path(HANDLE(), childPath.HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**
@@ -170,7 +170,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreePath convertPathToChildPath(TreePath sortedPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_convert_path_to_child_path(HANDLE(), sortedPath.HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**
@@ -178,7 +178,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_model_sort_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**

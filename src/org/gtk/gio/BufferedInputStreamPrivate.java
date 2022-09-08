@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BufferedInputStreamPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BufferedInputStreamPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BufferedInputStreamPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

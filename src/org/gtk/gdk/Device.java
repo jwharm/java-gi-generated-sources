@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class Device extends org.gtk.gobject.Object {
 
-    public Device(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Device(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Device */
     public static Device castFrom(org.gtk.gobject.Object gobject) {
-        return new Device(gobject.getProxy());
+        return new Device(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public DeviceTool getDeviceTool() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_device_tool(HANDLE());
-        return new DeviceTool(ProxyFactory.get(RESULT, false));
+        return new DeviceTool(References.get(RESULT, false));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public Seat getSeat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_device_get_seat(HANDLE());
-        return new Seat(ProxyFactory.get(RESULT, false));
+        return new Seat(References.get(RESULT, false));
     }
     
     /**

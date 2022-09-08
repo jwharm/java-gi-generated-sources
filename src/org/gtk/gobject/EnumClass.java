@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class EnumClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EnumClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EnumClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

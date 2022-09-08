@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MediaFileClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MediaFileClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MediaFileClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

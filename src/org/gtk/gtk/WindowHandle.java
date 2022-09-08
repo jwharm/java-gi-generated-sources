@@ -21,20 +21,20 @@ import java.lang.invoke.*;
  */
 public class WindowHandle extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public WindowHandle(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WindowHandle(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to WindowHandle */
     public static WindowHandle castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowHandle(gobject.getProxy());
+        return new WindowHandle(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkWindowHandle`.
      */
     public WindowHandle() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_new(), false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_handle_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

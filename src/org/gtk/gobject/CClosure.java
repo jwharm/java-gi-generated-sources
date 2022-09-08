@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class CClosure extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CClosure(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CClosure(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

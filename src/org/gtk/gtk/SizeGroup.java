@@ -73,20 +73,20 @@ import java.lang.invoke.*;
  */
 public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
 
-    public SizeGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SizeGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SizeGroup */
     public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SizeGroup(gobject.getProxy());
+        return new SizeGroup(gobject.getReference());
     }
     
     /**
      * Create a new `GtkSizeGroup`.
      */
     public SizeGroup(SizeGroupMode mode) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_new(mode.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_new(mode.getValue()), true));
     }
     
     /**
@@ -119,7 +119,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      */
     public org.gtk.glib.SList getWidgets() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_size_group_get_widgets(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DevicePadInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DevicePadInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DevicePadInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -74,13 +74,13 @@ import java.lang.invoke.*;
  */
 public class ColumnView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public ColumnView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColumnView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColumnView */
     public static ColumnView castFrom(org.gtk.gobject.Object gobject) {
-        return new ColumnView(gobject.getProxy());
+        return new ColumnView(gobject.getReference());
     }
     
     /**
@@ -90,7 +90,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * to add columns next.
      */
     public ColumnView(SelectionModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_new(model.getProxy().unowned().HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_new(model.getReference().unowned().HANDLE()), false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public org.gtk.gio.ListModel getColumns() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_columns(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -186,7 +186,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.get(RESULT, false));
+        return new Sorter(References.get(RESULT, false));
     }
     
     /**

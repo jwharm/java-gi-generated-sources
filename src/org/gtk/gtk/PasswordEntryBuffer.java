@@ -13,20 +13,20 @@ import java.lang.invoke.*;
  */
 public class PasswordEntryBuffer extends EntryBuffer {
 
-    public PasswordEntryBuffer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PasswordEntryBuffer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PasswordEntryBuffer */
     public static PasswordEntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        return new PasswordEntryBuffer(gobject.getProxy());
+        return new PasswordEntryBuffer(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkEntryBuffer` using secure memory allocations.
      */
     public PasswordEntryBuffer() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_buffer_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_buffer_new(), true));
     }
     
 }

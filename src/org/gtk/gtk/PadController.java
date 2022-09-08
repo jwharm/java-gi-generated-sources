@@ -56,13 +56,13 @@ import java.lang.invoke.*;
  */
 public class PadController extends EventController {
 
-    public PadController(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PadController(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PadController */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        return new PadController(gobject.getProxy());
+        return new PadController(gobject.getReference());
     }
     
     /**
@@ -82,7 +82,7 @@ public class PadController extends EventController {
      * a pad controller to any other type of widget will not have an effect.
      */
     public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_new(group.HANDLE(), pad.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_pad_controller_new(group.HANDLE(), pad.HANDLE()), true));
     }
     
     /**

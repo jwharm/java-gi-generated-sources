@@ -104,8 +104,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
     }
     
     class PrintOperationPreviewImpl extends org.gtk.gobject.Object implements PrintOperationPreview {
-        public PrintOperationPreviewImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public PrintOperationPreviewImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

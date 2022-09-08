@@ -30,20 +30,20 @@ import java.lang.invoke.*;
  */
 public class MountOperation extends org.gtk.gobject.Object {
 
-    public MountOperation(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MountOperation(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MountOperation */
     public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        return new MountOperation(gobject.getProxy());
+        return new MountOperation(gobject.getReference());
     }
     
     /**
      * Creates a new mount operation.
      */
     public MountOperation() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_operation_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_operation_new(), true));
     }
     
     /**

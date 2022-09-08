@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FilterListModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FilterListModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FilterListModel */
     public static FilterListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new FilterListModel(gobject.getProxy());
+        return new FilterListModel(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * @filter.
      */
     public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_new(model.getProxy().unowned().HANDLE(), filter.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_new(model.getReference().unowned().HANDLE(), filter.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Filter getFilter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_filter(HANDLE());
-        return new Filter(ProxyFactory.get(RESULT, false));
+        return new Filter(References.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_filter_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**

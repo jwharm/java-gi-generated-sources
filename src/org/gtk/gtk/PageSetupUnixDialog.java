@@ -17,20 +17,20 @@ import java.lang.invoke.*;
  */
 public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public PageSetupUnixDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PageSetupUnixDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PageSetupUnixDialog */
     public static PageSetupUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PageSetupUnixDialog(gobject.getProxy());
+        return new PageSetupUnixDialog(gobject.getReference());
     }
     
     /**
      * Creates a new page setup dialog.
      */
     public PageSetupUnixDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
     /**
@@ -38,7 +38,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PageSetup getPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, false));
+        return new PageSetup(References.get(RESULT, false));
     }
     
     /**
@@ -46,7 +46,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
      */
     public PrintSettings getPrintSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_unix_dialog_get_print_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.get(RESULT, false));
+        return new PrintSettings(References.get(RESULT, false));
     }
     
     /**

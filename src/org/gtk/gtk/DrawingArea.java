@@ -90,20 +90,20 @@ import java.lang.invoke.*;
  */
 public class DrawingArea extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public DrawingArea(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DrawingArea(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DrawingArea */
     public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawingArea(gobject.getProxy());
+        return new DrawingArea(gobject.getReference());
     }
     
     /**
      * Creates a new drawing area.
      */
     public DrawingArea() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drawing_area_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drawing_area_new(), false));
     }
     
     /**

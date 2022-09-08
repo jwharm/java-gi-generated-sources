@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class GestureSingle extends Gesture {
 
-    public GestureSingle(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureSingle(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureSingle */
     public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSingle(gobject.getProxy());
+        return new GestureSingle(gobject.getReference());
     }
     
     /**
@@ -59,7 +59,7 @@ public class GestureSingle extends Gesture {
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_single_get_current_sequence(HANDLE());
-        return new org.gtk.gdk.EventSequence(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gdk.EventSequence(References.get(RESULT, true));
     }
     
     /**

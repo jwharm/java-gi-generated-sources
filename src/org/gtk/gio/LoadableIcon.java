@@ -21,7 +21,7 @@ public interface LoadableIcon extends io.github.jwharm.javagi.interop.NativeAddr
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new InputStream(ProxyFactory.get(RESULT, true));
+        return new InputStream(References.get(RESULT, true));
     }
     
     /**
@@ -33,12 +33,12 @@ public interface LoadableIcon extends io.github.jwharm.javagi.interop.NativeAddr
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new InputStream(ProxyFactory.get(RESULT, true));
+        return new InputStream(References.get(RESULT, true));
     }
     
     class LoadableIconImpl extends org.gtk.gobject.Object implements LoadableIcon {
-        public LoadableIconImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public LoadableIconImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

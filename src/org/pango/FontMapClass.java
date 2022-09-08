@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class FontMapClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontMapClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontMapClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

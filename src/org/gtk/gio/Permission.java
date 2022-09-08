@@ -24,13 +24,13 @@ import java.lang.invoke.*;
  */
 public class Permission extends org.gtk.gobject.Object {
 
-    public Permission(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Permission(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Permission */
     public static Permission castFrom(org.gtk.gobject.Object gobject) {
-        return new Permission(gobject.getProxy());
+        return new Permission(gobject.getReference());
     }
     
     /**

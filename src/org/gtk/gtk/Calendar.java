@@ -58,20 +58,20 @@ import java.lang.invoke.*;
  */
 public class Calendar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Calendar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Calendar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Calendar */
     public static Calendar castFrom(org.gtk.gobject.Object gobject) {
-        return new Calendar(gobject.getProxy());
+        return new Calendar(gobject.getReference());
     }
     
     /**
      * Creates a new calendar, with the current date being selected.
      */
     public Calendar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_new(), false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.glib.DateTime getDate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_calendar_get_date(HANDLE());
-        return new org.gtk.glib.DateTime(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.DateTime(References.get(RESULT, true));
     }
     
     /**

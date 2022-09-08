@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Array extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Array(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Array(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

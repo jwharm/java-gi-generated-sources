@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class Vfs extends org.gtk.gobject.Object {
 
-    public Vfs(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Vfs(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Vfs */
     public static Vfs castFrom(org.gtk.gobject.Object gobject) {
-        return new Vfs(gobject.getProxy());
+        return new Vfs(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForPath(java.lang.String path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_path(HANDLE(), Interop.allocateNativeString(path).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File getFileForUri(java.lang.String uri) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_get_file_for_uri(HANDLE(), Interop.allocateNativeString(uri).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -54,7 +54,7 @@ public class Vfs extends org.gtk.gobject.Object {
      */
     public File parseName(java.lang.String parseName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_vfs_parse_name(HANDLE(), Interop.allocateNativeString(parseName).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**

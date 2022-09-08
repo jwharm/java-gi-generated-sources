@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class SetT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SetT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SetT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class TlsPassword extends org.gtk.gobject.Object {
 
-    public TlsPassword(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsPassword(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TlsPassword */
     public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsPassword(gobject.getProxy());
+        return new TlsPassword(gobject.getReference());
     }
     
     /**
      * Create a new #GTlsPassword object.
      */
     public TlsPassword(int flags, java.lang.String description) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).HANDLE()), true));
     }
     
     /**

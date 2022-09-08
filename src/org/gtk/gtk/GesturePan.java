@@ -23,20 +23,20 @@ import java.lang.invoke.*;
  */
 public class GesturePan extends GestureDrag {
 
-    public GesturePan(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GesturePan(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GesturePan */
     public static GesturePan castFrom(org.gtk.gobject.Object gobject) {
-        return new GesturePan(gobject.getProxy());
+        return new GesturePan(gobject.getReference());
     }
     
     /**
      * Returns a newly created `GtkGesture` that recognizes pan gestures.
      */
     public GesturePan(Orientation orientation) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_pan_new(orientation.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_pan_new(orientation.getValue()), true));
     }
     
     /**

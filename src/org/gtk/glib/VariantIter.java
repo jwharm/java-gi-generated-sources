@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VariantIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VariantIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -29,7 +29,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public VariantIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_copy(HANDLE());
-        return new VariantIter(ProxyFactory.get(RESULT, true));
+        return new VariantIter(References.get(RESULT, true));
     }
     
     /**
@@ -97,7 +97,7 @@ public class VariantIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Variant nextValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_iter_next_value(HANDLE());
-        return new Variant(ProxyFactory.get(RESULT, true));
+        return new Variant(References.get(RESULT, true));
     }
     
 }

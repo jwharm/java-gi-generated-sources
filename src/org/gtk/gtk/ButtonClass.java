@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ButtonClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ButtonClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ButtonClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -18,20 +18,20 @@ import java.lang.invoke.*;
  */
 public class EventControllerFocus extends EventController {
 
-    public EventControllerFocus(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerFocus(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EventControllerFocus */
     public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerFocus(gobject.getProxy());
+        return new EventControllerFocus(gobject.getReference());
     }
     
     /**
      * Creates a new event controller that will handle focus events.
      */
     public EventControllerFocus() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_focus_new(), true));
     }
     
     /**

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusSubtreeVTable extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusSubtreeVTable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusSubtreeVTable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

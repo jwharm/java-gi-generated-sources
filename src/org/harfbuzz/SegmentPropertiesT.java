@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class SegmentPropertiesT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SegmentPropertiesT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SegmentPropertiesT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

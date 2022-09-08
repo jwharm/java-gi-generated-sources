@@ -56,20 +56,20 @@ import java.lang.invoke.*;
  */
 public class AboutDialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AboutDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AboutDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AboutDialog */
     public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new AboutDialog(gobject.getProxy());
+        return new AboutDialog(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkAboutDialog`.
      */
     public AboutDialog() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_new(), false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      */
     public org.gtk.gdk.Paintable getLogo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_about_dialog_get_logo(HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, false));
     }
     
     /**

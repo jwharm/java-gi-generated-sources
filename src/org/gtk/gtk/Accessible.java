@@ -55,8 +55,8 @@ public interface Accessible extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class AccessibleImpl extends org.gtk.gobject.Object implements Accessible {
-        public AccessibleImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public AccessibleImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

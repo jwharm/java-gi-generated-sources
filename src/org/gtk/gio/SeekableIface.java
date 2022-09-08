@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class SeekableIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SeekableIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SeekableIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -19,8 +19,8 @@ import java.lang.invoke.*;
  */
 public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Value(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Value(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -48,7 +48,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object dupObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_dup_object(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, true));
+        return new Object(References.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public ParamSpec dupParam() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_dup_param(HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, true));
+        return new ParamSpec(References.get(RESULT, true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.Variant dupVariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_dup_variant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -171,7 +171,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object getObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_get_object(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, false));
+        return new Object(References.get(RESULT, false));
     }
     
     /**
@@ -179,7 +179,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public ParamSpec getParam() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_get_param(HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, false));
+        return new ParamSpec(References.get(RESULT, false));
     }
     
     /**
@@ -243,7 +243,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.Variant getVariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_get_variant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**
@@ -251,7 +251,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Value init(Type gType) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_init(HANDLE(), gType.getValue());
-        return new Value(ProxyFactory.get(RESULT, false));
+        return new Value(References.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Value reset() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_value_reset(HANDLE());
-        return new Value(ProxyFactory.get(RESULT, true));
+        return new Value(References.get(RESULT, true));
     }
     
     /**

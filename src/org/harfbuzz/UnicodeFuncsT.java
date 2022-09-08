@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class UnicodeFuncsT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnicodeFuncsT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnicodeFuncsT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

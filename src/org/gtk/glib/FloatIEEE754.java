@@ -11,8 +11,8 @@ import jdk.incubator.foreign.MemoryAddress;
  */
 public class FloatIEEE754 extends io.github.jwharm.javagi.interop.ResourceBase {
     
-    public FloatIEEE754(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FloatIEEE754(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

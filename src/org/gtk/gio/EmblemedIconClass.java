@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EmblemedIconClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EmblemedIconClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EmblemedIconClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -51,13 +51,13 @@ import java.lang.invoke.*;
  */
 public class Frame extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Frame(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Frame(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Frame */
     public static Frame castFrom(org.gtk.gobject.Object gobject) {
-        return new Frame(gobject.getProxy());
+        return new Frame(gobject.getReference());
     }
     
     /**
@@ -66,7 +66,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * If @label is %NULL, the label is omitted.
      */
     public Frame(java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_new(Interop.allocateNativeString(label).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_new(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -101,7 +101,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getLabelWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_frame_get_label_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

@@ -24,20 +24,20 @@ import java.lang.invoke.*;
  */
 public class Spinner extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Spinner(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Spinner(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Spinner */
     public static Spinner castFrom(org.gtk.gobject.Object gobject) {
-        return new Spinner(gobject.getProxy());
+        return new Spinner(gobject.getReference());
     }
     
     /**
      * Returns a new spinner widget. Not yet started.
      */
     public Spinner() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_spinner_new(), false));
     }
     
     /**

@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class SubprocessLauncher extends org.gtk.gobject.Object {
 
-    public SubprocessLauncher(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SubprocessLauncher(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SubprocessLauncher */
     public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
-        return new SubprocessLauncher(gobject.getProxy());
+        return new SubprocessLauncher(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * and will be used as the environment that the process is launched in.
      */
     public SubprocessLauncher(int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_new(flags), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_subprocess_launcher_new(flags), true));
     }
     
     /**
@@ -193,7 +193,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Subprocess(ProxyFactory.get(RESULT, true));
+        return new Subprocess(References.get(RESULT, true));
     }
     
     /**

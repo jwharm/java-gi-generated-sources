@@ -8,8 +8,8 @@ import jdk.incubator.foreign.MemoryAddress;
  */
 public class TokenValue extends io.github.jwharm.javagi.interop.ResourceBase {
     
-    public TokenValue(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TokenValue(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

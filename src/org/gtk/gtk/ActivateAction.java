@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ActivateAction extends ShortcutAction {
 
-    public ActivateAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ActivateAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ActivateAction */
     public static ActivateAction castFrom(org.gtk.gobject.Object gobject) {
-        return new ActivateAction(gobject.getProxy());
+        return new ActivateAction(gobject.getReference());
     }
     
 }

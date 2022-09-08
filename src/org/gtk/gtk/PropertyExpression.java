@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class PropertyExpression extends Expression {
 
-    public PropertyExpression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PropertyExpression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PropertyExpression */
     public static PropertyExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new PropertyExpression(gobject.getProxy());
+        return new PropertyExpression(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class PropertyExpression extends Expression {
      * The given `this_type` must have a property with `property_name`.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getProxy().unowned().HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class PropertyExpression extends Expression {
      * Otherwise, this expression's evaluation will fail.
      */
     public PropertyExpression(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new_for_pspec(expression.getProxy().unowned().HANDLE(), pspec.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().HANDLE(), pspec.HANDLE()), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class PropertyExpression extends Expression {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_expression(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class PropertyExpression extends Expression {
      */
     public org.gtk.gobject.ParamSpec getPspec() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_property_expression_get_pspec(HANDLE());
-        return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(References.get(RESULT, false));
     }
     
 }

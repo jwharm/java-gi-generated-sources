@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeStoreClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeStoreClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeStoreClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

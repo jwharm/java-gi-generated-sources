@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CallbackActionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CallbackActionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CallbackActionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

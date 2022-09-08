@@ -49,13 +49,13 @@ import java.lang.invoke.*;
  */
 public class SignalListItemFactory extends ListItemFactory {
 
-    public SignalListItemFactory(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalListItemFactory(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SignalListItemFactory */
     public static SignalListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalListItemFactory(gobject.getProxy());
+        return new SignalListItemFactory(gobject.getReference());
     }
     
     /**
@@ -64,7 +64,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * You need to connect signal handlers before you use it.
      */
     public SignalListItemFactory() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_list_item_factory_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_list_item_factory_new(), true));
     }
     
     @FunctionalInterface

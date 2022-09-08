@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class InetAddressMaskPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InetAddressMaskPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InetAddressMaskPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

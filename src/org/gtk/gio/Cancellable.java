@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class Cancellable extends org.gtk.gobject.Object {
 
-    public Cancellable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Cancellable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Cancellable */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
-        return new Cancellable(gobject.getProxy());
+        return new Cancellable(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_new(), true));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Source sourceNew() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_cancellable_source_new(HANDLE());
-        return new org.gtk.glib.Source(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
     @FunctionalInterface

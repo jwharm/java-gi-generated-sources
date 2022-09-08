@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class SocketAddressEnumerator extends org.gtk.gobject.Object {
 
-    public SocketAddressEnumerator(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketAddressEnumerator(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketAddressEnumerator */
     public static SocketAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketAddressEnumerator(gobject.getProxy());
+        return new SocketAddressEnumerator(gobject.getReference());
     }
     
     /**
@@ -53,7 +53,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.get(RESULT, true));
+        return new SocketAddress(References.get(RESULT, true));
     }
     
     /**
@@ -68,7 +68,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.get(RESULT, true));
+        return new SocketAddress(References.get(RESULT, true));
     }
     
 }

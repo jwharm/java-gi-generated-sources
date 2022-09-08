@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeModelIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeModelIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeModelIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

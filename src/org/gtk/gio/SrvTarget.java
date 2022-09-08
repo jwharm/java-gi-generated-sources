@@ -23,8 +23,8 @@ import java.lang.invoke.*;
  */
 public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SrvTarget(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SrvTarget(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -34,7 +34,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * created by #GResolver.
      */
     public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).HANDLE(), port, priority, weight), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).HANDLE(), port, priority, weight), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public SrvTarget copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_srv_target_copy(HANDLE());
-        return new SrvTarget(ProxyFactory.get(RESULT, true));
+        return new SrvTarget(References.get(RESULT, true));
     }
     
     /**

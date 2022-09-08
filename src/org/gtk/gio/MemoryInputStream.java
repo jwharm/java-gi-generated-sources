@@ -14,27 +14,27 @@ import java.lang.invoke.*;
  */
 public class MemoryInputStream extends InputStream implements PollableInputStream, Seekable {
 
-    public MemoryInputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MemoryInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MemoryInputStream */
     public static MemoryInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryInputStream(gobject.getProxy());
+        return new MemoryInputStream(gobject.getReference());
     }
     
     /**
      * Creates a new empty #GMemoryInputStream.
      */
     public MemoryInputStream() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new(), true));
     }
     
     /**
      * Creates a new #GMemoryInputStream with data from the given @bytes.
      */
     public MemoryInputStream(org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new_from_bytes(bytes.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_input_stream_new_from_bytes(bytes.HANDLE()), true));
     }
     
     /**

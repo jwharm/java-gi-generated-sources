@@ -65,8 +65,8 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class DevicePadImpl extends org.gtk.gobject.Object implements DevicePad {
-        public DevicePadImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DevicePadImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

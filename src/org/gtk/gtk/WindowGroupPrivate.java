@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WindowGroupPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public WindowGroupPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WindowGroupPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

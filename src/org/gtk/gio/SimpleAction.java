@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class SimpleAction extends org.gtk.gobject.Object implements Action {
 
-    public SimpleAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimpleAction */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAction(gobject.getProxy());
+        return new SimpleAction(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * an action that has state.
      */
     public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new(Interop.allocateNativeString(name).HANDLE(), parameterType.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new(Interop.allocateNativeString(name).HANDLE(), parameterType.HANDLE()), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * If the @state #GVariant is floating, it is consumed.
      */
     public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).HANDLE(), parameterType.HANDLE(), state.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).HANDLE(), parameterType.HANDLE(), state.HANDLE()), true));
     }
     
     /**

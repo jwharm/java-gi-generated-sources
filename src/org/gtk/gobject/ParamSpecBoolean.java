@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecBoolean extends ParamSpec {
 
-    public ParamSpecBoolean(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecBoolean(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecBoolean */
     public static ParamSpecBoolean castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecBoolean(gobject.getProxy());
+        return new ParamSpecBoolean(gobject.getReference());
     }
     
 }

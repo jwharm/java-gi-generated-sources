@@ -7,13 +7,13 @@ import java.lang.invoke.*;
 
 public class NglRenderer extends Renderer {
 
-    public NglRenderer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NglRenderer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NglRenderer */
     public static NglRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new NglRenderer(gobject.getProxy());
+        return new NglRenderer(gobject.getReference());
     }
     
 }

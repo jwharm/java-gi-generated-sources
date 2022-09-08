@@ -106,27 +106,27 @@ import java.lang.invoke.*;
  */
 public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public LevelBar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LevelBar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to LevelBar */
     public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        return new LevelBar(gobject.getProxy());
+        return new LevelBar(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkLevelBar`.
      */
     public LevelBar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new(), false));
     }
     
     /**
      * Creates a new `GtkLevelBar` for the specified interval.
      */
     public LevelBar(double minValue, double maxValue) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
     }
     
     /**

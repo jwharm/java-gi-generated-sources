@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class LayoutManagerClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public LayoutManagerClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LayoutManagerClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

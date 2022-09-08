@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MenuAttributeIterPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MenuAttributeIterPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MenuAttributeIterPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

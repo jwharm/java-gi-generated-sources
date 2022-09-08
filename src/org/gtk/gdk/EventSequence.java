@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class EventSequence extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EventSequence(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventSequence(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

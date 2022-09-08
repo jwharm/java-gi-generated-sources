@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class GestureZoom extends Gesture {
 
-    public GestureZoom(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureZoom(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureZoom */
     public static GestureZoom castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureZoom(gobject.getProxy());
+        return new GestureZoom(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class GestureZoom extends Gesture {
      * pinch/zoom gestures.
      */
     public GestureZoom() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_zoom_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_zoom_new(), true));
     }
     
     /**

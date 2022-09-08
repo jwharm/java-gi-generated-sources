@@ -14,15 +14,15 @@ import java.lang.invoke.*;
  */
 public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphString(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphString(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
      * Create a new `PangoGlyphString`.
      */
     public GlyphString() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_new(), true));
     }
     
     /**
@@ -30,7 +30,7 @@ public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public GlyphString copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_string_copy(HANDLE());
-        return new GlyphString(ProxyFactory.get(RESULT, true));
+        return new GlyphString(References.get(RESULT, true));
     }
     
     /**

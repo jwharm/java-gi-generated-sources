@@ -30,8 +30,8 @@ public interface Orientable extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class OrientableImpl extends org.gtk.gobject.Object implements Orientable {
-        public OrientableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public OrientableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -18,20 +18,20 @@ import java.lang.invoke.*;
  */
 public class Printer extends org.gtk.gobject.Object {
 
-    public Printer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Printer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Printer */
     public static Printer castFrom(org.gtk.gobject.Object gobject) {
-        return new Printer(gobject.getProxy());
+        return new Printer(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPrinter`.
      */
     public Printer(java.lang.String name, PrintBackend backend, boolean virtual) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_new(Interop.allocateNativeString(name).HANDLE(), backend.HANDLE(), virtual ? 1 : 0), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_new(Interop.allocateNativeString(name).HANDLE(), backend.HANDLE(), virtual ? 1 : 0), true));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PrintBackend getBackend() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_backend(HANDLE());
-        return new PrintBackend(ProxyFactory.get(RESULT, false));
+        return new PrintBackend(References.get(RESULT, false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public PageSetup getDefaultPageSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_get_default_page_size(HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, true));
+        return new PageSetup(References.get(RESULT, true));
     }
     
     /**
@@ -204,7 +204,7 @@ public class Printer extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List listPapers() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_printer_list_papers(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**

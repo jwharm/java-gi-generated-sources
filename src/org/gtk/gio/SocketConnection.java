@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class SocketConnection extends IOStream {
 
-    public SocketConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketConnection */
     public static SocketConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketConnection(gobject.getProxy());
+        return new SocketConnection(gobject.getReference());
     }
     
     /**
@@ -67,7 +67,7 @@ public class SocketConnection extends IOStream {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.get(RESULT, true));
+        return new SocketAddress(References.get(RESULT, true));
     }
     
     /**
@@ -86,7 +86,7 @@ public class SocketConnection extends IOStream {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketAddress(ProxyFactory.get(RESULT, true));
+        return new SocketAddress(References.get(RESULT, true));
     }
     
     /**
@@ -96,7 +96,7 @@ public class SocketConnection extends IOStream {
      */
     public Socket getSocket() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_connection_get_socket(HANDLE());
-        return new Socket(ProxyFactory.get(RESULT, false));
+        return new Socket(References.get(RESULT, false));
     }
     
     /**

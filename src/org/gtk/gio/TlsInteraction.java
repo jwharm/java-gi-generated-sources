@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class TlsInteraction extends org.gtk.gobject.Object {
 
-    public TlsInteraction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsInteraction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TlsInteraction */
     public static TlsInteraction castFrom(org.gtk.gobject.Object gobject) {
-        return new TlsInteraction(gobject.getProxy());
+        return new TlsInteraction(gobject.getReference());
     }
     
     /**

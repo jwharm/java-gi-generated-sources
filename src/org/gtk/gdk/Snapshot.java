@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class Snapshot extends org.gtk.gobject.Object {
 
-    public Snapshot(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Snapshot(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Snapshot */
     public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        return new Snapshot(gobject.getProxy());
+        return new Snapshot(gobject.getReference());
     }
     
 }

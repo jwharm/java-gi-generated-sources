@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CancellableClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CancellableClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CancellableClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class AttrFontDesc extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrFontDesc(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrFontDesc(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

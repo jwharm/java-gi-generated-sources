@@ -24,8 +24,8 @@ import java.lang.invoke.*;
  */
 public class GlyphGeometry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphGeometry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphGeometry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

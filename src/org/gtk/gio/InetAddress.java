@@ -19,13 +19,13 @@ import java.lang.invoke.*;
  */
 public class InetAddress extends org.gtk.gobject.Object {
 
-    public InetAddress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InetAddress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to InetAddress */
     public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new InetAddress(gobject.getProxy());
+        return new InetAddress(gobject.getReference());
     }
     
     /**
@@ -33,7 +33,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * care") for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
-        return new InetAddress(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_any(family.getValue()), true));
+        return new InetAddress(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_any(family.getValue()), true));
     }
     
     /**
@@ -42,21 +42,21 @@ public class InetAddress extends org.gtk.gobject.Object {
      * %G_SOCKET_FAMILY_IPV6.
      */
     public InetAddress(byte[] bytes, SocketFamily family) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_bytes(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes), family.getValue()), true));
     }
     
     /**
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
     public InetAddress(java.lang.String string) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).HANDLE()), true));
     }
     
     /**
      * Creates a #GInetAddress for the loopback address for @family.
      */
     public static InetAddress newLoopback(SocketFamily family) {
-        return new InetAddress(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_loopback(family.getValue()), true));
+        return new InetAddress(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_new_loopback(family.getValue()), true));
     }
     
     /**

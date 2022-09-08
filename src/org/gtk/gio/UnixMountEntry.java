@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class UnixMountEntry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnixMountEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixMountEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

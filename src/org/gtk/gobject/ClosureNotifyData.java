@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ClosureNotifyData extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ClosureNotifyData(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ClosureNotifyData(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

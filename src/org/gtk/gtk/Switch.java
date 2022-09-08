@@ -35,20 +35,20 @@ import java.lang.invoke.*;
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public Switch(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Switch(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Switch */
     public static Switch castFrom(org.gtk.gobject.Object gobject) {
-        return new Switch(gobject.getProxy());
+        return new Switch(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkSwitch` widget.
      */
     public Switch() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_switch_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_switch_new(), false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ShortcutClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ShortcutClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

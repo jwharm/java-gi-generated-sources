@@ -169,13 +169,13 @@ import java.lang.invoke.*;
  */
 public class ApplicationCommandLine extends org.gtk.gobject.Object {
 
-    public ApplicationCommandLine(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ApplicationCommandLine(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ApplicationCommandLine */
     public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationCommandLine(gobject.getProxy());
+        return new ApplicationCommandLine(gobject.getReference());
     }
     
     /**
@@ -188,7 +188,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public File createFileForArg(java.lang.String arg) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_create_file_for_arg(HANDLE(), Interop.allocateNativeString(arg).HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -236,7 +236,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_options_dict(HANDLE());
-        return new org.gtk.glib.VariantDict(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.VariantDict(References.get(RESULT, false));
     }
     
     /**
@@ -251,7 +251,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getPlatformData() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_platform_data(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -268,7 +268,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      */
     public InputStream getStdin() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_command_line_get_stdin(HANDLE());
-        return new InputStream(ProxyFactory.get(RESULT, true));
+        return new InputStream(References.get(RESULT, true));
     }
     
     /**

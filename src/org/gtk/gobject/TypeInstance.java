@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TypeInstance extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TypeInstance(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TypeInstance(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     public jdk.incubator.foreign.MemoryAddress getPrivate(Type privateType) {

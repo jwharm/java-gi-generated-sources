@@ -99,8 +99,8 @@ import java.lang.invoke.*;
  */
 public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SettingsSchema(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SettingsSchema(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -119,7 +119,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public SettingsSchemaKey getKey(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_get_key(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new SettingsSchemaKey(ProxyFactory.get(RESULT, true));
+        return new SettingsSchemaKey(References.get(RESULT, true));
     }
     
     /**
@@ -151,7 +151,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public SettingsSchema ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_settings_schema_ref(HANDLE());
-        return new SettingsSchema(ProxyFactory.get(RESULT, true));
+        return new SettingsSchema(References.get(RESULT, true));
     }
     
     /**

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Dir(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Dir(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

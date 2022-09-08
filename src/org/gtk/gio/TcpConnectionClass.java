@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TcpConnectionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TcpConnectionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TcpConnectionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

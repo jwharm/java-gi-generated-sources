@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class TcpConnection extends SocketConnection {
 
-    public TcpConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TcpConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TcpConnection */
     public static TcpConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TcpConnection(gobject.getProxy());
+        return new TcpConnection(gobject.getReference());
     }
     
     /**

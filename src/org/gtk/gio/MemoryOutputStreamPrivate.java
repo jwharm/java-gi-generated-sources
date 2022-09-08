@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MemoryOutputStreamPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MemoryOutputStreamPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MemoryOutputStreamPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

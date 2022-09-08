@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
-    public InetAddressMask(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InetAddressMask(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to InetAddressMask */
     public static InetAddressMask castFrom(org.gtk.gobject.Object gobject) {
-        return new InetAddressMask(gobject.getProxy());
+        return new InetAddressMask(gobject.getReference());
     }
     
     /**
@@ -35,7 +35,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public InetAddress getAddress() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_inet_address_mask_get_address(HANDLE());
-        return new InetAddress(ProxyFactory.get(RESULT, false));
+        return new InetAddress(References.get(RESULT, false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GridLayoutChildClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GridLayoutChildClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GridLayoutChildClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

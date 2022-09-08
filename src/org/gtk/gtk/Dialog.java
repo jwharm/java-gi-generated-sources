@@ -130,13 +130,13 @@ import java.lang.invoke.*;
  */
 public class Dialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public Dialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Dialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Dialog */
     public static Dialog castFrom(org.gtk.gobject.Object gobject) {
-        return new Dialog(gobject.getProxy());
+        return new Dialog(gobject.getReference());
     }
     
     /**
@@ -147,7 +147,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * as described above.
      */
     public Dialog() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_new(), false));
     }
     
     /**
@@ -175,7 +175,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_add_button(HANDLE(), Interop.allocateNativeString(buttonText).HANDLE(), responseId);
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Box getContentArea() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_content_area(HANDLE());
-        return new Box(ProxyFactory.get(RESULT, false));
+        return new Box(References.get(RESULT, false));
     }
     
     /**
@@ -194,7 +194,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public HeaderBar getHeaderBar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_header_bar(HANDLE());
-        return new HeaderBar(ProxyFactory.get(RESULT, false));
+        return new HeaderBar(References.get(RESULT, false));
     }
     
     /**
@@ -212,7 +212,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      */
     public Widget getWidgetForResponse(int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_dialog_get_widget_for_response(HANDLE(), responseId);
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

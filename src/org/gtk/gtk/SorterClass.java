@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class SorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

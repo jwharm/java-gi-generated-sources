@@ -28,27 +28,27 @@ import java.lang.invoke.*;
  */
 public class UnixCredentialsMessage extends SocketControlMessage {
 
-    public UnixCredentialsMessage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixCredentialsMessage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixCredentialsMessage */
     public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixCredentialsMessage(gobject.getProxy());
+        return new UnixCredentialsMessage(gobject.getReference());
     }
     
     /**
      * Creates a new #GUnixCredentialsMessage with credentials matching the current processes.
      */
     public UnixCredentialsMessage() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixCredentialsMessage holding @credentials.
      */
     public UnixCredentialsMessage(Credentials credentials) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new_with_credentials(credentials.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_new_with_credentials(credentials.HANDLE()), true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      */
     public Credentials getCredentials() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_credentials_message_get_credentials(HANDLE());
-        return new Credentials(ProxyFactory.get(RESULT, false));
+        return new Credentials(References.get(RESULT, false));
     }
     
 }

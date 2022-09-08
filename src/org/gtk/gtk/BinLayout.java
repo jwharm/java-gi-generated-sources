@@ -16,20 +16,20 @@ import java.lang.invoke.*;
  */
 public class BinLayout extends LayoutManager {
 
-    public BinLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BinLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BinLayout */
     public static BinLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new BinLayout(gobject.getProxy());
+        return new BinLayout(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkBinLayout` instance.
      */
     public BinLayout() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bin_layout_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bin_layout_new(), true));
     }
     
 }

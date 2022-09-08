@@ -26,8 +26,8 @@ import java.lang.invoke.*;
  */
 public class Private extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Private(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Private(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

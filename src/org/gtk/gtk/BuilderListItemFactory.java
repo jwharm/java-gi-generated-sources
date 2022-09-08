@@ -32,13 +32,13 @@ import java.lang.invoke.*;
  */
 public class BuilderListItemFactory extends ListItemFactory {
 
-    public BuilderListItemFactory(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuilderListItemFactory(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BuilderListItemFactory */
     public static BuilderListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        return new BuilderListItemFactory(gobject.getProxy());
+        return new BuilderListItemFactory(gobject.getReference());
     }
     
     /**
@@ -46,7 +46,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using @bytes as the data to pass to `GtkBuilder`.
      */
     public BuilderListItemFactory(BuilderScope scope, org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.HANDLE(), bytes.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.HANDLE(), bytes.HANDLE()), true));
     }
     
     /**
@@ -54,7 +54,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using data read from the given @resource_path to pass to `GtkBuilder`.
      */
     public BuilderListItemFactory(BuilderScope scope, java.lang.String resourcePath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.HANDLE(), Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_get_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
     /**
@@ -79,7 +79,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      */
     public BuilderScope getScope() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_list_item_factory_get_scope(HANDLE());
-        return new BuilderScope.BuilderScopeImpl(ProxyFactory.get(RESULT, false));
+        return new BuilderScope.BuilderScopeImpl(References.get(RESULT, false));
     }
     
 }

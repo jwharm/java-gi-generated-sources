@@ -37,20 +37,20 @@ import java.lang.invoke.*;
  */
 public class EmojiChooser extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public EmojiChooser(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EmojiChooser(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EmojiChooser */
     public static EmojiChooser castFrom(org.gtk.gobject.Object gobject) {
-        return new EmojiChooser(gobject.getProxy());
+        return new EmojiChooser(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkEmojiChooser`.
      */
     public EmojiChooser() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_emoji_chooser_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_emoji_chooser_new(), false));
     }
     
     @FunctionalInterface

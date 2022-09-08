@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusNodeInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusNodeInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -31,7 +31,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_lookup_interface(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new DBusInterfaceInfo(ProxyFactory.get(RESULT, false));
+        return new DBusInterfaceInfo(References.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DBusNodeInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_node_info_ref(HANDLE());
-        return new DBusNodeInfo(ProxyFactory.get(RESULT, true));
+        return new DBusNodeInfo(References.get(RESULT, true));
     }
     
     /**

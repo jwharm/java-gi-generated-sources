@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AsyncQueue(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AsyncQueue(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -127,7 +127,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AsyncQueue ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_async_queue_ref(HANDLE());
-        return new AsyncQueue(ProxyFactory.get(RESULT, false));
+        return new AsyncQueue(References.get(RESULT, false));
     }
     
     /**

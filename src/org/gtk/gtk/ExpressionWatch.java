@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ExpressionWatch(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ExpressionWatch(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -34,7 +34,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.interop.ResourceBas
      */
     public ExpressionWatch ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_watch_ref(HANDLE());
-        return new ExpressionWatch(ProxyFactory.get(RESULT, true));
+        return new ExpressionWatch(References.get(RESULT, true));
     }
     
     /**

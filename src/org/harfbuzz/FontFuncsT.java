@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class FontFuncsT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontFuncsT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontFuncsT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

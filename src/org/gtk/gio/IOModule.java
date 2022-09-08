@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobject.TypePlugin {
 
-    public IOModule(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOModule(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IOModule */
     public static IOModule castFrom(org.gtk.gobject.Object gobject) {
-        return new IOModule(gobject.getProxy());
+        return new IOModule(gobject.getReference());
     }
     
     /**
@@ -26,7 +26,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * shared library when in use.
      */
     public IOModule(java.lang.String filename) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_new(Interop.allocateNativeString(filename).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_module_new(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**

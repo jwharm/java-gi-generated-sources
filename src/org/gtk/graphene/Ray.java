@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Ray(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Ray(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -23,7 +23,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Ray() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_alloc(), true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Ray init(Point3D origin, Vec3 direction) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init(HANDLE(), origin.HANDLE(), direction.HANDLE());
-        return new Ray(ProxyFactory.get(RESULT, false));
+        return new Ray(References.get(RESULT, false));
     }
     
     /**
@@ -110,7 +110,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Ray initFromRay(Ray src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init_from_ray(HANDLE(), src.HANDLE());
-        return new Ray(ProxyFactory.get(RESULT, false));
+        return new Ray(References.get(RESULT, false));
     }
     
     /**
@@ -118,7 +118,7 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Ray initFromVec3(Vec3 origin, Vec3 direction) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_ray_init_from_vec3(HANDLE(), origin.HANDLE(), direction.HANDLE());
-        return new Ray(ProxyFactory.get(RESULT, false));
+        return new Ray(References.get(RESULT, false));
     }
     
     /**

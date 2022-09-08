@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class BlobT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BlobT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BlobT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

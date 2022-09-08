@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SliceListModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SliceListModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SliceListModel */
     public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SliceListModel(gobject.getProxy());
+        return new SliceListModel(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * of the given @model.
      */
     public SliceListModel(org.gtk.gio.ListModel model, int offset, int size) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_new(model.getProxy().unowned().HANDLE(), offset, size), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_new(model.getReference().unowned().HANDLE(), offset, size), true));
     }
     
     /**
@@ -38,7 +38,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_slice_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**

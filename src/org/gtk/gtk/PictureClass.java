@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PictureClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PictureClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PictureClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

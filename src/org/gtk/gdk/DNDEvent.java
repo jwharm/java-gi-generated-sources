@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DNDEvent extends Event {
 
-    public DNDEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DNDEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DNDEvent */
     public static DNDEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new DNDEvent(gobject.getProxy());
+        return new DNDEvent(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class DNDEvent extends Event {
      */
     public Drop getDrop() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_dnd_event_get_drop(HANDLE());
-        return new Drop(ProxyFactory.get(RESULT, false));
+        return new Drop(References.get(RESULT, false));
     }
     
 }

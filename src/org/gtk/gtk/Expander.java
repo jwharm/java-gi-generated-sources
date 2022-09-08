@@ -100,20 +100,20 @@ import java.lang.invoke.*;
  */
 public class Expander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Expander(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Expander(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Expander */
     public static Expander castFrom(org.gtk.gobject.Object gobject) {
-        return new Expander(gobject.getProxy());
+        return new Expander(gobject.getReference());
     }
     
     /**
      * Creates a new expander using @label as the text of the label.
      */
     public Expander(java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.allocateNativeString(label).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
-        return new Expander(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new Expander(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -167,7 +167,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getLabelWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expander_get_label_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

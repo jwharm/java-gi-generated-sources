@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class UnixOutputStream extends OutputStream implements FileDescriptorBased, PollableOutputStream {
 
-    public UnixOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixOutputStream */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixOutputStream(gobject.getProxy());
+        return new UnixOutputStream(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
     }
     
     /**

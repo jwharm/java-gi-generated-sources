@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class ClosureExpression extends Expression {
 
-    public ClosureExpression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ClosureExpression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ClosureExpression */
     public static ClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ClosureExpression(gobject.getProxy());
+        return new ClosureExpression(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class ClosureExpression extends Expression {
      * the `params` expressions.
      */
     public ClosureExpression(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.HANDLE(), nParams, Interop.allocateNativeArray(params)), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.HANDLE(), nParams, Interop.allocateNativeArray(params)), true));
     }
     
 }

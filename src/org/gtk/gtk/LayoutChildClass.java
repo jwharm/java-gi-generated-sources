@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class LayoutChildClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public LayoutChildClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LayoutChildClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

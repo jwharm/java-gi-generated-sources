@@ -45,20 +45,20 @@ import java.lang.invoke.*;
  */
 public class Assistant extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public Assistant(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Assistant(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Assistant */
     public static Assistant castFrom(org.gtk.gobject.Object gobject) {
-        return new Assistant(gobject.getProxy());
+        return new Assistant(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkAssistant`.
      */
     public Assistant() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_new(), false));
     }
     
     /**
@@ -113,7 +113,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_nth_page(HANDLE(), pageNum);
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public AssistantPage getPage(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_page(HANDLE(), child.HANDLE());
-        return new AssistantPage(ProxyFactory.get(RESULT, false));
+        return new AssistantPage(References.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public org.gtk.gio.ListModel getPages() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_assistant_get_pages(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, true));
     }
     
     /**

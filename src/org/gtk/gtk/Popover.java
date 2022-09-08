@@ -85,20 +85,20 @@ import java.lang.invoke.*;
  */
 public class Popover extends Widget implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public Popover(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Popover(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Popover */
     public static Popover castFrom(org.gtk.gobject.Object gobject) {
-        return new Popover(gobject.getProxy());
+        return new Popover(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPopover`.
      */
     public Popover() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_new(), false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

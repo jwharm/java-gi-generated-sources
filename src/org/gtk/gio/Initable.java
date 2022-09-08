@@ -83,8 +83,8 @@ public interface Initable extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class InitableImpl extends org.gtk.gobject.Object implements Initable {
-        public InitableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public InitableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class SocketControlMessage extends org.gtk.gobject.Object {
 
-    public SocketControlMessage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketControlMessage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketControlMessage */
     public static SocketControlMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketControlMessage(gobject.getProxy());
+        return new SocketControlMessage(gobject.getReference());
     }
     
     /**

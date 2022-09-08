@@ -18,20 +18,20 @@ import java.lang.invoke.*;
  */
 public class GestureDrag extends GestureSingle {
 
-    public GestureDrag(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureDrag(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureDrag */
     public static GestureDrag castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureDrag(gobject.getProxy());
+        return new GestureDrag(gobject.getReference());
     }
     
     /**
      * Returns a newly created `GtkGesture` that recognizes drags.
      */
     public GestureDrag() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_drag_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_drag_new(), true));
     }
     
     @FunctionalInterface

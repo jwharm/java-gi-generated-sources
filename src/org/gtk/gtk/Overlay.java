@@ -41,20 +41,20 @@ import java.lang.invoke.*;
  */
 public class Overlay extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Overlay(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Overlay(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Overlay */
     public static Overlay castFrom(org.gtk.gobject.Object gobject) {
-        return new Overlay(gobject.getProxy());
+        return new Overlay(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkOverlay`.
      */
     public Overlay() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_new(), false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_overlay_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

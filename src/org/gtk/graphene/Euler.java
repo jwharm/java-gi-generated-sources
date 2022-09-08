@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Euler(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Euler(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -23,7 +23,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Euler() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_alloc(), true));
     }
     
     /**
@@ -119,7 +119,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler init(float x, float y, float z) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init(HANDLE(), x, y, z);
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -131,7 +131,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initFromEuler(Euler src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_euler(HANDLE(), src.HANDLE());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -142,7 +142,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initFromMatrix(Matrix m, EulerOrder order) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_matrix(HANDLE(), m.HANDLE(), order.getValue());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initFromQuaternion(Quaternion q, EulerOrder order) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_quaternion(HANDLE(), q.HANDLE(), order.getValue());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -162,7 +162,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initFromRadians(float x, float y, float z, EulerOrder order) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_radians(HANDLE(), x, y, z, order.getValue());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -174,7 +174,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initFromVec3(Vec3 v, EulerOrder order) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_from_vec3(HANDLE(), v.HANDLE(), order.getValue());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**
@@ -182,7 +182,7 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Euler initWithOrder(float x, float y, float z, EulerOrder order) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_euler_init_with_order(HANDLE(), x, y, z, order.getValue());
-        return new Euler(ProxyFactory.get(RESULT, false));
+        return new Euler(References.get(RESULT, false));
     }
     
     /**

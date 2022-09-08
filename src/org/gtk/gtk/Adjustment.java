@@ -20,20 +20,20 @@ import java.lang.invoke.*;
  */
 public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
 
-    public Adjustment(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Adjustment(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Adjustment */
     public static Adjustment castFrom(org.gtk.gobject.Object gobject) {
-        return new Adjustment(gobject.getProxy());
+        return new Adjustment(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkAdjustment`.
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
     }
     
     /**

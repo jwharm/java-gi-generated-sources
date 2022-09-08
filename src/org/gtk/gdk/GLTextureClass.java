@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GLTextureClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GLTextureClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLTextureClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

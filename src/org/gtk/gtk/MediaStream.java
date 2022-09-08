@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
-    public MediaStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MediaStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MediaStream */
     public static MediaStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaStream(gobject.getProxy());
+        return new MediaStream(gobject.getReference());
     }
     
     /**
@@ -99,7 +99,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_stream_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
     /**

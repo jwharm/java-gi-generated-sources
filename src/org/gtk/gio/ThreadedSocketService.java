@@ -24,13 +24,13 @@ import java.lang.invoke.*;
  */
 public class ThreadedSocketService extends SocketService {
 
-    public ThreadedSocketService(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ThreadedSocketService(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ThreadedSocketService */
     public static ThreadedSocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new ThreadedSocketService(gobject.getProxy());
+        return new ThreadedSocketService(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class ThreadedSocketService extends SocketService {
      * must be added with one of the #GSocketListener "add" methods.
      */
     public ThreadedSocketService(int maxThreads) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_threaded_socket_service_new(maxThreads), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_threaded_socket_service_new(maxThreads), true));
     }
     
     @FunctionalInterface

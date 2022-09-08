@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class PollFD extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PollFD(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PollFD(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

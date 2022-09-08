@@ -21,20 +21,20 @@ import java.lang.invoke.*;
  */
 public class ColorChooserDialog extends Dialog implements Accessible, Buildable, ColorChooser, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ColorChooserDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColorChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColorChooserDialog */
     public static ColorChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorChooserDialog(gobject.getProxy());
+        return new ColorChooserDialog(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkColorChooserDialog`.
      */
     public ColorChooserDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
 }

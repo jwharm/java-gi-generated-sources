@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureClickClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureClickClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureClickClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

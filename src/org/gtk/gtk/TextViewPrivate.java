@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextViewPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TextViewPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextViewPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

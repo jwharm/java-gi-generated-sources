@@ -201,7 +201,7 @@ public interface Editable extends io.github.jwharm.javagi.interop.NativeAddress 
      */
     public default Editable getDelegate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_get_delegate(HANDLE());
-        return new Editable.EditableImpl(ProxyFactory.get(RESULT, false));
+        return new Editable.EditableImpl(References.get(RESULT, false));
     }
     
     /**
@@ -445,8 +445,8 @@ public interface Editable extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class EditableImpl extends org.gtk.gobject.Object implements Editable {
-        public EditableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public EditableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

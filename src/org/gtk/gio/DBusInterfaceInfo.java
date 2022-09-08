@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusInterfaceInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusInterfaceInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -59,7 +59,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_method(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new DBusMethodInfo(ProxyFactory.get(RESULT, false));
+        return new DBusMethodInfo(References.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_property(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new DBusPropertyInfo(ProxyFactory.get(RESULT, false));
+        return new DBusPropertyInfo(References.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_lookup_signal(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new DBusSignalInfo(ProxyFactory.get(RESULT, false));
+        return new DBusSignalInfo(References.get(RESULT, false));
     }
     
     /**
@@ -90,7 +90,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.interop.ResourceB
      */
     public DBusInterfaceInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_interface_info_ref(HANDLE());
-        return new DBusInterfaceInfo(ProxyFactory.get(RESULT, true));
+        return new DBusInterfaceInfo(References.get(RESULT, true));
     }
     
     /**

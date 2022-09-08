@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TlsBackendInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsBackendInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsBackendInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

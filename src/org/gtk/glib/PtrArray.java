@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PtrArray(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PtrArray(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

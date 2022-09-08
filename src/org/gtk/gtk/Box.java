@@ -41,20 +41,20 @@ import java.lang.invoke.*;
  */
 public class Box extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Box(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Box(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Box */
     public static Box castFrom(org.gtk.gobject.Object gobject) {
-        return new Box(gobject.getProxy());
+        return new Box(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkBox`.
      */
     public Box(Orientation orientation, int spacing) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_new(orientation.getValue(), spacing), false));
     }
     
     /**

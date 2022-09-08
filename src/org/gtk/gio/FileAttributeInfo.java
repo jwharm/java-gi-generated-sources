@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class FileAttributeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileAttributeInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileAttributeInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class PaintableInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PaintableInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PaintableInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -27,20 +27,20 @@ import java.lang.invoke.*;
  */
 public class SignalGroup extends Object {
 
-    public SignalGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SignalGroup */
     public static SignalGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalGroup(gobject.getProxy());
+        return new SignalGroup(gobject.getReference());
     }
     
     /**
      * Creates a new #GSignalGroup for target instances of @target_type.
      */
     public SignalGroup(Type targetType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_new(targetType.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_new(targetType.getValue()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class SignalGroup extends Object {
      */
     public Object dupTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_signal_group_dup_target(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, true));
+        return new Object(References.get(RESULT, true));
     }
     
     /**

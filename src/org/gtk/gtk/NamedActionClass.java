@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NamedActionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public NamedActionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NamedActionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixInputStreamPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnixInputStreamPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixInputStreamPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

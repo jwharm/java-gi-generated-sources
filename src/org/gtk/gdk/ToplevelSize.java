@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ToplevelSize extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ToplevelSize(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ToplevelSize(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

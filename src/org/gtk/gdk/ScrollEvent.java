@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ScrollEvent extends Event {
 
-    public ScrollEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScrollEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ScrollEvent */
     public static ScrollEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ScrollEvent(gobject.getProxy());
+        return new ScrollEvent(gobject.getReference());
     }
     
     /**

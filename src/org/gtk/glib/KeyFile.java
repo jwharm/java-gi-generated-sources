@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public KeyFile(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public KeyFile(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -22,7 +22,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * read an existing key file.
      */
     public KeyFile() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_new(), true));
     }
     
     /**
@@ -335,7 +335,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public KeyFile ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_key_file_ref(HANDLE());
-        return new KeyFile(ProxyFactory.get(RESULT, true));
+        return new KeyFile(References.get(RESULT, true));
     }
     
     /**

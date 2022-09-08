@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsGroup extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public ShortcutsGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutsGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutsGroup */
     public static ShortcutsGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsGroup(gobject.getProxy());
+        return new ShortcutsGroup(gobject.getReference());
     }
     
 }

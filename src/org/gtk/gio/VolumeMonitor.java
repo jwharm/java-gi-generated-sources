@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class VolumeMonitor extends org.gtk.gobject.Object {
 
-    public VolumeMonitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VolumeMonitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to VolumeMonitor */
     public static VolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new VolumeMonitor(gobject.getProxy());
+        return new VolumeMonitor(gobject.getReference());
     }
     
     /**
@@ -37,7 +37,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getConnectedDrives() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_connected_drives(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Mount getMountForUuid(java.lang.String uuid) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_mount_for_uuid(HANDLE(), Interop.allocateNativeString(uuid).HANDLE());
-        return new Mount.MountImpl(ProxyFactory.get(RESULT, true));
+        return new Mount.MountImpl(References.get(RESULT, true));
     }
     
     /**
@@ -56,7 +56,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getMounts() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_mounts(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public Volume getVolumeForUuid(java.lang.String uuid) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_volume_for_uuid(HANDLE(), Interop.allocateNativeString(uuid).HANDLE());
-        return new Volume.VolumeImpl(ProxyFactory.get(RESULT, true));
+        return new Volume.VolumeImpl(References.get(RESULT, true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getVolumes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_volume_monitor_get_volumes(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     @FunctionalInterface

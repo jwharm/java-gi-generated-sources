@@ -26,13 +26,13 @@ import java.lang.invoke.*;
  */
 public class NativeDialog extends org.gtk.gobject.Object {
 
-    public NativeDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NativeDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NativeDialog */
     public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeDialog(gobject.getProxy());
+        return new NativeDialog(gobject.getReference());
     }
     
     /**
@@ -73,7 +73,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      */
     public Window getTransientFor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_dialog_get_transient_for(HANDLE());
-        return new Window(ProxyFactory.get(RESULT, false));
+        return new Window(References.get(RESULT, false));
     }
     
     /**

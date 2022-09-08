@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TransformNode extends RenderNode {
 
-    public TransformNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TransformNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TransformNode */
     public static TransformNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TransformNode(gobject.getProxy());
+        return new TransformNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class TransformNode extends RenderNode {
      * with the given @transform.
      */
     public TransformNode(RenderNode child, Transform transform) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_new(child.HANDLE(), transform.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_new(child.HANDLE(), transform.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TransformNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class TransformNode extends RenderNode {
      */
     public Transform getTransform() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_node_get_transform(HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, false));
+        return new Transform(References.get(RESULT, false));
     }
     
 }

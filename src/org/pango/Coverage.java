@@ -17,20 +17,20 @@ import java.lang.invoke.*;
  */
 public class Coverage extends org.gtk.gobject.Object {
 
-    public Coverage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Coverage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Coverage */
     public static Coverage castFrom(org.gtk.gobject.Object gobject) {
-        return new Coverage(gobject.getProxy());
+        return new Coverage(gobject.getReference());
     }
     
     /**
      * Create a new `PangoCoverage`
      */
     public Coverage() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_new(), true));
     }
     
     /**
@@ -38,7 +38,7 @@ public class Coverage extends org.gtk.gobject.Object {
      */
     public Coverage copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_coverage_copy(HANDLE());
-        return new Coverage(ProxyFactory.get(RESULT, true));
+        return new Coverage(References.get(RESULT, true));
     }
     
     /**

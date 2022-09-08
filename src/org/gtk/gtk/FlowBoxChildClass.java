@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FlowBoxChildClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FlowBoxChildClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FlowBoxChildClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

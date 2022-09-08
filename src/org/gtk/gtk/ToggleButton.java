@@ -80,13 +80,13 @@ import java.lang.invoke.*;
  */
 public class ToggleButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public ToggleButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ToggleButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ToggleButton */
     public static ToggleButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ToggleButton(gobject.getProxy());
+        return new ToggleButton(gobject.getReference());
     }
     
     /**
@@ -95,14 +95,14 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * A widget should be packed into the button, as in [ctor@Gtk.Button.new].
      */
     public ToggleButton() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new(), false));
     }
     
     /**
      * Creates a new toggle button with a text label.
      */
     public static ToggleButton newWithLabel(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
+        return new ToggleButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
-        return new ToggleButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new ToggleButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**

@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
 
-    public BytesIcon(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BytesIcon(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BytesIcon */
     public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new BytesIcon(gobject.getProxy());
+        return new BytesIcon(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      * (for example, if g_loadable_icon_load() is called) if the image is invalid.
      */
     public BytesIcon(org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_new(bytes.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_new(bytes.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_icon_get_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
 }

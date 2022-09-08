@@ -28,13 +28,13 @@ import java.lang.invoke.*;
  */
 public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
 
-    public AppLaunchContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppLaunchContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AppLaunchContext */
     public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        return new AppLaunchContext(gobject.getProxy());
+        return new AppLaunchContext(gobject.getReference());
     }
     
     /**
@@ -42,7 +42,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_app_launch_context_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**

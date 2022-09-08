@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ProxyAddressClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ProxyAddressClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ProxyAddressClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

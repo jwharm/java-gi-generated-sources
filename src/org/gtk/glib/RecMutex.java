@@ -21,8 +21,8 @@ import java.lang.invoke.*;
  */
 public class RecMutex extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RecMutex(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecMutex(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

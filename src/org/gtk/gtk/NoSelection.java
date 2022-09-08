@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public NoSelection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NoSelection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NoSelection */
     public static NoSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new NoSelection(gobject.getProxy());
+        return new NoSelection(gobject.getReference());
     }
     
     /**
      * Creates a new selection to handle @model.
      */
     public NoSelection(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_new(model.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_new(model.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_no_selection_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**

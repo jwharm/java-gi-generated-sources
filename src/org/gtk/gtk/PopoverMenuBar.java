@@ -38,20 +38,20 @@ import java.lang.invoke.*;
  */
 public class PopoverMenuBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public PopoverMenuBar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PopoverMenuBar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PopoverMenuBar */
     public static PopoverMenuBar castFrom(org.gtk.gobject.Object gobject) {
-        return new PopoverMenuBar(gobject.getProxy());
+        return new PopoverMenuBar(gobject.getReference());
     }
     
     /**
      * Creates a `GtkPopoverMenuBar` from a `GMenuModel`.
      */
     public PopoverMenuBar(org.gtk.gio.MenuModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_new_from_model(model.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_new_from_model(model.HANDLE()), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_popover_menu_bar_get_menu_model(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**

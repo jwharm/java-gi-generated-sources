@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextViewClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TextViewClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextViewClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

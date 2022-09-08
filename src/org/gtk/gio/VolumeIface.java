@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class VolumeIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VolumeIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VolumeIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -23,8 +23,8 @@ import java.lang.invoke.*;
  */
 public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontMetrics(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontMetrics(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -136,7 +136,7 @@ public class FontMetrics extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public FontMetrics ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_metrics_ref(HANDLE());
-        return new FontMetrics(ProxyFactory.get(RESULT, true));
+        return new FontMetrics(References.get(RESULT, true));
     }
     
     /**

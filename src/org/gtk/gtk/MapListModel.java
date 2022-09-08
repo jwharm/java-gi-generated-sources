@@ -36,13 +36,13 @@ import java.lang.invoke.*;
  */
 public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public MapListModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MapListModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MapListModel */
     public static MapListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new MapListModel(gobject.getProxy());
+        return new MapListModel(gobject.getReference());
     }
     
     /**
@@ -50,7 +50,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_map_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**

@@ -19,13 +19,13 @@ import java.lang.invoke.*;
  */
 public class NetworkAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkAddress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NetworkAddress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NetworkAddress */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkAddress(gobject.getProxy());
+        return new NetworkAddress(gobject.getReference());
     }
     
     /**
@@ -39,7 +39,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is guaranteed to resolve to both addresses.
      */
     public NetworkAddress(java.lang.String hostname, short port) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).HANDLE(), port), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).HANDLE(), port), true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * a #GNetworkAddress created with this constructor.
      */
     public NetworkAddress(short port) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new_loopback(port), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_address_new_loopback(port), true));
     }
     
     /**

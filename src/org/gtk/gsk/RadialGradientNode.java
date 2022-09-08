@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class RadialGradientNode extends RenderNode {
 
-    public RadialGradientNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RadialGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RadialGradientNode */
     public static RadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RadialGradientNode(gobject.getProxy());
+        return new RadialGradientNode(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class RadialGradientNode extends RenderNode {
      * in horizontal orientation and by @vradius in vertial orientation.
      */
     public RadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class RadialGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getCenter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_radial_gradient_node_get_center(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
     /**

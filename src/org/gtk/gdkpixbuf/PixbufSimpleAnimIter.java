@@ -7,13 +7,13 @@ import java.lang.invoke.*;
 
 public class PixbufSimpleAnimIter extends PixbufAnimationIter {
 
-    public PixbufSimpleAnimIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufSimpleAnimIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PixbufSimpleAnimIter */
     public static PixbufSimpleAnimIter castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufSimpleAnimIter(gobject.getProxy());
+        return new PixbufSimpleAnimIter(gobject.getReference());
     }
     
 }

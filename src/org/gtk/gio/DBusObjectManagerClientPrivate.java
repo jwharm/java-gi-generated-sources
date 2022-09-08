@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusObjectManagerClientPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusObjectManagerClientPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectManagerClientPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

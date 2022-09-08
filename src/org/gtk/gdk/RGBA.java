@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RGBA(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RGBA(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -29,7 +29,7 @@ public class RGBA extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RGBA copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_rgba_copy(HANDLE());
-        return new RGBA(ProxyFactory.get(RESULT, true));
+        return new RGBA(References.get(RESULT, true));
     }
     
     /**

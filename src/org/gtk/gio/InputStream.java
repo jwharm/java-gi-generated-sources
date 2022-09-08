@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class InputStream extends org.gtk.gobject.Object {
 
-    public InputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to InputStream */
     public static InputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new InputStream(gobject.getProxy());
+        return new InputStream(gobject.getReference());
     }
     
     /**
@@ -161,7 +161,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class InputStream extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**

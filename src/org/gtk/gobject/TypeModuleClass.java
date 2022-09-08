@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class TypeModuleClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TypeModuleClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TypeModuleClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Plane(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Plane(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -23,7 +23,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Plane() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_alloc(), true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Plane init(Vec3 normal, float constant) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init(HANDLE(), normal.HANDLE(), constant);
-        return new Plane(ProxyFactory.get(RESULT, false));
+        return new Plane(References.get(RESULT, false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Plane initFromPlane(Plane src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_plane(HANDLE(), src.HANDLE());
-        return new Plane(ProxyFactory.get(RESULT, false));
+        return new Plane(References.get(RESULT, false));
     }
     
     /**
@@ -90,7 +90,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Plane initFromPoint(Vec3 normal, Point3D point) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_point(HANDLE(), normal.HANDLE(), point.HANDLE());
-        return new Plane(ProxyFactory.get(RESULT, false));
+        return new Plane(References.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Plane initFromPoints(Point3D a, Point3D b, Point3D c) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_points(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
-        return new Plane(ProxyFactory.get(RESULT, false));
+        return new Plane(References.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Plane initFromVec4(Vec4 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_plane_init_from_vec4(HANDLE(), src.HANDLE());
-        return new Plane(ProxyFactory.get(RESULT, false));
+        return new Plane(References.get(RESULT, false));
     }
     
     /**

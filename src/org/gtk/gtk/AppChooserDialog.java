@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AppChooserDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AppChooserDialog */
     public static AppChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserDialog(gobject.getProxy());
+        return new AppChooserDialog(gobject.getReference());
     }
     
     /**
@@ -36,7 +36,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * The dialog will show applications that can open the file.
      */
     public AppChooserDialog(Window parent, int flags, org.gtk.gio.File file) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new(parent.HANDLE(), flags, file.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new(parent.HANDLE(), flags, file.HANDLE()), false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * The dialog will show applications that can open the content type.
      */
     public AppChooserDialog(Window parent, int flags, java.lang.String contentType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.HANDLE(), flags, Interop.allocateNativeString(contentType).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.HANDLE(), flags, Interop.allocateNativeString(contentType).HANDLE()), false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_dialog_get_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ToplevelLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ToplevelLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -32,7 +32,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
     public ToplevelLayout() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_new(), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ToplevelLayout copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_copy(HANDLE());
-        return new ToplevelLayout(ProxyFactory.get(RESULT, true));
+        return new ToplevelLayout(References.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Monitor getFullscreenMonitor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_get_fullscreen_monitor(HANDLE());
-        return new Monitor(ProxyFactory.get(RESULT, false));
+        return new Monitor(References.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public ToplevelLayout ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_toplevel_layout_ref(HANDLE());
-        return new ToplevelLayout(ProxyFactory.get(RESULT, true));
+        return new ToplevelLayout(References.get(RESULT, true));
     }
     
     /**

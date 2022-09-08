@@ -13,15 +13,15 @@ import java.lang.invoke.*;
  */
 public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Item(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Item(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
      * Creates a new `PangoItem` structure initialized to default values.
      */
     public Item() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_new(), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Item copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_copy(HANDLE());
-        return new Item(ProxyFactory.get(RESULT, true));
+        return new Item(References.get(RESULT, true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Item split(int splitIndex, int splitOffset) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_item_split(HANDLE(), splitIndex, splitOffset);
-        return new Item(ProxyFactory.get(RESULT, true));
+        return new Item(References.get(RESULT, true));
     }
     
 }

@@ -6,7 +6,7 @@ public interface NativeAddress {
 
     MemoryAddress HANDLE();
 
-    Proxy getProxy();
+    Reference getReference();
 
     default boolean equals(ResourceBase nativeAddress) {
         return HANDLE() != null && HANDLE().equals(nativeAddress.HANDLE());

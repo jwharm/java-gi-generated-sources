@@ -19,20 +19,20 @@ import java.lang.invoke.*;
  */
 public class UnixFDList extends org.gtk.gobject.Object {
 
-    public UnixFDList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixFDList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixFDList */
     public static UnixFDList castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDList(gobject.getProxy());
+        return new UnixFDList(gobject.getReference());
     }
     
     /**
      * Creates a new #GUnixFDList containing no file descriptors.
      */
     public UnixFDList() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new(), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * If @n_fds is -1 then @fds must be terminated with -1.
      */
     public UnixFDList(int[] fds, int nFds) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new_from_array(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds), nFds), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_list_new_from_array(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds), nFds), true));
     }
     
     /**

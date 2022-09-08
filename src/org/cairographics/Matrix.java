@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Matrix(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Matrix(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

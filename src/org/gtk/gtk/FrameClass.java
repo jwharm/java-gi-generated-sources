@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FrameClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FrameClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FrameClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

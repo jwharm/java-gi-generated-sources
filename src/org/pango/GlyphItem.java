@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphItem(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphItem(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -40,7 +40,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.SList applyAttrs(java.lang.String text, AttrList list) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_apply_attrs(HANDLE(), Interop.allocateNativeString(text).HANDLE(), list.HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.SList(References.get(RESULT, true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public GlyphItem copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_copy(HANDLE());
-        return new GlyphItem(ProxyFactory.get(RESULT, true));
+        return new GlyphItem(References.get(RESULT, true));
     }
     
     /**
@@ -94,7 +94,7 @@ public class GlyphItem extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public GlyphItem split(java.lang.String text, int splitIndex) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_glyph_item_split(HANDLE(), Interop.allocateNativeString(text).HANDLE(), splitIndex);
-        return new GlyphItem(ProxyFactory.get(RESULT, true));
+        return new GlyphItem(References.get(RESULT, true));
     }
     
 }

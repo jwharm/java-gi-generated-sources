@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SignalListItemFactoryClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SignalListItemFactoryClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalListItemFactoryClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

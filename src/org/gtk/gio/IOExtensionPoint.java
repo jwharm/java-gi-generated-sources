@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IOExtensionPoint(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOExtensionPoint(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -20,7 +20,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      */
     public IOExtension getExtensionByName(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extension_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new IOExtension(ProxyFactory.get(RESULT, false));
+        return new IOExtension(References.get(RESULT, false));
     }
     
     /**
@@ -29,7 +29,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
      */
     public org.gtk.glib.List getExtensions() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_point_get_extensions(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

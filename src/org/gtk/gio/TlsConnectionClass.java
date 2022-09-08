@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TlsConnectionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsConnectionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsConnectionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

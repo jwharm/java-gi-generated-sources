@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WidgetPaintableClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public WidgetPaintableClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WidgetPaintableClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -55,13 +55,13 @@ import java.lang.invoke.*;
  */
 public class FileFilter extends Filter implements Buildable {
 
-    public FileFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileFilter */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new FileFilter(gobject.getProxy());
+        return new FileFilter(gobject.getReference());
     }
     
     /**
@@ -81,7 +81,7 @@ public class FileFilter extends Filter implements Buildable {
      * ```
      */
     public FileFilter() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new(), true));
     }
     
     /**
@@ -91,7 +91,7 @@ public class FileFilter extends Filter implements Buildable {
      * [method@Gtk.FileFilter.to_gvariant].
      */
     public FileFilter(org.gtk.glib.Variant variant) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_new_from_gvariant(variant.HANDLE()), true));
     }
     
     /**
@@ -161,7 +161,7 @@ public class FileFilter extends Filter implements Buildable {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_filter_to_gvariant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
 }

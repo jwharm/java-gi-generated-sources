@@ -16,15 +16,15 @@ public class TestNotebook {
 
         var notebook = new Notebook();
         notebook.setTabPos(PositionType.TOP);
-        notebook.onSwitchPage((source, page, pageNum) ->
-                System.out.println("Switched to page " + pageNum)
-        );
-
         notebook.appendPage(boxWithButton(window), new Label("Tab with button"));
         notebook.appendPage(boxWithTextEntry(), new Label("Tab with text entry"));
         notebook.appendPage(boxWithDropdown(), new Label("Tab with dropdown"));
         notebook.appendPage(boxWithList(), new Label("Tab with list"));
         notebook.appendPage(boxWithCombobox(), new Label("Tab with combobox"));
+
+        notebook.onSwitchPage((source, page, pageNum) ->
+                System.out.println("Switched to page " + pageNum)
+        );
 
         window.setChild(notebook);
         window.show();

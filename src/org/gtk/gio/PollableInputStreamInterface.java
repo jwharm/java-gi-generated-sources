@@ -19,8 +19,8 @@ import java.lang.invoke.*;
  */
 public class PollableInputStreamInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PollableInputStreamInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PollableInputStreamInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

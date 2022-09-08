@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreePath(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreePath(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -19,7 +19,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * This refers to a row.
      */
     public TreePath() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new(), true));
     }
     
     /**
@@ -28,14 +28,14 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * The string representation of this path is “0”.
      */
     public static TreePath newFirst() {
-        return new TreePath(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_first(), true));
+        return new TreePath(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_first(), true));
     }
     
     /**
      * Creates a new path with the given @indices array of @length.
      */
     public TreePath(int[] indices, long length) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_indicesv(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices), length), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_indicesv(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices), length), true));
     }
     
     /**
@@ -48,7 +48,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * If an invalid path string is passed in, %NULL is returned.
      */
     public TreePath(java.lang.String path) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).HANDLE()), true));
     }
     
     /**
@@ -77,7 +77,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreePath copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_path_copy(HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**

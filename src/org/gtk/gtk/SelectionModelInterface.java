@@ -21,8 +21,8 @@ import java.lang.invoke.*;
  */
 public class SelectionModelInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SelectionModelInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SelectionModelInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

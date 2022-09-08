@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecInt extends ParamSpec {
 
-    public ParamSpecInt(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecInt(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecInt */
     public static ParamSpecInt castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecInt(gobject.getProxy());
+        return new ParamSpecInt(gobject.getReference());
     }
     
 }

@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class PixbufSimpleAnim extends PixbufAnimation {
 
-    public PixbufSimpleAnim(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufSimpleAnim(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PixbufSimpleAnim */
     public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufSimpleAnim(gobject.getProxy());
+        return new PixbufSimpleAnim(gobject.getReference());
     }
     
     /**
      * Creates a new, empty animation.
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
     }
     
     /**

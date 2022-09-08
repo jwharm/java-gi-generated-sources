@@ -35,13 +35,13 @@ import java.lang.invoke.*;
  */
 public class FileEnumerator extends org.gtk.gobject.Object {
 
-    public FileEnumerator(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileEnumerator(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileEnumerator */
     public static FileEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        return new FileEnumerator(gobject.getProxy());
+        return new FileEnumerator(gobject.getReference());
     }
     
     /**
@@ -99,7 +99,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public File getChild(FileInfo info) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_get_child(HANDLE(), info.HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -107,7 +107,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      */
     public File getContainer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_enumerator_get_container(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, false));
+        return new File.FileImpl(References.get(RESULT, false));
     }
     
     /**
@@ -194,7 +194,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -206,7 +206,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**

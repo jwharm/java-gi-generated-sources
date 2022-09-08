@@ -24,20 +24,20 @@ import java.lang.invoke.*;
  */
 public class GestureLongPress extends GestureSingle {
 
-    public GestureLongPress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureLongPress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureLongPress */
     public static GestureLongPress castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureLongPress(gobject.getProxy());
+        return new GestureLongPress(gobject.getReference());
     }
     
     /**
      * Returns a newly created `GtkGesture` that recognizes long presses.
      */
     public GestureLongPress() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_long_press_new(), true));
     }
     
     /**

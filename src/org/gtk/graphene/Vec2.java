@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Vec2(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Vec2(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -25,7 +25,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec2_init() to initialize the vector.
      */
     public Vec2() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec2_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec2_alloc(), true));
     }
     
     /**
@@ -91,7 +91,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec2 init(float x, float y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec2_init(HANDLE(), x, y);
-        return new Vec2(ProxyFactory.get(RESULT, false));
+        return new Vec2(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec2 initFromFloat(float[] src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec2_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src));
-        return new Vec2(ProxyFactory.get(RESULT, false));
+        return new Vec2(References.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Vec2 initFromVec2(Vec2 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_vec2_init_from_vec2(HANDLE(), src.HANDLE());
-        return new Vec2(ProxyFactory.get(RESULT, false));
+        return new Vec2(References.get(RESULT, false));
     }
     
     /**

@@ -80,20 +80,20 @@ import java.lang.invoke.*;
  */
 public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ApplicationWindow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ApplicationWindow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ApplicationWindow */
     public static ApplicationWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ApplicationWindow(gobject.getProxy());
+        return new ApplicationWindow(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkApplicationWindow`.
      */
     public ApplicationWindow(Application application) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_new(application.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_new(application.HANDLE()), false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      */
     public ShortcutsWindow getHelpOverlay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_window_get_help_overlay(HANDLE());
-        return new ShortcutsWindow(ProxyFactory.get(RESULT, false));
+        return new ShortcutsWindow(References.get(RESULT, false));
     }
     
     /**

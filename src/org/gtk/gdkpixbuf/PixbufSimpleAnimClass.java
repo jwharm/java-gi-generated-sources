@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PixbufSimpleAnimClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PixbufSimpleAnimClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufSimpleAnimClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

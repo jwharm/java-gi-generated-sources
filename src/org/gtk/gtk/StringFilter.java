@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class StringFilter extends Filter {
 
-    public StringFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StringFilter */
     public static StringFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new StringFilter(gobject.getProxy());
+        return new StringFilter(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class StringFilter extends Filter {
      * and by providing a property to look up on the item.
      */
     public StringFilter(Expression expression) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_new(expression.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -47,7 +47,7 @@ public class StringFilter extends Filter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_filter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**

@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class StatBuf extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StatBuf(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StatBuf(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Queue(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Queue(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -30,7 +30,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Queue copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_copy(HANDLE());
-        return new Queue(ProxyFactory.get(RESULT, false));
+        return new Queue(References.get(RESULT, false));
     }
     
     /**
@@ -47,7 +47,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List find(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_find(HANDLE(), data);
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -155,7 +155,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List peekHeadLink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_head_link(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -171,7 +171,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List peekNthLink(int n) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_nth_link(HANDLE(), n);
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -187,7 +187,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List peekTailLink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_peek_tail_link(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -203,7 +203,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List popHeadLink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_head_link(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -219,7 +219,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List popNthLink(int n) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_nth_link(HANDLE(), n);
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -235,7 +235,7 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.List popTailLink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_queue_pop_tail_link(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

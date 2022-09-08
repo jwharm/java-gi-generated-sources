@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class ConstantExpression extends Expression {
 
-    public ConstantExpression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConstantExpression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ConstantExpression */
     public static ConstantExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstantExpression(gobject.getProxy());
+        return new ConstantExpression(gobject.getReference());
     }
     
     /**
      * Creates an expression that always evaluates to the given `value`.
      */
     public ConstantExpression(org.gtk.gobject.Value value) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_new_for_value(value.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_new_for_value(value.HANDLE()), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class ConstantExpression extends Expression {
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constant_expression_get_value(HANDLE());
-        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
 }

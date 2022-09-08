@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class DebugNode extends RenderNode {
 
-    public DebugNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DebugNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DebugNode */
     public static DebugNode castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugNode(gobject.getProxy());
+        return new DebugNode(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class DebugNode extends RenderNode {
      * Adding this node has no visual effect.
      */
     public DebugNode(RenderNode child, java.lang.String message) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_new(child.HANDLE(), Interop.allocateNativeString(message).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_new(child.HANDLE(), Interop.allocateNativeString(message).HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class DebugNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_debug_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**

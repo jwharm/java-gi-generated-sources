@@ -21,8 +21,8 @@ import java.lang.invoke.*;
  */
 public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Rect(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Rect(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -156,7 +156,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rect init(float x, float y, float width, float height) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_init(HANDLE(), x, y, width, height);
-        return new Rect(ProxyFactory.get(RESULT, false));
+        return new Rect(References.get(RESULT, false));
     }
     
     /**
@@ -167,7 +167,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rect initFromRect(Rect src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_init_from_rect(HANDLE(), src.HANDLE());
-        return new Rect(ProxyFactory.get(RESULT, false));
+        return new Rect(References.get(RESULT, false));
     }
     
     /**
@@ -188,7 +188,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rect inset(float dX, float dY) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_inset(HANDLE(), dX, dY);
-        return new Rect(ProxyFactory.get(RESULT, false));
+        return new Rect(References.get(RESULT, false));
     }
     
     /**
@@ -243,7 +243,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rect normalize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_normalize(HANDLE());
-        return new Rect(ProxyFactory.get(RESULT, false));
+        return new Rect(References.get(RESULT, false));
     }
     
     /**
@@ -264,7 +264,7 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rect offset(float dX, float dY) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_rect_offset(HANDLE(), dX, dY);
-        return new Rect(ProxyFactory.get(RESULT, false));
+        return new Rect(References.get(RESULT, false));
     }
     
     /**

@@ -21,20 +21,20 @@ import java.lang.invoke.*;
  */
 public class PrintSettings extends org.gtk.gobject.Object {
 
-    public PrintSettings(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PrintSettings(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PrintSettings */
     public static PrintSettings castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintSettings(gobject.getProxy());
+        return new PrintSettings(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPrintSettings` object.
      */
     public PrintSettings() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new(), true));
     }
     
     /**
@@ -44,7 +44,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * [method@Gtk.PrintSettings.to_gvariant].
      */
     public PrintSettings(org.gtk.glib.Variant variant) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_new_from_gvariant(variant.HANDLE()), true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintSettings copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_copy(HANDLE());
-        return new PrintSettings(ProxyFactory.get(RESULT, true));
+        return new PrintSettings(References.get(RESULT, true));
     }
     
     /**
@@ -237,7 +237,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PaperSize getPaperSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_get_paper_size(HANDLE());
-        return new PaperSize(ProxyFactory.get(RESULT, true));
+        return new PaperSize(References.get(RESULT, true));
     }
     
     /**
@@ -609,7 +609,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_settings_to_gvariant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**

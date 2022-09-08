@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionGroup, ActionMap {
 
-    public SimpleActionGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleActionGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimpleActionGroup */
     public static SimpleActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleActionGroup(gobject.getProxy());
+        return new SimpleActionGroup(gobject.getReference());
     }
     
     /**
      * Creates a new, empty, #GSimpleActionGroup.
      */
     public SimpleActionGroup() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_group_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_action_group_new(), true));
     }
     
 }

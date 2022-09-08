@@ -23,20 +23,20 @@ import java.lang.invoke.*;
  */
 public class BoxLayout extends LayoutManager implements Orientable {
 
-    public BoxLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BoxLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BoxLayout */
     public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new BoxLayout(gobject.getProxy());
+        return new BoxLayout(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkBoxLayout`.
      */
     public BoxLayout(Orientation orientation) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_new(orientation.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_box_layout_new(orientation.getValue()), true));
     }
     
     /**

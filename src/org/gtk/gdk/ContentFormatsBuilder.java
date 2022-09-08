@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ContentFormatsBuilder(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ContentFormatsBuilder(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -22,7 +22,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_new(), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormats freeToFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_free_to_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, true));
+        return new ContentFormats(References.get(RESULT, true));
     }
     
     /**
@@ -64,7 +64,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormatsBuilder ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_ref(HANDLE());
-        return new ContentFormatsBuilder(ProxyFactory.get(RESULT, false));
+        return new ContentFormatsBuilder(References.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.interop.Resou
      */
     public ContentFormats toFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_formats_builder_to_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, true));
+        return new ContentFormats(References.get(RESULT, true));
     }
     
     /**

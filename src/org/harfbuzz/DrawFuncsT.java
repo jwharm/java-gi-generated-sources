@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class DrawFuncsT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DrawFuncsT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DrawFuncsT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

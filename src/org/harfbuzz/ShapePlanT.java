@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class ShapePlanT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ShapePlanT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShapePlanT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

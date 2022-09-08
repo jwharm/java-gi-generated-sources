@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class BufferedInputStream extends FilterInputStream implements Seekable {
 
-    public BufferedInputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BufferedInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BufferedInputStream */
     public static BufferedInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new BufferedInputStream(gobject.getProxy());
+        return new BufferedInputStream(gobject.getReference());
     }
     
     /**
@@ -37,7 +37,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * a buffer set to the default size (4 kilobytes).
      */
     public BufferedInputStream(InputStream baseStream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new(baseStream.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new(baseStream.HANDLE()), true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * with a buffer set to @size.
      */
     public BufferedInputStream(InputStream baseStream, long size) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_input_stream_new_sized(baseStream.HANDLE(), size), true));
     }
     
     /**

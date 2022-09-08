@@ -46,13 +46,13 @@ import java.lang.invoke.*;
  */
 public class Credentials extends org.gtk.gobject.Object {
 
-    public Credentials(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Credentials(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Credentials */
     public static Credentials castFrom(org.gtk.gobject.Object gobject) {
-        return new Credentials(gobject.getProxy());
+        return new Credentials(gobject.getReference());
     }
     
     /**
@@ -60,7 +60,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * the current process.
      */
     public Credentials() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_credentials_new(), true));
     }
     
     /**

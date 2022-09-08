@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class SelectionFilterModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SelectionFilterModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SelectionFilterModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SelectionFilterModel */
     public static SelectionFilterModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SelectionFilterModel(gobject.getProxy());
+        return new SelectionFilterModel(gobject.getReference());
     }
     
     /**
@@ -25,7 +25,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * selected items from the underlying selection model.
      */
     public SelectionFilterModel(SelectionModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_new(model.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_new(model.HANDLE()), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_selection_filter_model_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
     /**

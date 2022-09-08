@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class KeyEvent extends Event {
 
-    public KeyEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public KeyEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to KeyEvent */
     public static KeyEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyEvent(gobject.getProxy());
+        return new KeyEvent(gobject.getReference());
     }
     
     /**

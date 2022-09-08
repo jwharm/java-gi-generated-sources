@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class RepeatNode extends RenderNode {
 
-    public RepeatNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RepeatNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RepeatNode */
     public static RepeatNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatNode(gobject.getProxy());
+        return new RepeatNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class RepeatNode extends RenderNode {
      * the given @bounds.
      */
     public RepeatNode(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_new(bounds.HANDLE(), child.HANDLE(), childBounds.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_new(bounds.HANDLE(), child.HANDLE(), childBounds.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class RepeatNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class RepeatNode extends RenderNode {
      */
     public org.gtk.graphene.Rect getChildBounds() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeat_node_get_child_bounds(HANDLE());
-        return new org.gtk.graphene.Rect(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Rect(References.get(RESULT, false));
     }
     
 }

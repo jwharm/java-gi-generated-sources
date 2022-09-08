@@ -55,20 +55,20 @@ import java.lang.invoke.*;
  */
 public class FlowBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public FlowBox(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FlowBox(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FlowBox */
     public static FlowBox castFrom(org.gtk.gobject.Object gobject) {
-        return new FlowBox(gobject.getProxy());
+        return new FlowBox(gobject.getReference());
     }
     
     /**
      * Creates a `GtkFlowBox`.
      */
     public FlowBox() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_new(), false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtIndex(int idx) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_child_at_index(HANDLE(), idx);
-        return new FlowBoxChild(ProxyFactory.get(RESULT, false));
+        return new FlowBoxChild(References.get(RESULT, false));
     }
     
     /**
@@ -106,7 +106,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public FlowBoxChild getChildAtPos(int x, int y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_child_at_pos(HANDLE(), x, y);
-        return new FlowBoxChild(ProxyFactory.get(RESULT, false));
+        return new FlowBoxChild(References.get(RESULT, false));
     }
     
     /**
@@ -154,7 +154,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public org.gtk.glib.List getSelectedChildren() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_flow_box_get_selected_children(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

@@ -16,20 +16,20 @@ import java.lang.invoke.*;
  */
 public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public SingleSelection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SingleSelection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SingleSelection */
     public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
-        return new SingleSelection(gobject.getProxy());
+        return new SingleSelection(gobject.getReference());
     }
     
     /**
      * Creates a new selection to handle @model.
      */
     public SingleSelection(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_new(model.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_new(model.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -55,7 +55,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_single_selection_get_selected_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
     /**

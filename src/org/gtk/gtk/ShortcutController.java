@@ -49,20 +49,20 @@ import java.lang.invoke.*;
  */
 public class ShortcutController extends EventController implements org.gtk.gio.ListModel, Buildable {
 
-    public ShortcutController(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutController(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutController */
     public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutController(gobject.getProxy());
+        return new ShortcutController(gobject.getReference());
     }
     
     /**
      * Creates a new shortcut controller.
      */
     public ShortcutController() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * but you can change the contents of the model.
      */
     public ShortcutController(org.gtk.gio.ListModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new_for_model(model.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_new_for_model(model.HANDLE()), true));
     }
     
     /**
@@ -84,7 +84,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * function does nothing.
      */
     public void addShortcut(Shortcut shortcut) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_add_shortcut(HANDLE(), shortcut.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_controller_add_shortcut(HANDLE(), shortcut.getReference().unowned().HANDLE());
     }
     
     /**

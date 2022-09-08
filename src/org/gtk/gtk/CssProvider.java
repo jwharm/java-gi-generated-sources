@@ -38,20 +38,20 @@ import java.lang.invoke.*;
  */
 public class CssProvider extends org.gtk.gobject.Object implements StyleProvider {
 
-    public CssProvider(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CssProvider(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CssProvider */
     public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new CssProvider(gobject.getProxy());
+        return new CssProvider(gobject.getReference());
     }
     
     /**
      * Returns a newly created `GtkCssProvider`.
      */
     public CssProvider() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_css_provider_new(), true));
     }
     
     /**

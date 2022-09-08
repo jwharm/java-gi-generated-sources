@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class BuildableParseContext extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BuildableParseContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuildableParseContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

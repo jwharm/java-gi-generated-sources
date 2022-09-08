@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class ParamSpecTypeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ParamSpecTypeInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecTypeInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

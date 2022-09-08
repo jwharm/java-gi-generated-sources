@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Triangle(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Triangle(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -20,7 +20,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Triangle() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_alloc(), true));
     }
     
     /**
@@ -149,7 +149,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Triangle initFromFloat(float[] a, float[] b, float[] c) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_float(HANDLE(), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, a), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, b), Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, c));
-        return new Triangle(ProxyFactory.get(RESULT, false));
+        return new Triangle(References.get(RESULT, false));
     }
     
     /**
@@ -157,7 +157,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Triangle initFromPoint3d(Point3D a, Point3D b, Point3D c) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_point3d(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
-        return new Triangle(ProxyFactory.get(RESULT, false));
+        return new Triangle(References.get(RESULT, false));
     }
     
     /**
@@ -165,7 +165,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Triangle initFromVec3(Vec3 a, Vec3 b, Vec3 c) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_triangle_init_from_vec3(HANDLE(), a.HANDLE(), b.HANDLE(), c.HANDLE());
-        return new Triangle(ProxyFactory.get(RESULT, false));
+        return new Triangle(References.get(RESULT, false));
     }
     
 }

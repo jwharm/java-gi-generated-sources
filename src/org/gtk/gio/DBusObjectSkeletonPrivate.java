@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusObjectSkeletonPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusObjectSkeletonPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectSkeletonPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

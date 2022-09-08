@@ -81,20 +81,20 @@ import java.lang.invoke.*;
  */
 public class TestDBus extends org.gtk.gobject.Object {
 
-    public TestDBus(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TestDBus(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TestDBus */
     public static TestDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new TestDBus(gobject.getProxy());
+        return new TestDBus(gobject.getReference());
     }
     
     /**
      * Create a new #GTestDBus object.
      */
     public TestDBus(int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_new(flags), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_test_dbus_new(flags), true));
     }
     
     /**

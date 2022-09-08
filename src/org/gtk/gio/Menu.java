@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class Menu extends MenuModel {
 
-    public Menu(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Menu(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Menu */
     public static Menu castFrom(org.gtk.gobject.Object gobject) {
-        return new Menu(gobject.getProxy());
+        return new Menu(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class Menu extends MenuModel {
      * The new menu has no items.
      */
     public Menu() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_menu_new(), true));
     }
     
     /**

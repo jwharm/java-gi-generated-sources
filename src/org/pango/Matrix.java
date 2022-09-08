@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Matrix(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Matrix(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -36,7 +36,7 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Matrix copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_matrix_copy(HANDLE());
-        return new Matrix(ProxyFactory.get(RESULT, true));
+        return new Matrix(References.get(RESULT, true));
     }
     
     /**

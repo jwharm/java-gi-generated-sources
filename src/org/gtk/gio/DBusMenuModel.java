@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class DBusMenuModel extends MenuModel {
 
-    public DBusMenuModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusMenuModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusMenuModel */
     public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMenuModel(gobject.getProxy());
+        return new DBusMenuModel(gobject.getReference());
     }
     
 }

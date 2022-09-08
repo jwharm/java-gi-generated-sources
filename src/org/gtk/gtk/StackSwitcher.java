@@ -42,20 +42,20 @@ import java.lang.invoke.*;
  */
 public class StackSwitcher extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public StackSwitcher(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StackSwitcher(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StackSwitcher */
     public static StackSwitcher castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSwitcher(gobject.getProxy());
+        return new StackSwitcher(gobject.getReference());
     }
     
     /**
      * Create a new `GtkStackSwitcher`.
      */
     public StackSwitcher() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_new(), false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
      */
     public Stack getStack() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_switcher_get_stack(HANDLE());
-        return new Stack(ProxyFactory.get(RESULT, false));
+        return new Stack(References.get(RESULT, false));
     }
     
     /**

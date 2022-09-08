@@ -12,15 +12,15 @@ import java.lang.invoke.*;
  * The font faces in a family share a common design, but differ in
  * slant, weight, width or other aspects.
  */
-public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontFamily extends org.gtk.gobject.Object {
 
-    public FontFamily(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontFamily(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontFamily */
     public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
-        return new FontFamily(gobject.getProxy());
+        return new FontFamily(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      */
     public FontFace getFace(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_family_get_face(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new FontFace(ProxyFactory.get(RESULT, false));
+        return new FontFace(References.get(RESULT, false));
     }
     
     /**

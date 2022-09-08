@@ -23,20 +23,20 @@ import java.lang.invoke.*;
  */
 public class FontChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FontChooser, Native, Root, ShortcutManager {
 
-    public FontChooserDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontChooserDialog */
     public static FontChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new FontChooserDialog(gobject.getProxy());
+        return new FontChooserDialog(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkFontChooserDialog`.
      */
     public FontChooserDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
 }

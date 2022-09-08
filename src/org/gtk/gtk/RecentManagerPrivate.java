@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class RecentManagerPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RecentManagerPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecentManagerPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

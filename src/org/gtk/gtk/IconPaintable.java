@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, SymbolicPaintable {
 
-    public IconPaintable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IconPaintable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IconPaintable */
     public static IconPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new IconPaintable(gobject.getProxy());
+        return new IconPaintable(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * The icon can then be rendered by using it as a `GdkPaintable`.
      */
     public IconPaintable(org.gtk.gio.File file, int size, int scale) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_new_for_file(file.HANDLE(), size, scale), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_new_for_file(file.HANDLE(), size, scale), true));
     }
     
     /**
@@ -37,7 +37,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_paintable_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(References.get(RESULT, true));
     }
     
     /**

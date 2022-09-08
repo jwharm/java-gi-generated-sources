@@ -41,20 +41,20 @@ import java.lang.invoke.*;
  */
 public class CenterBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public CenterBox(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CenterBox(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CenterBox */
     public static CenterBox castFrom(org.gtk.gobject.Object gobject) {
-        return new CenterBox(gobject.getProxy());
+        return new CenterBox(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCenterBox`.
      */
     public CenterBox() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_new(), false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getCenterWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_center_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getEndWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_end_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -86,7 +86,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getStartWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_box_get_start_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

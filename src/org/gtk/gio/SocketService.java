@@ -35,13 +35,13 @@ import java.lang.invoke.*;
  */
 public class SocketService extends SocketListener {
 
-    public SocketService(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketService(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketService */
     public static SocketService castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketService(gobject.getProxy());
+        return new SocketService(gobject.getReference());
     }
     
     /**
@@ -54,7 +54,7 @@ public class SocketService extends SocketListener {
      * called before.
      */
     public SocketService() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_service_new(), true));
     }
     
     /**

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class LinearGradientNode extends RenderNode {
 
-    public LinearGradientNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LinearGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to LinearGradientNode */
     public static LinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new LinearGradientNode(gobject.getProxy());
+        return new LinearGradientNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class LinearGradientNode extends RenderNode {
      * points and color stops, and render that into the area given by @bounds.
      */
     public LinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class LinearGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getEnd() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_get_end(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class LinearGradientNode extends RenderNode {
      */
     public org.gtk.graphene.Point getStart() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_linear_gradient_node_get_start(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
 }

@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FrameTimings(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FrameTimings(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -107,7 +107,7 @@ public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public FrameTimings ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_timings_ref(HANDLE());
-        return new FrameTimings(ProxyFactory.get(RESULT, true));
+        return new FrameTimings(References.get(RESULT, true));
     }
     
     /**

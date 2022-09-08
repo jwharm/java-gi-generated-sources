@@ -33,8 +33,8 @@ import java.lang.invoke.*;
  */
 public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public WeakRef(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WeakRef(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -61,7 +61,7 @@ public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Object get() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_weak_ref_get(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, true));
+        return new Object(References.get(RESULT, true));
     }
     
     /**

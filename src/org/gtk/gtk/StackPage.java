@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class StackPage extends org.gtk.gobject.Object implements Accessible {
 
-    public StackPage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StackPage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StackPage */
     public static StackPage castFrom(org.gtk.gobject.Object gobject) {
-        return new StackPage(gobject.getProxy());
+        return new StackPage(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_page_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

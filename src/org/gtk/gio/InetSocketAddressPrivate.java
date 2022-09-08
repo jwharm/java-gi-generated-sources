@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class InetSocketAddressPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InetSocketAddressPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InetSocketAddressPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

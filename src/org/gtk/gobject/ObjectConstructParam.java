@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ObjectConstructParam extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ObjectConstructParam(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ObjectConstructParam(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

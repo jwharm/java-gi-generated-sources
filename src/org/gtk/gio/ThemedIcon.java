@@ -16,27 +16,27 @@ import java.lang.invoke.*;
  */
 public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
 
-    public ThemedIcon(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ThemedIcon(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ThemedIcon */
     public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new ThemedIcon(gobject.getProxy());
+        return new ThemedIcon(gobject.getReference());
     }
     
     /**
      * Creates a new themed icon for @iconname.
      */
     public ThemedIcon(java.lang.String iconname) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).HANDLE()), true));
     }
     
     /**
      * Creates a new themed icon for @iconnames.
      */
     public ThemedIcon(java.lang.String[] iconnames, int len) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames), len), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames), len), true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
-        return new ThemedIcon(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).HANDLE()), true));
+        return new ThemedIcon(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).HANDLE()), true));
     }
     
     /**

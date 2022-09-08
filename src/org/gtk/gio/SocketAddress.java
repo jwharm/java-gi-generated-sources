@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class SocketAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public SocketAddress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketAddress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketAddress */
     public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketAddress(gobject.getProxy());
+        return new SocketAddress(gobject.getReference());
     }
     
     /**
@@ -26,7 +26,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * struct sockaddr @native.
      */
     public SocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_new_from_native(native_, len), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_address_new_from_native(native_, len), true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DrawingAreaClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DrawingAreaClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DrawingAreaClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

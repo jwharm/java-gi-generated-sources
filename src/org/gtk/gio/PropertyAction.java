@@ -60,13 +60,13 @@ import java.lang.invoke.*;
  */
 public class PropertyAction extends org.gtk.gobject.Object implements Action {
 
-    public PropertyAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PropertyAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PropertyAction */
     public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        return new PropertyAction(gobject.getProxy());
+        return new PropertyAction(gobject.getReference());
     }
     
     /**
@@ -80,7 +80,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * until the action is destroyed.
      */
     public PropertyAction(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_property_action_new(Interop.allocateNativeString(name).HANDLE(), object.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_property_action_new(Interop.allocateNativeString(name).HANDLE(), object.HANDLE(), Interop.allocateNativeString(propertyName).HANDLE()), true));
     }
     
 }

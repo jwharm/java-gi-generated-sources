@@ -22,8 +22,8 @@ import java.lang.invoke.*;
 public interface ShortcutManager extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class ShortcutManagerImpl extends org.gtk.gobject.Object implements ShortcutManager {
-        public ShortcutManagerImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ShortcutManagerImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

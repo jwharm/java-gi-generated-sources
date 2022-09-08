@@ -47,13 +47,13 @@ import java.lang.invoke.*;
  */
 public class Layout extends org.gtk.gobject.Object {
 
-    public Layout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Layout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Layout */
     public static Layout castFrom(org.gtk.gobject.Object gobject) {
-        return new Layout(gobject.getProxy());
+        return new Layout(gobject.getReference());
     }
     
     /**
@@ -61,7 +61,7 @@ public class Layout extends org.gtk.gobject.Object {
      * default values for a particular `PangoContext`.
      */
     public Layout(Context context) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_new(context.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_new(context.HANDLE()), true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Layout copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_copy(HANDLE());
-        return new Layout(ProxyFactory.get(RESULT, true));
+        return new Layout(References.get(RESULT, true));
     }
     
     /**
@@ -100,7 +100,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public AttrList getAttributes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_attributes(HANDLE());
-        return new AttrList(ProxyFactory.get(RESULT, false));
+        return new AttrList(References.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Context getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_context(HANDLE());
-        return new Context(ProxyFactory.get(RESULT, false));
+        return new Context(References.get(RESULT, false));
     }
     
     /**
@@ -231,7 +231,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public FontDescription getFontDescription() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_font_description(HANDLE());
-        return new FontDescription(ProxyFactory.get(RESULT, false));
+        return new FontDescription(References.get(RESULT, false));
     }
     
     /**
@@ -259,7 +259,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutIter getIter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_iter(HANDLE());
-        return new LayoutIter(ProxyFactory.get(RESULT, true));
+        return new LayoutIter(References.get(RESULT, true));
     }
     
     /**
@@ -288,7 +288,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutLine getLine(int line) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line(HANDLE(), line);
-        return new LayoutLine(ProxyFactory.get(RESULT, false));
+        return new LayoutLine(References.get(RESULT, false));
     }
     
     /**
@@ -308,7 +308,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public LayoutLine getLineReadonly(int line) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_line_readonly(HANDLE(), line);
-        return new LayoutLine(ProxyFactory.get(RESULT, false));
+        return new LayoutLine(References.get(RESULT, false));
     }
     
     /**
@@ -329,7 +329,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getLines() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_lines(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
     /**
@@ -341,7 +341,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getLinesReadonly() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_lines_readonly(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
     /**
@@ -403,7 +403,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public TabArray getTabs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_get_tabs(HANDLE());
-        return new TabArray(ProxyFactory.get(RESULT, true));
+        return new TabArray(References.get(RESULT, true));
     }
     
     /**
@@ -499,7 +499,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize(int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_serialize(HANDLE(), flags);
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**

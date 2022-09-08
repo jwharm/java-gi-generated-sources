@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
-    public EveryFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EveryFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EveryFilter */
     public static EveryFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new EveryFilter(gobject.getProxy());
+        return new EveryFilter(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
      * has been added to it, the filter matches every item.
      */
     public EveryFilter() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_every_filter_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_every_filter_new(), true));
     }
     
 }

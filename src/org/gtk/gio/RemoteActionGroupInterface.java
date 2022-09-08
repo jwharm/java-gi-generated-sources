@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class RemoteActionGroupInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RemoteActionGroupInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RemoteActionGroupInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

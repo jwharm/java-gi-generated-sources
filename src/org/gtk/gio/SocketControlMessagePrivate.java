@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SocketControlMessagePrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SocketControlMessagePrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketControlMessagePrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

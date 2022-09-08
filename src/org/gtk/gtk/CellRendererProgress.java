@@ -13,20 +13,20 @@ import java.lang.invoke.*;
  */
 public class CellRendererProgress extends CellRenderer implements Orientable {
 
-    public CellRendererProgress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererProgress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererProgress */
     public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererProgress(gobject.getProxy());
+        return new CellRendererProgress(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCellRendererProgress`.
      */
     public CellRendererProgress() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_progress_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_progress_new(), false));
     }
     
 }

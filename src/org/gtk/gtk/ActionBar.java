@@ -40,20 +40,20 @@ import java.lang.invoke.*;
  */
 public class ActionBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ActionBar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ActionBar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ActionBar */
     public static ActionBar castFrom(org.gtk.gobject.Object gobject) {
-        return new ActionBar(gobject.getProxy());
+        return new ActionBar(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkActionBar` widget.
      */
     public ActionBar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_new(), false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getCenterWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_action_bar_get_center_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

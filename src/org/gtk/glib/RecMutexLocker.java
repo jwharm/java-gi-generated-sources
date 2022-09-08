@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class RecMutexLocker extends org.gtk.gobject.Object {
 
-    public RecMutexLocker(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecMutexLocker(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

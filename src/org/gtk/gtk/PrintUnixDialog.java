@@ -65,20 +65,20 @@ import java.lang.invoke.*;
  */
 public class PrintUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public PrintUnixDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PrintUnixDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PrintUnixDialog */
     public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new PrintUnixDialog(gobject.getProxy());
+        return new PrintUnixDialog(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPrintUnixDialog`.
      */
     public PrintUnixDialog(java.lang.String title, Window parent) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE()), false));
     }
     
     /**
@@ -125,7 +125,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public PageSetup getPageSetup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_page_setup(HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, false));
+        return new PageSetup(References.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public Printer getSelectedPrinter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_selected_printer(HANDLE());
-        return new Printer(ProxyFactory.get(RESULT, false));
+        return new Printer(References.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      */
     public PrintSettings getPrintSettings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_unix_dialog_get_settings(HANDLE());
-        return new PrintSettings(ProxyFactory.get(RESULT, true));
+        return new PrintSettings(References.get(RESULT, true));
     }
     
     /**

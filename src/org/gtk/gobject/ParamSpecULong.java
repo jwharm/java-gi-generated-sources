@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecULong extends ParamSpec {
 
-    public ParamSpecULong(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecULong(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecULong */
     public static ParamSpecULong castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecULong(gobject.getProxy());
+        return new ParamSpecULong(gobject.getReference());
     }
     
 }

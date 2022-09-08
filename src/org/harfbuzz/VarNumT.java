@@ -5,8 +5,8 @@ import jdk.incubator.foreign.MemoryAddress;
 
 public class VarNumT extends io.github.jwharm.javagi.interop.ResourceBase {
     
-    public VarNumT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VarNumT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

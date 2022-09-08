@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class RepeatingLinearGradientNode extends RenderNode {
 
-    public RepeatingLinearGradientNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RepeatingLinearGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RepeatingLinearGradientNode */
     public static RepeatingLinearGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatingLinearGradientNode(gobject.getProxy());
+        return new RepeatingLinearGradientNode(gobject.getReference());
     }
     
     /**
@@ -25,7 +25,7 @@ public class RepeatingLinearGradientNode extends RenderNode {
      * given by @bounds.
      */
     public RepeatingLinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_linear_gradient_node_new(bounds.HANDLE(), start.HANDLE(), end.HANDLE(), Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
 }

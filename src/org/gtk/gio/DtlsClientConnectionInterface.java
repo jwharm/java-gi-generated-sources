@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DtlsClientConnectionInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DtlsClientConnectionInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

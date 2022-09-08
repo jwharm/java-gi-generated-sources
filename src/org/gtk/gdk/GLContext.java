@@ -58,13 +58,13 @@ import java.lang.invoke.*;
  */
 public class GLContext extends DrawContext {
 
-    public GLContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GLContext */
     public static GLContext castFrom(org.gtk.gobject.Object gobject) {
-        return new GLContext(gobject.getProxy());
+        return new GLContext(gobject.getReference());
     }
     
     /**
@@ -100,7 +100,7 @@ public class GLContext extends DrawContext {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -118,7 +118,7 @@ public class GLContext extends DrawContext {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_gl_context_get_surface(HANDLE());
-        return new Surface(ProxyFactory.get(RESULT, false));
+        return new Surface(References.get(RESULT, false));
     }
     
     /**

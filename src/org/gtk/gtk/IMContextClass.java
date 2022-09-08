@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class IMContextClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IMContextClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IMContextClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

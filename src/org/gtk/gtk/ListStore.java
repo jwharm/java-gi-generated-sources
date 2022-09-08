@@ -148,20 +148,20 @@ import java.lang.invoke.*;
  */
 public class ListStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
-    public ListStore(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListStore(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListStore */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        return new ListStore(gobject.getProxy());
+        return new ListStore(gobject.getReference());
     }
     
     /**
      * Non-vararg creation function.  Used primarily by language bindings.
      */
     public static ListStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new ListStore(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new ListStore(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
     }
     
     /**

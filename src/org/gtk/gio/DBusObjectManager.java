@@ -22,7 +22,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default DBusInterface getInterface(java.lang.String objectPath, java.lang.String interfaceName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_interface(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE(), Interop.allocateNativeString(interfaceName).HANDLE());
-        return new DBusInterface.DBusInterfaceImpl(ProxyFactory.get(RESULT, true));
+        return new DBusInterface.DBusInterfaceImpl(References.get(RESULT, true));
     }
     
     /**
@@ -30,7 +30,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default DBusObject getObject(java.lang.String objectPath) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_object(HANDLE(), Interop.allocateNativeString(objectPath).HANDLE());
-        return new DBusObject.DBusObjectImpl(ProxyFactory.get(RESULT, true));
+        return new DBusObject.DBusObjectImpl(References.get(RESULT, true));
     }
     
     /**
@@ -46,7 +46,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
      */
     public default org.gtk.glib.List getObjects() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_get_objects(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -148,8 +148,8 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class DBusObjectManagerImpl extends org.gtk.gobject.Object implements DBusObjectManager {
-        public DBusObjectManagerImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DBusObjectManagerImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

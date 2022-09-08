@@ -39,8 +39,8 @@ public interface StyleProvider extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class StyleProviderImpl extends org.gtk.gobject.Object implements StyleProvider {
-        public StyleProviderImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public StyleProviderImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class CellRendererPixbuf extends CellRenderer {
 
-    public CellRendererPixbuf(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererPixbuf(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererPixbuf */
     public static CellRendererPixbuf castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererPixbuf(gobject.getProxy());
+        return new CellRendererPixbuf(gobject.getReference());
     }
     
     /**
@@ -42,7 +42,7 @@ public class CellRendererPixbuf extends CellRenderer {
      * `GtkTreeView`.
      */
     public CellRendererPixbuf() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_pixbuf_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_pixbuf_new(), false));
     }
     
 }

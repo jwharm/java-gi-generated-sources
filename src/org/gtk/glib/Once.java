@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class Once extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Once(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Once(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

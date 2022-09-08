@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IOExtension(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOExtension(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -48,7 +48,7 @@ public class IOExtension extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.gobject.TypeClass refClass() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_io_extension_ref_class(HANDLE());
-        return new org.gtk.gobject.TypeClass(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.TypeClass(References.get(RESULT, true));
     }
     
 }

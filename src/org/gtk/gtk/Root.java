@@ -27,7 +27,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.gdk.Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_display(HANDLE());
-        return new org.gtk.gdk.Display(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Widget getFocus() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_root_get_focus(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -58,8 +58,8 @@ public interface Root extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class RootImpl extends org.gtk.gobject.Object implements Root {
-        public RootImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public RootImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

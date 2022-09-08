@@ -26,27 +26,27 @@ import java.lang.invoke.*;
  */
 public class FontButton extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontButton */
     public static FontButton castFrom(org.gtk.gobject.Object gobject) {
-        return new FontButton(gobject.getProxy());
+        return new FontButton(gobject.getReference());
     }
     
     /**
      * Creates a new font picker widget.
      */
     public FontButton() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new(), false));
     }
     
     /**
      * Creates a new font picker widget showing the given font.
      */
     public FontButton(java.lang.String fontname) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).HANDLE()), false));
     }
     
     /**

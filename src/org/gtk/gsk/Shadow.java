@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Shadow extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Shadow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Shadow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

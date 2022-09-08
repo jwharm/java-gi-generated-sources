@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FontOptions extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontOptions(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontOptions(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

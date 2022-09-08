@@ -61,8 +61,8 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class RemoteActionGroupImpl extends org.gtk.gobject.Object implements RemoteActionGroup {
-        public RemoteActionGroupImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public RemoteActionGroupImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

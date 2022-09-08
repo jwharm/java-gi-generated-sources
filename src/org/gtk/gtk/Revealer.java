@@ -30,20 +30,20 @@ import java.lang.invoke.*;
  */
 public class Revealer extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Revealer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Revealer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Revealer */
     public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        return new Revealer(gobject.getProxy());
+        return new Revealer(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkRevealer`.
      */
     public Revealer() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_new(), false));
     }
     
     /**
@@ -51,7 +51,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_revealer_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

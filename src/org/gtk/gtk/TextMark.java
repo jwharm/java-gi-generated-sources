@@ -42,13 +42,13 @@ import java.lang.invoke.*;
  */
 public class TextMark extends org.gtk.gobject.Object {
 
-    public TextMark(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextMark(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextMark */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
-        return new TextMark(gobject.getProxy());
+        return new TextMark(gobject.getReference());
     }
     
     /**
@@ -65,7 +65,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * right side of the text you’re typing).
      */
     public TextMark(java.lang.String name, boolean leftGravity) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).HANDLE(), leftGravity ? 1 : 0), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).HANDLE(), leftGravity ? 1 : 0), true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class TextMark extends org.gtk.gobject.Object {
      */
     public TextBuffer getBuffer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_mark_get_buffer(HANDLE());
-        return new TextBuffer(ProxyFactory.get(RESULT, false));
+        return new TextBuffer(References.get(RESULT, false));
     }
     
     /**

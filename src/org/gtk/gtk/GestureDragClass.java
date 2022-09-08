@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureDragClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureDragClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureDragClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

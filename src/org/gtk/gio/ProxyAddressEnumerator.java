@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class ProxyAddressEnumerator extends SocketAddressEnumerator {
 
-    public ProxyAddressEnumerator(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ProxyAddressEnumerator(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ProxyAddressEnumerator */
     public static ProxyAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        return new ProxyAddressEnumerator(gobject.getProxy());
+        return new ProxyAddressEnumerator(gobject.getReference());
     }
     
 }

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class BufferT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BufferT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BufferT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

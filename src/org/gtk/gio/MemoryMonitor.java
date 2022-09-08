@@ -82,8 +82,8 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {
-        public MemoryMonitorImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public MemoryMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

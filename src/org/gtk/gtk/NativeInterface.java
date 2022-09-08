@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NativeInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public NativeInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NativeInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

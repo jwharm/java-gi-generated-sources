@@ -64,27 +64,27 @@ import java.lang.invoke.*;
  */
 public class ComboBoxText extends ComboBox implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBoxText(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ComboBoxText(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ComboBoxText */
     public static ComboBoxText castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBoxText(gobject.getProxy());
+        return new ComboBoxText(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkComboBoxText`.
      */
     public ComboBoxText() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new(), false));
     }
     
     /**
      * Creates a new `GtkComboBoxText` with an entry.
      */
     public static ComboBoxText newWithEntry() {
-        return new ComboBoxText(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new_with_entry(), false));
+        return new ComboBoxText(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_text_new_with_entry(), false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MediaControlsClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MediaControlsClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MediaControlsClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

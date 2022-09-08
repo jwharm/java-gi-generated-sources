@@ -22,20 +22,20 @@ import java.lang.invoke.*;
  */
 public class SocketClient extends org.gtk.gobject.Object {
 
-    public SocketClient(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketClient(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketClient */
     public static SocketClient castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketClient(gobject.getProxy());
+        return new SocketClient(gobject.getReference());
     }
     
     /**
      * Creates a new #GSocketClient with the default options.
      */
     public SocketClient() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_new(), true));
     }
     
     /**
@@ -89,7 +89,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -101,7 +101,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -142,7 +142,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -154,7 +154,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -179,7 +179,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -191,7 +191,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -223,7 +223,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -235,7 +235,7 @@ public class SocketClient extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -263,7 +263,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketAddress getLocalAddress() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_local_address(HANDLE());
-        return new SocketAddress(ProxyFactory.get(RESULT, false));
+        return new SocketAddress(References.get(RESULT, false));
     }
     
     /**
@@ -283,7 +283,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public ProxyResolver getProxyResolver() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_client_get_proxy_resolver(HANDLE());
-        return new ProxyResolver.ProxyResolverImpl(ProxyFactory.get(RESULT, false));
+        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
     }
     
     /**

@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class BoolFilter extends Filter {
 
-    public BoolFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BoolFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BoolFilter */
     public static BoolFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new BoolFilter(gobject.getProxy());
+        return new BoolFilter(gobject.getReference());
     }
     
     /**
      * Creates a new bool filter.
      */
     public BoolFilter(Expression expression) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_new(expression.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -33,7 +33,7 @@ public class BoolFilter extends Filter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bool_filter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ScriptIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ScriptIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScriptIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -24,7 +24,7 @@ public class ScriptIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Pango.ScriptIter.free].
      */
     public ScriptIter(java.lang.String text, int length) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).HANDLE(), length), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_script_iter_new(Interop.allocateNativeString(text).HANDLE(), length), true));
     }
     
     /**

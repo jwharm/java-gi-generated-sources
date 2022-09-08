@@ -13,8 +13,8 @@ import java.lang.invoke.*;
 public interface TlsFileDatabase extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class TlsFileDatabaseImpl extends org.gtk.gobject.Object implements TlsFileDatabase {
-        public TlsFileDatabaseImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TlsFileDatabaseImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

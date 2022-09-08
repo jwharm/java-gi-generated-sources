@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class MapT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MapT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MapT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

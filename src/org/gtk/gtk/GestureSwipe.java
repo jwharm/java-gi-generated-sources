@@ -21,20 +21,20 @@ import java.lang.invoke.*;
  */
 public class GestureSwipe extends GestureSingle {
 
-    public GestureSwipe(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureSwipe(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureSwipe */
     public static GestureSwipe castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureSwipe(gobject.getProxy());
+        return new GestureSwipe(gobject.getReference());
     }
     
     /**
      * Returns a newly created `GtkGesture` that recognizes swipes.
      */
     public GestureSwipe() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_swipe_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_swipe_new(), true));
     }
     
     @FunctionalInterface

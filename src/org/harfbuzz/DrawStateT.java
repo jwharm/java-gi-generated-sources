@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DrawStateT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DrawStateT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DrawStateT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

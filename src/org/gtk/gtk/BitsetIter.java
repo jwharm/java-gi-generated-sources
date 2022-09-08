@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class BitsetIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BitsetIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BitsetIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

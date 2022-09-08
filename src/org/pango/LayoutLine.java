@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public LayoutLine(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LayoutLine(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -79,7 +79,7 @@ public class LayoutLine extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public LayoutLine ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_layout_line_ref(HANDLE());
-        return new LayoutLine(ProxyFactory.get(RESULT, true));
+        return new LayoutLine(References.get(RESULT, true));
     }
     
     /**

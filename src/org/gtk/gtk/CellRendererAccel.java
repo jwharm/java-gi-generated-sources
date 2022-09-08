@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class CellRendererAccel extends CellRendererText {
 
-    public CellRendererAccel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererAccel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererAccel */
     public static CellRendererAccel castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererAccel(gobject.getProxy());
+        return new CellRendererAccel(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCellRendererAccel`.
      */
     public CellRendererAccel() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_accel_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_accel_new(), false));
     }
     
     @FunctionalInterface

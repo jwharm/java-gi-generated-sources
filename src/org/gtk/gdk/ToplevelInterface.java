@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ToplevelInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ToplevelInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ToplevelInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

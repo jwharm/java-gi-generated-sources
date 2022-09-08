@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class VariationT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VariationT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VariationT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

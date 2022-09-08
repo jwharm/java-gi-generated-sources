@@ -13,20 +13,20 @@ import java.lang.invoke.*;
  */
 public class StringObject extends org.gtk.gobject.Object {
 
-    public StringObject(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringObject(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StringObject */
     public static StringObject castFrom(org.gtk.gobject.Object gobject) {
-        return new StringObject(gobject.getProxy());
+        return new StringObject(gobject.getReference());
     }
     
     /**
      * Wraps a string in an object for use with `GListModel`.
      */
     public StringObject(java.lang.String string) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).HANDLE()), true));
     }
     
     /**

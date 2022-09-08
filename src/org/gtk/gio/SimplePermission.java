@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class SimplePermission extends Permission {
 
-    public SimplePermission(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimplePermission(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimplePermission */
     public static SimplePermission castFrom(org.gtk.gobject.Object gobject) {
-        return new SimplePermission(gobject.getProxy());
+        return new SimplePermission(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class SimplePermission extends Permission {
      * either always or never allowed.
      */
     public SimplePermission(boolean allowed) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_permission_new(allowed ? 1 : 0), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_permission_new(allowed ? 1 : 0), true));
     }
     
 }

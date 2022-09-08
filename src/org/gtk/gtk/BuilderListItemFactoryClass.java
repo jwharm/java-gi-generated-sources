@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BuilderListItemFactoryClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BuilderListItemFactoryClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuilderListItemFactoryClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

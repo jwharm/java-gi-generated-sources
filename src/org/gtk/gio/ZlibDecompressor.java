@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class ZlibDecompressor extends org.gtk.gobject.Object implements Converter {
 
-    public ZlibDecompressor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ZlibDecompressor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ZlibDecompressor */
     public static ZlibDecompressor castFrom(org.gtk.gobject.Object gobject) {
-        return new ZlibDecompressor(gobject.getProxy());
+        return new ZlibDecompressor(gobject.getReference());
     }
     
     /**
      * Creates a new #GZlibDecompressor.
      */
     public ZlibDecompressor(ZlibCompressorFormat format) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_new(format.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_new(format.getValue()), true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
      */
     public FileInfo getFileInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_zlib_decompressor_get_file_info(HANDLE());
-        return new FileInfo(ProxyFactory.get(RESULT, false));
+        return new FileInfo(References.get(RESULT, false));
     }
     
 }

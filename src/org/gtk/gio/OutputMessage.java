@@ -16,8 +16,8 @@ import java.lang.invoke.*;
  */
 public class OutputMessage extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OutputMessage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OutputMessage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

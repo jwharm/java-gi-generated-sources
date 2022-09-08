@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SingleSelectionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SingleSelectionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SingleSelectionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

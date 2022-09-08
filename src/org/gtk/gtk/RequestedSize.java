@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class RequestedSize extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RequestedSize(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RequestedSize(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

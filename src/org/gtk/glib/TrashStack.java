@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class TrashStack extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TrashStack(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TrashStack(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

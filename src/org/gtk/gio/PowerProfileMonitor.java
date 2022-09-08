@@ -44,8 +44,8 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.interop.Nat
     }
     
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {
-        public PowerProfileMonitorImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public PowerProfileMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

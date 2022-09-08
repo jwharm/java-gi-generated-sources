@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
-    public AnyFilter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AnyFilter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AnyFilter */
     public static AnyFilter castFrom(org.gtk.gobject.Object gobject) {
-        return new AnyFilter(gobject.getProxy());
+        return new AnyFilter(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Bui
      * has been added to it, the filter matches no item.
      */
     public AnyFilter() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_any_filter_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_any_filter_new(), true));
     }
     
 }

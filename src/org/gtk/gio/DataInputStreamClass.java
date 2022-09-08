@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DataInputStreamClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DataInputStreamClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DataInputStreamClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

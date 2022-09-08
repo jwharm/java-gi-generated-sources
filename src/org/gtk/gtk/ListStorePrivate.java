@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ListStorePrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ListStorePrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListStorePrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

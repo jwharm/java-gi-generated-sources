@@ -37,20 +37,20 @@ import java.lang.invoke.*;
  */
 public class EditableLabel extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public EditableLabel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EditableLabel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EditableLabel */
     public static EditableLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new EditableLabel(gobject.getProxy());
+        return new EditableLabel(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkEditableLabel` widget.
      */
     public EditableLabel(java.lang.String str) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_editable_label_new(Interop.allocateNativeString(str).HANDLE()), false));
     }
     
     /**

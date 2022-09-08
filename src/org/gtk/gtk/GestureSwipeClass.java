@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureSwipeClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureSwipeClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureSwipeClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

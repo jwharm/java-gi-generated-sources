@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsFileDatabaseInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsFileDatabaseInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

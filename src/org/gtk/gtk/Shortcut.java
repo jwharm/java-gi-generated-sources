@@ -24,13 +24,13 @@ import java.lang.invoke.*;
  */
 public class Shortcut extends org.gtk.gobject.Object {
 
-    public Shortcut(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Shortcut(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Shortcut */
     public static Shortcut castFrom(org.gtk.gobject.Object gobject) {
-        return new Shortcut(gobject.getProxy());
+        return new Shortcut(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      * @trigger and then activates @action.
      */
     public Shortcut(ShortcutTrigger trigger, ShortcutAction action) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_new(trigger.getProxy().unowned().HANDLE(), action.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_new(trigger.getReference().unowned().HANDLE(), action.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public ShortcutAction getAction() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_action(HANDLE());
-        return new ShortcutAction(ProxyFactory.get(RESULT, false));
+        return new ShortcutAction(References.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getArguments() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_arguments(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**
@@ -62,14 +62,14 @@ public class Shortcut extends org.gtk.gobject.Object {
      */
     public ShortcutTrigger getTrigger() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_get_trigger(HANDLE());
-        return new ShortcutTrigger(ProxyFactory.get(RESULT, false));
+        return new ShortcutTrigger(References.get(RESULT, false));
     }
     
     /**
      * Sets the new action for @self to be @action.
      */
     public void setAction(ShortcutAction action) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_action(HANDLE(), action.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_action(HANDLE(), action.getReference().unowned().HANDLE());
     }
     
     /**
@@ -83,7 +83,7 @@ public class Shortcut extends org.gtk.gobject.Object {
      * Sets the new trigger for @self to be @trigger.
      */
     public void setTrigger(ShortcutTrigger trigger) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_trigger(HANDLE(), trigger.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_set_trigger(HANDLE(), trigger.getReference().unowned().HANDLE());
     }
     
 }

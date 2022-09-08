@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class Drop extends org.gtk.gobject.Object {
 
-    public Drop(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Drop(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Drop */
     public static Drop castFrom(org.gtk.gobject.Object gobject) {
-        return new Drop(gobject.getProxy());
+        return new Drop(gobject.getReference());
     }
     
     /**
@@ -68,7 +68,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_device(HANDLE());
-        return new Device(ProxyFactory.get(RESULT, false));
+        return new Device(References.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Drag getDrag() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_drag(HANDLE());
-        return new Drag(ProxyFactory.get(RESULT, false));
+        return new Drag(References.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public ContentFormats getFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, false));
+        return new ContentFormats(References.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class Drop extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_drop_get_surface(HANDLE());
-        return new Surface(ProxyFactory.get(RESULT, false));
+        return new Surface(References.get(RESULT, false));
     }
     
     /**
@@ -123,7 +123,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gio.InputStream(References.get(RESULT, true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
     /**

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TlsPasswordClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsPasswordClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsPasswordClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

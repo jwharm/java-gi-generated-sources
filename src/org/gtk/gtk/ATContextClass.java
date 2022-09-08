@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ATContextClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ATContextClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ATContextClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

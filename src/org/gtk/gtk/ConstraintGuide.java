@@ -21,20 +21,20 @@ import java.lang.invoke.*;
  */
 public class ConstraintGuide extends org.gtk.gobject.Object implements ConstraintTarget {
 
-    public ConstraintGuide(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConstraintGuide(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ConstraintGuide */
     public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        return new ConstraintGuide(gobject.getProxy());
+        return new ConstraintGuide(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkConstraintGuide` object.
      */
     public ConstraintGuide() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_constraint_guide_new(), true));
     }
     
     /**

@@ -92,20 +92,20 @@ import java.lang.invoke.*;
  */
 public class ScrolledWindow extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ScrolledWindow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScrolledWindow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ScrolledWindow */
     public static ScrolledWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ScrolledWindow(gobject.getProxy());
+        return new ScrolledWindow(gobject.getReference());
     }
     
     /**
      * Creates a new scrolled window.
      */
     public ScrolledWindow() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_new(), false));
     }
     
     /**
@@ -113,7 +113,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -124,7 +124,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public Adjustment getHadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_hadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.get(RESULT, false));
+        return new Adjustment(References.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public Widget getHscrollbar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_hscrollbar(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -225,7 +225,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public Adjustment getVadjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_vadjustment(HANDLE());
-        return new Adjustment(ProxyFactory.get(RESULT, false));
+        return new Adjustment(References.get(RESULT, false));
     }
     
     /**
@@ -233,7 +233,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public Widget getVscrollbar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scrolled_window_get_vscrollbar(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

@@ -80,20 +80,20 @@ import java.lang.invoke.*;
  */
 public class HeaderBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public HeaderBar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public HeaderBar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to HeaderBar */
     public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        return new HeaderBar(gobject.getProxy());
+        return new HeaderBar(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkHeaderBar` widget.
      */
     public HeaderBar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_new(), false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      */
     public Widget getTitleWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_header_bar_get_title_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

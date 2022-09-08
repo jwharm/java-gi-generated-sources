@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class AlternativeTrigger extends ShortcutTrigger {
 
-    public AlternativeTrigger(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AlternativeTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AlternativeTrigger */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new AlternativeTrigger(gobject.getProxy());
+        return new AlternativeTrigger(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * alternative, create a new alternative trigger for each option.
      */
     public AlternativeTrigger(ShortcutTrigger first, ShortcutTrigger second) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_new(first.getProxy().unowned().HANDLE(), second.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_new(first.getReference().unowned().HANDLE(), second.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getFirst() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_get_first(HANDLE());
-        return new ShortcutTrigger(ProxyFactory.get(RESULT, false));
+        return new ShortcutTrigger(References.get(RESULT, false));
     }
     
     /**
@@ -55,7 +55,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      */
     public ShortcutTrigger getSecond() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_alternative_trigger_get_second(HANDLE());
-        return new ShortcutTrigger(ProxyFactory.get(RESULT, false));
+        return new ShortcutTrigger(References.get(RESULT, false));
     }
     
 }

@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class InputVector extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InputVector(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InputVector(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

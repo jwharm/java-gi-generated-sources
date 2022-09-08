@@ -36,8 +36,8 @@ public interface TreeDragDest extends io.github.jwharm.javagi.interop.NativeAddr
     }
     
     class TreeDragDestImpl extends org.gtk.gobject.Object implements TreeDragDest {
-        public TreeDragDestImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TreeDragDestImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

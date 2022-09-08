@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ActionableInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ActionableInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ActionableInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

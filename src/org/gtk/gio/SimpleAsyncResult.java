@@ -174,13 +174,13 @@ import java.lang.invoke.*;
  */
 public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncResult {
 
-    public SimpleAsyncResult(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleAsyncResult(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimpleAsyncResult */
     public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleAsyncResult(gobject.getProxy());
+        return new SimpleAsyncResult(gobject.getReference());
     }
     
 }

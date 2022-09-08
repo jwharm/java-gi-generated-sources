@@ -27,13 +27,13 @@ import java.lang.invoke.*;
  */
 public class UnixSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public UnixSocketAddress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixSocketAddress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixSocketAddress */
     public static UnixSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixSocketAddress(gobject.getProxy());
+        return new UnixSocketAddress(gobject.getReference());
     }
     
     /**
@@ -43,7 +43,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use g_unix_socket_address_new_abstract().
      */
     public UnixSocketAddress(java.lang.String path) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).HANDLE()), true));
     }
     
     /**
@@ -80,7 +80,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * its listening socket.
      */
     public UnixSocketAddress(byte[] path, int pathLen, UnixSocketAddressType type) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_socket_address_new_with_type(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path), pathLen, type.getValue()), true));
     }
     
     /**

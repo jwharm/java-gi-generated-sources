@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class FileDescriptorBasedIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileDescriptorBasedIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileDescriptorBasedIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

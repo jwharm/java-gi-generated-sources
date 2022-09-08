@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SignalInvocationHint extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SignalInvocationHint(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalInvocationHint(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -50,13 +50,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsWindow extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ShortcutsWindow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutsWindow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutsWindow */
     public static ShortcutsWindow castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsWindow(gobject.getProxy());
+        return new ShortcutsWindow(gobject.getReference());
     }
     
     @FunctionalInterface

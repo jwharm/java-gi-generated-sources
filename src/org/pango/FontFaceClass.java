@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FontFaceClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontFaceClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontFaceClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

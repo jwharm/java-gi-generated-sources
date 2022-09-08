@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class Event extends org.gtk.gobject.Object {
 
-    public Event(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Event(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Event */
     public static Event castFrom(org.gtk.gobject.Object gobject) {
-        return new Event(gobject.getProxy());
+        return new Event(gobject.getReference());
     }
     
     /**
@@ -29,7 +29,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Device getDevice() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_device(HANDLE());
-        return new Device(ProxyFactory.get(RESULT, false));
+        return new Device(References.get(RESULT, false));
     }
     
     /**
@@ -46,7 +46,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public DeviceTool getDeviceTool() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_device_tool(HANDLE());
-        return new DeviceTool(ProxyFactory.get(RESULT, false));
+        return new DeviceTool(References.get(RESULT, false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -65,7 +65,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public EventSequence getEventSequence() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_event_sequence(HANDLE());
-        return new EventSequence(ProxyFactory.get(RESULT, false));
+        return new EventSequence(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Seat getSeat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_seat(HANDLE());
-        return new Seat(ProxyFactory.get(RESULT, false));
+        return new Seat(References.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_get_surface(HANDLE());
-        return new Surface(ProxyFactory.get(RESULT, false));
+        return new Surface(References.get(RESULT, false));
     }
     
     /**
@@ -126,7 +126,7 @@ public class Event extends org.gtk.gobject.Object {
      */
     public Event ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_event_ref(HANDLE());
-        return new Event(ProxyFactory.get(RESULT, true));
+        return new Event(References.get(RESULT, true));
     }
     
     /**

@@ -56,20 +56,20 @@ import java.lang.invoke.*;
  */
 public class Stack extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Stack(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Stack(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Stack */
     public static Stack castFrom(org.gtk.gobject.Object gobject) {
-        return new Stack(gobject.getProxy());
+        return new Stack(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkStack`.
      */
     public Stack() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_new(), false));
     }
     
     /**
@@ -77,7 +77,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addChild(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_child(HANDLE(), child.HANDLE());
-        return new StackPage(ProxyFactory.get(RESULT, false));
+        return new StackPage(References.get(RESULT, false));
     }
     
     /**
@@ -87,7 +87,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addNamed(Widget child, java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_named(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new StackPage(ProxyFactory.get(RESULT, false));
+        return new StackPage(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackPage addTitled(Widget child, java.lang.String name, java.lang.String title) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_add_titled(HANDLE(), child.HANDLE(), Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(title).HANDLE());
-        return new StackPage(ProxyFactory.get(RESULT, false));
+        return new StackPage(References.get(RESULT, false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getChildByName(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_child_by_name(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -130,13 +130,11 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Retrieves the stack page for the given @child.
-     * 
-     * If the given @child is not a child widget of the stack, this function will return `NULL`.
+     * Returns the `GtkStackPage` object for @child or NULL if @child isn't a `GtkStack` child.
      */
     public StackPage getPage(Widget child) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_page(HANDLE(), child.HANDLE());
-        return new StackPage(ProxyFactory.get(RESULT, false));
+        return new StackPage(References.get(RESULT, false));
     }
     
     /**
@@ -148,7 +146,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public SelectionModel getPages() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_pages(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, true));
+        return new SelectionModel.SelectionModelImpl(References.get(RESULT, true));
     }
     
     /**
@@ -193,7 +191,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getVisibleChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_get_visible_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

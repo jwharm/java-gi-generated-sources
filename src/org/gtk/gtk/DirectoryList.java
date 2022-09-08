@@ -31,13 +31,13 @@ import java.lang.invoke.*;
  */
 public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public DirectoryList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DirectoryList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DirectoryList */
     public static DirectoryList castFrom(org.gtk.gobject.Object gobject) {
-        return new DirectoryList(gobject.getProxy());
+        return new DirectoryList(gobject.getReference());
     }
     
     /**
@@ -47,7 +47,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * with the given @attributes.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).HANDLE(), file.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).HANDLE(), file.HANDLE()), true));
     }
     
     /**
@@ -70,7 +70,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.glib.Error getError() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_error(HANDLE());
-        return new org.gtk.glib.Error(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Error(References.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_directory_list_get_file(HANDLE());
-        return new org.gtk.gio.File.FileImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.File.FileImpl(References.get(RESULT, false));
     }
     
     /**

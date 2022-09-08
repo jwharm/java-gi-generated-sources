@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutTrigger extends org.gtk.gobject.Object {
 
-    public ShortcutTrigger(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutTrigger */
     public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutTrigger(gobject.getProxy());
+        return new ShortcutTrigger(gobject.getReference());
     }
     
     /**
@@ -48,7 +48,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * `<` and `&gt;` instead of `>`.
      */
     public ShortcutTrigger(java.lang.String string) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
     }
     
     /**

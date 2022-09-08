@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ProximityEvent extends Event {
 
-    public ProximityEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ProximityEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ProximityEvent */
     public static ProximityEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new ProximityEvent(gobject.getProxy());
+        return new ProximityEvent(gobject.getReference());
     }
     
 }

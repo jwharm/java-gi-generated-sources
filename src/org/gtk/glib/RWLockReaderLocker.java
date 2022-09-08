@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class RWLockReaderLocker extends org.gtk.gobject.Object {
 
-    public RWLockReaderLocker(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RWLockReaderLocker(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

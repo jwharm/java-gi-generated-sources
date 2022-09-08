@@ -26,8 +26,8 @@ public interface Converter extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {
-        public ConverterImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ConverterImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

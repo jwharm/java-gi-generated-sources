@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BuilderCScopeClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BuilderCScopeClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuilderCScopeClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

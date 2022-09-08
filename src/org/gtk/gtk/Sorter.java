@@ -29,13 +29,13 @@ import java.lang.invoke.*;
  */
 public class Sorter extends org.gtk.gobject.Object {
 
-    public Sorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Sorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Sorter */
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
-        return new Sorter(gobject.getProxy());
+        return new Sorter(gobject.getReference());
     }
     
     /**

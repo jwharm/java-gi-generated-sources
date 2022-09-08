@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class MnemonicAction extends ShortcutAction {
 
-    public MnemonicAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MnemonicAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MnemonicAction */
     public static MnemonicAction castFrom(org.gtk.gobject.Object gobject) {
-        return new MnemonicAction(gobject.getProxy());
+        return new MnemonicAction(gobject.getReference());
     }
     
 }

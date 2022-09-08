@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class NeverTriggerClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public NeverTriggerClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NeverTriggerClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

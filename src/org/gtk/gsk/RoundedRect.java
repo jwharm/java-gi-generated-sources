@@ -22,8 +22,8 @@ import java.lang.invoke.*;
  */
 public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RoundedRect(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RoundedRect(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -50,7 +50,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init(HANDLE(), bounds.HANDLE(), topLeft.HANDLE(), topRight.HANDLE(), bottomRight.HANDLE(), bottomLeft.HANDLE());
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**
@@ -61,7 +61,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect initCopy(RoundedRect src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init_copy(HANDLE(), src.HANDLE());
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**
@@ -70,7 +70,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_init_from_rect(HANDLE(), bounds.HANDLE(), radius);
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**
@@ -102,7 +102,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect normalize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_normalize(HANDLE());
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**
@@ -112,7 +112,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect offset(float dx, float dy) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_offset(HANDLE(), dx, dy);
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**
@@ -127,7 +127,7 @@ public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public RoundedRect shrink(float top, float right, float bottom, float left) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_rect_shrink(HANDLE(), top, right, bottom, left);
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
 }

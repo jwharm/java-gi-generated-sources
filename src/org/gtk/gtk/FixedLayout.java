@@ -40,20 +40,20 @@ import java.lang.invoke.*;
  */
 public class FixedLayout extends LayoutManager {
 
-    public FixedLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FixedLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FixedLayout */
     public static FixedLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new FixedLayout(gobject.getProxy());
+        return new FixedLayout(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkFixedLayout`.
      */
     public FixedLayout() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_fixed_layout_new(), true));
     }
     
 }

@@ -69,20 +69,20 @@ import java.lang.invoke.*;
  */
 public class ComboBox extends Widget implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBox(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ComboBox(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ComboBox */
     public static ComboBox castFrom(org.gtk.gobject.Object gobject) {
-        return new ComboBox(gobject.getProxy());
+        return new ComboBox(gobject.getReference());
     }
     
     /**
      * Creates a new empty `GtkComboBox`.
      */
     public ComboBox() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new(), false));
     }
     
     /**
@@ -93,14 +93,14 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * by calling [method@Gtk.ComboBox.set_entry_text_column].
      */
     public static ComboBox newWithEntry() {
-        return new ComboBox(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_entry(), false));
+        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_entry(), false));
     }
     
     /**
      * Creates a new `GtkComboBox` with a model.
      */
     public static ComboBox newWithModel(TreeModel model) {
-        return new ComboBox(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model(model.HANDLE()), false));
+        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model(model.HANDLE()), false));
     }
     
     /**
@@ -109,7 +109,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * See also [ctor@Gtk.ComboBox.new_with_entry].
      */
     public static ComboBox newWithModelAndEntry(TreeModel model) {
-        return new ComboBox(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model_and_entry(model.HANDLE()), false));
+        return new ComboBox(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_new_with_model_and_entry(model.HANDLE()), false));
     }
     
     /**
@@ -169,7 +169,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -203,7 +203,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_combo_box_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**

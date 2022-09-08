@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class WidgetPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public WidgetPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WidgetPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

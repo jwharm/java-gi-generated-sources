@@ -43,20 +43,20 @@ import java.lang.invoke.*;
  */
 public class EventControllerScroll extends EventController {
 
-    public EventControllerScroll(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerScroll(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EventControllerScroll */
     public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerScroll(gobject.getProxy());
+        return new EventControllerScroll(gobject.getReference());
     }
     
     /**
      * Creates a new event controller that will handle scroll events.
      */
     public EventControllerScroll(int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_scroll_new(flags), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_scroll_new(flags), true));
     }
     
     /**

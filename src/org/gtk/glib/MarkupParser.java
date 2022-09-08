@@ -16,8 +16,8 @@ import java.lang.invoke.*;
  */
 public class MarkupParser extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MarkupParser(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MarkupParser(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

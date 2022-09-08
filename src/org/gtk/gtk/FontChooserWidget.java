@@ -26,20 +26,20 @@ import java.lang.invoke.*;
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontChooserWidget(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontChooserWidget */
     public static FontChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new FontChooserWidget(gobject.getProxy());
+        return new FontChooserWidget(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkFontChooserWidget`.
      */
     public FontChooserWidget() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_widget_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_font_chooser_widget_new(), false));
     }
     
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class BlendNode extends RenderNode {
 
-    public BlendNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BlendNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BlendNode */
     public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlendNode(gobject.getProxy());
+        return new BlendNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class BlendNode extends RenderNode {
      * node onto the @bottom node.
      */
     public BlendNode(RenderNode bottom, RenderNode top, BlendMode blendMode) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_new(bottom.HANDLE(), top.HANDLE(), blendMode.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_new(bottom.HANDLE(), top.HANDLE(), blendMode.getValue()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getBottomChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_get_bottom_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class BlendNode extends RenderNode {
      */
     public RenderNode getTopChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blend_node_get_top_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
 }

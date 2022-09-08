@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class FileMonitor extends org.gtk.gobject.Object {
 
-    public FileMonitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileMonitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileMonitor */
     public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new FileMonitor(gobject.getProxy());
+        return new FileMonitor(gobject.getReference());
     }
     
     /**

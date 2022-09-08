@@ -23,27 +23,27 @@ import java.lang.invoke.*;
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
 
-    public BufferedOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BufferedOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BufferedOutputStream */
     public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new BufferedOutputStream(gobject.getProxy());
+        return new BufferedOutputStream(gobject.getReference());
     }
     
     /**
      * Creates a new buffered output stream for a base stream.
      */
     public BufferedOutputStream(OutputStream baseStream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new(baseStream.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new(baseStream.HANDLE()), true));
     }
     
     /**
      * Creates a new buffered output stream with a given buffer size.
      */
     public BufferedOutputStream(OutputStream baseStream, long size) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new_sized(baseStream.HANDLE(), size), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_buffered_output_stream_new_sized(baseStream.HANDLE(), size), true));
     }
     
     /**

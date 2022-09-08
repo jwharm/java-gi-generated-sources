@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Analysis extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Analysis(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Analysis(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

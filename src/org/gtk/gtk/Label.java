@@ -188,13 +188,13 @@ import java.lang.invoke.*;
  */
 public class Label extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Label(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Label(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Label */
     public static Label castFrom(org.gtk.gobject.Object gobject) {
-        return new Label(gobject.getProxy());
+        return new Label(gobject.getReference());
     }
     
     /**
@@ -203,7 +203,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * You can pass %NULL to get an empty label widget.
      */
     public Label(java.lang.String str) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.allocateNativeString(str).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new(Interop.allocateNativeString(str).HANDLE()), false));
     }
     
     /**
@@ -223,7 +223,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and be activated by the mnemonic.
      */
     public static Label newWithMnemonic(java.lang.String str) {
-        return new Label(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).HANDLE()), false));
+        return new Label(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).HANDLE()), false));
     }
     
     /**
@@ -238,7 +238,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_attributes(HANDLE());
-        return new org.pango.AttrList(ProxyFactory.get(RESULT, false));
+        return new org.pango.AttrList(References.get(RESULT, false));
     }
     
     /**
@@ -273,7 +273,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**
@@ -308,7 +308,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_layout(HANDLE());
-        return new org.pango.Layout(ProxyFactory.get(RESULT, false));
+        return new org.pango.Layout(References.get(RESULT, false));
     }
     
     /**
@@ -352,7 +352,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getMnemonicWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_label_get_mnemonic_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

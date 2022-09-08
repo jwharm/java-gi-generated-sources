@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeListRowSorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeListRowSorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeListRowSorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

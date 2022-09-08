@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class PowerProfileMonitorInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PowerProfileMonitorInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PowerProfileMonitorInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

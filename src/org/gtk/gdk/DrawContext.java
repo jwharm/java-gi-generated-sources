@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class DrawContext extends org.gtk.gobject.Object {
 
-    public DrawContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DrawContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DrawContext */
     public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
-        return new DrawContext(gobject.getProxy());
+        return new DrawContext(gobject.getReference());
     }
     
     /**
@@ -76,7 +76,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public org.cairographics.Region getFrameRegion() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_frame_region(HANDLE());
-        return new org.cairographics.Region(ProxyFactory.get(RESULT, false));
+        return new org.cairographics.Region(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      */
     public Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_draw_context_get_surface(HANDLE());
-        return new Surface(ProxyFactory.get(RESULT, false));
+        return new Surface(References.get(RESULT, false));
     }
     
     /**

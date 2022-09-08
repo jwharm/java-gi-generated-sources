@@ -12,8 +12,8 @@ import java.lang.invoke.*;
 public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class DesktopAppInfoLookupImpl extends org.gtk.gobject.Object implements DesktopAppInfoLookup {
-        public DesktopAppInfoLookupImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DesktopAppInfoLookupImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -12,15 +12,15 @@ import java.lang.invoke.*;
  */
 public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Border(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Border(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
      * Allocates a new `GtkBorder` struct and initializes its elements to zero.
      */
     public Border() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_new(), true));
     }
     
     /**
@@ -28,7 +28,7 @@ public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Border copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_border_copy(HANDLE());
-        return new Border(ProxyFactory.get(RESULT, true));
+        return new Border(References.get(RESULT, true));
     }
     
     /**

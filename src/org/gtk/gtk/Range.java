@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class Range extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Range(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Range(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Range */
     public static Range castFrom(org.gtk.gobject.Object gobject) {
-        return new Range(gobject.getProxy());
+        return new Range(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Adjustment getAdjustment() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_range_get_adjustment(HANDLE());
-        return new Adjustment(ProxyFactory.get(RESULT, false));
+        return new Adjustment(References.get(RESULT, false));
     }
     
     /**

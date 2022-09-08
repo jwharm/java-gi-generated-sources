@@ -33,20 +33,20 @@ import java.lang.invoke.*;
  */
 public class ColorChooserWidget extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
 
-    public ColorChooserWidget(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColorChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColorChooserWidget */
     public static ColorChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorChooserWidget(gobject.getProxy());
+        return new ColorChooserWidget(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkColorChooserWidget`.
      */
     public ColorChooserWidget() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_widget_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_chooser_widget_new(), false));
     }
     
 }

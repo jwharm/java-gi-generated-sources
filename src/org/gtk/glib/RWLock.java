@@ -72,8 +72,8 @@ import java.lang.invoke.*;
  */
 public class RWLock extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RWLock(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RWLock(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

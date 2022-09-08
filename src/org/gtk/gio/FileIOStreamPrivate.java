@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileIOStreamPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileIOStreamPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileIOStreamPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

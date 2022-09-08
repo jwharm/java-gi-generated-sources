@@ -42,13 +42,13 @@ import java.lang.invoke.*;
  */
 public class FrameClock extends org.gtk.gobject.Object {
 
-    public FrameClock(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FrameClock(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FrameClock */
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
-        return new FrameClock(gobject.getProxy());
+        return new FrameClock(gobject.getReference());
     }
     
     /**
@@ -78,7 +78,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getCurrentTimings() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_clock_get_current_timings(HANDLE());
-        return new FrameTimings(ProxyFactory.get(RESULT, false));
+        return new FrameTimings(References.get(RESULT, false));
     }
     
     /**
@@ -138,7 +138,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      */
     public FrameTimings getTimings(long frameCounter) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_frame_clock_get_timings(HANDLE(), frameCounter);
-        return new FrameTimings(ProxyFactory.get(RESULT, false));
+        return new FrameTimings(References.get(RESULT, false));
     }
     
     /**

@@ -16,20 +16,20 @@ import java.lang.invoke.*;
  */
 public class BindingGroup extends Object {
 
-    public BindingGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BindingGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BindingGroup */
     public static BindingGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new BindingGroup(gobject.getProxy());
+        return new BindingGroup(gobject.getReference());
     }
     
     /**
      * Creates a new #GBindingGroup.
      */
     public BindingGroup() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_new(), true));
     }
     
     /**
@@ -65,7 +65,7 @@ public class BindingGroup extends Object {
      */
     public Object dupSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_group_dup_source(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, false));
+        return new Object(References.get(RESULT, false));
     }
     
     /**

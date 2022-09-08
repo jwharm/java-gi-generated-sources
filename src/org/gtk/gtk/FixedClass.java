@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FixedClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FixedClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FixedClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

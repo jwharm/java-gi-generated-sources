@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class GLAreaClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GLAreaClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLAreaClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

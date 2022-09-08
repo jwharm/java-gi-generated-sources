@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class NumericSorter extends Sorter {
 
-    public NumericSorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NumericSorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NumericSorter */
     public static NumericSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new NumericSorter(gobject.getProxy());
+        return new NumericSorter(gobject.getReference());
     }
     
     /**
@@ -29,7 +29,7 @@ public class NumericSorter extends Sorter {
      * [method@Gtk.NumericSorter.set_sort_order] to change this.
      */
     public NumericSorter(Expression expression) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_new(expression.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -37,7 +37,7 @@ public class NumericSorter extends Sorter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_numeric_sorter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**

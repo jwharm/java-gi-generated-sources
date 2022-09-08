@@ -87,13 +87,13 @@ import java.lang.invoke.*;
  */
 public class Binding extends Object {
 
-    public Binding(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Binding(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Binding */
     public static Binding castFrom(org.gtk.gobject.Object gobject) {
-        return new Binding(gobject.getProxy());
+        return new Binding(gobject.getReference());
     }
     
     /**
@@ -105,7 +105,7 @@ public class Binding extends Object {
      */
     public Object dupSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_source(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, true));
+        return new Object(References.get(RESULT, true));
     }
     
     /**
@@ -117,7 +117,7 @@ public class Binding extends Object {
      */
     public Object dupTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_binding_dup_target(HANDLE());
-        return new Object(ProxyFactory.get(RESULT, true));
+        return new Object(References.get(RESULT, true));
     }
     
     /**

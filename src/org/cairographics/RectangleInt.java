@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class RectangleInt extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RectangleInt(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RectangleInt(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

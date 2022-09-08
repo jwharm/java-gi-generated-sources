@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsShortcut extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ShortcutsShortcut(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutsShortcut(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutsShortcut */
     public static ShortcutsShortcut castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsShortcut(gobject.getProxy());
+        return new ShortcutsShortcut(gobject.getReference());
     }
     
 }

@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DateTime(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DateTime(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -45,7 +45,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new(tz.HANDLE(), year, month, day, hour, minute, seconds), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new(tz.HANDLE(), year, month, day, hour, minute, seconds), true));
     }
     
     /**
@@ -94,7 +94,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(java.lang.String text, TimeZone defaultTz) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).HANDLE(), defaultTz.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).HANDLE(), defaultTz.HANDLE()), true));
     }
     
     /**
@@ -112,7 +112,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalLocal(TimeVal tv) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_local(tv.HANDLE()), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_local(tv.HANDLE()), true));
     }
     
     /**
@@ -128,7 +128,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalUtc(TimeVal tv) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_utc(tv.HANDLE()), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_timeval_utc(tv.HANDLE()), true));
     }
     
     /**
@@ -145,7 +145,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixLocal(long t) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_local(t), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_local(t), true));
     }
     
     /**
@@ -161,7 +161,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixUtc(long t) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_utc(t), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_from_unix_utc(t), true));
     }
     
     /**
@@ -172,7 +172,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true));
     }
     
     /**
@@ -187,7 +187,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(TimeZone tz) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now(tz.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now(tz.HANDLE()), true));
     }
     
     /**
@@ -198,7 +198,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newNowLocal() {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_local(), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_local(), true));
     }
     
     /**
@@ -208,7 +208,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newNowUtc() {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_utc(), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_now_utc(), true));
     }
     
     /**
@@ -219,7 +219,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true));
+        return new DateTime(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true));
     }
     
     /**
@@ -227,7 +227,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime add(TimeSpan timespan) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add(HANDLE(), timespan.getValue());
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -236,7 +236,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addDays(int days) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_days(HANDLE(), days);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -245,7 +245,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_full(HANDLE(), years, months, days, hours, minutes, seconds);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -254,7 +254,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addHours(int hours) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_hours(HANDLE(), hours);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -263,7 +263,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addMinutes(int minutes) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_minutes(HANDLE(), minutes);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -277,7 +277,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addMonths(int months) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_months(HANDLE(), months);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -286,7 +286,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addSeconds(double seconds) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_seconds(HANDLE(), seconds);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -295,7 +295,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addWeeks(int weeks) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_weeks(HANDLE(), weeks);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -307,7 +307,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime addYears(int years) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_add_years(HANDLE(), years);
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -540,7 +540,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TimeZone getTimezone() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_get_timezone(HANDLE());
-        return new TimeZone(ProxyFactory.get(RESULT, false));
+        return new TimeZone(References.get(RESULT, false));
     }
     
     /**
@@ -661,7 +661,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_ref(HANDLE());
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -673,7 +673,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime toLocal() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_local(HANDLE());
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -686,7 +686,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime toTimezone(TimeZone tz) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_timezone(HANDLE(), tz.HANDLE());
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**
@@ -710,7 +710,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public DateTime toUtc() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_date_time_to_utc(HANDLE());
-        return new DateTime(ProxyFactory.get(RESULT, true));
+        return new DateTime(References.get(RESULT, true));
     }
     
     /**

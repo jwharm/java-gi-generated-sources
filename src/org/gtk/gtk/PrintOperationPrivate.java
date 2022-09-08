@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PrintOperationPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PrintOperationPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PrintOperationPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

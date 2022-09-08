@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Frustum(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Frustum(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -23,7 +23,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public Frustum() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_alloc(), true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Frustum init(Plane p0, Plane p1, Plane p2, Plane p3, Plane p4, Plane p5) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init(HANDLE(), p0.HANDLE(), p1.HANDLE(), p2.HANDLE(), p3.HANDLE(), p4.HANDLE(), p5.HANDLE());
-        return new Frustum(ProxyFactory.get(RESULT, false));
+        return new Frustum(References.get(RESULT, false));
     }
     
     /**
@@ -72,7 +72,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Frustum initFromFrustum(Frustum src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init_from_frustum(HANDLE(), src.HANDLE());
-        return new Frustum(ProxyFactory.get(RESULT, false));
+        return new Frustum(References.get(RESULT, false));
     }
     
     /**
@@ -80,7 +80,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Frustum initFromMatrix(Matrix matrix) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_frustum_init_from_matrix(HANDLE(), matrix.HANDLE());
-        return new Frustum(ProxyFactory.get(RESULT, false));
+        return new Frustum(References.get(RESULT, false));
     }
     
     /**

@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class ApplicationCommandLineClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ApplicationCommandLineClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ApplicationCommandLineClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

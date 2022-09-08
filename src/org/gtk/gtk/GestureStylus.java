@@ -13,20 +13,20 @@ import java.lang.invoke.*;
  */
 public class GestureStylus extends GestureSingle {
 
-    public GestureStylus(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureStylus(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureStylus */
     public static GestureStylus castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureStylus(gobject.getProxy());
+        return new GestureStylus(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkGestureStylus`.
      */
     public GestureStylus() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_new(), true));
     }
     
     /**
@@ -39,7 +39,7 @@ public class GestureStylus extends GestureSingle {
      */
     public org.gtk.gdk.DeviceTool getDeviceTool() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_stylus_get_device_tool(HANDLE());
-        return new org.gtk.gdk.DeviceTool(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.DeviceTool(References.get(RESULT, false));
     }
     
     @FunctionalInterface

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FrameClockClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FrameClockClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FrameClockClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

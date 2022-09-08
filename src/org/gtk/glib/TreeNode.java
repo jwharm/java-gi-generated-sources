@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -28,7 +28,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode next() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_next(HANDLE());
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -37,7 +37,7 @@ public class TreeNode extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode previous() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_previous(HANDLE());
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**

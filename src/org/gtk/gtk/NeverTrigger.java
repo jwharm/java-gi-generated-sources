@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class NeverTrigger extends ShortcutTrigger {
 
-    public NeverTrigger(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NeverTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NeverTrigger */
     public static NeverTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new NeverTrigger(gobject.getProxy());
+        return new NeverTrigger(gobject.getReference());
     }
     
 }

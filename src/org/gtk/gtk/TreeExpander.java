@@ -48,20 +48,20 @@ import java.lang.invoke.*;
  */
 public class TreeExpander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public TreeExpander(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeExpander(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeExpander */
     public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeExpander(gobject.getProxy());
+        return new TreeExpander(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkTreeExpander`
      */
     public TreeExpander() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_new(), false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_item(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
     /**
@@ -99,7 +99,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
      */
     public TreeListRow getListRow() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_expander_get_list_row(HANDLE());
-        return new TreeListRow(ProxyFactory.get(RESULT, false));
+        return new TreeListRow(References.get(RESULT, false));
     }
     
     /**

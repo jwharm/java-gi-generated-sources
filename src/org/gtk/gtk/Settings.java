@@ -35,13 +35,13 @@ import java.lang.invoke.*;
  */
 public class Settings extends org.gtk.gobject.Object implements StyleProvider {
 
-    public Settings(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Settings(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Settings */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        return new Settings(gobject.getProxy());
+        return new Settings(gobject.getReference());
     }
     
     /**

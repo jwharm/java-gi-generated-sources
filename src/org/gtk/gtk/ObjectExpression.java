@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ObjectExpression extends Expression {
 
-    public ObjectExpression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ObjectExpression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ObjectExpression */
     public static ObjectExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new ObjectExpression(gobject.getProxy());
+        return new ObjectExpression(gobject.getReference());
     }
     
     /**
@@ -29,7 +29,7 @@ public class ObjectExpression extends Expression {
      * If you want to keep a reference to `object`, use [ctor@Gtk.ConstantExpression.new].
      */
     public ObjectExpression(org.gtk.gobject.Object object) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_object_expression_new(object.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_object_expression_new(object.HANDLE()), true));
     }
     
     /**
@@ -37,7 +37,7 @@ public class ObjectExpression extends Expression {
      */
     public org.gtk.gobject.Object getObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_object_expression_get_object(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
 }

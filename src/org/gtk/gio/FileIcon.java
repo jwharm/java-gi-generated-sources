@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  */
 public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
 
-    public FileIcon(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileIcon(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileIcon */
     public static FileIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new FileIcon(gobject.getProxy());
+        return new FileIcon(gobject.getReference());
     }
     
     /**
      * Creates a new icon for a file.
      */
     public FileIcon(File file) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_new(file.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_new(file.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
      */
     public File getFile() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_file_icon_get_file(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, false));
+        return new File.FileImpl(References.get(RESULT, false));
     }
     
 }

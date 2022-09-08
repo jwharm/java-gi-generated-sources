@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public GLTexture(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLTexture(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GLTexture */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new GLTexture(gobject.getProxy());
+        return new GLTexture(gobject.getReference());
     }
     
     /**

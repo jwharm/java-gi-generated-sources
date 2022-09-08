@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class RootInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RootInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RootInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ConstraintTargetInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ConstraintTargetInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConstraintTargetInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

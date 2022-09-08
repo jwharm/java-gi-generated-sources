@@ -32,13 +32,13 @@ import java.lang.invoke.*;
  */
 public class AppChooserWidget extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
-    public AppChooserWidget(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to AppChooserWidget */
     public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        return new AppChooserWidget(gobject.getProxy());
+        return new AppChooserWidget(gobject.getReference());
     }
     
     /**
@@ -46,7 +46,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * that can handle content of the given type.
      */
     public AppChooserWidget(java.lang.String contentType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).HANDLE()), false));
     }
     
     /**

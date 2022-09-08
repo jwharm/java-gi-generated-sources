@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class InitiallyUnownedClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InitiallyUnownedClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InitiallyUnownedClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

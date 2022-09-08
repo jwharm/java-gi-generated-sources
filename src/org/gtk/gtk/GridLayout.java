@@ -23,20 +23,20 @@ import java.lang.invoke.*;
  */
 public class GridLayout extends LayoutManager {
 
-    public GridLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GridLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GridLayout */
     public static GridLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new GridLayout(gobject.getProxy());
+        return new GridLayout(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkGridLayout`.
      */
     public GridLayout() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_layout_new(), true));
     }
     
     /**

@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class StringSorter extends Sorter {
 
-    public StringSorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringSorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StringSorter */
     public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new StringSorter(gobject.getProxy());
+        return new StringSorter(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class StringSorter extends Sorter {
      * compare items as invalid.
      */
     public StringSorter(Expression expression) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_new(expression.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_new(expression.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -42,7 +42,7 @@ public class StringSorter extends Sorter {
      */
     public Expression getExpression() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_string_sorter_get_expression(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**

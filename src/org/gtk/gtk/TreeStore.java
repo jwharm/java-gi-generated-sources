@@ -36,20 +36,20 @@ import java.lang.invoke.*;
  */
 public class TreeStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
-    public TreeStore(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeStore(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeStore */
     public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeStore(gobject.getProxy());
+        return new TreeStore(gobject.getReference());
     }
     
     /**
      * Non vararg creation function.  Used primarily by language bindings.
      */
     public static TreeStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new TreeStore(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
+        return new TreeStore(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types)), true));
     }
     
     /**

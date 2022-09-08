@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class ListStore extends org.gtk.gobject.Object implements ListModel {
 
-    public ListStore(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListStore(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListStore */
     public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        return new ListStore(gobject.getProxy());
+        return new ListStore(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * must be a subclass of #GObject.
      */
     public ListStore(Type itemType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_new(itemType.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_store_new(itemType.getValue()), true));
     }
     
     /**

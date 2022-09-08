@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class MemVTable extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MemVTable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MemVTable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

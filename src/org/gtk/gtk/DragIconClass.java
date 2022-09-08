@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DragIconClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DragIconClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DragIconClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

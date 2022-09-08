@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextChildAnchorClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TextChildAnchorClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextChildAnchorClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

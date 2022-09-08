@@ -19,27 +19,27 @@ import java.lang.invoke.*;
  */
 public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
-    public TreeViewColumn(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeViewColumn(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeViewColumn */
     public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeViewColumn(gobject.getProxy());
+        return new TreeViewColumn(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkTreeViewColumn`.
      */
     public TreeViewColumn() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_new(), false));
     }
     
     /**
      * Creates a new `GtkTreeViewColumn` using @area to render its cells.
      */
     public TreeViewColumn(CellArea area) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_new_with_area(area.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_new_with_area(area.HANDLE()), false));
     }
     
     /**
@@ -121,7 +121,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getButton() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_get_button(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -241,7 +241,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getTreeView() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_get_tree_view(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -259,7 +259,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_column_get_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

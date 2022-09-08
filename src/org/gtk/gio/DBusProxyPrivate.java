@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DBusProxyPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusProxyPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusProxyPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

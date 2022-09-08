@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class FilterOutputStream extends OutputStream {
 
-    public FilterOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FilterOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FilterOutputStream */
     public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FilterOutputStream(gobject.getProxy());
+        return new FilterOutputStream(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class FilterOutputStream extends OutputStream {
      */
     public OutputStream getBaseStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_filter_output_stream_get_base_stream(HANDLE());
-        return new OutputStream(ProxyFactory.get(RESULT, false));
+        return new OutputStream(References.get(RESULT, false));
     }
     
     /**

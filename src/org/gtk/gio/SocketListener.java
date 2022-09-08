@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class SocketListener extends org.gtk.gobject.Object {
 
-    public SocketListener(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketListener(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SocketListener */
     public static SocketListener castFrom(org.gtk.gobject.Object gobject) {
-        return new SocketListener(gobject.getProxy());
+        return new SocketListener(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * or g_socket_listener_add_inet_port().
      */
     public SocketListener() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_listener_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_socket_listener_new(), true));
     }
     
     /**
@@ -60,7 +60,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new SocketConnection(ProxyFactory.get(RESULT, true));
+        return new SocketConnection(References.get(RESULT, true));
     }
     
     /**
@@ -97,7 +97,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Socket(ProxyFactory.get(RESULT, true));
+        return new Socket(References.get(RESULT, true));
     }
     
     /**
@@ -109,7 +109,7 @@ public class SocketListener extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Socket(ProxyFactory.get(RESULT, true));
+        return new Socket(References.get(RESULT, true));
     }
     
     /**

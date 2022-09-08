@@ -12,20 +12,20 @@ import java.lang.invoke.*;
  */
 public class ShortcutLabel extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ShortcutLabel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutLabel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutLabel */
     public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutLabel(gobject.getProxy());
+        return new ShortcutLabel(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkShortcutLabel` with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).HANDLE()), false));
     }
     
     /**

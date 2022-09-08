@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileOutputStreamClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileOutputStreamClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileOutputStreamClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

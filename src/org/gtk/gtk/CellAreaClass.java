@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CellAreaClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CellAreaClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellAreaClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -16,7 +16,7 @@ public class CellAreaClass extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public org.gtk.gobject.ParamSpec findCellProperty(java.lang.String propertyName) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_class_find_cell_property(HANDLE(), Interop.allocateNativeString(propertyName).HANDLE());
-        return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(References.get(RESULT, false));
     }
     
     /**

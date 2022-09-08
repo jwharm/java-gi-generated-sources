@@ -27,7 +27,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new IOStream(ProxyFactory.get(RESULT, true));
+        return new IOStream(References.get(RESULT, true));
     }
     
     /**
@@ -39,7 +39,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new IOStream(ProxyFactory.get(RESULT, true));
+        return new IOStream(References.get(RESULT, true));
     }
     
     /**
@@ -57,8 +57,8 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class ProxyImpl extends org.gtk.gobject.Object implements Proxy {
-        public ProxyImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ProxyImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

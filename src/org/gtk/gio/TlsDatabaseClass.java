@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class TlsDatabaseClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsDatabaseClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsDatabaseClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

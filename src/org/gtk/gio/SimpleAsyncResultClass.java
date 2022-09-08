@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SimpleAsyncResultClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SimpleAsyncResultClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleAsyncResultClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

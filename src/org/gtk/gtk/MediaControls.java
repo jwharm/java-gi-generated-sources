@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class MediaControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public MediaControls(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MediaControls(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MediaControls */
     public static MediaControls castFrom(org.gtk.gobject.Object gobject) {
-        return new MediaControls(gobject.getProxy());
+        return new MediaControls(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkMediaControls` managing the @stream passed to it.
      */
     public MediaControls(MediaStream stream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_new(stream.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_new(stream.HANDLE()), false));
     }
     
     /**
@@ -35,7 +35,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
      */
     public MediaStream getMediaStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_media_controls_get_media_stream(HANDLE());
-        return new MediaStream(ProxyFactory.get(RESULT, false));
+        return new MediaStream(References.get(RESULT, false));
     }
     
     /**

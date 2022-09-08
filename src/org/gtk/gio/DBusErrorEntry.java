@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusErrorEntry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusErrorEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusErrorEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

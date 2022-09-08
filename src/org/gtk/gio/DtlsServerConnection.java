@@ -12,8 +12,8 @@ import java.lang.invoke.*;
 public interface DtlsServerConnection extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class DtlsServerConnectionImpl extends org.gtk.gobject.Object implements DtlsServerConnection {
-        public DtlsServerConnectionImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DtlsServerConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

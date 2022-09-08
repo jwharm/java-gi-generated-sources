@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class OverlayLayoutChild extends LayoutChild {
 
-    public OverlayLayoutChild(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OverlayLayoutChild(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to OverlayLayoutChild */
     public static OverlayLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new OverlayLayoutChild(gobject.getProxy());
+        return new OverlayLayoutChild(gobject.getReference());
     }
     
     /**

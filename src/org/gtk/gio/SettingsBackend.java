@@ -33,13 +33,13 @@ import java.lang.invoke.*;
  */
 public class SettingsBackend extends org.gtk.gobject.Object {
 
-    public SettingsBackend(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SettingsBackend(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SettingsBackend */
     public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
-        return new SettingsBackend(gobject.getProxy());
+        return new SettingsBackend(gobject.getReference());
     }
     
     /**

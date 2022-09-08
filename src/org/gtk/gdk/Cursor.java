@@ -42,13 +42,13 @@ import java.lang.invoke.*;
  */
 public class Cursor extends org.gtk.gobject.Object {
 
-    public Cursor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Cursor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Cursor */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        return new Cursor(gobject.getProxy());
+        return new Cursor(gobject.getReference());
     }
     
     /**
@@ -71,14 +71,14 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
     public Cursor(java.lang.String name, Cursor fallback) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).HANDLE(), fallback.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).HANDLE(), fallback.HANDLE()), true));
     }
     
     /**
      * Creates a new cursor from a `GdkTexture`.
      */
     public Cursor(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_texture(texture.HANDLE(), hotspotX, hotspotY, fallback.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_new_from_texture(texture.HANDLE(), hotspotX, hotspotY, fallback.HANDLE()), true));
     }
     
     /**
@@ -92,7 +92,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Cursor getFallback() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_fallback(HANDLE());
-        return new Cursor(ProxyFactory.get(RESULT, false));
+        return new Cursor(References.get(RESULT, false));
     }
     
     /**
@@ -140,7 +140,7 @@ public class Cursor extends org.gtk.gobject.Object {
      */
     public Texture getTexture() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_cursor_get_texture(HANDLE());
-        return new Texture(ProxyFactory.get(RESULT, false));
+        return new Texture(References.get(RESULT, false));
     }
     
 }

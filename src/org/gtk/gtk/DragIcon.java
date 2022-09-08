@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class DragIcon extends Widget implements Accessible, Buildable, ConstraintTarget, Native, Root {
 
-    public DragIcon(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DragIcon(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DragIcon */
     public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
-        return new DragIcon(gobject.getProxy());
+        return new DragIcon(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drag_icon_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

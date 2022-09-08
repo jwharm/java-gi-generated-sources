@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class EventControllerLegacy extends EventController {
 
-    public EventControllerLegacy(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EventControllerLegacy(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EventControllerLegacy */
     public static EventControllerLegacy castFrom(org.gtk.gobject.Object gobject) {
-        return new EventControllerLegacy(gobject.getProxy());
+        return new EventControllerLegacy(gobject.getReference());
     }
     
     /**
      * Creates a new legacy event controller.
      */
     public EventControllerLegacy() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_legacy_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_event_controller_legacy_new(), true));
     }
     
     @FunctionalInterface

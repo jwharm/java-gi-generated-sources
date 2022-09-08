@@ -43,13 +43,13 @@ import java.lang.invoke.*;
  */
 public class TextView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public TextView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextView */
     public static TextView castFrom(org.gtk.gobject.Object gobject) {
-        return new TextView(gobject.getProxy());
+        return new TextView(gobject.getReference());
     }
     
     /**
@@ -61,7 +61,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * your own buffer, consider [ctor@Gtk.TextView.new_with_buffer].
      */
     public TextView() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_new(), false));
     }
     
     /**
@@ -73,7 +73,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * to the buffer; it does not take over an existing reference.
      */
     public TextView(TextBuffer buffer) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_new_with_buffer(buffer.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_new_with_buffer(buffer.HANDLE()), false));
     }
     
     /**
@@ -189,7 +189,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public TextBuffer getBuffer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_buffer(HANDLE());
-        return new TextBuffer(ProxyFactory.get(RESULT, false));
+        return new TextBuffer(References.get(RESULT, false));
     }
     
     /**
@@ -242,7 +242,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**
@@ -255,7 +255,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getGutter(TextWindowType win) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_gutter(HANDLE(), win.getValue());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -337,7 +337,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.Context getLtrContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_ltr_context(HANDLE());
-        return new org.pango.Context(ProxyFactory.get(RESULT, false));
+        return new org.pango.Context(References.get(RESULT, false));
     }
     
     /**
@@ -405,7 +405,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.Context getRtlContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_rtl_context(HANDLE());
-        return new org.pango.Context(ProxyFactory.get(RESULT, false));
+        return new org.pango.Context(References.get(RESULT, false));
     }
     
     /**
@@ -417,7 +417,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.pango.TabArray getTabs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_view_get_tabs(HANDLE());
-        return new org.pango.TabArray(ProxyFactory.get(RESULT, true));
+        return new org.pango.TabArray(References.get(RESULT, true));
     }
     
     /**

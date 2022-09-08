@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class TreeIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -28,7 +28,7 @@ public class TreeIter extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeIter copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_iter_copy(HANDLE());
-        return new TreeIter(ProxyFactory.get(RESULT, true));
+        return new TreeIter(References.get(RESULT, true));
     }
     
     /**

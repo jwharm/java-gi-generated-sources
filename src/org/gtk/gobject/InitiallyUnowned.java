@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class InitiallyUnowned extends Object {
 
-    public InitiallyUnowned(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InitiallyUnowned(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to InitiallyUnowned */
     public static InitiallyUnowned castFrom(org.gtk.gobject.Object gobject) {
-        return new InitiallyUnowned(gobject.getProxy());
+        return new InitiallyUnowned(gobject.getReference());
     }
     
 }

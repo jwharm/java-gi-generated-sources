@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class StringSorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StringSorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringSorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

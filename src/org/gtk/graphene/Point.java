@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Point(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Point(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -37,7 +37,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public Point() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_alloc(), true));
     }
     
     /**
@@ -67,7 +67,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point init(float x, float y) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init(HANDLE(), x, y);
-        return new Point(ProxyFactory.get(RESULT, false));
+        return new Point(References.get(RESULT, false));
     }
     
     /**
@@ -75,7 +75,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point initFromPoint(Point src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init_from_point(HANDLE(), src.HANDLE());
-        return new Point(ProxyFactory.get(RESULT, false));
+        return new Point(References.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Point initFromVec2(Vec2 src) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_point_init_from_vec2(HANDLE(), src.HANDLE());
-        return new Point(ProxyFactory.get(RESULT, false));
+        return new Point(References.get(RESULT, false));
     }
     
     /**

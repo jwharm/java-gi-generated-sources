@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class NamedAction extends ShortcutAction {
 
-    public NamedAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NamedAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NamedAction */
     public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
-        return new NamedAction(gobject.getProxy());
+        return new NamedAction(gobject.getReference());
     }
     
     /**
@@ -29,7 +29,7 @@ public class NamedAction extends ShortcutAction {
      * how to add actions to widgets.
      */
     public NamedAction(java.lang.String name) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_named_action_new(Interop.allocateNativeString(name).HANDLE()), true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeModelSortPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeModelSortPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeModelSortPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TlsConnectionPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsConnectionPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsConnectionPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

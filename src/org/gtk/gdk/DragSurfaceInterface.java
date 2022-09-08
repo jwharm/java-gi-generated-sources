@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DragSurfaceInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DragSurfaceInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DragSurfaceInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

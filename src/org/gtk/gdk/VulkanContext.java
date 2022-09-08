@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
 
-    public VulkanContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VulkanContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to VulkanContext */
     public static VulkanContext castFrom(org.gtk.gobject.Object gobject) {
-        return new VulkanContext(gobject.getProxy());
+        return new VulkanContext(gobject.getReference());
     }
     
     @FunctionalInterface

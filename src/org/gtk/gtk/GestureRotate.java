@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class GestureRotate extends Gesture {
 
-    public GestureRotate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureRotate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GestureRotate */
     public static GestureRotate castFrom(org.gtk.gobject.Object gobject) {
-        return new GestureRotate(gobject.getProxy());
+        return new GestureRotate(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class GestureRotate extends Gesture {
      * rotation gestures.
      */
     public GestureRotate() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_rotate_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_rotate_new(), true));
     }
     
     /**

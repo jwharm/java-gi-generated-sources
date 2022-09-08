@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class IconIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IconIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IconIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

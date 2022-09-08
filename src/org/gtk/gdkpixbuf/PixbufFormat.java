@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PixbufFormat(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufFormat(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -23,7 +23,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PixbufFormat copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_format_copy(HANDLE());
-        return new PixbufFormat(ProxyFactory.get(RESULT, true));
+        return new PixbufFormat(References.get(RESULT, true));
     }
     
     /**

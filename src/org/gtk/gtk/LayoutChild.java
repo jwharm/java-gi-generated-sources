@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class LayoutChild extends org.gtk.gobject.Object {
 
-    public LayoutChild(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LayoutChild(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to LayoutChild */
     public static LayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new LayoutChild(gobject.getProxy());
+        return new LayoutChild(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      */
     public Widget getChildWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_child_get_child_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -41,7 +41,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      */
     public LayoutManager getLayoutManager() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_layout_child_get_layout_manager(HANDLE());
-        return new LayoutManager(ProxyFactory.get(RESULT, false));
+        return new LayoutManager(References.get(RESULT, false));
     }
     
 }

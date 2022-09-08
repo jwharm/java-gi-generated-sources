@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DragSourceClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DragSourceClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DragSourceClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

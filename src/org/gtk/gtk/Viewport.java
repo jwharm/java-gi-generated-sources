@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public Viewport(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Viewport(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Viewport */
     public static Viewport castFrom(org.gtk.gobject.Object gobject) {
-        return new Viewport(gobject.getProxy());
+        return new Viewport(gobject.getReference());
     }
     
     /**
@@ -41,7 +41,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * adjustments if none are given.
      */
     public Viewport(Adjustment hadjustment, Adjustment vadjustment) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_new(hadjustment.HANDLE(), vadjustment.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_new(hadjustment.HANDLE(), vadjustment.HANDLE()), false));
     }
     
     /**
@@ -49,7 +49,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_viewport_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

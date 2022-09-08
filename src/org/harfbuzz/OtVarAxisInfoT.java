@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  */
 public class OtVarAxisInfoT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OtVarAxisInfoT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OtVarAxisInfoT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

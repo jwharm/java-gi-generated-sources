@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class GlyphInfoT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphInfoT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphInfoT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

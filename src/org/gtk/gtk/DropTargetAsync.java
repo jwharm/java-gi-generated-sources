@@ -43,20 +43,20 @@ import java.lang.invoke.*;
  */
 public class DropTargetAsync extends EventController {
 
-    public DropTargetAsync(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DropTargetAsync(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DropTargetAsync */
     public static DropTargetAsync castFrom(org.gtk.gobject.Object gobject) {
-        return new DropTargetAsync(gobject.getProxy());
+        return new DropTargetAsync(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkDropTargetAsync` object.
      */
     public DropTargetAsync(org.gtk.gdk.ContentFormats formats, int actions) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_async_new(formats.HANDLE(), actions), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_async_new(formats.HANDLE(), actions), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class DropTargetAsync extends EventController {
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_drop_target_async_get_formats(HANDLE());
-        return new org.gtk.gdk.ContentFormats(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gdk.ContentFormats(References.get(RESULT, true));
     }
     
     /**

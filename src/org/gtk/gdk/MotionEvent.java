@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class MotionEvent extends Event {
 
-    public MotionEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MotionEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MotionEvent */
     public static MotionEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new MotionEvent(gobject.getProxy());
+        return new MotionEvent(gobject.getReference());
     }
     
 }

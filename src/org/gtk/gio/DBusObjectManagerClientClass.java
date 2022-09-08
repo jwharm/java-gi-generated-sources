@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusObjectManagerClientClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusObjectManagerClientClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectManagerClientClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -266,7 +266,7 @@ public final class Gtk {
      */
     public static org.pango.Language getDefaultLanguage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_get_default_language();
-        return new org.pango.Language(ProxyFactory.get(RESULT, false));
+        return new org.pango.Language(References.get(RESULT, false));
     }
     
     /**
@@ -416,7 +416,7 @@ public final class Gtk {
      */
     public static Native nativeGetForSurface(org.gtk.gdk.Surface surface) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_for_surface(surface.HANDLE());
-        return new Native.NativeImpl(ProxyFactory.get(RESULT, false));
+        return new Native.NativeImpl(References.get(RESULT, false));
     }
     
     /**
@@ -442,7 +442,7 @@ public final class Gtk {
      */
     public static org.gtk.glib.List paperSizeGetPaperSizes(boolean includeCustom) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**
@@ -452,7 +452,7 @@ public final class Gtk {
      */
     public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(nick).HANDLE(), Interop.allocateNativeString(blurb).HANDLE(), flags);
-        return new org.gtk.gobject.ParamSpec(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.ParamSpec(References.get(RESULT, true));
     }
     
     /**
@@ -475,7 +475,7 @@ public final class Gtk {
      */
     public static PageSetup printRunPageSetupDialog(Window parent, PageSetup pageSetup, PrintSettings settings) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_print_run_page_setup_dialog(parent.HANDLE(), pageSetup.HANDLE(), settings.HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, true));
+        return new PageSetup(References.get(RESULT, true));
     }
     
     public static org.gtk.glib.Quark recentManagerErrorQuark() {
@@ -710,7 +710,7 @@ public final class Gtk {
      */
     public static org.gtk.gdk.ContentProvider treeCreateRowDragContent(TreeModel treeModel, TreePath path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_create_row_drag_content(treeModel.HANDLE(), path.HANDLE());
-        return new org.gtk.gdk.ContentProvider(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gdk.ContentProvider(References.get(RESULT, true));
     }
     
     /**
@@ -757,7 +757,7 @@ public final class Gtk {
      */
     public static Expression valueDupExpression(org.gtk.gobject.Value value) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_dup_expression(value.HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, true));
+        return new Expression(References.get(RESULT, true));
     }
     
     /**
@@ -765,7 +765,7 @@ public final class Gtk {
      */
     public static Expression valueGetExpression(org.gtk.gobject.Value value) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_get_expression(value.HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, false));
+        return new Expression(References.get(RESULT, false));
     }
     
     /**
@@ -783,7 +783,7 @@ public final class Gtk {
      * This function transfers the ownership of the `expression` to the `GValue`.
      */
     public static void valueTakeExpression(org.gtk.gobject.Value value, Expression expression) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_take_expression(value.HANDLE(), expression.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_value_take_expression(value.HANDLE(), expression.getReference().unowned().HANDLE());
     }
     
 }

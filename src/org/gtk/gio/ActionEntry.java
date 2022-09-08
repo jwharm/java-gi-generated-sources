@@ -19,8 +19,8 @@ import java.lang.invoke.*;
  */
 public class ActionEntry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ActionEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ActionEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

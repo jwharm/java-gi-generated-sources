@@ -72,13 +72,13 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gio.Application implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
 
-    public Application(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Application(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.getProxy());
+        return new Application(gobject.getReference());
     }
     
     /**
@@ -102,7 +102,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
     }
     
     /**
@@ -136,7 +136,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public Window getActiveWindow() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_active_window(HANDLE());
-        return new Window(ProxyFactory.get(RESULT, false));
+        return new Window(References.get(RESULT, false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.gio.Menu getMenuById(java.lang.String id) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menu_by_id(HANDLE(), Interop.allocateNativeString(id).HANDLE());
-        return new org.gtk.gio.Menu(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.Menu(References.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.gio.MenuModel getMenubar() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_menubar(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**
@@ -167,7 +167,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public Window getWindowById(int id) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_window_by_id(HANDLE(), id);
-        return new Window(ProxyFactory.get(RESULT, false));
+        return new Window(References.get(RESULT, false));
     }
     
     /**
@@ -183,7 +183,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      */
     public org.gtk.glib.List getWindows() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_application_get_windows(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

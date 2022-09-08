@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TextNode extends RenderNode {
 
-    public TextNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextNode */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextNode(gobject.getProxy());
+        return new TextNode(gobject.getReference());
     }
     
     /**
@@ -26,7 +26,7 @@ public class TextNode extends RenderNode {
      * color glyphs.
      */
     public TextNode(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_new(font.HANDLE(), glyphs.HANDLE(), color.HANDLE(), offset.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_new(font.HANDLE(), glyphs.HANDLE(), color.HANDLE(), offset.HANDLE()), true));
     }
     
     /**
@@ -34,7 +34,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
     /**
@@ -42,7 +42,7 @@ public class TextNode extends RenderNode {
      */
     public org.pango.Font getFont() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_font(HANDLE());
-        return new org.pango.Font(ProxyFactory.get(RESULT, false));
+        return new org.pango.Font(References.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class TextNode extends RenderNode {
      */
     public org.gtk.graphene.Point getOffset() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_text_node_get_offset(HANDLE());
-        return new org.gtk.graphene.Point(ProxyFactory.get(RESULT, false));
+        return new org.gtk.graphene.Point(References.get(RESULT, false));
     }
     
     /**

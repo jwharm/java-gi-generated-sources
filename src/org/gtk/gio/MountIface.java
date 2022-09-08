@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class MountIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MountIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MountIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

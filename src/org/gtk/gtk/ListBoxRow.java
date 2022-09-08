@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class ListBoxRow extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public ListBoxRow(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListBoxRow(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListBoxRow */
     public static ListBoxRow castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBoxRow(gobject.getProxy());
+        return new ListBoxRow(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkListBoxRow`.
      */
     public ListBoxRow() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_new(), false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -76,7 +76,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      */
     public Widget getHeader() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_list_box_row_get_header(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

@@ -17,20 +17,20 @@ import java.lang.invoke.*;
  */
 public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public BookmarkList(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BookmarkList(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BookmarkList */
     public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
-        return new BookmarkList(gobject.getProxy());
+        return new BookmarkList(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkBookmarkList` with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(attributes).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).HANDLE(), Interop.allocateNativeString(attributes).HANDLE()), true));
     }
     
     /**

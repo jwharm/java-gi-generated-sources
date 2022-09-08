@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EntryBufferClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EntryBufferClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EntryBufferClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

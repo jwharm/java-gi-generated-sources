@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SnapshotClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SnapshotClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SnapshotClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

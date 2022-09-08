@@ -82,20 +82,20 @@ import java.lang.invoke.*;
  */
 public class InfoBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public InfoBar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InfoBar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to InfoBar */
     public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
-        return new InfoBar(gobject.getProxy());
+        return new InfoBar(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkInfoBar` object.
      */
     public InfoBar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_new(), false));
     }
     
     /**
@@ -120,7 +120,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_info_bar_add_button(HANDLE(), Interop.allocateNativeString(buttonText).HANDLE(), responseId);
-        return new Button(ProxyFactory.get(RESULT, false));
+        return new Button(References.get(RESULT, false));
     }
     
     /**

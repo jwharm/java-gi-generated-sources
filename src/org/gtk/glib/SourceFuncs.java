@@ -29,8 +29,8 @@ import java.lang.invoke.*;
  */
 public class SourceFuncs extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SourceFuncs(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SourceFuncs(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -95,27 +95,27 @@ import java.lang.invoke.*;
  */
 public class TreeView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public TreeView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeView */
     public static TreeView castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeView(gobject.getProxy());
+        return new TreeView(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkTreeView` widget.
      */
     public TreeView() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_new(), false));
     }
     
     /**
      * Creates a new `GtkTreeView` widget with the model initialized to @model.
      */
     public TreeView(TreeModel model) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_new_with_model(model.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_new_with_model(model.HANDLE()), false));
     }
     
     /**
@@ -157,7 +157,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.gdk.Paintable createRowDragIcon(TreePath path) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_create_row_drag_icon(HANDLE(), path.HANDLE());
-        return new org.gtk.gdk.Paintable.PaintableImpl(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gdk.Paintable.PaintableImpl(References.get(RESULT, true));
     }
     
     /**
@@ -242,7 +242,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeViewColumn getColumn(int n) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_column(HANDLE(), n);
-        return new TreeViewColumn(ProxyFactory.get(RESULT, false));
+        return new TreeViewColumn(References.get(RESULT, false));
     }
     
     /**
@@ -251,7 +251,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public org.gtk.glib.List getColumns() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_columns(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -290,7 +290,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeViewColumn getExpanderColumn() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_expander_column(HANDLE());
-        return new TreeViewColumn(ProxyFactory.get(RESULT, false));
+        return new TreeViewColumn(References.get(RESULT, false));
     }
     
     /**
@@ -356,7 +356,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -401,7 +401,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public Editable getSearchEntry() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_search_entry(HANDLE());
-        return new Editable.EditableImpl(ProxyFactory.get(RESULT, false));
+        return new Editable.EditableImpl(References.get(RESULT, false));
     }
     
     /**
@@ -409,7 +409,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeSelection getSelection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_view_get_selection(HANDLE());
-        return new TreeSelection(ProxyFactory.get(RESULT, false));
+        return new TreeSelection(References.get(RESULT, false));
     }
     
     /**

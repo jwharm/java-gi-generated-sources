@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class EmojiChooserClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public EmojiChooserClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EmojiChooserClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

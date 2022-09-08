@@ -25,20 +25,20 @@ import java.lang.invoke.*;
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Separator(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Separator(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Separator */
     public static Separator castFrom(org.gtk.gobject.Object gobject) {
-        return new Separator(gobject.getProxy());
+        return new Separator(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkSeparator` with the given orientation.
      */
     public Separator(Orientation orientation) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_separator_new(orientation.getValue()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_separator_new(orientation.getValue()), false));
     }
     
 }

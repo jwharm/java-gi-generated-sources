@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceSkeletonClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusInterfaceSkeletonClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusInterfaceSkeletonClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

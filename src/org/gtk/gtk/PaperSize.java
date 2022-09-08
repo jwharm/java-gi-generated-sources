@@ -20,8 +20,8 @@ import java.lang.invoke.*;
  */
 public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PaperSize(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PaperSize(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -33,7 +33,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * see [func@Gtk.PaperSize.get_default].
      */
     public PaperSize(java.lang.String name) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).HANDLE()), true));
     }
     
     /**
@@ -41,7 +41,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * given parameters.
      */
     public PaperSize(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(displayName).HANDLE(), width, height, unit.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).HANDLE(), Interop.allocateNativeString(displayName).HANDLE(), width, height, unit.getValue()), true));
     }
     
     /**
@@ -51,7 +51,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.PaperSize.to_gvariant].
      */
     public PaperSize(org.gtk.glib.Variant variant) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_gvariant(variant.HANDLE()), true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public PaperSize(java.lang.String ippName, double width, double height) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).HANDLE(), width, height), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).HANDLE(), width, height), true));
     }
     
     /**
@@ -75,7 +75,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public PaperSize(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).HANDLE(), Interop.allocateNativeString(ppdDisplayName).HANDLE(), width, height), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).HANDLE(), Interop.allocateNativeString(ppdDisplayName).HANDLE(), width, height), true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PaperSize copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_copy(HANDLE());
-        return new PaperSize(ProxyFactory.get(RESULT, true));
+        return new PaperSize(References.get(RESULT, true));
     }
     
     /**
@@ -204,7 +204,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paper_size_to_gvariant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**

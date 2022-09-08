@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FontsetSimpleClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontsetSimpleClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontsetSimpleClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

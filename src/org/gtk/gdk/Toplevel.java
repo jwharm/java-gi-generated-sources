@@ -274,8 +274,8 @@ public interface Toplevel extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class ToplevelImpl extends org.gtk.gobject.Object implements Toplevel {
-        public ToplevelImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ToplevelImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

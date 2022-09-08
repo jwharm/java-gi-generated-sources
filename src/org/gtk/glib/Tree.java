@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Tree(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Tree(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -67,7 +67,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode insertNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_insert_node(HANDLE(), key, value);
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode lookupNode(jdk.incubator.foreign.MemoryAddress key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lookup_node(HANDLE(), key);
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode lowerBound(jdk.incubator.foreign.MemoryAddress key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_lower_bound(HANDLE(), key);
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -128,7 +128,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode nodeFirst() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_first(HANDLE());
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -137,7 +137,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode nodeLast() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_node_last(HANDLE());
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Tree ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_ref(HANDLE());
-        return new Tree(ProxyFactory.get(RESULT, true));
+        return new Tree(References.get(RESULT, true));
     }
     
     /**
@@ -196,7 +196,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode replaceNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_replace_node(HANDLE(), key, value);
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
     /**
@@ -232,7 +232,7 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public TreeNode upperBound(jdk.incubator.foreign.MemoryAddress key) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tree_upper_bound(HANDLE(), key);
-        return new TreeNode(ProxyFactory.get(RESULT, false));
+        return new TreeNode(References.get(RESULT, false));
     }
     
 }

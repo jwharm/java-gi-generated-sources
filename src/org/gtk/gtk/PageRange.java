@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class PageRange extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PageRange(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PageRange(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

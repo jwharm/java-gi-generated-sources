@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class ConverterInputStream extends FilterInputStream implements PollableInputStream {
 
-    public ConverterInputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConverterInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ConverterInputStream */
     public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new ConverterInputStream(gobject.getProxy());
+        return new ConverterInputStream(gobject.getReference());
     }
     
     /**
      * Creates a new converter input stream for the @base_stream.
      */
     public ConverterInputStream(InputStream baseStream, Converter converter) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_new(baseStream.HANDLE(), converter.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class ConverterInputStream extends FilterInputStream implements PollableI
      */
     public Converter getConverter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_converter_input_stream_get_converter(HANDLE());
-        return new Converter.ConverterImpl(ProxyFactory.get(RESULT, false));
+        return new Converter.ConverterImpl(References.get(RESULT, false));
     }
     
 }

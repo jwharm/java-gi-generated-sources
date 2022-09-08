@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class TcpWrapperConnection extends TcpConnection {
 
-    public TcpWrapperConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TcpWrapperConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TcpWrapperConnection */
     public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new TcpWrapperConnection(gobject.getProxy());
+        return new TcpWrapperConnection(gobject.getReference());
     }
     
     /**
      * Wraps @base_io_stream and @socket together as a #GSocketConnection.
      */
     public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_new(baseIoStream.HANDLE(), socket.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_new(baseIoStream.HANDLE(), socket.HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class TcpWrapperConnection extends TcpConnection {
      */
     public IOStream getBaseIoStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_tcp_wrapper_connection_get_base_io_stream(HANDLE());
-        return new IOStream(ProxyFactory.get(RESULT, false));
+        return new IOStream(References.get(RESULT, false));
     }
     
 }

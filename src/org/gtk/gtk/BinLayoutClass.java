@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BinLayoutClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BinLayoutClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BinLayoutClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

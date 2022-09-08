@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BufferedOutputStreamClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BufferedOutputStreamClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BufferedOutputStreamClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

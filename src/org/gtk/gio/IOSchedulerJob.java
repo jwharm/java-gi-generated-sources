@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class IOSchedulerJob extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IOSchedulerJob(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOSchedulerJob(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

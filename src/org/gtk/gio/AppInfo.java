@@ -104,7 +104,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default AppInfo dup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_dup(HANDLE());
-        return new AppInfo.AppInfoImpl(ProxyFactory.get(RESULT, true));
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
     }
     
     /**
@@ -158,7 +158,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_app_info_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.get(RESULT, false));
+        return new Icon.IconImpl(References.get(RESULT, false));
     }
     
     /**
@@ -331,8 +331,8 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class AppInfoImpl extends org.gtk.gobject.Object implements AppInfo {
-        public AppInfoImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public AppInfoImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

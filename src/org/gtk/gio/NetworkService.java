@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class NetworkService extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkService(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NetworkService(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NetworkService */
     public static NetworkService castFrom(org.gtk.gobject.Object gobject) {
-        return new NetworkService(gobject.getProxy());
+        return new NetworkService(gobject.getReference());
     }
     
     /**
@@ -33,7 +33,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * #GSocketConnectable interface to resolve it.
      */
     public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_new(Interop.allocateNativeString(service).HANDLE(), Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(domain).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_network_service_new(Interop.allocateNativeString(service).HANDLE(), Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(domain).HANDLE()), true));
     }
     
     /**

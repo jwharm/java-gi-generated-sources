@@ -15,15 +15,15 @@ import java.lang.invoke.*;
  */
 public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontDescription(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontDescription(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
      * Creates a new font description structure with all fields unset.
      */
     public FontDescription() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_new(), true));
     }
     
     /**
@@ -49,7 +49,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      */
     public FontDescription copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_copy(HANDLE());
-        return new FontDescription(ProxyFactory.get(RESULT, true));
+        return new FontDescription(References.get(RESULT, true));
     }
     
     /**
@@ -63,7 +63,7 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
      */
     public FontDescription copyStatic() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_description_copy_static(HANDLE());
-        return new FontDescription(ProxyFactory.get(RESULT, true));
+        return new FontDescription(References.get(RESULT, true));
     }
     
     /**

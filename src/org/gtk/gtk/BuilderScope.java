@@ -24,8 +24,8 @@ import java.lang.invoke.*;
 public interface BuilderScope extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class BuilderScopeImpl extends org.gtk.gobject.Object implements BuilderScope {
-        public BuilderScopeImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public BuilderScopeImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

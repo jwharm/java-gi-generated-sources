@@ -11,8 +11,8 @@ import jdk.incubator.foreign.MemoryAddress;
  */
 public class DoubleIEEE754 extends io.github.jwharm.javagi.interop.ResourceBase {
     
-    public DoubleIEEE754(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DoubleIEEE754(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

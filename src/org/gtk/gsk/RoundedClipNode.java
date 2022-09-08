@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class RoundedClipNode extends RenderNode {
 
-    public RoundedClipNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RoundedClipNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RoundedClipNode */
     public static RoundedClipNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RoundedClipNode(gobject.getProxy());
+        return new RoundedClipNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class RoundedClipNode extends RenderNode {
      * given by @clip.
      */
     public RoundedClipNode(RenderNode child, RoundedRect clip) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_new(child.HANDLE(), clip.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_new(child.HANDLE(), clip.HANDLE()), false));
     }
     
     /**
@@ -32,7 +32,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**
@@ -40,7 +40,7 @@ public class RoundedClipNode extends RenderNode {
      */
     public RoundedRect getClip() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_rounded_clip_node_get_clip(HANDLE());
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
 }

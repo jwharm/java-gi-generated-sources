@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BoolFilterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BoolFilterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BoolFilterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

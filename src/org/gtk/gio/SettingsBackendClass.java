@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class SettingsBackendClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SettingsBackendClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SettingsBackendClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

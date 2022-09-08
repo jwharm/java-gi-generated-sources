@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class FileOutputStream extends OutputStream implements Seekable {
 
-    public FileOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileOutputStream */
     public static FileOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FileOutputStream(gobject.getProxy());
+        return new FileOutputStream(gobject.getReference());
     }
     
     /**
@@ -67,7 +67,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -80,7 +80,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
 }

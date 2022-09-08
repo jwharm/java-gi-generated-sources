@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class VolumeMonitorClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VolumeMonitorClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VolumeMonitorClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

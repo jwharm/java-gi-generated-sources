@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class CClosureExpression extends Expression {
 
-    public CClosureExpression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CClosureExpression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CClosureExpression */
     public static CClosureExpression castFrom(org.gtk.gobject.Object gobject) {
-        return new CClosureExpression(gobject.getProxy());
+        return new CClosureExpression(gobject.getReference());
     }
     
 }

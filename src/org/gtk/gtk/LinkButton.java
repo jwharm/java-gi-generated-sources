@@ -35,27 +35,27 @@ import java.lang.invoke.*;
  */
 public class LinkButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LinkButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LinkButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to LinkButton */
     public static LinkButton castFrom(org.gtk.gobject.Object gobject) {
-        return new LinkButton(gobject.getProxy());
+        return new LinkButton(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkLinkButton` with the URI as its text.
      */
     public LinkButton(java.lang.String uri) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).HANDLE()), false));
     }
     
     /**
      * Creates a new `GtkLinkButton` containing a label.
      */
     public LinkButton(java.lang.String uri, java.lang.String label) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(label).HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).HANDLE(), Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**

@@ -41,13 +41,13 @@ import java.lang.invoke.*;
  */
 public class IconTheme extends org.gtk.gobject.Object {
 
-    public IconTheme(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IconTheme(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to IconTheme */
     public static IconTheme castFrom(org.gtk.gobject.Object gobject) {
-        return new IconTheme(gobject.getProxy());
+        return new IconTheme(gobject.getReference());
     }
     
     /**
@@ -59,7 +59,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * a new icon theme object for scratch.
      */
     public IconTheme() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_new(), true));
     }
     
     /**
@@ -90,7 +90,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_get_display(HANDLE());
-        return new org.gtk.gdk.Display(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Display(References.get(RESULT, false));
     }
     
     /**
@@ -129,7 +129,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_lookup_by_gicon(HANDLE(), icon.HANDLE(), size, scale, direction.getValue(), flags);
-        return new IconPaintable(ProxyFactory.get(RESULT, true));
+        return new IconPaintable(References.get(RESULT, true));
     }
     
     /**
@@ -152,7 +152,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      */
     public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_icon_theme_lookup_icon(HANDLE(), Interop.allocateNativeString(iconName).HANDLE(), Interop.allocateNativeArray(fallbacks), size, scale, direction.getValue(), flags);
-        return new IconPaintable(ProxyFactory.get(RESULT, true));
+        return new IconPaintable(References.get(RESULT, true));
     }
     
     /**

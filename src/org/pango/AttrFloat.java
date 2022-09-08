@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class AttrFloat extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrFloat(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrFloat(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

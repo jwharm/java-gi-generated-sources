@@ -58,13 +58,13 @@ import java.lang.invoke.*;
  */
 public class DBusConnection extends org.gtk.gobject.Object implements AsyncInitable, Initable {
 
-    public DBusConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusConnection */
     public static DBusConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusConnection(gobject.getProxy());
+        return new DBusConnection(gobject.getReference());
     }
     
     /**
@@ -76,7 +76,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -123,7 +123,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -146,7 +146,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -162,7 +162,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -352,7 +352,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public Credentials getPeerCredentials() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_peer_credentials(HANDLE());
-        return new Credentials(ProxyFactory.get(RESULT, false));
+        return new Credentials(References.get(RESULT, false));
     }
     
     /**
@@ -364,7 +364,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public IOStream getStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_connection_get_stream(HANDLE());
-        return new IOStream(ProxyFactory.get(RESULT, false));
+        return new IOStream(References.get(RESULT, false));
     }
     
     /**
@@ -430,7 +430,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new DBusMessage(ProxyFactory.get(RESULT, true));
+        return new DBusMessage(References.get(RESULT, true));
     }
     
     /**

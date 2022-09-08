@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class Monitor extends org.gtk.gobject.Object {
 
-    public Monitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Monitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Monitor */
     public static Monitor castFrom(org.gtk.gobject.Object gobject) {
-        return new Monitor(gobject.getProxy());
+        return new Monitor(gobject.getReference());
     }
     
     /**
@@ -38,7 +38,7 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public Display getDisplay() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_monitor_get_display(HANDLE());
-        return new Display(ProxyFactory.get(RESULT, false));
+        return new Display(References.get(RESULT, false));
     }
     
     /**

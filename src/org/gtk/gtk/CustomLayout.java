@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class CustomLayout extends LayoutManager {
 
-    public CustomLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CustomLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CustomLayout */
     public static CustomLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new CustomLayout(gobject.getProxy());
+        return new CustomLayout(gobject.getReference());
     }
     
 }

@@ -91,20 +91,20 @@ import java.lang.invoke.*;
  */
 public class Grid extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Grid(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Grid(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Grid */
     public static Grid castFrom(org.gtk.gobject.Object gobject) {
-        return new Grid(gobject.getProxy());
+        return new Grid(gobject.getReference());
     }
     
     /**
      * Creates a new grid widget.
      */
     public Grid() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_new(), false));
     }
     
     /**
@@ -147,7 +147,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public Widget getChildAt(int column, int row) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_get_child_at(HANDLE(), column, row);
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

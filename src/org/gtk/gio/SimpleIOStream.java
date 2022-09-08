@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class SimpleIOStream extends IOStream {
 
-    public SimpleIOStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleIOStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimpleIOStream */
     public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleIOStream(gobject.getProxy());
+        return new SimpleIOStream(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class SimpleIOStream extends IOStream {
      * See also #GIOStream.
      */
     public SimpleIOStream(InputStream inputStream, OutputStream outputStream) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_io_stream_new(inputStream.HANDLE(), outputStream.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_simple_io_stream_new(inputStream.HANDLE(), outputStream.HANDLE()), true));
     }
     
 }

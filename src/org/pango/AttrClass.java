@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class AttrClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AttrClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AttrClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

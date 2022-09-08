@@ -136,13 +136,13 @@ import java.lang.invoke.*;
  */
 public class Expression extends org.gtk.gobject.Object {
 
-    public Expression(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Expression(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Expression */
     public static Expression castFrom(org.gtk.gobject.Object gobject) {
-        return new Expression(gobject.getProxy());
+        return new Expression(gobject.getReference());
     }
     
     /**
@@ -161,7 +161,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_bind(HANDLE(), target.HANDLE(), Interop.allocateNativeString(property).HANDLE(), this_.HANDLE());
-        return new ExpressionWatch(ProxyFactory.get(RESULT, false));
+        return new ExpressionWatch(References.get(RESULT, false));
     }
     
     /**
@@ -211,7 +211,7 @@ public class Expression extends org.gtk.gobject.Object {
      */
     public Expression ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_expression_ref(HANDLE());
-        return new Expression(ProxyFactory.get(RESULT, true));
+        return new Expression(References.get(RESULT, true));
     }
     
     /**

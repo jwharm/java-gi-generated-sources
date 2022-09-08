@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class UnixFDMessage extends SocketControlMessage {
 
-    public UnixFDMessage(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixFDMessage(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixFDMessage */
     public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixFDMessage(gobject.getProxy());
+        return new UnixFDMessage(gobject.getReference());
     }
     
     /**
@@ -36,14 +36,14 @@ public class UnixFDMessage extends SocketControlMessage {
      * list.
      */
     public UnixFDMessage() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new(), true));
     }
     
     /**
      * Creates a new #GUnixFDMessage containing @list.
      */
     public UnixFDMessage(UnixFDList fdList) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new_with_fd_list(fdList.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_new_with_fd_list(fdList.HANDLE()), true));
     }
     
     /**
@@ -72,7 +72,7 @@ public class UnixFDMessage extends SocketControlMessage {
      */
     public UnixFDList getFdList() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_unix_fd_message_get_fd_list(HANDLE());
-        return new UnixFDList(ProxyFactory.get(RESULT, false));
+        return new UnixFDList(References.get(RESULT, false));
     }
     
 }

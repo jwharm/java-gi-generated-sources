@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class GridLayoutChild extends LayoutChild {
 
-    public GridLayoutChild(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GridLayoutChild(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GridLayoutChild */
     public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        return new GridLayoutChild(gobject.getProxy());
+        return new GridLayoutChild(gobject.getReference());
     }
     
     /**

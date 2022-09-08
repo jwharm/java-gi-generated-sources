@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class UnixMountMonitorClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UnixMountMonitorClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixMountMonitorClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class KeyvalTrigger extends ShortcutTrigger {
 
-    public KeyvalTrigger(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public KeyvalTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to KeyvalTrigger */
     public static KeyvalTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new KeyvalTrigger(gobject.getProxy());
+        return new KeyvalTrigger(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * the key with the given @keyval and @modifiers is pressed.
      */
     public KeyvalTrigger(int keyval, int modifiers) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
     }
     
     /**

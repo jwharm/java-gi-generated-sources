@@ -19,8 +19,8 @@ import java.lang.invoke.*;
  */
 public class GlyphVisAttr extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GlyphVisAttr(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GlyphVisAttr(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

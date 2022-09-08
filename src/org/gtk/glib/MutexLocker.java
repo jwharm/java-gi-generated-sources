@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class MutexLocker extends org.gtk.gobject.Object {
 
-    public MutexLocker(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MutexLocker(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

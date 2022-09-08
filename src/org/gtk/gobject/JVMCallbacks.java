@@ -12,19 +12,19 @@ public final class JVMCallbacks {
     public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Object.NotifyHandler) signalRegistry.get(hash);
-        handler.signalReceived(new Object(ProxyFactory.get(source)), new ParamSpec(ProxyFactory.get(pspec, false)));
+        handler.signalReceived(new Object(References.get(source)), new ParamSpec(References.get(pspec, false)));
     }
     
     public static void signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SignalGroup.BindHandler) signalRegistry.get(hash);
-        handler.signalReceived(new SignalGroup(ProxyFactory.get(source)), new Object(ProxyFactory.get(instance, false)));
+        handler.signalReceived(new SignalGroup(References.get(source)), new Object(References.get(instance, false)));
     }
     
     public static void signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SignalGroup.UnbindHandler) signalRegistry.get(hash);
-        handler.signalReceived(new SignalGroup(ProxyFactory.get(source)));
+        handler.signalReceived(new SignalGroup(References.get(source)));
     }
     
 }

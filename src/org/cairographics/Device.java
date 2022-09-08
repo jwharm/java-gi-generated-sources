@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Device extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Device(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Device(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -27,20 +27,20 @@ import java.lang.invoke.*;
  */
 public class TextTag extends org.gtk.gobject.Object {
 
-    public TextTag(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextTag(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextTag */
     public static TextTag castFrom(org.gtk.gobject.Object gobject) {
-        return new TextTag(gobject.getProxy());
+        return new TextTag(gobject.getReference());
     }
     
     /**
      * Creates a `GtkTextTag`.
      */
     public TextTag(java.lang.String name) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_tag_new(Interop.allocateNativeString(name).HANDLE()), true));
     }
     
     /**

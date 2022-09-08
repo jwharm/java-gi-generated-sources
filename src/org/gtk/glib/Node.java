@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Node(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Node(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -39,7 +39,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_copy(HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -66,7 +66,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node find(TraverseType order, int flags, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_find(HANDLE(), order.getValue(), flags, data);
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node findChild(int flags, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_find_child(HANDLE(), flags, data);
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -83,7 +83,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node firstSibling() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_first_sibling(HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node getRoot() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_get_root(HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node insert(int position, Node node) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert(HANDLE(), position, node.HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node insertAfter(Node sibling, Node node) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert_after(HANDLE(), sibling.HANDLE(), node.HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -115,7 +115,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node insertBefore(Node sibling, Node node) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_insert_before(HANDLE(), sibling.HANDLE(), node.HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -133,7 +133,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node lastChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_last_child(HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -142,7 +142,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node lastSibling() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_last_sibling(HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -180,7 +180,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node nthChild(int n) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_nth_child(HANDLE(), n);
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**
@@ -188,7 +188,7 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Node prepend(Node node) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_node_prepend(HANDLE(), node.HANDLE());
-        return new Node(ProxyFactory.get(RESULT, false));
+        return new Node(References.get(RESULT, false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TextMarkClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TextMarkClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextMarkClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

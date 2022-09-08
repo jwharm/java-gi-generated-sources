@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class DebugKey extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DebugKey(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DebugKey(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

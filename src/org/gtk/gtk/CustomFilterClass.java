@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CustomFilterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CustomFilterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CustomFilterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

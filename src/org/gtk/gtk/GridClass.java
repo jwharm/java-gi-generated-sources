@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GridClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GridClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GridClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

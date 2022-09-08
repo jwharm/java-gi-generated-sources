@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ThreadPool(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ThreadPool(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

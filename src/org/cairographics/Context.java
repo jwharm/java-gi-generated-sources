@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Context extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Context(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Context(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureZoomClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureZoomClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureZoomClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

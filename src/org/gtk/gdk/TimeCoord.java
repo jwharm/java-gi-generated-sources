@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class TimeCoord extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TimeCoord(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TimeCoord(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

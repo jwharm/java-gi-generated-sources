@@ -28,20 +28,20 @@ import java.lang.invoke.*;
  */
 public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SortListModel(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SortListModel(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SortListModel */
     public static SortListModel castFrom(org.gtk.gobject.Object gobject) {
-        return new SortListModel(gobject.getProxy());
+        return new SortListModel(gobject.getReference());
     }
     
     /**
      * Creates a new sort list model that uses the @sorter to sort @model.
      */
     public SortListModel(org.gtk.gio.ListModel model, Sorter sorter) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_new(model.getProxy().unowned().HANDLE(), sorter.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_new(model.getReference().unowned().HANDLE(), sorter.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_model(HANDLE());
-        return new org.gtk.gio.ListModel.ListModelImpl(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
     }
     
     /**
@@ -91,7 +91,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_sort_list_model_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.get(RESULT, false));
+        return new Sorter(References.get(RESULT, false));
     }
     
     /**

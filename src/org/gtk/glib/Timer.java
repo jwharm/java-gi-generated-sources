@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Timer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Timer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

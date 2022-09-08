@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class FocusEvent extends Event {
 
-    public FocusEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FocusEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FocusEvent */
     public static FocusEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new FocusEvent(gobject.getProxy());
+        return new FocusEvent(gobject.getReference());
     }
     
     /**

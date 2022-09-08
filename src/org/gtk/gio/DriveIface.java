@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DriveIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DriveIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DriveIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

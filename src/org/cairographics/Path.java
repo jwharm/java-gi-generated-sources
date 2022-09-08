@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class Path extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Path(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Path(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

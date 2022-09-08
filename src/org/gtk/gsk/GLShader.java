@@ -122,27 +122,27 @@ import java.lang.invoke.*;
  */
 public class GLShader extends org.gtk.gobject.Object {
 
-    public GLShader(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLShader(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GLShader */
     public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShader(gobject.getProxy());
+        return new GLShader(gobject.getReference());
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(org.gtk.glib.Bytes sourcecode) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.HANDLE()), true));
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public GLShader(java.lang.String resourcePath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -192,7 +192,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes formatArgsVa(VaList uniforms) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_format_args_va(HANDLE(), uniforms);
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -304,7 +304,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes getSource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_get_source(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
     /**

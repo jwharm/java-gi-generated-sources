@@ -44,13 +44,13 @@ import java.lang.invoke.*;
  */
 public class GridView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public GridView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GridView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GridView */
     public static GridView castFrom(org.gtk.gobject.Object gobject) {
-        return new GridView(gobject.getProxy());
+        return new GridView(gobject.getReference());
     }
     
     /**
@@ -65,7 +65,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public GridView(SelectionModel model, ListItemFactory factory) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_new(model.getProxy().unowned().HANDLE(), factory.getProxy().unowned().HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_new(model.getReference().unowned().HANDLE(), factory.getReference().unowned().HANDLE()), false));
     }
     
     /**
@@ -81,7 +81,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public ListItemFactory getFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.get(RESULT, false));
+        return new ListItemFactory(References.get(RESULT, false));
     }
     
     /**
@@ -105,7 +105,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      */
     public SelectionModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_grid_view_get_model(HANDLE());
-        return new SelectionModel.SelectionModelImpl(ProxyFactory.get(RESULT, false));
+        return new SelectionModel.SelectionModelImpl(References.get(RESULT, false));
     }
     
     /**

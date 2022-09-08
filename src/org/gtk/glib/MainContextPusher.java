@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class MainContextPusher extends org.gtk.gobject.Object {
 
-    public MainContextPusher(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MainContextPusher(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class UnixMountMonitor extends org.gtk.gobject.Object {
 
-    public UnixMountMonitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixMountMonitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixMountMonitor */
     public static UnixMountMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixMountMonitor(gobject.getProxy());
+        return new UnixMountMonitor(gobject.getReference());
     }
     
     @FunctionalInterface

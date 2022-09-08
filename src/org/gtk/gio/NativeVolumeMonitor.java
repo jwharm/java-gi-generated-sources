@@ -7,13 +7,13 @@ import java.lang.invoke.*;
 
 public class NativeVolumeMonitor extends VolumeMonitor {
 
-    public NativeVolumeMonitor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NativeVolumeMonitor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NativeVolumeMonitor */
     public static NativeVolumeMonitor castFrom(org.gtk.gobject.Object gobject) {
-        return new NativeVolumeMonitor(gobject.getProxy());
+        return new NativeVolumeMonitor(gobject.getReference());
     }
     
 }

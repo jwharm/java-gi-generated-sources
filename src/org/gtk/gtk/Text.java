@@ -71,27 +71,27 @@ import java.lang.invoke.*;
  */
 public class Text extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public Text(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Text(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Text */
     public static Text castFrom(org.gtk.gobject.Object gobject) {
-        return new Text(gobject.getProxy());
+        return new Text(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkText`.
      */
     public Text() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new(), false));
     }
     
     /**
      * Creates a new `GtkText` with the specified text buffer.
      */
     public Text(EntryBuffer buffer) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new_with_buffer(buffer.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_new_with_buffer(buffer.HANDLE()), false));
     }
     
     /**
@@ -128,7 +128,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_attributes(HANDLE());
-        return new org.pango.AttrList(ProxyFactory.get(RESULT, false));
+        return new org.pango.AttrList(References.get(RESULT, false));
     }
     
     /**
@@ -137,7 +137,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public EntryBuffer getBuffer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_buffer(HANDLE());
-        return new EntryBuffer(ProxyFactory.get(RESULT, false));
+        return new EntryBuffer(References.get(RESULT, false));
     }
     
     /**
@@ -156,7 +156,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**
@@ -237,7 +237,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.TabArray getTabs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_get_tabs(HANDLE());
-        return new org.pango.TabArray(ProxyFactory.get(RESULT, false));
+        return new org.pango.TabArray(References.get(RESULT, false));
     }
     
     /**

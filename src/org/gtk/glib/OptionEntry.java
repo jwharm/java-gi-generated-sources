@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class OptionEntry extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OptionEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OptionEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  */
 public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Transform(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Transform(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     public Transform() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_new(), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform invert() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_invert(HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -61,7 +61,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform matrix(org.gtk.graphene.Matrix matrix) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_matrix(HANDLE(), matrix.HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform perspective(float depth) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_perspective(HANDLE(), depth);
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_ref(HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, false));
+        return new Transform(References.get(RESULT, false));
     }
     
     /**
@@ -101,7 +101,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform rotate(float angle) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_rotate(HANDLE(), angle);
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_rotate_3d(HANDLE(), angle, axis.HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -121,7 +121,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform scale(float factorX, float factorY) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_scale(HANDLE(), factorX, factorY);
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -129,7 +129,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform scale3d(float factorX, float factorY, float factorZ) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_scale_3d(HANDLE(), factorX, factorY, factorZ);
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform skew(float skewX, float skewY) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_skew(HANDLE(), skewX, skewY);
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -166,7 +166,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform transform(Transform other) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_transform(HANDLE(), other.HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -190,7 +190,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform translate(org.gtk.graphene.Point point) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_translate(HANDLE(), point.HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**
@@ -198,7 +198,7 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Transform translate3d(org.gtk.graphene.Point3D point) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_transform_translate_3d(HANDLE(), point.HANDLE());
-        return new Transform(ProxyFactory.get(RESULT, true));
+        return new Transform(References.get(RESULT, true));
     }
     
     /**

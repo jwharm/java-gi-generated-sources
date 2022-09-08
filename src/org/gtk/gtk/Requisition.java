@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Requisition(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Requisition(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -22,7 +22,7 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      * The struct is initialized to zero.
      */
     public Requisition() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_new(), true));
     }
     
     /**
@@ -30,7 +30,7 @@ public class Requisition extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Requisition copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_requisition_copy(HANDLE());
-        return new Requisition(ProxyFactory.get(RESULT, true));
+        return new Requisition(References.get(RESULT, true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class InetAddressClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InetAddressClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InetAddressClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

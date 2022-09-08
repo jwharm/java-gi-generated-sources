@@ -112,8 +112,8 @@ public interface CellEditable extends io.github.jwharm.javagi.interop.NativeAddr
     }
     
     class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {
-        public CellEditableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public CellEditableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

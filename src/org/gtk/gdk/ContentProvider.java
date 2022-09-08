@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class ContentProvider extends org.gtk.gobject.Object {
 
-    public ContentProvider(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ContentProvider(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ContentProvider */
     public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentProvider(gobject.getProxy());
+        return new ContentProvider(gobject.getReference());
     }
     
     /**
@@ -32,14 +32,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * the given @mime_type.
      */
     public ContentProvider(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).HANDLE(), bytes.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).HANDLE(), bytes.HANDLE()), true));
     }
     
     /**
      * Create a content provider that provides the given @value.
      */
     public ContentProvider(org.gtk.gobject.Value value) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_value(value.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_for_value(value.HANDLE()), true));
     }
     
     /**
@@ -60,7 +60,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * ```
      */
     public ContentProvider(ContentProvider[] providers, long nProviders) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers), nProviders), true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, true));
+        return new ContentFormats(References.get(RESULT, true));
     }
     
     /**
@@ -106,7 +106,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      */
     public ContentFormats refStorableFormats() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_provider_ref_storable_formats(HANDLE());
-        return new ContentFormats(ProxyFactory.get(RESULT, true));
+        return new ContentFormats(References.get(RESULT, true));
     }
     
     /**

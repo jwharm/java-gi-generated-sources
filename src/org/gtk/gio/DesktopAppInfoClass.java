@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DesktopAppInfoClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DesktopAppInfoClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DesktopAppInfoClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

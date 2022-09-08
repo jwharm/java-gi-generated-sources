@@ -16,20 +16,20 @@ import java.lang.invoke.*;
  */
 public class CenterLayout extends LayoutManager {
 
-    public CenterLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CenterLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CenterLayout */
     public static CenterLayout castFrom(org.gtk.gobject.Object gobject) {
-        return new CenterLayout(gobject.getProxy());
+        return new CenterLayout(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCenterLayout`.
      */
     public CenterLayout() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_new(), true));
     }
     
     /**
@@ -45,7 +45,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getCenterWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_center_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -53,7 +53,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getEndWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_end_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -69,7 +69,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Widget getStartWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_center_layout_get_start_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

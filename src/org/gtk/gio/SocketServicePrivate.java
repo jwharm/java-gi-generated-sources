@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SocketServicePrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SocketServicePrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketServicePrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

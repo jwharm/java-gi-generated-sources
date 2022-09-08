@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  */
 public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public UriParamsIter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UriParamsIter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

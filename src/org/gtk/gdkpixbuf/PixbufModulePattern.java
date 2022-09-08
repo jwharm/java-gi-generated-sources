@@ -39,8 +39,8 @@ import java.lang.invoke.*;
  */
 public class PixbufModulePattern extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PixbufModulePattern(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufModulePattern(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

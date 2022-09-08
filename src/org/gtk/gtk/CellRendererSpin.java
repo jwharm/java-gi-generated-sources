@@ -24,20 +24,20 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpin extends CellRendererText {
 
-    public CellRendererSpin(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererSpin(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererSpin */
     public static CellRendererSpin castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererSpin(gobject.getProxy());
+        return new CellRendererSpin(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCellRendererSpin`.
      */
     public CellRendererSpin() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spin_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_spin_new(), false));
     }
     
 }

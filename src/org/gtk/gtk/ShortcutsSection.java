@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutsSection extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public ShortcutsSection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutsSection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutsSection */
     public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutsSection(gobject.getProxy());
+        return new ShortcutsSection(gobject.getReference());
     }
     
     @FunctionalInterface

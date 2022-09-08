@@ -64,7 +64,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getDefaultLocation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_default_location(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -75,7 +75,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Drive getDrive() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_drive(HANDLE());
-        return new Drive.DriveImpl(ProxyFactory.get(RESULT, true));
+        return new Drive.DriveImpl(References.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
+        return new Icon.IconImpl(References.get(RESULT, true));
     }
     
     /**
@@ -99,7 +99,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default File getRoot() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_root(HANDLE());
-        return new File.FileImpl(ProxyFactory.get(RESULT, true));
+        return new File.FileImpl(References.get(RESULT, true));
     }
     
     /**
@@ -115,7 +115,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Icon getSymbolicIcon() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_symbolic_icon(HANDLE());
-        return new Icon.IconImpl(ProxyFactory.get(RESULT, true));
+        return new Icon.IconImpl(References.get(RESULT, true));
     }
     
     /**
@@ -134,7 +134,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Volume getVolume() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_mount_get_volume(HANDLE());
-        return new Volume.VolumeImpl(ProxyFactory.get(RESULT, true));
+        return new Volume.VolumeImpl(References.get(RESULT, true));
     }
     
     /**
@@ -290,8 +290,8 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class MountImpl extends org.gtk.gobject.Object implements Mount {
-        public MountImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public MountImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

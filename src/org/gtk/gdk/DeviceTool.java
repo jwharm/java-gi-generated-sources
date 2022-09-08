@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class DeviceTool extends org.gtk.gobject.Object {
 
-    public DeviceTool(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DeviceTool(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DeviceTool */
     public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        return new DeviceTool(gobject.getProxy());
+        return new DeviceTool(gobject.getReference());
     }
     
     /**

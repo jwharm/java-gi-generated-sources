@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public MemoryTexture(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MemoryTexture(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MemoryTexture */
     public static MemoryTexture castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryTexture(gobject.getProxy());
+        return new MemoryTexture(gobject.getReference());
     }
     
     /**
@@ -26,7 +26,7 @@ public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Ico
      * in the given format.
      */
     public MemoryTexture(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.HANDLE(), stride), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_memory_texture_new(width, height, format.getValue(), bytes.HANDLE(), stride), true));
     }
     
 }

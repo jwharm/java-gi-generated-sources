@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StaticResource(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StaticResource(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -35,7 +35,7 @@ public class StaticResource extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Resource getResource() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_static_resource_get_resource(HANDLE());
-        return new Resource(ProxyFactory.get(RESULT, false));
+        return new Resource(References.get(RESULT, false));
     }
     
     /**

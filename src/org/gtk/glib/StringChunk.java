@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StringChunk(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringChunk(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

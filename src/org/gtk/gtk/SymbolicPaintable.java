@@ -32,8 +32,8 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {
-        public SymbolicPaintableImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public SymbolicPaintableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

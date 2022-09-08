@@ -53,20 +53,20 @@ import java.lang.invoke.*;
  */
 public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public SearchEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SearchEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SearchEntry */
     public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
-        return new SearchEntry(gobject.getProxy());
+        return new SearchEntry(gobject.getReference());
     }
     
     /**
      * Creates a `GtkSearchEntry`.
      */
     public SearchEntry() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_new(), false));
     }
     
     /**
@@ -74,7 +74,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_search_entry_get_key_capture_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

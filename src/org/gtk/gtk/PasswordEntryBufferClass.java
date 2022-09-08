@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PasswordEntryBufferClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PasswordEntryBufferClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PasswordEntryBufferClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

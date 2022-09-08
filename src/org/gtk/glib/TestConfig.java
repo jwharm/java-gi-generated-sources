@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TestConfig extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TestConfig(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TestConfig(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

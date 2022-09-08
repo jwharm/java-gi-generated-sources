@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PadControllerClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PadControllerClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PadControllerClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

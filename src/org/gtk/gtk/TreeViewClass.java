@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeViewClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeViewClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeViewClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

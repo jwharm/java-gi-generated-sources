@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileMonitorPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileMonitorPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileMonitorPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

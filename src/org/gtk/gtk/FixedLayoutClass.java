@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FixedLayoutClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FixedLayoutClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FixedLayoutClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

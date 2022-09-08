@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TouchEvent extends Event {
 
-    public TouchEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TouchEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TouchEvent */
     public static TouchEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new TouchEvent(gobject.getProxy());
+        return new TouchEvent(gobject.getReference());
     }
     
     /**

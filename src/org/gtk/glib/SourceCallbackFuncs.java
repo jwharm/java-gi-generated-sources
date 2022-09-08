@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class SourceCallbackFuncs extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SourceCallbackFuncs(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SourceCallbackFuncs(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -41,20 +41,20 @@ import java.lang.invoke.*;
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
-    public PasswordEntry(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PasswordEntry(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PasswordEntry */
     public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
-        return new PasswordEntry(gobject.getProxy());
+        return new PasswordEntry(gobject.getReference());
     }
     
     /**
      * Creates a `GtkPasswordEntry`.
      */
     public PasswordEntry() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_new(), false));
     }
     
     /**
@@ -62,7 +62,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_password_entry_get_extra_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**

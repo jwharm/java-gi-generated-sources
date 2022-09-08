@@ -28,20 +28,20 @@ import java.lang.invoke.*;
  */
 public class CellView extends Widget implements Accessible, Buildable, CellLayout, ConstraintTarget, Orientable {
 
-    public CellView(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellView(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellView */
     public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        return new CellView(gobject.getProxy());
+        return new CellView(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCellView` widget.
      */
     public CellView() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new(), false));
     }
     
     /**
@@ -54,7 +54,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * possible.
      */
     public CellView(CellArea area, CellAreaContext context) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_context(area.HANDLE(), context.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_context(area.HANDLE(), context.HANDLE()), false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
      */
     public static CellView newWithMarkup(java.lang.String markup) {
-        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).HANDLE()), false));
+        return new CellView(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).HANDLE()), false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @text.
      */
     public static CellView newWithText(java.lang.String text) {
-        return new CellView(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).HANDLE()), false));
+        return new CellView(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).HANDLE()), false));
     }
     
     /**
@@ -79,7 +79,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @texture.
      */
     public CellView(org.gtk.gdk.Texture texture) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_texture(texture.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_new_with_texture(texture.HANDLE()), false));
     }
     
     /**
@@ -89,7 +89,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreePath getDisplayedRow() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_displayed_row(HANDLE());
-        return new TreePath(ProxyFactory.get(RESULT, true));
+        return new TreePath(References.get(RESULT, true));
     }
     
     /**
@@ -116,7 +116,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_view_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**

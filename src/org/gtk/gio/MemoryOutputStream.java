@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  */
 public class MemoryOutputStream extends OutputStream implements PollableOutputStream, Seekable {
 
-    public MemoryOutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MemoryOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MemoryOutputStream */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new MemoryOutputStream(gobject.getProxy());
+        return new MemoryOutputStream(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * for memory allocation.
      */
     public MemoryOutputStream() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_new_resizable(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_new_resizable(), true));
     }
     
     /**
@@ -79,7 +79,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      */
     public org.gtk.glib.Bytes stealAsBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_memory_output_stream_steal_as_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**

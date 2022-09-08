@@ -12,8 +12,8 @@ import java.lang.invoke.*;
 public interface TlsServerConnection extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class TlsServerConnectionImpl extends org.gtk.gobject.Object implements TlsServerConnection {
-        public TlsServerConnectionImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TlsServerConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class PrintBackend extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PrintBackend(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PrintBackend(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -12,15 +12,15 @@ import java.lang.invoke.*;
  * This is a virtual object with implementations being specific to
  * particular rendering systems.
  */
-public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontMap extends org.gtk.gobject.Object {
 
-    public FontMap(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontMap(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontMap */
     public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        return new FontMap(gobject.getProxy());
+        return new FontMap(gobject.getReference());
     }
     
     /**
@@ -49,7 +49,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Context createContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_create_context(HANDLE());
-        return new Context(ProxyFactory.get(RESULT, true));
+        return new Context(References.get(RESULT, true));
     }
     
     /**
@@ -57,7 +57,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public FontFamily getFamily(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_get_family(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new FontFamily(ProxyFactory.get(RESULT, false));
+        return new FontFamily(References.get(RESULT, false));
     }
     
     /**
@@ -84,7 +84,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Font loadFont(Context context, FontDescription desc) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_font(HANDLE(), context.HANDLE(), desc.HANDLE());
-        return new Font(ProxyFactory.get(RESULT, true));
+        return new Font(References.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      */
     public Fontset loadFontset(Context context, FontDescription desc, Language language) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_font_map_load_fontset(HANDLE(), context.HANDLE(), desc.HANDLE(), language.HANDLE());
-        return new Fontset(ProxyFactory.get(RESULT, true));
+        return new Fontset(References.get(RESULT, true));
     }
     
 }

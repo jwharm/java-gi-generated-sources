@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ProxyAddress extends InetSocketAddress implements SocketConnectable {
 
-    public ProxyAddress(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ProxyAddress(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ProxyAddress */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
-        return new ProxyAddress(gobject.getProxy());
+        return new ProxyAddress(gobject.getReference());
     }
     
     /**
@@ -28,7 +28,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * directly if you want to set those.)
      */
     public ProxyAddress(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_new(inetaddr.HANDLE(), port, Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(destHostname).HANDLE(), destPort, Interop.allocateNativeString(username).HANDLE(), Interop.allocateNativeString(password).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_proxy_address_new(inetaddr.HANDLE(), port, Interop.allocateNativeString(protocol).HANDLE(), Interop.allocateNativeString(destHostname).HANDLE(), destPort, Interop.allocateNativeString(username).HANDLE(), Interop.allocateNativeString(password).HANDLE()), true));
     }
     
     /**

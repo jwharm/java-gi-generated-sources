@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class UnixConnection extends SocketConnection {
 
-    public UnixConnection(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public UnixConnection(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to UnixConnection */
     public static UnixConnection castFrom(org.gtk.gobject.Object gobject) {
-        return new UnixConnection(gobject.getProxy());
+        return new UnixConnection(gobject.getReference());
     }
     
     /**
@@ -56,7 +56,7 @@ public class UnixConnection extends SocketConnection {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Credentials(ProxyFactory.get(RESULT, true));
+        return new Credentials(References.get(RESULT, true));
     }
     
     /**
@@ -69,7 +69,7 @@ public class UnixConnection extends SocketConnection {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new Credentials(ProxyFactory.get(RESULT, true));
+        return new Credentials(References.get(RESULT, true));
     }
     
     /**

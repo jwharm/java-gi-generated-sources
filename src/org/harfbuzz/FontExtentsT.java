@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class FontExtentsT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FontExtentsT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontExtentsT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

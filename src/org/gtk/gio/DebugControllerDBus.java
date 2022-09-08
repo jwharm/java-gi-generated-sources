@@ -115,13 +115,13 @@ import java.lang.invoke.*;
  */
 public class DebugControllerDBus extends org.gtk.gobject.Object implements DebugController, Initable {
 
-    public DebugControllerDBus(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DebugControllerDBus(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DebugControllerDBus */
     public static DebugControllerDBus castFrom(org.gtk.gobject.Object gobject) {
-        return new DebugControllerDBus(gobject.getProxy());
+        return new DebugControllerDBus(gobject.getReference());
     }
     
     /**

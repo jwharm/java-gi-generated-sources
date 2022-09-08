@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ColorNode extends RenderNode {
 
-    public ColorNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColorNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColorNode */
     public static ColorNode castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorNode(gobject.getProxy());
+        return new ColorNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class ColorNode extends RenderNode {
      * the area given by @bounds.
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_new(rgba.HANDLE(), bounds.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_new(rgba.HANDLE(), bounds.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class ColorNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_color_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
 }

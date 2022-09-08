@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecBoxed extends ParamSpec {
 
-    public ParamSpecBoxed(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecBoxed(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecBoxed */
     public static ParamSpecBoxed castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecBoxed(gobject.getProxy());
+        return new ParamSpecBoxed(gobject.getReference());
     }
     
 }

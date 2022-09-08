@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class CellRendererToggle extends CellRenderer {
 
-    public CellRendererToggle(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererToggle(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRendererToggle */
     public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRendererToggle(gobject.getProxy());
+        return new CellRendererToggle(gobject.getReference());
     }
     
     /**
@@ -34,7 +34,7 @@ public class CellRendererToggle extends CellRenderer {
      * the model.
      */
     public CellRendererToggle() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_toggle_new(), false));
     }
     
     /**

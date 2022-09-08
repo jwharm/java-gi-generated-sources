@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ColumnViewColumnClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ColumnViewColumnClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColumnViewColumnClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

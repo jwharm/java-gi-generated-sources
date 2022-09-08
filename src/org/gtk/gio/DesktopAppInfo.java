@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
 
-    public DesktopAppInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DesktopAppInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DesktopAppInfo */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        return new DesktopAppInfo(gobject.getProxy());
+        return new DesktopAppInfo(gobject.getReference());
     }
     
     /**
@@ -38,21 +38,21 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * `/usr/share/applications/kde/foo.desktop`).
      */
     public DesktopAppInfo(java.lang.String desktopId) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).HANDLE()), true));
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
-        return new DesktopAppInfo(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).HANDLE()), true));
+        return new DesktopAppInfo(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public DesktopAppInfo(org.gtk.glib.KeyFile keyFile) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.HANDLE()), true));
     }
     
     /**

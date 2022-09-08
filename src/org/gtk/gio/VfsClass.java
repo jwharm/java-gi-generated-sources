@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class VfsClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VfsClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VfsClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

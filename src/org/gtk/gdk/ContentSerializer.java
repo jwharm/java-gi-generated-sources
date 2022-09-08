@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
 
-    public ContentSerializer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ContentSerializer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ContentSerializer */
     public static ContentSerializer castFrom(org.gtk.gobject.Object gobject) {
-        return new ContentSerializer(gobject.getProxy());
+        return new ContentSerializer(gobject.getReference());
     }
     
     /**
@@ -37,7 +37,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_cancellable(HANDLE());
-        return new org.gtk.gio.Cancellable(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.Cancellable(References.get(RESULT, false));
     }
     
     /**
@@ -63,7 +63,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gio.OutputStream getOutputStream() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_output_stream(HANDLE());
-        return new org.gtk.gio.OutputStream(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.OutputStream(References.get(RESULT, false));
     }
     
     /**
@@ -99,7 +99,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_content_serializer_get_value(HANDLE());
-        return new org.gtk.gobject.Value(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Value(References.get(RESULT, false));
     }
     
     /**

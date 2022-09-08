@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class DropTargetAsyncClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DropTargetAsyncClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DropTargetAsyncClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class ScannerConfig extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ScannerConfig(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScannerConfig(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

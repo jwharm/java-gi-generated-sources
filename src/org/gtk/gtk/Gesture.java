@@ -98,13 +98,13 @@ import java.lang.invoke.*;
  */
 public class Gesture extends EventController {
 
-    public Gesture(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Gesture(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Gesture */
     public static Gesture castFrom(org.gtk.gobject.Object gobject) {
-        return new Gesture(gobject.getProxy());
+        return new Gesture(gobject.getReference());
     }
     
     /**
@@ -133,7 +133,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.Device getDevice() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_get_device(HANDLE());
-        return new org.gtk.gdk.Device(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Device(References.get(RESULT, false));
     }
     
     /**
@@ -141,7 +141,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.glib.List getGroup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_get_group(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**
@@ -153,7 +153,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.Event getLastEvent(org.gtk.gdk.EventSequence sequence) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_get_last_event(HANDLE(), sequence.HANDLE());
-        return new org.gtk.gdk.Event(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Event(References.get(RESULT, false));
     }
     
     /**
@@ -161,7 +161,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_get_last_updated_sequence(HANDLE());
-        return new org.gtk.gdk.EventSequence(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.EventSequence(References.get(RESULT, false));
     }
     
     /**
@@ -178,7 +178,7 @@ public class Gesture extends EventController {
      */
     public org.gtk.glib.List getSequences() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_gesture_get_sequences(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.List(References.get(RESULT, false));
     }
     
     /**

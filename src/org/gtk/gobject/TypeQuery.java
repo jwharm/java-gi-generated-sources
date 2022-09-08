@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class TypeQuery extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TypeQuery(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TypeQuery(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

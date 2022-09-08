@@ -29,20 +29,20 @@ import java.lang.invoke.*;
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
-    public WidgetPaintable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WidgetPaintable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to WidgetPaintable */
     public static WidgetPaintable castFrom(org.gtk.gobject.Object gobject) {
-        return new WidgetPaintable(gobject.getProxy());
+        return new WidgetPaintable(gobject.getReference());
     }
     
     /**
      * Creates a new widget paintable observing the given widget.
      */
     public WidgetPaintable(Widget widget) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_new(widget.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_new(widget.HANDLE()), true));
     }
     
     /**
@@ -50,7 +50,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
      */
     public Widget getWidget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_widget_paintable_get_widget(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

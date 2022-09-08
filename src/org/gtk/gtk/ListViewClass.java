@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ListViewClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ListViewClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListViewClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  */
 public class Texture extends org.gtk.gobject.Object implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public Texture(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Texture(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Texture */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
-        return new Texture(gobject.getProxy());
+        return new Texture(gobject.getReference());
     }
     
     /**
@@ -40,7 +40,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public Texture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_for_pixbuf(pixbuf.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_for_pixbuf(pixbuf.HANDLE()), true));
     }
     
     /**
@@ -59,7 +59,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
-        return new Texture(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        return new Texture(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -135,7 +135,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_png_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -164,7 +164,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_texture_save_to_tiff_bytes(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
 }

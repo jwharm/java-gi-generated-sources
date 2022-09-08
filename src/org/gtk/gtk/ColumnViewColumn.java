@@ -21,13 +21,13 @@ import java.lang.invoke.*;
  */
 public class ColumnViewColumn extends org.gtk.gobject.Object {
 
-    public ColumnViewColumn(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColumnViewColumn(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColumnViewColumn */
     public static ColumnViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        return new ColumnViewColumn(gobject.getProxy());
+        return new ColumnViewColumn(gobject.getReference());
     }
     
     /**
@@ -44,7 +44,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * ```
      */
     public ColumnViewColumn(java.lang.String title, ListItemFactory factory) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).HANDLE(), factory.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_new(Interop.allocateNativeString(title).HANDLE(), factory.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -54,7 +54,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public ColumnView getColumnView() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_column_view(HANDLE());
-        return new ColumnView(ProxyFactory.get(RESULT, false));
+        return new ColumnView(References.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public ListItemFactory getFactory() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_factory(HANDLE());
-        return new ListItemFactory(ProxyFactory.get(RESULT, false));
+        return new ListItemFactory(References.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public org.gtk.gio.MenuModel getHeaderMenu() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_header_menu(HANDLE());
-        return new org.gtk.gio.MenuModel(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gio.MenuModel(References.get(RESULT, false));
     }
     
     /**
@@ -104,7 +104,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_column_view_column_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.get(RESULT, false));
+        return new Sorter(References.get(RESULT, false));
     }
     
     /**

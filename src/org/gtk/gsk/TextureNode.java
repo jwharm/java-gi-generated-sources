@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class TextureNode extends RenderNode {
 
-    public TextureNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextureNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextureNode */
     public static TextureNode castFrom(org.gtk.gobject.Object gobject) {
-        return new TextureNode(gobject.getProxy());
+        return new TextureNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class TextureNode extends RenderNode {
      * @texture into the area given by @bounds.
      */
     public TextureNode(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_new(texture.HANDLE(), bounds.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_new(texture.HANDLE(), bounds.HANDLE()), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class TextureNode extends RenderNode {
      */
     public org.gtk.gdk.Texture getTexture() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_texture_node_get_texture(HANDLE());
-        return new org.gtk.gdk.Texture(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Texture(References.get(RESULT, false));
     }
     
 }

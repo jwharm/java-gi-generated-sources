@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class PixbufAnimationIterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PixbufAnimationIterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufAnimationIterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

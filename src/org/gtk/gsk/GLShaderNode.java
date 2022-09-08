@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class GLShaderNode extends RenderNode {
 
-    public GLShaderNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLShaderNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to GLShaderNode */
     public static GLShaderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new GLShaderNode(gobject.getProxy());
+        return new GLShaderNode(gobject.getReference());
     }
     
     /**
@@ -39,7 +39,7 @@ public class GLShaderNode extends RenderNode {
      * renderer before using it.
      */
     public GLShaderNode(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_node_new(shader.HANDLE(), bounds.HANDLE(), args.HANDLE(), Interop.allocateNativeArray(children), nChildren), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_node_new(shader.HANDLE(), bounds.HANDLE(), args.HANDLE(), Interop.allocateNativeArray(children), nChildren), true));
     }
     
     /**
@@ -47,7 +47,7 @@ public class GLShaderNode extends RenderNode {
      */
     public org.gtk.glib.Bytes getArgs() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_node_get_args(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Bytes(References.get(RESULT, false));
     }
     
     /**
@@ -55,7 +55,7 @@ public class GLShaderNode extends RenderNode {
      */
     public RenderNode getChild(int idx) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_node_get_child(HANDLE(), idx);
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class GLShaderNode extends RenderNode {
      */
     public GLShader getShader() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_gl_shader_node_get_shader(HANDLE());
-        return new GLShader(ProxyFactory.get(RESULT, false));
+        return new GLShader(References.get(RESULT, false));
     }
     
 }

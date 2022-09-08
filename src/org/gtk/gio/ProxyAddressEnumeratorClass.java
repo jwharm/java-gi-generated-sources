@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ProxyAddressEnumeratorClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ProxyAddressEnumeratorClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ProxyAddressEnumeratorClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

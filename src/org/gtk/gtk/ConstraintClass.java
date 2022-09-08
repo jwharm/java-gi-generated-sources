@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ConstraintClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ConstraintClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ConstraintClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

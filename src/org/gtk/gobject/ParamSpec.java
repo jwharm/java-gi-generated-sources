@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpec extends org.gtk.gobject.Object {
 
-    public ParamSpec(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpec(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpec */
     public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpec(gobject.getProxy());
+        return new ParamSpec(gobject.getReference());
     }
     
     /**
@@ -46,7 +46,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public Value getDefaultValue() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_default_value(HANDLE());
-        return new Value(ProxyFactory.get(RESULT, false));
+        return new Value(References.get(RESULT, false));
     }
     
     /**
@@ -95,7 +95,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec getRedirectTarget() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_get_redirect_target(HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, false));
+        return new ParamSpec(References.get(RESULT, false));
     }
     
     /**
@@ -103,7 +103,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_ref(HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, true));
+        return new ParamSpec(References.get(RESULT, true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      */
     public ParamSpec refSink() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_param_spec_ref_sink(HANDLE());
-        return new ParamSpec(ProxyFactory.get(RESULT, true));
+        return new ParamSpec(References.get(RESULT, true));
     }
     
     /**

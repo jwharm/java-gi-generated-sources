@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  */
 public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OptionContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OptionContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -89,7 +89,7 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
      */
     public OptionGroup getMainGroup() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_option_context_get_main_group(HANDLE());
-        return new OptionGroup(ProxyFactory.get(RESULT, false));
+        return new OptionGroup(References.get(RESULT, false));
     }
     
     /**

@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class ListBase extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public ListBase(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListBase(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ListBase */
     public static ListBase castFrom(org.gtk.gobject.Object gobject) {
-        return new ListBase(gobject.getProxy());
+        return new ListBase(gobject.getReference());
     }
     
 }

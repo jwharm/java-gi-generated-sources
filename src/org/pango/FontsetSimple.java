@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class FontsetSimple extends Fontset {
 
-    public FontsetSimple(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FontsetSimple(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FontsetSimple */
     public static FontsetSimple castFrom(org.gtk.gobject.Object gobject) {
-        return new FontsetSimple(gobject.getProxy());
+        return new FontsetSimple(gobject.getReference());
     }
     
     /**
      * Creates a new `PangoFontsetSimple` for the given language.
      */
     public FontsetSimple(Language language) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_new(language.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_new(language.HANDLE()), true));
     }
     
     /**
@@ -36,7 +36,7 @@ public class FontsetSimple extends Fontset {
      * The fontset takes ownership of @font.
      */
     public void append(Font font) {
-        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_append(HANDLE(), font.getProxy().unowned().HANDLE());
+        io.github.jwharm.javagi.interop.jextract.gtk_h.pango_fontset_simple_append(HANDLE(), font.getReference().unowned().HANDLE());
     }
     
     /**

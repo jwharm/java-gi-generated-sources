@@ -14,8 +14,8 @@ import java.lang.invoke.*;
 public interface ConstraintTarget extends io.github.jwharm.javagi.interop.NativeAddress {
 
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {
-        public ConstraintTargetImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ConstraintTargetImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

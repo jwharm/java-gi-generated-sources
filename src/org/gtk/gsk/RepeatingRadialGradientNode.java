@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class RepeatingRadialGradientNode extends RenderNode {
 
-    public RepeatingRadialGradientNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RepeatingRadialGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RepeatingRadialGradientNode */
     public static RepeatingRadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RepeatingRadialGradientNode(gobject.getProxy());
+        return new RepeatingRadialGradientNode(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class RepeatingRadialGradientNode extends RenderNode {
      * in vertial orientation.
      */
     public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_repeating_radial_gradient_node_new(bounds.HANDLE(), center.HANDLE(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true));
     }
     
 }

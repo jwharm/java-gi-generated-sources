@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SimpleActionGroupPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SimpleActionGroupPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleActionGroupPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

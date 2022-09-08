@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class SocketServiceClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SocketServiceClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketServiceClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

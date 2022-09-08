@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class TreeListRowSorter extends Sorter {
 
-    public TreeListRowSorter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeListRowSorter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TreeListRowSorter */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        return new TreeListRowSorter(gobject.getProxy());
+        return new TreeListRowSorter(gobject.getReference());
     }
     
     /**
@@ -39,7 +39,7 @@ public class TreeListRowSorter extends Sorter {
      * being %FALSE as it can only sort [class@Gtk.TreeListRow]s.
      */
     public TreeListRowSorter(Sorter sorter) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_new(sorter.getProxy().unowned().HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().HANDLE()), true));
     }
     
     /**
@@ -47,7 +47,7 @@ public class TreeListRowSorter extends Sorter {
      */
     public Sorter getSorter() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_tree_list_row_sorter_get_sorter(HANDLE());
-        return new Sorter(ProxyFactory.get(RESULT, false));
+        return new Sorter(References.get(RESULT, false));
     }
     
     /**

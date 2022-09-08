@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class AccessibleInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AccessibleInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AccessibleInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

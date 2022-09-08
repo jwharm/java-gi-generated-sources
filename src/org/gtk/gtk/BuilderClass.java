@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class BuilderClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public BuilderClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuilderClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

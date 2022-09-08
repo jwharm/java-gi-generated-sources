@@ -46,13 +46,13 @@ import java.lang.invoke.*;
  */
 public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
 
-    public CellRenderer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRenderer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellRenderer */
     public static CellRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CellRenderer(gobject.getProxy());
+        return new CellRenderer(gobject.getReference());
     }
     
     /**
@@ -208,7 +208,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_renderer_start_editing(HANDLE(), event.HANDLE(), widget.HANDLE(), Interop.allocateNativeString(path).HANDLE(), backgroundArea.HANDLE(), cellArea.HANDLE(), flags);
-        return new CellEditable.CellEditableImpl(ProxyFactory.get(RESULT, false));
+        return new CellEditable.CellEditableImpl(References.get(RESULT, false));
     }
     
     /**

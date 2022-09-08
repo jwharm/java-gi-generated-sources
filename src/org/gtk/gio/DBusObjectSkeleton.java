@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  */
 public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusObject {
 
-    public DBusObjectSkeleton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectSkeleton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusObjectSkeleton */
     public static DBusObjectSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectSkeleton(gobject.getProxy());
+        return new DBusObjectSkeleton(gobject.getReference());
     }
     
     /**
      * Creates a new #GDBusObjectSkeleton.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
     }
     
     /**

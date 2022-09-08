@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ScrollableInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ScrollableInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScrollableInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

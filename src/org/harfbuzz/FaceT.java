@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class FaceT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FaceT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FaceT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

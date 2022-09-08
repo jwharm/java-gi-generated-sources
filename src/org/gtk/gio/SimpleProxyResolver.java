@@ -17,13 +17,13 @@ import java.lang.invoke.*;
  */
 public class SimpleProxyResolver extends org.gtk.gobject.Object implements ProxyResolver {
 
-    public SimpleProxyResolver(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleProxyResolver(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SimpleProxyResolver */
     public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
-        return new SimpleProxyResolver(gobject.getProxy());
+        return new SimpleProxyResolver(gobject.getReference());
     }
     
     /**

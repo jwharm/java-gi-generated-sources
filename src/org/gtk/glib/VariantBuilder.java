@@ -16,8 +16,8 @@ import java.lang.invoke.*;
  */
 public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public VariantBuilder(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public VariantBuilder(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -32,7 +32,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * g_variant_builder_init().
      */
     public VariantBuilder(VariantType type) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_new(type.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_new(type.HANDLE()), true));
     }
     
     /**
@@ -104,7 +104,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public Variant end() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_end(HANDLE());
-        return new Variant(ProxyFactory.get(RESULT, false));
+        return new Variant(References.get(RESULT, false));
     }
     
     /**
@@ -192,7 +192,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      */
     public VariantBuilder ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_variant_builder_ref(HANDLE());
-        return new VariantBuilder(ProxyFactory.get(RESULT, true));
+        return new VariantBuilder(References.get(RESULT, true));
     }
     
     /**

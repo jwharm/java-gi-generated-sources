@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class RecentManagerClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public RecentManagerClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecentManagerClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

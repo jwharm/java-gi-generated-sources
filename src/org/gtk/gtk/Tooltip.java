@@ -36,13 +36,13 @@ import java.lang.invoke.*;
  */
 public class Tooltip extends org.gtk.gobject.Object {
 
-    public Tooltip(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Tooltip(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Tooltip */
     public static Tooltip castFrom(org.gtk.gobject.Object gobject) {
-        return new Tooltip(gobject.getProxy());
+        return new Tooltip(gobject.getReference());
     }
     
     /**

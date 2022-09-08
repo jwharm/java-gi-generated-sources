@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureSingleClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureSingleClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureSingleClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

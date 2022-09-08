@@ -28,20 +28,20 @@ import java.lang.invoke.*;
  */
 public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orientable {
 
-    public CellAreaBox(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellAreaBox(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CellAreaBox */
     public static CellAreaBox castFrom(org.gtk.gobject.Object gobject) {
-        return new CellAreaBox(gobject.getProxy());
+        return new CellAreaBox(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCellAreaBox`.
      */
     public CellAreaBox() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_cell_area_box_new(), false));
     }
     
     /**

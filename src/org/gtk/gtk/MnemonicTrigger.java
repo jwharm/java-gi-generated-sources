@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class MnemonicTrigger extends ShortcutTrigger {
 
-    public MnemonicTrigger(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MnemonicTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MnemonicTrigger */
     public static MnemonicTrigger castFrom(org.gtk.gobject.Object gobject) {
-        return new MnemonicTrigger(gobject.getProxy());
+        return new MnemonicTrigger(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class MnemonicTrigger extends ShortcutTrigger {
      * modifiers is detected.
      */
     public MnemonicTrigger(int keyval) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_new(keyval), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_mnemonic_trigger_new(keyval), true));
     }
     
     /**

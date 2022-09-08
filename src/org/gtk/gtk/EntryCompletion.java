@@ -47,20 +47,20 @@ import java.lang.invoke.*;
  */
 public class EntryCompletion extends org.gtk.gobject.Object implements Buildable, CellLayout {
 
-    public EntryCompletion(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public EntryCompletion(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to EntryCompletion */
     public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
-        return new EntryCompletion(gobject.getProxy());
+        return new EntryCompletion(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkEntryCompletion` object.
      */
     public EntryCompletion() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new(), true));
     }
     
     /**
@@ -71,7 +71,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * `GtkTreeViewColumn` for the drop-down menu.
      */
     public EntryCompletion(CellArea area) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new_with_area(area.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_new_with_area(area.HANDLE()), true));
     }
     
     /**
@@ -111,7 +111,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public Widget getEntry() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_entry(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -146,7 +146,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      */
     public TreeModel getModel() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_entry_completion_get_model(HANDLE());
-        return new TreeModel.TreeModelImpl(ProxyFactory.get(RESULT, false));
+        return new TreeModel.TreeModelImpl(References.get(RESULT, false));
     }
     
     /**

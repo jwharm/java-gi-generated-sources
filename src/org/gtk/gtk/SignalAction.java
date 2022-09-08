@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class SignalAction extends ShortcutAction {
 
-    public SignalAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SignalAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to SignalAction */
     public static SignalAction castFrom(org.gtk.gobject.Object gobject) {
-        return new SignalAction(gobject.getProxy());
+        return new SignalAction(gobject.getReference());
     }
     
     /**
@@ -29,7 +29,7 @@ public class SignalAction extends ShortcutAction {
      * It will also unpack the args into arguments passed to the signal.
      */
     public SignalAction(java.lang.String signalName) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).HANDLE()), true));
     }
     
     /**

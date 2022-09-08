@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class TextChildAnchor extends org.gtk.gobject.Object {
 
-    public TextChildAnchor(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TextChildAnchor(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TextChildAnchor */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
-        return new TextChildAnchor(gobject.getProxy());
+        return new TextChildAnchor(gobject.getReference());
     }
     
     /**
@@ -31,7 +31,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * function [method@Gtk.TextBuffer.create_child_anchor].
      */
     public TextChildAnchor() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new(), true));
     }
     
     /**
@@ -41,7 +41,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * [method@Gtk.TextBuffer.insert_child_anchor].
      */
     public TextChildAnchor(java.lang.String character) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).HANDLE()), true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GestureLongPressClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GestureLongPressClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GestureLongPressClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

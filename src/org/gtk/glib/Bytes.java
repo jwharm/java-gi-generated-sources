@@ -33,8 +33,8 @@ import java.lang.invoke.*;
  */
 public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Bytes(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Bytes(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -43,7 +43,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data is copied. If @size is 0, @data may be %NULL.
      */
     public Bytes(byte[] data, long size) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -53,7 +53,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
-        return new Bytes(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_static(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_static(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -71,7 +71,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data may be %NULL if @size is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
-        return new Bytes(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_take(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
+        return new Bytes(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_take(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data), size), true));
     }
     
     /**
@@ -165,7 +165,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Bytes newFromBytes(long offset, long length) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_new_from_bytes(HANDLE(), offset, length);
-        return new Bytes(ProxyFactory.get(RESULT, true));
+        return new Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -173,7 +173,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Bytes ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_bytes_ref(HANDLE());
-        return new Bytes(ProxyFactory.get(RESULT, true));
+        return new Bytes(References.get(RESULT, true));
     }
     
     /**

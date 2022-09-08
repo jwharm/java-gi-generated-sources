@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class ContentProviderClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ContentProviderClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ContentProviderClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -86,7 +86,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default TlsCertificate getCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.get(RESULT, false));
+        return new TlsCertificate(References.get(RESULT, false));
     }
     
     /**
@@ -134,7 +134,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default TlsDatabase getDatabase() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_database(HANDLE());
-        return new TlsDatabase(ProxyFactory.get(RESULT, false));
+        return new TlsDatabase(References.get(RESULT, false));
     }
     
     /**
@@ -144,7 +144,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default TlsInteraction getInteraction() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_interaction(HANDLE());
-        return new TlsInteraction(ProxyFactory.get(RESULT, false));
+        return new TlsInteraction(References.get(RESULT, false));
     }
     
     /**
@@ -168,7 +168,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      */
     public default TlsCertificate getPeerCertificate() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dtls_connection_get_peer_certificate(HANDLE());
-        return new TlsCertificate(ProxyFactory.get(RESULT, false));
+        return new TlsCertificate(References.get(RESULT, false));
     }
     
     /**
@@ -457,8 +457,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {
-        public DtlsConnectionImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DtlsConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

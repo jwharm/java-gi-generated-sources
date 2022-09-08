@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Checksum(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Checksum(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -33,7 +33,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * on it anymore.
      */
     public Checksum(ChecksumType checksumType) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_new(checksumType.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_new(checksumType.getValue()), true));
     }
     
     /**
@@ -43,7 +43,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Checksum copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_checksum_copy(HANDLE());
-        return new Checksum(ProxyFactory.get(RESULT, true));
+        return new Checksum(References.get(RESULT, true));
     }
     
     /**

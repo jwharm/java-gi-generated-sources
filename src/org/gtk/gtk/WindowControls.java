@@ -59,20 +59,20 @@ import java.lang.invoke.*;
  */
 public class WindowControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public WindowControls(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public WindowControls(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to WindowControls */
     public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        return new WindowControls(gobject.getProxy());
+        return new WindowControls(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkWindowControls`.
      */
     public WindowControls(PackType side) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_new(side.getValue()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_window_controls_new(side.getValue()), false));
     }
     
     /**

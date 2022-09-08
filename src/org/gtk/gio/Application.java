@@ -123,13 +123,13 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gobject.Object implements ActionGroup, ActionMap {
 
-    public Application(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Application(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
-        return new Application(gobject.getProxy());
+        return new Application(gobject.getReference());
     }
     
     /**
@@ -142,7 +142,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * (most notably application uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_new(Interop.allocateNativeString(applicationId).HANDLE(), flags), true));
     }
     
     /**
@@ -304,7 +304,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      */
     public DBusConnection getDbusConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_application_get_dbus_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.get(RESULT, false));
+        return new DBusConnection(References.get(RESULT, false));
     }
     
     /**

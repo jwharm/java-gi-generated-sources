@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TlsCertificateClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TlsCertificateClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TlsCertificateClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

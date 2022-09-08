@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class IConv extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IConv(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IConv(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

@@ -89,20 +89,20 @@ import java.lang.invoke.*;
  */
 public class Scale extends Range implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Scale(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Scale(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Scale */
     public static Scale castFrom(org.gtk.gobject.Object gobject) {
-        return new Scale(gobject.getProxy());
+        return new Scale(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkScale`.
      */
     public Scale(Orientation orientation, Adjustment adjustment) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new(orientation.getValue(), adjustment.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new(orientation.getValue(), adjustment.HANDLE()), false));
     }
     
     /**
@@ -119,7 +119,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * for your needs, use [method@Gtk.Scale.set_digits] to correct it.
      */
     public Scale(Orientation orientation, double min, double max, double step) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
     }
     
     /**
@@ -177,7 +177,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public org.pango.Layout getLayout() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_scale_get_layout(HANDLE());
-        return new org.pango.Layout(ProxyFactory.get(RESULT, false));
+        return new org.pango.Layout(References.get(RESULT, false));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ListItemClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ListItemClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListItemClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

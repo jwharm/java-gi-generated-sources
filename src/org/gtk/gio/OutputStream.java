@@ -20,13 +20,13 @@ import java.lang.invoke.*;
  */
 public class OutputStream extends org.gtk.gobject.Object {
 
-    public OutputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to OutputStream */
     public static OutputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new OutputStream(gobject.getProxy());
+        return new OutputStream(gobject.getReference());
     }
     
     /**

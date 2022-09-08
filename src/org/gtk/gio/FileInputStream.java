@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  */
 public class FileInputStream extends InputStream implements Seekable {
 
-    public FileInputStream(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileInputStream */
     public static FileInputStream castFrom(org.gtk.gobject.Object gobject) {
-        return new FileInputStream(gobject.getProxy());
+        return new FileInputStream(gobject.getReference());
     }
     
     /**
@@ -40,7 +40,7 @@ public class FileInputStream extends InputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
     /**
@@ -52,7 +52,7 @@ public class FileInputStream extends InputStream implements Seekable {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new FileInfo(ProxyFactory.get(RESULT, true));
+        return new FileInfo(References.get(RESULT, true));
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TreeModelFilterPrivate extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TreeModelFilterPrivate(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TreeModelFilterPrivate(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

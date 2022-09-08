@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Sphere(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Sphere(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -20,7 +20,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the newly allocated structure are undefined.
      */
     public Sphere() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_alloc(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_alloc(), true));
     }
     
     /**
@@ -84,7 +84,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Sphere init(Point3D center, float radius) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init(HANDLE(), center.HANDLE(), radius);
-        return new Sphere(ProxyFactory.get(RESULT, false));
+        return new Sphere(References.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Sphere initFromPoints(int nPoints, Point3D[] points, Point3D center) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init_from_points(HANDLE(), nPoints, Interop.allocateNativeArray(points), center.HANDLE());
-        return new Sphere(ProxyFactory.get(RESULT, false));
+        return new Sphere(References.get(RESULT, false));
     }
     
     /**
@@ -108,7 +108,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Sphere initFromVectors(int nVectors, Vec3[] vectors, Point3D center) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.graphene_sphere_init_from_vectors(HANDLE(), nVectors, Interop.allocateNativeArray(vectors), center.HANDLE());
-        return new Sphere(ProxyFactory.get(RESULT, false));
+        return new Sphere(References.get(RESULT, false));
     }
     
     /**

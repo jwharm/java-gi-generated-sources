@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  */
 public class RenderNode extends org.gtk.gobject.Object {
 
-    public RenderNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RenderNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RenderNode */
     public static RenderNode castFrom(org.gtk.gobject.Object gobject) {
-        return new RenderNode(gobject.getProxy());
+        return new RenderNode(gobject.getReference());
     }
     
     /**
@@ -67,7 +67,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public RenderNode ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_ref(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, true));
+        return new RenderNode(References.get(RESULT, true));
     }
     
     /**
@@ -83,7 +83,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_render_node_serialize(HANDLE());
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**

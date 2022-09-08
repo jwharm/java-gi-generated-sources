@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class TcpWrapperConnectionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TcpWrapperConnectionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TcpWrapperConnectionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class OverlayLayoutClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OverlayLayoutClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OverlayLayoutClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

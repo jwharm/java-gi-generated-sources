@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CssStyleChange extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CssStyleChange(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CssStyleChange(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

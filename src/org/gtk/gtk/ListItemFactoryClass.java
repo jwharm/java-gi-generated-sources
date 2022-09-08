@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ListItemFactoryClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ListItemFactoryClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ListItemFactoryClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

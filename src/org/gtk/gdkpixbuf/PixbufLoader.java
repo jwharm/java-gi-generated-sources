@@ -54,20 +54,20 @@ import java.lang.invoke.*;
  */
 public class PixbufLoader extends org.gtk.gobject.Object {
 
-    public PixbufLoader(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufLoader(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PixbufLoader */
     public static PixbufLoader castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufLoader(gobject.getProxy());
+        return new PixbufLoader(gobject.getReference());
     }
     
     /**
      * Creates a new pixbuf loader object.
      */
     public PixbufLoader() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_new(), true));
     }
     
     /**
@@ -108,7 +108,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufAnimation getAnimation() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_animation(HANDLE());
-        return new PixbufAnimation(ProxyFactory.get(RESULT, false));
+        return new PixbufAnimation(References.get(RESULT, false));
     }
     
     /**
@@ -117,7 +117,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public PixbufFormat getFormat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_format(HANDLE());
-        return new PixbufFormat(ProxyFactory.get(RESULT, false));
+        return new PixbufFormat(References.get(RESULT, false));
     }
     
     /**
@@ -139,7 +139,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      */
     public Pixbuf getPixbuf() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_loader_get_pixbuf(HANDLE());
-        return new Pixbuf(ProxyFactory.get(RESULT, false));
+        return new Pixbuf(References.get(RESULT, false));
     }
     
     /**

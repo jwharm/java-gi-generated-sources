@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DesktopAppInfoLookupIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DesktopAppInfoLookupIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

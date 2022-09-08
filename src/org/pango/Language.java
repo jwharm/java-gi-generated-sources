@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class Language extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Language(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Language(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**

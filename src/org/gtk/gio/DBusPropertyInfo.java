@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusPropertyInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusPropertyInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusPropertyInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -20,7 +20,7 @@ public class DBusPropertyInfo extends io.github.jwharm.javagi.interop.ResourceBa
      */
     public DBusPropertyInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_property_info_ref(HANDLE());
-        return new DBusPropertyInfo(ProxyFactory.get(RESULT, true));
+        return new DBusPropertyInfo(References.get(RESULT, true));
     }
     
     /**

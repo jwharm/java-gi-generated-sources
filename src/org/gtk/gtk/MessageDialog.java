@@ -65,13 +65,13 @@ import java.lang.invoke.*;
  */
 public class MessageDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public MessageDialog(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MessageDialog(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to MessageDialog */
     public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        return new MessageDialog(gobject.getProxy());
+        return new MessageDialog(gobject.getReference());
     }
     
     /**
@@ -84,7 +84,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      */
     public Widget getMessageArea() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_message_dialog_get_message_area(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class CairoRenderer extends Renderer {
 
-    public CairoRenderer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CairoRenderer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CairoRenderer */
     public static CairoRenderer castFrom(org.gtk.gobject.Object gobject) {
-        return new CairoRenderer(gobject.getProxy());
+        return new CairoRenderer(gobject.getReference());
     }
     
     /**
@@ -33,7 +33,7 @@ public class CairoRenderer extends Renderer {
      * avoided.
      */
     public CairoRenderer() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_renderer_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_cairo_renderer_new(), true));
     }
     
 }

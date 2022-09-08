@@ -29,7 +29,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.gsk.Renderer getRenderer() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_renderer(HANDLE());
-        return new org.gtk.gsk.Renderer(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gsk.Renderer(References.get(RESULT, false));
     }
     
     /**
@@ -37,7 +37,7 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.gdk.Surface getSurface() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_native_get_surface(HANDLE());
-        return new org.gtk.gdk.Surface(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.Surface(References.get(RESULT, false));
     }
     
     /**
@@ -59,8 +59,8 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class NativeImpl extends org.gtk.gobject.Object implements Native {
-        public NativeImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public NativeImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

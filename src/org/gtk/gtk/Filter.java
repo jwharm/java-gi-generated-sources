@@ -27,13 +27,13 @@ import java.lang.invoke.*;
  */
 public class Filter extends org.gtk.gobject.Object {
 
-    public Filter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Filter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Filter */
     public static Filter castFrom(org.gtk.gobject.Object gobject) {
-        return new Filter(gobject.getProxy());
+        return new Filter(gobject.getReference());
     }
     
     /**

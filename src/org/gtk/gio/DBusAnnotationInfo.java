@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusAnnotationInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusAnnotationInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusAnnotationInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -20,7 +20,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.interop.Resource
      */
     public DBusAnnotationInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_annotation_info_ref(HANDLE());
-        return new DBusAnnotationInfo(ProxyFactory.get(RESULT, true));
+        return new DBusAnnotationInfo(References.get(RESULT, true));
     }
     
     /**

@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CellRendererTextClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CellRendererTextClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellRendererTextClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

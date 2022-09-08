@@ -51,20 +51,20 @@ import java.lang.invoke.*;
  */
 public class PageSetup extends org.gtk.gobject.Object {
 
-    public PageSetup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PageSetup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PageSetup */
     public static PageSetup castFrom(org.gtk.gobject.Object gobject) {
-        return new PageSetup(gobject.getProxy());
+        return new PageSetup(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPageSetup`.
      */
     public PageSetup() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new(), true));
     }
     
     /**
@@ -74,7 +74,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * [method@Gtk.PageSetup.to_gvariant].
      */
     public PageSetup(org.gtk.glib.Variant variant) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new_from_gvariant(variant.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_new_from_gvariant(variant.HANDLE()), true));
     }
     
     /**
@@ -82,7 +82,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public PageSetup copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_copy(HANDLE());
-        return new PageSetup(ProxyFactory.get(RESULT, true));
+        return new PageSetup(References.get(RESULT, true));
     }
     
     /**
@@ -150,7 +150,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public PaperSize getPaperSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_get_paper_size(HANDLE());
-        return new PaperSize(ProxyFactory.get(RESULT, false));
+        return new PaperSize(References.get(RESULT, false));
     }
     
     /**
@@ -278,7 +278,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_page_setup_to_gvariant(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**

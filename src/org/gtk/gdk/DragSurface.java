@@ -19,8 +19,8 @@ public interface DragSurface extends io.github.jwharm.javagi.interop.NativeAddre
     }
     
     class DragSurfaceImpl extends org.gtk.gobject.Object implements DragSurface {
-        public DragSurfaceImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public DragSurfaceImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

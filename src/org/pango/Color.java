@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Color(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Color(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -25,7 +25,7 @@ public class Color extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Color copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_color_copy(HANDLE());
-        return new Color(ProxyFactory.get(RESULT, true));
+        return new Color(References.get(RESULT, true));
     }
     
     /**

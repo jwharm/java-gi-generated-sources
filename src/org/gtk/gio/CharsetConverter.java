@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  */
 public class CharsetConverter extends org.gtk.gobject.Object implements Converter, Initable {
 
-    public CharsetConverter(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CharsetConverter(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CharsetConverter */
     public static CharsetConverter castFrom(org.gtk.gobject.Object gobject) {
-        return new CharsetConverter(gobject.getProxy());
+        return new CharsetConverter(gobject.getReference());
     }
     
     /**

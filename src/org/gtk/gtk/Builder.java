@@ -189,13 +189,13 @@ import java.lang.invoke.*;
  */
 public class Builder extends org.gtk.gobject.Object {
 
-    public Builder(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Builder(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Builder */
     public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        return new Builder(gobject.getProxy());
+        return new Builder(gobject.getReference());
     }
     
     /**
@@ -207,7 +207,7 @@ public class Builder extends org.gtk.gobject.Object {
      * descriptions into a single builder.
      */
     public Builder() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new(), true));
     }
     
     /**
@@ -218,7 +218,7 @@ public class Builder extends org.gtk.gobject.Object {
      * user interface descriptions that are shipped as part of your program.
      */
     public static Builder newFromFile(java.lang.String filename) {
-        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_file(Interop.allocateNativeString(filename).HANDLE()), true));
+        return new Builder(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_file(Interop.allocateNativeString(filename).HANDLE()), true));
     }
     
     /**
@@ -228,7 +228,7 @@ public class Builder extends org.gtk.gobject.Object {
      * description, then the program will be aborted.
      */
     public static Builder newFromResource(java.lang.String resourcePath) {
-        return new Builder(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
+        return new Builder(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_resource(Interop.allocateNativeString(resourcePath).HANDLE()), true));
     }
     
     /**
@@ -242,7 +242,7 @@ public class Builder extends org.gtk.gobject.Object {
      * from untrusted sources.
      */
     public Builder(java.lang.String string, long length) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).HANDLE(), length), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).HANDLE(), length), true));
     }
     
     /**
@@ -406,7 +406,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Closure(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.Closure(References.get(RESULT, true));
     }
     
     /**
@@ -438,7 +438,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getCurrentObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_current_object(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
     /**
@@ -449,7 +449,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.gobject.Object getObject(java.lang.String name) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_object(HANDLE(), Interop.allocateNativeString(name).HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
     /**
@@ -460,7 +460,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.SList getObjects() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_objects(HANDLE());
-        return new org.gtk.glib.SList(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.SList(References.get(RESULT, false));
     }
     
     /**
@@ -468,7 +468,7 @@ public class Builder extends org.gtk.gobject.Object {
      */
     public BuilderScope getScope() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_get_scope(HANDLE());
-        return new BuilderScope.BuilderScopeImpl(ProxyFactory.get(RESULT, false));
+        return new BuilderScope.BuilderScopeImpl(References.get(RESULT, false));
     }
     
     /**

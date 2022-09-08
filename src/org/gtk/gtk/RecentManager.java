@@ -65,13 +65,13 @@ import java.lang.invoke.*;
  */
 public class RecentManager extends org.gtk.gobject.Object {
 
-    public RecentManager(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public RecentManager(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to RecentManager */
     public static RecentManager castFrom(org.gtk.gobject.Object gobject) {
-        return new RecentManager(gobject.getProxy());
+        return new RecentManager(gobject.getReference());
     }
     
     /**
@@ -87,7 +87,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * instead.
      */
     public RecentManager() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_new(), true));
     }
     
     /**
@@ -137,7 +137,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.List getItems() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_recent_manager_get_items(HANDLE());
-        return new org.gtk.glib.List(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     /**
@@ -160,7 +160,7 @@ public class RecentManager extends org.gtk.gobject.Object {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new RecentInfo(ProxyFactory.get(RESULT, true));
+        return new RecentInfo(References.get(RESULT, true));
     }
     
     /**

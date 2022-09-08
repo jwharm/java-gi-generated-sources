@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class OpacityNode extends RenderNode {
 
-    public OpacityNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OpacityNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to OpacityNode */
     public static OpacityNode castFrom(org.gtk.gobject.Object gobject) {
-        return new OpacityNode(gobject.getProxy());
+        return new OpacityNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class OpacityNode extends RenderNode {
      * @opacity.
      */
     public OpacityNode(RenderNode child, float opacity) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_new(child.HANDLE(), opacity), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_new(child.HANDLE(), opacity), true));
     }
     
     /**
@@ -32,7 +32,7 @@ public class OpacityNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_opacity_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**

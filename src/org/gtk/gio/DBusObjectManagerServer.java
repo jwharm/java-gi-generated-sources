@@ -31,13 +31,13 @@ import java.lang.invoke.*;
  */
 public class DBusObjectManagerServer extends org.gtk.gobject.Object implements DBusObjectManager {
 
-    public DBusObjectManagerServer(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectManagerServer(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusObjectManagerServer */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectManagerServer(gobject.getProxy());
+        return new DBusObjectManagerServer(gobject.getReference());
     }
     
     /**
@@ -50,7 +50,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).HANDLE()), true));
     }
     
     /**
@@ -84,7 +84,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_server_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.get(RESULT, true));
+        return new DBusConnection(References.get(RESULT, true));
     }
     
     /**

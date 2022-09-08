@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class GLShaderClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public GLShaderClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public GLShaderClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

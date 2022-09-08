@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class DBusObjectIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DBusObjectIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

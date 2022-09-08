@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class LogAttr extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public LogAttr(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LogAttr(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

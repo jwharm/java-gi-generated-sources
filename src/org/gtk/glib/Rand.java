@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Rand(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Rand(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -22,7 +22,7 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rand copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_rand_copy(HANDLE());
-        return new Rand(ProxyFactory.get(RESULT, false));
+        return new Rand(References.get(RESULT, false));
     }
     
     /**

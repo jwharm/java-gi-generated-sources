@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MountOperationClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MountOperationClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MountOperationClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  */
 public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Attribute(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Attribute(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -28,7 +28,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrColor asColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_color(HANDLE());
-        return new AttrColor(ProxyFactory.get(RESULT, false));
+        return new AttrColor(References.get(RESULT, false));
     }
     
     /**
@@ -38,7 +38,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrFloat asFloat() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_float(HANDLE());
-        return new AttrFloat(ProxyFactory.get(RESULT, false));
+        return new AttrFloat(References.get(RESULT, false));
     }
     
     /**
@@ -48,7 +48,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrFontDesc asFontDesc() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_font_desc(HANDLE());
-        return new AttrFontDesc(ProxyFactory.get(RESULT, false));
+        return new AttrFontDesc(References.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrFontFeatures asFontFeatures() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_font_features(HANDLE());
-        return new AttrFontFeatures(ProxyFactory.get(RESULT, false));
+        return new AttrFontFeatures(References.get(RESULT, false));
     }
     
     /**
@@ -68,7 +68,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrInt asInt() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_int(HANDLE());
-        return new AttrInt(ProxyFactory.get(RESULT, false));
+        return new AttrInt(References.get(RESULT, false));
     }
     
     /**
@@ -78,7 +78,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrLanguage asLanguage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_language(HANDLE());
-        return new AttrLanguage(ProxyFactory.get(RESULT, false));
+        return new AttrLanguage(References.get(RESULT, false));
     }
     
     /**
@@ -88,7 +88,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrShape asShape() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_shape(HANDLE());
-        return new AttrShape(ProxyFactory.get(RESULT, false));
+        return new AttrShape(References.get(RESULT, false));
     }
     
     /**
@@ -98,7 +98,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrSize asSize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_size(HANDLE());
-        return new AttrSize(ProxyFactory.get(RESULT, false));
+        return new AttrSize(References.get(RESULT, false));
     }
     
     /**
@@ -108,7 +108,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public AttrString asString() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_as_string(HANDLE());
-        return new AttrString(ProxyFactory.get(RESULT, false));
+        return new AttrString(References.get(RESULT, false));
     }
     
     /**
@@ -116,7 +116,7 @@ public class Attribute extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Attribute copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.pango_attribute_copy(HANDLE());
-        return new Attribute(ProxyFactory.get(RESULT, true));
+        return new Attribute(References.get(RESULT, true));
     }
     
     /**

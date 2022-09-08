@@ -94,8 +94,8 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {
-        public TypePluginImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public TypePluginImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

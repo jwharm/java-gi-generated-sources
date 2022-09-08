@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class ShortcutManagerInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ShortcutManagerInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutManagerInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

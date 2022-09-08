@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ScaleButtonClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ScaleButtonClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ScaleButtonClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

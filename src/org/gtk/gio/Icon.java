@@ -54,7 +54,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default org.gtk.glib.Variant serialize() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_icon_serialize(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Variant(References.get(RESULT, true));
     }
     
     /**
@@ -81,8 +81,8 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class IconImpl extends org.gtk.gobject.Object implements Icon {
-        public IconImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public IconImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

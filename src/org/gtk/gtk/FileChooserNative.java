@@ -155,20 +155,20 @@ import java.lang.invoke.*;
  */
 public class FileChooserNative extends NativeDialog implements FileChooser {
 
-    public FileChooserNative(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileChooserNative(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to FileChooserNative */
     public static FileChooserNative castFrom(org.gtk.gobject.Object gobject) {
-        return new FileChooserNative(gobject.getProxy());
+        return new FileChooserNative(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkFileChooserNative`.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE(), action.getValue(), Interop.allocateNativeString(acceptLabel).HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).HANDLE(), parent.HANDLE(), action.getValue(), Interop.allocateNativeString(acceptLabel).HANDLE(), Interop.allocateNativeString(cancelLabel).HANDLE()), true));
     }
     
     /**

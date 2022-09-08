@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class StringListClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StringListClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StringListClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

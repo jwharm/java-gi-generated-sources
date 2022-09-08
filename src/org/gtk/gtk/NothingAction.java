@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class NothingAction extends ShortcutAction {
 
-    public NothingAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public NothingAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to NothingAction */
     public static NothingAction castFrom(org.gtk.gobject.Object gobject) {
-        return new NothingAction(gobject.getProxy());
+        return new NothingAction(gobject.getReference());
     }
     
 }

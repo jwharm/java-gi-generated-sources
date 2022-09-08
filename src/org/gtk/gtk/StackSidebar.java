@@ -24,20 +24,20 @@ import java.lang.invoke.*;
  */
 public class StackSidebar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public StackSidebar(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StackSidebar(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to StackSidebar */
     public static StackSidebar castFrom(org.gtk.gobject.Object gobject) {
-        return new StackSidebar(gobject.getProxy());
+        return new StackSidebar(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkStackSidebar`.
      */
     public StackSidebar() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_new(), false));
     }
     
     /**
@@ -45,7 +45,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      */
     public Stack getStack() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_stack_sidebar_get_stack(HANDLE());
-        return new Stack(ProxyFactory.get(RESULT, false));
+        return new Stack(References.get(RESULT, false));
     }
     
     /**

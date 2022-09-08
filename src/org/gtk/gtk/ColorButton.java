@@ -27,13 +27,13 @@ import java.lang.invoke.*;
  */
 public class ColorButton extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
 
-    public ColorButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ColorButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ColorButton */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
-        return new ColorButton(gobject.getProxy());
+        return new ColorButton(gobject.getReference());
     }
     
     /**
@@ -46,14 +46,14 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * color when the user finishes.
      */
     public ColorButton() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new(), false));
     }
     
     /**
      * Creates a new color button showing the given color.
      */
     public ColorButton(org.gtk.gdk.RGBA rgba) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new_with_rgba(rgba.HANDLE()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_color_button_new_with_rgba(rgba.HANDLE()), false));
     }
     
     /**

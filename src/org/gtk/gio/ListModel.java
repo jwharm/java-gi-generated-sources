@@ -115,7 +115,7 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      */
     public default org.gtk.gobject.Object getObject(int position) {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_list_model_get_object(HANDLE(), position);
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, true));
+        return new org.gtk.gobject.Object(References.get(RESULT, true));
     }
     
     /**
@@ -173,8 +173,8 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class ListModelImpl extends org.gtk.gobject.Object implements ListModel {
-        public ListModelImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ListModelImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

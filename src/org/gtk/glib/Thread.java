@@ -22,8 +22,8 @@ import java.lang.invoke.*;
  */
 public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Thread(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Thread(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -54,7 +54,7 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Thread ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_thread_ref(HANDLE());
-        return new Thread(ProxyFactory.get(RESULT, true));
+        return new Thread(References.get(RESULT, true));
     }
     
     /**

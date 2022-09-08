@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class IOModuleClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public IOModuleClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public IOModuleClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -19,8 +19,8 @@ import java.lang.invoke.*;
  */
 public class TimeVal extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TimeVal(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TimeVal(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

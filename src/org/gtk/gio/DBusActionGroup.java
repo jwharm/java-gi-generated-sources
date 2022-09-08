@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  */
 public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGroup, RemoteActionGroup {
 
-    public DBusActionGroup(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusActionGroup(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusActionGroup */
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusActionGroup(gobject.getProxy());
+        return new DBusActionGroup(gobject.getReference());
     }
     
 }

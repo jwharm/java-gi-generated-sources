@@ -27,8 +27,8 @@ public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class ProxyResolverImpl extends org.gtk.gobject.Object implements ProxyResolver {
-        public ProxyResolverImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public ProxyResolverImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

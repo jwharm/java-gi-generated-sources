@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SocketConnectionClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SocketConnectionClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SocketConnectionClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

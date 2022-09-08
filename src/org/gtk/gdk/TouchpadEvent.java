@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class TouchpadEvent extends Event {
 
-    public TouchpadEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TouchpadEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TouchpadEvent */
     public static TouchpadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new TouchpadEvent(gobject.getProxy());
+        return new TouchpadEvent(gobject.getReference());
     }
     
     /**

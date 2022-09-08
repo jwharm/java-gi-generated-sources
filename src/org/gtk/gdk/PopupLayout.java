@@ -42,8 +42,8 @@ import java.lang.invoke.*;
  */
 public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public PopupLayout(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PopupLayout(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -61,7 +61,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_new(anchorRect.HANDLE(), rectAnchor.getValue(), surfaceAnchor.getValue()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_new(anchorRect.HANDLE(), rectAnchor.getValue(), surfaceAnchor.getValue()), true));
     }
     
     /**
@@ -69,7 +69,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PopupLayout copy() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_copy(HANDLE());
-        return new PopupLayout(ProxyFactory.get(RESULT, true));
+        return new PopupLayout(References.get(RESULT, true));
     }
     
     /**
@@ -93,7 +93,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Rectangle getAnchorRect() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_get_anchor_rect(HANDLE());
-        return new Rectangle(ProxyFactory.get(RESULT, false));
+        return new Rectangle(References.get(RESULT, false));
     }
     
     /**
@@ -117,7 +117,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public PopupLayout ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_layout_ref(HANDLE());
-        return new PopupLayout(ProxyFactory.get(RESULT, true));
+        return new PopupLayout(References.get(RESULT, true));
     }
     
     /**

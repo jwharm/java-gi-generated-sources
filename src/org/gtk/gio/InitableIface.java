@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class InitableIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public InitableIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public InitableIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

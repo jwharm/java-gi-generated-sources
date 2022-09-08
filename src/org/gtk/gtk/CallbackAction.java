@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class CallbackAction extends ShortcutAction {
 
-    public CallbackAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CallbackAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CallbackAction */
     public static CallbackAction castFrom(org.gtk.gobject.Object gobject) {
-        return new CallbackAction(gobject.getProxy());
+        return new CallbackAction(gobject.getReference());
     }
     
 }

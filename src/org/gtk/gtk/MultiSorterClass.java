@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MultiSorterClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MultiSorterClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MultiSorterClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

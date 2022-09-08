@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  */
 public class DatagramBasedInterface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public DatagramBasedInterface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DatagramBasedInterface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

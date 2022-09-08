@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class OutsetShadowNode extends RenderNode {
 
-    public OutsetShadowNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OutsetShadowNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to OutsetShadowNode */
     public static OutsetShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        return new OutsetShadowNode(gobject.getProxy());
+        return new OutsetShadowNode(gobject.getReference());
     }
     
     /**
@@ -24,7 +24,7 @@ public class OutsetShadowNode extends RenderNode {
      * around the box given by @outline.
      */
     public OutsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_outset_shadow_node_new(outline.HANDLE(), color.HANDLE(), dx, dy, spread, blurRadius), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_outset_shadow_node_new(outline.HANDLE(), color.HANDLE(), dx, dy, spread, blurRadius), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class OutsetShadowNode extends RenderNode {
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_outset_shadow_node_get_color(HANDLE());
-        return new org.gtk.gdk.RGBA(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gdk.RGBA(References.get(RESULT, false));
     }
     
     /**
@@ -64,7 +64,7 @@ public class OutsetShadowNode extends RenderNode {
      */
     public RoundedRect getOutline() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_outset_shadow_node_get_outline(HANDLE());
-        return new RoundedRect(ProxyFactory.get(RESULT, false));
+        return new RoundedRect(References.get(RESULT, false));
     }
     
     /**

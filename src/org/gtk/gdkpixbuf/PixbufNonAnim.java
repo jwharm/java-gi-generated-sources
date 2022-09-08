@@ -7,17 +7,17 @@ import java.lang.invoke.*;
 
 public class PixbufNonAnim extends PixbufAnimation {
 
-    public PixbufNonAnim(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PixbufNonAnim(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PixbufNonAnim */
     public static PixbufNonAnim castFrom(org.gtk.gobject.Object gobject) {
-        return new PixbufNonAnim(gobject.getProxy());
+        return new PixbufNonAnim(gobject.getReference());
     }
     
     public PixbufNonAnim(Pixbuf pixbuf) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_non_anim_new(pixbuf.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_pixbuf_non_anim_new(pixbuf.HANDLE()), true));
     }
     
 }

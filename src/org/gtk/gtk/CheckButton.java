@@ -60,34 +60,34 @@ import java.lang.invoke.*;
  */
 public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public CheckButton(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CheckButton(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to CheckButton */
     public static CheckButton castFrom(org.gtk.gobject.Object gobject) {
-        return new CheckButton(gobject.getProxy());
+        return new CheckButton(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkCheckButton`.
      */
     public CheckButton() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new(), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new(), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text.
      */
     public static CheckButton newWithLabel(java.lang.String label) {
-        return new CheckButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
+        return new CheckButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text and a mnemonic.
      */
     public static CheckButton newWithMnemonic(java.lang.String label) {
-        return new CheckButton(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
+        return new CheckButton(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).HANDLE()), false));
     }
     
     /**

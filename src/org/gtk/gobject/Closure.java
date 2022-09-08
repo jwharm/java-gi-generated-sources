@@ -53,8 +53,8 @@ import java.lang.invoke.*;
  */
 public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Closure(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Closure(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -64,7 +64,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * when implementing new types of closures.
      */
     public Closure(int sizeofClosure, Object object) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_object(sizeofClosure, object.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_object(sizeofClosure, object.HANDLE()), true));
     }
     
     /**
@@ -107,7 +107,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public Closure(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_simple(sizeofClosure, data), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_new_simple(sizeofClosure, data), false));
     }
     
     /**
@@ -144,7 +144,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Closure ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_closure_ref(HANDLE());
-        return new Closure(ProxyFactory.get(RESULT, false));
+        return new Closure(References.get(RESULT, false));
     }
     
     /**

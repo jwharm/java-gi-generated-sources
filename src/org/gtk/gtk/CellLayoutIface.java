@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class CellLayoutIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public CellLayoutIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public CellLayoutIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

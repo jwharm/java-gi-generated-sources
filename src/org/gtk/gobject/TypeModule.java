@@ -39,13 +39,13 @@ import java.lang.invoke.*;
  */
 public class TypeModule extends Object implements TypePlugin {
 
-    public TypeModule(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TypeModule(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to TypeModule */
     public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
-        return new TypeModule(gobject.getProxy());
+        return new TypeModule(gobject.getReference());
     }
     
     /**

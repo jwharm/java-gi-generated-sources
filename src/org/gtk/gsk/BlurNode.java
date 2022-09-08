@@ -10,20 +10,20 @@ import java.lang.invoke.*;
  */
 public class BlurNode extends RenderNode {
 
-    public BlurNode(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BlurNode(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BlurNode */
     public static BlurNode castFrom(org.gtk.gobject.Object gobject) {
-        return new BlurNode(gobject.getProxy());
+        return new BlurNode(gobject.getReference());
     }
     
     /**
      * Creates a render node that blurs the child.
      */
     public BlurNode(RenderNode child, float radius) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_new(child.HANDLE(), radius), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_new(child.HANDLE(), radius), true));
     }
     
     /**
@@ -31,7 +31,7 @@ public class BlurNode extends RenderNode {
      */
     public RenderNode getChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gsk_blur_node_get_child(HANDLE());
-        return new RenderNode(ProxyFactory.get(RESULT, false));
+        return new RenderNode(References.get(RESULT, false));
     }
     
     /**

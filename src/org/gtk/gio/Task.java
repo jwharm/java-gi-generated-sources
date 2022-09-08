@@ -508,13 +508,13 @@ import java.lang.invoke.*;
  */
 public class Task extends org.gtk.gobject.Object implements AsyncResult {
 
-    public Task(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Task(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Task */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
-        return new Task(gobject.getProxy());
+        return new Task(gobject.getReference());
     }
     
     /**
@@ -522,7 +522,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public Cancellable getCancellable() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_cancellable(HANDLE());
-        return new Cancellable(ProxyFactory.get(RESULT, false));
+        return new Cancellable(References.get(RESULT, false));
     }
     
     /**
@@ -555,7 +555,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public org.gtk.glib.MainContext getContext() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_context(HANDLE());
-        return new org.gtk.glib.MainContext(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.MainContext(References.get(RESULT, false));
     }
     
     /**
@@ -589,7 +589,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public org.gtk.gobject.Object getSourceObject() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_task_get_source_object(HANDLE());
-        return new org.gtk.gobject.Object(ProxyFactory.get(RESULT, false));
+        return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
     
     /**

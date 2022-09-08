@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class TypeValueTable extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public TypeValueTable(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public TypeValueTable(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

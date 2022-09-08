@@ -13,13 +13,13 @@ import java.lang.invoke.*;
  */
 public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObject {
 
-    public DBusObjectProxy(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectProxy(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusObjectProxy */
     public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectProxy(gobject.getProxy());
+        return new DBusObjectProxy(gobject.getReference());
     }
     
     /**
@@ -27,7 +27,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      * object path.
      */
     public DBusObjectProxy(DBusConnection connection, java.lang.String objectPath) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_new(connection.HANDLE(), Interop.allocateNativeString(objectPath).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_new(connection.HANDLE(), Interop.allocateNativeString(objectPath).HANDLE()), true));
     }
     
     /**
@@ -35,7 +35,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_proxy_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.get(RESULT, false));
+        return new DBusConnection(References.get(RESULT, false));
     }
     
 }

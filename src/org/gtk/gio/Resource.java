@@ -145,8 +145,8 @@ import java.lang.invoke.*;
  */
 public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public Resource(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Resource(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -187,7 +187,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(ProxyFactory.get(RESULT, true));
+        return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
     /**
@@ -202,7 +202,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
         if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
             throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
         }
-        return new InputStream(ProxyFactory.get(RESULT, true));
+        return new InputStream(References.get(RESULT, true));
     }
     
     /**
@@ -211,7 +211,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Resource ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_resource_ref(HANDLE());
-        return new Resource(ProxyFactory.get(RESULT, true));
+        return new Resource(References.get(RESULT, true));
     }
     
     /**

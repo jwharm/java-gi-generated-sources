@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class FileEnumeratorClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public FileEnumeratorClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public FileEnumeratorClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

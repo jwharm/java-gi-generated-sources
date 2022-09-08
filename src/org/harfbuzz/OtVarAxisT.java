@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class OtVarAxisT extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public OtVarAxisT(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public OtVarAxisT(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

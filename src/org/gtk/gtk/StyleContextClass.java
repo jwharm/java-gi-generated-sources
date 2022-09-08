@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class StyleContextClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public StyleContextClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public StyleContextClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  */
 public class LayoutRun extends GlyphItem {
 
-    public LayoutRun(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public LayoutRun(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

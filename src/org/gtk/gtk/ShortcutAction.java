@@ -36,13 +36,13 @@ import java.lang.invoke.*;
  */
 public class ShortcutAction extends org.gtk.gobject.Object {
 
-    public ShortcutAction(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ShortcutAction(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ShortcutAction */
     public static ShortcutAction castFrom(org.gtk.gobject.Object gobject) {
-        return new ShortcutAction(gobject.getProxy());
+        return new ShortcutAction(gobject.getReference());
     }
     
     /**
@@ -60,7 +60,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * - `signal(NAME)`, for a `GtkSignalAction` for the signal `NAME`
      */
     public ShortcutAction(java.lang.String string) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).HANDLE()), true));
     }
     
     /**

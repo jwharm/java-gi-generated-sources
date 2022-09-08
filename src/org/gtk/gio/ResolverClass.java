@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class ResolverClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public ResolverClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ResolverClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

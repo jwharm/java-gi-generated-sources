@@ -84,13 +84,13 @@ import java.lang.invoke.*;
  */
 public class DBusObjectManagerClient extends org.gtk.gobject.Object implements AsyncInitable, DBusObjectManager, Initable {
 
-    public DBusObjectManagerClient(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusObjectManagerClient(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusObjectManagerClient */
     public static DBusObjectManagerClient castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusObjectManagerClient(gobject.getProxy());
+        return new DBusObjectManagerClient(gobject.getReference());
     }
     
     /**
@@ -98,7 +98,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_object_manager_client_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.get(RESULT, false));
+        return new DBusConnection(References.get(RESULT, false));
     }
     
     /**

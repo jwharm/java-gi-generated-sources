@@ -29,7 +29,7 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default Surface getParent() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gdk_popup_get_parent(HANDLE());
-        return new Surface(ProxyFactory.get(RESULT, false));
+        return new Surface(References.get(RESULT, false));
     }
     
     /**
@@ -93,8 +93,8 @@ public interface Popup extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class PopupImpl extends org.gtk.gobject.Object implements Popup {
-        public PopupImpl(io.github.jwharm.javagi.interop.Proxy proxy) {
-            super(proxy);
+        public PopupImpl(io.github.jwharm.javagi.interop.Reference reference) {
+            super(reference);
         }
     }
 }

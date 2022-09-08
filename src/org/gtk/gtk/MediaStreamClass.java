@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class MediaStreamClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MediaStreamClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MediaStreamClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

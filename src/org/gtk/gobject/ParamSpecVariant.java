@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class ParamSpecVariant extends ParamSpec {
 
-    public ParamSpecVariant(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ParamSpecVariant(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ParamSpecVariant */
     public static ParamSpecVariant castFrom(org.gtk.gobject.Object gobject) {
-        return new ParamSpecVariant(gobject.getProxy());
+        return new ParamSpecVariant(gobject.getReference());
     }
     
 }

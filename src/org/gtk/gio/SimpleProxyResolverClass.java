@@ -7,8 +7,8 @@ import java.lang.invoke.*;
 
 public class SimpleProxyResolverClass extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public SimpleProxyResolverClass(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public SimpleProxyResolverClass(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

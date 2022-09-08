@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  */
 public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public MatchInfo(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public MatchInfo(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /**
@@ -111,7 +111,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public Regex getRegex() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_get_regex(HANDLE());
-        return new Regex(ProxyFactory.get(RESULT, true));
+        return new Regex(References.get(RESULT, true));
     }
     
     /**
@@ -194,7 +194,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public MatchInfo ref() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_match_info_ref(HANDLE());
-        return new MatchInfo(ProxyFactory.get(RESULT, true));
+        return new MatchInfo(References.get(RESULT, true));
     }
     
     /**

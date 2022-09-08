@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  */
 public class ATContext extends org.gtk.gobject.Object {
 
-    public ATContext(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public ATContext(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to ATContext */
     public static ATContext castFrom(org.gtk.gobject.Object gobject) {
-        return new ATContext(gobject.getProxy());
+        return new ATContext(gobject.getReference());
     }
     
     /**
@@ -32,7 +32,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * platform.
      */
     public ATContext(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.HANDLE(), display.HANDLE()), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.HANDLE(), display.HANDLE()), true));
     }
     
     /**
@@ -40,7 +40,7 @@ public class ATContext extends org.gtk.gobject.Object {
      */
     public Accessible getAccessible() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_at_context_get_accessible(HANDLE());
-        return new Accessible.AccessibleImpl(ProxyFactory.get(RESULT, false));
+        return new Accessible.AccessibleImpl(References.get(RESULT, false));
     }
     
     /**

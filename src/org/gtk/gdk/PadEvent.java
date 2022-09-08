@@ -10,13 +10,13 @@ import java.lang.invoke.*;
  */
 public class PadEvent extends Event {
 
-    public PadEvent(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public PadEvent(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to PadEvent */
     public static PadEvent castFrom(org.gtk.gobject.Object gobject) {
-        return new PadEvent(gobject.getProxy());
+        return new PadEvent(gobject.getReference());
     }
     
     /**

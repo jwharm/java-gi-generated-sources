@@ -25,13 +25,13 @@ import java.lang.invoke.*;
  */
 public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScope {
 
-    public BuilderCScope(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public BuilderCScope(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to BuilderCScope */
     public static BuilderCScope castFrom(org.gtk.gobject.Object gobject) {
-        return new BuilderCScope(gobject.getProxy());
+        return new BuilderCScope(gobject.getReference());
     }
     
     /**
@@ -42,7 +42,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
      * custom callbacks via [method@Gtk.BuilderCScope.add_callback_symbol].
      */
     public BuilderCScope() {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_cscope_new(), true));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_builder_cscope_new(), true));
     }
     
 }

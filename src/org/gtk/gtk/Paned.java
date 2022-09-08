@@ -76,20 +76,20 @@ import java.lang.invoke.*;
  */
 public class Paned extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Paned(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public Paned(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to Paned */
     public static Paned castFrom(org.gtk.gobject.Object gobject) {
-        return new Paned(gobject.getProxy());
+        return new Paned(gobject.getReference());
     }
     
     /**
      * Creates a new `GtkPaned` widget.
      */
     public Paned(Orientation orientation) {
-        super(ProxyFactory.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_new(orientation.getValue()), false));
+        super(References.get(io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_new(orientation.getValue()), false));
     }
     
     /**
@@ -97,7 +97,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getEndChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_get_end_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**
@@ -145,7 +145,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Widget getStartChild() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.gtk_paned_get_start_child(HANDLE());
-        return new Widget(ProxyFactory.get(RESULT, false));
+        return new Widget(References.get(RESULT, false));
     }
     
     /**

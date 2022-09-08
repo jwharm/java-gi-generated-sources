@@ -10,8 +10,8 @@ import java.lang.invoke.*;
  */
 public class AppInfoIface extends io.github.jwharm.javagi.interop.ResourceBase {
 
-    public AppInfoIface(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public AppInfoIface(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
 }

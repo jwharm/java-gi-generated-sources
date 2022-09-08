@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  */
 public class DBusMethodInvocation extends org.gtk.gobject.Object {
 
-    public DBusMethodInvocation(io.github.jwharm.javagi.interop.Proxy proxy) {
-        super(proxy);
+    public DBusMethodInvocation(io.github.jwharm.javagi.interop.Reference reference) {
+        super(reference);
     }
     
     /** Cast object to DBusMethodInvocation */
     public static DBusMethodInvocation castFrom(org.gtk.gobject.Object gobject) {
-        return new DBusMethodInvocation(gobject.getProxy());
+        return new DBusMethodInvocation(gobject.getReference());
     }
     
     /**
@@ -30,7 +30,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusConnection getConnection() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_connection(HANDLE());
-        return new DBusConnection(ProxyFactory.get(RESULT, false));
+        return new DBusConnection(References.get(RESULT, false));
     }
     
     /**
@@ -58,7 +58,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusMessage getMessage() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_message(HANDLE());
-        return new DBusMessage(ProxyFactory.get(RESULT, false));
+        return new DBusMessage(References.get(RESULT, false));
     }
     
     /**
@@ -71,7 +71,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusMethodInfo getMethodInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_method_info(HANDLE());
-        return new DBusMethodInfo(ProxyFactory.get(RESULT, false));
+        return new DBusMethodInfo(References.get(RESULT, false));
     }
     
     /**
@@ -96,7 +96,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public org.gtk.glib.Variant getParameters() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_parameters(HANDLE());
-        return new org.gtk.glib.Variant(ProxyFactory.get(RESULT, false));
+        return new org.gtk.glib.Variant(References.get(RESULT, false));
     }
     
     /**
@@ -114,7 +114,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      */
     public DBusPropertyInfo getPropertyInfo() {
         var RESULT = io.github.jwharm.javagi.interop.jextract.gtk_h.g_dbus_method_invocation_get_property_info(HANDLE());
-        return new DBusPropertyInfo(ProxyFactory.get(RESULT, false));
+        return new DBusPropertyInfo(References.get(RESULT, false));
     }
     
     /**
