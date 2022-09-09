@@ -326,4 +326,17 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
         return IOStatus.fromValue(RESULT);
     }
     
+    /**
+     * Converts an `errno` error number to a #GIOChannelError.
+     */
+    public static IOChannelError errorFromErrno(int en) {
+        var RESULT = gtk_h.g_io_channel_error_from_errno(en);
+        return IOChannelError.fromValue(RESULT);
+    }
+    
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_io_channel_error_quark();
+        return new Quark(RESULT);
+    }
+    
 }

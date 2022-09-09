@@ -213,4 +213,19 @@ public class Transform extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.gsk_transform_unref(handle());
     }
     
+    /**
+     * Parses the given @string into a transform and puts it in
+     * @out_transform.
+     * 
+     * Strings printed via [method@Gsk.Transform.to_string]
+     * can be read in again successfully using this function.
+     * 
+     * If @string does not describe a valid transform, %FALSE is
+     * returned and %NULL is put in @out_transform.
+     */
+    public static boolean parse(java.lang.String string, Transform[] outTransform) {
+        var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());
+        return (RESULT != 0);
+    }
+    
 }

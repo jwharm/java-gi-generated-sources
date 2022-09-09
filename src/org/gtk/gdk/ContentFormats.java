@@ -196,4 +196,19 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
         gtk_h.gdk_content_formats_unref(handle());
     }
     
+    /**
+     * Parses the given @string into `GdkContentFormats` and
+     * returns the formats.
+     * 
+     * Strings printed via [method@Gdk.ContentFormats.to_string]
+     * can be read in again successfully using this function.
+     * 
+     * If @string does not describe valid content formats, %NULL
+     * is returned.
+     */
+    public static ContentFormats parse(java.lang.String string) {
+        var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
+        return new ContentFormats(References.get(RESULT, true));
+    }
+    
 }

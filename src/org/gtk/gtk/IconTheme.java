@@ -206,6 +206,21 @@ public class IconTheme extends org.gtk.gobject.Object {
         gtk_h.gtk_icon_theme_set_theme_name(handle(), Interop.allocateNativeString(themeName).handle());
     }
     
+    /**
+     * Gets the icon theme object associated with @display.
+     * 
+     * If this function has not previously been called for the given
+     * display, a new icon theme object will be created and associated
+     * with the display. Icon theme objects are fairly expensive to create,
+     * so using this function is usually a better choice than calling
+     * [ctor@Gtk.IconTheme.new] and setting the display yourself; by using
+     * this function a single icon theme object will be shared between users.
+     */
+    public static IconTheme getForDisplay(org.gtk.gdk.Display display) {
+        var RESULT = gtk_h.gtk_icon_theme_get_for_display(display.handle());
+        return new IconTheme(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface ChangedHandler {
         void signalReceived(IconTheme source);

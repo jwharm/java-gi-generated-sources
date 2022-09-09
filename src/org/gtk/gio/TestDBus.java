@@ -162,4 +162,16 @@ public class TestDBus extends org.gtk.gobject.Object {
         gtk_h.g_test_dbus_up(handle());
     }
     
+    /**
+     * Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
+     * won't use user's session bus.
+     * 
+     * This is useful for unit tests that want to verify behaviour when no session
+     * bus is running. It is not necessary to call this if unit test already calls
+     * g_test_dbus_up() before acquiring the session bus.
+     */
+    public static void unset() {
+        gtk_h.g_test_dbus_unset();
+    }
+    
 }

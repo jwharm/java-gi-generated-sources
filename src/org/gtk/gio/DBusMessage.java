@@ -456,4 +456,17 @@ public class DBusMessage extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Utility function to calculate how many bytes are needed to
+     * completely deserialize the D-Bus message stored at @blob.
+     */
+    public static long bytesNeeded(byte[] blob, long blobLen) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dbus_message_bytes_needed(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
 }

@@ -809,4 +809,22 @@ public class Layout extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Loads data previously created via [method@Pango.Layout.serialize].
+     * 
+     * For a discussion of the supported format, see that function.
+     * 
+     * Note: to verify that the returned layout is identical to
+     * the one that was serialized, you can compare @bytes to the
+     * result of serializing the layout again.
+     */
+    public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.pango_layout_deserialize(context.handle(), bytes.handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Layout(References.get(RESULT, true));
+    }
+    
 }

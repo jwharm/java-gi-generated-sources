@@ -72,4 +72,13 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_size_scale(handle(), factor, res.handle());
     }
     
+    /**
+     * A constant pointer to a zero #graphene_size_t, useful for
+     * equality checks and interpolations.
+     */
+    public static Size zero() {
+        var RESULT = gtk_h.graphene_size_zero();
+        return new Size(References.get(RESULT, false));
+    }
+    
 }

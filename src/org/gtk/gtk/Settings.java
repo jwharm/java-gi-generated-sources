@@ -57,4 +57,23 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
         gtk_h.gtk_settings_reset_property(handle(), Interop.allocateNativeString(name).handle());
     }
     
+    /**
+     * Gets the `GtkSettings` object for the default display, creating
+     * it if necessary.
+     * 
+     * See [func@Gtk.Settings.get_for_display].
+     */
+    public static Settings getDefault() {
+        var RESULT = gtk_h.gtk_settings_get_default();
+        return new Settings(References.get(RESULT, false));
+    }
+    
+    /**
+     * Gets the `GtkSettings` object for @display, creating it if necessary.
+     */
+    public static Settings getForDisplay(org.gtk.gdk.Display display) {
+        var RESULT = gtk_h.gtk_settings_get_for_display(display.handle());
+        return new Settings(References.get(RESULT, false));
+    }
+    
 }

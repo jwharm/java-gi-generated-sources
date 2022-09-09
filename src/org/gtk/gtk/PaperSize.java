@@ -233,4 +233,21 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.gtk_paper_size_to_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle());
     }
     
+    /**
+     * Returns the name of the default paper size, which
+     * depends on the current locale.
+     */
+    public static java.lang.String getDefault() {
+        var RESULT = gtk_h.gtk_paper_size_get_default();
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Creates a list of known paper sizes.
+     */
+    public static org.gtk.glib.List getPaperSizes(boolean includeCustom) {
+        var RESULT = gtk_h.gtk_paper_size_get_paper_sizes(includeCustom ? 1 : 0);
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
 }

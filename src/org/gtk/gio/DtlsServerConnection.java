@@ -13,6 +13,18 @@ import java.lang.invoke.*;
  */
 public interface DtlsServerConnection extends io.github.jwharm.javagi.interop.NativeAddress {
 
+    /**
+     * Creates a new #GDtlsServerConnection wrapping @base_socket.
+     */
+    public static DtlsServerConnection new_(DatagramBased baseSocket, TlsCertificate certificate) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dtls_server_connection_new(baseSocket.handle(), certificate.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DtlsServerConnection.DtlsServerConnectionImpl(References.get(RESULT, true));
+    }
+    
     class DtlsServerConnectionImpl extends org.gtk.gobject.Object implements DtlsServerConnection {
         public DtlsServerConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

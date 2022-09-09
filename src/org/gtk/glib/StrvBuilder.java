@@ -63,4 +63,13 @@ public class StrvBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_strv_builder_unref(handle());
     }
     
+    /**
+     * Creates a new #GStrvBuilder with a reference count of 1.
+     * Use g_strv_builder_unref() on the returned value when no longer needed.
+     */
+    public static StrvBuilder new_() {
+        var RESULT = gtk_h.g_strv_builder_new();
+        return new StrvBuilder(References.get(RESULT, true));
+    }
+    
 }

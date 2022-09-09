@@ -93,6 +93,22 @@ public class DisplayManager extends org.gtk.gobject.Object {
         gtk_h.gdk_display_manager_set_default_display(handle(), display.handle());
     }
     
+    /**
+     * Gets the singleton `GdkDisplayManager` object.
+     * 
+     * When called for the first time, this function consults the
+     * `GDK_BACKEND` environment variable to find out which of the
+     * supported GDK backends to use (in case GDK has been compiled
+     * with multiple backends).
+     * 
+     * Applications can use [func@set_allowed_backends] to limit what
+     * backends wil be used.
+     */
+    public static DisplayManager get() {
+        var RESULT = gtk_h.gdk_display_manager_get();
+        return new DisplayManager(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface DisplayOpenedHandler {
         void signalReceived(DisplayManager source, Display display);

@@ -68,4 +68,20 @@ public class Vfs extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Gets the default #GVfs for the system.
+     */
+    public static Vfs getDefault() {
+        var RESULT = gtk_h.g_vfs_get_default();
+        return new Vfs(References.get(RESULT, false));
+    }
+    
+    /**
+     * Gets the local #GVfs for the system.
+     */
+    public static Vfs getLocal() {
+        var RESULT = gtk_h.g_vfs_get_local();
+        return new Vfs(References.get(RESULT, false));
+    }
+    
 }

@@ -182,6 +182,19 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
         gtk_h.gdk_paintable_snapshot(handle(), snapshot.handle(), width, height);
     }
     
+    /**
+     * Returns a paintable that has the given intrinsic size and draws nothing.
+     * 
+     * This is often useful for implementing the
+     * [vfunc@Gdk.Paintable.get_current_image] virtual function
+     * when the paintable is in an incomplete state (like a
+     * [class@Gtk.MediaStream] before receiving the first frame).
+     */
+    public static Paintable newEmpty(int intrinsicWidth, int intrinsicHeight) {
+        var RESULT = gtk_h.gdk_paintable_new_empty(intrinsicWidth, intrinsicHeight);
+        return new Paintable.PaintableImpl(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface InvalidateContentsHandler {
         void signalReceived(Paintable source);

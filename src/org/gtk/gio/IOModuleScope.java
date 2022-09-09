@@ -36,4 +36,17 @@ public class IOModuleScope extends io.github.jwharm.javagi.interop.ResourceBase 
         gtk_h.g_io_module_scope_free(handle());
     }
     
+    /**
+     * Create a new scope for loading of IO modules. A scope can be used for
+     * blocking duplicate modules, or blocking a module you don't want to load.
+     * 
+     * Specify the %G_IO_MODULE_SCOPE_BLOCK_DUPLICATES flag to block modules
+     * which have the same base name as a module that has already been seen
+     * in this scope.
+     */
+    public static IOModuleScope new_(IOModuleScopeFlags flags) {
+        var RESULT = gtk_h.g_io_module_scope_new(flags.getValue());
+        return new IOModuleScope(References.get(RESULT, true));
+    }
+    
 }

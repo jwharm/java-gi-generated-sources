@@ -65,4 +65,15 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
         gtk_h.g_simple_proxy_resolver_set_uri_proxy(handle(), Interop.allocateNativeString(uriScheme).handle(), Interop.allocateNativeString(proxy).handle());
     }
     
+    /**
+     * Creates a new #GSimpleProxyResolver. See
+     * #GSimpleProxyResolver:default-proxy and
+     * #GSimpleProxyResolver:ignore-hosts for more details on how the
+     * arguments are interpreted.
+     */
+    public static ProxyResolver new_(java.lang.String defaultProxy, java.lang.String[] ignoreHosts) {
+        var RESULT = gtk_h.g_simple_proxy_resolver_new(Interop.allocateNativeString(defaultProxy).handle(), Interop.allocateNativeArray(ignoreHosts).handle());
+        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, true));
+    }
+    
 }

@@ -28,6 +28,14 @@ public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAdd
         return (RESULT != 0);
     }
     
+    /**
+     * Gets the default #GProxyResolver for the system.
+     */
+    public static ProxyResolver getDefault() {
+        var RESULT = gtk_h.g_proxy_resolver_get_default();
+        return new ProxyResolver.ProxyResolverImpl(References.get(RESULT, false));
+    }
+    
     class ProxyResolverImpl extends org.gtk.gobject.Object implements ProxyResolver {
         public ProxyResolverImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

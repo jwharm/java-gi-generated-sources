@@ -84,4 +84,12 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_checksum_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
     }
     
+    /**
+     * Gets the length in bytes of digests of type @checksum_type
+     */
+    public static long typeGetLength(ChecksumType checksumType) {
+        var RESULT = gtk_h.g_checksum_type_get_length(checksumType.getValue());
+        return RESULT;
+    }
+    
 }

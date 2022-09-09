@@ -82,6 +82,39 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
         return RESULT.getUtf8String(0);
     }
     
+    /**
+     * Deserializes a #GIcon previously serialized using g_icon_serialize().
+     */
+    public static Icon deserialize(org.gtk.glib.Variant value) {
+        var RESULT = gtk_h.g_icon_deserialize(value.handle());
+        return new Icon.IconImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a hash for an icon.
+     */
+    public static int hash(jdk.incubator.foreign.MemoryAddress icon) {
+        var RESULT = gtk_h.g_icon_hash(icon);
+        return RESULT;
+    }
+    
+    /**
+     * Generate a #GIcon instance from @str. This function can fail if
+     * @str is not valid - see g_icon_to_string() for discussion.
+     * 
+     * If your application or library provides one or more #GIcon
+     * implementations you need to ensure that each #GType is registered
+     * with the type system prior to calling g_icon_new_for_string().
+     */
+    public static Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_icon_new_for_string(Interop.allocateNativeString(str).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Icon.IconImpl(References.get(RESULT, true));
+    }
+    
     class IconImpl extends org.gtk.gobject.Object implements Icon {
         public IconImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

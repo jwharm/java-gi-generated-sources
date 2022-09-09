@@ -79,4 +79,18 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         gtk_h.g_socket_control_message_serialize(handle(), data);
     }
     
+    /**
+     * Tries to deserialize a socket control message of a given
+     * @level and @type. This will ask all known (to GType) subclasses
+     * of #GSocketControlMessage if they can understand this kind
+     * of message and if so deserialize it into a #GSocketControlMessage.
+     * 
+     * If there is no implementation for this kind of control message, %NULL
+     * will be returned.
+     */
+    public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
+        var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle());
+        return new SocketControlMessage(References.get(RESULT, true));
+    }
+    
 }

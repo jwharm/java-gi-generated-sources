@@ -57,6 +57,14 @@ import java.lang.invoke.*;
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.interop.NativeAddress {
 
+    /**
+     * Gets a reference to the default #GMemoryMonitor for the system.
+     */
+    public static MemoryMonitor dupDefault() {
+        var RESULT = gtk_h.g_memory_monitor_dup_default();
+        return new MemoryMonitor.MemoryMonitorImpl(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface LowMemoryWarningHandler {
         void signalReceived(MemoryMonitor source, MemoryMonitorWarningLevel level);

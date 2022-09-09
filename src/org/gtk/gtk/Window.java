@@ -755,6 +755,83 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         gtk_h.gtk_window_unminimize(handle());
     }
     
+    /**
+     * Returns the fallback icon name for windows.
+     * 
+     * The returned string is owned by GTK and should not
+     * be modified. It is only valid until the next call to
+     * [func@Gtk.Window.set_default_icon_name].
+     */
+    public static java.lang.String getDefaultIconName() {
+        var RESULT = gtk_h.gtk_window_get_default_icon_name();
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Returns a list of all existing toplevel windows.
+     * 
+     * If you want to iterate through the list and perform actions involving
+     * callbacks that might destroy the widgets or add new ones, be aware that
+     * the list of toplevels will change and emit the "items-changed" signal.
+     */
+    public static org.gtk.gio.ListModel getToplevels() {
+        var RESULT = gtk_h.gtk_window_get_toplevels();
+        return new org.gtk.gio.ListModel.ListModelImpl(References.get(RESULT, false));
+    }
+    
+    /**
+     * Returns a list of all existing toplevel windows.
+     * 
+     * The widgets in the list are not individually referenced.
+     * If you want to iterate through the list and perform actions
+     * involving callbacks that might destroy the widgets, you must
+     * call `g_list_foreach (result, (GFunc)g_object_ref, NULL)` first,
+     * and then unref all the widgets afterwards.
+     */
+    public static org.gtk.glib.List listToplevels() {
+        var RESULT = gtk_h.gtk_window_list_toplevels();
+        return new org.gtk.glib.List(References.get(RESULT, false));
+    }
+    
+    /**
+     * Sets whether the window should request startup notification.
+     * 
+     * By default, after showing the first `GtkWindow`, GTK calls
+     * [method@Gdk.Display.notify_startup_complete]. Call this function
+     * to disable the automatic startup notification. You might do this
+     * if your first window is a splash screen, and you want to delay
+     * notification until after your real main window has been shown,
+     * for example.
+     * 
+     * In that example, you would disable startup notification
+     * temporarily, show your splash screen, then re-enable it so that
+     * showing the main window would automatically result in notification.
+     */
+    public static void setAutoStartupNotification(boolean setting) {
+        gtk_h.gtk_window_set_auto_startup_notification(setting ? 1 : 0);
+    }
+    
+    /**
+     * Sets an icon to be used as fallback.
+     * 
+     * The fallback icon is used for windows that
+     * haven't had [method@Gtk.Window.set_icon_name]
+     * called on them.
+     */
+    public static void setDefaultIconName(java.lang.String name) {
+        gtk_h.gtk_window_set_default_icon_name(Interop.allocateNativeString(name).handle());
+    }
+    
+    /**
+     * Opens or closes the [interactive debugger](running.html#interactive-debugging).
+     * 
+     * The debugger offers access to the widget hierarchy of the application
+     * and to useful debugging tools.
+     */
+    public static void setInteractiveDebugging(boolean enable) {
+        gtk_h.gtk_window_set_interactive_debugging(enable ? 1 : 0);
+    }
+    
     @FunctionalInterface
     public interface ActivateDefaultHandler {
         void signalReceived(Window source);

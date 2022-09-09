@@ -1632,6 +1632,98 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
         return (RESULT != 0);
     }
     
+    /**
+     * Creates a #GFile with the given argument from the command line.
+     * The value of @arg can be either a URI, an absolute path or a
+     * relative path resolved relative to the current working directory.
+     * This operation never fails, but the returned object might not
+     * support any I/O operation if @arg points to a malformed path.
+     * 
+     * Note that on Windows, this function expects its argument to be in
+     * UTF-8 -- not the system code page.  This means that you
+     * should not use this function with string from argv as it is passed
+     * to main().  g_win32_get_command_line() will return a UTF-8 version of
+     * the commandline.  #GApplication also uses UTF-8 but
+     * g_application_command_line_create_file_for_arg() may be more useful
+     * for you there.  It is also always possible to use this function with
+     * #GOptionContext arguments of type %G_OPTION_ARG_FILENAME.
+     */
+    public static File newForCommandlineArg(java.lang.String arg) {
+        var RESULT = gtk_h.g_file_new_for_commandline_arg(Interop.allocateNativeString(arg).handle());
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Creates a #GFile with the given argument from the command line.
+     * 
+     * This function is similar to g_file_new_for_commandline_arg() except
+     * that it allows for passing the current working directory as an
+     * argument instead of using the current working directory of the
+     * process.
+     * 
+     * This is useful if the commandline argument was given in a context
+     * other than the invocation of the current process.
+     * 
+     * See also g_application_command_line_create_file_for_arg().
+     */
+    public static File newForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
+        var RESULT = gtk_h.g_file_new_for_commandline_arg_and_cwd(Interop.allocateNativeString(arg).handle(), Interop.allocateNativeString(cwd).handle());
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Constructs a #GFile for a given path. This operation never
+     * fails, but the returned object might not support any I/O
+     * operation if @path is malformed.
+     */
+    public static File newForPath(java.lang.String path) {
+        var RESULT = gtk_h.g_file_new_for_path(Interop.allocateNativeString(path).handle());
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Constructs a #GFile for a given URI. This operation never
+     * fails, but the returned object might not support any I/O
+     * operation if @uri is malformed or if the uri type is
+     * not supported.
+     */
+    public static File newForUri(java.lang.String uri) {
+        var RESULT = gtk_h.g_file_new_for_uri(Interop.allocateNativeString(uri).handle());
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Opens a file in the preferred directory for temporary files (as
+     * returned by g_get_tmp_dir()) and returns a #GFile and
+     * #GFileIOStream pointing to it.
+     * 
+     * @tmpl should be a string in the GLib file name encoding
+     * containing a sequence of six 'X' characters, and containing no
+     * directory components. If it is %NULL, a default template is used.
+     * 
+     * Unlike the other #GFile constructors, this will return %NULL if
+     * a temporary file could not be created.
+     */
+    public static File newTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_new_tmp(Interop.allocateNativeString(tmpl).handle(), Interop.allocateNativeArray(iostream).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Constructs a #GFile with the given @parse_name (i.e. something
+     * given by g_file_get_parse_name()). This operation never fails,
+     * but the returned object might not support any I/O operation if
+     * the @parse_name cannot be parsed.
+     */
+    public static File parseName(java.lang.String parseName) {
+        var RESULT = gtk_h.g_file_parse_name(Interop.allocateNativeString(parseName).handle());
+        return new File.FileImpl(References.get(RESULT, true));
+    }
+    
     class FileImpl extends org.gtk.gobject.Object implements File {
         public FileImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

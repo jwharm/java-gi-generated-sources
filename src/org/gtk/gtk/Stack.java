@@ -132,9 +132,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Retrieves the stack page for the given @child.
-     * 
-     * If the given @child is not a child widget of the stack, this function will return `NULL`.
+     * Returns the `GtkStackPage` object for @child or NULL if @child isn't a `GtkStack` child.
      */
     public StackPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_stack_get_page(handle(), child.handle());

@@ -507,4 +507,44 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
         return new VariantType(References.get(RESULT, false));
     }
     
+    public static VariantType checked(java.lang.String arg0) {
+        var RESULT = gtk_h.g_variant_type_checked_(Interop.allocateNativeString(arg0).handle());
+        return new VariantType(References.get(RESULT, false));
+    }
+    
+    public static long stringGetDepth(java.lang.String typeString) {
+        var RESULT = gtk_h.g_variant_type_string_get_depth_(Interop.allocateNativeString(typeString).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Checks if @type_string is a valid GVariant type string.  This call is
+     * equivalent to calling g_variant_type_string_scan() and confirming
+     * that the following character is a nul terminator.
+     */
+    public static boolean stringIsValid(java.lang.String typeString) {
+        var RESULT = gtk_h.g_variant_type_string_is_valid(Interop.allocateNativeString(typeString).handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Scan for a single complete and valid GVariant type string in @string.
+     * The memory pointed to by @limit (or bytes beyond it) is never
+     * accessed.
+     * 
+     * If a valid type string is found, @endptr is updated to point to the
+     * first character past the end of the string that was found and %TRUE
+     * is returned.
+     * 
+     * If there is no valid type string starting at @string, or if the type
+     * string does not end before @limit then %FALSE is returned.
+     * 
+     * For the simple case of checking if a string is a valid type string,
+     * see g_variant_type_string_is_valid().
+     */
+    public static boolean stringScan(java.lang.String string, java.lang.String limit, java.lang.String[] endptr) {
+        var RESULT = gtk_h.g_variant_type_string_scan(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle());
+        return (RESULT != 0);
+    }
+    
 }

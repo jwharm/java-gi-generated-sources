@@ -496,4 +496,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
         return (RESULT != 0);
     }
     
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_bookmark_file_error_quark();
+        return new Quark(RESULT);
+    }
+    
+    /**
+     * Creates a new empty #GBookmarkFile object.
+     * 
+     * Use g_bookmark_file_load_from_file(), g_bookmark_file_load_from_data()
+     * or g_bookmark_file_load_from_data_dirs() to read an existing bookmark
+     * file.
+     */
+    public static BookmarkFile new_() {
+        var RESULT = gtk_h.g_bookmark_file_new();
+        return new BookmarkFile(References.get(RESULT, false));
+    }
+    
 }

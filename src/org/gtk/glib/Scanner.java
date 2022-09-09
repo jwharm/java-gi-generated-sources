@@ -181,4 +181,17 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_scanner_unexp_token(handle(), expectedToken.getValue(), Interop.allocateNativeString(identifierSpec).handle(), Interop.allocateNativeString(symbolSpec).handle(), Interop.allocateNativeString(symbolName).handle(), Interop.allocateNativeString(message).handle(), isError);
     }
     
+    /**
+     * Creates a new #GScanner.
+     * 
+     * The @config_templ structure specifies the initial settings
+     * of the scanner, which are copied into the #GScanner
+     * @config field. If you pass %NULL then the default settings
+     * are used.
+     */
+    public static Scanner new_(ScannerConfig configTempl) {
+        var RESULT = gtk_h.g_scanner_new(configTempl.handle());
+        return new Scanner(References.get(RESULT, false));
+    }
+    
 }

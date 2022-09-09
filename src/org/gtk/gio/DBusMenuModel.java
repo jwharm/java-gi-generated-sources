@@ -23,4 +23,19 @@ public class DBusMenuModel extends MenuModel {
         return new DBusMenuModel(gobject.getReference());
     }
     
+    /**
+     * Obtains a #GDBusMenuModel for the menu model which is exported
+     * at the given @bus_name and @object_path.
+     * 
+     * The thread default main context is taken at the time of this call.
+     * All signals on the menu model (and any linked models) are reported
+     * with respect to this context.  All calls on the returned menu model
+     * (and linked models) must also originate from this same context, with
+     * the thread default main context unchanged.
+     */
+    public static DBusMenuModel get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
+        var RESULT = gtk_h.g_dbus_menu_model_get(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
+        return new DBusMenuModel(References.get(RESULT, true));
+    }
+    
 }

@@ -197,4 +197,36 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_vec2_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
+    /**
+     * Retrieves a constant vector with (1, 1) components.
+     */
+    public static Vec2 one() {
+        var RESULT = gtk_h.graphene_vec2_one();
+        return new Vec2(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a constant vector with (1, 0) components.
+     */
+    public static Vec2 xAxis() {
+        var RESULT = gtk_h.graphene_vec2_x_axis();
+        return new Vec2(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a constant vector with (0, 1) components.
+     */
+    public static Vec2 yAxis() {
+        var RESULT = gtk_h.graphene_vec2_y_axis();
+        return new Vec2(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a constant vector with (0, 0) components.
+     */
+    public static Vec2 zero() {
+        var RESULT = gtk_h.graphene_vec2_zero();
+        return new Vec2(References.get(RESULT, false));
+    }
+    
 }

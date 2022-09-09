@@ -548,4 +548,9 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_key_file_unref(handle());
     }
     
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_key_file_error_quark();
+        return new Quark(RESULT);
+    }
+    
 }

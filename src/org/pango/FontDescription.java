@@ -406,4 +406,55 @@ public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBas
         gtk_h.pango_font_description_unset_fields(handle(), toUnset);
     }
     
+    /**
+     * Creates a new font description from a string representation.
+     * 
+     * The string must have the form
+     * 
+     *     "\\[FAMILY-LIST] \\[STYLE-OPTIONS] \\[SIZE] \\[VARIATIONS]",
+     * 
+     * where FAMILY-LIST is a comma-separated list of families optionally
+     * terminated by a comma, STYLE_OPTIONS is a whitespace-separated list
+     * of words where each word describes one of style, variant, weight,
+     * stretch, or gravity, and SIZE is a decimal number (size in points)
+     * or optionally followed by the unit modifier "px" for absolute size.
+     * VARIATIONS is a comma-separated list of font variation
+     * specifications of the form "\\@axis=value" (the = sign is optional).
+     * 
+     * The following words are understood as styles:
+     * "Normal", "Roman", "Oblique", "Italic".
+     * 
+     * The following words are understood as variants:
+     * "Small-Caps", "All-Small-Caps", "Petite-Caps", "All-Petite-Caps",
+     * "Unicase", "Title-Caps".
+     * 
+     * The following words are understood as weights:
+     * "Thin", "Ultra-Light", "Extra-Light", "Light", "Semi-Light",
+     * "Demi-Light", "Book", "Regular", "Medium", "Semi-Bold", "Demi-Bold",
+     * "Bold", "Ultra-Bold", "Extra-Bold", "Heavy", "Black", "Ultra-Black",
+     * "Extra-Black".
+     * 
+     * The following words are understood as stretch values:
+     * "Ultra-Condensed", "Extra-Condensed", "Condensed", "Semi-Condensed",
+     * "Semi-Expanded", "Expanded", "Extra-Expanded", "Ultra-Expanded".
+     * 
+     * The following words are understood as gravity values:
+     * "Not-Rotated", "South", "Upside-Down", "North", "Rotated-Left",
+     * "East", "Rotated-Right", "West".
+     * 
+     * Any one of the options may be absent. If FAMILY-LIST is absent, then
+     * the family_name field of the resulting font description will be
+     * initialized to %NULL. If STYLE-OPTIONS is missing, then all style
+     * options will be set to the default values. If SIZE is missing, the
+     * size in the resulting font description will be set to 0.
+     * 
+     * A typical example:
+     * 
+     *     "Cantarell Italic Light 15 \\@wght=200"
+     */
+    public static FontDescription fromString(java.lang.String str) {
+        var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
+        return new FontDescription(References.get(RESULT, true));
+    }
+    
 }

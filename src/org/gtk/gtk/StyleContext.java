@@ -253,4 +253,26 @@ public class StyleContext extends org.gtk.gobject.Object {
         return RESULT.getUtf8String(0);
     }
     
+    /**
+     * Adds a global style provider to @display, which will be used
+     * in style construction for all `GtkStyleContexts` under @display.
+     * 
+     * GTK uses this to make styling information from `GtkSettings`
+     * available.
+     * 
+     * Note: If both priorities are the same, A `GtkStyleProvider`
+     * added through [method@Gtk.StyleContext.add_provider] takes
+     * precedence over another added through this function.
+     */
+    public static void addProviderForDisplay(org.gtk.gdk.Display display, StyleProvider provider, int priority) {
+        gtk_h.gtk_style_context_add_provider_for_display(display.handle(), provider.handle(), priority);
+    }
+    
+    /**
+     * Removes @provider from the global style providers list in @display.
+     */
+    public static void removeProviderForDisplay(org.gtk.gdk.Display display, StyleProvider provider) {
+        gtk_h.gtk_style_context_remove_provider_for_display(display.handle(), provider.handle());
+    }
+    
 }

@@ -190,4 +190,15 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.pango_attr_list_update(handle(), pos, remove, add);
     }
     
+    /**
+     * Deserializes a `PangoAttrList` from a string.
+     * 
+     * This is the counterpart to [method@Pango.AttrList.to_string].
+     * See that functions for details about the format.
+     */
+    public static AttrList fromString(java.lang.String text) {
+        var RESULT = gtk_h.pango_attr_list_from_string(Interop.allocateNativeString(text).handle());
+        return new AttrList(References.get(RESULT, true));
+    }
+    
 }

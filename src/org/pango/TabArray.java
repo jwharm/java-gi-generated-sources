@@ -138,4 +138,15 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
         return RESULT.getUtf8String(0);
     }
     
+    /**
+     * Deserializes a `PangoTabArray` from a string.
+     * 
+     * This is the counterpart to [method@Pango.TabArray.to_string].
+     * See that functions for details about the format.
+     */
+    public static TabArray fromString(java.lang.String text) {
+        var RESULT = gtk_h.pango_tab_array_from_string(Interop.allocateNativeString(text).handle());
+        return new TabArray(References.get(RESULT, true));
+    }
+    
 }

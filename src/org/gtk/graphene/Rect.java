@@ -324,4 +324,23 @@ public class Rect extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_rect_union(handle(), b.handle(), res.handle());
     }
     
+    /**
+     * Allocates a new #graphene_rect_t.
+     * 
+     * The contents of the returned rectangle are undefined.
+     */
+    public static Rect alloc() {
+        var RESULT = gtk_h.graphene_rect_alloc();
+        return new Rect(References.get(RESULT, true));
+    }
+    
+    /**
+     * Returns a degenerate rectangle with origin fixed at (0, 0) and
+     * a size of 0, 0.
+     */
+    public static Rect zero() {
+        var RESULT = gtk_h.graphene_rect_zero();
+        return new Rect(References.get(RESULT, false));
+    }
+    
 }

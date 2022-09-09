@@ -113,4 +113,12 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_point_to_vec2(handle(), v.handle());
     }
     
+    /**
+     * Returns a point fixed at (0, 0).
+     */
+    public static Point zero() {
+        var RESULT = gtk_h.graphene_point_zero();
+        return new Point(References.get(RESULT, false));
+    }
+    
 }

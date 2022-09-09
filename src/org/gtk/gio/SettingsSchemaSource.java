@@ -112,4 +112,24 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
         gtk_h.g_settings_schema_source_unref(handle());
     }
     
+    /**
+     * Gets the default system schema source.
+     * 
+     * This function is not required for normal uses of #GSettings but it
+     * may be useful to authors of plugin management systems or to those who
+     * want to introspect the content of schemas.
+     * 
+     * If no schemas are installed, %NULL will be returned.
+     * 
+     * The returned source may actually consist of multiple schema sources
+     * from different directories, depending on which directories were given
+     * in `XDG_DATA_DIRS` and `GSETTINGS_SCHEMA_DIR`. For this reason, all
+     * lookups performed against the default source should probably be done
+     * recursively.
+     */
+    public static SettingsSchemaSource getDefault() {
+        var RESULT = gtk_h.g_settings_schema_source_get_default();
+        return new SettingsSchemaSource(References.get(RESULT, false));
+    }
+    
 }

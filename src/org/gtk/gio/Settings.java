@@ -895,6 +895,33 @@ public class Settings extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Ensures that all pending operations are complete for the default backend.
+     * 
+     * Writes made to a #GSettings are handled asynchronously.  For this
+     * reason, it is very unlikely that the changes have it to disk by the
+     * time g_settings_set() returns.
+     * 
+     * This call will block until all of the writes have made it to the
+     * backend.  Since the mainloop is not running, no change notifications
+     * will be dispatched during this call (but some may be queued by the
+     * time the call is done).
+     */
+    public static void sync() {
+        gtk_h.g_settings_sync();
+    }
+    
+    /**
+     * Removes an existing binding for @property on @object.
+     * 
+     * Note that bindings are automatically removed when the
+     * object is finalized, so it is rarely necessary to call this
+     * function.
+     */
+    public static void unbind(org.gtk.gobject.Object object, java.lang.String property) {
+        gtk_h.g_settings_unbind(object.handle(), Interop.allocateNativeString(property).handle());
+    }
+    
     @FunctionalInterface
     public interface ChangeEventHandler {
         boolean signalReceived(Settings source, org.gtk.glib.Quark[] keys, int nKeys);

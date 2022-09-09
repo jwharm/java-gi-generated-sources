@@ -104,6 +104,14 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
         return (RESULT != 0);
     }
     
+    /**
+     * Gets the default #GNetworkMonitor for the system.
+     */
+    public static NetworkMonitor getDefault() {
+        var RESULT = gtk_h.g_network_monitor_get_default();
+        return new NetworkMonitor.NetworkMonitorImpl(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface NetworkChangedHandler {
         void signalReceived(NetworkMonitor source, boolean networkAvailable);

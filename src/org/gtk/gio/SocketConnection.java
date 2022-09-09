@@ -110,4 +110,25 @@ public class SocketConnection extends IOStream {
         return (RESULT != 0);
     }
     
+    /**
+     * Looks up the #GType to be used when creating socket connections on
+     * sockets with the specified @family, @type and @protocol_id.
+     * 
+     * If no type is registered, the #GSocketConnection base type is returned.
+     */
+    public static org.gtk.gobject.Type factoryLookupType(SocketFamily family, SocketType type, int protocolId) {
+        var RESULT = gtk_h.g_socket_connection_factory_lookup_type(family.getValue(), type.getValue(), protocolId);
+        return new org.gtk.gobject.Type(RESULT);
+    }
+    
+    /**
+     * Looks up the #GType to be used when creating socket connections on
+     * sockets with the specified @family, @type and @protocol.
+     * 
+     * If no type is registered, the #GSocketConnection base type is returned.
+     */
+    public static void factoryRegisterType(Type gType, SocketFamily family, SocketType type, int protocol) {
+        gtk_h.g_socket_connection_factory_register_type(gType.getValue(), family.getValue(), type.getValue(), protocol);
+    }
+    
 }

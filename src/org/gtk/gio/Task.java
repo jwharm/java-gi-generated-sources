@@ -856,4 +856,14 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         gtk_h.g_task_set_source_tag(handle(), sourceTag);
     }
     
+    /**
+     * Checks that @result is a #GTask, and that @source_object is its
+     * source object (or that @source_object is %NULL and @result has no
+     * source object). This can be used in g_return_if_fail() checks.
+     */
+    public static boolean isValid(AsyncResult result, org.gtk.gobject.Object sourceObject) {
+        var RESULT = gtk_h.g_task_is_valid(result.handle(), sourceObject.handle());
+        return (RESULT != 0);
+    }
+    
 }

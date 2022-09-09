@@ -89,4 +89,12 @@ public class StringChunk extends io.github.jwharm.javagi.interop.ResourceBase {
         return RESULT.getUtf8String(0);
     }
     
+    /**
+     * Creates a new #GStringChunk.
+     */
+    public static StringChunk new_(long size) {
+        var RESULT = gtk_h.g_string_chunk_new(size);
+        return new StringChunk(References.get(RESULT, false));
+    }
+    
 }

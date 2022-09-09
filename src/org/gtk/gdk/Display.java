@@ -314,6 +314,28 @@ public class Display extends org.gtk.gobject.Object {
         gtk_h.gdk_display_sync(handle());
     }
     
+    /**
+     * Gets the default `GdkDisplay`.
+     * 
+     * This is a convenience function for:
+     * 
+     *     gdk_display_manager_get_default_display (gdk_display_manager_get ())
+     */
+    public static Display getDefault() {
+        var RESULT = gtk_h.gdk_display_get_default();
+        return new Display(References.get(RESULT, false));
+    }
+    
+    /**
+     * Opens a display.
+     * 
+     * If opening the display fails, `NULL` is returned.
+     */
+    public static Display open(java.lang.String displayName) {
+        var RESULT = gtk_h.gdk_display_open(Interop.allocateNativeString(displayName).handle());
+        return new Display(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface ClosedHandler {
         void signalReceived(Display source, boolean isError);

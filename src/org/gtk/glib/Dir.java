@@ -51,4 +51,40 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_dir_rewind(handle());
     }
     
+    /**
+     * Creates a subdirectory in the preferred directory for temporary
+     * files (as returned by g_get_tmp_dir()).
+     * 
+     * @tmpl should be a string in the GLib file name encoding containing
+     * a sequence of six 'X' characters, as the parameter to g_mkstemp().
+     * However, unlike these functions, the template should only be a
+     * basename, no directory components are allowed. If template is
+     * %NULL, a default template is used.
+     * 
+     * Note that in contrast to g_mkdtemp() (and mkdtemp()) @tmpl is not
+     * modified, and might thus be a read-only literal string.
+     */
+    public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dir_make_tmp(Interop.allocateNativeString(tmpl).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Opens a directory for reading. The names of the files in the
+     * directory can then be retrieved using g_dir_read_name().  Note
+     * that the ordering is not defined.
+     */
+    public static Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dir_open(Interop.allocateNativeString(path).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Dir(References.get(RESULT, false));
+    }
+    
 }

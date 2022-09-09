@@ -61,4 +61,12 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         return new Credentials(References.get(RESULT, false));
     }
     
+    /**
+     * Checks if passing #GCredentials on a #GSocket is supported on this platform.
+     */
+    public static boolean isSupported() {
+        var RESULT = gtk_h.g_unix_credentials_message_is_supported();
+        return (RESULT != 0);
+    }
+    
 }

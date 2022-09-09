@@ -17,4 +17,16 @@ public class TypeValueTable extends io.github.jwharm.javagi.interop.ResourceBase
         super(reference);
     }
     
+    /**
+     * Returns the location of the #GTypeValueTable associated with @type.
+     * 
+     * Note that this function should only be used from source code
+     * that implements or has internal knowledge of the implementation of
+     * @type.
+     */
+    public static TypeValueTable peek(Type type) {
+        var RESULT = gtk_h.g_type_value_table_peek(type.getValue());
+        return new TypeValueTable(References.get(RESULT, false));
+    }
+    
 }

@@ -21,4 +21,15 @@ public class NothingAction extends ShortcutAction {
         return new NothingAction(gobject.getReference());
     }
     
+    /**
+     * Gets the nothing action.
+     * 
+     * This is an action that does nothing and where
+     * activating it always fails.
+     */
+    public static NothingAction get() {
+        var RESULT = gtk_h.gtk_nothing_action_get();
+        return new NothingAction(References.get(RESULT, false));
+    }
+    
 }

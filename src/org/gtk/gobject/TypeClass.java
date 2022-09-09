@@ -71,4 +71,35 @@ public class TypeClass extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_type_class_unref_uncached(handle());
     }
     
+    /**
+     * This function is essentially the same as g_type_class_ref(),
+     * except that the classes reference count isn't incremented.
+     * As a consequence, this function may return %NULL if the class
+     * of the type passed in does not currently exist (hasn't been
+     * referenced before).
+     */
+    public static TypeClass peek(Type type) {
+        var RESULT = gtk_h.g_type_class_peek(type.getValue());
+        return new TypeClass(References.get(RESULT, false));
+    }
+    
+    /**
+     * A more efficient version of g_type_class_peek() which works only for
+     * static types.
+     */
+    public static TypeClass peekStatic(Type type) {
+        var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
+        return new TypeClass(References.get(RESULT, false));
+    }
+    
+    /**
+     * Increments the reference count of the class structure belonging to
+     * @type. This function will demand-create the class if it doesn't
+     * exist already.
+     */
+    public static TypeClass ref(Type type) {
+        var RESULT = gtk_h.g_type_class_ref(type.getValue());
+        return new TypeClass(References.get(RESULT, false));
+    }
+    
 }

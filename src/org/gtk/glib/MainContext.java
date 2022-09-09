@@ -278,4 +278,46 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_main_context_wakeup(handle());
     }
     
+    /**
+     * Returns the global default main context. This is the main context
+     * used for main loop functions when a main loop is not explicitly
+     * specified, and corresponds to the "main" main loop. See also
+     * g_main_context_get_thread_default().
+     */
+    public static MainContext default_() {
+        var RESULT = gtk_h.g_main_context_default();
+        return new MainContext(References.get(RESULT, false));
+    }
+    
+    /**
+     * Gets the thread-default #GMainContext for this thread. Asynchronous
+     * operations that want to be able to be run in contexts other than
+     * the default one should call this method or
+     * g_main_context_ref_thread_default() to get a #GMainContext to add
+     * their #GSources to. (Note that even in single-threaded
+     * programs applications may sometimes want to temporarily push a
+     * non-default context, so it is not safe to assume that this will
+     * always return %NULL if you are running in the default thread.)
+     * 
+     * If you need to hold a reference on the context, use
+     * g_main_context_ref_thread_default() instead.
+     */
+    public static MainContext getThreadDefault() {
+        var RESULT = gtk_h.g_main_context_get_thread_default();
+        return new MainContext(References.get(RESULT, false));
+    }
+    
+    /**
+     * Gets the thread-default #GMainContext for this thread, as with
+     * g_main_context_get_thread_default(), but also adds a reference to
+     * it with g_main_context_ref(). In addition, unlike
+     * g_main_context_get_thread_default(), if the thread-default context
+     * is the global default context, this will return that #GMainContext
+     * (with a ref added to it) rather than returning %NULL.
+     */
+    public static MainContext refThreadDefault() {
+        var RESULT = gtk_h.g_main_context_ref_thread_default();
+        return new MainContext(References.get(RESULT, true));
+    }
+    
 }

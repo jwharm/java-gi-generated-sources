@@ -558,4 +558,24 @@ public class Value extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_value_unset(handle());
     }
     
+    /**
+     * Returns whether a #GValue of type @src_type can be copied into
+     * a #GValue of type @dest_type.
+     */
+    public static boolean typeCompatible(Type srcType, Type destType) {
+        var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Check whether g_value_transform() is able to transform values
+     * of type @src_type into values of type @dest_type. Note that for
+     * the types to be transformable, they must be compatible or a
+     * transformation function must be registered.
+     */
+    public static boolean typeTransformable(Type srcType, Type destType) {
+        var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
+        return (RESULT != 0);
+    }
+    
 }

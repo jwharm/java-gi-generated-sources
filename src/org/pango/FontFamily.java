@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * The font faces in a family share a common design, but differ in
  * slant, weight, width or other aspects.
  */
-public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontFamily extends org.gtk.gobject.Object {
 
     public FontFamily(io.github.jwharm.javagi.interop.Reference reference) {
         super(reference);

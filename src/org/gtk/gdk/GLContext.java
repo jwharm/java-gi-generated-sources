@@ -266,4 +266,22 @@ public class GLContext extends DrawContext {
         gtk_h.gdk_gl_context_set_use_es(handle(), useEs);
     }
     
+    /**
+     * Clears the current `GdkGLContext`.
+     * 
+     * Any OpenGL call after this function returns will be ignored
+     * until [method@Gdk.GLContext.make_current] is called.
+     */
+    public static void clearCurrent() {
+        gtk_h.gdk_gl_context_clear_current();
+    }
+    
+    /**
+     * Retrieves the current `GdkGLContext`.
+     */
+    public static GLContext getCurrent() {
+        var RESULT = gtk_h.gdk_gl_context_get_current();
+        return new GLContext(References.get(RESULT, false));
+    }
+    
 }

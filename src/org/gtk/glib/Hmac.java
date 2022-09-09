@@ -73,4 +73,27 @@ public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_hmac_update(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length);
     }
     
+    /**
+     * Creates a new #GHmac, using the digest algorithm @digest_type.
+     * If the @digest_type is not known, %NULL is returned.
+     * A #GHmac can be used to compute the HMAC of a key and an
+     * arbitrary binary blob, using different hashing algorithms.
+     * 
+     * A #GHmac works by feeding a binary blob through g_hmac_update()
+     * until the data is complete; the digest can then be extracted
+     * using g_hmac_get_string(), which will return the checksum as a
+     * hexadecimal string; or g_hmac_get_digest(), which will return a
+     * array of raw bytes. Once either g_hmac_get_string() or
+     * g_hmac_get_digest() have been called on a #GHmac, the HMAC
+     * will be closed and it won't be possible to call g_hmac_update()
+     * on it anymore.
+     * 
+     * Support for digests of type %G_CHECKSUM_SHA512 has been added in GLib 2.42.
+     * Support for %G_CHECKSUM_SHA384 was added in GLib 2.52.
+     */
+    public static Hmac new_(ChecksumType digestType, byte[] key, long keyLen) {
+        var RESULT = gtk_h.g_hmac_new(digestType.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, key)).handle(), keyLen);
+        return new Hmac(References.get(RESULT, false));
+    }
+    
 }

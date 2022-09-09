@@ -21,4 +21,16 @@ public class NeverTrigger extends ShortcutTrigger {
         return new NeverTrigger(gobject.getReference());
     }
     
+    /**
+     * Gets the never trigger.
+     * 
+     * This is a singleton for a trigger that never triggers.
+     * Use this trigger instead of %NULL because it implements
+     * all virtual functions.
+     */
+    public static NeverTrigger get() {
+        var RESULT = gtk_h.gtk_never_trigger_get();
+        return new NeverTrigger(References.get(RESULT, false));
+    }
+    
 }

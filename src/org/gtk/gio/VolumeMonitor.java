@@ -80,6 +80,14 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
+    /**
+     * Gets the volume monitor used by gio.
+     */
+    public static VolumeMonitor get() {
+        var RESULT = gtk_h.g_volume_monitor_get();
+        return new VolumeMonitor(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface DriveChangedHandler {
         void signalReceived(VolumeMonitor source, Drive drive);

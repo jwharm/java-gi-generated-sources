@@ -159,4 +159,35 @@ public class ParamSpec extends org.gtk.gobject.Object {
         gtk_h.g_param_spec_unref(handle());
     }
     
+    /**
+     * Creates a new #GParamSpec instance.
+     * 
+     * See [canonical parameter names][canonical-parameter-names] for details of
+     * the rules for @name. Names which violate these rules lead to undefined
+     * behaviour.
+     * 
+     * Beyond the name, #GParamSpecs have two more descriptive
+     * strings associated with them, the @nick, which should be suitable
+     * for use as a label for the property in a property editor, and the
+     * @blurb, which should be a somewhat longer description, suitable for
+     * e.g. a tooltip. The @nick and @blurb should ideally be localized.
+     */
+    public static ParamSpec internal(Type paramType, java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
+        var RESULT = gtk_h.g_param_spec_internal(paramType.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
+        return new ParamSpec(References.get(RESULT, false));
+    }
+    
+    /**
+     * Validate a property name for a #GParamSpec. This can be useful for
+     * dynamically-generated properties which need to be validated at run-time
+     * before actually trying to create them.
+     * 
+     * See [canonical parameter names][canonical-parameter-names] for details of
+     * the rules for valid names.
+     */
+    public static boolean isValidName(java.lang.String name) {
+        var RESULT = gtk_h.g_param_spec_is_valid_name(Interop.allocateNativeString(name).handle());
+        return (RESULT != 0);
+    }
+    
 }

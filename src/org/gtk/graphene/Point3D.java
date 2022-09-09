@@ -148,4 +148,12 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_point3d_to_vec3(handle(), v.handle());
     }
     
+    /**
+     * Retrieves a constant point with all three coordinates set to 0.
+     */
+    public static Point3D zero() {
+        var RESULT = gtk_h.graphene_point3d_zero();
+        return new Point3D(References.get(RESULT, false));
+    }
+    
 }

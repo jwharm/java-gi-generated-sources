@@ -357,6 +357,52 @@ public interface Editable extends io.github.jwharm.javagi.interop.NativeAddress 
         gtk_h.gtk_editable_set_width_chars(handle(), nChars);
     }
     
+    /**
+     * Gets a property of the `GtkEditable` delegate for @object.
+     * 
+     * This is helper function that should be called in the `get_property`
+     * function of your `GtkEditable` implementation, before handling your
+     * own properties.
+     */
+    public static boolean delegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
+        var RESULT = gtk_h.gtk_editable_delegate_get_property(object.handle(), propId, value.handle(), pspec.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Sets a property on the `GtkEditable` delegate for @object.
+     * 
+     * This is a helper function that should be called in the `set_property`
+     * function of your `GtkEditable` implementation, before handling your
+     * own properties.
+     */
+    public static boolean delegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
+        var RESULT = gtk_h.gtk_editable_delegate_set_property(object.handle(), propId, value.handle(), pspec.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Overrides the `GtkEditable` properties for @class.
+     * 
+     * This is a helper function that should be called in class_init,
+     * after installing your own properties.
+     * 
+     * Note that your class must have "text", "cursor-position",
+     * "selection-bound", "editable", "width-chars", "max-width-chars",
+     * "xalign" and "enable-undo" properties for this function to work.
+     * 
+     * To handle the properties in your set_property and get_property
+     * functions, you can either use [func@Gtk.Editable.delegate_set_property]
+     * and [func@Gtk.Editable.delegate_get_property] (if you are using
+     * a delegate), or remember the @first_prop offset and add it to the
+     * values in the [enum@Gtk.EditableProperties] enumeration to get the
+     * property IDs for these properties.
+     */
+    public static int installProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
+        var RESULT = gtk_h.gtk_editable_install_properties(objectClass.handle(), firstProp);
+        return RESULT;
+    }
+    
     @FunctionalInterface
     public interface ChangedHandler {
         void signalReceived(Editable source);

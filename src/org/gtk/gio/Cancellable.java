@@ -215,6 +215,14 @@ public class Cancellable extends org.gtk.gobject.Object {
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
+    /**
+     * Gets the top cancellable from the stack.
+     */
+    public static Cancellable getCurrent() {
+        var RESULT = gtk_h.g_cancellable_get_current();
+        return new Cancellable(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface CancelledHandler {
         void signalReceived(Cancellable source);

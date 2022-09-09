@@ -34,4 +34,14 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.interop.Resource
         gtk_h.g_dbus_annotation_info_unref(handle());
     }
     
+    /**
+     * Looks up the value of an annotation.
+     * 
+     * The cost of this function is O(n) in number of annotations.
+     */
+    public static java.lang.String lookup(DBusAnnotationInfo[] annotations, java.lang.String name) {
+        var RESULT = gtk_h.g_dbus_annotation_info_lookup(Interop.allocateNativeArray(annotations).handle(), Interop.allocateNativeString(name).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
 }

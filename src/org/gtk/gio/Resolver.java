@@ -251,6 +251,36 @@ public class Resolver extends org.gtk.gobject.Object {
         gtk_h.g_resolver_set_default(handle());
     }
     
+    /**
+     * Frees @addresses (which should be the return value from
+     * g_resolver_lookup_by_name() or g_resolver_lookup_by_name_finish()).
+     * (This is a convenience method; you can also simply free the results
+     * by hand.)
+     */
+    public static void freeAddresses(org.gtk.glib.List addresses) {
+        gtk_h.g_resolver_free_addresses(addresses.handle());
+    }
+    
+    /**
+     * Frees @targets (which should be the return value from
+     * g_resolver_lookup_service() or g_resolver_lookup_service_finish()).
+     * (This is a convenience method; you can also simply free the
+     * results by hand.)
+     */
+    public static void freeTargets(org.gtk.glib.List targets) {
+        gtk_h.g_resolver_free_targets(targets.handle());
+    }
+    
+    /**
+     * Gets the default #GResolver. You should unref it when you are done
+     * with it. #GResolver may use its reference count as a hint about how
+     * many threads it should allocate for concurrent DNS resolutions.
+     */
+    public static Resolver getDefault() {
+        var RESULT = gtk_h.g_resolver_get_default();
+        return new Resolver(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface ReloadHandler {
         void signalReceived(Resolver source);

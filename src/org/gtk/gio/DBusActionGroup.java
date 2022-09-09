@@ -23,4 +23,24 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
         return new DBusActionGroup(gobject.getReference());
     }
     
+    /**
+     * Obtains a #GDBusActionGroup for the action group which is exported at
+     * the given @bus_name and @object_path.
+     * 
+     * The thread default main context is taken at the time of this call.
+     * All signals on the menu model (and any linked models) are reported
+     * with respect to this context.  All calls on the returned menu model
+     * (and linked models) must also originate from this same context, with
+     * the thread default main context unchanged.
+     * 
+     * This call is non-blocking.  The returned action group may or may not
+     * already be filled in.  The correct thing to do is connect the signals
+     * for the action group to monitor for changes and then to call
+     * g_action_group_list_actions() to get the initial list.
+     */
+    public static DBusActionGroup get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
+        var RESULT = gtk_h.g_dbus_action_group_get(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
+        return new DBusActionGroup(References.get(RESULT, true));
+    }
+    
 }

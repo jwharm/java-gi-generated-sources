@@ -32,4 +32,17 @@ public class IConv extends io.github.jwharm.javagi.interop.ResourceBase {
         return RESULT;
     }
     
+    /**
+     * Same as the standard UNIX routine iconv_open(), but
+     * may be implemented via libiconv on UNIX flavors that lack
+     * a native implementation.
+     * 
+     * GLib provides g_convert() and g_locale_to_utf8() which are likely
+     * more convenient than the raw iconv wrappers.
+     */
+    public static IConv open(java.lang.String toCodeset, java.lang.String fromCodeset) {
+        var RESULT = gtk_h.g_iconv_open(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
+        return new IConv(References.get(RESULT, false));
+    }
+    
 }

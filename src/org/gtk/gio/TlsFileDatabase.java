@@ -14,6 +14,21 @@ import java.lang.invoke.*;
  */
 public interface TlsFileDatabase extends io.github.jwharm.javagi.interop.NativeAddress {
 
+    /**
+     * Creates a new #GTlsFileDatabase which uses anchor certificate authorities
+     * in @anchors to verify certificate chains.
+     * 
+     * The certificates in @anchors must be PEM encoded.
+     */
+    public static TlsFileDatabase new_(java.lang.String anchors) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_tls_file_database_new(Interop.allocateNativeString(anchors).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsFileDatabase.TlsFileDatabaseImpl(References.get(RESULT, true));
+    }
+    
     class TlsFileDatabaseImpl extends org.gtk.gobject.Object implements TlsFileDatabase {
         public TlsFileDatabaseImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

@@ -17,4 +17,15 @@ public class AttrFontDesc extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    /**
+     * Create a new font description attribute.
+     * 
+     * This attribute allows setting family, style, weight, variant,
+     * stretch, and size simultaneously.
+     */
+    public static Attribute new_(FontDescription desc) {
+        var RESULT = gtk_h.pango_attr_font_desc_new(desc.handle());
+        return new Attribute(References.get(RESULT, true));
+    }
+    
 }

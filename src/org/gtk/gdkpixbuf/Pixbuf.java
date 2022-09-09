@@ -857,4 +857,62 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return (RESULT != 0);
     }
     
+    /**
+     * Calculates the rowstride that an image created with those values would
+     * have.
+     * 
+     * This function is useful for front-ends and backends that want to check
+     * image values without needing to create a `GdkPixbuf`.
+     */
+    public static int calculateRowstride(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
+        var RESULT = gtk_h.gdk_pixbuf_calculate_rowstride(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height);
+        return RESULT;
+    }
+    
+    /**
+     * Obtains the available information about the image formats supported
+     * by GdkPixbuf.
+     */
+    public static org.gtk.glib.SList getFormats() {
+        var RESULT = gtk_h.gdk_pixbuf_get_formats();
+        return new org.gtk.glib.SList(References.get(RESULT, false));
+    }
+    
+    /**
+     * Initalizes the gdk-pixbuf loader modules referenced by the `loaders.cache`
+     * file present inside that directory.
+     * 
+     * This is to be used by applications that want to ship certain loaders
+     * in a different location from the system ones.
+     * 
+     * This is needed when the OS or runtime ships a minimal number of loaders
+     * so as to reduce the potential attack surface of carefully crafted image
+     * files, especially for uncommon file types. Applications that require
+     * broader image file types coverage, such as image viewers, would be
+     * expected to ship the gdk-pixbuf modules in a separate location, bundled
+     * with the application in a separate directory from the OS or runtime-
+     * provided modules.
+     */
+    public static boolean initModules(java.lang.String path) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.gdk_pixbuf_init_modules(Interop.allocateNativeString(path).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Finishes an asynchronous pixbuf save operation started with
+     * gdk_pixbuf_save_to_stream_async().
+     */
+    public static boolean saveToStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.gdk_pixbuf_save_to_stream_finish(asyncResult.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
 }

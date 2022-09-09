@@ -421,4 +421,52 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_regex_unref(handle());
     }
     
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_regex_error_quark();
+        return new Quark(RESULT);
+    }
+    
+    /**
+     * Escapes the nul characters in @string to "\\x00".  It can be used
+     * to compile a regex with embedded nul characters.
+     * 
+     * For completeness, @length can be -1 for a nul-terminated string.
+     * In this case the output string will be of course equal to @string.
+     */
+    public static java.lang.String escapeNul(java.lang.String string, int length) {
+        var RESULT = gtk_h.g_regex_escape_nul(Interop.allocateNativeString(string).handle(), length);
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Escapes the special characters used for regular expressions
+     * in @string, for instance "a.b*c" becomes "a\\.b\\*c". This
+     * function is useful to dynamically generate regular expressions.
+     * 
+     * @string can contain nul characters that are replaced with "\\0",
+     * in this case remember to specify the correct length of @string
+     * in @length.
+     */
+    public static java.lang.String escapeString(java.lang.String[] string, int length) {
+        var RESULT = gtk_h.g_regex_escape_string(Interop.allocateNativeArray(string).handle(), length);
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Scans for a match in @string for @pattern.
+     * 
+     * This function is equivalent to g_regex_match() but it does not
+     * require to compile the pattern with g_regex_new(), avoiding some
+     * lines of code when you need just to do a match without extracting
+     * substrings, capture counts, and so on.
+     * 
+     * If this function is to be called on the same @pattern more than
+     * once, it's more efficient to compile the pattern once with
+     * g_regex_new() and then use g_regex_match().
+     */
+    public static boolean matchSimple(java.lang.String pattern, java.lang.String string, int compileOptions, int matchOptions) {
+        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions, matchOptions);
+        return (RESULT != 0);
+    }
+    
 }

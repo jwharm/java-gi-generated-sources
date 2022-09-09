@@ -162,6 +162,72 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
         return new org.gtk.glib.VariantType(References.get(RESULT, false));
     }
     
+    /**
+     * Checks if @action_name is valid.
+     * 
+     * @action_name is valid if it consists only of alphanumeric characters,
+     * plus '-' and '.'.  The empty string is not a valid action name.
+     * 
+     * It is an error to call this function with a non-utf8 @action_name.
+     * @action_name must not be %NULL.
+     */
+    public static boolean nameIsValid(java.lang.String actionName) {
+        var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses a detailed action name into its separate name and target
+     * components.
+     * 
+     * Detailed action names can have three formats.
+     * 
+     * The first format is used to represent an action name with no target
+     * value and consists of just an action name containing no whitespace
+     * nor the characters ':', '(' or ')'.  For example: "app.action".
+     * 
+     * The second format is used to represent an action with a target value
+     * that is a non-empty string consisting only of alphanumerics, plus '-'
+     * and '.'.  In that case, the action name and target value are
+     * separated by a double colon ("::").  For example:
+     * "app.action::target".
+     * 
+     * The third format is used to represent an action with any type of
+     * target value, including strings.  The target value follows the action
+     * name, surrounded in parens.  For example: "app.action(42)".  The
+     * target value is parsed using g_variant_parse().  If a tuple-typed
+     * value is desired, it must be specified in the same way, resulting in
+     * two sets of parens, for example: "app.action((1,2,3))".  A string
+     * target can be specified this way as well: "app.action('target')".
+     * For strings, this third format must be used if * target value is
+     * empty or contains characters other than alphanumerics, '-' and '.'.
+     */
+    public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_action_parse_detailed_name(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Formats a detailed action name from @action_name and @target_value.
+     * 
+     * It is an error to call this function with an invalid action name.
+     * 
+     * This function is the opposite of g_action_parse_detailed_name().
+     * It will produce a string that can be parsed back to the @action_name
+     * and @target_value by that function.
+     * 
+     * See that function for the types of strings that will be printed by
+     * this function.
+     */
+    public static java.lang.String printDetailedName(java.lang.String actionName, org.gtk.glib.Variant targetValue) {
+        var RESULT = gtk_h.g_action_print_detailed_name(Interop.allocateNativeString(actionName).handle(), targetValue.handle());
+        return RESULT.getUtf8String(0);
+    }
+    
     class ActionImpl extends org.gtk.gobject.Object implements Action {
         public ActionImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

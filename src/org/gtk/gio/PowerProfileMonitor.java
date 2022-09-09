@@ -45,6 +45,14 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.interop.Nat
         return (RESULT != 0);
     }
     
+    /**
+     * Gets a reference to the default #GPowerProfileMonitor for the system.
+     */
+    public static PowerProfileMonitor dupDefault() {
+        var RESULT = gtk_h.g_power_profile_monitor_dup_default();
+        return new PowerProfileMonitor.PowerProfileMonitorImpl(References.get(RESULT, true));
+    }
+    
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {
         public PowerProfileMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

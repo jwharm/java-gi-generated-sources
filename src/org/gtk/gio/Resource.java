@@ -253,4 +253,25 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_resource_unref(handle());
     }
     
+    /**
+     * Loads a binary resource bundle and creates a #GResource representation of it, allowing
+     * you to query it for data.
+     * 
+     * If you want to use this resource in the global resource namespace you need
+     * to register it with g_resources_register().
+     * 
+     * If @filename is empty or the data in it is corrupt,
+     * %G_RESOURCE_ERROR_INTERNAL will be returned. If @filename doesn’t exist, or
+     * there is an error in reading it, an error from g_mapped_file_new() will be
+     * returned.
+     */
+    public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_resource_load(Interop.allocateNativeString(filename).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Resource(References.get(RESULT, true));
+    }
+    
 }

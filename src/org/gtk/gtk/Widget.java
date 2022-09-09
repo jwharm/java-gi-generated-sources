@@ -2419,6 +2419,25 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         gtk_h.gtk_widget_unset_state_flags(handle(), flags);
     }
     
+    /**
+     * Obtains the current default reading direction.
+     * 
+     * See [func@Gtk.Widget.set_default_direction].
+     */
+    public static TextDirection getDefaultDirection() {
+        var RESULT = gtk_h.gtk_widget_get_default_direction();
+        return TextDirection.fromValue(RESULT);
+    }
+    
+    /**
+     * Sets the default reading direction for widgets.
+     * 
+     * See [method@Gtk.Widget.set_direction].
+     */
+    public static void setDefaultDirection(TextDirection dir) {
+        gtk_h.gtk_widget_set_default_direction(dir.getValue());
+    }
+    
     @FunctionalInterface
     public interface DestroyHandler {
         void signalReceived(Widget source);

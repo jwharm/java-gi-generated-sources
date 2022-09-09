@@ -77,4 +77,24 @@ public class Rand extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_rand_set_seed(handle(), seed);
     }
     
+    /**
+     * Creates a new random number generator initialized with a seed taken
+     * either from `/dev/urandom` (if existing) or from the current time
+     * (as a fallback).
+     * 
+     * On Windows, the seed is taken from rand_s().
+     */
+    public static Rand new_() {
+        var RESULT = gtk_h.g_rand_new();
+        return new Rand(References.get(RESULT, false));
+    }
+    
+    /**
+     * Creates a new random number generator initialized with @seed.
+     */
+    public static Rand newWithSeed(int seed) {
+        var RESULT = gtk_h.g_rand_new_with_seed(seed);
+        return new Rand(References.get(RESULT, false));
+    }
+    
 }

@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * This is a virtual object with implementations being specific to
  * particular rendering systems.
  */
-public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontMap extends org.gtk.gobject.Object {
 
     public FontMap(io.github.jwharm.javagi.interop.Reference reference) {
         super(reference);

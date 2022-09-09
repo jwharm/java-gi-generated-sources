@@ -208,4 +208,13 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_node_unlink(handle());
     }
     
+    /**
+     * Creates a new #GNode containing the given data.
+     * Used to create the first node in a tree.
+     */
+    public static Node new_(jdk.incubator.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_node_new(data);
+        return new Node(References.get(RESULT, false));
+    }
+    
 }

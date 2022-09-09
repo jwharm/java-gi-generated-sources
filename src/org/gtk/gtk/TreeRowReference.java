@@ -101,4 +101,31 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
         return (RESULT != 0);
     }
     
+    /**
+     * Lets a set of row reference created by
+     * gtk_tree_row_reference_new_proxy() know that the
+     * model emitted the ::row-deleted signal.
+     */
+    public static void deleted(org.gtk.gobject.Object proxy, TreePath path) {
+        gtk_h.gtk_tree_row_reference_deleted(proxy.handle(), path.handle());
+    }
+    
+    /**
+     * Lets a set of row reference created by
+     * gtk_tree_row_reference_new_proxy() know that the
+     * model emitted the ::row-inserted signal.
+     */
+    public static void inserted(org.gtk.gobject.Object proxy, TreePath path) {
+        gtk_h.gtk_tree_row_reference_inserted(proxy.handle(), path.handle());
+    }
+    
+    /**
+     * Lets a set of row reference created by
+     * gtk_tree_row_reference_new_proxy() know that the
+     * model emitted the ::rows-reordered signal.
+     */
+    public static void reordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
+        gtk_h.gtk_tree_row_reference_reordered(proxy.handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle());
+    }
+    
 }

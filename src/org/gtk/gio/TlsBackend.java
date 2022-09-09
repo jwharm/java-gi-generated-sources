@@ -100,6 +100,14 @@ public interface TlsBackend extends io.github.jwharm.javagi.interop.NativeAddres
         return (RESULT != 0);
     }
     
+    /**
+     * Gets the default #GTlsBackend for the system.
+     */
+    public static TlsBackend getDefault() {
+        var RESULT = gtk_h.g_tls_backend_get_default();
+        return new TlsBackend.TlsBackendImpl(References.get(RESULT, false));
+    }
+    
     class TlsBackendImpl extends org.gtk.gobject.Object implements TlsBackend {
         public TlsBackendImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

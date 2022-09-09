@@ -21,6 +21,22 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         return new UnixMountMonitor(gobject.getReference());
     }
     
+    /**
+     * Gets the #GUnixMountMonitor for the current thread-default main
+     * context.
+     * 
+     * The mount monitor can be used to monitor for changes to the list of
+     * mounted filesystems as well as the list of mount points (ie: fstab
+     * entries).
+     * 
+     * You must only call g_object_unref() on the return value from under
+     * the same main context as you called this function.
+     */
+    public static UnixMountMonitor get() {
+        var RESULT = gtk_h.g_unix_mount_monitor_get();
+        return new UnixMountMonitor(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface MountpointsChangedHandler {
         void signalReceived(UnixMountMonitor source);

@@ -251,4 +251,49 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_vec3_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
+    /**
+     * Provides a constant pointer to a vector with three components,
+     * all sets to 1.
+     */
+    public static Vec3 one() {
+        var RESULT = gtk_h.graphene_vec3_one();
+        return new Vec3(References.get(RESULT, false));
+    }
+    
+    /**
+     * Provides a constant pointer to a vector with three components
+     * with values set to (1, 0, 0).
+     */
+    public static Vec3 xAxis() {
+        var RESULT = gtk_h.graphene_vec3_x_axis();
+        return new Vec3(References.get(RESULT, false));
+    }
+    
+    /**
+     * Provides a constant pointer to a vector with three components
+     * with values set to (0, 1, 0).
+     */
+    public static Vec3 yAxis() {
+        var RESULT = gtk_h.graphene_vec3_y_axis();
+        return new Vec3(References.get(RESULT, false));
+    }
+    
+    /**
+     * Provides a constant pointer to a vector with three components
+     * with values set to (0, 0, 1).
+     */
+    public static Vec3 zAxis() {
+        var RESULT = gtk_h.graphene_vec3_z_axis();
+        return new Vec3(References.get(RESULT, false));
+    }
+    
+    /**
+     * Provides a constant pointer to a vector with three components,
+     * all sets to 0.
+     */
+    public static Vec3 zero() {
+        var RESULT = gtk_h.graphene_vec3_zero();
+        return new Vec3(References.get(RESULT, false));
+    }
+    
 }

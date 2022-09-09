@@ -67,4 +67,13 @@ public class Timer extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_timer_stop(handle());
     }
     
+    /**
+     * Creates a new timer, and starts timing (i.e. g_timer_start() is
+     * implicitly called for you).
+     */
+    public static Timer new_() {
+        var RESULT = gtk_h.g_timer_new();
+        return new Timer(References.get(RESULT, false));
+    }
+    
 }

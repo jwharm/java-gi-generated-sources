@@ -233,4 +233,30 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
         gtk_h.g_option_context_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
     }
     
+    /**
+     * Creates a new option context.
+     * 
+     * The @parameter_string can serve multiple purposes. It can be used
+     * to add descriptions for "rest" arguments, which are not parsed by
+     * the #GOptionContext, typically something like "FILES" or
+     * "FILE1 FILE2...". If you are using %G_OPTION_REMAINING for
+     * collecting "rest" arguments, GLib handles this automatically by
+     * using the @arg_description of the corresponding #GOptionEntry in
+     * the usage summary.
+     * 
+     * Another usage is to give a short summary of the program
+     * functionality, like " - frob the strings", which will be displayed
+     * in the same line as the usage. For a longer description of the
+     * program functionality that should be displayed as a paragraph
+     * below the usage line, use g_option_context_set_summary().
+     * 
+     * Note that the @parameter_string is translated using the
+     * function set with g_option_context_set_translate_func(), so
+     * it should normally be passed untranslated.
+     */
+    public static OptionContext new_(java.lang.String parameterString) {
+        var RESULT = gtk_h.g_option_context_new(Interop.allocateNativeString(parameterString).handle());
+        return new OptionContext(References.get(RESULT, false));
+    }
+    
 }

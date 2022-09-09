@@ -62,6 +62,19 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
         gtk_h.g_dtls_client_connection_set_validation_flags(handle(), flags);
     }
     
+    /**
+     * Creates a new #GDtlsClientConnection wrapping @base_socket which is
+     * assumed to communicate with the server identified by @server_identity.
+     */
+    public static DtlsClientConnection new_(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dtls_client_connection_new(baseSocket.handle(), serverIdentity.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DtlsClientConnection.DtlsClientConnectionImpl(References.get(RESULT, true));
+    }
+    
     class DtlsClientConnectionImpl extends org.gtk.gobject.Object implements DtlsClientConnection {
         public DtlsClientConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

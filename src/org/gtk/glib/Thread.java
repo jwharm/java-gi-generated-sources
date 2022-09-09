@@ -71,4 +71,54 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_thread_unref(handle());
     }
     
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_thread_error_quark();
+        return new Quark(RESULT);
+    }
+    
+    /**
+     * Terminates the current thread.
+     * 
+     * If another thread is waiting for us using g_thread_join() then the
+     * waiting thread will be woken up and get @retval as the return value
+     * of g_thread_join().
+     * 
+     * Calling g_thread_exit() with a parameter @retval is equivalent to
+     * returning @retval from the function @func, as given to g_thread_new().
+     * 
+     * You must only call g_thread_exit() from a thread that you created
+     * yourself with g_thread_new() or related APIs. You must not call
+     * this function from a thread created with another threading library
+     * or or from within a #GThreadPool.
+     */
+    public static void exit(jdk.incubator.foreign.MemoryAddress retval) {
+        gtk_h.g_thread_exit(retval);
+    }
+    
+    /**
+     * This function returns the #GThread corresponding to the
+     * current thread. Note that this function does not increase
+     * the reference count of the returned struct.
+     * 
+     * This function will return a #GThread even for threads that
+     * were not created by GLib (i.e. those created by other threading
+     * APIs). This may be useful for thread identification purposes
+     * (i.e. comparisons) but you must not use GLib functions (such
+     * as g_thread_join()) on these threads.
+     */
+    public static Thread self() {
+        var RESULT = gtk_h.g_thread_self();
+        return new Thread(References.get(RESULT, false));
+    }
+    
+    /**
+     * Causes the calling thread to voluntarily relinquish the CPU, so
+     * that other threads can run.
+     * 
+     * This function is often used as a method to make busy wait less evil.
+     */
+    public static void yield() {
+        gtk_h.g_thread_yield();
+    }
+    
 }

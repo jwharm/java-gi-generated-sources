@@ -127,4 +127,68 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
         return RESULT;
     }
     
+    /**
+     * This function will return the maximum @interval that a
+     * thread will wait in the thread pool for new tasks before
+     * being stopped.
+     * 
+     * If this function returns 0, threads waiting in the thread
+     * pool for new work are not stopped.
+     */
+    public static int getMaxIdleTime() {
+        var RESULT = gtk_h.g_thread_pool_get_max_idle_time();
+        return RESULT;
+    }
+    
+    /**
+     * Returns the maximal allowed number of unused threads.
+     */
+    public static int getMaxUnusedThreads() {
+        var RESULT = gtk_h.g_thread_pool_get_max_unused_threads();
+        return RESULT;
+    }
+    
+    /**
+     * Returns the number of currently unused threads.
+     */
+    public static int getNumUnusedThreads() {
+        var RESULT = gtk_h.g_thread_pool_get_num_unused_threads();
+        return RESULT;
+    }
+    
+    /**
+     * This function will set the maximum @interval that a thread
+     * waiting in the pool for new tasks can be idle for before
+     * being stopped. This function is similar to calling
+     * g_thread_pool_stop_unused_threads() on a regular timeout,
+     * except this is done on a per thread basis.
+     * 
+     * By setting @interval to 0, idle threads will not be stopped.
+     * 
+     * The default value is 15000 (15 seconds).
+     */
+    public static void setMaxIdleTime(int interval) {
+        gtk_h.g_thread_pool_set_max_idle_time(interval);
+    }
+    
+    /**
+     * Sets the maximal number of unused threads to @max_threads.
+     * If @max_threads is -1, no limit is imposed on the number
+     * of unused threads.
+     * 
+     * The default value is 2.
+     */
+    public static void setMaxUnusedThreads(int maxThreads) {
+        gtk_h.g_thread_pool_set_max_unused_threads(maxThreads);
+    }
+    
+    /**
+     * Stops all currently unused threads. This does not change the
+     * maximal number of unused threads. This function can be used to
+     * regularly stop all unused threads e.g. from g_timeout_add().
+     */
+    public static void stopUnusedThreads() {
+        gtk_h.g_thread_pool_stop_unused_threads();
+    }
+    
 }

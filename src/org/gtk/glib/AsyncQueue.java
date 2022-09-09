@@ -217,4 +217,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_async_queue_unref(handle());
     }
     
+    /**
+     * Creates a new asynchronous queue.
+     */
+    public static AsyncQueue new_() {
+        var RESULT = gtk_h.g_async_queue_new();
+        return new AsyncQueue(References.get(RESULT, false));
+    }
+    
 }

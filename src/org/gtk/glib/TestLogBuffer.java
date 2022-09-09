@@ -28,4 +28,12 @@ public class TestLogBuffer extends io.github.jwharm.javagi.interop.ResourceBase 
         return new TestLogMsg(References.get(RESULT, false));
     }
     
+    /**
+     * Internal function for gtester to decode test log messages, no ABI guarantees provided.
+     */
+    public static TestLogBuffer new_() {
+        var RESULT = gtk_h.g_test_log_buffer_new();
+        return new TestLogBuffer(References.get(RESULT, false));
+    }
+    
 }

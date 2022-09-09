@@ -375,4 +375,129 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
         return (RESULT != 0);
     }
     
+    /**
+     * Returns the number of days in a month, taking leap
+     * years into account.
+     */
+    public static byte getDaysInMonth(DateMonth month, DateYear year) {
+        var RESULT = gtk_h.g_date_get_days_in_month(month.getValue(), year.getValue());
+        return RESULT;
+    }
+    
+    /**
+     * Returns the number of weeks in the year, where weeks
+     * are taken to start on Monday. Will be 52 or 53. The
+     * date must be valid. (Years always have 52 7-day periods,
+     * plus 1 or 2 extra days depending on whether it's a leap
+     * year. This function is basically telling you how many
+     * Mondays are in the year, i.e. there are 53 Mondays if
+     * one of the extra days happens to be a Monday.)
+     */
+    public static byte getMondayWeeksInYear(DateYear year) {
+        var RESULT = gtk_h.g_date_get_monday_weeks_in_year(year.getValue());
+        return RESULT;
+    }
+    
+    /**
+     * Returns the number of weeks in the year, where weeks
+     * are taken to start on Sunday. Will be 52 or 53. The
+     * date must be valid. (Years always have 52 7-day periods,
+     * plus 1 or 2 extra days depending on whether it's a leap
+     * year. This function is basically telling you how many
+     * Sundays are in the year, i.e. there are 53 Sundays if
+     * one of the extra days happens to be a Sunday.)
+     */
+    public static byte getSundayWeeksInYear(DateYear year) {
+        var RESULT = gtk_h.g_date_get_sunday_weeks_in_year(year.getValue());
+        return RESULT;
+    }
+    
+    /**
+     * Returns %TRUE if the year is a leap year.
+     * 
+     * For the purposes of this function, leap year is every year
+     * divisible by 4 unless that year is divisible by 100. If it
+     * is divisible by 100 it would be a leap year only if that year
+     * is also divisible by 400.
+     */
+    public static boolean isLeapYear(DateYear year) {
+        var RESULT = gtk_h.g_date_is_leap_year(year.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Generates a printed representation of the date, in a
+     * [locale][setlocale]-specific way.
+     * Works just like the platform's C library strftime() function,
+     * but only accepts date-related formats; time-related formats
+     * give undefined results. Date must be valid. Unlike strftime()
+     * (which uses the locale encoding), works on a UTF-8 format
+     * string and stores a UTF-8 result.
+     * 
+     * This function does not provide any conversion specifiers in
+     * addition to those implemented by the platform's C library.
+     * For example, don't expect that using g_date_strftime() would
+     * make the \\%F provided by the C99 strftime() work on Windows
+     * where the C library only complies to C89.
+     */
+    public static long strftime(java.lang.String s, long slen, java.lang.String format, Date date) {
+        var RESULT = gtk_h.g_date_strftime(Interop.allocateNativeString(s).handle(), slen, Interop.allocateNativeString(format).handle(), date.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Returns %TRUE if the day of the month is valid (a day is valid if it's
+     * between 1 and 31 inclusive).
+     */
+    public static boolean validDay(DateDay day) {
+        var RESULT = gtk_h.g_date_valid_day(day.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns %TRUE if the day-month-year triplet forms a valid, existing day
+     * in the range of days #GDate understands (Year 1 or later, no more than
+     * a few thousand years in the future).
+     */
+    public static boolean validDmy(DateDay day, DateMonth month, DateYear year) {
+        var RESULT = gtk_h.g_date_valid_dmy(day.getValue(), month.getValue(), year.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns %TRUE if the Julian day is valid. Anything greater than zero
+     * is basically a valid Julian, though there is a 32-bit limit.
+     */
+    public static boolean validJulian(int julianDate) {
+        var RESULT = gtk_h.g_date_valid_julian(julianDate);
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns %TRUE if the month value is valid. The 12 #GDateMonth
+     * enumeration values are the only valid months.
+     */
+    public static boolean validMonth(DateMonth month) {
+        var RESULT = gtk_h.g_date_valid_month(month.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns %TRUE if the weekday is valid. The seven #GDateWeekday enumeration
+     * values are the only valid weekdays.
+     */
+    public static boolean validWeekday(DateWeekday weekday) {
+        var RESULT = gtk_h.g_date_valid_weekday(weekday.getValue());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns %TRUE if the year is valid. Any year greater than 0 is valid,
+     * though there is a 16-bit limit to what #GDate will understand.
+     */
+    public static boolean validYear(DateYear year) {
+        var RESULT = gtk_h.g_date_valid_year(year.getValue());
+        return (RESULT != 0);
+    }
+    
 }

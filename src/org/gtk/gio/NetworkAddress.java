@@ -87,4 +87,53 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
         return RESULT.getUtf8String(0);
     }
     
+    /**
+     * Creates a new #GSocketConnectable for connecting to the given
+     * @hostname and @port. May fail and return %NULL in case
+     * parsing @host_and_port fails.
+     * 
+     * @host_and_port may be in any of a number of recognised formats; an IPv6
+     * address, an IPv4 address, or a domain name (in which case a DNS
+     * lookup is performed). Quoting with [] is supported for all address
+     * types. A port override may be specified in the usual way with a
+     * colon.
+     * 
+     * If no port is specified in @host_and_port then @default_port will be
+     * used as the port number to connect to.
+     * 
+     * In general, @host_and_port is expected to be provided by the user
+     * (allowing them to give the hostname, and a port override if necessary)
+     * and @default_port is expected to be provided by the application.
+     * 
+     * (The port component of @host_and_port can also be specified as a
+     * service name rather than as a numeric port, but this functionality
+     * is deprecated, because it depends on the contents of /etc/services,
+     * which is generally quite sparse on platforms other than Linux.)
+     */
+    public static NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_network_address_parse(Interop.allocateNativeString(hostAndPort).handle(), defaultPort, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new NetworkAddress(References.get(RESULT, true));
+    }
+    
+    /**
+     * Creates a new #GSocketConnectable for connecting to the given
+     * @uri. May fail and return %NULL in case parsing @uri fails.
+     * 
+     * Using this rather than g_network_address_new() or
+     * g_network_address_parse() allows #GSocketClient to determine
+     * when to use application-specific proxy protocols.
+     */
+    public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_network_address_parse_uri(Interop.allocateNativeString(uri).handle(), defaultPort, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new NetworkAddress(References.get(RESULT, true));
+    }
+    
 }

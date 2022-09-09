@@ -79,6 +79,24 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
         gtk_h.g_tls_client_connection_set_server_identity(handle(), identity.handle());
     }
     
+    /**
+     * Creates a new #GTlsClientConnection wrapping @base_io_stream (which
+     * must have pollable input and output streams) which is assumed to
+     * communicate with the server identified by @server_identity.
+     * 
+     * See the documentation for #GTlsConnection:base-io-stream for restrictions
+     * on when application code can run operations on the @base_io_stream after
+     * this function has returned.
+     */
+    public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_tls_client_connection_new(baseIoStream.handle(), serverIdentity.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsClientConnection.TlsClientConnectionImpl(References.get(RESULT, true));
+    }
+    
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {
         public TlsClientConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

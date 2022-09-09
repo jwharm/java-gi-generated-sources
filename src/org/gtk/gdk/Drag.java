@@ -127,6 +127,27 @@ public class Drag extends org.gtk.gobject.Object {
         gtk_h.gdk_drag_set_hotspot(handle(), hotX, hotY);
     }
     
+    /**
+     * Starts a drag and creates a new drag context for it.
+     * 
+     * This function is called by the drag source. After this call, you
+     * probably want to set up the drag icon using the surface returned
+     * by [method@Gdk.Drag.get_drag_surface].
+     * 
+     * This function returns a reference to the [class@Gdk.Drag] object,
+     * but GTK keeps its own reference as well, as long as the DND operation
+     * is going on.
+     * 
+     * Note: if @actions include %GDK_ACTION_MOVE, you need to listen for
+     * the [signal@Gdk.Drag::dnd-finished] signal and delete the data at
+     * the source if [method@Gdk.Drag.get_selected_action] returns
+     * %GDK_ACTION_MOVE.
+     */
+    public static Drag begin(Surface surface, Device device, ContentProvider content, int actions, double dx, double dy) {
+        var RESULT = gtk_h.gdk_drag_begin(surface.handle(), device.handle(), content.handle(), actions, dx, dy);
+        return new Drag(References.get(RESULT, true));
+    }
+    
     @FunctionalInterface
     public interface CancelHandler {
         void signalReceived(Drag source, DragCancelReason reason);

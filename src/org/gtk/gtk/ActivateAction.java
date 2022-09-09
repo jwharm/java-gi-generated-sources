@@ -21,4 +21,15 @@ public class ActivateAction extends ShortcutAction {
         return new ActivateAction(gobject.getReference());
     }
     
+    /**
+     * Gets the activate action.
+     * 
+     * This is an action that calls gtk_widget_activate()
+     * on the given widget upon activation.
+     */
+    public static ActivateAction get() {
+        var RESULT = gtk_h.gtk_activate_action_get();
+        return new ActivateAction(References.get(RESULT, false));
+    }
+    
 }

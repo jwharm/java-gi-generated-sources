@@ -291,4 +291,20 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return RESULT;
     }
     
+    /**
+     * Creates one or more #GTlsCertificates from the PEM-encoded
+     * data in @file. If @file cannot be read or parsed, the function will
+     * return %NULL and set @error. If @file does not contain any
+     * PEM-encoded certificates, this will return an empty list and not
+     * set @error.
+     */
+    public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_tls_certificate_list_new_from_file(Interop.allocateNativeString(file).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
 }

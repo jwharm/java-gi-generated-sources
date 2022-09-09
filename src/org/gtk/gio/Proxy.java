@@ -58,6 +58,15 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
         return (RESULT != 0);
     }
     
+    /**
+     * Find the `gio-proxy` extension point for a proxy implementation that supports
+     * the specified protocol.
+     */
+    public static Proxy getDefaultForProtocol(java.lang.String protocol) {
+        var RESULT = gtk_h.g_proxy_get_default_for_protocol(Interop.allocateNativeString(protocol).handle());
+        return new Proxy.ProxyImpl(References.get(RESULT, true));
+    }
+    
     class ProxyImpl extends org.gtk.gobject.Object implements Proxy {
         public ProxyImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

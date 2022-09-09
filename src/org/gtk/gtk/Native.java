@@ -60,6 +60,14 @@ public interface Native extends io.github.jwharm.javagi.interop.NativeAddress {
         gtk_h.gtk_native_unrealize(handle());
     }
     
+    /**
+     * Finds the `GtkNative` associated with the surface.
+     */
+    public static Native getForSurface(org.gtk.gdk.Surface surface) {
+        var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());
+        return new Native.NativeImpl(References.get(RESULT, false));
+    }
+    
     class NativeImpl extends org.gtk.gobject.Object implements Native {
         public NativeImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

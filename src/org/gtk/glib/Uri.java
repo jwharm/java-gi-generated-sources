@@ -299,4 +299,274 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_uri_unref(handle());
     }
     
+    /**
+     * Creates a new #GUri from the given components according to @flags.
+     * 
+     * See also g_uri_build_with_user(), which allows specifying the
+     * components of the "userinfo" separately.
+     */
+    public static Uri build(int flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_build(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+        return new Uri(References.get(RESULT, true));
+    }
+    
+    /**
+     * Creates a new #GUri from the given components according to @flags
+     * (%G_URI_FLAGS_HAS_PASSWORD is added unconditionally). The @flags must be
+     * coherent with the passed values, in particular use `%`-encoded values with
+     * %G_URI_FLAGS_ENCODED.
+     * 
+     * In contrast to g_uri_build(), this allows specifying the components
+     * of the ‘userinfo’ field separately. Note that @user must be non-%NULL
+     * if either @password or @auth_params is non-%NULL.
+     */
+    public static Uri buildWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_build_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+        return new Uri(References.get(RESULT, true));
+    }
+    
+    public static Quark errorQuark() {
+        var RESULT = gtk_h.g_uri_error_quark();
+        return new Quark(RESULT);
+    }
+    
+    /**
+     * Escapes arbitrary data for use in a URI.
+     * 
+     * Normally all characters that are not ‘unreserved’ (i.e. ASCII
+     * alphanumerical characters plus dash, dot, underscore and tilde) are
+     * escaped. But if you specify characters in @reserved_chars_allowed
+     * they are not escaped. This is useful for the ‘reserved’ characters
+     * in the URI specification, since those are allowed unescaped in some
+     * portions of a URI.
+     * 
+     * Though technically incorrect, this will also allow escaping nul
+     * bytes as `%``00`.
+     */
+    public static java.lang.String escapeBytes(byte[] unescaped, long length, java.lang.String reservedCharsAllowed) {
+        var RESULT = gtk_h.g_uri_escape_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, unescaped)).handle(), length, Interop.allocateNativeString(reservedCharsAllowed).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Escapes a string for use in a URI.
+     * 
+     * Normally all characters that are not "unreserved" (i.e. ASCII
+     * alphanumerical characters plus dash, dot, underscore and tilde) are
+     * escaped. But if you specify characters in @reserved_chars_allowed
+     * they are not escaped. This is useful for the "reserved" characters
+     * in the URI specification, since those are allowed unescaped in some
+     * portions of a URI.
+     */
+    public static java.lang.String escapeString(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
+        var RESULT = gtk_h.g_uri_escape_string(Interop.allocateNativeString(unescaped).handle(), Interop.allocateNativeString(reservedCharsAllowed).handle(), allowUtf8 ? 1 : 0);
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Parses @uri_string according to @flags, to determine whether it is a valid
+     * [absolute URI][relative-absolute-uris], i.e. it does not need to be resolved
+     * relative to another URI using g_uri_parse_relative().
+     * 
+     * If it’s not a valid URI, an error is returned explaining how it’s invalid.
+     * 
+     * See g_uri_split(), and the definition of #GUriFlags, for more
+     * information on the effect of @flags.
+     */
+    public static boolean isValid(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Joins the given components together according to @flags to create
+     * an absolute URI string. @path may not be %NULL (though it may be the empty
+     * string).
+     * 
+     * When @host is present, @path must either be empty or begin with a slash (`/`)
+     * character. When @host is not present, @path cannot begin with two slash
+     *    characters (`//`). See
+     * [RFC 3986, section 3](https://tools.ietf.org/html/rfc3986#section-3).
+     * 
+     * See also g_uri_join_with_user(), which allows specifying the
+     * components of the ‘userinfo’ separately.
+     * 
+     * %G_URI_FLAGS_HAS_PASSWORD and %G_URI_FLAGS_HAS_AUTH_PARAMS are ignored if set
+     * in @flags.
+     */
+    public static java.lang.String join(int flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_join(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Joins the given components together according to @flags to create
+     * an absolute URI string. @path may not be %NULL (though it may be the empty
+     * string).
+     * 
+     * In contrast to g_uri_join(), this allows specifying the components
+     * of the ‘userinfo’ separately. It otherwise behaves the same.
+     * 
+     * %G_URI_FLAGS_HAS_PASSWORD and %G_URI_FLAGS_HAS_AUTH_PARAMS are ignored if set
+     * in @flags.
+     */
+    public static java.lang.String joinWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_join_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Parses @uri_string according to @flags. If the result is not a
+     * valid [absolute URI][relative-absolute-uris], it will be discarded, and an
+     * error returned.
+     */
+    public static Uri parse(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Uri(References.get(RESULT, true));
+    }
+    
+    /**
+     * Many URI schemes include one or more attribute/value pairs as part of the URI
+     * value. This method can be used to parse them into a hash table. When an
+     * attribute has multiple occurrences, the last value is the final returned
+     * value. If you need to handle repeated attributes differently, use
+     * #GUriParamsIter.
+     * 
+     * The @params string is assumed to still be `%`-encoded, but the returned
+     * values will be fully decoded. (Thus it is possible that the returned values
+     * may contain `=` or @separators, if the value was encoded in the input.)
+     * Invalid `%`-encoding is treated as with the %G_URI_FLAGS_PARSE_RELAXED
+     * rules for g_uri_parse(). (However, if @params is the path or query string
+     * from a #GUri that was parsed without %G_URI_FLAGS_PARSE_RELAXED and
+     * %G_URI_FLAGS_ENCODED, then you already know that it does not contain any
+     * invalid encoding.)
+     * 
+     * %G_URI_PARAMS_WWW_FORM is handled as documented for g_uri_params_iter_init().
+     * 
+     * If %G_URI_PARAMS_CASE_INSENSITIVE is passed to @flags, attributes will be
+     * compared case-insensitively, so a params string `attr=123&Attr=456` will only
+     * return a single attribute–value pair, `Attr=456`. Case will be preserved in
+     * the returned attributes.
+     * 
+     * If @params cannot be parsed (for example, it contains two @separators
+     * characters in a row), then @error is set and %NULL is returned.
+     */
+    public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.HashTable(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets the scheme portion of a URI string.
+     * [RFC 3986](https://tools.ietf.org/html/rfc3986#section-3) decodes the scheme
+     * as:
+     * |[
+     * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
+     * ]|
+     * Common schemes include `file`, `https`, `svn+ssh`, etc.
+     */
+    public static java.lang.String parseScheme(java.lang.String uri) {
+        var RESULT = gtk_h.g_uri_parse_scheme(Interop.allocateNativeString(uri).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the scheme portion of a URI string.
+     * [RFC 3986](https://tools.ietf.org/html/rfc3986#section-3) decodes the scheme
+     * as:
+     * |[
+     * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
+     * ]|
+     * Common schemes include `file`, `https`, `svn+ssh`, etc.
+     * 
+     * Unlike g_uri_parse_scheme(), the returned scheme is normalized to
+     * all-lowercase and does not need to be freed.
+     */
+    public static java.lang.String peekScheme(java.lang.String uri) {
+        var RESULT = gtk_h.g_uri_peek_scheme(Interop.allocateNativeString(uri).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Parses @uri_ref according to @flags and, if it is a
+     * [relative URI][relative-absolute-uris], resolves it relative to
+     * @base_uri_string. If the result is not a valid absolute URI, it will be
+     * discarded, and an error returned.
+     * 
+     * (If @base_uri_string is %NULL, this just returns @uri_ref, or
+     * %NULL if @uri_ref is invalid or not absolute.)
+     */
+    public static java.lang.String resolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Unescapes a segment of an escaped string as binary data.
+     * 
+     * Note that in contrast to g_uri_unescape_string(), this does allow
+     * nul bytes to appear in the output.
+     * 
+     * If any of the characters in @illegal_characters appears as an escaped
+     * character in @escaped_string, then that is an error and %NULL will be
+     * returned. This is useful if you want to avoid for instance having a slash
+     * being expanded in an escaped path element, which might confuse pathname
+     * handling.
+     */
+    public static Bytes unescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_unescape_bytes(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Bytes(References.get(RESULT, true));
+    }
+    
+    /**
+     * Unescapes a segment of an escaped string.
+     * 
+     * If any of the characters in @illegal_characters or the NUL
+     * character appears as an escaped character in @escaped_string, then
+     * that is an error and %NULL will be returned. This is useful if you
+     * want to avoid for instance having a slash being expanded in an
+     * escaped path element, which might confuse pathname handling.
+     * 
+     * Note: `NUL` byte is not accepted in the output, in contrast to
+     * g_uri_unescape_bytes().
+     */
+    public static java.lang.String unescapeSegment(java.lang.String escapedString, java.lang.String escapedStringEnd, java.lang.String illegalCharacters) {
+        var RESULT = gtk_h.g_uri_unescape_segment(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(escapedStringEnd).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Unescapes a whole escaped string.
+     * 
+     * If any of the characters in @illegal_characters or the NUL
+     * character appears as an escaped character in @escaped_string, then
+     * that is an error and %NULL will be returned. This is useful if you
+     * want to avoid for instance having a slash being expanded in an
+     * escaped path element, which might confuse pathname handling.
+     */
+    public static java.lang.String unescapeString(java.lang.String escapedString, java.lang.String illegalCharacters) {
+        var RESULT = gtk_h.g_uri_unescape_string(Interop.allocateNativeString(escapedString).handle(), Interop.allocateNativeString(illegalCharacters).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
 }

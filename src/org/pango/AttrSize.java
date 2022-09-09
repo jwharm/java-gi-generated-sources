@@ -17,4 +17,20 @@ public class AttrSize extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    /**
+     * Create a new font-size attribute in fractional points.
+     */
+    public static Attribute new_(int size) {
+        var RESULT = gtk_h.pango_attr_size_new(size);
+        return new Attribute(References.get(RESULT, true));
+    }
+    
+    /**
+     * Create a new font-size attribute in device units.
+     */
+    public static Attribute newAbsolute(int size) {
+        var RESULT = gtk_h.pango_attr_size_new_absolute(size);
+        return new Attribute(References.get(RESULT, true));
+    }
+    
 }

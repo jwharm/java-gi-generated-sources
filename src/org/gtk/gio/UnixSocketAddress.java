@@ -124,4 +124,12 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return RESULT;
     }
     
+    /**
+     * Checks if abstract UNIX domain socket names are supported.
+     */
+    public static boolean abstractNamesSupported() {
+        var RESULT = gtk_h.g_unix_socket_address_abstract_names_supported();
+        return (RESULT != 0);
+    }
+    
 }

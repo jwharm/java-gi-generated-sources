@@ -21,4 +21,15 @@ public class MnemonicAction extends ShortcutAction {
         return new MnemonicAction(gobject.getReference());
     }
     
+    /**
+     * Gets the mnemonic action.
+     * 
+     * This is an action that calls gtk_widget_mnemonic_activate()
+     * on the given widget upon activation.
+     */
+    public static MnemonicAction get() {
+        var RESULT = gtk_h.gtk_mnemonic_action_get();
+        return new MnemonicAction(References.get(RESULT, false));
+    }
+    
 }

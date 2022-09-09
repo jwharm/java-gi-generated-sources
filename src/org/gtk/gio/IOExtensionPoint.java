@@ -50,4 +50,32 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.interop.ResourceBa
         gtk_h.g_io_extension_point_set_required_type(handle(), type.getValue());
     }
     
+    /**
+     * Registers @type as extension for the extension point with name
+     * @extension_point_name.
+     * 
+     * If @type has already been registered as an extension for this
+     * extension point, the existing #GIOExtension object is returned.
+     */
+    public static IOExtension implement(java.lang.String extensionPointName, Type type, java.lang.String extensionName, int priority) {
+        var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
+        return new IOExtension(References.get(RESULT, false));
+    }
+    
+    /**
+     * Looks up an existing extension point.
+     */
+    public static IOExtensionPoint lookup(java.lang.String name) {
+        var RESULT = gtk_h.g_io_extension_point_lookup(Interop.allocateNativeString(name).handle());
+        return new IOExtensionPoint(References.get(RESULT, false));
+    }
+    
+    /**
+     * Registers an extension point.
+     */
+    public static IOExtensionPoint register(java.lang.String name) {
+        var RESULT = gtk_h.g_io_extension_point_register(Interop.allocateNativeString(name).handle());
+        return new IOExtensionPoint(References.get(RESULT, false));
+    }
+    
 }

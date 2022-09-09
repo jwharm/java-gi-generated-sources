@@ -17,4 +17,12 @@ public class AttrLanguage extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    /**
+     * Create a new language tag attribute.
+     */
+    public static Attribute new_(Language language) {
+        var RESULT = gtk_h.pango_attr_language_new(language.handle());
+        return new Attribute(References.get(RESULT, true));
+    }
+    
 }

@@ -205,6 +205,15 @@ public class RecentManager extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Gets a unique instance of `GtkRecentManager` that you can share
+     * in your application without caring about memory management.
+     */
+    public static RecentManager getDefault() {
+        var RESULT = gtk_h.gtk_recent_manager_get_default();
+        return new RecentManager(References.get(RESULT, false));
+    }
+    
     @FunctionalInterface
     public interface ChangedHandler {
         void signalReceived(RecentManager source);

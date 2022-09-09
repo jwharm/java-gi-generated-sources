@@ -526,6 +526,45 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_object_watch_closure(handle(), closure.handle());
     }
     
+    public static long compatControl(long what, jdk.incubator.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_object_compat_control(what, data);
+        return RESULT;
+    }
+    
+    /**
+     * Find the #GParamSpec with the given name for an
+     * interface. Generally, the interface vtable passed in as @g_iface
+     * will be the default vtable from g_type_default_interface_ref(), or,
+     * if you know the interface has already been loaded,
+     * g_type_default_interface_peek().
+     */
+    public static ParamSpec interfaceFindProperty(TypeInterface gIface, java.lang.String propertyName) {
+        var RESULT = gtk_h.g_object_interface_find_property(gIface.handle(), Interop.allocateNativeString(propertyName).handle());
+        return new ParamSpec(References.get(RESULT, false));
+    }
+    
+    /**
+     * Add a property to an interface; this is only useful for interfaces
+     * that are added to GObject-derived types. Adding a property to an
+     * interface forces all objects classes with that interface to have a
+     * compatible property. The compatible property could be a newly
+     * created #GParamSpec, but normally
+     * g_object_class_override_property() will be used so that the object
+     * class only needs to provide an implementation and inherits the
+     * property description, default value, bounds, and so forth from the
+     * interface property.
+     * 
+     * This function is meant to be called from the interface's default
+     * vtable initialization function (the @class_init member of
+     * #GTypeInfo.) It must not be called after after @class_init has
+     * been called for any object types implementing this interface.
+     * 
+     * If @pspec is a floating reference, it will be consumed.
+     */
+    public static void interfaceInstallProperty(TypeInterface gIface, ParamSpec pspec) {
+        gtk_h.g_object_interface_install_property(gIface.handle(), pspec.handle());
+    }
+    
     @FunctionalInterface
     public interface NotifyHandler {
         void signalReceived(Object source, ParamSpec pspec);

@@ -203,4 +203,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         gtk_h.g_desktop_app_info_launch_action(handle(), Interop.allocateNativeString(actionName).handle(), launchContext.handle());
     }
     
+    /**
+     * Gets all applications that implement @interface.
+     * 
+     * An application implements an interface if that interface is listed in
+     * the Implements= line of the desktop file of the application.
+     */
+    public static org.gtk.glib.List getImplementations(java.lang.String interface_) {
+        var RESULT = gtk_h.g_desktop_app_info_get_implementations(Interop.allocateNativeString(interface_).handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
 }

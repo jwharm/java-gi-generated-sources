@@ -146,4 +146,29 @@ public class Font extends org.gtk.gobject.Object {
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
+    /**
+     * Frees an array of font descriptions.
+     */
+    public static void descriptionsFree(FontDescription[] descs, int nDescs) {
+        gtk_h.pango_font_descriptions_free(Interop.allocateNativeArray(descs).handle(), nDescs);
+    }
+    
+    /**
+     * Loads data previously created via [method@Pango.Font.serialize].
+     * 
+     * For a discussion of the supported format, see that function.
+     * 
+     * Note: to verify that the returned font is identical to
+     * the one that was serialized, you can compare @bytes to the
+     * result of serializing the font again.
+     */
+    public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.pango_font_deserialize(context.handle(), bytes.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Font(References.get(RESULT, true));
+    }
+    
 }

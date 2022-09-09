@@ -177,4 +177,16 @@ public class IOStream extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Finishes an asynchronous io stream splice operation.
+     */
+    public static boolean spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_stream_splice_finish(result.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
 }

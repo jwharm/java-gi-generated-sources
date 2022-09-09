@@ -1241,4 +1241,119 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_variant_unref(handle());
     }
     
+    /**
+     * Determines if a given string is a valid D-Bus object path.  You
+     * should ensure that a string is a valid D-Bus object path before
+     * passing it to g_variant_new_object_path().
+     * 
+     * A valid object path starts with `/` followed by zero or more
+     * sequences of characters separated by `/` characters.  Each sequence
+     * must contain only the characters `[A-Z][a-z][0-9]_`.  No sequence
+     * (including the one following the final `/` character) may be empty.
+     */
+    public static boolean isObjectPath(java.lang.String string) {
+        var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Determines if a given string is a valid D-Bus type signature.  You
+     * should ensure that a string is a valid D-Bus type signature before
+     * passing it to g_variant_new_signature().
+     * 
+     * D-Bus type signatures consist of zero or more definite #GVariantType
+     * strings in sequence.
+     */
+    public static boolean isSignature(java.lang.String string) {
+        var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses a #GVariant from a text representation.
+     * 
+     * A single #GVariant is parsed from the content of @text.
+     * 
+     * The format is described [here][gvariant-text].
+     * 
+     * The memory at @limit will never be accessed and the parser behaves as
+     * if the character at @limit is the nul terminator.  This has the
+     * effect of bounding @text.
+     * 
+     * If @endptr is non-%NULL then @text is permitted to contain data
+     * following the value that this function parses and @endptr will be
+     * updated to point to the first character past the end of the text
+     * parsed by this function.  If @endptr is %NULL and there is extra data
+     * then an error is returned.
+     * 
+     * If @type is non-%NULL then the value will be parsed to have that
+     * type.  This may result in additional parse errors (in the case that
+     * the parsed value doesn't fit the type) but may also result in fewer
+     * errors (in the case that the type would have been ambiguous, such as
+     * with empty arrays).
+     * 
+     * In the event that the parsing is successful, the resulting #GVariant
+     * is returned. It is never floating, and must be freed with
+     * g_variant_unref().
+     * 
+     * In case of any error, %NULL will be returned.  If @error is non-%NULL
+     * then it will be set to reflect the error that occurred.
+     * 
+     * Officially, the language understood by the parser is "any string
+     * produced by g_variant_print()".
+     * 
+     * There may be implementation specific restrictions on deeply nested values,
+     * which would result in a %G_VARIANT_PARSE_ERROR_RECURSION error. #GVariant is
+     * guaranteed to handle nesting up to at least 64 levels.
+     */
+    public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_variant_parse(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Variant(References.get(RESULT, true));
+    }
+    
+    /**
+     * Pretty-prints a message showing the context of a #GVariant parse
+     * error within the string for which parsing was attempted.
+     * 
+     * The resulting string is suitable for output to the console or other
+     * monospace media where newlines are treated in the usual way.
+     * 
+     * The message will typically look something like one of the following:
+     * 
+     * |[
+     * unterminated string constant:
+     *   (1, 2, 3, 'abc
+     *             ^^^^
+     * ]|
+     * 
+     * or
+     * 
+     * |[
+     * unable to find a common type:
+     *   [1, 2, 3, 'str']
+     *    ^        ^^^^^
+     * ]|
+     * 
+     * The format of the message may change in a future version.
+     * 
+     * @error must have come from a failed attempt to g_variant_parse() and
+     * @source_str must be exactly the same string that caused the error.
+     * If @source_str was not nul-terminated when you passed it to
+     * g_variant_parse() then you must add nul termination before using this
+     * function.
+     */
+    public static java.lang.String parseErrorPrintContext(Error error, java.lang.String sourceStr) {
+        var RESULT = gtk_h.g_variant_parse_error_print_context(error.handle(), Interop.allocateNativeString(sourceStr).handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    public static Quark parseErrorQuark() {
+        var RESULT = gtk_h.g_variant_parse_error_quark();
+        return new Quark(RESULT);
+    }
+    
 }

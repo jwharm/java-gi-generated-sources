@@ -93,4 +93,12 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
         return RESULT;
     }
     
+    /**
+     * Sorts @targets in place according to the algorithm in RFC 2782.
+     */
+    public static org.gtk.glib.List listSort(org.gtk.glib.List targets) {
+        var RESULT = gtk_h.g_srv_target_list_sort(targets.handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
 }

@@ -221,4 +221,67 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_box_union(handle(), b.handle(), res.handle());
     }
     
+    /**
+     * A degenerate #graphene_box_t that can only be expanded.
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box empty() {
+        var RESULT = gtk_h.graphene_box_empty();
+        return new Box(References.get(RESULT, false));
+    }
+    
+    /**
+     * A degenerate #graphene_box_t that cannot be expanded.
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box infinite() {
+        var RESULT = gtk_h.graphene_box_infinite();
+        return new Box(References.get(RESULT, false));
+    }
+    
+    /**
+     * A #graphene_box_t with the minimum vertex set at (-1, -1, -1) and the
+     * maximum vertex set at (0, 0, 0).
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box minusOne() {
+        var RESULT = gtk_h.graphene_box_minus_one();
+        return new Box(References.get(RESULT, false));
+    }
+    
+    /**
+     * A #graphene_box_t with the minimum vertex set at (0, 0, 0) and the
+     * maximum vertex set at (1, 1, 1).
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box one() {
+        var RESULT = gtk_h.graphene_box_one();
+        return new Box(References.get(RESULT, false));
+    }
+    
+    /**
+     * A #graphene_box_t with the minimum vertex set at (-1, -1, -1) and the
+     * maximum vertex set at (1, 1, 1).
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box oneMinusOne() {
+        var RESULT = gtk_h.graphene_box_one_minus_one();
+        return new Box(References.get(RESULT, false));
+    }
+    
+    /**
+     * A #graphene_box_t with both the minimum and maximum vertices set at (0, 0, 0).
+     * 
+     * The returned value is owned by Graphene and should not be modified or freed.
+     */
+    public static Box zero() {
+        var RESULT = gtk_h.graphene_box_zero();
+        return new Box(References.get(RESULT, false));
+    }
+    
 }

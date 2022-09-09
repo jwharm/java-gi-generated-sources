@@ -156,4 +156,29 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         gtk_h.g_settings_backend_writable_changed(handle(), Interop.allocateNativeString(key).handle());
     }
     
+    /**
+     * Calculate the longest common prefix of all keys in a tree and write
+     * out an array of the key names relative to that prefix and,
+     * optionally, the value to store at each of those keys.
+     * 
+     * You must free the value returned in @path, @keys and @values using
+     * g_free().  You should not attempt to free or unref the contents of
+     * @keys or @values.
+     */
+    public static void flattenTree(org.gtk.glib.Tree tree, java.lang.String[] path, java.lang.String[] keys, org.gtk.glib.Variant[] values) {
+        gtk_h.g_settings_backend_flatten_tree(tree.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(values).handle());
+    }
+    
+    /**
+     * Returns the default #GSettingsBackend. It is possible to override
+     * the default by setting the `GSETTINGS_BACKEND` environment variable
+     * to the name of a settings backend.
+     * 
+     * The user gets a reference to the backend.
+     */
+    public static SettingsBackend getDefault() {
+        var RESULT = gtk_h.g_settings_backend_get_default();
+        return new SettingsBackend(References.get(RESULT, true));
+    }
+    
 }

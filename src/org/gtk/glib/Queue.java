@@ -315,4 +315,12 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_queue_unlink(handle(), link.handle());
     }
     
+    /**
+     * Creates a new #GQueue.
+     */
+    public static Queue new_() {
+        var RESULT = gtk_h.g_queue_new();
+        return new Queue(References.get(RESULT, false));
+    }
+    
 }

@@ -247,4 +247,58 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.graphene_vec4_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());
     }
     
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with all its
+     * components set to 1.
+     */
+    public static Vec4 one() {
+        var RESULT = gtk_h.graphene_vec4_one();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with its
+     * components set to (0, 0, 0, 1).
+     */
+    public static Vec4 wAxis() {
+        var RESULT = gtk_h.graphene_vec4_w_axis();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with its
+     * components set to (1, 0, 0, 0).
+     */
+    public static Vec4 xAxis() {
+        var RESULT = gtk_h.graphene_vec4_x_axis();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with its
+     * components set to (0, 1, 0, 0).
+     */
+    public static Vec4 yAxis() {
+        var RESULT = gtk_h.graphene_vec4_y_axis();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with its
+     * components set to (0, 0, 1, 0).
+     */
+    public static Vec4 zAxis() {
+        var RESULT = gtk_h.graphene_vec4_z_axis();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
+    /**
+     * Retrieves a pointer to a #graphene_vec4_t with all its
+     * components set to 0.
+     */
+    public static Vec4 zero() {
+        var RESULT = gtk_h.graphene_vec4_zero();
+        return new Vec4(References.get(RESULT, false));
+    }
+    
 }

@@ -332,6 +332,134 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
         return (RESULT != 0);
     }
     
+    /**
+     * Creates a new #GAppInfo from the given information.
+     * 
+     * Note that for @commandline, the quoting rules of the Exec key of the
+     * [freedesktop.org Desktop Entry Specification](http://freedesktop.org/Standards/desktop-entry-spec)
+     * are applied. For example, if the @commandline contains
+     * percent-encoded URIs, the percent-character must be doubled in order to prevent it from
+     * being swallowed by Exec key unquoting. See the specification for exact quoting rules.
+     */
+    public static AppInfo createFromCommandline(java.lang.String commandline, java.lang.String applicationName, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_app_info_create_from_commandline(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a list of all of the applications currently registered
+     * on this system.
+     * 
+     * For desktop files, this includes applications that have
+     * `NoDisplay=true` set or are excluded from display by means
+     * of `OnlyShowIn` or `NotShowIn`. See g_app_info_should_show().
+     * The returned list does not include applications which have
+     * the `Hidden` key set.
+     */
+    public static org.gtk.glib.List getAll() {
+        var RESULT = gtk_h.g_app_info_get_all();
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a list of all #GAppInfos for a given content type,
+     * including the recommended and fallback #GAppInfos. See
+     * g_app_info_get_recommended_for_type() and
+     * g_app_info_get_fallback_for_type().
+     */
+    public static org.gtk.glib.List getAllForType(java.lang.String contentType) {
+        var RESULT = gtk_h.g_app_info_get_all_for_type(Interop.allocateNativeString(contentType).handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets the default #GAppInfo for a given content type.
+     */
+    public static AppInfo getDefaultForType(java.lang.String contentType, boolean mustSupportUris) {
+        var RESULT = gtk_h.g_app_info_get_default_for_type(Interop.allocateNativeString(contentType).handle(), mustSupportUris ? 1 : 0);
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets the default application for handling URIs with
+     * the given URI scheme. A URI scheme is the initial part
+     * of the URI, up to but not including the ':', e.g. "http",
+     * "ftp" or "sip".
+     */
+    public static AppInfo getDefaultForUriScheme(java.lang.String uriScheme) {
+        var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
+        return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a list of fallback #GAppInfos for a given content type, i.e.
+     * those applications which claim to support the given content type
+     * by MIME type subclassing and not directly.
+     */
+    public static org.gtk.glib.List getFallbackForType(java.lang.String contentType) {
+        var RESULT = gtk_h.g_app_info_get_fallback_for_type(Interop.allocateNativeString(contentType).handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a list of recommended #GAppInfos for a given content type, i.e.
+     * those applications which claim to support the given content type exactly,
+     * and not by MIME type subclassing.
+     * Note that the first application of the list is the last used one, i.e.
+     * the last one for which g_app_info_set_as_last_used_for_type() has been
+     * called.
+     */
+    public static org.gtk.glib.List getRecommendedForType(java.lang.String contentType) {
+        var RESULT = gtk_h.g_app_info_get_recommended_for_type(Interop.allocateNativeString(contentType).handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Utility function that launches the default application
+     * registered to handle the specified uri. Synchronous I/O
+     * is done on the uri to detect the type of the file if
+     * required.
+     * 
+     * The D-Bus–activated applications don't have to be started if your application
+     * terminates too soon after this function. To prevent this, use
+     * g_app_info_launch_default_for_uri_async() instead.
+     */
+    public static boolean launchDefaultForUri(java.lang.String uri, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_app_info_launch_default_for_uri(Interop.allocateNativeString(uri).handle(), context.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Finishes an asynchronous launch-default-for-uri operation.
+     */
+    public static boolean launchDefaultForUriFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_app_info_launch_default_for_uri_finish(result.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Removes all changes to the type associations done by
+     * g_app_info_set_as_default_for_type(),
+     * g_app_info_set_as_default_for_extension(),
+     * g_app_info_add_supports_type() or
+     * g_app_info_remove_supports_type().
+     */
+    public static void resetTypeAssociations(java.lang.String contentType) {
+        gtk_h.g_app_info_reset_type_associations(Interop.allocateNativeString(contentType).handle());
+    }
+    
     class AppInfoImpl extends org.gtk.gobject.Object implements AppInfo {
         public AppInfoImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);
