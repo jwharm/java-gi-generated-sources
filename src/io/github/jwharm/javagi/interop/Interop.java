@@ -114,4 +114,19 @@ public class Interop {
         memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
         return new MemorySegmentReference(memorySegment);
     }
+
+    /**
+     * Allocates and initializes a NULL-terminated array of pointers (MemoryAddress instances).
+     */
+    public static MemorySegmentReference allocateNativeArray(MemoryAddress[] array) {
+        if (!initialized) {
+            initialize();
+        }
+        var memorySegment = allocator.allocateArray(ValueLayout.ADDRESS, array.length + 1);
+        for (int i = 0; i < array.length; i++) {
+            memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i]);
+        }
+        memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
+        return new MemorySegmentReference(memorySegment);
+    }
 }
