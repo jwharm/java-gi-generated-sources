@@ -17,9 +17,9 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
     }
     
     private static Reference constructNewFromDirectoryOrThrow(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_settings_schema_source_new_from_directory(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;

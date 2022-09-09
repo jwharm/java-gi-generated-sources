@@ -50,10 +50,10 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * ignored.
      */
     public SocketAddress next(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_address_enumerator_next(handle(), cancellable.handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new SocketAddress(References.get(RESULT, true));
     }
@@ -65,10 +65,10 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * error handling.
      */
     public SocketAddress nextFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_address_enumerator_next_finish(handle(), result.handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new SocketAddress(References.get(RESULT, true));
     }

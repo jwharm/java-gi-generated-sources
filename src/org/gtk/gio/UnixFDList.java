@@ -66,10 +66,10 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * duplicated copy of the same file descriptor.
      */
     public int append(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_fd_list_append(handle(), fd, GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return RESULT;
     }
@@ -89,10 +89,10 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * system-wide file descriptor limit.
      */
     public int get(int index) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_fd_list_get(handle(), index, GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return RESULT;
     }

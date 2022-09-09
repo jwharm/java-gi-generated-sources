@@ -37,10 +37,10 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * contains references.
      */
     public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_match_info_expand_references(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return RESULT.getUtf8String(0);
     }
@@ -183,10 +183,10 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * cannot free it before calling this function.
      */
     public boolean next() throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_match_info_next(handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
     }

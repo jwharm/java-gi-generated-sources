@@ -39,9 +39,9 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
     }
     
     private static Reference constructNewSyncOrThrow(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags, Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;

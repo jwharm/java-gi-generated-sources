@@ -40,9 +40,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     }
     
     private static Reference constructNewFromFileOrThrow(java.lang.String fileName) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;
@@ -72,9 +72,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
     }
     
     private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;
@@ -391,10 +391,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * See [method@Gtk.PrintSettings.to_file].
      */
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_settings_load_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
     }
@@ -406,10 +406,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * `GFileError` or `GKeyFileError`.
      */
     public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_settings_load_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
     }
@@ -640,10 +640,10 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * `GFileError` or `GKeyFileError`.
      */
     public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_settings_to_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
     }

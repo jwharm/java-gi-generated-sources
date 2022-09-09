@@ -19,9 +19,9 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     private static Reference constructNewFileOrThrow(java.lang.String filename, java.lang.String mode) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_io_channel_new_file(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;
@@ -70,10 +70,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Flushes the write buffer for the GIOChannel.
      */
     public IOStatus flush() throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_flush(handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }
@@ -164,10 +164,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Replacement for g_io_channel_seek() with the new API.
      */
     public IOStatus seekPosition(long offset, SeekType type) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_seek_position(handle(), offset, type.getValue(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }
@@ -253,10 +253,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * calling one of the API "read" functions.
      */
     public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_set_encoding(handle(), Interop.allocateNativeString(encoding).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }
@@ -265,10 +265,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Sets the (writeable) flags in @channel to (@flags & %G_IO_FLAG_SET_MASK).
      */
     public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_set_flags(handle(), flags, GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }
@@ -287,10 +287,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * last reference is dropped using g_io_channel_unref().
      */
     public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_shutdown(handle(), flush ? 1 : 0, GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }
@@ -318,10 +318,10 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function cannot be called on a channel with %NULL encoding.
      */
     public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_write_unichar(handle(), thechar, GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return IOStatus.fromValue(RESULT);
     }

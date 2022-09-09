@@ -19,9 +19,9 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     private static Reference constructNewOrThrow(java.lang.String filename, boolean writable) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_mapped_file_new(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;
@@ -50,9 +50,9 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     private static Reference constructNewFromFdOrThrow(int fd, boolean writable) throws GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_mapped_file_new_from_fd(fd, writable ? 1 : 0, GERROR), true);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+        if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
         return RESULT;

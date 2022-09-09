@@ -139,10 +139,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * The returned `GError` will contain more details on what went wrong.
      */
     public void getError() throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         gtk_h.gtk_print_operation_get_error(handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
     }
     
@@ -290,10 +290,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * given `GtkPrintOperation`.
      */
     public PrintOperationResult run(PrintOperationAction action, Window parent) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_operation_run(handle(), action.getValue(), parent.handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return PrintOperationResult.fromValue(RESULT);
     }

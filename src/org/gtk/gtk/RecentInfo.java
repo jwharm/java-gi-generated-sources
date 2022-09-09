@@ -24,10 +24,10 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * %GTK_RECENT_MANAGER_ERROR or a %G_IO_ERROR
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_info_create_app_info(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new org.gtk.gio.AppInfo.AppInfoImpl(References.get(RESULT, true));
     }

@@ -73,10 +73,10 @@ public class Surface extends org.gtk.gobject.Object {
      * call [method@Gdk.GLContext.make_current] or [method@Gdk.GLContext.realize].
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_surface_create_gl_context(handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new GLContext(References.get(RESULT, true));
     }
@@ -109,10 +109,10 @@ public class Surface extends org.gtk.gobject.Object {
      * If the creation of the `GdkVulkanContext` failed, @error will be set.
      */
     public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_surface_create_vulkan_context(handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         return new VulkanContext(References.get(RESULT, true));
     }
