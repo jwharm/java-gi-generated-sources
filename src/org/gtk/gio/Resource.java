@@ -151,6 +151,33 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    private static Reference constructNewFromDataOrThrow(org.gtk.glib.Bytes data) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_resource_new_from_data(data.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a GResource from a reference to the binary resource bundle.
+     * This will keep a reference to @data while the resource lives, so
+     * the data should not be modified or freed.
+     * 
+     * If you want to use this resource in the global resource namespace you need
+     * to register it with g_resources_register().
+     * 
+     * Note: @data must be backed by memory that is at least pointer aligned.
+     * Otherwise this function will internally create a copy of the memory since
+     * GLib 2.56, or in older versions fail and exit the process.
+     * 
+     * If @data is empty or corrupt, %G_RESOURCE_ERROR_INTERNAL will be returned.
+     */
+    public Resource(org.gtk.glib.Bytes data) throws GErrorException {
+        super(constructNewFromDataOrThrow(data));
+    }
+    
     /**
      * Registers the resource with the process-global set of resources.
      * Once a resource is registered the files in it can be accessed

@@ -126,6 +126,28 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         return new DebugControllerDBus(gobject.getReference());
     }
     
+    private static Reference constructNewOrThrow(DBusConnection connection, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_debug_controller_dbus_new(connection.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Create a new #GDebugControllerDBus and synchronously initialize it.
+     * 
+     * Initializing the object will export the debug object on @connection. The
+     * object will remain registered until the last reference to the
+     * #GDebugControllerDBus is dropped.
+     * 
+     * Initialization may fail if registering the object on @connection fails.
+     */
+    public DebugControllerDBus(DBusConnection connection, Cancellable cancellable) throws GErrorException {
+        super(constructNewOrThrow(connection, cancellable));
+    }
+    
     /**
      * Stop the debug controller, unregistering its object from the bus.
      * 

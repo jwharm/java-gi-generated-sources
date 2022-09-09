@@ -38,6 +38,41 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         return new DBusServer(gobject.getReference());
     }
     
+    private static Reference constructNewSyncOrThrow(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags, Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new D-Bus server that listens on the first address in
+     * @address that works.
+     * 
+     * Once constructed, you can use g_dbus_server_get_client_address() to
+     * get a D-Bus address string that clients can use to connect.
+     * 
+     * To have control over the available authentication mechanisms and
+     * the users that are authorized to connect, it is strongly recommended
+     * to provide a non-%NULL #GDBusAuthObserver.
+     * 
+     * Connect to the #GDBusServer::new-connection signal to handle
+     * incoming connections.
+     * 
+     * The returned #GDBusServer isn't active - you have to start it with
+     * g_dbus_server_start().
+     * 
+     * #GDBusServer is used in this [example][gdbus-peer-to-peer].
+     * 
+     * This is a synchronous failable constructor. There is currently no
+     * asynchronous version.
+     */
+    public DBusServer(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        super(constructNewSyncOrThrow(address, flags, guid, observer, cancellable));
+    }
+    
     /**
      * Gets a
      * [D-Bus address](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses)

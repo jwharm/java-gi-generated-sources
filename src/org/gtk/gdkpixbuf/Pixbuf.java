@@ -179,6 +179,230 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         super(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
     }
     
+    private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from a file.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If `NULL` is returned, then @error will be set. Possible errors are:
+     * 
+     *  - the file could not be opened
+     *  - there is no loader for the file's format
+     *  - there is not enough memory to allocate the image buffer
+     *  - the image buffer contains invalid data
+     * 
+     * The error domains are `GDK_PIXBUF_ERROR` and `G_FILE_ERROR`.
+     */
+    public static Pixbuf newFromFile(java.lang.String filename) throws GErrorException {
+        return new Pixbuf(constructNewFromFileOrThrow(filename));
+    }
+    
+    private static Reference constructNewFromFileAtScaleOrThrow(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_scale(Interop.allocateNativeString(filename).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from a file.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If `NULL` is returned, then @error will be set. Possible errors are:
+     * 
+     *  - the file could not be opened
+     *  - there is no loader for the file's format
+     *  - there is not enough memory to allocate the image buffer
+     *  - the image buffer contains invalid data
+     * 
+     * The error domains are `GDK_PIXBUF_ERROR` and `G_FILE_ERROR`.
+     * 
+     * The image will be scaled to fit in the requested size, optionally preserving
+     * the image's aspect ratio.
+     * 
+     * When preserving the aspect ratio, a `width` of -1 will cause the image
+     * to be scaled to the exact given height, and a `height` of -1 will cause
+     * the image to be scaled to the exact given width. When not preserving
+     * aspect ratio, a `width` or `height` of -1 means to not scale the image
+     * at all in that dimension. Negative values for `width` and `height` are
+     * allowed since 2.8.
+     */
+    public static Pixbuf newFromFileAtScale(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+        return new Pixbuf(constructNewFromFileAtScaleOrThrow(filename, width, height, preserveAspectRatio));
+    }
+    
+    private static Reference constructNewFromFileAtSizeOrThrow(java.lang.String filename, int width, int height) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_size(Interop.allocateNativeString(filename).handle(), width, height, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from a file.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If `NULL` is returned, then @error will be set. Possible errors are:
+     * 
+     *  - the file could not be opened
+     *  - there is no loader for the file's format
+     *  - there is not enough memory to allocate the image buffer
+     *  - the image buffer contains invalid data
+     * 
+     * The error domains are `GDK_PIXBUF_ERROR` and `G_FILE_ERROR`.
+     * 
+     * The image will be scaled to fit in the requested size, preserving
+     * the image's aspect ratio. Note that the returned pixbuf may be smaller
+     * than `width` x `height`, if the aspect ratio requires it. To load
+     * and image at the requested size, regardless of aspect ratio, use
+     * [ctor@GdkPixbuf.Pixbuf.new_from_file_at_scale].
+     */
+    public Pixbuf(java.lang.String filename, int width, int height) throws GErrorException {
+        super(constructNewFromFileAtSizeOrThrow(filename, width, height));
+    }
+    
+    private static Reference constructNewFromResourceOrThrow(java.lang.String resourcePath) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from an resource.
+     * 
+     * The file format is detected automatically. If `NULL` is returned, then
+     * @error will be set.
+     */
+    public static Pixbuf newFromResource(java.lang.String resourcePath) throws GErrorException {
+        return new Pixbuf(constructNewFromResourceOrThrow(resourcePath));
+    }
+    
+    private static Reference constructNewFromResourceAtScaleOrThrow(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource_at_scale(Interop.allocateNativeString(resourcePath).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from an resource.
+     * 
+     * The file format is detected automatically. If `NULL` is returned, then
+     * @error will be set.
+     * 
+     * The image will be scaled to fit in the requested size, optionally
+     * preserving the image's aspect ratio. When preserving the aspect ratio,
+     * a @width of -1 will cause the image to be scaled to the exact given
+     * height, and a @height of -1 will cause the image to be scaled to the
+     * exact given width. When not preserving aspect ratio, a @width or
+     * @height of -1 means to not scale the image at all in that dimension.
+     * 
+     * The stream is not closed.
+     */
+    public static Pixbuf newFromResourceAtScale(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+        return new Pixbuf(constructNewFromResourceAtScaleOrThrow(resourcePath, width, height, preserveAspectRatio));
+    }
+    
+    private static Reference constructNewFromStreamOrThrow(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from an input stream.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If `NULL` is returned, then `error` will be set.
+     * 
+     * The `cancellable` can be used to abort the operation from another thread.
+     * If the operation was cancelled, the error `G_IO_ERROR_CANCELLED` will be
+     * returned. Other possible errors are in the `GDK_PIXBUF_ERROR` and
+     * `G_IO_ERROR` domains.
+     * 
+     * The stream is not closed.
+     */
+    public Pixbuf(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        super(constructNewFromStreamOrThrow(stream, cancellable));
+    }
+    
+    private static Reference constructNewFromStreamAtScaleOrThrow(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_at_scale(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf by loading an image from an input stream.
+     * 
+     * The file format is detected automatically. If `NULL` is returned, then
+     * @error will be set. The @cancellable can be used to abort the operation
+     * from another thread. If the operation was cancelled, the error
+     * `G_IO_ERROR_CANCELLED` will be returned. Other possible errors are in
+     * the `GDK_PIXBUF_ERROR` and `G_IO_ERROR` domains.
+     * 
+     * The image will be scaled to fit in the requested size, optionally
+     * preserving the image's aspect ratio.
+     * 
+     * When preserving the aspect ratio, a `width` of -1 will cause the image to be
+     * scaled to the exact given height, and a `height` of -1 will cause the image
+     * to be scaled to the exact given width. If both `width` and `height` are
+     * given, this function will behave as if the smaller of the two values
+     * is passed as -1.
+     * 
+     * When not preserving aspect ratio, a `width` or `height` of -1 means to not
+     * scale the image at all in that dimension.
+     * 
+     * The stream is not closed.
+     */
+    public Pixbuf(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        super(constructNewFromStreamAtScaleOrThrow(stream, width, height, preserveAspectRatio, cancellable));
+    }
+    
+    private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_finish(asyncResult.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an asynchronous pixbuf creation operation started with
+     * gdk_pixbuf_new_from_stream_async().
+     */
+    public Pixbuf(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        super(constructNewFromStreamFinishOrThrow(asyncResult));
+    }
+    
     /**
      * Creates a new pixbuf by parsing XPM data in memory.
      * 

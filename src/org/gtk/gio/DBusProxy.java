@@ -64,6 +64,93 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         return new DBusProxy(gobject.getReference());
     }
     
+    private static Reference constructNewFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes creating a #GDBusProxy.
+     */
+    public static DBusProxy newFinish(AsyncResult res) throws GErrorException {
+        return new DBusProxy(constructNewFinishOrThrow(res));
+    }
+    
+    private static Reference constructNewForBusFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_for_bus_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes creating a #GDBusProxy.
+     */
+    public static DBusProxy newForBusFinish(AsyncResult res) throws GErrorException {
+        return new DBusProxy(constructNewForBusFinishOrThrow(res));
+    }
+    
+    private static Reference constructNewForBusSyncOrThrow(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_for_bus_sync(busType.getValue(), flags, info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Like g_dbus_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
+     * 
+     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     */
+    public DBusProxy(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        super(constructNewForBusSyncOrThrow(busType, flags, info, name, objectPath, interfaceName, cancellable));
+    }
+    
+    private static Reference constructNewSyncOrThrow(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_proxy_new_sync(connection.handle(), flags, info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a proxy for accessing @interface_name on the remote object
+     * at @object_path owned by @name at @connection and synchronously
+     * loads D-Bus properties unless the
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES flag is used.
+     * 
+     * If the %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS flag is not set, also sets up
+     * match rules for signals. Connect to the #GDBusProxy::g-signal signal
+     * to handle signals from the remote object.
+     * 
+     * If both %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES and
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS are set, this constructor is
+     * guaranteed to return immediately without blocking.
+     * 
+     * If @name is a well-known name and the
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START and %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
+     * flags aren't set and no name owner currently exists, the message bus
+     * will be requested to launch a name owner for the name.
+     * 
+     * This is a synchronous failable constructor. See g_dbus_proxy_new()
+     * and g_dbus_proxy_new_finish() for the asynchronous version.
+     * 
+     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     */
+    public DBusProxy(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        super(constructNewSyncOrThrow(connection, flags, info, name, objectPath, interfaceName, cancellable));
+    }
+    
     /**
      * Finishes an operation started with g_dbus_proxy_call().
      */

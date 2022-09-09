@@ -24,6 +24,42 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         return new InetAddressMask(gobject.getReference());
     }
     
+    private static Reference constructNewOrThrow(InetAddress addr, int length) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_inet_address_mask_new(addr.handle(), length, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new #GInetAddressMask representing all addresses whose
+     * first @length bits match @addr.
+     */
+    public InetAddressMask(InetAddress addr, int length) throws GErrorException {
+        super(constructNewOrThrow(addr, length));
+    }
+    
+    private static Reference constructNewFromStringOrThrow(java.lang.String maskString) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_inet_address_mask_new_from_string(Interop.allocateNativeString(maskString).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Parses @mask_string as an IP address and (optional) length, and
+     * creates a new #GInetAddressMask. The length, if present, is
+     * delimited by a "/". If it is not present, then the length is
+     * assumed to be the full length of the address.
+     */
+    public InetAddressMask(java.lang.String maskString) throws GErrorException {
+        super(constructNewFromStringOrThrow(maskString));
+    }
+    
     /**
      * Tests if @mask and @mask2 are the same mask.
      */

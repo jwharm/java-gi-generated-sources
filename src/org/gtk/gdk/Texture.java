@@ -45,6 +45,81 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         super(References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true));
     }
     
+    private static Reference constructNewFromBytesOrThrow(org.gtk.glib.Bytes bytes) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_bytes(bytes.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new texture by loading an image from memory,
+     * 
+     * The file format is detected automatically. The supported formats
+     * are PNG and JPEG, though more formats might be available.
+     * 
+     * If %NULL is returned, then @error will be set.
+     * 
+     * This function is threadsafe, so that you can e.g. use GTask
+     * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+     * while loading a big image.
+     */
+    public Texture(org.gtk.glib.Bytes bytes) throws GErrorException {
+        super(constructNewFromBytesOrThrow(bytes));
+    }
+    
+    private static Reference constructNewFromFileOrThrow(org.gtk.gio.File file) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_file(file.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new texture by loading an image from a file.
+     * 
+     * The file format is detected automatically. The supported formats
+     * are PNG and JPEG, though more formats might be available.
+     * 
+     * If %NULL is returned, then @error will be set.
+     * 
+     * This function is threadsafe, so that you can e.g. use GTask
+     * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+     * while loading a big image.
+     */
+    public Texture(org.gtk.gio.File file) throws GErrorException {
+        super(constructNewFromFileOrThrow(file));
+    }
+    
+    private static Reference constructNewFromFilenameOrThrow(java.lang.String path) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_filename(Interop.allocateNativeString(path).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new texture by loading an image from a file.
+     * 
+     * The file format is detected automatically. The supported formats
+     * are PNG and JPEG, though more formats might be available.
+     * 
+     * If %NULL is returned, then @error will be set.
+     * 
+     * This function is threadsafe, so that you can e.g. use GTask
+     * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
+     * while loading a big image.
+     */
+    public static Texture newFromFilename(java.lang.String path) throws GErrorException {
+        return new Texture(constructNewFromFilenameOrThrow(path));
+    }
+    
     /**
      * Creates a new texture by loading an image from a resource.
      * 

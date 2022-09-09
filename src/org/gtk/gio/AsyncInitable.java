@@ -123,19 +123,6 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
         return (RESULT != 0);
     }
     
-    /**
-     * Finishes the async construction for the various g_async_initable_new
-     * calls, returning the created object or %NULL on error.
-     */
-    public default org.gtk.gobject.Object newFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
-        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
-        var RESULT = gtk_h.g_async_initable_new_finish(handle(), res.handle(), GERROR);
-        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
-            throw new io.github.jwharm.javagi.interop.GErrorException(GERROR);
-        }
-        return new org.gtk.gobject.Object(References.get(RESULT, true));
-    }
-    
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {
         public AsyncInitableImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

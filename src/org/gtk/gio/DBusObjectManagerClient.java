@@ -95,6 +95,38 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         return new DBusObjectManagerClient(gobject.getReference());
     }
     
+    private static Reference constructNewFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_object_manager_client_new_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an operation started with g_dbus_object_manager_client_new().
+     */
+    public static DBusObjectManagerClient newFinish(AsyncResult res) throws GErrorException {
+        return new DBusObjectManagerClient(constructNewFinishOrThrow(res));
+    }
+    
+    private static Reference constructNewForBusFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_object_manager_client_new_for_bus_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an operation started with g_dbus_object_manager_client_new_for_bus().
+     */
+    public static DBusObjectManagerClient newForBusFinish(AsyncResult res) throws GErrorException {
+        return new DBusObjectManagerClient(constructNewForBusFinishOrThrow(res));
+    }
+    
     /**
      * Gets the #GDBusConnection used by @manager.
      */

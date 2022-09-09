@@ -69,6 +69,26 @@ public class PageSetup extends org.gtk.gobject.Object {
         super(References.get(gtk_h.gtk_page_setup_new(), true));
     }
     
+    private static Reference constructNewFromFileOrThrow(java.lang.String fileName) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gtk_page_setup_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Reads the page setup from the file @file_name.
+     * 
+     * Returns a new `GtkPageSetup` object with the restored
+     * page setup, or %NULL if an error occurred.
+     * See [method@Gtk.PageSetup.to_file].
+     */
+    public PageSetup(java.lang.String fileName) throws GErrorException {
+        super(constructNewFromFileOrThrow(fileName));
+    }
+    
     /**
      * Desrialize a page setup from an a{sv} variant.
      * 
@@ -77,6 +97,26 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public PageSetup(org.gtk.glib.Variant variant) {
         super(References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true));
+    }
+    
+    private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gtk_page_setup_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Reads the page setup from the group @group_name in the key file
+     * @key_file.
+     * 
+     * Returns a new `GtkPageSetup` object with the restored
+     * page setup, or %NULL if an error occurred.
+     */
+    public PageSetup(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        super(constructNewFromKeyFileOrThrow(keyFile, groupName));
     }
     
     /**

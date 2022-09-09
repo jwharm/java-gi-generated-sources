@@ -80,6 +80,23 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    private static Reference constructNewOrThrow(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions, matchOptions, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Compiles the regular expression to an internal form, and does
+     * the initial setup of the #GRegex structure.
+     */
+    public Regex(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
+        super(constructNewOrThrow(pattern, compileOptions, matchOptions));
+    }
+    
     /**
      * Returns the number of capturing subpatterns in the pattern.
      */

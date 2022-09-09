@@ -33,6 +33,92 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return new PixbufAnimation(gobject.getReference());
     }
     
+    private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new animation by loading it from a file.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If the file's format does not support multi-frame images, then an animation
+     * with a single frame will be created.
+     * 
+     * Possible errors are in the `GDK_PIXBUF_ERROR` and `G_FILE_ERROR` domains.
+     */
+    public static PixbufAnimation newFromFile(java.lang.String filename) throws GErrorException {
+        return new PixbufAnimation(constructNewFromFileOrThrow(filename));
+    }
+    
+    private static Reference constructNewFromResourceOrThrow(java.lang.String resourcePath) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf animation by loading an image from an resource.
+     * 
+     * The file format is detected automatically. If `NULL` is returned, then
+     * @error will be set.
+     */
+    public static PixbufAnimation newFromResource(java.lang.String resourcePath) throws GErrorException {
+        return new PixbufAnimation(constructNewFromResourceOrThrow(resourcePath));
+    }
+    
+    private static Reference constructNewFromStreamOrThrow(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new animation by loading it from an input stream.
+     * 
+     * The file format is detected automatically.
+     * 
+     * If `NULL` is returned, then @error will be set.
+     * 
+     * The @cancellable can be used to abort the operation from another thread.
+     * If the operation was cancelled, the error `G_IO_ERROR_CANCELLED` will be
+     * returned. Other possible errors are in the `GDK_PIXBUF_ERROR` and
+     * `G_IO_ERROR` domains.
+     * 
+     * The stream is not closed.
+     */
+    public PixbufAnimation(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        super(constructNewFromStreamOrThrow(stream, cancellable));
+    }
+    
+    private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream_finish(asyncResult.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an asynchronous pixbuf animation creation operation started with
+     * [func@GdkPixbuf.PixbufAnimation.new_from_stream_async].
+     */
+    public PixbufAnimation(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        super(constructNewFromStreamFinishOrThrow(asyncResult));
+    }
+    
     /**
      * Queries the height of the bounding box of a pixbuf animation.
      */

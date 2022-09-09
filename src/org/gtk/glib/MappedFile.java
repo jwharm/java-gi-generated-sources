@@ -18,6 +18,63 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    private static Reference constructNewOrThrow(java.lang.String filename, boolean writable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_mapped_file_new(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Maps a file into memory. On UNIX, this is using the mmap() function.
+     * 
+     * If @writable is %TRUE, the mapped buffer may be modified, otherwise
+     * it is an error to modify the mapped buffer. Modifications to the buffer
+     * are not visible to other processes mapping the same file, and are not
+     * written back to the file.
+     * 
+     * Note that modifications of the underlying file might affect the contents
+     * of the #GMappedFile. Therefore, mapping should only be used if the file
+     * will not be modified, or if all modifications of the file are done
+     * atomically (e.g. using g_file_set_contents()).
+     * 
+     * If @filename is the name of an empty, regular file, the function
+     * will successfully return an empty #GMappedFile. In other cases of
+     * size 0 (e.g. device files such as /dev/null), @error will be set
+     * to the #GFileError value %G_FILE_ERROR_INVAL.
+     */
+    public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
+        super(constructNewOrThrow(filename, writable));
+    }
+    
+    private static Reference constructNewFromFdOrThrow(int fd, boolean writable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_mapped_file_new_from_fd(fd, writable ? 1 : 0, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Maps a file into memory. On UNIX, this is using the mmap() function.
+     * 
+     * If @writable is %TRUE, the mapped buffer may be modified, otherwise
+     * it is an error to modify the mapped buffer. Modifications to the buffer
+     * are not visible to other processes mapping the same file, and are not
+     * written back to the file.
+     * 
+     * Note that modifications of the underlying file might affect the contents
+     * of the #GMappedFile. Therefore, mapping should only be used if the file
+     * will not be modified, or if all modifications of the file are done
+     * atomically (e.g. using g_file_set_contents()).
+     */
+    public MappedFile(int fd, boolean writable) throws GErrorException {
+        super(constructNewFromFdOrThrow(fd, writable));
+    }
+    
     /**
      * Creates a new #GBytes which references the data mapped from @file.
      * The mapped contents of the file must not be modified after creating this

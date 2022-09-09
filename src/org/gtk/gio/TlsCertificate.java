@@ -25,6 +25,182 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(gobject.getReference());
     }
     
+    private static Reference constructNewFromFileOrThrow(java.lang.String file) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_file(Interop.allocateNativeString(file).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from the data in @file.
+     * 
+     * As of 2.72, if the filename ends in `.p12` or `.pfx` the data is loaded by
+     * g_tls_certificate_new_from_pkcs12() otherwise it is loaded by
+     * g_tls_certificate_new_from_pem(). See those functions for
+     * exact details.
+     * 
+     * If @file cannot be read or parsed, the function will return %NULL and
+     * set @error.
+     */
+    public TlsCertificate(java.lang.String file) throws GErrorException {
+        super(constructNewFromFileOrThrow(file));
+    }
+    
+    private static Reference constructNewFromFileWithPasswordOrThrow(java.lang.String file, java.lang.String password) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_file_with_password(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from the data in @file.
+     * 
+     * If @file cannot be read or parsed, the function will return %NULL and
+     * set @error.
+     * 
+     * Any unknown file types will error with %G_IO_ERROR_NOT_SUPPORTED.
+     * Currently only `.p12` and `.pfx` files are supported.
+     * See g_tls_certificate_new_from_pkcs12() for more details.
+     */
+    public static TlsCertificate newFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
+        return new TlsCertificate(constructNewFromFileWithPasswordOrThrow(file, password));
+    }
+    
+    private static Reference constructNewFromFilesOrThrow(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_files(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from the PEM-encoded data in @cert_file
+     * and @key_file. The returned certificate will be the first certificate
+     * found in @cert_file. As of GLib 2.44, if @cert_file contains more
+     * certificates it will try to load a certificate chain. All
+     * certificates will be verified in the order found (top-level
+     * certificate should be the last one in the file) and the
+     * #GTlsCertificate:issuer property of each certificate will be set
+     * accordingly if the verification succeeds. If any certificate in the
+     * chain cannot be verified, the first certificate in the file will
+     * still be returned.
+     * 
+     * If either file cannot be read or parsed, the function will return
+     * %NULL and set @error. Otherwise, this behaves like
+     * g_tls_certificate_new_from_pem().
+     */
+    public static TlsCertificate newFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
+        return new TlsCertificate(constructNewFromFilesOrThrow(certFile, keyFile));
+    }
+    
+    private static Reference constructNewFromPemOrThrow(java.lang.String data, long length) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pem(Interop.allocateNativeString(data).handle(), length, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from the PEM-encoded data in @data. If
+     * @data includes both a certificate and a private key, then the
+     * returned certificate will include the private key data as well. (See
+     * the #GTlsCertificate:private-key-pem property for information about
+     * supported formats.)
+     * 
+     * The returned certificate will be the first certificate found in
+     * @data. As of GLib 2.44, if @data contains more certificates it will
+     * try to load a certificate chain. All certificates will be verified in
+     * the order found (top-level certificate should be the last one in the
+     * file) and the #GTlsCertificate:issuer property of each certificate
+     * will be set accordingly if the verification succeeds. If any
+     * certificate in the chain cannot be verified, the first certificate in
+     * the file will still be returned.
+     */
+    public TlsCertificate(java.lang.String data, long length) throws GErrorException {
+        super(constructNewFromPemOrThrow(data, length));
+    }
+    
+    private static Reference constructNewFromPkcs11UrisOrThrow(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs11_uris(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from a
+     * [PKCS \\#11](https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html) URI.
+     * 
+     * An example @pkcs11_uri would be `pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01`
+     * 
+     * Where the token’s layout is:
+     * 
+     * |[
+     * Object 0:
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=private%20key;type=private
+     *   Type: Private key (RSA-2048)
+     *   ID: 01
+     * 
+     * Object 1:
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=Certificate%20for%20Authentication;type=cert
+     *   Type: X.509 Certificate (RSA-2048)
+     *   ID: 01
+     * ]|
+     * 
+     * In this case the certificate and private key would both be detected and used as expected.
+     * @pkcs_uri may also just reference an X.509 certificate object and then optionally
+     * @private_key_pkcs11_uri allows using a private key exposed under a different URI.
+     * 
+     * Note that the private key is not accessed until usage and may fail or require a PIN later.
+     */
+    public static TlsCertificate newFromPkcs11Uris(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
+        return new TlsCertificate(constructNewFromPkcs11UrisOrThrow(pkcs11Uri, privateKeyPkcs11Uri));
+    }
+    
+    private static Reference constructNewFromPkcs12OrThrow(byte[] data, long length, java.lang.String password) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs12(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a #GTlsCertificate from the data in @data. It must contain
+     * a certificate and matching private key.
+     * 
+     * If extra certificates are included they will be verified as a chain
+     * and the #GTlsCertificate:issuer property will be set.
+     * All other data will be ignored.
+     * 
+     * You can pass as single password for all of the data which will be
+     * used both for the PKCS #12 container as well as encrypted
+     * private keys. If decryption fails it will error with
+     * %G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD.
+     * 
+     * This constructor requires support in the current #GTlsBackend.
+     * If support is missing it will error with
+     * %G_IO_ERROR_NOT_SUPPORTED.
+     * 
+     * Other parsing failures will error with %G_TLS_ERROR_BAD_CERTIFICATE.
+     */
+    public TlsCertificate(byte[] data, long length, java.lang.String password) throws GErrorException {
+        super(constructNewFromPkcs12OrThrow(data, length, password));
+    }
+    
     /**
      * Gets the #GTlsCertificate representing @cert's issuer, if known
      */

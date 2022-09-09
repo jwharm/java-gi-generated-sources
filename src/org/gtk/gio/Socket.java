@@ -71,6 +71,62 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         return new Socket(gobject.getReference());
     }
     
+    private static Reference constructNewOrThrow(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_socket_new(family.getValue(), type.getValue(), protocol.getValue(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new #GSocket with the defined family, type and protocol.
+     * If @protocol is 0 (%G_SOCKET_PROTOCOL_DEFAULT) the default protocol type
+     * for the family and type is used.
+     * 
+     * The @protocol is a family and type specific int that specifies what
+     * kind of protocol to use. #GSocketProtocol lists several common ones.
+     * Many families only support one protocol, and use 0 for this, others
+     * support several and using 0 means to use the default protocol for
+     * the family and type.
+     * 
+     * The protocol id is passed directly to the operating
+     * system, so you can use protocols not listed in #GSocketProtocol if you
+     * know the protocol number used for it.
+     */
+    public Socket(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
+        super(constructNewOrThrow(family, type, protocol));
+    }
+    
+    private static Reference constructNewFromFdOrThrow(int fd) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_socket_new_from_fd(fd, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new #GSocket from a native file descriptor
+     * or winsock SOCKET handle.
+     * 
+     * This reads all the settings from the file descriptor so that
+     * all properties should work. Note that the file descriptor
+     * will be set to non-blocking mode, independent on the blocking
+     * mode of the #GSocket.
+     * 
+     * On success, the returned #GSocket takes ownership of @fd. On failure, the
+     * caller must close @fd themselves.
+     * 
+     * Since GLib 2.46, it is no longer a fatal error to call this on a non-socket
+     * descriptor.  Instead, a GError will be set with code %G_IO_ERROR_FAILED
+     */
+    public Socket(int fd) throws GErrorException {
+        super(constructNewFromFdOrThrow(fd));
+    }
+    
     /**
      * Accept incoming connections on a connection-based socket. This removes
      * the first outstanding connection request from the listening socket and

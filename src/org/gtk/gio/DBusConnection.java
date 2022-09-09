@@ -69,6 +69,100 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return new DBusConnection(gobject.getReference());
     }
     
+    private static Reference constructNewFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an operation started with g_dbus_connection_new().
+     */
+    public static DBusConnection newFinish(AsyncResult res) throws GErrorException {
+        return new DBusConnection(constructNewFinishOrThrow(res));
+    }
+    
+    private static Reference constructNewForAddressFinishOrThrow(AsyncResult res) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_finish(res.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Finishes an operation started with g_dbus_connection_new_for_address().
+     */
+    public static DBusConnection newForAddressFinish(AsyncResult res) throws GErrorException {
+        return new DBusConnection(constructNewForAddressFinishOrThrow(res));
+    }
+    
+    private static Reference constructNewForAddressSyncOrThrow(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_sync(Interop.allocateNativeString(address).handle(), flags, observer.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Synchronously connects and sets up a D-Bus client connection for
+     * exchanging D-Bus messages with an endpoint specified by @address
+     * which must be in the
+     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * 
+     * This constructor can only be used to initiate client-side
+     * connections - use g_dbus_connection_new_sync() if you need to act
+     * as the server. In particular, @flags cannot contain the
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS or
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER flags.
+     * 
+     * This is a synchronous failable constructor. See
+     * g_dbus_connection_new_for_address() for the asynchronous version.
+     * 
+     * If @observer is not %NULL it may be used to control the
+     * authentication process.
+     */
+    public DBusConnection(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        super(constructNewForAddressSyncOrThrow(address, flags, observer, cancellable));
+    }
+    
+    private static Reference constructNewSyncOrThrow(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_sync(stream.handle(), Interop.allocateNativeString(guid).handle(), flags, observer.handle(), cancellable.handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Synchronously sets up a D-Bus connection for exchanging D-Bus messages
+     * with the end represented by @stream.
+     * 
+     * If @stream is a #GSocketConnection, then the corresponding #GSocket
+     * will be put into non-blocking mode.
+     * 
+     * The D-Bus connection will interact with @stream from a worker thread.
+     * As a result, the caller should not interact with @stream after this
+     * method has been called, except by calling g_object_unref() on it.
+     * 
+     * If @observer is not %NULL it may be used to control the
+     * authentication process.
+     * 
+     * This is a synchronous failable constructor. See
+     * g_dbus_connection_new() for the asynchronous version.
+     */
+    public DBusConnection(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        super(constructNewSyncOrThrow(stream, guid, flags, observer, cancellable));
+    }
+    
     /**
      * Finishes an operation started with g_dbus_connection_call().
      */

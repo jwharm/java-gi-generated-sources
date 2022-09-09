@@ -22,6 +22,22 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
         return new CharsetConverter(gobject.getReference());
     }
     
+    private static Reference constructNewOrThrow(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_charset_converter_new(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new #GCharsetConverter.
+     */
+    public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+        super(constructNewOrThrow(toCharset, fromCharset));
+    }
+    
     /**
      * Gets the number of fallbacks that @converter has applied so far.
      */

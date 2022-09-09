@@ -39,6 +39,28 @@ public class PrintSettings extends org.gtk.gobject.Object {
         super(References.get(gtk_h.gtk_print_settings_new(), true));
     }
     
+    private static Reference constructNewFromFileOrThrow(java.lang.String fileName) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Reads the print settings from @file_name.
+     * 
+     * Returns a new `GtkPrintSettings` object with the restored settings,
+     * or %NULL if an error occurred. If the file could not be loaded then
+     * error is set to either a `GFileError` or `GKeyFileError`.
+     * 
+     * See [method@Gtk.PrintSettings.to_file].
+     */
+    public PrintSettings(java.lang.String fileName) throws GErrorException {
+        super(constructNewFromFileOrThrow(fileName));
+    }
+    
     /**
      * Deserialize print settings from an a{sv} variant.
      * 
@@ -47,6 +69,26 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintSettings(org.gtk.glib.Variant variant) {
         super(References.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true));
+    }
+    
+    private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gtk_print_settings_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Reads the print settings from the group @group_name in @key_file.
+     * 
+     * Returns a new `GtkPrintSettings` object with the restored settings,
+     * or %NULL if an error occurred. If the file could not be loaded then
+     * error is set to either `GFileError` or `GKeyFileError`.
+     */
+    public PrintSettings(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        super(constructNewFromKeyFileOrThrow(keyFile, groupName));
     }
     
     /**

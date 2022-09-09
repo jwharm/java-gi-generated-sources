@@ -29,6 +29,27 @@ public class DBusMessage extends org.gtk.gobject.Object {
         super(References.get(gtk_h.g_dbus_message_new(), true));
     }
     
+    private static Reference constructNewFromBlobOrThrow(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, capabilities, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new #GDBusMessage from the data stored at @blob. The byte
+     * order that the message was in can be retrieved using
+     * g_dbus_message_get_byte_order().
+     * 
+     * If the @blob cannot be parsed, contains invalid fields, or contains invalid
+     * headers, %G_IO_ERROR_INVALID_ARGUMENT will be returned.
+     */
+    public DBusMessage(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+        super(constructNewFromBlobOrThrow(blob, blobLen, capabilities));
+    }
+    
     /**
      * Creates a new #GDBusMessage for a method call.
      */

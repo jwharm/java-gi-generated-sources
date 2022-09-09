@@ -18,6 +18,26 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    private static Reference constructNewFileOrThrow(java.lang.String filename, java.lang.String mode) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_io_channel_new_file(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Open a file @filename as a #GIOChannel using mode @mode. This
+     * channel will be closed when the last reference to it is dropped,
+     * so there is no need to call g_io_channel_close() (though doing
+     * so will not cause problems, as long as no attempt is made to
+     * access the channel after it is closed).
+     */
+    public IOChannel(java.lang.String filename, java.lang.String mode) throws GErrorException {
+        super(constructNewFileOrThrow(filename, mode));
+    }
+    
     /**
      * Creates a new #GIOChannel given a file descriptor. On UNIX systems
      * this works for plain files, pipes, and sockets.

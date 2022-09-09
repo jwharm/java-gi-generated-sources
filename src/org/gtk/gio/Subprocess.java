@@ -77,6 +77,24 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         return new Subprocess(gobject.getReference());
     }
     
+    private static Reference constructNewvOrThrow(java.lang.String[] argv, int flags) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Create a new process with the given flags and argument list.
+     * 
+     * The argument list is expected to be %NULL-terminated.
+     */
+    public Subprocess(java.lang.String[] argv, int flags) throws GErrorException {
+        super(constructNewvOrThrow(argv, flags));
+    }
+    
     /**
      * Communicate with the subprocess until it terminates, and all input
      * and output has been completed.

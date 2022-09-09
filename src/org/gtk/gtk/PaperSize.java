@@ -68,6 +68,23 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
         super(References.get(gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).handle(), width, height), true));
     }
     
+    private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Reads a paper size from the group @group_name in the key file
+     * @key_file.
+     */
+    public PaperSize(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        super(constructNewFromKeyFileOrThrow(keyFile, groupName));
+    }
+    
     /**
      * Creates a new `GtkPaperSize` object by using
      * PPD information.

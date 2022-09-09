@@ -1,5 +1,7 @@
 package test;
 
+import io.github.jwharm.javagi.interop.GErrorException;
+import org.gtk.gdk.Texture;
 import org.gtk.gtk.*;
 import org.gtk.gio.ApplicationFlags;
 

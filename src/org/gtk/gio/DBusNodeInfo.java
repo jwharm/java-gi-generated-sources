@@ -16,6 +16,29 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
         super(reference);
     }
     
+    private static Reference constructNewForXmlOrThrow(java.lang.String xmlData) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.g_dbus_node_info_new_for_xml(Interop.allocateNativeString(xmlData).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Parses @xml_data and returns a #GDBusNodeInfo representing the data.
+     * 
+     * The introspection XML must contain exactly one top-level
+     * <node> element.
+     * 
+     * Note that this routine is using a
+     * [GMarkup][glib-Simple-XML-Subset-Parser.description]-based
+     * parser that only accepts a subset of valid XML documents.
+     */
+    public DBusNodeInfo(java.lang.String xmlData) throws GErrorException {
+        super(constructNewForXmlOrThrow(xmlData));
+    }
+    
     /**
      * Appends an XML representation of @info (and its children) to @string_builder.
      * 

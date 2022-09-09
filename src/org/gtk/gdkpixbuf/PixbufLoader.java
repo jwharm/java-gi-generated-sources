@@ -72,6 +72,65 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         super(References.get(gtk_h.gdk_pixbuf_loader_new(), true));
     }
     
+    private static Reference constructNewWithMimeTypeOrThrow(java.lang.String mimeType) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_mime_type(Interop.allocateNativeString(mimeType).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf loader object that always attempts to parse
+     * image data as if it were an image of MIME type @mime_type, instead of
+     * identifying the type automatically.
+     * 
+     * This function is useful if you want an error if the image isn't the
+     * expected MIME type; for loading image formats that can't be reliably
+     * identified by looking at the data; or if the user manually forces a
+     * specific MIME type.
+     * 
+     * The list of supported mime types depends on what image loaders
+     * are installed, but typically "image/png", "image/jpeg", "image/gif",
+     * "image/tiff" and "image/x-xpixmap" are among the supported mime types.
+     * To obtain the full list of supported mime types, call
+     * gdk_pixbuf_format_get_mime_types() on each of the #GdkPixbufFormat
+     * structs returned by gdk_pixbuf_get_formats().
+     */
+    public static PixbufLoader newWithMimeType(java.lang.String mimeType) throws GErrorException {
+        return new PixbufLoader(constructNewWithMimeTypeOrThrow(mimeType));
+    }
+    
+    private static Reference constructNewWithTypeOrThrow(java.lang.String imageType) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_type(Interop.allocateNativeString(imageType).handle(), GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a new pixbuf loader object that always attempts to parse
+     * image data as if it were an image of type @image_type, instead of
+     * identifying the type automatically.
+     * 
+     * This function is useful if you want an error if the image isn't the
+     * expected type; for loading image formats that can't be reliably
+     * identified by looking at the data; or if the user manually forces
+     * a specific type.
+     * 
+     * The list of supported image formats depends on what image loaders
+     * are installed, but typically "png", "jpeg", "gif", "tiff" and
+     * "xpm" are among the supported formats. To obtain the full list of
+     * supported image formats, call gdk_pixbuf_format_get_name() on each
+     * of the #GdkPixbufFormat structs returned by gdk_pixbuf_get_formats().
+     */
+    public static PixbufLoader newWithType(java.lang.String imageType) throws GErrorException {
+        return new PixbufLoader(constructNewWithTypeOrThrow(imageType));
+    }
+    
     /**
      * Informs a pixbuf loader that no further writes with
      * gdk_pixbuf_loader_write() will occur, so that it can free its
