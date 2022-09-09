@@ -46,22 +46,22 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * If the @blob cannot be parsed, contains invalid fields, or contains invalid
      * headers, %G_IO_ERROR_INVALID_ARGUMENT will be returned.
      */
-    public DBusMessage(byte[] blob, long blobLen, int capabilities) throws GErrorException {
-        super(constructNewFromBlobOrThrow(blob, blobLen, capabilities));
+    public static DBusMessage newFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+        return new DBusMessage(constructNewFromBlobOrThrow(blob, blobLen, capabilities));
     }
     
     /**
      * Creates a new #GDBusMessage for a method call.
      */
-    public DBusMessage(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
-        super(References.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true));
+    public static DBusMessage newMethodCall(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
+        return new DBusMessage(References.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true));
     }
     
     /**
      * Creates a new #GDBusMessage for a signal emission.
      */
-    public DBusMessage(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
-        super(References.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true));
+    public static DBusMessage newSignal(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
+        return new DBusMessage(References.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true));
     }
     
     /**

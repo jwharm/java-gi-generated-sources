@@ -49,6 +49,14 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
+     * Creates a new %G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED
+     * #GUnixSocketAddress for @path.
+     */
+    public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
+        return new UnixSocketAddress(References.get(gtk_h.g_unix_socket_address_new_abstract(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen), true));
+    }
+    
+    /**
      * Creates a new #GUnixSocketAddress of type @type with name @path.
      * 
      * If @type is %G_UNIX_SOCKET_ADDRESS_PATH, this is equivalent to
@@ -81,8 +89,8 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use the appropriate type corresponding to how that process created
      * its listening socket.
      */
-    public UnixSocketAddress(byte[] path, int pathLen, UnixSocketAddressType type) {
-        super(References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true));
+    public static UnixSocketAddress newWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
+        return new UnixSocketAddress(References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true));
     }
     
     /**

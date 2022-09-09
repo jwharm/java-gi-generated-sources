@@ -46,8 +46,8 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * 
      * The dialog will show applications that can open the content type.
      */
-    public AppChooserDialog(Window parent, int flags, java.lang.String contentType) {
-        super(References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags, Interop.allocateNativeString(contentType).handle()), false));
+    public static AppChooserDialog newForContentType(Window parent, int flags, java.lang.String contentType) {
+        return new AppChooserDialog(References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags, Interop.allocateNativeString(contentType).handle()), false));
     }
     
     /**

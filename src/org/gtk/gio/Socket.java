@@ -123,8 +123,8 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Since GLib 2.46, it is no longer a fatal error to call this on a non-socket
      * descriptor.  Instead, a GError will be set with code %G_IO_ERROR_FAILED
      */
-    public Socket(int fd) throws GErrorException {
-        super(constructNewFromFdOrThrow(fd));
+    public static Socket newFromFd(int fd) throws GErrorException {
+        return new Socket(constructNewFromFdOrThrow(fd));
     }
     
     /**

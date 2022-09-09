@@ -35,8 +35,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * [GMarkup][glib-Simple-XML-Subset-Parser.description]-based
      * parser that only accepts a subset of valid XML documents.
      */
-    public DBusNodeInfo(java.lang.String xmlData) throws GErrorException {
-        super(constructNewForXmlOrThrow(xmlData));
+    public static DBusNodeInfo newForXml(java.lang.String xmlData) throws GErrorException {
+        return new DBusNodeInfo(constructNewForXmlOrThrow(xmlData));
     }
     
     /**

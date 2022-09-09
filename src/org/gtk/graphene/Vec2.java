@@ -26,8 +26,8 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Use graphene_vec2_init() to initialize the vector.
      */
-    public Vec2() {
-        super(References.get(gtk_h.graphene_vec2_alloc(), true));
+    public static Vec2 alloc() {
+        return new Vec2(References.get(gtk_h.graphene_vec2_alloc(), true));
     }
     
     /**

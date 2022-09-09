@@ -24,8 +24,8 @@ public class Quaternion extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned value are undefined.
      */
-    public Quaternion() {
-        super(References.get(gtk_h.graphene_quaternion_alloc(), true));
+    public static Quaternion alloc() {
+        return new Quaternion(References.get(gtk_h.graphene_quaternion_alloc(), true));
     }
     
     /**

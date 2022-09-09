@@ -56,8 +56,8 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * need to carefully monitor exactly when a row reference updates
      * itself, and is not generally needed by most applications.
      */
-    public TreeRowReference(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
-        super(References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true));
+    public static TreeRowReference newProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
+        return new TreeRowReference(References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true));
     }
     
     /**

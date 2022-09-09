@@ -23,16 +23,16 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * @message contains text you don't have control over,
      * that could include printf() escape sequences.
      */
-    public Error(Quark domain, int code, java.lang.String message) {
-        super(References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true));
+    public static Error newLiteral(Quark domain, int code, java.lang.String message) {
+        return new Error(References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true));
     }
     
     /**
      * Creates a new #GError with the given @domain and @code,
      * and a message formatted with @format.
      */
-    public Error(Quark domain, int code, java.lang.String format, VaList args) {
-        super(References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true));
+    public static Error newValist(Quark domain, int code, java.lang.String format, VaList args) {
+        return new Error(References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true));
     }
     
     /**

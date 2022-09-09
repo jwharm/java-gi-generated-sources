@@ -33,15 +33,15 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * Create a content provider that provides the given @bytes as data for
      * the given @mime_type.
      */
-    public ContentProvider(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        super(References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true));
+    public static ContentProvider newForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true));
     }
     
     /**
      * Create a content provider that provides the given @value.
      */
-    public ContentProvider(org.gtk.gobject.Value value) {
-        super(References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true));
+    public static ContentProvider newForValue(org.gtk.gobject.Value value) {
+        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true));
     }
     
     /**
@@ -61,8 +61,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
      *                                 }, 2);
      * ```
      */
-    public ContentProvider(ContentProvider[] providers, long nProviders) {
-        super(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true));
+    public static ContentProvider newUnion(ContentProvider[] providers, long nProviders) {
+        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true));
     }
     
     /**

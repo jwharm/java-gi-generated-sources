@@ -98,8 +98,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * 
      * The stream is not closed.
      */
-    public PixbufAnimation(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        super(constructNewFromStreamOrThrow(stream, cancellable));
+    public static PixbufAnimation newFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        return new PixbufAnimation(constructNewFromStreamOrThrow(stream, cancellable));
     }
     
     private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
@@ -115,8 +115,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * Finishes an asynchronous pixbuf animation creation operation started with
      * [func@GdkPixbuf.PixbufAnimation.new_from_stream_async].
      */
-    public PixbufAnimation(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
-        super(constructNewFromStreamFinishOrThrow(asyncResult));
+    public static PixbufAnimation newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        return new PixbufAnimation(constructNewFromStreamFinishOrThrow(asyncResult));
     }
     
     /**

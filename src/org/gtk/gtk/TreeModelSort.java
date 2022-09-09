@@ -119,8 +119,8 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     /**
      * Creates a new `GtkTreeModelSort`, with @child_model as the child model.
      */
-    public TreeModelSort(TreeModel childModel) {
-        super(References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true));
+    public static TreeModelSort newWithModel(TreeModel childModel) {
+        return new TreeModelSort(References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true));
     }
     
     /**

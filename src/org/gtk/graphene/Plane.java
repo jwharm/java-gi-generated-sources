@@ -24,8 +24,8 @@ public class Plane extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned structure are undefined.
      */
-    public Plane() {
-        super(References.get(gtk_h.graphene_plane_alloc(), true));
+    public static Plane alloc() {
+        return new Plane(References.get(gtk_h.graphene_plane_alloc(), true));
     }
     
     /**

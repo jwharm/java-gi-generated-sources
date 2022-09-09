@@ -92,8 +92,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     /**
      * Creates a new `GtkText` with the specified text buffer.
      */
-    public Text(EntryBuffer buffer) {
-        super(References.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false));
+    public static Text newWithBuffer(EntryBuffer buffer) {
+        return new Text(References.get(gtk_h.gtk_text_new_with_buffer(buffer.handle()), false));
     }
     
     /**

@@ -40,8 +40,8 @@ public class Renderer extends org.gtk.gobject.Object {
      * 
      * The renderer will be realized before it is returned.
      */
-    public Renderer(org.gtk.gdk.Surface surface) {
-        super(References.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true));
+    public static Renderer newForSurface(org.gtk.gdk.Surface surface) {
+        return new Renderer(References.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true));
     }
     
     /**

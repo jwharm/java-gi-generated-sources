@@ -40,8 +40,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Creates a new `GtkTreeViewColumn` using @area to render its cells.
      */
-    public TreeViewColumn(CellArea area) {
-        super(References.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false));
+    public static TreeViewColumn newWithArea(CellArea area) {
+        return new TreeViewColumn(References.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false));
     }
     
     /**

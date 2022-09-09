@@ -26,8 +26,8 @@ public class Vec3 extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Use graphene_vec3_init() to initialize the vector.
      */
-    public Vec3() {
-        super(References.get(gtk_h.graphene_vec3_alloc(), true));
+    public static Vec3 alloc() {
+        return new Vec3(References.get(gtk_h.graphene_vec3_alloc(), true));
     }
     
     /**

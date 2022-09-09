@@ -21,8 +21,8 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned value are undefined.
      */
-    public Size() {
-        super(References.get(gtk_h.graphene_size_alloc(), true));
+    public static Size alloc() {
+        return new Size(References.get(gtk_h.graphene_size_alloc(), true));
     }
     
     /**

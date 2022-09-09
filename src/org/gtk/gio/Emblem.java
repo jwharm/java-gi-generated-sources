@@ -36,8 +36,8 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new emblem for @icon.
      */
-    public Emblem(Icon icon, EmblemOrigin origin) {
-        super(References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true));
+    public static Emblem newWithOrigin(Icon icon, EmblemOrigin origin) {
+        return new Emblem(References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true));
     }
     
     /**

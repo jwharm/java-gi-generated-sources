@@ -27,8 +27,8 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Creates a new #GMainContext structure.
      */
-    public MainContext(int flags) {
-        super(References.get(gtk_h.g_main_context_new_with_flags(flags), true));
+    public static MainContext newWithFlags(int flags) {
+        return new MainContext(References.get(gtk_h.g_main_context_new_with_flags(flags), true));
     }
     
     /**

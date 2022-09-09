@@ -24,8 +24,8 @@ public class ConstantExpression extends Expression {
     /**
      * Creates an expression that always evaluates to the given `value`.
      */
-    public ConstantExpression(org.gtk.gobject.Value value) {
-        super(References.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true));
+    public static ConstantExpression newForValue(org.gtk.gobject.Value value) {
+        return new ConstantExpression(References.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true));
     }
     
     /**

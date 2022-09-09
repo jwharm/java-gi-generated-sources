@@ -27,8 +27,8 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * Creates a #GSocketAddress subclass corresponding to the native
      * struct sockaddr @native.
      */
-    public SocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
-        super(References.get(gtk_h.g_socket_address_new_from_native(native_, len), true));
+    public static SocketAddress newFromNative(jdk.incubator.foreign.MemoryAddress native_, long len) {
+        return new SocketAddress(References.get(gtk_h.g_socket_address_new_from_native(native_, len), true));
     }
     
     /**

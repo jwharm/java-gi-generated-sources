@@ -95,8 +95,8 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
      */
-    public DateTime(java.lang.String text, TimeZone defaultTz) {
-        super(References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true));
+    public static DateTime newFromIso8601(java.lang.String text, TimeZone defaultTz) {
+        return new DateTime(References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true));
     }
     
     /**
@@ -188,8 +188,8 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
      */
-    public DateTime(TimeZone tz) {
-        super(References.get(gtk_h.g_date_time_new_now(tz.handle()), true));
+    public static DateTime newNow(TimeZone tz) {
+        return new DateTime(References.get(gtk_h.g_date_time_new_now(tz.handle()), true));
     }
     
     /**

@@ -54,15 +54,15 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new `GtkIconView` widget using the
      * specified @area to layout cells inside the icons.
      */
-    public IconView(CellArea area) {
-        super(References.get(gtk_h.gtk_icon_view_new_with_area(area.handle()), false));
+    public static IconView newWithArea(CellArea area) {
+        return new IconView(References.get(gtk_h.gtk_icon_view_new_with_area(area.handle()), false));
     }
     
     /**
      * Creates a new `GtkIconView` widget with the model @model.
      */
-    public IconView(TreeModel model) {
-        super(References.get(gtk_h.gtk_icon_view_new_with_model(model.handle()), false));
+    public static IconView newWithModel(TreeModel model) {
+        return new IconView(References.get(gtk_h.gtk_icon_view_new_with_model(model.handle()), false));
     }
     
     /**

@@ -47,16 +47,16 @@ public class BuilderListItemFactory extends ListItemFactory {
      * Creates a new `GtkBuilderListItemFactory` that instantiates widgets
      * using @bytes as the data to pass to `GtkBuilder`.
      */
-    public BuilderListItemFactory(BuilderScope scope, org.gtk.glib.Bytes bytes) {
-        super(References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true));
+    public static BuilderListItemFactory newFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
+        return new BuilderListItemFactory(References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true));
     }
     
     /**
      * Creates a new `GtkBuilderListItemFactory` that instantiates widgets
      * using data read from the given @resource_path to pass to `GtkBuilder`.
      */
-    public BuilderListItemFactory(BuilderScope scope, java.lang.String resourcePath) {
-        super(References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true));
+    public static BuilderListItemFactory newFromResource(BuilderScope scope, java.lang.String resourcePath) {
+        return new BuilderListItemFactory(References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true));
     }
     
     /**

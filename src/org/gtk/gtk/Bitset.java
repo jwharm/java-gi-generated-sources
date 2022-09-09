@@ -33,15 +33,15 @@ public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Creates a new empty bitset.
      */
-    public Bitset() {
-        super(References.get(gtk_h.gtk_bitset_new_empty(), true));
+    public static Bitset newEmpty() {
+        return new Bitset(References.get(gtk_h.gtk_bitset_new_empty(), true));
     }
     
     /**
      * Creates a bitset with the given range set.
      */
-    public Bitset(int start, int nItems) {
-        super(References.get(gtk_h.gtk_bitset_new_range(start, nItems), true));
+    public static Bitset newRange(int start, int nItems) {
+        return new Bitset(References.get(gtk_h.gtk_bitset_new_range(start, nItems), true));
     }
     
     /**

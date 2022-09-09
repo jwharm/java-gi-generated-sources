@@ -274,22 +274,22 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the @children are floating references (see g_variant_ref_sink()), the
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
-    public Variant(VariantType childType, Variant[] children, long nChildren) {
-        super(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false));
+    public static Variant newArray(VariantType childType, Variant[] children, long nChildren) {
+        return new Variant(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false));
     }
     
     /**
      * Creates a new boolean #GVariant instance -- either %TRUE or %FALSE.
      */
-    public Variant(boolean value) {
-        super(References.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false));
+    public static Variant newBoolean(boolean value) {
+        return new Variant(References.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false));
     }
     
     /**
      * Creates a new byte #GVariant instance.
      */
-    public Variant(byte value) {
-        super(References.get(gtk_h.g_variant_new_byte(value), false));
+    public static Variant newByte(byte value) {
+        return new Variant(References.get(gtk_h.g_variant_new_byte(value), false));
     }
     
     /**
@@ -300,8 +300,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * The nul terminator character at the end of the string is stored in
      * the array.
      */
-    public Variant(byte[] string) {
-        super(References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false));
+    public static Variant newBytestring(byte[] string) {
+        return new Variant(References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false));
     }
     
     /**
@@ -321,15 +321,15 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the @key or @value are floating references (see g_variant_ref_sink()),
      * the new instance takes ownership of them as if via g_variant_ref_sink().
      */
-    public Variant(Variant key, Variant value) {
-        super(References.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false));
+    public static Variant newDictEntry(Variant key, Variant value) {
+        return new Variant(References.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false));
     }
     
     /**
      * Creates a new double #GVariant instance.
      */
-    public Variant(double value) {
-        super(References.get(gtk_h.g_variant_new_double(value), false));
+    public static Variant newDouble(double value) {
+        return new Variant(References.get(gtk_h.g_variant_new_double(value), false));
     }
     
     /**
@@ -347,8 +347,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * @n_elements must be the length of the @elements array.
      */
-    public Variant(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
-        super(References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false));
+    public static Variant newFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
+        return new Variant(References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false));
     }
     
     /**
@@ -362,8 +362,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * Otherwise this function will internally create a copy of the memory (since
      * GLib 2.60) or (in older versions) fail and exit the process.
      */
-    public Variant(VariantType type, Bytes bytes, boolean trusted) {
-        super(References.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false));
+    public static Variant newFromBytes(VariantType type, Bytes bytes, boolean trusted) {
+        return new Variant(References.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false));
     }
     
     /**
@@ -410,8 +410,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @child is a floating reference (see g_variant_ref_sink()), the new
      * instance takes ownership of @child.
      */
-    public Variant(VariantType childType, Variant child) {
-        super(References.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false));
+    public static Variant newMaybe(VariantType childType, Variant child) {
+        return new Variant(References.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false));
     }
     
     /**
@@ -459,8 +459,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * result.  This can also be done by adding the result to a container,
      * or by passing it to another g_variant_new() call.
      */
-    public Variant(java.lang.String format, VaList app) {
-        super(References.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true));
+    public static Variant newParsedVa(java.lang.String format, VaList app) {
+        return new Variant(References.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true));
     }
     
     /**
@@ -583,8 +583,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * result.  This can also be done by adding the result to a container,
      * or by passing it to another g_variant_new() call.
      */
-    public Variant(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        super(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true));
+    public static Variant newVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
+        return new Variant(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true));
     }
     
     /**
@@ -594,8 +594,8 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @child is a floating reference (see g_variant_ref_sink()), the new
      * instance takes ownership of @child.
      */
-    public Variant(Variant value) {
-        super(References.get(gtk_h.g_variant_new_variant(value.handle()), false));
+    public static Variant newVariant(Variant value) {
+        return new Variant(References.get(gtk_h.g_variant_new_variant(value.handle()), false));
     }
     
     /**

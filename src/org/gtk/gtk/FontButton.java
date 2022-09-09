@@ -47,8 +47,8 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Creates a new font picker widget showing the given font.
      */
-    public FontButton(java.lang.String fontname) {
-        super(References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false));
+    public static FontButton newWithFont(java.lang.String fontname) {
+        return new FontButton(References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false));
     }
     
     /**

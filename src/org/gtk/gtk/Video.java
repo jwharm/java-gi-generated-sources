@@ -44,8 +44,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a `GtkVideo` to play back the given @file.
      */
-    public Video(org.gtk.gio.File file) {
-        super(References.get(gtk_h.gtk_video_new_for_file(file.handle()), false));
+    public static Video newForFile(org.gtk.gio.File file) {
+        return new Video(References.get(gtk_h.gtk_video_new_for_file(file.handle()), false));
     }
     
     /**
@@ -61,8 +61,8 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a `GtkVideo` to play back the given @stream.
      */
-    public Video(MediaStream stream) {
-        super(References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false));
+    public static Video newForMediaStream(MediaStream stream) {
+        return new Video(References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false));
     }
     
     /**

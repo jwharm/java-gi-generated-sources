@@ -34,8 +34,8 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * so will not cause problems, as long as no attempt is made to
      * access the channel after it is closed).
      */
-    public IOChannel(java.lang.String filename, java.lang.String mode) throws GErrorException {
-        super(constructNewFileOrThrow(filename, mode));
+    public static IOChannel newFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
+        return new IOChannel(constructNewFileOrThrow(filename, mode));
     }
     
     /**
@@ -62,8 +62,8 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * valid file descriptor and socket. If that happens a warning is
      * issued, and GLib assumes that it is the file descriptor you mean.
      */
-    public IOChannel(int fd) {
-        super(References.get(gtk_h.g_io_channel_unix_new(fd), true));
+    public static IOChannel unixNew(int fd) {
+        return new IOChannel(References.get(gtk_h.g_io_channel_unix_new(fd), true));
     }
     
     /**

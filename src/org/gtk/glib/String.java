@@ -32,8 +32,8 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * responsibility to ensure that @init has at least @len addressable
      * bytes.
      */
-    public String(java.lang.String init, long len) {
-        super(References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true));
+    public static String newLen(java.lang.String init, long len) {
+        return new String(References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true));
     }
     
     /**
@@ -42,8 +42,8 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * text to the string and don't want it to be reallocated
      * too often.
      */
-    public String(long dflSize) {
-        super(References.get(gtk_h.g_string_sized_new(dflSize), true));
+    public static String sizedNew(long dflSize) {
+        return new String(References.get(gtk_h.g_string_sized_new(dflSize), true));
     }
     
     /**

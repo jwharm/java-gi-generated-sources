@@ -43,8 +43,8 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * if needed to validate it. The returned #GDate is guaranteed to be non-%NULL
      * and valid.
      */
-    public Date(DateDay day, DateMonth month, DateYear year) {
-        super(References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
+    public static Date newDmy(DateDay day, DateMonth month, DateYear year) {
+        return new Date(References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
     }
     
     /**
@@ -54,8 +54,8 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * needed to validate it. The returned #GDate is guaranteed to be non-%NULL and
      * valid.
      */
-    public Date(int julianDay) {
-        super(References.get(gtk_h.g_date_new_julian(julianDay), true));
+    public static Date newJulian(int julianDay) {
+        return new Date(References.get(gtk_h.g_date_new_julian(julianDay), true));
     }
     
     /**

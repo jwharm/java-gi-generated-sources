@@ -52,8 +52,8 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
     /**
      * Creates a `GtkPopoverMenuBar` from a `GMenuModel`.
      */
-    public PopoverMenuBar(org.gtk.gio.MenuModel model) {
-        super(References.get(gtk_h.gtk_popover_menu_bar_new_from_model(model.handle()), false));
+    public static PopoverMenuBar newFromModel(org.gtk.gio.MenuModel model) {
+        return new PopoverMenuBar(References.get(gtk_h.gtk_popover_menu_bar_new_from_model(model.handle()), false));
     }
     
     /**

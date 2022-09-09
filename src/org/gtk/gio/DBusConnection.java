@@ -129,8 +129,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * If @observer is not %NULL it may be used to control the
      * authentication process.
      */
-    public DBusConnection(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
-        super(constructNewForAddressSyncOrThrow(address, flags, observer, cancellable));
+    public static DBusConnection newForAddressSync(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        return new DBusConnection(constructNewForAddressSyncOrThrow(address, flags, observer, cancellable));
     }
     
     private static Reference constructNewSyncOrThrow(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
@@ -159,8 +159,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * This is a synchronous failable constructor. See
      * g_dbus_connection_new() for the asynchronous version.
      */
-    public DBusConnection(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
-        super(constructNewSyncOrThrow(stream, guid, flags, observer, cancellable));
+    public static DBusConnection newSync(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        return new DBusConnection(constructNewSyncOrThrow(stream, guid, flags, observer, cancellable));
     }
     
     /**

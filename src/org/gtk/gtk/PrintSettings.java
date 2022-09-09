@@ -57,8 +57,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * 
      * See [method@Gtk.PrintSettings.to_file].
      */
-    public PrintSettings(java.lang.String fileName) throws GErrorException {
-        super(constructNewFromFileOrThrow(fileName));
+    public static PrintSettings newFromFile(java.lang.String fileName) throws GErrorException {
+        return new PrintSettings(constructNewFromFileOrThrow(fileName));
     }
     
     /**
@@ -67,8 +67,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The variant must be in the format produced by
      * [method@Gtk.PrintSettings.to_gvariant].
      */
-    public PrintSettings(org.gtk.glib.Variant variant) {
-        super(References.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true));
+    public static PrintSettings newFromGvariant(org.gtk.glib.Variant variant) {
+        return new PrintSettings(References.get(gtk_h.gtk_print_settings_new_from_gvariant(variant.handle()), true));
     }
     
     private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
@@ -87,8 +87,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * or %NULL if an error occurred. If the file could not be loaded then
      * error is set to either `GFileError` or `GKeyFileError`.
      */
-    public PrintSettings(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
-        super(constructNewFromKeyFileOrThrow(keyFile, groupName));
+    public static PrintSettings newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        return new PrintSettings(constructNewFromKeyFileOrThrow(keyFile, groupName));
     }
     
     /**

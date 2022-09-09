@@ -43,8 +43,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * 
      * If the @state #GVariant is floating, it is consumed.
      */
-    public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        super(References.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true));
+    public static SimpleAction newStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+        return new SimpleAction(References.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true));
     }
     
     /**

@@ -19,8 +19,8 @@ public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Allocates a #graphene_point3d_t structure.
      */
-    public Point3D() {
-        super(References.get(gtk_h.graphene_point3d_alloc(), true));
+    public static Point3D alloc() {
+        return new Point3D(References.get(gtk_h.graphene_point3d_alloc(), true));
     }
     
     /**

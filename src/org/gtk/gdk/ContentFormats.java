@@ -61,8 +61,8 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
     /**
      * Creates a new `GdkContentFormats` for a given `GType`.
      */
-    public ContentFormats(Type type) {
-        super(References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
+    public static ContentFormats newForGtype(Type type) {
+        return new ContentFormats(References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
     }
     
     /**

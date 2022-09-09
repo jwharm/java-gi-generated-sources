@@ -22,8 +22,8 @@ public class Matrix extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Allocates a new #graphene_matrix_t.
      */
-    public Matrix() {
-        super(References.get(gtk_h.graphene_matrix_alloc(), true));
+    public static Matrix alloc() {
+        return new Matrix(References.get(gtk_h.graphene_matrix_alloc(), true));
     }
     
     /**

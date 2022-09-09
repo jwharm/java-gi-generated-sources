@@ -38,8 +38,8 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      *   }
      * ]|
      */
-    public Point() {
-        super(References.get(gtk_h.graphene_point_alloc(), true));
+    public static Point alloc() {
+        return new Point(References.get(gtk_h.graphene_point_alloc(), true));
     }
     
     /**

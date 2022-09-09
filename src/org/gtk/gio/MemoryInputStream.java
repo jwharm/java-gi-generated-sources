@@ -35,8 +35,8 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     /**
      * Creates a new #GMemoryInputStream with data from the given @bytes.
      */
-    public MemoryInputStream(org.gtk.glib.Bytes bytes) {
-        super(References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true));
+    public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
+        return new MemoryInputStream(References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true));
     }
     
     /**

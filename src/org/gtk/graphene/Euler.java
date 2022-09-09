@@ -24,8 +24,8 @@ public class Euler extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned structure are undefined.
      */
-    public Euler() {
-        super(References.get(gtk_h.graphene_euler_alloc(), true));
+    public static Euler alloc() {
+        return new Euler(References.get(gtk_h.graphene_euler_alloc(), true));
     }
     
     /**

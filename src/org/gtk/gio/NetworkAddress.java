@@ -58,8 +58,8 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * g_network_address_get_hostname() will always return `localhost` for
      * a #GNetworkAddress created with this constructor.
      */
-    public NetworkAddress(short port) {
-        super(References.get(gtk_h.g_network_address_new_loopback(port), true));
+    public static NetworkAddress newLoopback(short port) {
+        return new NetworkAddress(References.get(gtk_h.g_network_address_new_loopback(port), true));
     }
     
     /**

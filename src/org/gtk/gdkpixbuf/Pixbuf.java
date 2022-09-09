@@ -175,8 +175,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * This is the `GBytes` variant of gdk_pixbuf_new_from_data(), useful
      * for language bindings.
      */
-    public Pixbuf(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
-        super(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
+    public static Pixbuf newFromBytes(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
+        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
     }
     
     private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
@@ -272,8 +272,56 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * and image at the requested size, regardless of aspect ratio, use
      * [ctor@GdkPixbuf.Pixbuf.new_from_file_at_scale].
      */
-    public Pixbuf(java.lang.String filename, int width, int height) throws GErrorException {
-        super(constructNewFromFileAtSizeOrThrow(filename, width, height));
+    public static Pixbuf newFromFileAtSize(java.lang.String filename, int width, int height) throws GErrorException {
+        return new Pixbuf(constructNewFromFileAtSizeOrThrow(filename, width, height));
+    }
+    
+    private static Reference constructNewFromInlineOrThrow(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
+        MemorySegment GERROR = io.github.jwharm.javagi.interop.jextract.GError.allocate(Interop.getScope());
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_inline(dataLength, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), copyPixels ? 1 : 0, GERROR), true);
+        if (! java.util.Objects.equals(MemoryAddress.NULL, GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Creates a `GdkPixbuf` from a flat representation that is suitable for
+     * storing as inline data in a program.
+     * 
+     * This is useful if you want to ship a program with images, but don't want
+     * to depend on any external files.
+     * 
+     * GdkPixbuf ships with a program called `gdk-pixbuf-csource`, which allows
+     * for conversion of `GdkPixbuf`s into such a inline representation.
+     * 
+     * In almost all cases, you should pass the `--raw` option to
+     * `gdk-pixbuf-csource`. A sample invocation would be:
+     * 
+     * ```
+     * gdk-pixbuf-csource --raw --name=myimage_inline myimage.png
+     * ```
+     * 
+     * For the typical case where the inline pixbuf is read-only static data,
+     * you don't need to copy the pixel data unless you intend to write to
+     * it, so you can pass `FALSE` for `copy_pixels`. If you pass `--rle` to
+     * `gdk-pixbuf-csource`, a copy will be made even if `copy_pixels` is `FALSE`,
+     * so using this option is generally a bad idea.
+     * 
+     * If you create a pixbuf from const inline data compiled into your
+     * program, it's probably safe to ignore errors and disable length checks,
+     * since things will always succeed:
+     * 
+     * ```c
+     * pixbuf = gdk_pixbuf_new_from_inline (-1, myimage_inline, FALSE, NULL);
+     * ```
+     * 
+     * For non-const inline data, you could get out of memory. For untrusted
+     * inline data located at runtime, you could have corrupt inline data in
+     * addition.
+     */
+    public static Pixbuf newFromInline(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
+        return new Pixbuf(constructNewFromInlineOrThrow(dataLength, data, copyPixels));
     }
     
     private static Reference constructNewFromResourceOrThrow(java.lang.String resourcePath) throws GErrorException {
@@ -346,8 +394,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * The stream is not closed.
      */
-    public Pixbuf(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        super(constructNewFromStreamOrThrow(stream, cancellable));
+    public static Pixbuf newFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        return new Pixbuf(constructNewFromStreamOrThrow(stream, cancellable));
     }
     
     private static Reference constructNewFromStreamAtScaleOrThrow(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
@@ -382,8 +430,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * The stream is not closed.
      */
-    public Pixbuf(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        super(constructNewFromStreamAtScaleOrThrow(stream, width, height, preserveAspectRatio, cancellable));
+    public static Pixbuf newFromStreamAtScale(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        return new Pixbuf(constructNewFromStreamAtScaleOrThrow(stream, width, height, preserveAspectRatio, cancellable));
     }
     
     private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
@@ -399,8 +447,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Finishes an asynchronous pixbuf creation operation started with
      * gdk_pixbuf_new_from_stream_async().
      */
-    public Pixbuf(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
-        super(constructNewFromStreamFinishOrThrow(asyncResult));
+    public static Pixbuf newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+        return new Pixbuf(constructNewFromStreamFinishOrThrow(asyncResult));
     }
     
     /**
@@ -409,8 +457,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * This data is commonly the result of including an XPM file into a
      * program's C source.
      */
-    public Pixbuf(java.lang.String[] data) {
-        super(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true));
+    public static Pixbuf newFromXpmData(java.lang.String[] data) {
+        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true));
     }
     
     /**

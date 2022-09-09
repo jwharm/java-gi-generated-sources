@@ -29,8 +29,8 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * Creates a new #GMemoryOutputStream, using g_realloc() and g_free()
      * for memory allocation.
      */
-    public MemoryOutputStream() {
-        super(References.get(gtk_h.g_memory_output_stream_new_resizable(), true));
+    public static MemoryOutputStream newResizable() {
+        return new MemoryOutputStream(References.get(gtk_h.g_memory_output_stream_new_resizable(), true));
     }
     
     /**

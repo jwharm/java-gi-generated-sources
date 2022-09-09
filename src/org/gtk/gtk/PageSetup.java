@@ -85,8 +85,8 @@ public class PageSetup extends org.gtk.gobject.Object {
      * page setup, or %NULL if an error occurred.
      * See [method@Gtk.PageSetup.to_file].
      */
-    public PageSetup(java.lang.String fileName) throws GErrorException {
-        super(constructNewFromFileOrThrow(fileName));
+    public static PageSetup newFromFile(java.lang.String fileName) throws GErrorException {
+        return new PageSetup(constructNewFromFileOrThrow(fileName));
     }
     
     /**
@@ -95,8 +95,8 @@ public class PageSetup extends org.gtk.gobject.Object {
      * The variant must be in the format produced by
      * [method@Gtk.PageSetup.to_gvariant].
      */
-    public PageSetup(org.gtk.glib.Variant variant) {
-        super(References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true));
+    public static PageSetup newFromGvariant(org.gtk.glib.Variant variant) {
+        return new PageSetup(References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true));
     }
     
     private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
@@ -115,8 +115,8 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Returns a new `GtkPageSetup` object with the restored
      * page setup, or %NULL if an error occurred.
      */
-    public PageSetup(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
-        super(constructNewFromKeyFileOrThrow(keyFile, groupName));
+    public static PageSetup newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+        return new PageSetup(constructNewFromKeyFileOrThrow(keyFile, groupName));
     }
     
     /**

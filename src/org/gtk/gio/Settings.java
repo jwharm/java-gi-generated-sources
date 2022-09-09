@@ -351,8 +351,8 @@ public class Settings extends org.gtk.gobject.Object {
      * @path is non-%NULL and not equal to the path that the schema does
      * have.
      */
-    public Settings(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        super(References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
+    public static Settings newFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
+        return new Settings(References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -365,8 +365,8 @@ public class Settings extends org.gtk.gobject.Object {
      * the system to get a settings object that modifies the system default
      * settings instead of the settings for this user.
      */
-    public Settings(java.lang.String schemaId, SettingsBackend backend) {
-        super(References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true));
+    public static Settings newWithBackend(java.lang.String schemaId, SettingsBackend backend) {
+        return new Settings(References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true));
     }
     
     /**
@@ -376,8 +376,8 @@ public class Settings extends org.gtk.gobject.Object {
      * This is a mix of g_settings_new_with_backend() and
      * g_settings_new_with_path().
      */
-    public Settings(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        super(References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
+    public static Settings newWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
+        return new Settings(References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**
@@ -395,8 +395,8 @@ public class Settings extends org.gtk.gobject.Object {
      * begins and ends with '/' and does not contain two consecutive '/'
      * characters.
      */
-    public Settings(java.lang.String schemaId, java.lang.String path) {
-        super(References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true));
+    public static Settings newWithPath(java.lang.String schemaId, java.lang.String path) {
+        return new Settings(References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true));
     }
     
     /**

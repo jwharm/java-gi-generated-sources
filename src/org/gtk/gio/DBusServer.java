@@ -69,8 +69,8 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * This is a synchronous failable constructor. There is currently no
      * asynchronous version.
      */
-    public DBusServer(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
-        super(constructNewSyncOrThrow(address, flags, guid, observer, cancellable));
+    public static DBusServer newSync(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+        return new DBusServer(constructNewSyncOrThrow(address, flags, guid, observer, cancellable));
     }
     
     /**

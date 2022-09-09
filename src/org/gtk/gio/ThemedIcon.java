@@ -37,8 +37,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new themed icon for @iconnames.
      */
-    public ThemedIcon(java.lang.String[] iconnames, int len) {
-        super(References.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true));
+    public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
+        return new ThemedIcon(References.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true));
     }
     
     /**

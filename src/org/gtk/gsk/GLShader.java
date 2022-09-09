@@ -136,15 +136,15 @@ public class GLShader extends org.gtk.gobject.Object {
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
-    public GLShader(org.gtk.glib.Bytes sourcecode) {
-        super(References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true));
+    public static GLShader newFromBytes(org.gtk.glib.Bytes sourcecode) {
+        return new GLShader(References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true));
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
-    public GLShader(java.lang.String resourcePath) {
-        super(References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
+    public static GLShader newFromResource(java.lang.String resourcePath) {
+        return new GLShader(References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
     }
     
     /**

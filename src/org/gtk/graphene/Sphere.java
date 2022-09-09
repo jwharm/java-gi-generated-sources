@@ -21,8 +21,8 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the newly allocated structure are undefined.
      */
-    public Sphere() {
-        super(References.get(gtk_h.graphene_sphere_alloc(), true));
+    public static Sphere alloc() {
+        return new Sphere(References.get(gtk_h.graphene_sphere_alloc(), true));
     }
     
     /**

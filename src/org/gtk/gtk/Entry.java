@@ -117,8 +117,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Creates a new entry with the specified text buffer.
      */
-    public Entry(EntryBuffer buffer) {
-        super(References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false));
+    public static Entry newWithBuffer(EntryBuffer buffer) {
+        return new Entry(References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false));
     }
     
     /**

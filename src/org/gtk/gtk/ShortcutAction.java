@@ -61,8 +61,8 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * - `action(NAME)`, for a `GtkNamedAction` for the action named `NAME`
      * - `signal(NAME)`, for a `GtkSignalAction` for the signal `NAME`
      */
-    public ShortcutAction(java.lang.String string) {
-        super(References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true));
+    public static ShortcutAction parseString(java.lang.String string) {
+        return new ShortcutAction(References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**

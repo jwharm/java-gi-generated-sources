@@ -26,8 +26,8 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Use graphene_vec4_init() to initialize the vector.
      */
-    public Vec4() {
-        super(References.get(gtk_h.graphene_vec4_alloc(), true));
+    public static Vec4 alloc() {
+        return new Vec4(References.get(gtk_h.graphene_vec4_alloc(), true));
     }
     
     /**

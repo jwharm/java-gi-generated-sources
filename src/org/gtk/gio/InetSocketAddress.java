@@ -35,8 +35,8 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * If @address is an IPv6 address, it can also contain a scope ID
      * (separated from the address by a `%`).
      */
-    public InetSocketAddress(java.lang.String address, int port) {
-        super(References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true));
+    public static InetSocketAddress newFromString(java.lang.String address, int port) {
+        return new InetSocketAddress(References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true));
     }
     
     /**

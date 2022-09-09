@@ -92,8 +92,8 @@ public class FileFilter extends Filter implements Buildable {
      * The variant must be in the format produced by
      * [method@Gtk.FileFilter.to_gvariant].
      */
-    public FileFilter(org.gtk.glib.Variant variant) {
-        super(References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true));
+    public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
+        return new FileFilter(References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true));
     }
     
     /**

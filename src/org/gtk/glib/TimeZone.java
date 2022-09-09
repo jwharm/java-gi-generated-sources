@@ -110,8 +110,8 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * This is equivalent to calling g_time_zone_new() with a string in the form
      * `[+|-]hh[:mm[:ss]]`.
      */
-    public TimeZone(int seconds) {
-        super(References.get(gtk_h.g_time_zone_new_offset(seconds), true));
+    public static TimeZone newOffset(int seconds) {
+        return new TimeZone(References.get(gtk_h.g_time_zone_new_offset(seconds), true));
     }
     
     /**

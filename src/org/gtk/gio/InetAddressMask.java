@@ -56,8 +56,8 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * delimited by a "/". If it is not present, then the length is
      * assumed to be the full length of the address.
      */
-    public InetAddressMask(java.lang.String maskString) throws GErrorException {
-        super(constructNewFromStringOrThrow(maskString));
+    public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
+        return new InetAddressMask(constructNewFromStringOrThrow(maskString));
     }
     
     /**

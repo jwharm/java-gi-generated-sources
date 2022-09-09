@@ -56,8 +56,8 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     /**
      * Creates a new `GtkLinkButton` containing a label.
      */
-    public LinkButton(java.lang.String uri, java.lang.String label) {
-        super(References.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false));
+    public static LinkButton newWithLabel(java.lang.String uri, java.lang.String label) {
+        return new LinkButton(References.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false));
     }
     
     /**

@@ -33,8 +33,8 @@ public class ATContext extends org.gtk.gobject.Object {
      * The `GtkATContext` implementation being instantiated will depend on the
      * platform.
      */
-    public ATContext(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
-        super(References.get(gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.handle(), display.handle()), true));
+    public static ATContext create(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
+        return new ATContext(References.get(gtk_h.gtk_at_context_create(accessibleRole.getValue(), accessible.handle(), display.handle()), true));
     }
     
     /**

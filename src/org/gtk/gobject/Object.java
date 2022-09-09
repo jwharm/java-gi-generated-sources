@@ -38,8 +38,8 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
      * which are not explicitly specified are set to their default values.
      */
-    public Object(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        super(References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true));
+    public static Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
+        return new Object(References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true));
     }
     
     /**
@@ -50,8 +50,18 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
      * which are not explicitly specified are set to their default values.
      */
-    public Object(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        super(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true));
+    public static Object newWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
+        return new Object(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true));
+    }
+    
+    /**
+     * Creates a new instance of a #GObject subtype and sets its properties.
+     * 
+     * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
+     * which are not explicitly specified are set to their default values.
+     */
+    public static Object newv(Type objectType, int nParameters, Parameter[] parameters) {
+        return new Object(References.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true));
     }
     
     /**

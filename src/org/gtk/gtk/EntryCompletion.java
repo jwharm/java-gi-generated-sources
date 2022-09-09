@@ -72,8 +72,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * The `GtkCellArea` is used to layout cells in the underlying
      * `GtkTreeViewColumn` for the drop-down menu.
      */
-    public EntryCompletion(CellArea area) {
-        super(References.get(gtk_h.gtk_entry_completion_new_with_area(area.handle()), true));
+    public static EntryCompletion newWithArea(CellArea area) {
+        return new EntryCompletion(References.get(gtk_h.gtk_entry_completion_new_with_area(area.handle()), true));
     }
     
     /**

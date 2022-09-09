@@ -127,8 +127,8 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a new `GtkLevelBar` for the specified interval.
      */
-    public LevelBar(double minValue, double maxValue) {
-        super(References.get(gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
+    public static LevelBar newForInterval(double minValue, double maxValue) {
+        return new LevelBar(References.get(gtk_h.gtk_level_bar_new_for_interval(minValue, maxValue), false));
     }
     
     /**

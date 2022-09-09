@@ -61,8 +61,8 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Creates a new `GtkDropDown` that is populated with
      * the strings.
      */
-    public DropDown(java.lang.String[] strings) {
-        super(References.get(gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings).handle()), false));
+    public static DropDown newFromStrings(java.lang.String[] strings) {
+        return new DropDown(References.get(gtk_h.gtk_drop_down_new_from_strings(Interop.allocateNativeArray(strings).handle()), false));
     }
     
     /**

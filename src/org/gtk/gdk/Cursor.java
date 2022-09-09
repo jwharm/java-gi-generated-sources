@@ -72,15 +72,15 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](se_resize_cursor.png) "se-resize" | ![](ew_resize_cursor.png) "ew-resize" | ![](ns_resize_cursor.png) "ns-resize" | ![](nesw_resize_cursor.png) "nesw-resize" |
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
-    public Cursor(java.lang.String name, Cursor fallback) {
-        super(References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true));
+    public static Cursor newFromName(java.lang.String name, Cursor fallback) {
+        return new Cursor(References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true));
     }
     
     /**
      * Creates a new cursor from a `GdkTexture`.
      */
-    public Cursor(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        super(References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true));
+    public static Cursor newFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
+        return new Cursor(References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true));
     }
     
     /**

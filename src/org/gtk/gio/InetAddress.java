@@ -43,15 +43,15 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @bytes should be 4 bytes for %G_SOCKET_FAMILY_IPV4 and 16 bytes for
      * %G_SOCKET_FAMILY_IPV6.
      */
-    public InetAddress(byte[] bytes, SocketFamily family) {
-        super(References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true));
+    public static InetAddress newFromBytes(byte[] bytes, SocketFamily family) {
+        return new InetAddress(References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true));
     }
     
     /**
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
-    public InetAddress(java.lang.String string) {
-        super(References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true));
+    public static InetAddress newFromString(java.lang.String string) {
+        return new InetAddress(References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**

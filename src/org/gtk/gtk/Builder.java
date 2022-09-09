@@ -243,8 +243,8 @@ public class Builder extends org.gtk.gobject.Object {
      * aborted. You should not attempt to parse user interface description
      * from untrusted sources.
      */
-    public Builder(java.lang.String string, long length) {
-        super(References.get(gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).handle(), length), true));
+    public static Builder newFromString(java.lang.String string, long length) {
+        return new Builder(References.get(gtk_h.gtk_builder_new_from_string(Interop.allocateNativeString(string).handle(), length), true));
     }
     
     /**

@@ -36,8 +36,8 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Creates a new path with the given @indices array of @length.
      */
-    public TreePath(int[] indices, long length) {
-        super(References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true));
+    public static TreePath newFromIndicesv(int[] indices, long length) {
+        return new TreePath(References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true));
     }
     
     /**
@@ -49,8 +49,8 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * child of that 11th child, and the 1st child of that 5th child.
      * If an invalid path string is passed in, %NULL is returned.
      */
-    public TreePath(java.lang.String path) {
-        super(References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true));
+    public static TreePath newFromString(java.lang.String path) {
+        return new TreePath(References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true));
     }
     
     /**

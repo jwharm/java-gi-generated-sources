@@ -46,8 +46,8 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Creates a new #GBufferedInputStream from the given @base_stream,
      * with a buffer set to @size.
      */
-    public BufferedInputStream(InputStream baseStream, long size) {
-        super(References.get(gtk_h.g_buffered_input_stream_new_sized(baseStream.handle(), size), true));
+    public static BufferedInputStream newSized(InputStream baseStream, long size) {
+        return new BufferedInputStream(References.get(gtk_h.g_buffered_input_stream_new_sized(baseStream.handle(), size), true));
     }
     
     /**

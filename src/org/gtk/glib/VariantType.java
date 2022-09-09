@@ -190,8 +190,8 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * It is appropriate to call g_variant_type_free() on the return value.
      */
-    public VariantType(VariantType key, VariantType value) {
-        super(References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true));
+    public static VariantType newDictEntry(VariantType key, VariantType value) {
+        return new VariantType(References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true));
     }
     
     /**
@@ -212,8 +212,8 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * It is appropriate to call g_variant_type_free() on the return value.
      */
-    public VariantType(VariantType[] items, int length) {
-        super(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true));
+    public static VariantType newTuple(VariantType[] items, int length) {
+        return new VariantType(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true));
     }
     
     /**

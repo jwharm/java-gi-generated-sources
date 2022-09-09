@@ -44,8 +44,8 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     /**
      * Creates a new buffered output stream with a given buffer size.
      */
-    public BufferedOutputStream(OutputStream baseStream, long size) {
-        super(References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true));
+    public static BufferedOutputStream newSized(OutputStream baseStream, long size) {
+        return new BufferedOutputStream(References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true));
     }
     
     /**

@@ -49,8 +49,8 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     /**
      * Creates a new #GUnixCredentialsMessage holding @credentials.
      */
-    public UnixCredentialsMessage(Credentials credentials) {
-        super(References.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true));
+    public static UnixCredentialsMessage newWithCredentials(Credentials credentials) {
+        return new UnixCredentialsMessage(References.get(gtk_h.g_unix_credentials_message_new_with_credentials(credentials.handle()), true));
     }
     
     /**

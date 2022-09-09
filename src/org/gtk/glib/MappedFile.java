@@ -71,8 +71,8 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
      */
-    public MappedFile(int fd, boolean writable) throws GErrorException {
-        super(constructNewFromFdOrThrow(fd, writable));
+    public static MappedFile newFromFd(int fd, boolean writable) throws GErrorException {
+        return new MappedFile(constructNewFromFdOrThrow(fd, writable));
     }
     
     /**

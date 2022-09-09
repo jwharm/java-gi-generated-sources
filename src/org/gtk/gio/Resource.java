@@ -174,8 +174,8 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * If @data is empty or corrupt, %G_RESOURCE_ERROR_INTERNAL will be returned.
      */
-    public Resource(org.gtk.glib.Bytes data) throws GErrorException {
-        super(constructNewFromDataOrThrow(data));
+    public static Resource newFromData(org.gtk.glib.Bytes data) throws GErrorException {
+        return new Resource(constructNewFromDataOrThrow(data));
     }
     
     /**

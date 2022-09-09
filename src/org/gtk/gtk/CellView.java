@@ -55,8 +55,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * in this way alignments with cellviews for other rows are
      * possible.
      */
-    public CellView(CellArea area, CellAreaContext context) {
-        super(References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false));
+    public static CellView newWithContext(CellArea area, CellAreaContext context) {
+        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false));
     }
     
     /**
@@ -80,8 +80,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new `GtkCellView` widget, adds a `GtkCellRendererPixbuf`
      * to it, and makes it show @texture.
      */
-    public CellView(org.gtk.gdk.Texture texture) {
-        super(References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false));
+    public static CellView newWithTexture(org.gtk.gdk.Texture texture) {
+        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false));
     }
     
     /**

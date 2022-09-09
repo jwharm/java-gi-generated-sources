@@ -47,8 +47,8 @@ public class PropertyExpression extends Expression {
      * property specified by `pspec` will be queried.
      * Otherwise, this expression's evaluation will fail.
      */
-    public PropertyExpression(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        super(References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true));
+    public static PropertyExpression newForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
+        return new PropertyExpression(References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true));
     }
     
     /**

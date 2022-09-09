@@ -120,8 +120,8 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * @step is a power of ten. If the resulting precision is not suitable
      * for your needs, use [method@Gtk.Scale.set_digits] to correct it.
      */
-    public Scale(Orientation orientation, double min, double max, double step) {
-        super(References.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
+    public static Scale newWithRange(Orientation orientation, double min, double max, double step) {
+        return new Scale(References.get(gtk_h.gtk_scale_new_with_range(orientation.getValue(), min, max, step), false));
     }
     
     /**

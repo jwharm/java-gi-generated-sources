@@ -75,8 +75,8 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * remove individual shortcuts using the shortcut controller api,
      * but you can change the contents of the model.
      */
-    public ShortcutController(org.gtk.gio.ListModel model) {
-        super(References.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true));
+    public static ShortcutController newForModel(org.gtk.gio.ListModel model) {
+        return new ShortcutController(References.get(gtk_h.gtk_shortcut_controller_new_for_model(model.handle()), true));
     }
     
     /**

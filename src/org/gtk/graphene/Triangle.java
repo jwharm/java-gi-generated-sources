@@ -21,8 +21,8 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned structure are undefined.
      */
-    public Triangle() {
-        super(References.get(gtk_h.graphene_triangle_alloc(), true));
+    public static Triangle alloc() {
+        return new Triangle(References.get(gtk_h.graphene_triangle_alloc(), true));
     }
     
     /**

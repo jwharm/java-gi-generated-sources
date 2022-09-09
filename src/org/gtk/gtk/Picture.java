@@ -83,8 +83,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * [ctor@Gdk.Texture.new_from_file] to load the file yourself,
      * then create the `GtkPicture` from the texture.
      */
-    public Picture(org.gtk.gio.File file) {
-        super(References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false));
+    public static Picture newForFile(org.gtk.gio.File file) {
+        return new Picture(References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false));
     }
     
     /**
@@ -103,8 +103,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The `GtkPicture` will track changes to the @paintable and update
      * its size and contents in response to it.
      */
-    public Picture(org.gtk.gdk.Paintable paintable) {
-        super(References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false));
+    public static Picture newForPaintable(org.gtk.gdk.Paintable paintable) {
+        return new Picture(References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false));
     }
     
     /**
@@ -115,8 +115,8 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * 
      * The pixbuf must not be modified after passing it to this function.
      */
-    public Picture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false));
+    public static Picture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        return new Picture(References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false));
     }
     
     /**

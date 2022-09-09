@@ -28,8 +28,8 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * 
      * The icon can then be rendered by using it as a `GdkPaintable`.
      */
-    public IconPaintable(org.gtk.gio.File file, int size, int scale) {
-        super(References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true));
+    public static IconPaintable newForFile(org.gtk.gio.File file, int size, int scale) {
+        return new IconPaintable(References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true));
     }
     
     /**

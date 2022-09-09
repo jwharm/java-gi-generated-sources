@@ -49,8 +49,8 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * triggers in XML files, such as GtkBuilder ui files. Use `&lt;` instead of
      * `<` and `&gt;` instead of `>`.
      */
-    public ShortcutTrigger(java.lang.String string) {
-        super(References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true));
+    public static ShortcutTrigger parseString(java.lang.String string) {
+        return new ShortcutTrigger(References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true));
     }
     
     /**

@@ -91,8 +91,8 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * 
      * The argument list is expected to be %NULL-terminated.
      */
-    public Subprocess(java.lang.String[] argv, int flags) throws GErrorException {
-        super(constructNewvOrThrow(argv, flags));
+    public static Subprocess newv(java.lang.String[] argv, int flags) throws GErrorException {
+        return new Subprocess(constructNewvOrThrow(argv, flags));
     }
     
     /**

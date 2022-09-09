@@ -58,8 +58,8 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * @parent should probably be given as the default schema source, as
      * returned by g_settings_schema_source_get_default().
      */
-    public SettingsSchemaSource(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        super(constructNewFromDirectoryOrThrow(directory, parent, trusted));
+    public static SettingsSchemaSource newFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+        return new SettingsSchemaSource(constructNewFromDirectoryOrThrow(directory, parent, trusted));
     }
     
     /**

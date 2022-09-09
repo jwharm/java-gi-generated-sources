@@ -45,8 +45,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * If @file cannot be read or parsed, the function will return %NULL and
      * set @error.
      */
-    public TlsCertificate(java.lang.String file) throws GErrorException {
-        super(constructNewFromFileOrThrow(file));
+    public static TlsCertificate newFromFile(java.lang.String file) throws GErrorException {
+        return new TlsCertificate(constructNewFromFileOrThrow(file));
     }
     
     private static Reference constructNewFromFileWithPasswordOrThrow(java.lang.String file, java.lang.String password) throws GErrorException {
@@ -126,8 +126,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * certificate in the chain cannot be verified, the first certificate in
      * the file will still be returned.
      */
-    public TlsCertificate(java.lang.String data, long length) throws GErrorException {
-        super(constructNewFromPemOrThrow(data, length));
+    public static TlsCertificate newFromPem(java.lang.String data, long length) throws GErrorException {
+        return new TlsCertificate(constructNewFromPemOrThrow(data, length));
     }
     
     private static Reference constructNewFromPkcs11UrisOrThrow(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
@@ -197,8 +197,8 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * 
      * Other parsing failures will error with %G_TLS_ERROR_BAD_CERTIFICATE.
      */
-    public TlsCertificate(byte[] data, long length, java.lang.String password) throws GErrorException {
-        super(constructNewFromPkcs12OrThrow(data, length, password));
+    public static TlsCertificate newFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
+        return new TlsCertificate(constructNewFromPkcs12OrThrow(data, length, password));
     }
     
     /**

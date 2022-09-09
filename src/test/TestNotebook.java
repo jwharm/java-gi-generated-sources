@@ -1,7 +1,5 @@
 package test;
 
-import io.github.jwharm.javagi.interop.GErrorException;
-import org.gtk.gdk.Texture;
 import org.gtk.gtk.*;
 import org.gtk.gio.ApplicationFlags;
 
@@ -66,7 +64,7 @@ public class TestNotebook {
         box.setValign(Align.CENTER);
 
         String[] strings = new String[] {"Item1", "Item2", "Item3"};
-        DropDown dd = new DropDown(strings);
+        DropDown dd = DropDown.newFromStrings(strings);
         box.append(dd);
         return box;
     }

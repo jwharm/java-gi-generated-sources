@@ -24,8 +24,8 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned structure are undefined.
      */
-    public Frustum() {
-        super(References.get(gtk_h.graphene_frustum_alloc(), true));
+    public static Frustum alloc() {
+        return new Frustum(References.get(gtk_h.graphene_frustum_alloc(), true));
     }
     
     /**

@@ -24,8 +24,8 @@ public class Quad extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned instance are undefined.
      */
-    public Quad() {
-        super(References.get(gtk_h.graphene_quad_alloc(), true));
+    public static Quad alloc() {
+        return new Quad(References.get(gtk_h.graphene_quad_alloc(), true));
     }
     
     /**

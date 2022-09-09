@@ -53,8 +53,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Creates a new #GDesktopAppInfo.
      */
-    public DesktopAppInfo(org.gtk.glib.KeyFile keyFile) {
-        super(References.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true));
+    public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+        return new DesktopAppInfo(References.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true));
     }
     
     /**

@@ -92,8 +92,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * displayed instead. If the current icon theme is changed, the icon
      * will be updated appropriately.
      */
-    public Image(org.gtk.gio.Icon icon) {
-        super(References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false));
+    public static Image newFromGicon(org.gtk.gio.Icon icon) {
+        return new Image(References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false));
     }
     
     /**
@@ -117,8 +117,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * The `GtkImage` will track changes to the @paintable and update
      * its size and contents in response to it.
      */
-    public Image(org.gtk.gdk.Paintable paintable) {
-        super(References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false));
+    public static Image newFromPaintable(org.gtk.gdk.Paintable paintable) {
+        return new Image(References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false));
     }
     
     /**
@@ -135,8 +135,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * The `GtkImage` created will not react to state changes. Should you
      * want that, you should use [ctor@Gtk.Image.new_from_icon_name].
      */
-    public Image(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false));
+    public static Image newFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        return new Image(References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false));
     }
     
     /**

@@ -65,8 +65,8 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * @object and the created closure. This function is mainly useful
      * when implementing new types of closures.
      */
-    public Closure(int sizeofClosure, Object object) {
-        super(References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true));
+    public static Closure newObject(int sizeofClosure, Object object) {
+        return new Closure(References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true));
     }
     
     /**
@@ -108,8 +108,8 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * }
      * ]|
      */
-    public Closure(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
-        super(References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false));
+    public static Closure newSimple(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
+        return new Closure(References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false));
     }
     
     /**

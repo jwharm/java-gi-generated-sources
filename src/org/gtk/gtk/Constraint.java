@@ -47,8 +47,8 @@ public class Constraint extends org.gtk.gobject.Object {
      * Creates a new constraint representing a relation between a layout
      * attribute on a target and a constant value.
      */
-    public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        super(References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
+    public static Constraint newConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
+        return new Constraint(References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
     }
     
     /**

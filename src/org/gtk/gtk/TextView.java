@@ -74,8 +74,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * to [ctor@Gtk.TextView.new]. The text view adds its own reference count
      * to the buffer; it does not take over an existing reference.
      */
-    public TextView(TextBuffer buffer) {
-        super(References.get(gtk_h.gtk_text_view_new_with_buffer(buffer.handle()), false));
+    public static TextView newWithBuffer(TextBuffer buffer) {
+        return new TextView(References.get(gtk_h.gtk_text_view_new_with_buffer(buffer.handle()), false));
     }
     
     /**

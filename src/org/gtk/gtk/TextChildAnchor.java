@@ -42,8 +42,8 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Usually you would then insert it into a `GtkTextBuffer` with
      * [method@Gtk.TextBuffer.insert_child_anchor].
      */
-    public TextChildAnchor(java.lang.String character) {
-        super(References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true));
+    public static TextChildAnchor newWithReplacement(java.lang.String character) {
+        return new TextChildAnchor(References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true));
     }
     
     /**

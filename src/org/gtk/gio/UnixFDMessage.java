@@ -44,8 +44,8 @@ public class UnixFDMessage extends SocketControlMessage {
     /**
      * Creates a new #GUnixFDMessage containing @list.
      */
-    public UnixFDMessage(UnixFDList fdList) {
-        super(References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true));
+    public static UnixFDMessage newWithFdList(UnixFDList fdList) {
+        return new UnixFDMessage(References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true));
     }
     
     /**

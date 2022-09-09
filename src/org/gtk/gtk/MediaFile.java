@@ -38,8 +38,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     /**
      * Creates a new media file to play @file.
      */
-    public MediaFile(org.gtk.gio.File file) {
-        super(References.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true));
+    public static MediaFile newForFile(org.gtk.gio.File file) {
+        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true));
     }
     
     /**
@@ -58,8 +58,8 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * If you want the resulting media to be seekable,
      * the stream should implement the `GSeekable` interface.
      */
-    public MediaFile(org.gtk.gio.InputStream stream) {
-        super(References.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true));
+    public static MediaFile newForInputStream(org.gtk.gio.InputStream stream) {
+        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true));
     }
     
     /**

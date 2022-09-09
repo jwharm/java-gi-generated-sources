@@ -41,8 +41,8 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
      * while loading a big image.
      */
-    public Texture(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        super(References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true));
+    public static Texture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        return new Texture(References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true));
     }
     
     private static Reference constructNewFromBytesOrThrow(org.gtk.glib.Bytes bytes) throws GErrorException {
@@ -66,8 +66,8 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
      * while loading a big image.
      */
-    public Texture(org.gtk.glib.Bytes bytes) throws GErrorException {
-        super(constructNewFromBytesOrThrow(bytes));
+    public static Texture newFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
+        return new Texture(constructNewFromBytesOrThrow(bytes));
     }
     
     private static Reference constructNewFromFileOrThrow(org.gtk.gio.File file) throws GErrorException {
@@ -91,8 +91,8 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * and [method@Gio.Task.run_in_thread] to avoid blocking the main thread
      * while loading a big image.
      */
-    public Texture(org.gtk.gio.File file) throws GErrorException {
-        super(constructNewFromFileOrThrow(file));
+    public static Texture newFromFile(org.gtk.gio.File file) throws GErrorException {
+        return new Texture(constructNewFromFileOrThrow(file));
     }
     
     private static Reference constructNewFromFilenameOrThrow(java.lang.String path) throws GErrorException {

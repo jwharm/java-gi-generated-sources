@@ -154,8 +154,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * is not suitable for your needs, use
      * [method@Gtk.SpinButton.set_digits] to correct it.
      */
-    public SpinButton(double min, double max, double step) {
-        super(References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
+    public static SpinButton newWithRange(double min, double max, double step) {
+        return new SpinButton(References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
     }
     
     /**

@@ -43,8 +43,8 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @item_index must be valid (ie: be sure to call
      * g_menu_model_get_n_items() first).
      */
-    public MenuItem(MenuModel model, int itemIndex) {
-        super(References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true));
+    public static MenuItem newFromModel(MenuModel model, int itemIndex) {
+        return new MenuItem(References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true));
     }
     
     /**

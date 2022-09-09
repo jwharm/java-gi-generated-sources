@@ -54,8 +54,8 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     /**
      * Creates a new color button showing the given color.
      */
-    public ColorButton(org.gtk.gdk.RGBA rgba) {
-        super(References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false));
+    public static ColorButton newWithRgba(org.gtk.gdk.RGBA rgba) {
+        return new ColorButton(References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false));
     }
     
     /**

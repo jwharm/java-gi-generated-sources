@@ -116,8 +116,8 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a new `GtkTreeView` widget with the model initialized to @model.
      */
-    public TreeView(TreeModel model) {
-        super(References.get(gtk_h.gtk_tree_view_new_with_model(model.handle()), false));
+    public static TreeView newWithModel(TreeModel model) {
+        return new TreeView(References.get(gtk_h.gtk_tree_view_new_with_model(model.handle()), false));
     }
     
     /**

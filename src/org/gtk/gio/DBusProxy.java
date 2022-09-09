@@ -110,8 +110,8 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * 
      * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
      */
-    public DBusProxy(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
-        super(constructNewForBusSyncOrThrow(busType, flags, info, name, objectPath, interfaceName, cancellable));
+    public static DBusProxy newForBusSync(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        return new DBusProxy(constructNewForBusSyncOrThrow(busType, flags, info, name, objectPath, interfaceName, cancellable));
     }
     
     private static Reference constructNewSyncOrThrow(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
@@ -147,8 +147,8 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * 
      * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
      */
-    public DBusProxy(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
-        super(constructNewSyncOrThrow(connection, flags, info, name, objectPath, interfaceName, cancellable));
+    public static DBusProxy newSync(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
+        return new DBusProxy(constructNewSyncOrThrow(connection, flags, info, name, objectPath, interfaceName, cancellable));
     }
     
     /**

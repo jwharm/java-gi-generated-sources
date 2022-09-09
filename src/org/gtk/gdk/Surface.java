@@ -35,15 +35,15 @@ public class Surface extends org.gtk.gobject.Object {
      * The surface will be attached to @parent and can be positioned
      * relative to it using [method@Gdk.Popup.present].
      */
-    public Surface(Surface parent, boolean autohide) {
-        super(References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true));
+    public static Surface newPopup(Surface parent, boolean autohide) {
+        return new Surface(References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true));
     }
     
     /**
      * Creates a new toplevel surface.
      */
-    public Surface(Display display) {
-        super(References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true));
+    public static Surface newToplevel(Display display) {
+        return new Surface(References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true));
     }
     
     /**

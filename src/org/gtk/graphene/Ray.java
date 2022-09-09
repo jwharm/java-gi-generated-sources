@@ -24,8 +24,8 @@ public class Ray extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * The contents of the returned structure are undefined.
      */
-    public Ray() {
-        super(References.get(gtk_h.graphene_ray_alloc(), true));
+    public static Ray alloc() {
+        return new Ray(References.get(gtk_h.graphene_ray_alloc(), true));
     }
     
     /**
