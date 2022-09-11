@@ -50,6 +50,25 @@ public class Hook extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Finds a #GHook in a #GHookList using the given function to
+     * test for a match.
+     */
+    public void find(HookList hookList, boolean needValids, HookFindFunc func) {
+        try {
+            int hash = func.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookFindFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_hook_find(hookList.handle(), needValids ? 1 : 0, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finds a #GHook in a #GHookList with the given data.
      */
     public static Hook findData(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress data) {

@@ -3,11 +3,17 @@ package org.gtk.gtk;
 import jdk.incubator.foreign.*;
 import java.util.HashMap;
 import io.github.jwharm.javagi.interop.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
     
     public static final HashMap<java.lang.Integer, java.lang.Object> signalRegistry = new HashMap<>();
+    
+    public static void cbAssistantPageFunc(int currentPage, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (AssistantPageFunc) signalRegistry.get(hash);
+        handler.onAssistantPageFunc(currentPage);
+    }
     
     public static void signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
@@ -85,6 +91,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (Widget.UnrealizeHandler) signalRegistry.get(hash);
         handler.signalReceived(new Widget(References.get(source)));
+    }
+    
+    public static void cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (EntryCompletionMatchFunc) signalRegistry.get(hash);
+        handler.onEntryCompletionMatchFunc(new EntryCompletion(References.get(completion, false)), key.getUtf8String(0), new TreeIter(References.get(iter, false)));
     }
     
     public static void signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
@@ -177,6 +189,12 @@ public final class JVMCallbacks {
         return handler.signalReceived(new ShortcutsSection(References.get(source)), object);
     }
     
+    public static void cbMenuButtonCreatePopupFunc(MemoryAddress menuButton, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (MenuButtonCreatePopupFunc) signalRegistry.get(hash);
+        handler.onMenuButtonCreatePopupFunc(new MenuButton(References.get(menuButton, false)));
+    }
+    
     public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ShortcutsWindow.CloseHandler) signalRegistry.get(hash);
@@ -187,6 +205,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (ShortcutsWindow.SearchHandler) signalRegistry.get(hash);
         handler.signalReceived(new ShortcutsWindow(References.get(source)));
+    }
+    
+    public static void cbExpressionNotify(MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ExpressionNotify) signalRegistry.get(hash);
+        handler.onExpressionNotify();
     }
     
     public static void signalEntryActivate(MemoryAddress source, MemoryAddress data) {
@@ -321,6 +345,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
+    public static void cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FlowBoxCreateWidgetFunc) signalRegistry.get(hash);
+        handler.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(References.get(item, false)));
+    }
+    
     public static void signalListViewActivate(MemoryAddress source, int position, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ListView.ActivateHandler) signalRegistry.get(hash);
@@ -339,6 +369,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new Dialog(References.get(source)), responseId);
     }
     
+    public static void cbFlowBoxForeachFunc(MemoryAddress box, MemoryAddress child, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FlowBoxForeachFunc) signalRegistry.get(hash);
+        handler.onFlowBoxForeachFunc(new FlowBox(References.get(box, false)), new FlowBoxChild(References.get(child, false)));
+    }
+    
     public static void signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (FontButton.ActivateHandler) signalRegistry.get(hash);
@@ -355,6 +391,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (Expander.ActivateHandler) signalRegistry.get(hash);
         handler.signalReceived(new Expander(References.get(source)));
+    }
+    
+    public static void cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ScaleFormatValueFunc) signalRegistry.get(hash);
+        handler.onScaleFormatValueFunc(new Scale(References.get(scale, false)), value);
     }
     
     public static void signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
@@ -447,6 +489,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
     }
     
+    public static void cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (CellCallback) signalRegistry.get(hash);
+        handler.onCellCallback(new CellRenderer(References.get(renderer, false)));
+    }
+    
     public static void signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (AppChooserWidget.ApplicationActivatedHandler) signalRegistry.get(hash);
@@ -457,6 +505,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (AppChooserWidget.ApplicationSelectedHandler) signalRegistry.get(hash);
         handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
+    }
+    
+    public static void cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ListBoxFilterFunc) signalRegistry.get(hash);
+        handler.onListBoxFilterFunc(new ListBoxRow(References.get(row, false)));
     }
     
     public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
@@ -505,6 +559,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (GestureClick.UnpairedReleaseHandler) signalRegistry.get(hash);
         handler.signalReceived(new GestureClick(References.get(source)), x, y, button, new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+    }
+    
+    public static void cbListBoxSortFunc(MemoryAddress row1, MemoryAddress row2, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ListBoxSortFunc) signalRegistry.get(hash);
+        handler.onListBoxSortFunc(new ListBoxRow(References.get(row1, false)), new ListBoxRow(References.get(row2, false)));
     }
     
     public static boolean signalIconViewActivateCursorItem(MemoryAddress source, MemoryAddress data) {
@@ -567,6 +627,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
+    public static void cbCellLayoutDataFunc(MemoryAddress cellLayout, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (CellLayoutDataFunc) signalRegistry.get(hash);
+        handler.onCellLayoutDataFunc(new CellLayout.CellLayoutImpl(References.get(cellLayout, false)), new CellRenderer(References.get(cell, false)), new TreeModel.TreeModelImpl(References.get(treeModel, false)), new TreeIter(References.get(iter, false)));
+    }
+    
     public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CellRendererText.EditedHandler) signalRegistry.get(hash);
@@ -615,10 +681,28 @@ public final class JVMCallbacks {
         handler.signalReceived(new AppChooserButton(References.get(source)), itemName.getUtf8String(0));
     }
     
+    public static void cbListBoxForeachFunc(MemoryAddress box, MemoryAddress row, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ListBoxForeachFunc) signalRegistry.get(hash);
+        handler.onListBoxForeachFunc(new ListBox(References.get(box, false)), new ListBoxRow(References.get(row, false)));
+    }
+    
     public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CellRendererToggle.ToggledHandler) signalRegistry.get(hash);
         handler.signalReceived(new CellRendererToggle(References.get(source)), path.getUtf8String(0));
+    }
+    
+    public static void cbCustomAllocateFunc(MemoryAddress widget, int width, int height, int baseline) {
+        int hash = baseline.get(C_INT, 0);
+        var handler = (CustomAllocateFunc) signalRegistry.get(hash);
+        handler.onCustomAllocateFunc(new Widget(References.get(widget, false)), width, height);
+    }
+    
+    public static void cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ListBoxCreateWidgetFunc) signalRegistry.get(hash);
+        handler.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(References.get(item, false)));
     }
     
     public static void signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
@@ -709,6 +793,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (Paned.ToggleHandleFocusHandler) signalRegistry.get(hash);
         return handler.signalReceived(new Paned(References.get(source)));
+    }
+    
+    public static void cbTreeViewMappingFunc(MemoryAddress treeView, MemoryAddress path, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TreeViewMappingFunc) signalRegistry.get(hash);
+        handler.onTreeViewMappingFunc(new TreeView(References.get(treeView, false)), new TreePath(References.get(path, false)));
     }
     
     public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
@@ -891,6 +981,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new Text(References.get(source)));
     }
     
+    public static void cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeViewColumnDropFunc) signalRegistry.get(hash);
+        handler.onTreeViewColumnDropFunc(new TreeView(References.get(treeView, false)), new TreeViewColumn(References.get(column, false)), new TreeViewColumn(References.get(prevColumn, false)), new TreeViewColumn(References.get(nextColumn, false)));
+    }
+    
+    public static void cbTreeSelectionForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeSelectionForeachFunc) signalRegistry.get(hash);
+        handler.onTreeSelectionForeachFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+    }
+    
     public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (GestureSwipe.SwipeHandler) signalRegistry.get(hash);
@@ -901,6 +1003,18 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (CellRendererCombo.ChangedHandler) signalRegistry.get(hash);
         handler.signalReceived(new CellRendererCombo(References.get(source)), pathString.getUtf8String(0), new TreeIter(References.get(newIter, false)));
+    }
+    
+    public static void cbFlowBoxSortFunc(MemoryAddress child1, MemoryAddress child2, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FlowBoxSortFunc) signalRegistry.get(hash);
+        handler.onFlowBoxSortFunc(new FlowBoxChild(References.get(child1, false)), new FlowBoxChild(References.get(child2, false)));
+    }
+    
+    public static void cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (FontFilterFunc) signalRegistry.get(hash);
+        handler.onFontFilterFunc(new org.pango.FontFamily(References.get(family, false)), new org.pango.FontFace(References.get(face, false)));
     }
     
     public static void signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
@@ -1023,6 +1137,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new Range(References.get(source)));
     }
     
+    public static void cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeModelForeachFunc) signalRegistry.get(hash);
+        handler.onTreeModelForeachFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+    }
+    
     public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (GestureLongPress.CancelledHandler) signalRegistry.get(hash);
@@ -1119,6 +1239,12 @@ public final class JVMCallbacks {
         return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
     }
     
+    public static void cbTextTagTableForeach(MemoryAddress tag, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TextTagTableForeach) signalRegistry.get(hash);
+        handler.onTextTagTableForeach(new TextTag(References.get(tag, false)));
+    }
+    
     public static void signalEditableChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Editable.ChangedHandler) signalRegistry.get(hash);
@@ -1143,10 +1269,22 @@ public final class JVMCallbacks {
         handler.signalReceived(new EmojiChooser(References.get(source)), text.getUtf8String(0));
     }
     
+    public static void cbPrintSettingsFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (PrintSettingsFunc) signalRegistry.get(hash);
+        handler.onPrintSettingsFunc(key.getUtf8String(0), value.getUtf8String(0));
+    }
+    
     public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ColorChooser.ColorActivatedHandler) signalRegistry.get(hash);
         handler.signalReceived(new ColorChooser.ColorChooserImpl(References.get(source)), new org.gtk.gdk.RGBA(References.get(color, false)));
+    }
+    
+    public static void cbTreeModelFilterModifyFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress value, int column, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeModelFilterModifyFunc) signalRegistry.get(hash);
+        handler.onTreeModelFilterModifyFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), new org.gtk.gobject.Value(References.get(value, false)), column);
     }
     
     public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
@@ -1251,6 +1389,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new GridView(References.get(source)), position);
     }
     
+    public static void cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
+        int hash = searchData.get(C_INT, 0);
+        var handler = (TreeViewSearchEqualFunc) signalRegistry.get(hash);
+        handler.onTreeViewSearchEqualFunc(new TreeModel.TreeModelImpl(References.get(model, false)), column, key.getUtf8String(0), new TreeIter(References.get(iter, false)));
+    }
+    
     public static void signalCellRendererAccelAccelCleared(MemoryAddress source, MemoryAddress pathString, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CellRendererAccel.AccelClearedHandler) signalRegistry.get(hash);
@@ -1299,10 +1443,28 @@ public final class JVMCallbacks {
         handler.signalReceived(new Assistant(References.get(source)), new Widget(References.get(page, false)));
     }
     
+    public static void cbCustomMeasureFunc(MemoryAddress widget, int orientation, int forSize, int minimum, int natural, int minimumBaseline, int naturalBaseline) {
+        int hash = naturalBaseline.get(C_INT, 0);
+        var handler = (CustomMeasureFunc) signalRegistry.get(hash);
+        handler.onCustomMeasureFunc(new Widget(References.get(widget, false)), Orientation.fromValue(orientation), forSize, minimum, natural, minimumBaseline);
+    }
+    
     public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Overlay.GetChildPositionHandler) signalRegistry.get(hash);
         return handler.signalReceived(new Overlay(References.get(source)), new Widget(References.get(widget, false)), new org.gtk.gdk.Rectangle(References.get(allocation, false)));
+    }
+    
+    public static void cbTreeCellDataFunc(MemoryAddress treeColumn, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeCellDataFunc) signalRegistry.get(hash);
+        handler.onTreeCellDataFunc(new TreeViewColumn(References.get(treeColumn, false)), new CellRenderer(References.get(cell, false)), new TreeModel.TreeModelImpl(References.get(treeModel, false)), new TreeIter(References.get(iter, false)));
+    }
+    
+    public static void cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeModelFilterVisibleFunc) signalRegistry.get(hash);
+        handler.onTreeModelFilterVisibleFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static void signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
@@ -1345,6 +1507,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (GestureZoom.ScaleChangedHandler) signalRegistry.get(hash);
         handler.signalReceived(new GestureZoom(References.get(source)), scale);
+    }
+    
+    public static void cbTextCharPredicate(int ch, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TextCharPredicate) signalRegistry.get(hash);
+        handler.onTextCharPredicate(ch);
     }
     
     public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
@@ -1399,6 +1567,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (FlowBoxChild.ActivateHandler) signalRegistry.get(hash);
         handler.signalReceived(new FlowBoxChild(References.get(source)));
+    }
+    
+    public static void cbPageSetupDoneFunc(MemoryAddress pageSetup, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PageSetupDoneFunc) signalRegistry.get(hash);
+        handler.onPageSetupDoneFunc(new PageSetup(References.get(pageSetup, false)));
     }
     
     public static void signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
@@ -1557,6 +1731,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new ColumnView(References.get(source)), position);
     }
     
+    public static void cbIconViewForeachFunc(MemoryAddress iconView, MemoryAddress path, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (IconViewForeachFunc) signalRegistry.get(hash);
+        handler.onIconViewForeachFunc(new IconView(References.get(iconView, false)), new TreePath(References.get(path, false)));
+    }
+    
     public static void signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CheckButton.ActivateHandler) signalRegistry.get(hash);
@@ -1599,6 +1779,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new Label(References.get(source)), MovementStep.fromValue(step), count, extendSelection);
     }
     
+    public static void cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (MapListModelMapFunc) signalRegistry.get(hash);
+        handler.onMapListModelMapFunc(new org.gtk.gobject.Object(References.get(item, true)));
+    }
+    
+    public static void cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FlowBoxFilterFunc) signalRegistry.get(hash);
+        handler.onFlowBoxFilterFunc(new FlowBoxChild(References.get(child, false)));
+    }
+    
     public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (StyleProvider.GtkPrivateChangedHandler) signalRegistry.get(hash);
@@ -1629,6 +1821,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new ATContext(References.get(source)));
     }
     
+    public static void cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (CustomFilterFunc) signalRegistry.get(hash);
+        handler.onCustomFilterFunc(new org.gtk.gobject.Object(References.get(item, false)));
+    }
+    
+    public static void cbPrintJobCompleteFunc(MemoryAddress printJob, MemoryAddress userData, MemoryAddress error) {
+        int hash = error.get(C_INT, 0);
+        var handler = (PrintJobCompleteFunc) signalRegistry.get(hash);
+        handler.onPrintJobCompleteFunc(new PrintJob(References.get(printJob, false)), userData);
+    }
+    
     public static void signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TreeSortable.SortColumnChangedHandler) signalRegistry.get(hash);
@@ -1657,6 +1861,18 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (CellEditable.RemoveWidgetHandler) signalRegistry.get(hash);
         handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+    }
+    
+    public static void cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TreeListModelCreateModelFunc) signalRegistry.get(hash);
+        handler.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(References.get(item, false)));
+    }
+    
+    public static void cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, boolean pathCurrentlySelected, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeSelectionFunc) signalRegistry.get(hash);
+        handler.onTreeSelectionFunc(new TreeSelection(References.get(selection, false)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreePath(References.get(path, false)), pathCurrentlySelected);
     }
     
     public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
@@ -1707,10 +1923,22 @@ public final class JVMCallbacks {
         return handler.signalReceived(new Switch(References.get(source)), state);
     }
     
+    public static void cbDrawingAreaDrawFunc(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DrawingAreaDrawFunc) signalRegistry.get(hash);
+        handler.onDrawingAreaDrawFunc(new DrawingArea(References.get(drawingArea, false)), new org.cairographics.Context(References.get(cr, false)), width, height);
+    }
+    
     public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (IconTheme.ChangedHandler) signalRegistry.get(hash);
         handler.signalReceived(new IconTheme(References.get(source)));
+    }
+    
+    public static void cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ShortcutFunc) signalRegistry.get(hash);
+        handler.onShortcutFunc(new Widget(References.get(widget, false)), new org.gtk.glib.Variant(References.get(args, false)));
     }
     
     public static void signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
@@ -1749,6 +1977,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new EventControllerScroll(References.get(source)));
     }
     
+    public static void cbListBoxUpdateHeaderFunc(MemoryAddress row, MemoryAddress before, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ListBoxUpdateHeaderFunc) signalRegistry.get(hash);
+        handler.onListBoxUpdateHeaderFunc(new ListBoxRow(References.get(row, false)), new ListBoxRow(References.get(before, false)));
+    }
+    
     public static void signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TextTagTable.TagAddedHandler) signalRegistry.get(hash);
@@ -1785,6 +2019,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
     }
     
+    public static void cbTreeIterCompareFunc(MemoryAddress model, MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TreeIterCompareFunc) signalRegistry.get(hash);
+        handler.onTreeIterCompareFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(a, false)), new TreeIter(References.get(b, false)));
+    }
+    
+    public static void cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (CellAllocCallback) signalRegistry.get(hash);
+        handler.onCellAllocCallback(new CellRenderer(References.get(renderer, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), new org.gtk.gdk.Rectangle(References.get(cellBackground, false)));
+    }
+    
     public static void signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CellRenderer.EditingCanceledHandler) signalRegistry.get(hash);
@@ -1801,6 +2047,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (Printer.DetailsAcquiredHandler) signalRegistry.get(hash);
         handler.signalReceived(new Printer(References.get(source)), success);
+    }
+    
+    public static void cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TickCallback) signalRegistry.get(hash);
+        handler.onTickCallback(new Widget(References.get(widget, false)), new org.gtk.gdk.FrameClock(References.get(frameClock, false)));
     }
     
     public static void signalGestureBegin(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
@@ -1839,6 +2091,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new PrintJob(References.get(source)));
     }
     
+    public static void cbCustomRequestModeFunc(MemoryAddress widget) {
+        int hash = widget.get(C_INT, 0);
+        var handler = (CustomRequestModeFunc) signalRegistry.get(hash);
+        handler.onCustomRequestModeFunc();
+    }
+    
     public static boolean signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (DropTarget.AcceptHandler) signalRegistry.get(hash);
@@ -1867,6 +2125,18 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (DropTarget.MotionHandler) signalRegistry.get(hash);
         handler.signalReceived(new DropTarget(References.get(source)), x, y);
+    }
+    
+    public static void cbWidgetActionActivateFunc(MemoryAddress widget, MemoryAddress actionName, MemoryAddress parameter) {
+        int hash = parameter.get(C_INT, 0);
+        var handler = (WidgetActionActivateFunc) signalRegistry.get(hash);
+        handler.onWidgetActionActivateFunc(new Widget(References.get(widget, false)), actionName.getUtf8String(0));
+    }
+    
+    public static void cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrinterFunc) signalRegistry.get(hash);
+        handler.onPrinterFunc(new Printer(References.get(printer, false)));
     }
     
     public static boolean signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
@@ -1987,6 +2257,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (TextBuffer.UndoHandler) signalRegistry.get(hash);
         handler.signalReceived(new TextBuffer(References.get(source)));
+    }
+    
+    public static void cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TreeViewRowSeparatorFunc) signalRegistry.get(hash);
+        handler.onTreeViewRowSeparatorFunc(new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
     
     public static boolean signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {

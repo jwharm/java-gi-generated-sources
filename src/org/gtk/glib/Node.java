@@ -36,12 +36,50 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Calls a function for each of the children of a #GNode. Note that it
+     * doesn't descend beneath the child nodes. @func must not do anything
+     * that would modify the structure of the tree.
+     */
+    public void childrenForeach(int flags, NodeForeachFunc func) {
+        try {
+            int hash = func.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeForeachFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_node_children_foreach(handle(), flags, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Recursively copies a #GNode (but does not deep-copy the data inside the
      * nodes, see g_node_copy_deep() if you need that).
      */
     public Node copy() {
         var RESULT = gtk_h.g_node_copy(handle());
         return new Node(References.get(RESULT, false));
+    }
+    
+    /**
+     * Recursively copies a #GNode and its data.
+     */
+    public void copyDeep(CopyFunc copyFunc) {
+        try {
+            int hash = copyFunc.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, copyFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_node_copy_deep(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -199,6 +237,27 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public void reverseChildren() {
         gtk_h.g_node_reverse_children(handle());
+    }
+    
+    /**
+     * Traverses a tree starting at the given root #GNode.
+     * It calls the given function for each node visited.
+     * The traversal can be halted at any point by returning %TRUE from @func.
+     * @func must not do anything that would modify the structure of the tree.
+     */
+    public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
+        try {
+            int hash = func.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeTraverseFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

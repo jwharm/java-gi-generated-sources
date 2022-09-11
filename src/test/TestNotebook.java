@@ -18,11 +18,12 @@ public class TestNotebook {
 
         var notebook = new Notebook();
         notebook.setTabPos(PositionType.TOP);
-        notebook.appendPage(boxWithButton(window), new Label("Tab with button"));
-        notebook.appendPage(boxWithTextEntry(), new Label("Tab with text entry"));
-        notebook.appendPage(boxWithDropdown(), new Label("Tab with dropdown"));
-        notebook.appendPage(boxWithList(), new Label("Tab with list"));
-        notebook.appendPage(boxWithCombobox(), new Label("Tab with combobox"));
+        notebook.appendPage(boxWithButton(window), new Label("Button"));
+        notebook.appendPage(boxWithTextEntry(), new Label("Text entry"));
+        notebook.appendPage(boxWithDropdown(), new Label("Dropdown"));
+        notebook.appendPage(boxWithList(), new Label("List"));
+        notebook.appendPage(boxWithCombobox(), new Label("Combobox"));
+        notebook.appendPage(boxWithListbox(), new Label("Listbox"));
 
         notebook.onSwitchPage((source, page, pageNum) ->
                 System.out.println("Switched to page " + pageNum)
@@ -30,6 +31,31 @@ public class TestNotebook {
 
         window.setChild(notebook);
         window.show();
+    }
+
+    private Box boxWithListbox() {
+        var box = new Box(Orientation.VERTICAL, 0);
+        box.setHalign(Align.CENTER);
+        box.setValign(Align.CENTER);
+
+        ListBox lb = new ListBox();
+        lb.setSelectionMode(SelectionMode.BROWSE);
+        lb.show();
+
+        lb.append(new Label("Item1"));
+        lb.append(new Label("Item2"));
+        lb.append(new Label("Item3"));
+
+        var triggerButton = Button.newWithLabel("Try it out");
+        box.append(triggerButton);
+        triggerButton.onClicked((src) -> {
+            lb.selectedForeach((box1, row) -> {
+                System.out.println("Currently selected: " + Label.castFrom(row.getChild()).getLabel());
+            });
+        });
+
+        box.append(lb);
+        return box;
     }
 
     private Box boxWithCombobox() {

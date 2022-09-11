@@ -27,6 +27,27 @@ public class Fontset extends org.gtk.gobject.Object {
     }
     
     /**
+     * Iterates through all the fonts in a fontset, calling @func for
+     * each one.
+     * 
+     * If @func returns %TRUE, that stops the iteration.
+     */
+    public void foreach(FontsetForeachFunc func) {
+        try {
+            int hash = func.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontsetForeachFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.pango_fontset_foreach(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Returns the font in the fontset that contains the best
      * glyph for a Unicode character.
      */

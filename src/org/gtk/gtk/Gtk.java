@@ -480,6 +480,28 @@ public final class Gtk {
         return new PageSetup(References.get(RESULT, true));
     }
     
+    /**
+     * Runs a page setup dialog, letting the user modify the values from @page_setup.
+     * 
+     * In contrast to gtk_print_run_page_setup_dialog(), this function  returns after
+     * showing the page setup dialog on platforms that support this, and calls @done_cb
+     * from a signal handler for the ::response signal of the dialog.
+     */
+    public void printRunPageSetupDialogAsync(Window parent, PageSetup pageSetup, PrintSettings settings, PageSetupDoneFunc doneCb) {
+        try {
+            int hash = doneCb.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, doneCb);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPageSetupDoneFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_print_run_page_setup_dialog_async(parent.handle(), pageSetup.handle(), settings.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public static org.gtk.glib.Quark recentManagerErrorQuark() {
         var RESULT = gtk_h.gtk_recent_manager_error_quark();
         return new org.gtk.glib.Quark(RESULT);

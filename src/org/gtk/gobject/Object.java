@@ -65,6 +65,51 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Increases the reference count of the object by one and sets a
+     * callback to be called when all other references to the object are
+     * dropped, or when this is already the last reference to the object
+     * and another reference is established.
+     * 
+     * This functionality is intended for binding @object to a proxy
+     * object managed by another memory manager. This is done with two
+     * paired references: the strong reference added by
+     * g_object_add_toggle_ref() and a reverse reference to the proxy
+     * object which is either a strong reference or weak reference.
+     * 
+     * The setup is that when there are no other references to @object,
+     * only a weak reference is held in the reverse direction from @object
+     * to the proxy object, but when there are other references held to
+     * @object, a strong reference is held. The @notify callback is called
+     * when the reference from @object to the proxy object should be
+     * "toggled" from strong to weak (@is_last_ref true) or weak to strong
+     * (@is_last_ref false).
+     * 
+     * Since a (normal) reference must be held to the object before
+     * calling g_object_add_toggle_ref(), the initial state of the reverse
+     * link is always strong.
+     * 
+     * Multiple toggle references may be added to the same gobject,
+     * however if there are multiple toggle references to an object, none
+     * of them will ever be notified until all but one are removed.  For
+     * this reason, you should only ever use a toggle reference if there
+     * is important state in the proxy object.
+     */
+    public void addToggleRef(ToggleNotify notify) {
+        try {
+            int hash = notify.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, notify);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_add_toggle_ref(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Adds a weak reference from weak_pointer to @object to indicate that
      * the pointer located at @weak_pointer_location is only valid during
      * the lifetime of @object. When the @object is finalized,
@@ -318,6 +363,25 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Removes a reference added with g_object_add_toggle_ref(). The
+     * reference count of the object is decreased by one.
+     */
+    public void removeToggleRef(ToggleNotify notify) {
+        try {
+            int hash = notify.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, notify);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_remove_toggle_ref(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Removes a weak reference from @object that was previously added
      * using g_object_add_weak_pointer(). The @weak_pointer_location has
      * to match the one used with g_object_add_weak_pointer().
@@ -526,6 +590,51 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_object_watch_closure(handle(), closure.handle());
     }
     
+    /**
+     * Adds a weak reference callback to an object. Weak references are
+     * used for notification when an object is disposed. They are called
+     * "weak references" because they allow you to safely hold a pointer
+     * to an object without calling g_object_ref() (g_object_ref() adds a
+     * strong reference, that is, forces the object to stay alive).
+     * 
+     * Note that the weak references created by this method are not
+     * thread-safe: they cannot safely be used in one thread if the
+     * object's last g_object_unref() might happen in another thread.
+     * Use #GWeakRef if thread-safety is required.
+     */
+    public void weakRef(WeakNotify notify) {
+        try {
+            int hash = notify.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, notify);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_weak_ref(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Removes a weak reference callback to an object.
+     */
+    public void weakUnref(WeakNotify notify) {
+        try {
+            int hash = notify.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, notify);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_weak_unref(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public static long compatControl(long what, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_object_compat_control(what, data);
         return RESULT;
@@ -606,7 +715,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(this.handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

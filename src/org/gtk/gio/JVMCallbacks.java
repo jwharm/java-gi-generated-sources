@@ -3,7 +3,7 @@ package org.gtk.gio;
 import jdk.incubator.foreign.*;
 import java.util.HashMap;
 import io.github.jwharm.javagi.interop.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
     
@@ -21,6 +21,12 @@ public final class JVMCallbacks {
         return handler.signalReceived(new DBusObjectSkeleton(References.get(source)), new DBusInterfaceSkeleton(References.get(interface_, false)), new DBusMethodInvocation(References.get(invocation, false)));
     }
     
+    public static void cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameVanishedCallback) signalRegistry.get(hash);
+        handler.onBusNameVanishedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
     public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (UnixMountMonitor.MountpointsChangedHandler) signalRegistry.get(hash);
@@ -31,6 +37,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (UnixMountMonitor.MountsChangedHandler) signalRegistry.get(hash);
         handler.signalReceived(new UnixMountMonitor(References.get(source)));
+    }
+    
+    public static void cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameAppearedCallback) signalRegistry.get(hash);
+        handler.onBusNameAppearedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
     }
     
     public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
@@ -57,6 +69,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new DBusProxy(References.get(source)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
     }
     
+    public static void cbFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FileMeasureProgressCallback) signalRegistry.get(hash);
+        handler.onFileMeasureProgressCallback(reporting, currentSize, numDirs, numFiles);
+    }
+    
     public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (DBusAuthObserver.AllowMechanismHandler) signalRegistry.get(hash);
@@ -67,6 +85,18 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (DBusAuthObserver.AuthorizeAuthenticatedPeerHandler) signalRegistry.get(hash);
         return handler.signalReceived(new DBusAuthObserver(References.get(source)), new IOStream(References.get(stream, false)), new Credentials(References.get(credentials, false)));
+    }
+    
+    public static void cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DatagramBasedSourceFunc) signalRegistry.get(hash);
+        handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), condition);
+    }
+    
+    public static void cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsGetMapping) signalRegistry.get(hash);
+        handler.onSettingsGetMapping(new org.gtk.glib.Variant(References.get(value, false)), result);
     }
     
     public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
@@ -213,6 +243,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new Application(References.get(source)));
     }
     
+    public static void cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceGetPropertyFunc) signalRegistry.get(hash);
+        handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Error(References.get(error, false)));
+    }
+    
+    public static void cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusAcquiredCallback) signalRegistry.get(hash);
+        handler.onBusAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
     public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (MountOperation.AbortedHandler) signalRegistry.get(hash);
@@ -249,6 +291,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
     }
     
+    public static void cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsBindSetMapping) signalRegistry.get(hash);
+        handler.onSettingsBindSetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.VariantType(References.get(expectedType, false)));
+    }
+    
     public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ActionGroup.ActionAddedHandler) signalRegistry.get(hash);
@@ -273,6 +321,30 @@ public final class JVMCallbacks {
         handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
     }
     
+    public static void cbReallocFunc(MemoryAddress data, long size) {
+        int hash = size.get(C_INT, 0);
+        var handler = (ReallocFunc) signalRegistry.get(hash);
+        handler.onReallocFunc(data);
+    }
+    
+    public static void cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (CancellableSourceFunc) signalRegistry.get(hash);
+        handler.onCancellableSourceFunc(new Cancellable(References.get(cancellable, false)));
+    }
+    
+    public static void cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceSetPropertyFunc) signalRegistry.get(hash);
+        handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)), new org.gtk.glib.Error(References.get(error, false)));
+    }
+    
+    public static void cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameLostCallback) signalRegistry.get(hash);
+        handler.onBusNameLostCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
     public static void signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Volume.ChangedHandler) signalRegistry.get(hash);
@@ -285,10 +357,34 @@ public final class JVMCallbacks {
         handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
     }
     
+    public static void cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
+        int hash = callbackData.get(C_INT, 0);
+        var handler = (FileReadMoreCallback) signalRegistry.get(hash);
+        handler.onFileReadMoreCallback(fileContents.getUtf8String(0), fileSize);
+    }
+    
+    public static void cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SocketSourceFunc) signalRegistry.get(hash);
+        handler.onSocketSourceFunc(new Socket(References.get(socket, false)), condition);
+    }
+    
+    public static void cbDesktopAppLaunchCallback(MemoryAddress appinfo, MemoryAddress pid, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DesktopAppLaunchCallback) signalRegistry.get(hash);
+        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), org.gtk.glib.Pid.fromValue(pid));
+    }
+    
     public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (FileMonitor.ChangedHandler) signalRegistry.get(hash);
         handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), FileMonitorEvent.fromValue(eventType));
+    }
+    
+    public static void cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (PollableSourceFunc) signalRegistry.get(hash);
+        handler.onPollableSourceFunc(new org.gtk.gobject.Object(References.get(pollableStream, false)));
     }
     
     public static void signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
@@ -327,6 +423,18 @@ public final class JVMCallbacks {
         handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
     
+    public static void cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (AsyncReadyCallback) signalRegistry.get(hash);
+        handler.onAsyncReadyCallback(new org.gtk.gobject.Object(References.get(sourceObject, false)), new AsyncResult.AsyncResultImpl(References.get(res, false)));
+    }
+    
+    public static void cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsBindGetMapping) signalRegistry.get(hash);
+        handler.onSettingsBindGetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.Variant(References.get(variant, false)));
+    }
+    
     public static void signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SimpleAction.ActivateHandler) signalRegistry.get(hash);
@@ -339,16 +447,46 @@ public final class JVMCallbacks {
         handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(value, false)));
     }
     
+    public static void cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSubtreeDispatchFunc) signalRegistry.get(hash);
+        handler.onDBusSubtreeDispatchFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
+    }
+    
+    public static void cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSignalCallback) signalRegistry.get(hash);
+        handler.onDBusSignalCallback(new DBusConnection(References.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+    }
+    
+    public static void cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FileProgressCallback) signalRegistry.get(hash);
+        handler.onFileProgressCallback(currentNumBytes, totalNumBytes);
+    }
+    
     public static void signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (FilenameCompleter.GotCompletionDataHandler) signalRegistry.get(hash);
         handler.signalReceived(new FilenameCompleter(References.get(source)));
     }
     
+    public static void cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (VfsFileLookupFunc) signalRegistry.get(hash);
+        handler.onVfsFileLookupFunc(new Vfs(References.get(vfs, false)), identifier.getUtf8String(0));
+    }
+    
     public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ThreadedSocketService.RunHandler) signalRegistry.get(hash);
         return handler.signalReceived(new ThreadedSocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
+    }
+    
+    public static void cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceMethodCallFunc) signalRegistry.get(hash);
+        handler.onDBusInterfaceMethodCallFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)), new DBusMethodInvocation(References.get(invocation, true)));
     }
     
     public static void signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
@@ -363,6 +501,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable);
     }
     
+    public static void cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, boolean incoming, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusMessageFilterFunction) signalRegistry.get(hash);
+        handler.onDBusMessageFilterFunction(new DBusConnection(References.get(connection, false)), new DBusMessage(References.get(message, true)), incoming);
+    }
+    
     public static void signalDBusObjectInterfaceAdded(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (DBusObject.InterfaceAddedHandler) signalRegistry.get(hash);
@@ -373,6 +517,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (DBusObject.InterfaceRemovedHandler) signalRegistry.get(hash);
         handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+    }
+    
+    public static void cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusProxyTypeFunc) signalRegistry.get(hash);
+        handler.onDBusProxyTypeFunc(new DBusObjectManagerClient(References.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
     }
     
     public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
@@ -435,6 +585,12 @@ public final class JVMCallbacks {
         handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }
     
+    public static void cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
+        int hash = cancellable.get(C_INT, 0);
+        var handler = (TaskThreadFunc) signalRegistry.get(hash);
+        handler.onTaskThreadFunc(new Task(References.get(task, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)), taskData);
+    }
+    
     public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SocketService.IncomingHandler) signalRegistry.get(hash);
@@ -445,6 +601,18 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (DebugControllerDBus.AuthorizeHandler) signalRegistry.get(hash);
         return handler.signalReceived(new DebugControllerDBus(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
+    }
+    
+    public static void cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameAcquiredCallback) signalRegistry.get(hash);
+        handler.onBusNameAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
+    public static void cbSimpleAsyncThreadFunc(MemoryAddress res, MemoryAddress object, MemoryAddress cancellable) {
+        int hash = cancellable.get(C_INT, 0);
+        var handler = (SimpleAsyncThreadFunc) signalRegistry.get(hash);
+        handler.onSimpleAsyncThreadFunc(new SimpleAsyncResult(References.get(res, false)), new org.gtk.gobject.Object(References.get(object, false)));
     }
     
     public static void signalMenuModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
@@ -463,6 +631,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (DBusConnection.ClosedHandler) signalRegistry.get(hash);
         handler.signalReceived(new DBusConnection(References.get(source)), remotePeerVanished, new org.gtk.glib.Error(References.get(error, false)));
+    }
+    
+    public static void cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (IOSchedulerJobFunc) signalRegistry.get(hash);
+        handler.onIOSchedulerJobFunc(new IOSchedulerJob(References.get(job, false)), new Cancellable(References.get(cancellable, false)));
     }
     
     public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {

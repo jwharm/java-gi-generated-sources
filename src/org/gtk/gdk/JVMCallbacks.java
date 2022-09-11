@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import jdk.incubator.foreign.*;
 import java.util.HashMap;
 import io.github.jwharm.javagi.interop.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
     
@@ -31,6 +31,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (Seat.ToolRemovedHandler) signalRegistry.get(hash);
         handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
+    }
+    
+    public static void cbContentSerializeFunc(MemoryAddress serializer) {
+        int hash = serializer.get(C_INT, 0);
+        var handler = (ContentSerializeFunc) signalRegistry.get(hash);
+        handler.onContentSerializeFunc();
     }
     
     public static void signalContentProviderContentChanged(MemoryAddress source, MemoryAddress data) {
@@ -199,6 +205,12 @@ public final class JVMCallbacks {
         int hash = data.get(C_INT, 0);
         var handler = (VulkanContext.ImagesUpdatedHandler) signalRegistry.get(hash);
         handler.signalReceived(new VulkanContext(References.get(source)));
+    }
+    
+    public static void cbContentDeserializeFunc(MemoryAddress deserializer) {
+        int hash = deserializer.get(C_INT, 0);
+        var handler = (ContentDeserializeFunc) signalRegistry.get(hash);
+        handler.onContentDeserializeFunc();
     }
     
     public static void signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {

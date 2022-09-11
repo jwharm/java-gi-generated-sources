@@ -9,8 +9,7 @@ import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_POINTER;
 
 public class GErrorException extends Exception {
 
-    private int code;
-    private int domain;
+    private final int code, domain;
 
     private static MemorySegment dereference(MemorySegment pointer) {
         return GError.ofAddress(pointer.get(C_POINTER, 0), getScope());
@@ -36,17 +35,23 @@ public class GErrorException extends Exception {
     }
 
     /**
-     * Returns true when an error was set on this pointer
+     * @return true when an error was set on this pointer
      */
     public static boolean isErrorSet(MemorySegment gerrorPtr) {
         MemoryAddress gerror = gerrorPtr.get(C_POINTER, 0);
         return (! gerror.equals(MemoryAddress.NULL));
     }
 
+    /**
+     * @return the code of the GError
+     */
     public int getCode() {
         return code;
     }
 
+    /**
+     * @return The domain of the GError
+     */
     public int getDomain() {
         return domain;
     }

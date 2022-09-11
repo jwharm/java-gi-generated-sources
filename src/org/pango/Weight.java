@@ -39,7 +39,7 @@ public enum Weight {
     NORMAL,
     
     /**
-     * the normal weight (= 500) Since: 1.24
+     * the medium weight (= 500) Since: 1.24
      */
     MEDIUM,
     

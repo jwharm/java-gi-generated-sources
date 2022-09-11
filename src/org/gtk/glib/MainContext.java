@@ -121,6 +121,44 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Invokes a function in such a way that @context is owned during the
+     * invocation of @function.
+     * 
+     * If @context is %NULL then the global default main context — as
+     * returned by g_main_context_default() — is used.
+     * 
+     * If @context is owned by the current thread, @function is called
+     * directly.  Otherwise, if @context is the thread-default main context
+     * of the current thread and g_main_context_acquire() succeeds, then
+     * @function is called and g_main_context_release() is called
+     * afterwards.
+     * 
+     * In any other case, an idle source is created to call @function and
+     * that source is attached to @context (presumably to be run in another
+     * thread).  The idle source is attached with %G_PRIORITY_DEFAULT
+     * priority.  If you want a different priority, use
+     * g_main_context_invoke_full().
+     * 
+     * Note that, as with normal idle functions, @function should probably
+     * return %FALSE.  If it returns %TRUE, it will be continuously run in a
+     * loop (and may prevent this call from returning).
+     */
+    public void invoke(SourceFunc function) {
+        try {
+            int hash = function.hashCode();
+            JVMCallbacks.signalRegistry.put(hash, function);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_main_context_invoke(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Determines whether this thread holds the (recursive)
      * ownership of this #GMainContext. This is useful to
      * know before waiting on another thread that may be

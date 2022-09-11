@@ -29,6 +29,59 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * This function creates a new thread. The new thread starts by invoking
+     * @func with the argument data. The thread will run until @func returns
+     * or until g_thread_exit() is called from the new thread. The return value
+     * of @func becomes the return value of the thread, which can be obtained
+     * with g_thread_join().
+     * 
+     * The @name can be useful for discriminating threads in a debugger.
+     * It is not used for other purposes and does not have to be unique.
+     * Some systems restrict the length of @name to 16 bytes.
+     * 
+     * If the thread can not be created the program aborts. See
+     * g_thread_try_new() if you want to attempt to deal with failures.
+     * 
+     * If you are using threads to offload (potentially many) short-lived tasks,
+     * #GThreadPool may be more appropriate than manually spawning and tracking
+     * multiple #GThreads.
+     * 
+     * To free the struct returned by this function, use g_thread_unref().
+     * Note that g_thread_join() implicitly unrefs the #GThread as well.
+     * 
+     * New threads by default inherit their scheduler policy (POSIX) or thread
+     * priority (Windows) of the thread creating the new thread.
+     * 
+     * This behaviour changed in GLib 2.64: before threads on Windows were not
+     * inheriting the thread priority but were spawned with the default priority.
+     * Starting with GLib 2.64 the behaviour is now consistent between Windows and
+     * POSIX and all threads inherit their parent thread's priority.
+     */
+    public Thread(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) {
+        super(References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), func, data), true));
+    }
+    
+    private static Reference constructTryNewOrThrow(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) throws GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), func, data, GERROR), true);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * This function is the same as g_thread_new() except that
+     * it allows for the possibility of failure.
+     * 
+     * If a thread can not be created (due to resource limits),
+     * @error is set and %NULL is returned.
+     */
+    public static Thread tryNew(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) throws GErrorException {
+        return new Thread(constructTryNewOrThrow(name, func, data));
+    }
+    
+    /**
      * Waits until @thread finishes, i.e. the function @func, as
      * given to g_thread_new(), returns or g_thread_exit() is called.
      * If @thread has already terminated, then g_thread_join()
