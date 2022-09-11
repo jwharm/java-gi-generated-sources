@@ -21,4 +21,12 @@ public class CallbackAction extends ShortcutAction {
         return new CallbackAction(gobject.getReference());
     }
     
+    /**
+     * Create a custom action that calls the given @callback when
+     * activated.
+     */
+    public CallbackAction(ShortcutFunc callback, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+        super(References.get(gtk_h.gtk_callback_action_new(callback, data, destroy), true));
+    }
+    
 }

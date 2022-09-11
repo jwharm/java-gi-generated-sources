@@ -365,7 +365,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public void onChangeValue(ChangeValueHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonChangeValue", methodType);
@@ -394,7 +394,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public void onInput(InputHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonInput", methodType);
@@ -437,7 +437,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public void onOutput(OutputHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonOutput", methodType);
@@ -462,7 +462,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public void onValueChanged(ValueChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonValueChanged", methodType);
@@ -486,7 +486,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public void onWrapped(WrappedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonWrapped", methodType);

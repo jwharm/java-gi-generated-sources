@@ -69,6 +69,26 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Ejects a volume. This is an asynchronous operation, and is
+     * finished by calling g_volume_eject_with_operation_finish() with the @volume
+     * and #GAsyncResult data returned in the @callback.
+     */
+    public default void ejectWithOperation(Volume volume, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_volume_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes ejecting a volume. If any errors occurred during the operation,
      * @error will be set to contain the errors and %FALSE will be returned.
      */
@@ -184,6 +204,26 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Mounts a volume. This is an asynchronous operation, and is
+     * finished by calling g_volume_mount_finish() with the @volume
+     * and #GAsyncResult returned in the @callback.
+     */
+    public default void mount(Volume volume, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_volume_mount(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes mounting a volume. If any errors occurred during the operation,
      * @error will be set to contain the errors and %FALSE will be returned.
      * 
@@ -220,7 +260,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onChanged(ChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalVolumeChanged", methodType);
@@ -245,7 +285,7 @@ public interface Volume extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onRemoved(RemovedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalVolumeRemoved", methodType);

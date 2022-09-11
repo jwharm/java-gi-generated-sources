@@ -208,7 +208,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onAborted(AbortedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationAborted", methodType);
@@ -235,7 +235,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onAskPassword(AskPasswordHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationAskPassword", methodType);
@@ -263,7 +263,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onAskQuestion(AskQuestionHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationAskQuestion", methodType);
@@ -286,7 +286,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onReply(ReplyHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationReply", methodType);
@@ -320,7 +320,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onShowProcesses(ShowProcessesHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationShowProcesses", methodType);
@@ -358,7 +358,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public void onShowUnmountProgress(ShowUnmountProgressHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountOperationShowUnmountProgress", methodType);

@@ -49,6 +49,29 @@ public class SocketConnection extends IOStream {
     }
     
     /**
+     * Asynchronously connect @connection to the specified remote address.
+     * 
+     * This clears the #GSocket:blocking flag on @connection's underlying
+     * socket if it is currently set.
+     * 
+     * Use g_socket_connection_connect_finish() to retrieve the result.
+     */
+    public void connectAsync(SocketConnection connection, SocketAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_connection_connect_async(handle(), address.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Gets the result of a g_socket_connection_connect_async() call.
      */
     public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {

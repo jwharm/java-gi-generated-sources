@@ -385,12 +385,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Calls a function for each selected icon. Note that the model or
      * selection cannot be modified from within this function.
      */
-    public void selectedForeach(IconViewForeachFunc func) {
+    public void selectedForeach(IconView iconView, IconViewForeachFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbIconViewForeachFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -644,7 +644,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onActivateCursorItem(ActivateCursorItemHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewActivateCursorItem", methodType);
@@ -673,7 +673,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onItemActivated(ItemActivatedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewItemActivated", methodType);
@@ -709,7 +709,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onMoveCursor(MoveCursorHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewMoveCursor", methodType);
@@ -739,7 +739,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onSelectAll(SelectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectAll", methodType);
@@ -770,7 +770,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onSelectCursorItem(SelectCursorItemHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectCursorItem", methodType);
@@ -794,7 +794,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onSelectionChanged(SelectionChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewSelectionChanged", methodType);
@@ -826,7 +826,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onToggleCursorItem(ToggleCursorItemHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewToggleCursorItem", methodType);
@@ -856,7 +856,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public void onUnselectAll(UnselectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalIconViewUnselectAll", methodType);

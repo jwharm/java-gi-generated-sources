@@ -81,7 +81,7 @@ public class Seat extends org.gtk.gobject.Object {
     public void onDeviceAdded(DeviceAddedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatDeviceAdded", methodType);
@@ -104,7 +104,7 @@ public class Seat extends org.gtk.gobject.Object {
     public void onDeviceRemoved(DeviceRemovedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatDeviceRemoved", methodType);
@@ -133,7 +133,7 @@ public class Seat extends org.gtk.gobject.Object {
     public void onToolAdded(ToolAddedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatToolAdded", methodType);
@@ -156,7 +156,7 @@ public class Seat extends org.gtk.gobject.Object {
     public void onToolRemoved(ToolRemovedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSeatToolRemoved", methodType);

@@ -46,6 +46,34 @@ public class FileInputStream extends InputStream implements Seekable {
     }
     
     /**
+     * Queries the stream information asynchronously.
+     * When the operation is finished @callback will be called.
+     * You can then call g_file_input_stream_query_info_finish()
+     * to get the result of the operation.
+     * 
+     * For the synchronous version of this function,
+     * see g_file_input_stream_query_info().
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be set
+     */
+    public void queryInfoAsync(FileInputStream stream, java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_input_stream_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous info query operation.
      */
     public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {

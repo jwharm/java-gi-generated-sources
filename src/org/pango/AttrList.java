@@ -78,14 +78,14 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * any elements of @list for which @func returns %TRUE and
      * inserts them into a new list.
      */
-    public void filter(AttrFilterFunc func) {
+    public AttrList filter(AttrList list, AttrFilterFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrFilterFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             gtk_h.pango_attr_list_filter(handle(), nativeSymbol, intSegment);
         } catch (Exception e) {

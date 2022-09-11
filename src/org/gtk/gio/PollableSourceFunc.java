@@ -1,7 +1,11 @@
 package org.gtk.gio;
 
+/**
+ * This is the function type of the callback used for the #GSource
+ * returned by g_pollable_input_stream_create_source() and
+ * g_pollable_output_stream_create_source().
+ */
 @FunctionalInterface
 public interface PollableSourceFunc {
-
-        void onPollableSourceFunc(org.gtk.gobject.Object pollableStream);
+        boolean onPollableSourceFunc(org.gtk.gobject.Object pollableStream);
 }

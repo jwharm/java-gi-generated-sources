@@ -95,6 +95,37 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
+     * This is the asynchronous version of g_socket_client_connect().
+     * 
+     * You may wish to prefer the asynchronous version even in synchronous
+     * command line programs because, since 2.60, it implements
+     * [RFC 8305](https://tools.ietf.org/html/rfc8305) "Happy Eyeballs"
+     * recommendations to work around long connection timeouts in networks
+     * where IPv6 is broken by performing an IPv4 connection simultaneously
+     * without waiting for IPv6 to time out, which is not supported by the
+     * synchronous call. (This is not an API guarantee, and may change in
+     * the future.)
+     * 
+     * When the operation is finished @callback will be
+     * called. You can then call g_socket_client_connect_finish() to get
+     * the result of the operation.
+     */
+    public void connectAsync(SocketClient client, SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_client_connect_async(handle(), connectable.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an async connect operation. See g_socket_client_connect_async()
      */
     public SocketConnection connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -148,6 +179,28 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
+     * This is the asynchronous version of g_socket_client_connect_to_host().
+     * 
+     * When the operation is finished @callback will be
+     * called. You can then call g_socket_client_connect_to_host_finish() to get
+     * the result of the operation.
+     */
+    public void connectToHostAsync(SocketClient client, java.lang.String hostAndPort, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_client_connect_to_host_async(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an async connect operation. See g_socket_client_connect_to_host_async()
      */
     public SocketConnection connectToHostFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -182,6 +235,25 @@ public class SocketClient extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new SocketConnection(References.get(RESULT, true));
+    }
+    
+    /**
+     * This is the asynchronous version of
+     * g_socket_client_connect_to_service().
+     */
+    public void connectToServiceAsync(SocketClient client, java.lang.String domain, java.lang.String service, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_client_connect_to_service_async(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -226,6 +298,28 @@ public class SocketClient extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new SocketConnection(References.get(RESULT, true));
+    }
+    
+    /**
+     * This is the asynchronous version of g_socket_client_connect_to_uri().
+     * 
+     * When the operation is finished @callback will be
+     * called. You can then call g_socket_client_connect_to_uri_finish() to get
+     * the result of the operation.
+     */
+    public void connectToUriAsync(SocketClient client, java.lang.String uri, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_client_connect_to_uri_async(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -488,7 +582,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public void onEvent(EventHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketClientEvent", methodType);

@@ -21,6 +21,17 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
     }
     
     /**
+     * Creates a new parse context. A parse context is used to parse
+     * marked-up documents. You can feed any number of documents into
+     * a context, as long as no errors occur; once an error occurs,
+     * the parse context can't continue to parse text (you have to
+     * free it and create a new parse context).
+     */
+    public MarkupParseContext(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+        super(References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags, userData, userDataDnotify), true));
+    }
+    
+    /**
      * Signals to the #GMarkupParseContext that all data has been
      * fed into the parse context with g_markup_parse_context_parse().
      * 

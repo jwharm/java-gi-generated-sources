@@ -52,6 +52,29 @@ public class BindingGroup extends Object {
      * functions to be used by the binding. The binding flag
      * %G_BINDING_SYNC_CREATE is automatically specified.
      * 
+     * See g_object_bind_property_full() for more information.
+     */
+    public void bindFull(BindingGroup self, java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+        try {
+            int hash = transformTo.hashCode();
+            Interop.signalRegistry.put(hash, transformTo);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_binding_group_bind_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Creates a binding between @source_property on the source object and
+     * @target_property on @target, allowing you to set the transformation
+     * functions to be used by the binding. The binding flag
+     * %G_BINDING_SYNC_CREATE is automatically specified.
+     * 
      * This function is the language bindings friendly version of
      * g_binding_group_bind_property_full(), using #GClosures
      * instead of function pointers.

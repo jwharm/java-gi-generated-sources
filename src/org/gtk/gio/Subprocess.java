@@ -148,6 +148,25 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
+     * Asynchronous version of g_subprocess_communicate().  Complete
+     * invocation with g_subprocess_communicate_finish().
+     */
+    public void communicateAsync(Subprocess subprocess, org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_subprocess_communicate_async(handle(), stdinBuf.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Complete an invocation of g_subprocess_communicate_async().
      */
     public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -173,6 +192,25 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronous version of g_subprocess_communicate_utf8().  Complete
+     * invocation with g_subprocess_communicate_utf8_finish().
+     */
+    public void communicateUtf8Async(Subprocess subprocess, java.lang.String stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_subprocess_communicate_utf8_async(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -369,6 +407,26 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
+     * Wait for the subprocess to terminate.
+     * 
+     * This is the asynchronous version of g_subprocess_wait().
+     */
+    public void waitAsync(Subprocess subprocess, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_subprocess_wait_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Combines g_subprocess_wait() with g_spawn_check_wait_status().
      */
     public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -378,6 +436,26 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Combines g_subprocess_wait_async() with g_spawn_check_wait_status().
+     * 
+     * This is the asynchronous version of g_subprocess_wait_check().
+     */
+    public void waitCheckAsync(Subprocess subprocess, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_subprocess_wait_check_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

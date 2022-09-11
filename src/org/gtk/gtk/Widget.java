@@ -467,6 +467,45 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
+     * Queues an animation frame update and adds a callback to be called
+     * before each frame.
+     * 
+     * Until the tick callback is removed, it will be called frequently
+     * (usually at the frame rate of the output device or as quickly as
+     * the application can be repainted, whichever is slower). For this
+     * reason, is most suitable for handling graphics that change every
+     * frame or every few frames. The tick callback does not automatically
+     * imply a relayout or repaint. If you want a repaint or relayout, and
+     * aren’t changing widget properties that would trigger that (for example,
+     * changing the text of a `GtkLabel`), then you will have to call
+     * [method@Gtk.Widget.queue_resize] or [method@Gtk.Widget.queue_draw]
+     * yourself.
+     * 
+     * [method@Gdk.FrameClock.get_frame_time] should generally be used
+     * for timing continuous animations and
+     * [method@Gdk.FrameTimings.get_predicted_presentation_time] if you are
+     * trying to display isolated frames at particular times.
+     * 
+     * This is a more convenient alternative to connecting directly to the
+     * [signal@Gdk.FrameClock::update] signal of `GdkFrameClock`, since you
+     * don't have to worry about when a `GdkFrameClock` is assigned to a widget.
+     */
+    public int addTickCallback(Widget widget, TickCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTickCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_widget_add_tick_callback(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * This function is only used by `GtkWidget` subclasses, to
      * assign a size, position and (optionally) baseline to their
      * child widgets.
@@ -2454,7 +2493,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onDestroy(DestroyHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDestroy", methodType);
@@ -2477,7 +2516,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onDirectionChanged(DirectionChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDirectionChanged", methodType);
@@ -2500,7 +2539,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onHide(HideHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetHide", methodType);
@@ -2525,7 +2564,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onKeynavFailed(KeynavFailedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetKeynavFailed", methodType);
@@ -2556,7 +2595,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onMap(MapHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMap", methodType);
@@ -2582,7 +2621,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onMnemonicActivate(MnemonicActivateHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMnemonicActivate", methodType);
@@ -2605,7 +2644,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onMoveFocus(MoveFocusHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMoveFocus", methodType);
@@ -2641,7 +2680,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onQueryTooltip(QueryTooltipHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetQueryTooltip", methodType);
@@ -2667,7 +2706,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onRealize(RealizeHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetRealize", methodType);
@@ -2690,7 +2729,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onShow(ShowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetShow", methodType);
@@ -2715,7 +2754,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onStateFlagsChanged(StateFlagsChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetStateFlagsChanged", methodType);
@@ -2744,7 +2783,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onUnmap(UnmapHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnmap", methodType);
@@ -2770,7 +2809,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public void onUnrealize(UnrealizeHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnrealize", methodType);

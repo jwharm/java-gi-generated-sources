@@ -1,7 +1,9 @@
 package org.gtk.gtk;
 
+/**
+ * A function which decides whether the row indicated by @iter is visible.
+ */
 @FunctionalInterface
 public interface TreeModelFilterVisibleFunc {
-
-        void onTreeModelFilterVisibleFunc(TreeModel model, TreeIter iter);
+        boolean onTreeModelFilterVisibleFunc(TreeModel model, TreeIter iter);
 }

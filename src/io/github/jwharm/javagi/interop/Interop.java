@@ -1,16 +1,36 @@
 package io.github.jwharm.javagi.interop;
 
 import jdk.incubator.foreign.*;
+import org.gtk.gtk.JVMCallbacks;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.util.HashMap;
+
+import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public class Interop {
 
     private static boolean initialized = false;
     private static ResourceScope scope;
     private static SegmentAllocator allocator;
+    public static final HashMap<Integer, Object> signalRegistry = new HashMap<>();
+    private static NativeSymbol cbDestroyNotify_nativeSymbol;
 
     private static void initialize() {
         scope = ResourceScope.newConfinedScope();
         allocator = SegmentAllocator.nativeAllocator(scope);
+
+        // Initialize upcall stub for DestroyNotify callback
+        try {
+            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            cbDestroyNotify_nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         initialized = true;
     }
 
@@ -26,6 +46,18 @@ public class Interop {
             initialize();
         }
         return allocator;
+    }
+
+    public static void cbDestroyNotify(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        signalRegistry.remove(hash);
+    }
+
+    public static NativeSymbol cbDestroyNotifySymbol() {
+        if (!initialized) {
+            initialize();
+        }
+        return cbDestroyNotify_nativeSymbol;
     }
 
     public static MemorySegmentReference allocateNativeString(String string) {

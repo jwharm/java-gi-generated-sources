@@ -1,7 +1,12 @@
 package org.gtk.gtk;
 
+/**
+ * Function type for determining whether the row pointed to by @iter should
+ * be rendered as a separator. A common way to implement this is to have a
+ * boolean column in the model, whose values the `GtkTreeViewRowSeparatorFunc`
+ * returns.
+ */
 @FunctionalInterface
 public interface TreeViewRowSeparatorFunc {
-
-        void onTreeViewRowSeparatorFunc(TreeModel model, TreeIter iter);
+        boolean onTreeViewRowSeparatorFunc(TreeModel model, TreeIter iter);
 }

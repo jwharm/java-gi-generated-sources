@@ -214,6 +214,35 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
+     * Sets @func to be called when a popup is about to be shown.
+     * 
+     * @func should use one of
+     * 
+     *  - [method@Gtk.MenuButton.set_popover]
+     *  - [method@Gtk.MenuButton.set_menu_model]
+     * 
+     * to set a popup for @menu_button.
+     * If @func is non-%NULL, @menu_button will always be sensitive.
+     * 
+     * Using this function will not reset the menu widget attached to
+     * @menu_button. Instead, this can be done manually in @func.
+     */
+    public void setCreatePopupFunc(MenuButton menuButton, MenuButtonCreatePopupFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMenuButtonCreatePopupFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_menu_button_set_create_popup_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the direction in which the popup will be popped up.
      * 
      * If the button is automatically populated with an arrow icon,
@@ -321,7 +350,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     public void onActivate(ActivateHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMenuButtonActivate", methodType);

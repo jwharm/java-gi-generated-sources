@@ -60,6 +60,26 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
+     * Convenience function to connect to the #GCancellable::cancelled
+     * signal. Also handles the race condition that may happen
+     * if the cancellable is cancelled right before connecting.
+     * 
+     * @callback is called at most once, either directly at the
+     * time of the connect if @cancellable is already cancelled,
+     * or when @cancellable is cancelled in some thread.
+     * 
+     * @data_destroy_func will be called when the handler is
+     * disconnected, or immediately if the cancellable is already
+     * cancelled.
+     * 
+     * See #GCancellable::cancelled for details on how to use this.
+     * 
+     * Since GLib 2.40, the lock protecting @cancellable is not held when
+     * @callback is invoked.  This lifts a restriction in place for
+     * earlier GLib versions which now makes it easier to write cleanup
+     * code that unconditionally invokes e.g. g_cancellable_cancel().
+     */
+    /**
      * Disconnects a handler from a cancellable instance similar to
      * g_signal_handler_disconnect().  Additionally, in the event that a
      * signal handler is currently running, this call will block until the
@@ -284,7 +304,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     public void onCancelled(CancelledHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCancellableCancelled", methodType);

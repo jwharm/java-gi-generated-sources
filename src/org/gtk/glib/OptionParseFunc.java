@@ -1,7 +1,9 @@
 package org.gtk.glib;
 
+/**
+ * The type of function that can be called before and after parsing.
+ */
 @FunctionalInterface
 public interface OptionParseFunc {
-
-        void onOptionParseFunc(OptionContext context, OptionGroup group);
+        boolean onOptionParseFunc(OptionContext context, OptionGroup group);
 }

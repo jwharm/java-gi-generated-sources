@@ -226,6 +226,34 @@ public class OptionContext extends io.github.jwharm.javagi.interop.ResourceBase 
     }
     
     /**
+     * Sets the function which is used to translate the contexts
+     * user-visible strings, for `--help` output. If @func is %NULL,
+     * strings are not translated.
+     * 
+     * Note that option groups have their own translation functions,
+     * this function only affects the @parameter_string (see g_option_context_new()),
+     * the summary (see g_option_context_set_summary()) and the description
+     * (see g_option_context_set_description()).
+     * 
+     * If you are using gettext(), you only need to set the translation
+     * domain, see g_option_context_set_translation_domain().
+     */
+    public void setTranslateFunc(OptionContext context, TranslateFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTranslateFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_option_context_set_translate_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * A convenience function to use gettext() for translating
      * user-visible strings.
      */

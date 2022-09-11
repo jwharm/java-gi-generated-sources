@@ -32,14 +32,14 @@ public class Fontset extends org.gtk.gobject.Object {
      * 
      * If @func returns %TRUE, that stops the iteration.
      */
-    public void foreach(FontsetForeachFunc func) {
+    public void foreach(Fontset fontset, FontsetForeachFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontsetForeachFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             gtk_h.pango_fontset_foreach(handle(), nativeSymbol, intSegment);
         } catch (Exception e) {

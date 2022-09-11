@@ -436,6 +436,33 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
+     * Create a binding between the @key in the @settings object
+     * and the property @property of @object.
+     * 
+     * The binding uses the provided mapping functions to map between
+     * settings and property values.
+     * 
+     * Note that the lifecycle of the binding is tied to @object,
+     * and that you can have only one binding per object property.
+     * If you bind the same property twice on the same object, the second
+     * binding overrides the first one.
+     */
+    public void bindWithMapping(Settings settings, java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
+        try {
+            int hash = getMapping.hashCode();
+            Interop.signalRegistry.put(hash, getMapping);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsBindGetMapping", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Create a binding between the writability of @key in the
      * @settings object and the property @property of @object.
      * The property must be boolean; "sensitive" or "visible"
@@ -629,6 +656,50 @@ public class Settings extends org.gtk.gobject.Object {
     public long getInt64(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_int64(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
+    }
+    
+    /**
+     * Gets the value that is stored at @key in @settings, subject to
+     * application-level validation/mapping.
+     * 
+     * You should use this function when the application needs to perform
+     * some processing on the value of the key (for example, parsing).  The
+     * @mapping function performs that processing.  If the function
+     * indicates that the processing was unsuccessful (due to a parse error,
+     * for example) then the mapping is tried again with another value.
+     * 
+     * This allows a robust 'fall back to defaults' behaviour to be
+     * implemented somewhat automatically.
+     * 
+     * The first value that is tried is the user's setting for the key.  If
+     * the mapping function fails to map this value, other values may be
+     * tried in an unspecified order (system or site defaults, translated
+     * schema default values, untranslated schema default values, etc).
+     * 
+     * If the mapping function fails for all possible values, one additional
+     * attempt is made: the mapping function is called with a %NULL value.
+     * If the mapping function still indicates failure at this point then
+     * the application will be aborted.
+     * 
+     * The result parameter for the @mapping function is pointed to a
+     * #gpointer which is initially set to %NULL.  The same pointer is given
+     * to each invocation of @mapping.  The final value of that #gpointer is
+     * what is returned by this function.  %NULL is valid; it is returned
+     * just as any other value would be.
+     */
+    public jdk.incubator.foreign.MemoryAddress getMapped(Settings settings, java.lang.String key, SettingsGetMapping mapping) {
+        try {
+            int hash = mapping.hashCode();
+            Interop.signalRegistry.put(hash, mapping);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsGetMapping", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_settings_get_mapped(handle(), Interop.allocateNativeString(key).handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -947,7 +1018,7 @@ public class Settings extends org.gtk.gobject.Object {
     public void onChangeEvent(ChangeEventHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChangeEvent", methodType);
@@ -979,7 +1050,7 @@ public class Settings extends org.gtk.gobject.Object {
     public void onChanged(ChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChanged", methodType);
@@ -1019,7 +1090,7 @@ public class Settings extends org.gtk.gobject.Object {
     public void onWritableChangeEvent(WritableChangeEventHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChangeEvent", methodType);
@@ -1048,7 +1119,7 @@ public class Settings extends org.gtk.gobject.Object {
     public void onWritableChanged(WritableChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChanged", methodType);

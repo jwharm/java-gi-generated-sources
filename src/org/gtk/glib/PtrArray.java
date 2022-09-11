@@ -25,6 +25,35 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Adds all pointers of @array to the end of the array @array_to_extend.
+     * The array will grow in size automatically if needed. @array_to_extend is
+     * modified in-place.
+     * 
+     * @func, as a #GCopyFunc, takes two arguments, the data to be copied
+     * and a @user_data pointer. On common processor architectures, it's safe to
+     * pass %NULL as @user_data if the copy function takes only one argument. You
+     * may get compiler warnings from this though if compiling with GCC’s
+     * `-Wcast-function-type` warning.
+     * 
+     * If @func is %NULL, then only the pointers (and not what they are
+     * pointing to) are copied to the new #GPtrArray.
+     */
+    public void extend(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array, CopyFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_ptr_array_extend(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Adds all the pointers in @array to the end of @array_to_extend, transferring
      * ownership of each element from @array to @array_to_extend and modifying
      * @array_to_extend in-place. @array is then freed.
@@ -35,6 +64,25 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public static void extendAndSteal(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array) {
         gtk_h.g_ptr_array_extend_and_steal(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle());
+    }
+    
+    /**
+     * Calls a function for each element of a #GPtrArray. @func must not
+     * add elements to or remove elements from the array.
+     */
+    public void foreach(jdk.incubator.foreign.MemoryAddress[] array, Func func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_ptr_array_foreach(Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -129,6 +177,76 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public static void setSize(jdk.incubator.foreign.MemoryAddress[] array, int length) {
         gtk_h.g_ptr_array_set_size(Interop.allocateNativeArray(array).handle(), length);
+    }
+    
+    /**
+     * Like g_ptr_array_sort(), but the comparison function has an extra
+     * user data argument.
+     * 
+     * Note that the comparison function for g_ptr_array_sort_with_data()
+     * doesn't take the pointers from the array as arguments, it takes
+     * pointers to the pointers in the array. Here is a full example of use:
+     * 
+     * |[<!-- language="C" -->
+     * typedef enum { SORT_NAME, SORT_SIZE } SortMode;
+     * 
+     * typedef struct
+     * {
+     *   gchar *name;
+     *   gint size;
+     * } FileListEntry;
+     * 
+     * static gint
+     * sort_filelist (gconstpointer a, gconstpointer b, gpointer user_data)
+     * {
+     *   gint order;
+     *   const SortMode sort_mode = GPOINTER_TO_INT (user_data);
+     *   const FileListEntry *entry1 = *((FileListEntry **) a);
+     *   const FileListEntry *entry2 = *((FileListEntry **) b);
+     * 
+     *   switch (sort_mode)
+     *     {
+     *     case SORT_NAME:
+     *       order = g_ascii_strcasecmp (entry1->name, entry2->name);
+     *       break;
+     *     case SORT_SIZE:
+     *       order = entry1->size - entry2->size;
+     *       break;
+     *     default:
+     *       order = 0;
+     *       break;
+     *     }
+     *   return order;
+     * }
+     * 
+     * ...
+     * g_autoptr (GPtrArray) file_list = NULL;
+     * SortMode sort_mode;
+     * 
+     * // initialize file_list array and load with many FileListEntry entries
+     * ...
+     * // now sort it with
+     * sort_mode = SORT_NAME;
+     * g_ptr_array_sort_with_data (file_list,
+     *                             sort_filelist,
+     *                             GINT_TO_POINTER (sort_mode));
+     * ]|
+     * 
+     * This is guaranteed to be a stable sort since version 2.32.
+     */
+    public void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+        try {
+            int hash = compareFunc.hashCode();
+            Interop.signalRegistry.put(hash, compareFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_ptr_array_sort_with_data(Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

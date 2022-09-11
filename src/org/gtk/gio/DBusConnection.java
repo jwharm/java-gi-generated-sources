@@ -164,6 +164,112 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     }
     
     /**
+     * Adds a message filter. Filters are handlers that are run on all
+     * incoming and outgoing messages, prior to standard dispatch. Filters
+     * are run in the order that they were added.  The same handler can be
+     * added as a filter more than once, in which case it will be run more
+     * than once.  Filters added during a filter callback won't be run on
+     * the message being processed. Filter functions are allowed to modify
+     * and even drop messages.
+     * 
+     * Note that filters are run in a dedicated message handling thread so
+     * they can't block and, generally, can't do anything but signal a
+     * worker thread. Also note that filters are rarely needed - use API
+     * such as g_dbus_connection_send_message_with_reply(),
+     * g_dbus_connection_signal_subscribe() or g_dbus_connection_call() instead.
+     * 
+     * If a filter consumes an incoming message the message is not
+     * dispatched anywhere else - not even the standard dispatch machinery
+     * (that API such as g_dbus_connection_signal_subscribe() and
+     * g_dbus_connection_send_message_with_reply() relies on) will see the
+     * message. Similarly, if a filter consumes an outgoing message, the
+     * message will not be sent to the other peer.
+     * 
+     * If @user_data_free_func is non-%NULL, it will be called (in the
+     * thread-default main context of the thread you are calling this
+     * method from) at some point after @user_data is no longer
+     * needed. (It is not guaranteed to be called synchronously when the
+     * filter is removed, and may be called after @connection has been
+     * destroyed.)
+     */
+    public int addFilter(DBusConnection connection, DBusMessageFilterFunction filterFunction) {
+        try {
+            int hash = filterFunction.hashCode();
+            Interop.signalRegistry.put(hash, filterFunction);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusMessageFilterFunction", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_add_filter(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Asynchronously invokes the @method_name method on the
+     * @interface_name D-Bus interface on the remote object at
+     * @object_path owned by @bus_name.
+     * 
+     * If @connection is closed then the operation will fail with
+     * %G_IO_ERROR_CLOSED. If @cancellable is canceled, the operation will
+     * fail with %G_IO_ERROR_CANCELLED. If @parameters contains a value
+     * not compatible with the D-Bus protocol, the operation fails with
+     * %G_IO_ERROR_INVALID_ARGUMENT.
+     * 
+     * If @reply_type is non-%NULL then the reply will be checked for having this type and an
+     * error will be raised if it does not match.  Said another way, if you give a @reply_type
+     * then any non-%NULL return value will be of this type. Unless it’s
+     * %G_VARIANT_TYPE_UNIT, the @reply_type will be a tuple containing one or more
+     * values.
+     * 
+     * If the @parameters #GVariant is floating, it is consumed. This allows
+     * convenient 'inline' use of g_variant_new(), e.g.:
+     * |[<!-- language="C" -->
+     *  g_dbus_connection_call (connection,
+     *                          "org.freedesktop.StringThings",
+     *                          "/org/freedesktop/StringThings",
+     *                          "org.freedesktop.StringThings",
+     *                          "TwoStrings",
+     *                          g_variant_new ("(ss)",
+     *                                         "Thing One",
+     *                                         "Thing Two"),
+     *                          NULL,
+     *                          G_DBUS_CALL_FLAGS_NONE,
+     *                          -1,
+     *                          NULL,
+     *                          (GAsyncReadyCallback) two_strings_done,
+     *                          NULL);
+     * ]|
+     * 
+     * This is an asynchronous method. When the operation is finished,
+     * @callback will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from. You can then call
+     * g_dbus_connection_call_finish() to get the result of the operation.
+     * See g_dbus_connection_call_sync() for the synchronous version of this
+     * function.
+     * 
+     * If @callback is %NULL then the D-Bus method call message will be sent with
+     * the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.
+     */
+    public void call(DBusConnection connection, java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_call(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an operation started with g_dbus_connection_call().
      */
     public org.gtk.glib.Variant callFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -223,6 +329,38 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     }
     
     /**
+     * Like g_dbus_connection_call() but also takes a #GUnixFDList object.
+     * 
+     * The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
+     * values in the body of the message. For example, if a message contains
+     * two file descriptors, @fd_list would have length 2, and
+     * `g_variant_new_handle (0)` and `g_variant_new_handle (1)` would appear
+     * somewhere in the body of the message (not necessarily in that order!)
+     * to represent the file descriptors at indexes 0 and 1 respectively.
+     * 
+     * When designing D-Bus APIs that are intended to be interoperable,
+     * please note that non-GDBus implementations of D-Bus can usually only
+     * access file descriptors if they are referenced in this way by a
+     * value of type %G_VARIANT_TYPE_HANDLE in the body of the message.
+     * 
+     * This method is only available on UNIX.
+     */
+    public void callWithUnixFdList(DBusConnection connection, java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, UnixFDList fdList, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_call_with_unix_fd_list(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an operation started with g_dbus_connection_call_with_unix_fd_list().
      * 
      * The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
@@ -259,6 +397,47 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.Variant(References.get(RESULT, true));
+    }
+    
+    /**
+     * Closes @connection. Note that this never causes the process to
+     * exit (this might only happen if the other end of a shared message
+     * bus connection disconnects, see #GDBusConnection:exit-on-close).
+     * 
+     * Once the connection is closed, operations such as sending a message
+     * will return with the error %G_IO_ERROR_CLOSED. Closing a connection
+     * will not automatically flush the connection so queued messages may
+     * be lost. Use g_dbus_connection_flush() if you need such guarantees.
+     * 
+     * If @connection is already closed, this method fails with
+     * %G_IO_ERROR_CLOSED.
+     * 
+     * When @connection has been closed, the #GDBusConnection::closed
+     * signal is emitted in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread that @connection was constructed in.
+     * 
+     * This is an asynchronous method. When the operation is finished,
+     * @callback will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from. You can
+     * then call g_dbus_connection_close_finish() to get the result of the
+     * operation. See g_dbus_connection_close_sync() for the synchronous
+     * version.
+     */
+    public void close(DBusConnection connection, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_close(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -359,6 +538,37 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Asynchronously flushes @connection, that is, writes all queued
+     * outgoing message to the transport and then flushes the transport
+     * (using g_output_stream_flush_async()). This is useful in programs
+     * that wants to emit a D-Bus signal and then exit immediately. Without
+     * flushing the connection, there is no guaranteed that the message has
+     * been sent to the networking buffers in the OS kernel.
+     * 
+     * This is an asynchronous method. When the operation is finished,
+     * @callback will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from. You can
+     * then call g_dbus_connection_flush_finish() to get the result of the
+     * operation. See g_dbus_connection_flush_sync() for the synchronous
+     * version.
+     */
+    public void flush(DBusConnection connection, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_flush(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -482,6 +692,61 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     }
     
     /**
+     * Registers callbacks for exported objects at @object_path with the
+     * D-Bus interface that is described in @interface_info.
+     * 
+     * Calls to functions in @vtable (and @user_data_free_func) will happen
+     * in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from.
+     * 
+     * Note that all #GVariant values passed to functions in @vtable will match
+     * the signature given in @interface_info - if a remote caller passes
+     * incorrect values, the `org.freedesktop.DBus.Error.InvalidArgs`
+     * is returned to the remote caller.
+     * 
+     * Additionally, if the remote caller attempts to invoke methods or
+     * access properties not mentioned in @interface_info the
+     * `org.freedesktop.DBus.Error.UnknownMethod` resp.
+     * `org.freedesktop.DBus.Error.InvalidArgs` errors
+     * are returned to the caller.
+     * 
+     * It is considered a programming error if the
+     * #GDBusInterfaceGetPropertyFunc function in @vtable returns a
+     * #GVariant of incorrect type.
+     * 
+     * If an existing callback is already registered at @object_path and
+     * @interface_name, then @error is set to %G_IO_ERROR_EXISTS.
+     * 
+     * GDBus automatically implements the standard D-Bus interfaces
+     * org.freedesktop.DBus.Properties, org.freedesktop.DBus.Introspectable
+     * and org.freedesktop.Peer, so you don't have to implement those for the
+     * objects you export. You can implement org.freedesktop.DBus.Properties
+     * yourself, e.g. to handle getting and setting of properties asynchronously.
+     * 
+     * Note that the reference count on @interface_info will be
+     * incremented by 1 (unless allocated statically, e.g. if the
+     * reference count is -1, see g_dbus_interface_info_ref()) for as long
+     * as the object is exported. Also note that @vtable will be copied.
+     * 
+     * See this [server][gdbus-server] for an example of how to use this method.
+     */
+    public int registerObject(DBusConnection connection, java.lang.String objectPath, DBusInterfaceInfo interfaceInfo, DBusInterfaceVTable vtable) {
+        try {
+            int hash = userDataFreeFunc.hashCode();
+            Interop.signalRegistry.put(hash, userDataFreeFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_register_object(handle(), Interop.allocateNativeString(objectPath).handle(), interfaceInfo.handle(), vtable.handle(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Version of g_dbus_connection_register_object() using closures instead of a
      * #GDBusInterfaceVTable for easier binding in other languages.
      */
@@ -492,6 +757,57 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Registers a whole subtree of dynamic objects.
+     * 
+     * The @enumerate and @introspection functions in @vtable are used to
+     * convey, to remote callers, what nodes exist in the subtree rooted
+     * by @object_path.
+     * 
+     * When handling remote calls into any node in the subtree, first the
+     * @enumerate function is used to check if the node exists. If the node exists
+     * or the %G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES flag is set
+     * the @introspection function is used to check if the node supports the
+     * requested method. If so, the @dispatch function is used to determine
+     * where to dispatch the call. The collected #GDBusInterfaceVTable and
+     * #gpointer will be used to call into the interface vtable for processing
+     * the request.
+     * 
+     * All calls into user-provided code will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from.
+     * 
+     * If an existing subtree is already registered at @object_path or
+     * then @error is set to %G_IO_ERROR_EXISTS.
+     * 
+     * Note that it is valid to register regular objects (using
+     * g_dbus_connection_register_object()) in a subtree registered with
+     * g_dbus_connection_register_subtree() - if so, the subtree handler
+     * is tried as the last resort. One way to think about a subtree
+     * handler is to consider it a fallback handler for object paths not
+     * registered via g_dbus_connection_register_object() or other bindings.
+     * 
+     * Note that @vtable will be copied so you cannot change it after
+     * registration.
+     * 
+     * See this [server][gdbus-subtree-server] for an example of how to use
+     * this method.
+     */
+    public int registerSubtree(DBusConnection connection, java.lang.String objectPath, DBusSubtreeVTable vtable, int flags) {
+        try {
+            int hash = userDataFreeFunc.hashCode();
+            Interop.signalRegistry.put(hash, userDataFreeFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_register_subtree(handle(), Interop.allocateNativeString(objectPath).handle(), vtable.handle(), flags, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -543,6 +859,72 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      */
     public void setExitOnClose(boolean exitOnClose) {
         gtk_h.g_dbus_connection_set_exit_on_close(handle(), exitOnClose ? 1 : 0);
+    }
+    
+    /**
+     * Subscribes to signals on @connection and invokes @callback with a whenever
+     * the signal is received. Note that @callback will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from.
+     * 
+     * If @connection is not a message bus connection, @sender must be
+     * %NULL.
+     * 
+     * If @sender is a well-known name note that @callback is invoked with
+     * the unique name for the owner of @sender, not the well-known name
+     * as one would expect. This is because the message bus rewrites the
+     * name. As such, to avoid certain race conditions, users should be
+     * tracking the name owner of the well-known name and use that when
+     * processing the received signal.
+     * 
+     * If one of %G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_NAMESPACE or
+     * %G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_PATH are given, @arg0 is
+     * interpreted as part of a namespace or path.  The first argument
+     * of a signal is matched against that part as specified by D-Bus.
+     * 
+     * If @user_data_free_func is non-%NULL, it will be called (in the
+     * thread-default main context of the thread you are calling this
+     * method from) at some point after @user_data is no longer
+     * needed. (It is not guaranteed to be called synchronously when the
+     * signal is unsubscribed from, and may be called after @connection
+     * has been destroyed.)
+     * 
+     * As @callback is potentially invoked in a different thread from where it’s
+     * emitted, it’s possible for this to happen after
+     * g_dbus_connection_signal_unsubscribe() has been called in another thread.
+     * Due to this, @user_data should have a strong reference which is freed with
+     * @user_data_free_func, rather than pointing to data whose lifecycle is tied
+     * to the signal subscription. For example, if a #GObject is used to store the
+     * subscription ID from g_dbus_connection_signal_subscribe(), a strong reference
+     * to that #GObject must be passed to @user_data, and g_object_unref() passed to
+     * @user_data_free_func. You are responsible for breaking the resulting
+     * reference count cycle by explicitly unsubscribing from the signal when
+     * dropping the last external reference to the #GObject. Alternatively, a weak
+     * reference may be used.
+     * 
+     * It is guaranteed that if you unsubscribe from a signal using
+     * g_dbus_connection_signal_unsubscribe() from the same thread which made the
+     * corresponding g_dbus_connection_signal_subscribe() call, @callback will not
+     * be invoked after g_dbus_connection_signal_unsubscribe() returns.
+     * 
+     * The returned subscription identifier is an opaque value which is guaranteed
+     * to never be zero.
+     * 
+     * This function can never fail.
+     */
+    public int signalSubscribe(DBusConnection connection, java.lang.String sender, java.lang.String interfaceName, java.lang.String member, java.lang.String objectPath, java.lang.String arg0, int flags, DBusSignalCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusSignalCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_signal_subscribe(handle(), Interop.allocateNativeString(sender).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(member).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(arg0).handle(), flags, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -613,6 +995,82 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return (RESULT != 0);
     }
     
+    /**
+     * Asynchronously sets up a D-Bus connection for exchanging D-Bus messages
+     * with the end represented by @stream.
+     * 
+     * If @stream is a #GSocketConnection, then the corresponding #GSocket
+     * will be put into non-blocking mode.
+     * 
+     * The D-Bus connection will interact with @stream from a worker thread.
+     * As a result, the caller should not interact with @stream after this
+     * method has been called, except by calling g_object_unref() on it.
+     * 
+     * If @observer is not %NULL it may be used to control the
+     * authentication process.
+     * 
+     * When the operation is finished, @callback will be invoked. You can
+     * then call g_dbus_connection_new_finish() to get the result of the
+     * operation.
+     * 
+     * This is an asynchronous failable constructor. See
+     * g_dbus_connection_new_sync() for the synchronous
+     * version.
+     */
+    public void new_(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_new(stream.handle(), Interop.allocateNativeString(guid).handle(), flags, observer.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Asynchronously connects and sets up a D-Bus client connection for
+     * exchanging D-Bus messages with an endpoint specified by @address
+     * which must be in the
+     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * 
+     * This constructor can only be used to initiate client-side
+     * connections - use g_dbus_connection_new() if you need to act as the
+     * server. In particular, @flags cannot contain the
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS or
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER flags.
+     * 
+     * When the operation is finished, @callback will be invoked. You can
+     * then call g_dbus_connection_new_for_address_finish() to get the result of
+     * the operation.
+     * 
+     * If @observer is not %NULL it may be used to control the
+     * authentication process.
+     * 
+     * This is an asynchronous failable constructor. See
+     * g_dbus_connection_new_for_address_sync() for the synchronous
+     * version.
+     */
+    public void newForAddress(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_connection_new_for_address(Interop.allocateNativeString(address).handle(), flags, observer.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     @FunctionalInterface
     public interface ClosedHandler {
         void signalReceived(DBusConnection source, boolean remotePeerVanished, org.gtk.glib.Error error);
@@ -639,7 +1097,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public void onClosed(ClosedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusConnectionClosed", methodType);

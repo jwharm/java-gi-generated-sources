@@ -115,6 +115,65 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Inserts @data into @queue using @func to determine the new
+     * position.
+     * 
+     * This function requires that the @queue is sorted before pushing on
+     * new elements, see g_async_queue_sort().
+     * 
+     * This function will lock @queue before it sorts the queue and unlock
+     * it when it is finished.
+     * 
+     * For an example of @func see g_async_queue_sort().
+     */
+    public void pushSorted(AsyncQueue queue, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_queue_push_sorted(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Inserts @data into @queue using @func to determine the new
+     * position.
+     * 
+     * The sort function @func is passed two elements of the @queue.
+     * It should return 0 if they are equal, a negative value if the
+     * first element should be higher in the @queue or a positive value
+     * if the first element should be lower in the @queue than the second
+     * element.
+     * 
+     * This function requires that the @queue is sorted before pushing on
+     * new elements, see g_async_queue_sort().
+     * 
+     * This function must be called while holding the @queue's lock.
+     * 
+     * For an example of @func see g_async_queue_sort().
+     */
+    public void pushSortedUnlocked(AsyncQueue queue, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_queue_push_sorted_unlocked(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Pushes the @data into the @queue. @data must not be %NULL.
      * 
      * This function must be called while holding the @queue's lock.
@@ -148,6 +207,71 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
     public boolean removeUnlocked(jdk.incubator.foreign.MemoryAddress item) {
         var RESULT = gtk_h.g_async_queue_remove_unlocked(handle(), item);
         return (RESULT != 0);
+    }
+    
+    /**
+     * Sorts @queue using @func.
+     * 
+     * The sort function @func is passed two elements of the @queue.
+     * It should return 0 if they are equal, a negative value if the
+     * first element should be higher in the @queue or a positive value
+     * if the first element should be lower in the @queue than the second
+     * element.
+     * 
+     * This function will lock @queue before it sorts the queue and unlock
+     * it when it is finished.
+     * 
+     * If you were sorting a list of priority numbers to make sure the
+     * lowest priority would be at the top of the queue, you could use:
+     * |[<!-- language="C" -->
+     *  gint32 id1;
+     *  gint32 id2;
+     * 
+     *  id1 = GPOINTER_TO_INT (element1);
+     *  id2 = GPOINTER_TO_INT (element2);
+     * 
+     *  return (id1 > id2 ? +1 : id1 == id2 ? 0 : -1);
+     * ]|
+     */
+    public void sort(AsyncQueue queue, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_queue_sort(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Sorts @queue using @func.
+     * 
+     * The sort function @func is passed two elements of the @queue.
+     * It should return 0 if they are equal, a negative value if the
+     * first element should be higher in the @queue or a positive value
+     * if the first element should be lower in the @queue than the second
+     * element.
+     * 
+     * This function must be called while holding the @queue's lock.
+     */
+    public void sortUnlocked(AsyncQueue queue, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_queue_sort_unlocked(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

@@ -110,6 +110,25 @@ public class Drop extends org.gtk.gobject.Object {
     }
     
     /**
+     * Asynchronously read the dropped data from a `GdkDrop`
+     * in a format that complies with one of the mime types.
+     */
+    public void readAsync(Drop self, java.lang.String[] mimeTypes, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_drop_read_async(handle(), Interop.allocateNativeArray(mimeTypes).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an async drop read operation.
      * 
      * Note that you must not use blocking read calls on the returned stream
@@ -126,6 +145,33 @@ public class Drop extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.gio.InputStream(References.get(RESULT, true));
+    }
+    
+    /**
+     * Asynchronously request the drag operation's contents converted
+     * to the given @type.
+     * 
+     * When the operation is finished @callback will be called. You must
+     * then call [method@Gdk.Drop.read_value_finish] to get the resulting
+     * `GValue`.
+     * 
+     * For local drag-and-drop operations that are available in the given
+     * `GType`, the value will be copied directly. Otherwise, GDK will
+     * try to use [func@Gdk.content_deserialize_async] to convert the data.
+     */
+    public void readValueAsync(Drop self, Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_drop_read_value_async(handle(), type.getValue(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

@@ -1,7 +1,10 @@
 package org.gtk.glib;
 
+/**
+ * The type of function to be passed as callback for %G_OPTION_ARG_CALLBACK
+ * options.
+ */
 @FunctionalInterface
 public interface OptionArgFunc {
-
-        void onOptionArgFunc(java.lang.String optionName, java.lang.String value);
+        boolean onOptionArgFunc(java.lang.String optionName, java.lang.String value);
 }

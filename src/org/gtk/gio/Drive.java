@@ -78,6 +78,26 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Ejects a drive. This is an asynchronous operation, and is
+     * finished by calling g_drive_eject_with_operation_finish() with the @drive
+     * and #GAsyncResult data returned in the @callback.
+     */
+    public default void ejectWithOperation(Drive drive, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_drive_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes ejecting a drive. If any errors occurred during the operation,
      * @error will be set to contain the errors and %FALSE will be returned.
      */
@@ -195,6 +215,28 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously polls @drive to see if media has been inserted or removed.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_drive_poll_for_media_finish() to obtain the
+     * result of the operation.
+     */
+    public default void pollForMedia(Drive drive, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_drive_poll_for_media(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an operation started with g_drive_poll_for_media() on a drive.
      */
     public default boolean pollForMediaFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -207,6 +249,28 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously starts a drive.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_drive_start_finish() to obtain the
+     * result of the operation.
+     */
+    public default void start(Drive drive, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_drive_start(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes starting a drive.
      */
     public default boolean startFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -216,6 +280,28 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronously stops a drive.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_drive_stop_finish() to obtain the
+     * result of the operation.
+     */
+    public default void stop(Drive drive, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_drive_stop(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -241,7 +327,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onChanged(ChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDriveChanged", methodType);
@@ -267,7 +353,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onDisconnected(DisconnectedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDriveDisconnected", methodType);
@@ -291,7 +377,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onEjectButton(EjectButtonHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDriveEjectButton", methodType);
@@ -315,7 +401,7 @@ public interface Drive extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onStopButton(StopButtonHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDriveStopButton", methodType);

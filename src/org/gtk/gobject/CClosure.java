@@ -368,4 +368,16 @@ public class CClosure extends io.github.jwharm.javagi.interop.ResourceBase {
         gtk_h.g_cclosure_marshal_generic_va(closure.handle(), returnValue.handle(), instance.handle(), argsList, marshalData, nParams, Interop.allocateNativeArray(paramTypes).handle());
     }
     
+    /**
+     * Creates a new closure which invokes @callback_func with @user_data as
+     * the last parameter.
+     * 
+     * @destroy_data will be called as a finalize notifier on the #GClosure.
+     */
+    /**
+     * Creates a new closure which invokes @callback_func with @user_data as
+     * the first parameter.
+     * 
+     * @destroy_data will be called as a finalize notifier on the #GClosure.
+     */
 }

@@ -520,6 +520,28 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
+     * Creates a #GTask acting on @source_object, which will eventually be
+     * used to invoke @callback in the current
+     * [thread-default main context][g-main-context-push-thread-default].
+     * 
+     * Call this in the "start" method of your asynchronous method, and
+     * pass the #GTask around throughout the asynchronous operation. You
+     * can use g_task_set_task_data() to attach task-specific data to the
+     * object, which you can retrieve later via g_task_get_task_data().
+     * 
+     * By default, if @cancellable is cancelled, then the return value of
+     * the task will always be %G_IO_ERROR_CANCELLED, even if the task had
+     * already completed before the cancellation. This allows for
+     * simplified handling in cases where cancellation may imply that
+     * other objects that the task depends on have been destroyed. If you
+     * do not want this behavior, you can use
+     * g_task_set_check_cancellable() to change it.
+     */
+    public Task(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress callbackData) {
+        super(References.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), callback, callbackData), true));
+    }
+    
+    /**
      * Gets @task's #GCancellable
      */
     public Cancellable getCancellable() {
@@ -857,6 +879,24 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
+     * Sets @task's task data (freeing the existing task data, if any).
+     */
+    public void setTaskData(Task task) {
+        try {
+            int hash = taskDataDestroy.hashCode();
+            Interop.signalRegistry.put(hash, taskDataDestroy);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_task_set_task_data(handle(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Checks that @result is a #GTask, and that @source_object is its
      * source object (or that @source_object is %NULL and @result has no
      * source object). This can be used in g_return_if_fail() checks.
@@ -864,6 +904,31 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     public static boolean isValid(AsyncResult result, org.gtk.gobject.Object sourceObject) {
         var RESULT = gtk_h.g_task_is_valid(result.handle(), sourceObject.handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Creates a #GTask and then immediately calls g_task_return_error()
+     * on it. Use this in the wrapper function of an asynchronous method
+     * when you want to avoid even calling the virtual method. You can
+     * then use g_async_result_is_tagged() in the finish method wrapper to
+     * check if the result there is tagged as having been created by the
+     * wrapper method, and deal with it appropriately if so.
+     * 
+     * See also g_task_report_new_error().
+     */
+    public void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_task_report_error(sourceObject.handle(), nativeSymbol, intSegment, sourceTag, error.handle());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

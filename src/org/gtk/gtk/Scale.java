@@ -217,6 +217,31 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
     }
     
     /**
+     * @func allows you to change how the scale value is displayed.
+     * 
+     * The given function will return an allocated string representing
+     * @value. That string will then be used to display the scale's value.
+     * 
+     * If #NULL is passed as @func, the value will be displayed on
+     * its own, rounded according to the value of the
+     * [property@GtkScale:digits] property.
+     */
+    public void setFormatValueFunc(Scale scale, ScaleFormatValueFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, double.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbScaleFormatValueFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_scale_set_format_value_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets whether the scale has an origin.
      * 
      * If [property@GtkScale:has-origin] is set to %TRUE (the default),

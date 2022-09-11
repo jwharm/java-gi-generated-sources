@@ -64,6 +64,29 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
+     * Asynchronously closes the file enumerator.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned in
+     * g_file_enumerator_close_finish().
+     */
+    public void closeAsync(FileEnumerator enumerator, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_enumerator_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes closing a file enumerator, started from g_file_enumerator_close_async().
      * 
      * If the file enumerator was already closed when g_file_enumerator_close_async()
@@ -197,6 +220,42 @@ public class FileEnumerator extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new FileInfo(References.get(RESULT, true));
+    }
+    
+    /**
+     * Request information for a number of files from the enumerator asynchronously.
+     * When all i/o for the operation is finished the @callback will be called with
+     * the requested information.
+     * 
+     * See the documentation of #GFileEnumerator for information about the
+     * order of returned files.
+     * 
+     * The callback can be called with less than @num_files files in case of error
+     * or at the end of the enumerator. In case of a partial error the callback will
+     * be called with any succeeding items and no error, and on the next request the
+     * error will be reported. If a request is cancelled the callback will be called
+     * with %G_IO_ERROR_CANCELLED.
+     * 
+     * During an async request no other sync and async calls are allowed, and will
+     * result in %G_IO_ERROR_PENDING errors.
+     * 
+     * Any outstanding i/o request with higher priority (lower numerical value) will
+     * be executed before an outstanding request with lower priority. Default
+     * priority is %G_PRIORITY_DEFAULT.
+     */
+    public void nextFilesAsync(FileEnumerator enumerator, int numFiles, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_enumerator_next_files_async(handle(), numFiles, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

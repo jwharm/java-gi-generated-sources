@@ -204,6 +204,61 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
+     * This function performs the equivalent of g_app_info_launch_uris(),
+     * but is intended primarily for operating system components that
+     * launch applications.  Ordinary applications should use
+     * g_app_info_launch_uris().
+     * 
+     * If the application is launched via GSpawn, then @spawn_flags, @user_setup
+     * and @user_setup_data are used for the call to g_spawn_async().
+     * Additionally, @pid_callback (with @pid_callback_data) will be called to
+     * inform about the PID of the created process. See g_spawn_async_with_pipes()
+     * for information on certain parameter conditions that can enable an
+     * optimized posix_spawn() codepath to be used.
+     * 
+     * If application launching occurs via some other mechanism (eg: D-Bus
+     * activation) then @spawn_flags, @user_setup, @user_setup_data,
+     * @pid_callback and @pid_callback_data are ignored.
+     */
+    public boolean launchUrisAsManager(DesktopAppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback) {
+        try {
+            int hash = userSetup.hashCode();
+            Interop.signalRegistry.put(hash, userSetup);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_desktop_app_info_launch_uris_as_manager(handle(), uris.handle(), launchContext.handle(), spawnFlags, nativeSymbol, intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Equivalent to g_desktop_app_info_launch_uris_as_manager() but allows
+     * you to pass in file descriptors for the stdin, stdout and stderr streams
+     * of the launched process.
+     * 
+     * If application launching occurs via some non-spawn mechanism (e.g. D-Bus
+     * activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.
+     */
+    public boolean launchUrisAsManagerWithFds(DesktopAppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) {
+        try {
+            int hash = userSetup.hashCode();
+            Interop.signalRegistry.put(hash, userSetup);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_desktop_app_info_launch_uris_as_manager_with_fds(handle(), uris.handle(), launchContext.handle(), spawnFlags, nativeSymbol, intSegment, nativeSymbol, intSegment, stdinFd, stdoutFd, stderrFd);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Gets all applications that implement @interface.
      * 
      * An application implements an interface if that interface is listed in

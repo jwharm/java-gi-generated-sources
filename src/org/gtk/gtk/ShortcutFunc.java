@@ -1,7 +1,9 @@
 package org.gtk.gtk;
 
+/**
+ * Prototype for shortcuts based on user callbacks.
+ */
 @FunctionalInterface
 public interface ShortcutFunc {
-
-        void onShortcutFunc(Widget widget, org.gtk.glib.Variant args);
+        boolean onShortcutFunc(Widget widget, org.gtk.glib.Variant args);
 }

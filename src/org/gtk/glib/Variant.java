@@ -367,6 +367,41 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Creates a new #GVariant instance from serialized data.
+     * 
+     * @type is the type of #GVariant instance that will be constructed.
+     * The interpretation of @data depends on knowing the type.
+     * 
+     * @data is not modified by this function and must remain valid with an
+     * unchanging value until such a time as @notify is called with
+     * @user_data.  If the contents of @data change before that time then
+     * the result is undefined.
+     * 
+     * If @data is trusted to be serialized data in normal form then
+     * @trusted should be %TRUE.  This applies to serialized data created
+     * within this process or read from a trusted location on the disk (such
+     * as a file installed in /usr/lib alongside your application).  You
+     * should set trusted to %FALSE if @data is read from the network, a
+     * file in the user's home directory, etc.
+     * 
+     * If @data was not stored in this machine's native endianness, any multi-byte
+     * numeric values in the returned variant will also be in non-native
+     * endianness. g_variant_byteswap() can be used to recover the original values.
+     * 
+     * @notify will be called with @user_data when @data is no longer
+     * needed.  The exact time of this call is unspecified and might even be
+     * before this function returns.
+     * 
+     * Note: @data must be backed by memory that is aligned appropriately for the
+     * @type being loaded. Otherwise this function will internally create a copy of
+     * the memory (since GLib 2.60) or (in older versions) fail and exit the
+     * process.
+     */
+    public static Variant newFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, jdk.incubator.foreign.MemoryAddress userData) {
+        return new Variant(References.get(gtk_h.g_variant_new_from_data(type.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, trusted ? 1 : 0, notify, userData), false));
+    }
+    
+    /**
      * Creates a new handle #GVariant instance.
      * 
      * By convention, handles are indexes into an array of file descriptors

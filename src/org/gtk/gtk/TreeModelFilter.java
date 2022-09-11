@@ -156,6 +156,33 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     }
     
     /**
+     * With the @n_columns and @types parameters, you give an array of column
+     * types for this model (which will be exposed to the parent model/view).
+     * The @func, @data and @destroy parameters are for specifying the modify
+     * function. The modify function will get called for each
+     * data access, the goal of the modify function is to return the data which
+     * should be displayed at the location specified using the parameters of the
+     * modify function.
+     * 
+     * Note that gtk_tree_model_filter_set_modify_func()
+     * can only be called once for a given filter model.
+     */
+    public void setModifyFunc(TreeModelFilter filter, int nColumns, org.gtk.gobject.Type[] types, TreeModelFilterModifyFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterModifyFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_model_filter_set_modify_func(handle(), nColumns, Interop.allocateNativeArray(types).handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets @column of the child_model to be the column where @filter should
      * look for visibility information. @columns should be a column of type
      * %G_TYPE_BOOLEAN, where %TRUE means that a row is visible, and %FALSE
@@ -167,6 +194,58 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      */
     public void setVisibleColumn(int column) {
         gtk_h.gtk_tree_model_filter_set_visible_column(handle(), column);
+    }
+    
+    /**
+     * Sets the visible function used when filtering the @filter to be @func.
+     * The function should return %TRUE if the given row should be visible and
+     * %FALSE otherwise.
+     * 
+     * If the condition calculated by the function changes over time (e.g.
+     * because it depends on some global parameters), you must call
+     * gtk_tree_model_filter_refilter() to keep the visibility information
+     * of the model up-to-date.
+     * 
+     * Note that @func is called whenever a row is inserted, when it may still
+     * be empty. The visible function should therefore take special care of empty
+     * rows, like in the example below.
+     * 
+     * |[<!-- language="C" -->
+     * static gboolean
+     * visible_func (GtkTreeModel *model,
+     *               GtkTreeIter  *iter,
+     *               gpointer      data)
+     * {
+     *   // Visible if row is non-empty and first column is “HI”
+     *   char *str;
+     *   gboolean visible = FALSE;
+     * 
+     *   gtk_tree_model_get (model, iter, 0, &str, -1);
+     *   if (str && strcmp (str, "HI") == 0)
+     *     visible = TRUE;
+     *   g_free (str);
+     * 
+     *   return visible;
+     * }
+     * ]|
+     * 
+     * Note that gtk_tree_model_filter_set_visible_func() or
+     * gtk_tree_model_filter_set_visible_column() can only be called
+     * once for a given filter model.
+     */
+    public void setVisibleFunc(TreeModelFilter filter, TreeModelFilterVisibleFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterVisibleFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_model_filter_set_visible_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

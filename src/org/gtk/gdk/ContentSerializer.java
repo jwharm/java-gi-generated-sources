@@ -120,4 +120,22 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         gtk_h.gdk_content_serializer_return_success(handle());
     }
     
+    /**
+     * Associate data with the current serialization operation.
+     */
+    public void setTaskData(ContentSerializer serializer) {
+        try {
+            int hash = notify.hashCode();
+            Interop.signalRegistry.put(hash, notify);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_content_serializer_set_task_data(handle(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

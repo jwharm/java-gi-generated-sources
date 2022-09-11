@@ -60,6 +60,43 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
+     * Registers @uri_func and @parse_name_func as the #GFile URI and parse name
+     * lookup functions for URIs with a scheme matching @scheme.
+     * Note that @scheme is registered only within the running application, as
+     * opposed to desktop-wide as it happens with GVfs backends.
+     * 
+     * When a #GFile is requested with an URI containing @scheme (e.g. through
+     * g_file_new_for_uri()), @uri_func will be called to allow a custom
+     * constructor. The implementation of @uri_func should not be blocking, and
+     * must not call g_vfs_register_uri_scheme() or g_vfs_unregister_uri_scheme().
+     * 
+     * When g_file_parse_name() is called with a parse name obtained from such file,
+     * @parse_name_func will be called to allow the #GFile to be created again. In
+     * that case, it's responsibility of @parse_name_func to make sure the parse
+     * name matches what the custom #GFile implementation returned when
+     * g_file_get_parse_name() was previously called. The implementation of
+     * @parse_name_func should not be blocking, and must not call
+     * g_vfs_register_uri_scheme() or g_vfs_unregister_uri_scheme().
+     * 
+     * It's an error to call this function twice with the same scheme. To unregister
+     * a custom URI scheme, use g_vfs_unregister_uri_scheme().
+     */
+    public boolean registerUriScheme(Vfs vfs, java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {
+        try {
+            int hash = uriFunc.hashCode();
+            Interop.signalRegistry.put(hash, uriFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_vfs_register_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Unregisters the URI handler for @scheme previously registered with
      * g_vfs_register_uri_scheme().
      */

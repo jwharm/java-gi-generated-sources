@@ -59,6 +59,28 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
+     * Asynchronously retrieves the next #GSocketAddress from @enumerator
+     * and then calls @callback, which must call
+     * g_socket_address_enumerator_next_finish() to get the result.
+     * 
+     * It is an error to call this multiple times before the previous callback has finished.
+     */
+    public void nextAsync(SocketAddressEnumerator enumerator, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_socket_address_enumerator_next_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Retrieves the result of a completed call to
      * g_socket_address_enumerator_next_async(). See
      * g_socket_address_enumerator_next() for more information about

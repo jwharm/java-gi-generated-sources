@@ -62,6 +62,30 @@ public class UnixConnection extends SocketConnection {
     }
     
     /**
+     * Asynchronously receive credentials.
+     * 
+     * For more details, see g_unix_connection_receive_credentials() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called. You can then call
+     * g_unix_connection_receive_credentials_finish() to get the result of the operation.
+     */
+    public void receiveCredentialsAsync(UnixConnection connection, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_unix_connection_receive_credentials_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous receive credentials operation started with
      * g_unix_connection_receive_credentials_async().
      */
@@ -120,6 +144,30 @@ public class UnixConnection extends SocketConnection {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronously send credentials.
+     * 
+     * For more details, see g_unix_connection_send_credentials() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called. You can then call
+     * g_unix_connection_send_credentials_finish() to get the result of the operation.
+     */
+    public void sendCredentialsAsync(UnixConnection connection, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_unix_connection_send_credentials_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

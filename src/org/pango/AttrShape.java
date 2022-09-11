@@ -30,4 +30,26 @@ public class AttrShape extends io.github.jwharm.javagi.interop.ResourceBase {
         return new Attribute(References.get(RESULT, true));
     }
     
+    /**
+     * Creates a new shape attribute.
+     * 
+     * Like [func@Pango.AttrShape.new], but a user data pointer
+     * is also provided; this pointer can be accessed when later
+     * rendering the glyph.
+     */
+    public Attribute newWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
+        try {
+            int hash = copyFunc.hashCode();
+            Interop.signalRegistry.put(hash, copyFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrDataCopyFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), intSegment, nativeSymbol, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

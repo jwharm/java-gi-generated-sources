@@ -73,6 +73,33 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Requests an asynchronous closes of the stream, releasing resources related to it.
+     * When the operation is finished @callback will be called.
+     * You can then call g_input_stream_close_finish() to get the result of the
+     * operation.
+     * 
+     * For behaviour details see g_input_stream_close().
+     * 
+     * The asynchronous methods have a default fallback that uses threads to implement
+     * asynchronicity, so they are optional for inheriting classes. However, if you
+     * override one you must override all.
+     */
+    public void closeAsync(InputStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_input_stream_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes closing a stream asynchronously, started from g_input_stream_close_async().
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -133,6 +160,73 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Request an asynchronous read of @count bytes from the stream into the
+     * buffer starting at @buffer.
+     * 
+     * This is the asynchronous equivalent of g_input_stream_read_all().
+     * 
+     * Call g_input_stream_read_all_finish() to collect the result.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     */
+    public void readAllAsync(InputStream stream, byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_input_stream_read_all_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Request an asynchronous read of @count bytes from the stream into the buffer
+     * starting at @buffer. When the operation is finished @callback will be called.
+     * You can then call g_input_stream_read_finish() to get the result of the
+     * operation.
+     * 
+     * During an async request no other sync and async calls are allowed on @stream, and will
+     * result in %G_IO_ERROR_PENDING errors.
+     * 
+     * A value of @count larger than %G_MAXSSIZE will cause a %G_IO_ERROR_INVALID_ARGUMENT error.
+     * 
+     * On success, the number of bytes read into the buffer will be passed to the
+     * callback. It is not an error if this is not the same as the requested size, as it
+     * can happen e.g. near the end of a file, but generally we try to read
+     * as many bytes as requested. Zero is returned on end of file
+     * (or if @count is zero),  but never otherwise.
+     * 
+     * Any outstanding i/o request with higher priority (lower numerical value) will
+     * be executed before an outstanding request with lower priority. Default
+     * priority is %G_PRIORITY_DEFAULT.
+     * 
+     * The asynchronous methods have a default fallback that uses threads to implement
+     * asynchronicity, so they are optional for inheriting classes. However, if you
+     * override one you must override all.
+     */
+    public void readAsync(InputStream stream, byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_input_stream_read_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Like g_input_stream_read(), this tries to read @count bytes from
      * the stream in a blocking fashion. However, rather than reading into
      * a user-supplied buffer, this will create a new #GBytes containing
@@ -164,6 +258,43 @@ public class InputStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
+    }
+    
+    /**
+     * Request an asynchronous read of @count bytes from the stream into a
+     * new #GBytes. When the operation is finished @callback will be
+     * called. You can then call g_input_stream_read_bytes_finish() to get the
+     * result of the operation.
+     * 
+     * During an async request no other sync and async calls are allowed
+     * on @stream, and will result in %G_IO_ERROR_PENDING errors.
+     * 
+     * A value of @count larger than %G_MAXSSIZE will cause a
+     * %G_IO_ERROR_INVALID_ARGUMENT error.
+     * 
+     * On success, the new #GBytes will be passed to the callback. It is
+     * not an error if this is smaller than the requested size, as it can
+     * happen e.g. near the end of a file, but generally we try to read as
+     * many bytes as requested. Zero is returned on end of file (or if
+     * @count is zero), but never otherwise.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     */
+    public void readBytesAsync(InputStream stream, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_input_stream_read_bytes_async(handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -227,6 +358,46 @@ public class InputStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Request an asynchronous skip of @count bytes from the stream.
+     * When the operation is finished @callback will be called.
+     * You can then call g_input_stream_skip_finish() to get the result
+     * of the operation.
+     * 
+     * During an async request no other sync and async calls are allowed,
+     * and will result in %G_IO_ERROR_PENDING errors.
+     * 
+     * A value of @count larger than %G_MAXSSIZE will cause a %G_IO_ERROR_INVALID_ARGUMENT error.
+     * 
+     * On success, the number of bytes skipped will be passed to the callback.
+     * It is not an error if this is not the same as the requested size, as it
+     * can happen e.g. near the end of a file, but generally we try to skip
+     * as many bytes as requested. Zero is returned on end of file
+     * (or if @count is zero), but never otherwise.
+     * 
+     * Any outstanding i/o request with higher priority (lower numerical value)
+     * will be executed before an outstanding request with lower priority.
+     * Default priority is %G_PRIORITY_DEFAULT.
+     * 
+     * The asynchronous methods have a default fallback that uses threads to
+     * implement asynchronicity, so they are optional for inheriting classes.
+     * However, if you override one, you must override all.
+     */
+    public void skipAsync(InputStream stream, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_input_stream_skip_async(handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

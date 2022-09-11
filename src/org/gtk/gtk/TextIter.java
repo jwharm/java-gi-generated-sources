@@ -80,6 +80,25 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Same as gtk_text_iter_forward_find_char(),
+     * but goes backward from @iter.
+     */
+    public boolean backwardFindChar(TextIter iter, TextCharPredicate pred, TextIter limit) {
+        try {
+            int hash = pred.hashCode();
+            Interop.signalRegistry.put(hash, pred);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, int.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_text_iter_backward_find_char(handle(), nativeSymbol, intSegment, limit.handle());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Moves @iter to the start of the previous line.
      * 
      * Returns %TRUE if @iter could be moved; i.e. if @iter was at
@@ -452,6 +471,28 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
     public boolean forwardCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_cursor_positions(handle(), count);
         return (RESULT != 0);
+    }
+    
+    /**
+     * Advances @iter, calling @pred on each character.
+     * 
+     * If @pred returns %TRUE, returns %TRUE and stops scanning.
+     * If @pred never returns %TRUE, @iter is set to @limit if
+     * @limit is non-%NULL, otherwise to the end iterator.
+     */
+    public boolean forwardFindChar(TextIter iter, TextCharPredicate pred, TextIter limit) {
+        try {
+            int hash = pred.hashCode();
+            Interop.signalRegistry.put(hash, pred);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, int.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_text_iter_forward_find_char(handle(), nativeSymbol, intSegment, limit.handle());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

@@ -111,6 +111,59 @@ import java.lang.invoke.*;
 public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAddress {
 
     /**
+     * Starts asynchronous initialization of the object implementing the
+     * interface. This must be done before any real use of the object after
+     * initial construction. If the object also implements #GInitable you can
+     * optionally call g_initable_init() instead.
+     * 
+     * This method is intended for language bindings. If writing in C,
+     * g_async_initable_new_async() should typically be used instead.
+     * 
+     * When the initialization is finished, @callback will be called. You can
+     * then call g_async_initable_init_finish() to get the result of the
+     * initialization.
+     * 
+     * Implementations may also support cancellation. If @cancellable is not
+     * %NULL, then initialization can be cancelled by triggering the cancellable
+     * object from another thread. If the operation was cancelled, the error
+     * %G_IO_ERROR_CANCELLED will be returned. If @cancellable is not %NULL, and
+     * the object doesn't support cancellable initialization, the error
+     * %G_IO_ERROR_NOT_SUPPORTED will be returned.
+     * 
+     * As with #GInitable, if the object is not initialized, or initialization
+     * returns with an error, then all operations on the object except
+     * g_object_ref() and g_object_unref() are considered to be invalid, and
+     * have undefined behaviour. They will often fail with g_critical() or
+     * g_warning(), but this must not be relied on.
+     * 
+     * Callers should not assume that a class which implements #GAsyncInitable can
+     * be initialized multiple times; for more information, see g_initable_init().
+     * If a class explicitly supports being initialized multiple times,
+     * implementation requires yielding all subsequent calls to init_async() on the
+     * results of the first call.
+     * 
+     * For classes that also support the #GInitable interface, the default
+     * implementation of this method will run the g_initable_init() function
+     * in a thread, so if you want to support asynchronous initialization via
+     * threads, just implement the #GAsyncInitable interface without overriding
+     * any interface methods.
+     */
+    public default void initAsync(AsyncInitable initable, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_initable_init_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes asynchronous initialization and returns the result.
      * See g_async_initable_init_async().
      */
@@ -121,6 +174,30 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Helper function for constructing #GAsyncInitable object. This is
+     * similar to g_object_new_valist() but also initializes the object
+     * asynchronously.
+     * 
+     * When the initialization is finished, @callback will be called. You can
+     * then call g_async_initable_new_finish() to get the new object and check
+     * for any errors.
+     */
+    public void newValistAsync(Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_async_initable_new_valist_async(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {

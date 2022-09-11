@@ -223,6 +223,26 @@ public final class Gtk {
     }
     
     /**
+     * Calls a function for all `GtkPrinter`s.
+     * 
+     * If @func returns %TRUE, the enumeration is stopped.
+     */
+    public void enumeratePrinters(PrinterFunc func, boolean wait) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrinterFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_enumerate_printers(nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), wait ? 1 : 0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Registers an error quark for `GtkFileChooser` errors.
      */
     public static org.gtk.glib.Quark fileChooserErrorQuark() {
@@ -490,9 +510,9 @@ public final class Gtk {
     public void printRunPageSetupDialogAsync(Window parent, PageSetup pageSetup, PrintSettings settings, PageSetupDoneFunc doneCb) {
         try {
             int hash = doneCb.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, doneCb);
+            Interop.signalRegistry.put(hash, doneCb);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPageSetupDoneFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -653,6 +673,31 @@ public final class Gtk {
      */
     public static void showUri(Window parent, java.lang.String uri, int timestamp) {
         gtk_h.gtk_show_uri(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp);
+    }
+    
+    /**
+     * This function launches the default application for showing
+     * a given uri.
+     * 
+     * The @callback will be called when the launch is completed.
+     * It should call gtk_show_uri_full_finish() to obtain the result.
+     * 
+     * This is the recommended call to be used as it passes information
+     * necessary for sandbox helpers to parent their dialogs properly.
+     */
+    public void showUriFull(Window parent, java.lang.String uri, int timestamp, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_show_uri_full(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

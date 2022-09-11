@@ -68,6 +68,36 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     }
     
     /**
+     * Sets up a child setup function.
+     * 
+     * The child setup function will be called after fork() but before
+     * exec() on the child's side.
+     * 
+     * @destroy_notify will not be automatically called on the child's side
+     * of the fork().  It will only be called when the last reference on the
+     * #GSubprocessLauncher is dropped or when a new child setup function is
+     * given.
+     * 
+     * %NULL can be given as @child_setup to disable the functionality.
+     * 
+     * Child setup functions are only available on UNIX.
+     */
+    public void setChildSetup(SubprocessLauncher self, org.gtk.glib.SpawnChildSetupFunc childSetup) {
+        try {
+            int hash = childSetup.hashCode();
+            Interop.signalRegistry.put(hash, childSetup);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_subprocess_launcher_set_child_setup(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the current working directory that processes will be launched
      * with.
      * 

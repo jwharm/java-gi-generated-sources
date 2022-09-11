@@ -120,6 +120,32 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Sets the function used to sort the list of tasks. This allows the
+     * tasks to be processed by a priority determined by @func, and not
+     * just in the order in which they were added to the pool.
+     * 
+     * Note, if the maximum number of threads is more than 1, the order
+     * that threads are executed cannot be guaranteed 100%. Threads are
+     * scheduled by the operating system and are executed at random. It
+     * cannot be assumed that threads are executed in the order they are
+     * created.
+     */
+    public void setSortFunction(ThreadPool pool, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_thread_pool_set_sort_function(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Returns the number of tasks still unprocessed in @pool.
      */
     public int unprocessed() {
@@ -154,6 +180,75 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
     public static int getNumUnusedThreads() {
         var RESULT = gtk_h.g_thread_pool_get_num_unused_threads();
         return RESULT;
+    }
+    
+    /**
+     * This function creates a new thread pool.
+     * 
+     * Whenever you call g_thread_pool_push(), either a new thread is
+     * created or an unused one is reused. At most @max_threads threads
+     * are running concurrently for this thread pool. @max_threads = -1
+     * allows unlimited threads to be created for this thread pool. The
+     * newly created or reused thread now executes the function @func
+     * with the two arguments. The first one is the parameter to
+     * g_thread_pool_push() and the second one is @user_data.
+     * 
+     * Pass g_get_num_processors() to @max_threads to create as many threads as
+     * there are logical processors on the system. This will not pin each thread to
+     * a specific processor.
+     * 
+     * The parameter @exclusive determines whether the thread pool owns
+     * all threads exclusive or shares them with other thread pools.
+     * If @exclusive is %TRUE, @max_threads threads are started
+     * immediately and they will run exclusively for this thread pool
+     * until it is destroyed by g_thread_pool_free(). If @exclusive is
+     * %FALSE, threads are created when needed and shared between all
+     * non-exclusive thread pools. This implies that @max_threads may
+     * not be -1 for exclusive thread pools. Besides, exclusive thread
+     * pools are not affected by g_thread_pool_set_max_idle_time()
+     * since their threads are never considered idle and returned to the
+     * global pool.
+     * 
+     * @error can be %NULL to ignore errors, or non-%NULL to report
+     * errors. An error can only occur when @exclusive is set to %TRUE
+     * and not all @max_threads threads could be created.
+     * See #GThreadError for possible errors that may occur.
+     * Note, even in case of error a valid #GThreadPool is returned.
+     */
+    public ThreadPool new_(Func func, int maxThreads, boolean exclusive) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_thread_pool_new(nativeSymbol, intSegment, maxThreads, exclusive ? 1 : 0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * This function creates a new thread pool similar to g_thread_pool_new()
+     * but allowing @item_free_func to be specified to free the data passed
+     * to g_thread_pool_push() in the case that the #GThreadPool is stopped
+     * and freed before all tasks have been executed.
+     */
+    public ThreadPool newFull(Func func, int maxThreads, boolean exclusive) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_thread_pool_new_full(nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

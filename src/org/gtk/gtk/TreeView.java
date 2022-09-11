@@ -483,6 +483,29 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Convenience function that inserts a new column into the `GtkTreeView`
+     * with the given cell renderer and a `GtkTreeCellDataFunc` to set cell renderer
+     * attributes (normally using data from the model). See also
+     * gtk_tree_view_column_set_cell_data_func(), gtk_tree_view_column_pack_start().
+     * If @tree_view has “fixed_height” mode enabled, then the new column will have its
+     * “sizing” property set to be GTK_TREE_VIEW_COLUMN_FIXED.
+     */
+    public int insertColumnWithDataFunc(TreeView treeView, int position, java.lang.String title, CellRenderer cell, TreeCellDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeCellDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_view_insert_column_with_data_func(handle(), position, Interop.allocateNativeString(title).handle(), cell.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Returns whether a rubber banding operation is currently being done
      * in @tree_view.
      */
@@ -494,12 +517,12 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Calls @func on all expanded rows.
      */
-    public void mapExpandedRows(TreeViewMappingFunc func) {
+    public void mapExpandedRows(TreeView treeView, TreeViewMappingFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewMappingFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -581,6 +604,32 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public void setActivateOnSingleClick(boolean single) {
         gtk_h.gtk_tree_view_set_activate_on_single_click(handle(), single ? 1 : 0);
+    }
+    
+    /**
+     * Sets a user function for determining where a column may be dropped when
+     * dragged.  This function is called on every column pair in turn at the
+     * beginning of a column drag to determine where a drop can take place.  The
+     * arguments passed to @func are: the @tree_view, the `GtkTreeViewColumn` being
+     * dragged, the two `GtkTreeViewColumn`s determining the drop spot, and
+     * @user_data.  If either of the `GtkTreeViewColumn` arguments for the drop spot
+     * are %NULL, then they indicate an edge.  If @func is set to be %NULL, then
+     * @tree_view reverts to the default behavior of allowing all columns to be
+     * dropped everywhere.
+     */
+    public void setColumnDragFunction(TreeView treeView, TreeViewColumnDropFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewColumnDropFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_view_set_column_drag_function(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -751,6 +800,26 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Sets the row separator function, which is used to determine
+     * whether a row should be drawn as a separator. If the row separator
+     * function is %NULL, no separators are drawn. This is the default value.
+     */
+    public void setRowSeparatorFunc(TreeView treeView, TreeViewRowSeparatorFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewRowSeparatorFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_view_set_row_separator_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Enables or disables rubber banding in @tree_view.  If the selection mode
      * is %GTK_SELECTION_MULTIPLE, rubber banding will allow the user to select
      * multiple rows by dragging the mouse.
@@ -783,6 +852,26 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public void setSearchEntry(Editable entry) {
         gtk_h.gtk_tree_view_set_search_entry(handle(), entry.handle());
+    }
+    
+    /**
+     * Sets the compare function for the interactive search capabilities; note
+     * that somewhat like strcmp() returning 0 for equality
+     * `GtkTreeView`SearchEqualFunc returns %FALSE on matches.
+     */
+    public void setSearchEqualFunc(TreeView treeView, TreeViewSearchEqualFunc searchEqualFunc) {
+        try {
+            int hash = searchEqualFunc.hashCode();
+            Interop.signalRegistry.put(hash, searchEqualFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewSearchEqualFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_view_set_search_equal_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -869,7 +958,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onColumnsChanged(ColumnsChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewColumnsChanged", methodType);
@@ -892,7 +981,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onCursorChanged(CursorChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewCursorChanged", methodType);
@@ -912,7 +1001,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onExpandCollapseCursorRow(ExpandCollapseCursorRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewExpandCollapseCursorRow", methodType);
@@ -943,7 +1032,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onMoveCursor(MoveCursorHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewMoveCursor", methodType);
@@ -979,7 +1068,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onRowActivated(RowActivatedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewRowActivated", methodType);
@@ -1002,7 +1091,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onRowCollapsed(RowCollapsedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewRowCollapsed", methodType);
@@ -1025,7 +1114,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onRowExpanded(RowExpandedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewRowExpanded", methodType);
@@ -1045,7 +1134,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onSelectAll(SelectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewSelectAll", methodType);
@@ -1065,7 +1154,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onSelectCursorParent(SelectCursorParentHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewSelectCursorParent", methodType);
@@ -1085,7 +1174,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onSelectCursorRow(SelectCursorRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewSelectCursorRow", methodType);
@@ -1105,7 +1194,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onStartInteractiveSearch(StartInteractiveSearchHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewStartInteractiveSearch", methodType);
@@ -1129,7 +1218,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onTestCollapseRow(TestCollapseRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewTestCollapseRow", methodType);
@@ -1153,7 +1242,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onTestExpandRow(TestExpandRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewTestExpandRow", methodType);
@@ -1173,7 +1262,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onToggleCursorRow(ToggleCursorRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewToggleCursorRow", methodType);
@@ -1193,7 +1282,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public void onUnselectAll(UnselectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewUnselectAll", methodType);

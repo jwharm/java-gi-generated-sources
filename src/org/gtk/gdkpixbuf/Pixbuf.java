@@ -179,6 +179,23 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
     }
     
+    /**
+     * Creates a new #GdkPixbuf out of in-memory image data.
+     * 
+     * Currently only RGB images with 8 bits per sample are supported.
+     * 
+     * Since you are providing a pre-allocated pixel buffer, you must also
+     * specify a way to free that data.  This is done with a function of
+     * type `GdkPixbufDestroyNotify`.  When a pixbuf created with is
+     * finalized, your destroy notification function will be called, and
+     * it is its responsibility to free the pixel array.
+     * 
+     * See also: [ctor@GdkPixbuf.Pixbuf.new_from_bytes]
+     */
+    public static Pixbuf newFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn, jdk.incubator.foreign.MemoryAddress destroyFnData) {
+        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_data(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, destroyFn, destroyFnData), true));
+    }
+    
     private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
@@ -768,6 +785,31 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Vector version of `gdk_pixbuf_save_to_callback()`.
+     * 
+     * Saves pixbuf to a callback in format @type, which is currently "jpeg",
+     * "png", "tiff", "ico" or "bmp".
+     * 
+     * If @error is set, `FALSE` will be returned.
+     * 
+     * See [method@GdkPixbuf.Pixbuf.save_to_callback] for more details.
+     */
+    public boolean saveToCallbackv(Pixbuf pixbuf, PixbufSaveFunc saveFunc, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) {
+        try {
+            int hash = saveFunc.hashCode();
+            Interop.signalRegistry.put(hash, saveFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufSaveFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_save_to_callbackv(handle(), nativeSymbol, intSegment, Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Saves `pixbuf` to an output stream.
      * 
      * Supported file formats are currently "jpeg", "tiff", "png", "ico" or
@@ -782,6 +824,32 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Saves `pixbuf` to an output stream asynchronously.
+     * 
+     * For more details see gdk_pixbuf_save_to_streamv(), which is the synchronous
+     * version of this function.
+     * 
+     * When the operation is finished, `callback` will be called in the main thread.
+     * 
+     * You can then call gdk_pixbuf_save_to_stream_finish() to get the result of
+     * the operation.
+     */
+    public void saveToStreamvAsync(Pixbuf pixbuf, org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_save_to_streamv_async(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -870,6 +938,32 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Asynchronously parses an image file far enough to determine its
+     * format and size.
+     * 
+     * For more details see gdk_pixbuf_get_file_info(), which is the synchronous
+     * version of this function.
+     * 
+     * When the operation is finished, @callback will be called in the
+     * main thread. You can then call gdk_pixbuf_get_file_info_finish() to
+     * get the result of the operation.
+     */
+    public void getFileInfoAsync(java.lang.String filename, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_get_file_info_async(Interop.allocateNativeString(filename).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Obtains the available information about the image formats supported
      * by GdkPixbuf.
      */
@@ -900,6 +994,55 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Creates a new pixbuf by asynchronously loading an image from an input stream.
+     * 
+     * For more details see gdk_pixbuf_new_from_stream(), which is the synchronous
+     * version of this function.
+     * 
+     * When the operation is finished, @callback will be called in the main thread.
+     * You can then call gdk_pixbuf_new_from_stream_finish() to get the result of
+     * the operation.
+     */
+    public void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_new_from_stream_async(stream.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Creates a new pixbuf by asynchronously loading an image from an input stream.
+     * 
+     * For more details see gdk_pixbuf_new_from_stream_at_scale(), which is the synchronous
+     * version of this function.
+     * 
+     * When the operation is finished, @callback will be called in the main thread.
+     * You can then call gdk_pixbuf_new_from_stream_finish() to get the result of the operation.
+     */
+    public void newFromStreamAtScaleAsync(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_new_from_stream_at_scale_async(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

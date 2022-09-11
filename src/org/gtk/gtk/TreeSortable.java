@@ -27,6 +27,32 @@ public interface TreeSortable extends io.github.jwharm.javagi.interop.NativeAddr
     }
     
     /**
+     * Sets the default comparison function used when sorting to be @sort_func.
+     * If the current sort column id of @sortable is
+     * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, then the model will sort using
+     * this function.
+     * 
+     * If @sort_func is %NULL, then there will be no default comparison function.
+     * This means that once the model  has been sorted, it can’t go back to the
+     * default state. In this case, when the current sort column id of @sortable
+     * is %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, the model will be unsorted.
+     */
+    public default void setDefaultSortFunc(TreeSortable sortable, TreeIterCompareFunc sortFunc) {
+        try {
+            int hash = sortFunc.hashCode();
+            Interop.signalRegistry.put(hash, sortFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_sortable_set_default_sort_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the current sort column to be @sort_column_id. The @sortable will
      * resort itself to reflect this change, after emitting a
      * `GtkTreeSortable::sort-column-changed` signal. @sort_column_id may either be
@@ -39,6 +65,26 @@ public interface TreeSortable extends io.github.jwharm.javagi.interop.NativeAddr
      */
     public default void setSortColumnId(int sortColumnId, SortType order) {
         gtk_h.gtk_tree_sortable_set_sort_column_id(handle(), sortColumnId, order.getValue());
+    }
+    
+    /**
+     * Sets the comparison function used when sorting to be @sort_func. If the
+     * current sort column id of @sortable is the same as @sort_column_id, then
+     * the model will sort using this function.
+     */
+    public default void setSortFunc(TreeSortable sortable, int sortColumnId, TreeIterCompareFunc sortFunc) {
+        try {
+            int hash = sortFunc.hashCode();
+            Interop.signalRegistry.put(hash, sortFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_sortable_set_sort_func(handle(), sortColumnId, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -61,7 +107,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.interop.NativeAddr
     public default void onSortColumnChanged(SortColumnChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeSortableSortColumnChanged", methodType);

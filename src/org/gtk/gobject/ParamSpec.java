@@ -129,6 +129,28 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
+     * This function works like g_param_spec_set_qdata(), but in addition,
+     * a `void (*destroy) (gpointer)` function may be
+     * specified which is called with @data as argument when the @pspec is
+     * finalized, or the data is being overwritten by a call to
+     * g_param_spec_set_qdata() with the same @quark.
+     */
+    public void setQdataFull(ParamSpec pspec, org.gtk.glib.Quark quark) {
+        try {
+            int hash = destroy.hashCode();
+            Interop.signalRegistry.put(hash, destroy);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_param_spec_set_qdata_full(handle(), quark.getValue(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * The initial reference count of a newly created #GParamSpec is 1,
      * even though no one has explicitly called g_param_spec_ref() on it
      * yet. So the initial reference count is flagged as "floating", until

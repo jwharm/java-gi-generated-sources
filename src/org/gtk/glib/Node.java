@@ -40,12 +40,12 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * doesn't descend beneath the child nodes. @func must not do anything
      * that would modify the structure of the tree.
      */
-    public void childrenForeach(int flags, NodeForeachFunc func) {
+    public void childrenForeach(Node node, int flags, NodeForeachFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeForeachFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -67,14 +67,14 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Recursively copies a #GNode and its data.
      */
-    public void copyDeep(CopyFunc copyFunc) {
+    public Node copyDeep(Node node, CopyFunc copyFunc) {
         try {
             int hash = copyFunc.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, copyFunc);
+            Interop.signalRegistry.put(hash, copyFunc);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             gtk_h.g_node_copy_deep(handle(), nativeSymbol, intSegment);
         } catch (Exception e) {
@@ -245,14 +245,14 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * The traversal can be halted at any point by returning %TRUE from @func.
      * @func must not do anything that would modify the structure of the tree.
      */
-    public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
+    public void traverse(Node root, TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeTraverseFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, nativeSymbol, intSegment);
         } catch (Exception e) {

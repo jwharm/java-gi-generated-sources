@@ -23,6 +23,13 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Creates a new #GOptionGroup.
+     */
+    public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify destroy) {
+        super(References.get(gtk_h.g_option_group_new(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, destroy), true));
+    }
+    
+    /**
      * Adds the options specified in @entries to @group.
      */
     public void addEntries(OptionEntry[] entries) {
@@ -35,6 +42,29 @@ public class OptionGroup extends io.github.jwharm.javagi.interop.ResourceBase {
     public OptionGroup ref() {
         var RESULT = gtk_h.g_option_group_ref(handle());
         return new OptionGroup(References.get(RESULT, true));
+    }
+    
+    /**
+     * Sets the function which is used to translate user-visible strings,
+     * for `--help` output. Different groups can use different
+     * #GTranslateFuncs. If @func is %NULL, strings are not translated.
+     * 
+     * If you are using gettext(), you only need to set the translation
+     * domain, see g_option_group_set_translation_domain().
+     */
+    public void setTranslateFunc(OptionGroup group, TranslateFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTranslateFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_option_group_set_translate_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

@@ -135,6 +135,27 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Calls the given function for each of the symbol/value pairs
+     * in the given scope of the #GScanner. The function is passed
+     * the symbol and value of each pair, and the given @user_data
+     * parameter.
+     */
+    public void scopeForeachSymbol(Scanner scanner, int scopeId, HFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Looks up a symbol in a scope and return its value. If the
      * symbol is not bound in the scope, %NULL is returned.
      */

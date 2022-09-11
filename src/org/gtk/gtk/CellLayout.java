@@ -198,6 +198,30 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
         gtk_h.gtk_cell_layout_reorder(handle(), cell.handle(), position);
     }
     
+    /**
+     * Sets the `GtkCellLayout`DataFunc to use for @cell_layout.
+     * 
+     * This function is used instead of the standard attributes mapping
+     * for setting the column value, and should set the value of @cell_layout’s
+     * cell renderer(s) as appropriate.
+     * 
+     * @func may be %NULL to remove a previously set function.
+     */
+    public default void setCellDataFunc(CellLayout cellLayout, CellRenderer cell, CellLayoutDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCellLayoutDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_cell_layout_set_cell_data_func(handle(), cell.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     class CellLayoutImpl extends org.gtk.gobject.Object implements CellLayout {
         public CellLayoutImpl(io.github.jwharm.javagi.interop.Reference reference) {
             super(reference);

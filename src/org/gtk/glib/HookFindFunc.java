@@ -1,7 +1,9 @@
 package org.gtk.glib;
 
+/**
+ * Defines the type of the function passed to g_hook_find().
+ */
 @FunctionalInterface
 public interface HookFindFunc {
-
-        void onHookFindFunc(Hook hook);
+        boolean onHookFindFunc(Hook hook);
 }

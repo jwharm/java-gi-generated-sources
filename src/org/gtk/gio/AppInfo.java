@@ -245,6 +245,29 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Async version of g_app_info_launch_uris().
+     * 
+     * The @callback is invoked immediately after the application launch, but it
+     * waits for activation in case of D-Bus–activated applications and also provides
+     * extended error information for sandboxed applications, see notes for
+     * g_app_info_launch_default_for_uri_async().
+     */
+    public default void launchUrisAsync(AppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_app_info_launch_uris_async(handle(), uris.handle(), context.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes a g_app_info_launch_uris_async() operation.
      */
     public default boolean launchUrisFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -435,6 +458,33 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Async version of g_app_info_launch_default_for_uri().
+     * 
+     * This version is useful if you are interested in receiving
+     * error information in the case where the application is
+     * sandboxed and the portal may present an application chooser
+     * dialog to the user.
+     * 
+     * This is also useful if you want to be sure that the D-Bus–activated
+     * applications are really started before termination and if you are interested
+     * in receiving error information from their activation.
+     */
+    public void launchDefaultForUriAsync(java.lang.String uri, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_app_info_launch_default_for_uri_async(Interop.allocateNativeString(uri).handle(), context.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

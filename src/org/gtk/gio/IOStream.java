@@ -118,6 +118,33 @@ public class IOStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Requests an asynchronous close of the stream, releasing resources
+     * related to it. When the operation is finished @callback will be
+     * called. You can then call g_io_stream_close_finish() to get
+     * the result of the operation.
+     * 
+     * For behaviour details see g_io_stream_close().
+     * 
+     * The asynchronous methods have a default fallback that uses threads
+     * to implement asynchronicity, so they are optional for inheriting
+     * classes. However, if you override one you must override all.
+     */
+    public void closeAsync(IOStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_io_stream_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Closes a stream.
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -175,6 +202,30 @@ public class IOStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronously splice the output stream of @stream1 to the input stream of
+     * @stream2, and splice the output stream of @stream2 to the input stream of
+     * @stream1.
+     * 
+     * When the operation is finished @callback will be called.
+     * You can then call g_io_stream_splice_finish() to get the
+     * result of the operation.
+     */
+    public void spliceAsync(IOStream stream1, IOStream stream2, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_io_stream_splice_async(handle(), stream2.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

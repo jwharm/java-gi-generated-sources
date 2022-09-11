@@ -121,6 +121,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously opens @file for appending.
+     * 
+     * For more details, see g_file_append_to() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_append_to_finish() to get the result
+     * of the operation.
+     */
+    public default void appendToAsync(File file, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_append_to_async(handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous file append operation started with
      * g_file_append_to_async().
      */
@@ -151,6 +176,90 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Copies the file @source to the location specified by @destination.
+     * Can not handle recursive copies of directories.
+     * 
+     * If the flag %G_FILE_COPY_OVERWRITE is specified an already
+     * existing @destination file is overwritten.
+     * 
+     * If the flag %G_FILE_COPY_NOFOLLOW_SYMLINKS is specified then symlinks
+     * will be copied as symlinks, otherwise the target of the
+     * @source symlink will be copied.
+     * 
+     * If the flag %G_FILE_COPY_ALL_METADATA is specified then all the metadata
+     * that is possible to copy is copied, not just the default subset (which,
+     * for instance, does not include the owner, see #GFileInfo).
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * If @progress_callback is not %NULL, then the operation can be monitored
+     * by setting this to a #GFileProgressCallback function.
+     * @progress_callback_data will be passed to this function. It is guaranteed
+     * that this callback will be called after all data has been transferred with
+     * the total number of bytes copied during the operation.
+     * 
+     * If the @source file does not exist, then the %G_IO_ERROR_NOT_FOUND error
+     * is returned, independent on the status of the @destination.
+     * 
+     * If %G_FILE_COPY_OVERWRITE is not specified and the target exists, then
+     * the error %G_IO_ERROR_EXISTS is returned.
+     * 
+     * If trying to overwrite a file over a directory, the %G_IO_ERROR_IS_DIRECTORY
+     * error is returned. If trying to overwrite a directory with a directory the
+     * %G_IO_ERROR_WOULD_MERGE error is returned.
+     * 
+     * If the source is a directory and the target does not exist, or
+     * %G_FILE_COPY_OVERWRITE is specified and the target is a file, then the
+     * %G_IO_ERROR_WOULD_RECURSE error is returned.
+     * 
+     * If you are interested in copying the #GFile object itself (not the on-disk
+     * file), see g_file_dup().
+     */
+    public default boolean copy(File source, File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) {
+        try {
+            int hash = progressCallback.hashCode();
+            Interop.signalRegistry.put(hash, progressCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, long.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_copy(handle(), destination.handle(), flags, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Copies the file @source to the location specified by @destination
+     * asynchronously. For details of the behaviour, see g_file_copy().
+     * 
+     * If @progress_callback is not %NULL, then that function that will be called
+     * just like in g_file_copy(). The callback will run in the default main context
+     * of the thread calling g_file_copy_async() — the same context as @callback is
+     * run in.
+     * 
+     * When the operation is finished, @callback will be called. You can then call
+     * g_file_copy_finish() to get the result of the operation.
+     */
+    public default void copyAsync(File source, File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+        try {
+            int hash = progressCallback.hashCode();
+            Interop.signalRegistry.put(hash, progressCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, long.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_copy_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -215,6 +324,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously creates a new file and returns an output stream
+     * for writing to it. The file must not already exist.
+     * 
+     * For more details, see g_file_create() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_create_finish() to get the result
+     * of the operation.
+     */
+    public default void createAsync(File file, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_create_async(handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous file create operation started with
      * g_file_create_async().
      */
@@ -259,6 +394,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new FileIOStream(References.get(RESULT, true));
+    }
+    
+    /**
+     * Asynchronously creates a new file and returns a stream
+     * for reading and writing to it. The file must not already exist.
+     * 
+     * For more details, see g_file_create_readwrite() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_create_readwrite_finish() to get
+     * the result of the operation.
+     */
+    public default void createReadwriteAsync(File file, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_create_readwrite_async(handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -307,6 +468,26 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously delete a file. If the @file is a directory, it will
+     * only be deleted if it is empty.  This has the same semantics as
+     * g_unlink().
+     */
+    public default void deleteAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_delete_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes deleting a file started with g_file_delete_async().
      */
     public default boolean deleteFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -333,6 +514,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     public default File dup() {
         var RESULT = gtk_h.g_file_dup(handle());
         return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Starts an asynchronous eject on a mountable.
+     * When this operation has completed, @callback will be called with
+     * @user_user data, and the operation can be finalized with
+     * g_file_eject_mountable_with_operation_finish().
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     */
+    public default void ejectMountableWithOperation(File file, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_eject_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -385,6 +591,33 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously gets the requested information about the files
+     * in a directory. The result is a #GFileEnumerator object that will
+     * give out #GFileInfo objects for all the files in the directory.
+     * 
+     * For more details, see g_file_enumerate_children() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called. You can
+     * then call g_file_enumerate_children_finish() to get the result of
+     * the operation.
+     */
+    public default void enumerateChildrenAsync(File file, java.lang.String attributes, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_enumerate_children_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an async enumerate children operation.
      * See g_file_enumerate_children_async().
      */
@@ -429,6 +662,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new Mount.MountImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Asynchronously gets the mount for the file.
+     * 
+     * For more details, see g_file_find_enclosing_mount() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_find_enclosing_mount_finish() to
+     * get the result of the operation.
+     */
+    public default void findEnclosingMountAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_find_enclosing_mount_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -673,6 +931,33 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously loads the contents of @file as #GBytes.
+     * 
+     * If @file is a resource:// based URI, the resulting bytes will reference the
+     * embedded resource instead of a copy. Otherwise, this is equivalent to calling
+     * g_file_load_contents_async() and g_bytes_new_take().
+     * 
+     * @callback should call g_file_load_bytes_finish() to get the result of this
+     * asynchronous operation.
+     * 
+     * See g_file_load_bytes() for more information.
+     */
+    public default void loadBytesAsync(File file, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_load_bytes_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Completes an asynchronous request to g_file_load_bytes_async().
      * 
      * For resources, @etag_out will be set to %NULL.
@@ -690,6 +975,64 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
+    }
+    
+    /**
+     * Starts an asynchronous load of the @file's contents.
+     * 
+     * For more details, see g_file_load_contents() which is
+     * the synchronous version of this call.
+     * 
+     * When the load operation has completed, @callback will be called
+     * with @user data. To finish the operation, call
+     * g_file_load_contents_finish() with the #GAsyncResult returned by
+     * the @callback.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     */
+    public default void loadContentsAsync(File file, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_load_contents_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Reads the partial contents of a file. A #GFileReadMoreCallback should
+     * be used to stop reading from the file when appropriate, else this
+     * function will behave exactly as g_file_load_contents_async(). This
+     * operation can be finished by g_file_load_partial_contents_finish().
+     * 
+     * Users of this function should be aware that @user_data is passed to
+     * both the @read_more_callback and the @callback.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     */
+    public default void loadPartialContentsAsync(File file, Cancellable cancellable, FileReadMoreCallback readMoreCallback, AsyncReadyCallback callback) {
+        try {
+            int hash = readMoreCallback.hashCode();
+            Interop.signalRegistry.put(hash, readMoreCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileReadMoreCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_load_partial_contents_async(handle(), cancellable.handle(), nativeSymbol, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -715,6 +1058,24 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronously creates a directory.
+     */
+    public default void makeDirectoryAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_make_directory_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -769,6 +1130,27 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Recursively measures the disk usage of @file.
+     * 
+     * This is the asynchronous version of g_file_measure_disk_usage().  See
+     * there for more information.
+     */
+    public default void measureDiskUsageAsync(File file, int flags, int ioPriority, Cancellable cancellable, FileMeasureProgressCallback progressCallback, AsyncReadyCallback callback) {
+        try {
+            int hash = progressCallback.hashCode();
+            Interop.signalRegistry.put(hash, progressCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileMeasureProgressCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_measure_disk_usage_async(handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -837,6 +1219,33 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Starts a @mount_operation, mounting the volume that contains
+     * the file @location.
+     * 
+     * When this operation has completed, @callback will be called with
+     * @user_user data, and the operation can be finalized with
+     * g_file_mount_enclosing_volume_finish().
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     */
+    public default void mountEnclosingVolume(File location, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_mount_enclosing_volume(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes a mount operation started by g_file_mount_enclosing_volume().
      */
     public default boolean mountEnclosingVolumeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -846,6 +1255,34 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Mounts a file of type G_FILE_TYPE_MOUNTABLE.
+     * Using @mount_operation, you can request callbacks when, for instance,
+     * passwords are needed during authentication.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_mount_mountable_finish() to get
+     * the result of the operation.
+     */
+    public default void mountMountable(File file, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_mount_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -861,6 +1298,82 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Tries to move the file or directory @source to the location specified
+     * by @destination. If native move operations are supported then this is
+     * used, otherwise a copy + delete fallback is used. The native
+     * implementation may support moving directories (for instance on moves
+     * inside the same filesystem), but the fallback code does not.
+     * 
+     * If the flag %G_FILE_COPY_OVERWRITE is specified an already
+     * existing @destination file is overwritten.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * If @progress_callback is not %NULL, then the operation can be monitored
+     * by setting this to a #GFileProgressCallback function.
+     * @progress_callback_data will be passed to this function. It is
+     * guaranteed that this callback will be called after all data has been
+     * transferred with the total number of bytes copied during the operation.
+     * 
+     * If the @source file does not exist, then the %G_IO_ERROR_NOT_FOUND
+     * error is returned, independent on the status of the @destination.
+     * 
+     * If %G_FILE_COPY_OVERWRITE is not specified and the target exists,
+     * then the error %G_IO_ERROR_EXISTS is returned.
+     * 
+     * If trying to overwrite a file over a directory, the %G_IO_ERROR_IS_DIRECTORY
+     * error is returned. If trying to overwrite a directory with a directory the
+     * %G_IO_ERROR_WOULD_MERGE error is returned.
+     * 
+     * If the source is a directory and the target does not exist, or
+     * %G_FILE_COPY_OVERWRITE is specified and the target is a file, then
+     * the %G_IO_ERROR_WOULD_RECURSE error may be returned (if the native
+     * move operation isn't available).
+     */
+    public default boolean move(File source, File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) {
+        try {
+            int hash = progressCallback.hashCode();
+            Interop.signalRegistry.put(hash, progressCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, long.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_move(handle(), destination.handle(), flags, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Asynchronously moves a file @source to the location of @destination. For details of the behaviour, see g_file_move().
+     * 
+     * If @progress_callback is not %NULL, then that function that will be called
+     * just like in g_file_move(). The callback will run in the default main context
+     * of the thread calling g_file_move_async() — the same context as @callback is
+     * run in.
+     * 
+     * When the operation is finished, @callback will be called. You can then call
+     * g_file_move_finish() to get the result of the operation.
+     */
+    public default void moveAsync(File source, File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+        try {
+            int hash = progressCallback.hashCode();
+            Interop.signalRegistry.put(hash, progressCallback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, long.class, long.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_move_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -904,6 +1417,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously opens @file for reading and writing.
+     * 
+     * For more details, see g_file_open_readwrite() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_open_readwrite_finish() to get
+     * the result of the operation.
+     */
+    public default void openReadwriteAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_open_readwrite_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous file read operation started with
      * g_file_open_readwrite_async().
      */
@@ -928,6 +1466,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     public default java.lang.String peekPath() {
         var RESULT = gtk_h.g_file_peek_path(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Polls a file of type %G_FILE_TYPE_MOUNTABLE.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_mount_mountable_finish() to get
+     * the result of the operation.
+     */
+    public default void pollMountable(File file, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_poll_mountable(handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -960,6 +1524,24 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new AppInfo.AppInfoImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Async version of g_file_query_default_handler().
+     */
+    public default void queryDefaultHandlerAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_query_default_handler_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1052,6 +1634,34 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously gets the requested information about the filesystem
+     * that the specified @file is on. The result is a #GFileInfo object
+     * that contains key-value attributes (such as type or size for the
+     * file).
+     * 
+     * For more details, see g_file_query_filesystem_info() which is the
+     * synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called. You can
+     * then call g_file_query_info_finish() to get the result of the
+     * operation.
+     */
+    public default void queryFilesystemInfoAsync(File file, java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_query_filesystem_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous filesystem info query.
      * See g_file_query_filesystem_info_async().
      */
@@ -1103,6 +1713,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new FileInfo(References.get(RESULT, true));
+    }
+    
+    /**
+     * Asynchronously gets the requested information about specified @file.
+     * The result is a #GFileInfo object that contains key-value attributes
+     * (such as type or size for the file).
+     * 
+     * For more details, see g_file_query_info() which is the synchronous
+     * version of this call.
+     * 
+     * When the operation is finished, @callback will be called. You can
+     * then call g_file_query_info_finish() to get the result of the operation.
+     */
+    public default void queryInfoAsync(File file, java.lang.String attributes, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1180,6 +1816,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously opens @file for reading.
+     * 
+     * For more details, see g_file_read() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_read_finish() to get the result
+     * of the operation.
+     */
+    public default void readAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_read_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous file read operation started with
      * g_file_read_async().
      */
@@ -1245,6 +1906,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously overwrites the file, replacing the contents,
+     * possibly creating a backup copy of the file first.
+     * 
+     * For more details, see g_file_replace() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_replace_finish() to get the result
+     * of the operation.
+     */
+    public default void replaceAsync(File file, java.lang.String etag, boolean makeBackup, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_replace_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Replaces the contents of @file with @contents of @length bytes.
      * 
      * If @etag is specified (not %NULL), any existing file must have that etag,
@@ -1269,6 +1956,67 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Starts an asynchronous replacement of @file with the given
+     * @contents of @length bytes. @etag will replace the document's
+     * current entity tag.
+     * 
+     * When this operation has completed, @callback will be called with
+     * @user_user data, and the operation can be finalized with
+     * g_file_replace_contents_finish().
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * If @make_backup is %TRUE, this function will attempt to
+     * make a backup of @file.
+     * 
+     * Note that no copy of @contents will be made, so it must stay valid
+     * until @callback is called. See g_file_replace_contents_bytes_async()
+     * for a #GBytes version that will automatically hold a reference to the
+     * contents (without copying) for the duration of the call.
+     */
+    public default void replaceContentsAsync(File file, byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_replace_contents_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Same as g_file_replace_contents_async() but takes a #GBytes input instead.
+     * This function will keep a ref on @contents until the operation is done.
+     * Unlike g_file_replace_contents_async() this allows forgetting about the
+     * content without waiting for the callback.
+     * 
+     * When this operation has completed, @callback will be called with
+     * @user_user data, and the operation can be finalized with
+     * g_file_replace_contents_finish().
+     */
+    public default void replaceContentsBytesAsync(File file, org.gtk.glib.Bytes contents, java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_replace_contents_bytes_async(handle(), contents.handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1317,6 +2065,33 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new FileIOStream(References.get(RESULT, true));
+    }
+    
+    /**
+     * Asynchronously overwrites the file in read-write mode,
+     * replacing the contents, possibly creating a backup copy
+     * of the file first.
+     * 
+     * For more details, see g_file_replace_readwrite() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_replace_readwrite_finish() to get
+     * the result of the operation.
+     */
+    public default void replaceReadwriteAsync(File file, java.lang.String etag, boolean makeBackup, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_replace_readwrite_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1468,6 +2243,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously sets the attributes of @file with @info.
+     * 
+     * For more details, see g_file_set_attributes_from_info(),
+     * which is the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_set_attributes_finish() to get
+     * the result of the operation.
+     */
+    public default void setAttributesAsync(File file, FileInfo info, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_set_attributes_async(handle(), info.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes setting an attribute started in g_file_set_attributes_async().
      */
     public default boolean setAttributesFinish(AsyncResult result, FileInfo[] info) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -1529,6 +2329,31 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously sets the display name for a given #GFile.
+     * 
+     * For more details, see g_file_set_display_name() which is
+     * the synchronous version of this call.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_set_display_name_finish() to get
+     * the result of the operation.
+     */
+    public default void setDisplayNameAsync(File file, java.lang.String displayName, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_set_display_name_async(handle(), Interop.allocateNativeString(displayName).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes setting a display name started with
      * g_file_set_display_name_async().
      */
@@ -1539,6 +2364,34 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return new File.FileImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Starts a file of type %G_FILE_TYPE_MOUNTABLE.
+     * Using @start_operation, you can request callbacks when, for instance,
+     * passwords are needed during authentication.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_mount_mountable_finish() to get
+     * the result of the operation.
+     */
+    public default void startMountable(File file, int flags, MountOperation startOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_start_mountable(handle(), flags, startOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1554,6 +2407,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Stops a file of type %G_FILE_TYPE_MOUNTABLE.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_stop_mountable_finish() to get
+     * the result of the operation.
+     */
+    public default void stopMountable(File file, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_stop_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -1604,6 +2483,24 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Asynchronously sends @file to the Trash location, if possible.
+     */
+    public default void trashAsync(File file, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_trash_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous file trashing operation, started with
      * g_file_trash_async().
      */
@@ -1614,6 +2511,32 @@ public interface File extends io.github.jwharm.javagi.interop.NativeAddress {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Unmounts a file of type %G_FILE_TYPE_MOUNTABLE.
+     * 
+     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_file_unmount_mountable_finish() to get
+     * the result of the operation.
+     */
+    public default void unmountMountableWithOperation(File file, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_unmount_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

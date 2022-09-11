@@ -395,6 +395,68 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Replaces occurrences of the pattern in regex with the output of
+     * @eval for that occurrence.
+     * 
+     * Setting @start_position differs from just passing over a shortened
+     * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern
+     * that begins with any kind of lookbehind assertion, such as "\\b".
+     * 
+     * The following example uses g_regex_replace_eval() to replace multiple
+     * strings at once:
+     * |[<!-- language="C" -->
+     * static gboolean
+     * eval_cb (const GMatchInfo *info,
+     *          GString          *res,
+     *          gpointer          data)
+     * {
+     *   gchar *match;
+     *   gchar *r;
+     * 
+     *    match = g_match_info_fetch (info, 0);
+     *    r = g_hash_table_lookup ((GHashTable *)data, match);
+     *    g_string_append (res, r);
+     *    g_free (match);
+     * 
+     *    return FALSE;
+     * }
+     * 
+     * ...
+     * 
+     * GRegex *reg;
+     * GHashTable *h;
+     * gchar *res;
+     * 
+     * h = g_hash_table_new (g_str_hash, g_str_equal);
+     * 
+     * g_hash_table_insert (h, "1", "ONE");
+     * g_hash_table_insert (h, "2", "TWO");
+     * g_hash_table_insert (h, "3", "THREE");
+     * g_hash_table_insert (h, "4", "FOUR");
+     * 
+     * reg = g_regex_new ("1|2|3|4", 0, 0, NULL);
+     * res = g_regex_replace_eval (reg, text, -1, 0, 0, eval_cb, h, NULL);
+     * g_hash_table_destroy (h);
+     * 
+     * ...
+     * ]|
+     */
+    public java.lang.String replaceEval(Regex regex, java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) {
+        try {
+            int hash = eval.hashCode();
+            Interop.signalRegistry.put(hash, eval);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbRegexEvalCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Replaces all occurrences of the pattern in @regex with the
      * replacement text. @replacement is replaced literally, to
      * include backreferences use g_regex_replace().

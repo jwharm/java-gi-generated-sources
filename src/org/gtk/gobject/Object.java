@@ -94,12 +94,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * this reason, you should only ever use a toggle reference if there
      * is important state in the proxy object.
      */
-    public void addToggleRef(ToggleNotify notify) {
+    public void addToggleRef(Object object, ToggleNotify notify) {
         try {
             int hash = notify.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, notify);
+            Interop.signalRegistry.put(hash, notify);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -163,6 +163,48 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Complete version of g_object_bind_property().
+     * 
+     * Creates a binding between @source_property on @source and @target_property
+     * on @target, allowing you to set the transformation functions to be used by
+     * the binding.
+     * 
+     * If @flags contains %G_BINDING_BIDIRECTIONAL then the binding will be mutual:
+     * if @target_property on @target changes then the @source_property on @source
+     * will be updated as well. The @transform_from function is only used in case
+     * of bidirectional bindings, otherwise it will be ignored
+     * 
+     * The binding will automatically be removed when either the @source or the
+     * @target instances are finalized. This will release the reference that is
+     * being held on the #GBinding instance; if you want to hold on to the
+     * #GBinding instance, you will need to hold a reference to it.
+     * 
+     * To remove the binding, call g_binding_unbind().
+     * 
+     * A #GObject can have multiple bindings.
+     * 
+     * The same @user_data parameter will be used for both @transform_to
+     * and @transform_from transformation functions; the @notify function will
+     * be called once, when the binding is removed. If you need different data
+     * for each transformation function, please use
+     * g_object_bind_property_with_closures() instead.
+     */
+    public Binding bindPropertyFull(Object source, java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+        try {
+            int hash = transformTo.hashCode();
+            Interop.signalRegistry.put(hash, transformTo);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Creates a binding between @source_property on @source and @target_property
      * on @target, allowing you to set the transformation functions to be used by
      * the binding.
@@ -174,6 +216,68 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
         var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, transformTo.handle(), transformFrom.handle());
         return new Binding(References.get(RESULT, false));
+    }
+    
+    /**
+     * This is a variant of g_object_get_data() which returns
+     * a 'duplicate' of the value. @dup_func defines the
+     * meaning of 'duplicate' in this context, it could e.g.
+     * take a reference on a ref-counted object.
+     * 
+     * If the @key is not set on the object then @dup_func
+     * will be called with a %NULL argument.
+     * 
+     * Note that @dup_func is called while user data of @object
+     * is locked.
+     * 
+     * This function can be useful to avoid races when multiple
+     * threads are using object data on the same key on the same
+     * object.
+     */
+    public jdk.incubator.foreign.MemoryAddress dupData(Object object, java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
+        try {
+            int hash = dupFunc.hashCode();
+            Interop.signalRegistry.put(hash, dupFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * This is a variant of g_object_get_qdata() which returns
+     * a 'duplicate' of the value. @dup_func defines the
+     * meaning of 'duplicate' in this context, it could e.g.
+     * take a reference on a ref-counted object.
+     * 
+     * If the @quark is not set on the object then @dup_func
+     * will be called with a %NULL argument.
+     * 
+     * Note that @dup_func is called while user data of @object
+     * is locked.
+     * 
+     * This function can be useful to avoid races when multiple
+     * threads are using object data on the same key on the same
+     * object.
+     */
+    public jdk.incubator.foreign.MemoryAddress dupQdata(Object object, org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
+        try {
+            int hash = dupFunc.hashCode();
+            Interop.signalRegistry.put(hash, dupFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_dup_qdata(handle(), quark.getValue(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -366,12 +470,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a reference added with g_object_add_toggle_ref(). The
      * reference count of the object is decreased by one.
      */
-    public void removeToggleRef(ToggleNotify notify) {
+    public void removeToggleRef(Object object, ToggleNotify notify) {
         try {
             int hash = notify.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, notify);
+            Interop.signalRegistry.put(hash, notify);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -417,6 +521,28 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Like g_object_set_data() except it adds notification
+     * for when the association is destroyed, either by setting it
+     * to a different value or when the object is destroyed.
+     * 
+     * Note that the @destroy callback is not called if @data is %NULL.
+     */
+    public void setDataFull(Object object, java.lang.String key) {
+        try {
+            int hash = destroy.hashCode();
+            Interop.signalRegistry.put(hash, destroy);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets a property on an object.
      */
     public void setProperty(java.lang.String propertyName, Value value) {
@@ -435,6 +561,28 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_object_set_qdata(handle(), quark.getValue(), data);
+    }
+    
+    /**
+     * This function works like g_object_set_qdata(), but in addition,
+     * a void (*destroy) (gpointer) function may be specified which is
+     * called with @data as argument when the @object is finalized, or
+     * the data is being overwritten by a call to g_object_set_qdata()
+     * with the same @quark.
+     */
+    public void setQdataFull(Object object, org.gtk.glib.Quark quark) {
+        try {
+            int hash = destroy.hashCode();
+            Interop.signalRegistry.put(hash, destroy);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_object_set_qdata_full(handle(), quark.getValue(), intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -602,12 +750,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * object's last g_object_unref() might happen in another thread.
      * Use #GWeakRef if thread-safety is required.
      */
-    public void weakRef(WeakNotify notify) {
+    public void weakRef(Object object, WeakNotify notify) {
         try {
             int hash = notify.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, notify);
+            Interop.signalRegistry.put(hash, notify);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -620,12 +768,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Removes a weak reference callback to an object.
      */
-    public void weakUnref(WeakNotify notify) {
+    public void weakUnref(Object object, WeakNotify notify) {
         try {
             int hash = notify.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, notify);
+            Interop.signalRegistry.put(hash, notify);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -709,7 +857,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     public void onNotify(NotifyHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);

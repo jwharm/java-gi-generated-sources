@@ -88,6 +88,38 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
+     * Binds @model to @box.
+     * 
+     * If @box was already bound to a model, that previous binding is
+     * destroyed.
+     * 
+     * The contents of @box are cleared and then filled with widgets that
+     * represent items from @model. @box is updated whenever @model changes.
+     * If @model is %NULL, @box is left empty.
+     * 
+     * It is undefined to add or remove widgets directly (for example, with
+     * [method@Gtk.ListBox.insert]) while @box is bound to a model.
+     * 
+     * Note that using a model is incompatible with the filtering and sorting
+     * functionality in `GtkListBox`. When using a model, filtering and sorting
+     * should be implemented by the model.
+     */
+    public void bindModel(ListBox box, org.gtk.gio.ListModel model, ListBoxCreateWidgetFunc createWidgetFunc) {
+        try {
+            int hash = createWidgetFunc.hashCode();
+            Interop.signalRegistry.put(hash, createWidgetFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbListBoxCreateWidgetFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_list_box_bind_model(handle(), model.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Add a drag highlight to a row.
      * 
      * This is a helper function for implementing DnD onto a `GtkListBox`.
@@ -267,12 +299,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * 
      * Note that the selection cannot be modified from within this function.
      */
-    public void selectedForeach(ListBoxForeachFunc func) {
+    public void selectedForeach(ListBox box, ListBoxForeachFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbListBoxForeachFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -307,6 +339,78 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
+     * By setting a filter function on the @box one can decide dynamically which
+     * of the rows to show.
+     * 
+     * For instance, to implement a search function on a list that
+     * filters the original list to only show the matching rows.
+     * 
+     * The @filter_func will be called for each row after the call, and
+     * it will continue to be called each time a row changes (via
+     * [method@Gtk.ListBoxRow.changed]) or when [method@Gtk.ListBox.invalidate_filter]
+     * is called.
+     * 
+     * Note that using a filter function is incompatible with using a model
+     * (see [method@Gtk.ListBox.bind_model]).
+     */
+    public void setFilterFunc(ListBox box, ListBoxFilterFunc filterFunc) {
+        try {
+            int hash = filterFunc.hashCode();
+            Interop.signalRegistry.put(hash, filterFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbListBoxFilterFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_list_box_set_filter_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Sets a header function.
+     * 
+     * By setting a header function on the @box one can dynamically add headers
+     * in front of rows, depending on the contents of the row and its position
+     * in the list.
+     * 
+     * For instance, one could use it to add headers in front of the first item
+     * of a new kind, in a list sorted by the kind.
+     * 
+     * The @update_header can look at the current header widget using
+     * [method@Gtk.ListBoxRow.get_header] and either update the state of the widget
+     * as needed, or set a new one using [method@Gtk.ListBoxRow.set_header]. If no
+     * header is needed, set the header to %NULL.
+     * 
+     * Note that you may get many calls @update_header to this for a particular
+     * row when e.g. changing things that don’t affect the header. In this case
+     * it is important for performance to not blindly replace an existing header
+     * with an identical one.
+     * 
+     * The @update_header function will be called for each row after the call,
+     * and it will continue to be called each time a row changes (via
+     * [method@Gtk.ListBoxRow.changed]) and when the row before changes (either
+     * by [method@Gtk.ListBoxRow.changed] on the previous row, or when the previous
+     * row becomes a different row). It is also called for all rows when
+     * [method@Gtk.ListBox.invalidate_headers] is called.
+     */
+    public void setHeaderFunc(ListBox box, ListBoxUpdateHeaderFunc updateHeader) {
+        try {
+            int hash = updateHeader.hashCode();
+            Interop.signalRegistry.put(hash, updateHeader);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbListBoxUpdateHeaderFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_list_box_set_header_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the placeholder widget that is shown in the list when
      * it doesn't display any visible children.
      */
@@ -327,6 +431,35 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void setShowSeparators(boolean showSeparators) {
         gtk_h.gtk_list_box_set_show_separators(handle(), showSeparators ? 1 : 0);
+    }
+    
+    /**
+     * Sets a sort function.
+     * 
+     * By setting a sort function on the @box one can dynamically reorder
+     * the rows of the list, based on the contents of the rows.
+     * 
+     * The @sort_func will be called for each row after the call, and will
+     * continue to be called each time a row changes (via
+     * [method@Gtk.ListBoxRow.changed]) and when [method@Gtk.ListBox.invalidate_sort]
+     * is called.
+     * 
+     * Note that using a sort function is incompatible with using a model
+     * (see [method@Gtk.ListBox.bind_model]).
+     */
+    public void setSortFunc(ListBox box, ListBoxSortFunc sortFunc) {
+        try {
+            int hash = sortFunc.hashCode();
+            Interop.signalRegistry.put(hash, sortFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbListBoxSortFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_list_box_set_sort_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -351,7 +484,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onActivateCursorRow(ActivateCursorRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxActivateCursorRow", methodType);
@@ -371,7 +504,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onMoveCursor(MoveCursorHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxMoveCursor", methodType);
@@ -394,7 +527,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onRowActivated(RowActivatedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxRowActivated", methodType);
@@ -422,7 +555,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onRowSelected(RowSelectedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxRowSelected", methodType);
@@ -450,7 +583,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onSelectAll(SelectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxSelectAll", methodType);
@@ -473,7 +606,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onSelectedRowsChanged(SelectedRowsChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxSelectedRowsChanged", methodType);
@@ -493,7 +626,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onToggleCursorRow(ToggleCursorRowHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxToggleCursorRow", methodType);
@@ -522,7 +655,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public void onUnselectAll(UnselectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListBoxUnselectAll", methodType);

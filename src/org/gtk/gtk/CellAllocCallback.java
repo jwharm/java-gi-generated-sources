@@ -1,7 +1,11 @@
 package org.gtk.gtk;
 
+/**
+ * The type of the callback functions used for iterating over the
+ * cell renderers and their allocated areas inside a `GtkCellArea`,
+ * see gtk_cell_area_foreach_alloc().
+ */
 @FunctionalInterface
 public interface CellAllocCallback {
-
-        void onCellAllocCallback(CellRenderer renderer, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle cellBackground);
+        boolean onCellAllocCallback(CellRenderer renderer, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle cellBackground);
 }

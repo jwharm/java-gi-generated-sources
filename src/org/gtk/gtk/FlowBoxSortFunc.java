@@ -1,7 +1,10 @@
 package org.gtk.gtk;
 
+/**
+ * A function to compare two children to determine which
+ * should come first.
+ */
 @FunctionalInterface
 public interface FlowBoxSortFunc {
-
-        void onFlowBoxSortFunc(FlowBoxChild child1, FlowBoxChild child2);
+        int onFlowBoxSortFunc(FlowBoxChild child1, FlowBoxChild child2);
 }

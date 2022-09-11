@@ -132,6 +132,25 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
     }
     
     /**
+     * Adds a filter function that decides which fonts to display
+     * in the font chooser.
+     */
+    public default void setFilterFunc(FontChooser fontchooser, FontFilterFunc filter) {
+        try {
+            int hash = filter.hashCode();
+            Interop.signalRegistry.put(hash, filter);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontFilterFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_font_chooser_set_filter_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the currently-selected font.
      */
     public default void setFont(java.lang.String fontname) {
@@ -221,7 +240,7 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
     public default void onFontActivated(FontActivatedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontChooserFontActivated", methodType);

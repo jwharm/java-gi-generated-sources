@@ -19,6 +19,23 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Creates a new #GTree like g_tree_new() and allows to specify functions
+     * to free the memory allocated for the key and value that get called when
+     * removing the entry from the #GTree.
+     */
+    public static Tree newFull(CompareDataFunc keyCompareFunc, jdk.incubator.foreign.MemoryAddress keyCompareData, DestroyNotify keyDestroyFunc, DestroyNotify valueDestroyFunc) {
+        return new Tree(References.get(gtk_h.g_tree_new_full(keyCompareFunc, keyCompareData, keyDestroyFunc, valueDestroyFunc), true));
+    }
+    
+    /**
+     * Creates a new #GTree with a comparison function that accepts user data.
+     * See g_tree_new() for more details.
+     */
+    public static Tree newWithData(CompareDataFunc keyCompareFunc, jdk.incubator.foreign.MemoryAddress keyCompareData) {
+        return new Tree(References.get(gtk_h.g_tree_new_with_data(keyCompareFunc, keyCompareData), true));
+    }
+    
+    /**
      * Removes all keys and values from the #GTree and decreases its
      * reference count by one. If keys and/or values are dynamically
      * allocated, you should either free them first or create the #GTree
@@ -28,6 +45,56 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public void destroy() {
         gtk_h.g_tree_destroy(handle());
+    }
+    
+    /**
+     * Calls the given function for each of the key/value pairs in the #GTree.
+     * The function is passed the key and value of each pair, and the given
+     * @data parameter. The tree is traversed in sorted order.
+     * 
+     * The tree may not be modified while iterating over it (you can't
+     * add/remove items). To remove all items matching a predicate, you need
+     * to add each item to a list in your #GTraverseFunc as you walk over
+     * the tree, then walk the list and remove each item.
+     */
+    public void foreach(Tree tree, TraverseFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_tree_foreach(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Calls the given function for each of the nodes in the #GTree.
+     * The function is passed the pointer to the particular node, and the given
+     * @data parameter. The tree traversal happens in-order.
+     * 
+     * The tree may not be modified while iterating over it (you can't
+     * add/remove items). To remove all items matching a predicate, you need
+     * to add each item to a list in your #GTraverseFunc as you walk over
+     * the tree, then walk the list and remove each item.
+     */
+    public void foreachNode(Tree tree, TraverseNodeFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseNodeFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_tree_foreach_node(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -201,6 +268,28 @@ public class Tree extends io.github.jwharm.javagi.interop.ResourceBase {
         return new TreeNode(References.get(RESULT, false));
     }
     
+    /**
+     * Searches a #GTree using @search_func.
+     * 
+     * The @search_func is called with a pointer to the key of a key/value
+     * pair in the tree, and the passed in @user_data. If @search_func returns
+     * 0 for a key/value pair, then the corresponding value is returned as
+     * the result of g_tree_search(). If @search_func returns -1, searching
+     * will proceed among the key/value pairs that have a smaller key; if
+     * @search_func returns 1, searching will proceed among the key/value
+     * pairs that have a larger key.
+     */
+    /**
+     * Searches a #GTree using @search_func.
+     * 
+     * The @search_func is called with a pointer to the key of a key/value
+     * pair in the tree, and the passed in @user_data. If @search_func returns
+     * 0 for a key/value pair, then the corresponding node is returned as
+     * the result of g_tree_search(). If @search_func returns -1, searching
+     * will proceed among the key/value pairs that have a smaller key; if
+     * @search_func returns 1, searching will proceed among the key/value
+     * pairs that have a larger key.
+     */
     /**
      * Removes a key and its associated value from a #GTree without calling
      * the key and value destroy functions.

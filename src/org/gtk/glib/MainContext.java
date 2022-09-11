@@ -143,16 +143,42 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * return %FALSE.  If it returns %TRUE, it will be continuously run in a
      * loop (and may prevent this call from returning).
      */
-    public void invoke(SourceFunc function) {
+    public void invoke(MainContext context, SourceFunc function) {
         try {
             int hash = function.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, function);
+            Interop.signalRegistry.put(hash, function);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             gtk_h.g_main_context_invoke(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Invokes a function in such a way that @context is owned during the
+     * invocation of @function.
+     * 
+     * This function is the same as g_main_context_invoke() except that it
+     * lets you specify the priority in case @function ends up being
+     * scheduled as an idle and also lets you give a #GDestroyNotify for @data.
+     * 
+     * @notify should not assume that it is called from any particular
+     * thread or with any particular context acquired.
+     */
+    public void invokeFull(MainContext context, int priority, SourceFunc function) {
+        try {
+            int hash = function.hashCode();
+            Interop.signalRegistry.put(hash, function);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_main_context_invoke_full(handle(), priority, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

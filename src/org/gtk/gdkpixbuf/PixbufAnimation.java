@@ -207,4 +207,29 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Creates a new animation by asynchronously loading an image from an input stream.
+     * 
+     * For more details see gdk_pixbuf_new_from_stream(), which is the synchronous
+     * version of this function.
+     * 
+     * When the operation is finished, `callback` will be called in the main thread.
+     * You can then call gdk_pixbuf_animation_new_from_stream_finish() to get the
+     * result of the operation.
+     */
+    public void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_pixbuf_animation_new_from_stream_async(stream.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

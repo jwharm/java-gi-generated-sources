@@ -22,6 +22,14 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
+     * Creates a new empty `GtkTreeListModel` displaying @root
+     * with all rows collapsed.
+     */
+    public TreeListModel(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDestroy) {
+        super(References.get(gtk_h.gtk_tree_list_model_new(root.getReference().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, createFunc, userData, userDestroy), true));
+    }
+    
+    /**
      * Gets whether the model is set to automatically expand new rows
      * that get added.
      * 

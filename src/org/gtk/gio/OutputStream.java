@@ -79,6 +79,33 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Requests an asynchronous close of the stream, releasing resources
+     * related to it. When the operation is finished @callback will be
+     * called. You can then call g_output_stream_close_finish() to get
+     * the result of the operation.
+     * 
+     * For behaviour details see g_output_stream_close().
+     * 
+     * The asynchronous methods have a default fallback that uses threads
+     * to implement asynchronicity, so they are optional for inheriting
+     * classes. However, if you override one you must override all.
+     */
+    public void closeAsync(OutputStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Closes an output stream.
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -108,6 +135,30 @@ public class OutputStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return (RESULT != 0);
+    }
+    
+    /**
+     * Forces an asynchronous write of all user-space buffered data for
+     * the given @stream.
+     * For behaviour details see g_output_stream_flush().
+     * 
+     * When the operation is finished @callback will be
+     * called. You can then call g_output_stream_flush_finish() to get the
+     * result of the operation.
+     */
+    public void flushAsync(OutputStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_flush_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -176,6 +227,30 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Splices a stream asynchronously.
+     * When the operation is finished @callback will be called.
+     * You can then call g_output_stream_splice_finish() to get the
+     * result of the operation.
+     * 
+     * For the synchronous, blocking version of this function, see
+     * g_output_stream_splice().
+     */
+    public void spliceAsync(OutputStream stream, InputStream source, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_splice_async(handle(), source.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous stream splice operation.
      */
     public long spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -219,6 +294,90 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Request an asynchronous write of @count bytes from @buffer into
+     * the stream. When the operation is finished @callback will be called.
+     * You can then call g_output_stream_write_all_finish() to get the result of the
+     * operation.
+     * 
+     * This is the asynchronous version of g_output_stream_write_all().
+     * 
+     * Call g_output_stream_write_all_finish() to collect the result.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     * 
+     * Note that no copy of @buffer will be made, so it must stay valid
+     * until @callback is called.
+     */
+    public void writeAllAsync(OutputStream stream, byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_write_all_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Request an asynchronous write of @count bytes from @buffer into
+     * the stream. When the operation is finished @callback will be called.
+     * You can then call g_output_stream_write_finish() to get the result of the
+     * operation.
+     * 
+     * During an async request no other sync and async calls are allowed,
+     * and will result in %G_IO_ERROR_PENDING errors.
+     * 
+     * A value of @count larger than %G_MAXSSIZE will cause a
+     * %G_IO_ERROR_INVALID_ARGUMENT error.
+     * 
+     * On success, the number of bytes written will be passed to the
+     * @callback. It is not an error if this is not the same as the
+     * requested size, as it can happen e.g. on a partial I/O error,
+     * but generally we try to write as many bytes as requested.
+     * 
+     * You are guaranteed that this method will never fail with
+     * %G_IO_ERROR_WOULD_BLOCK - if @stream can't accept more data, the
+     * method will just wait until this changes.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     * 
+     * The asynchronous methods have a default fallback that uses threads
+     * to implement asynchronicity, so they are optional for inheriting
+     * classes. However, if you override one you must override all.
+     * 
+     * For the synchronous, blocking version of this function, see
+     * g_output_stream_write().
+     * 
+     * Note that no copy of @buffer will be made, so it must stay valid
+     * until @callback is called. See g_output_stream_write_bytes_async()
+     * for a #GBytes version that will automatically hold a reference to
+     * the contents (without copying) for the duration of the call.
+     */
+    public void writeAsync(OutputStream stream, byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_write_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * A wrapper function for g_output_stream_write() which takes a
      * #GBytes as input.  This can be more convenient for use by language
      * bindings or in other cases where the refcounted nature of #GBytes
@@ -238,6 +397,36 @@ public class OutputStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * This function is similar to g_output_stream_write_async(), but
+     * takes a #GBytes as input.  Due to the refcounted nature of #GBytes,
+     * this allows the stream to avoid taking a copy of the data.
+     * 
+     * However, note that this function may still perform partial writes,
+     * just like g_output_stream_write_async(). If that occurs, to continue
+     * writing, you will need to create a new #GBytes containing just the
+     * remaining bytes, using g_bytes_new_from_bytes(). Passing the same
+     * #GBytes instance multiple times potentially can result in duplicated
+     * data in the output stream.
+     * 
+     * For the synchronous, blocking version of this function, see
+     * g_output_stream_write_bytes().
+     */
+    public void writeBytesAsync(OutputStream stream, org.gtk.glib.Bytes bytes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_write_bytes_async(handle(), bytes.handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -262,6 +451,86 @@ public class OutputStream extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Request an asynchronous write of the bytes contained in the @n_vectors @vectors into
+     * the stream. When the operation is finished @callback will be called.
+     * You can then call g_output_stream_writev_all_finish() to get the result of the
+     * operation.
+     * 
+     * This is the asynchronous version of g_output_stream_writev_all().
+     * 
+     * Call g_output_stream_writev_all_finish() to collect the result.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     * 
+     * Note that no copy of @vectors will be made, so it must stay valid
+     * until @callback is called. The content of the individual elements
+     * of @vectors might be changed by this function.
+     */
+    public void writevAllAsync(OutputStream stream, OutputVector[] vectors, long nVectors, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_writev_all_async(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Request an asynchronous write of the bytes contained in @n_vectors @vectors into
+     * the stream. When the operation is finished @callback will be called.
+     * You can then call g_output_stream_writev_finish() to get the result of the
+     * operation.
+     * 
+     * During an async request no other sync and async calls are allowed,
+     * and will result in %G_IO_ERROR_PENDING errors.
+     * 
+     * On success, the number of bytes written will be passed to the
+     * @callback. It is not an error if this is not the same as the
+     * requested size, as it can happen e.g. on a partial I/O error,
+     * but generally we try to write as many bytes as requested.
+     * 
+     * You are guaranteed that this method will never fail with
+     * %G_IO_ERROR_WOULD_BLOCK — if @stream can't accept more data, the
+     * method will just wait until this changes.
+     * 
+     * Any outstanding I/O request with higher priority (lower numerical
+     * value) will be executed before an outstanding request with lower
+     * priority. Default priority is %G_PRIORITY_DEFAULT.
+     * 
+     * The asynchronous methods have a default fallback that uses threads
+     * to implement asynchronicity, so they are optional for inheriting
+     * classes. However, if you override one you must override all.
+     * 
+     * For the synchronous, blocking version of this function, see
+     * g_output_stream_writev().
+     * 
+     * Note that no copy of @vectors will be made, so it must stay valid
+     * until @callback is called.
+     */
+    public void writevAsync(OutputStream stream, OutputVector[] vectors, long nVectors, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_output_stream_writev_async(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

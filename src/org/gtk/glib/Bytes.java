@@ -77,6 +77,21 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Creates a #GBytes from @data.
+     * 
+     * When the last reference is dropped, @free_func will be called with the
+     * @user_data argument.
+     * 
+     * @data must not be modified after this call is made until @free_func has
+     * been called to indicate that the bytes is no longer in use.
+     * 
+     * @data may be %NULL if @size is 0.
+     */
+    public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
+        return new Bytes(References.get(gtk_h.g_bytes_new_with_free_func(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, freeFunc, userData), true));
+    }
+    
+    /**
      * Compares the two #GBytes values.
      * 
      * This function can be used to sort GBytes instances in lexicographical order.

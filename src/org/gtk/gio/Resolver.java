@@ -49,6 +49,26 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
+     * Begins asynchronously reverse-resolving @address to determine its
+     * associated hostname, and eventually calls @callback, which must
+     * call g_resolver_lookup_by_address_finish() to get the final result.
+     */
+    public void lookupByAddressAsync(Resolver resolver, InetAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_resolver_lookup_by_address_async(handle(), address.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Retrieves the result of a previous call to
      * g_resolver_lookup_by_address_async().
      * 
@@ -100,6 +120,27 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
+     * Begins asynchronously resolving @hostname to determine its
+     * associated IP address(es), and eventually calls @callback, which
+     * must call g_resolver_lookup_by_name_finish() to get the result.
+     * See g_resolver_lookup_by_name() for more details.
+     */
+    public void lookupByNameAsync(Resolver resolver, java.lang.String hostname, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_resolver_lookup_by_name_async(handle(), Interop.allocateNativeString(hostname).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Retrieves the result of a call to
      * g_resolver_lookup_by_name_async().
      * 
@@ -128,6 +169,27 @@ public class Resolver extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Begins asynchronously resolving @hostname to determine its
+     * associated IP address(es), and eventually calls @callback, which
+     * must call g_resolver_lookup_by_name_with_flags_finish() to get the result.
+     * See g_resolver_lookup_by_name() for more details.
+     */
+    public void lookupByNameWithFlagsAsync(Resolver resolver, java.lang.String hostname, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_resolver_lookup_by_name_with_flags_async(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -166,6 +228,27 @@ public class Resolver extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Begins asynchronously performing a DNS lookup for the given
+     * @rrname, and eventually calls @callback, which must call
+     * g_resolver_lookup_records_finish() to get the final result. See
+     * g_resolver_lookup_records() for more details.
+     */
+    public void lookupRecordsAsync(Resolver resolver, java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_resolver_lookup_records_async(handle(), Interop.allocateNativeString(rrname).handle(), recordType.getValue(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -217,6 +300,28 @@ public class Resolver extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
+     * Begins asynchronously performing a DNS SRV lookup for the given
+     * @service and @protocol in the given @domain, and eventually calls
+     * @callback, which must call g_resolver_lookup_service_finish() to
+     * get the final result. See g_resolver_lookup_service() for more
+     * details.
+     */
+    public void lookupServiceAsync(Resolver resolver, java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_resolver_lookup_service_async(handle(), Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -293,7 +398,7 @@ public class Resolver extends org.gtk.gobject.Object {
     public void onReload(ReloadHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalResolverReload", methodType);

@@ -116,4 +116,24 @@ public class RenderNode extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * Loads data previously created via [method@Gsk.RenderNode.serialize].
+     * 
+     * For a discussion of the supported format, see that function.
+     */
+    public RenderNode deserialize(org.gtk.glib.Bytes bytes, ParseErrorFunc errorFunc) {
+        try {
+            int hash = errorFunc.hashCode();
+            Interop.signalRegistry.put(hash, errorFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbParseErrorFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gsk_render_node_deserialize(bytes.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

@@ -65,6 +65,38 @@ public class TlsInteraction extends org.gtk.gobject.Object {
     }
     
     /**
+     * Run asynchronous interaction to ask the user for a password. In general,
+     * g_tls_interaction_invoke_ask_password() should be used instead of this
+     * function.
+     * 
+     * Derived subclasses usually implement a password prompt, although they may
+     * also choose to provide a password from elsewhere. The @password value will
+     * be filled in and then @callback will be called. Alternatively the user may
+     * abort this password request, which will usually abort the TLS connection.
+     * 
+     * If the interaction is cancelled by the cancellation object, or by the
+     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
+     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * not support immediate cancellation.
+     * 
+     * Certain implementations may not support immediate cancellation.
+     */
+    public void askPasswordAsync(TlsInteraction interaction, TlsPassword password, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_tls_interaction_ask_password_async(handle(), password.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Complete an ask password user interaction request. This should be once
      * the g_tls_interaction_ask_password_async() completion callback is called.
      * 
@@ -170,6 +202,31 @@ public class TlsInteraction extends org.gtk.gobject.Object {
             throw new GErrorException(GERROR);
         }
         return TlsInteractionResult.fromValue(RESULT);
+    }
+    
+    /**
+     * Run asynchronous interaction to ask the user for a certificate to use with
+     * the connection. In general, g_tls_interaction_invoke_request_certificate() should
+     * be used instead of this function.
+     * 
+     * Derived subclasses usually implement a certificate selector, although they may
+     * also choose to provide a certificate from elsewhere. @callback will be called
+     * when the operation completes. Alternatively the user may abort this certificate
+     * request, which will usually abort the TLS connection.
+     */
+    public void requestCertificateAsync(TlsInteraction interaction, TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_tls_interaction_request_certificate_async(handle(), connection.handle(), flags.getValue(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

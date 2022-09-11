@@ -1,7 +1,9 @@
 package org.gtk.glib;
 
+/**
+ * Specifies the prototype of fatal log handler functions.
+ */
 @FunctionalInterface
 public interface TestLogFatalFunc {
-
-        void onTestLogFatalFunc(java.lang.String logDomain, int logLevel, java.lang.String message);
+        boolean onTestLogFatalFunc(java.lang.String logDomain, int logLevel, java.lang.String message);
 }

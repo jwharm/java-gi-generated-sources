@@ -185,4 +185,19 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
         return new SimpleAsyncResult(gobject.getReference());
     }
     
+    /**
+     * Creates a #GSimpleAsyncResult from an error condition.
+     */
+    public static SimpleAsyncResult newFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.Error error) {
+        return new SimpleAsyncResult(References.get(gtk_h.g_simple_async_result_new_from_error(sourceObject.handle(), callback, userData, error.handle()), true));
+    }
+    
+    /**
+     * Creates a #GSimpleAsyncResult from an error condition, and takes over the
+     * caller's ownership of @error, so the caller does not need to free it anymore.
+     */
+    public static SimpleAsyncResult newTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.Error error) {
+        return new SimpleAsyncResult(References.get(gtk_h.g_simple_async_result_new_take_error(sourceObject.handle(), callback, userData, error.handle()), true));
+    }
+    
 }

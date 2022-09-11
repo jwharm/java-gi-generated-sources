@@ -61,6 +61,114 @@ public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Calls the given function for key/value pairs in the #GHashTable
+     * until @predicate returns %TRUE. The function is passed the key
+     * and value of each pair, and the given @user_data parameter. The
+     * hash table may not be modified while iterating over it (you can't
+     * add/remove items).
+     * 
+     * Note, that hash tables are really only optimized for forward
+     * lookups, i.e. g_hash_table_lookup(). So code that frequently issues
+     * g_hash_table_find() or g_hash_table_foreach() (e.g. in the order of
+     * once per every entry in a hash table) should probably be reworked
+     * to use additional or different data structures for reverse lookups
+     * (keep in mind that an O(n) find/foreach operation issued for all n
+     * values in a hash table ends up needing O(n*n) operations).
+     */
+    public jdk.incubator.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
+        try {
+            int hash = predicate.hashCode();
+            Interop.signalRegistry.put(hash, predicate);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_hash_table_find(hashTable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Calls the given function for each of the key/value pairs in the
+     * #GHashTable.  The function is passed the key and value of each
+     * pair, and the given @user_data parameter.  The hash table may not
+     * be modified while iterating over it (you can't add/remove
+     * items). To remove all items matching a predicate, use
+     * g_hash_table_foreach_remove().
+     * 
+     * The order in which g_hash_table_foreach() iterates over the keys/values in
+     * the hash table is not defined.
+     * 
+     * See g_hash_table_find() for performance caveats for linear
+     * order searches in contrast to g_hash_table_lookup().
+     */
+    public void foreach(org.gtk.glib.HashTable hashTable, HFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_hash_table_foreach(hashTable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Calls the given function for each key/value pair in the
+     * #GHashTable. If the function returns %TRUE, then the key/value
+     * pair is removed from the #GHashTable. If you supplied key or
+     * value destroy functions when creating the #GHashTable, they are
+     * used to free the memory allocated for the removed keys and values.
+     * 
+     * See #GHashTableIter for an alternative way to loop over the
+     * key/value pairs in the hash table.
+     */
+    public int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_hash_table_foreach_remove(hashTable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Calls the given function for each key/value pair in the
+     * #GHashTable. If the function returns %TRUE, then the key/value
+     * pair is removed from the #GHashTable, but no key or value
+     * destroy functions are called.
+     * 
+     * See #GHashTableIter for an alternative way to loop over the
+     * key/value pairs in the hash table.
+     */
+    public int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_hash_table_foreach_steal(hashTable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Retrieves every key inside @hash_table. The returned data is valid
      * until changes to the hash release those keys.
      * 

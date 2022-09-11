@@ -111,6 +111,29 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
+     * The asynchronous version of g_data_input_stream_read_line().  It is
+     * an error to have two outstanding calls to this function.
+     * 
+     * When the operation is finished, @callback will be called. You
+     * can then call g_data_input_stream_read_line_finish() to get
+     * the result of the operation.
+     */
+    public void readLineAsync(DataInputStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_data_input_stream_read_line_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Reads an unsigned 16-bit/2-byte value from @stream.
      * 
      * In order to get the correct byte order for this read operation,
@@ -161,6 +184,37 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * The asynchronous version of g_data_input_stream_read_upto().
+     * It is an error to have two outstanding calls to this function.
+     * 
+     * In contrast to g_data_input_stream_read_until(), this function
+     * does not consume the stop character. You have to use
+     * g_data_input_stream_read_byte() to get it before calling
+     * g_data_input_stream_read_upto() again.
+     * 
+     * Note that @stop_chars may contain '\\0' if @stop_chars_len is
+     * specified.
+     * 
+     * When the operation is finished, @callback will be called. You
+     * can then call g_data_input_stream_read_upto_finish() to get
+     * the result of the operation.
+     */
+    public void readUptoAsync(DataInputStream stream, java.lang.String stopChars, long stopCharsLen, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_data_input_stream_read_upto_async(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

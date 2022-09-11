@@ -28,7 +28,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.interop.NativeAdd
     public default void onGtkPrivateChanged(GtkPrivateChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStyleProviderGtkPrivateChanged", methodType);

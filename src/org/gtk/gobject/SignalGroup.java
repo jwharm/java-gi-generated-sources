@@ -62,21 +62,6 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
-    public void connect(java.lang.String detailedSignal, Callback cHandler) {
-        try {
-            int hash = cHandler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, cHandler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid();
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_group_connect(handle(), Interop.allocateNativeString(detailedSignal).handle(), nativeSymbol, intSegment);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
     /**
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
@@ -85,21 +70,12 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
-    public void connectAfter(java.lang.String detailedSignal, Callback cHandler) {
-        try {
-            int hash = cHandler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, cHandler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid();
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_group_connect_after(handle(), Interop.allocateNativeString(detailedSignal).handle(), nativeSymbol, intSegment);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
+    /**
+     * Connects @c_handler to the signal @detailed_signal
+     * on the target instance of @self.
+     * 
+     * You cannot connect a signal handler after #GSignalGroup:target has been set.
+     */
     /**
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
@@ -109,21 +85,6 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
-    public void connectSwapped(java.lang.String detailedSignal, Callback cHandler) {
-        try {
-            int hash = cHandler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, cHandler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid();
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_group_connect_swapped(handle(), Interop.allocateNativeString(detailedSignal).handle(), nativeSymbol, intSegment);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
     /**
      * Gets the target instance used when connecting signals.
      */
@@ -168,7 +129,7 @@ public class SignalGroup extends Object {
     public void onBind(BindHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupBind", methodType);
@@ -195,7 +156,7 @@ public class SignalGroup extends Object {
     public void onUnbind(UnbindHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupUnbind", methodType);

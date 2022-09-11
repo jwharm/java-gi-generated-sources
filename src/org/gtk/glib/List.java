@@ -86,6 +86,44 @@ public class List extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Makes a full (deep) copy of a #GList.
+     * 
+     * In contrast with g_list_copy(), this function uses @func to make
+     * a copy of each list element, in addition to copying the list
+     * container itself.
+     * 
+     * @func, as a #GCopyFunc, takes two arguments, the data to be copied
+     * and a @user_data pointer. On common processor architectures, it's safe to
+     * pass %NULL as @user_data if the copy function takes only one argument. You
+     * may get compiler warnings from this though if compiling with GCC’s
+     * `-Wcast-function-type` warning.
+     * 
+     * For instance, if @list holds a list of GObjects, you can do:
+     * |[<!-- language="C" -->
+     * another_list = g_list_copy_deep (list, (GCopyFunc) g_object_ref, NULL);
+     * ]|
+     * 
+     * And, to entirely free the new list, you could do:
+     * |[<!-- language="C" -->
+     * g_list_free_full (another_list, g_object_unref);
+     * ]|
+     */
+    public org.gtk.glib.List copyDeep(org.gtk.glib.List list, CopyFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_list_copy_deep(list.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Removes the node link_ from the list and frees it.
      * Compare this to g_list_remove_link() which removes the node
      * without freeing it.
@@ -104,11 +142,40 @@ public class List extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Finds an element in a #GList, using a supplied function to
+     * find the desired element. It iterates over the list, calling
+     * the given function which should return 0 when the desired
+     * element is found. The function takes two #gconstpointer arguments,
+     * the #GList element's data as the first argument and the
+     * given user data.
+     */
+    /**
      * Gets the first element in a #GList.
      */
     public static org.gtk.glib.List first(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_first(list.handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
+    }
+    
+    /**
+     * Calls a function for each element of a #GList.
+     * 
+     * It is safe for @func to remove the element from @list, but it must
+     * not modify any part of the list after that element.
+     */
+    public void foreach(org.gtk.glib.List list, Func func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_list_foreach(list.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -171,6 +238,39 @@ public class List extends io.github.jwharm.javagi.interop.ResourceBase {
     public static org.gtk.glib.List insertBeforeLink(org.gtk.glib.List list, org.gtk.glib.List sibling, org.gtk.glib.List link) {
         var RESULT = gtk_h.g_list_insert_before_link(list.handle(), sibling.handle(), link.handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
+    }
+    
+    /**
+     * Inserts a new element into the list, using the given comparison
+     * function to determine its position.
+     * 
+     * If you are adding many new elements to a list, and the number of
+     * new elements is much larger than the length of the list, use
+     * g_list_prepend() to add the new items and sort the list afterwards
+     * with g_list_sort().
+     */
+    /**
+     * Inserts a new element into the list, using the given comparison
+     * function to determine its position.
+     * 
+     * If you are adding many new elements to a list, and the number of
+     * new elements is much larger than the length of the list, use
+     * g_list_prepend() to add the new items and sort the list afterwards
+     * with g_list_sort().
+     */
+    public org.gtk.glib.List insertSortedWithData(org.gtk.glib.List list, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_list_insert_sorted_with_data(list.handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -304,6 +404,25 @@ public class List extends io.github.jwharm.javagi.interop.ResourceBase {
     public static org.gtk.glib.List reverse(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_reverse(list.handle());
         return new org.gtk.glib.List(References.get(RESULT, false));
+    }
+    
+    /**
+     * Like g_list_sort(), but the comparison function accepts
+     * a user data argument.
+     */
+    public org.gtk.glib.List sortWithData(org.gtk.glib.List list, CompareDataFunc compareFunc) {
+        try {
+            int hash = compareFunc.hashCode();
+            Interop.signalRegistry.put(hash, compareFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_list_sort_with_data(list.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

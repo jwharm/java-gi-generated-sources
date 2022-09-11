@@ -191,7 +191,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     public void onGAuthorizeMethod(GAuthorizeMethodHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod", methodType);

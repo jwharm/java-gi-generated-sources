@@ -46,6 +46,32 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
     }
     
     /**
+     * Asynchronously attempts to determine whether or not the host
+     * pointed to by @connectable can be reached, without actually
+     * trying to connect to it.
+     * 
+     * For more details, see g_network_monitor_can_reach().
+     * 
+     * When the operation is finished, @callback will be called.
+     * You can then call g_network_monitor_can_reach_finish()
+     * to get the result of the operation.
+     */
+    public default void canReachAsync(NetworkMonitor monitor, SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_network_monitor_can_reach_async(handle(), connectable.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an async network connectivity test.
      * See g_network_monitor_can_reach_async().
      */
@@ -123,7 +149,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
     public default void onNetworkChanged(NetworkChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNetworkMonitorNetworkChanged", methodType);

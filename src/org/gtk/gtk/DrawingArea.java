@@ -152,6 +152,37 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         gtk_h.gtk_drawing_area_set_content_width(handle(), width);
     }
     
+    /**
+     * Setting a draw function is the main thing you want to do when using
+     * a drawing area.
+     * 
+     * The draw function is called whenever GTK needs to draw the contents
+     * of the drawing area to the screen.
+     * 
+     * The draw function will be called during the drawing stage of GTK.
+     * In the drawing stage it is not allowed to change properties of any
+     * GTK widgets or call any functions that would cause any properties
+     * to be changed. You should restrict yourself exclusively to drawing
+     * your contents in the draw function.
+     * 
+     * If what you are drawing does change, call [method@Gtk.Widget.queue_draw]
+     * on the drawing area. This will cause a redraw and will call @draw_func again.
+     */
+    public void setDrawFunc(DrawingArea self, DrawingAreaDrawFunc drawFunc) {
+        try {
+            int hash = drawFunc.hashCode();
+            Interop.signalRegistry.put(hash, drawFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDrawingAreaDrawFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_drawing_area_set_draw_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     @FunctionalInterface
     public interface ResizeHandler {
         void signalReceived(DrawingArea source, int width, int height);
@@ -167,7 +198,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
     public void onResize(ResizeHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDrawingAreaResize", methodType);

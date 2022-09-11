@@ -26,6 +26,25 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Calls @func for each item in the sequence passing @user_data
+     * to the function. @func must not modify the sequence itself.
+     */
+    public void foreach(Sequence seq, Func func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_foreach(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Frees the memory allocated for @seq. If @seq has a data destroy
      * function associated with it, that function is called on all items
      * in @seq.
@@ -70,6 +89,64 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Inserts @data into @seq using @cmp_func to determine the new
+     * position. The sequence must already be sorted according to @cmp_func;
+     * otherwise the new position of @data is undefined.
+     * 
+     * @cmp_func is called with two items of the @seq, and @cmp_data.
+     * It should return 0 if the items are equal, a negative value
+     * if the first item comes before the second, and a positive value
+     * if the second item comes before the first.
+     * 
+     * Note that when adding a large amount of data to a #GSequence,
+     * it is more efficient to do unsorted insertions and then call
+     * g_sequence_sort() or g_sequence_sort_iter().
+     */
+    public SequenceIter insertSorted(Sequence seq, CompareDataFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_insert_sorted(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_sequence_insert_sorted(), but uses
+     * a #GSequenceIterCompareFunc instead of a #GCompareDataFunc as
+     * the compare function.
+     * 
+     * @iter_cmp is called with two iterators pointing into @seq.
+     * It should return 0 if the iterators are equal, a negative
+     * value if the first iterator comes before the second, and a
+     * positive value if the second iterator comes before the first.
+     * 
+     * Note that when adding a large amount of data to a #GSequence,
+     * it is more efficient to do unsorted insertions and then call
+     * g_sequence_sort() or g_sequence_sort_iter().
+     */
+    public SequenceIter insertSortedIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+        try {
+            int hash = iterCmp.hashCode();
+            Interop.signalRegistry.put(hash, iterCmp);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_insert_sorted_iter(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Returns %TRUE if the sequence contains zero items.
      * 
      * This function is functionally identical to checking the result of
@@ -82,11 +159,195 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Returns an iterator pointing to the position of the first item found
+     * equal to @data according to @cmp_func and @cmp_data. If more than one
+     * item is equal, it is not guaranteed that it is the first which is
+     * returned. In that case, you can use g_sequence_iter_next() and
+     * g_sequence_iter_prev() to get others.
+     * 
+     * @cmp_func is called with two items of the @seq, and @cmp_data.
+     * It should return 0 if the items are equal, a negative value if
+     * the first item comes before the second, and a positive value if
+     * the second item comes before the first.
+     * 
+     * This function will fail if the data contained in the sequence is
+     * unsorted.
+     */
+    public SequenceIter lookup(Sequence seq, CompareDataFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_lookup(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_sequence_lookup(), but uses a #GSequenceIterCompareFunc
+     * instead of a #GCompareDataFunc as the compare function.
+     * 
+     * @iter_cmp is called with two iterators pointing into @seq.
+     * It should return 0 if the iterators are equal, a negative value
+     * if the first iterator comes before the second, and a positive
+     * value if the second iterator comes before the first.
+     * 
+     * This function will fail if the data contained in the sequence is
+     * unsorted.
+     */
+    public SequenceIter lookupIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+        try {
+            int hash = iterCmp.hashCode();
+            Interop.signalRegistry.put(hash, iterCmp);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_lookup_iter(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Adds a new item to the front of @seq
      */
     public SequenceIter prepend(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_prepend(handle(), data);
         return new SequenceIter(References.get(RESULT, false));
+    }
+    
+    /**
+     * Returns an iterator pointing to the position where @data would
+     * be inserted according to @cmp_func and @cmp_data.
+     * 
+     * @cmp_func is called with two items of the @seq, and @cmp_data.
+     * It should return 0 if the items are equal, a negative value if
+     * the first item comes before the second, and a positive value if
+     * the second item comes before the first.
+     * 
+     * If you are simply searching for an existing element of the sequence,
+     * consider using g_sequence_lookup().
+     * 
+     * This function will fail if the data contained in the sequence is
+     * unsorted.
+     */
+    public SequenceIter search(Sequence seq, CompareDataFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_search(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_sequence_search(), but uses a #GSequenceIterCompareFunc
+     * instead of a #GCompareDataFunc as the compare function.
+     * 
+     * @iter_cmp is called with two iterators pointing into @seq.
+     * It should return 0 if the iterators are equal, a negative value
+     * if the first iterator comes before the second, and a positive
+     * value if the second iterator comes before the first.
+     * 
+     * If you are simply searching for an existing element of the sequence,
+     * consider using g_sequence_lookup_iter().
+     * 
+     * This function will fail if the data contained in the sequence is
+     * unsorted.
+     */
+    public SequenceIter searchIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+        try {
+            int hash = iterCmp.hashCode();
+            Interop.signalRegistry.put(hash, iterCmp);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_search_iter(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Sorts @seq using @cmp_func.
+     * 
+     * @cmp_func is passed two items of @seq and should
+     * return 0 if they are equal, a negative value if the
+     * first comes before the second, and a positive value
+     * if the second comes before the first.
+     */
+    public void sort(Sequence seq, CompareDataFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_sort(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_sequence_sort(), but uses a #GSequenceIterCompareFunc instead
+     * of a #GCompareDataFunc as the compare function
+     * 
+     * @cmp_func is called with two iterators pointing into @seq. It should
+     * return 0 if the iterators are equal, a negative value if the first
+     * iterator comes before the second, and a positive value if the second
+     * iterator comes before the first.
+     */
+    public void sortIter(Sequence seq, SequenceIterCompareFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_sort_iter(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Calls @func for each item in the range (@begin, @end) passing
+     * @user_data to the function. @func must not modify the sequence
+     * itself.
+     */
+    public void foreachRange(SequenceIter begin, SequenceIter end, Func func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_foreach_range(begin.handle(), end.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -170,6 +431,59 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public static void set(SequenceIter iter, jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_sequence_set(iter.handle(), data);
+    }
+    
+    /**
+     * Moves the data pointed to by @iter to a new position as indicated by
+     * @cmp_func. This
+     * function should be called for items in a sequence already sorted according
+     * to @cmp_func whenever some aspect of an item changes so that @cmp_func
+     * may return different values for that item.
+     * 
+     * @cmp_func is called with two items of the @seq, and @cmp_data.
+     * It should return 0 if the items are equal, a negative value if
+     * the first item comes before the second, and a positive value if
+     * the second item comes before the first.
+     */
+    public void sortChanged(SequenceIter iter, CompareDataFunc cmpFunc) {
+        try {
+            int hash = cmpFunc.hashCode();
+            Interop.signalRegistry.put(hash, cmpFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_sort_changed(iter.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_sequence_sort_changed(), but uses
+     * a #GSequenceIterCompareFunc instead of a #GCompareDataFunc as
+     * the compare function.
+     * 
+     * @iter_cmp is called with two iterators pointing into the #GSequence that
+     * @iter points into. It should
+     * return 0 if the iterators are equal, a negative value if the first
+     * iterator comes before the second, and a positive value if the second
+     * iterator comes before the first.
+     */
+    public void sortChangedIter(SequenceIter iter, SequenceIterCompareFunc iterCmp) {
+        try {
+            int hash = iterCmp.hashCode();
+            Interop.signalRegistry.put(hash, iterCmp);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_sequence_sort_changed_iter(iter.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

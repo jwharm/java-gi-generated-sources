@@ -1,7 +1,10 @@
 package org.gtk.glib;
 
+/**
+ * The type of functions to be called when a UNIX fd watch source
+ * triggers.
+ */
 @FunctionalInterface
 public interface UnixFDSourceFunc {
-
-        void onUnixFDSourceFunc(int fd, int condition);
+        boolean onUnixFDSourceFunc(int fd, int condition);
 }

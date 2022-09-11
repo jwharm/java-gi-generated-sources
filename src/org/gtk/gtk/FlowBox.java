@@ -86,6 +86,38 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
+     * Binds @model to @box.
+     * 
+     * If @box was already bound to a model, that previous binding is
+     * destroyed.
+     * 
+     * The contents of @box are cleared and then filled with widgets that
+     * represent items from @model. @box is updated whenever @model changes.
+     * If @model is %NULL, @box is left empty.
+     * 
+     * It is undefined to add or remove widgets directly (for example, with
+     * [method@Gtk.FlowBox.insert]) while @box is bound to a model.
+     * 
+     * Note that using a model is incompatible with the filtering and sorting
+     * functionality in `GtkFlowBox`. When using a model, filtering and sorting
+     * should be implemented by the model.
+     */
+    public void bindModel(FlowBox box, org.gtk.gio.ListModel model, FlowBoxCreateWidgetFunc createWidgetFunc) {
+        try {
+            int hash = createWidgetFunc.hashCode();
+            Interop.signalRegistry.put(hash, createWidgetFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFlowBoxCreateWidgetFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_flow_box_bind_model(handle(), model.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Returns whether children activate on single clicks.
      */
     public boolean getActivateOnSingleClick() {
@@ -244,12 +276,12 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Note that the selection cannot be modified from within
      * this function.
      */
-    public void selectedForeach(FlowBoxForeachFunc func) {
+    public void selectedForeach(FlowBox box, FlowBoxForeachFunc func) {
         try {
             int hash = func.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, func);
+            Interop.signalRegistry.put(hash, func);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFlowBoxForeachFunc", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
@@ -272,6 +304,36 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public void setColumnSpacing(int spacing) {
         gtk_h.gtk_flow_box_set_column_spacing(handle(), spacing);
+    }
+    
+    /**
+     * By setting a filter function on the @box one can decide dynamically
+     * which of the children to show.
+     * 
+     * For instance, to implement a search function that only shows the
+     * children matching the search terms.
+     * 
+     * The @filter_func will be called for each child after the call, and
+     * it will continue to be called each time a child changes (via
+     * [method@Gtk.FlowBoxChild.changed]) or when
+     * [method@Gtk.FlowBox.invalidate_filter] is called.
+     * 
+     * Note that using a filter function is incompatible with using a model
+     * (see [method@Gtk.FlowBox.bind_model]).
+     */
+    public void setFilterFunc(FlowBox box, FlowBoxFilterFunc filterFunc) {
+        try {
+            int hash = filterFunc.hashCode();
+            Interop.signalRegistry.put(hash, filterFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFlowBoxFilterFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_flow_box_set_filter_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -334,6 +396,34 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
+     * By setting a sort function on the @box, one can dynamically
+     * reorder the children of the box, based on the contents of
+     * the children.
+     * 
+     * The @sort_func will be called for each child after the call,
+     * and will continue to be called each time a child changes (via
+     * [method@Gtk.FlowBoxChild.changed]) and when
+     * [method@Gtk.FlowBox.invalidate_sort] is called.
+     * 
+     * Note that using a sort function is incompatible with using a model
+     * (see [method@Gtk.FlowBox.bind_model]).
+     */
+    public void setSortFunc(FlowBox box, FlowBoxSortFunc sortFunc) {
+        try {
+            int hash = sortFunc.hashCode();
+            Interop.signalRegistry.put(hash, sortFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFlowBoxSortFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_flow_box_set_sort_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Hooks up an adjustment to focus handling in @box.
      * 
      * The adjustment is also used for autoscrolling during
@@ -379,7 +469,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onActivateCursorChild(ActivateCursorChildHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxActivateCursorChild", methodType);
@@ -402,7 +492,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onChildActivated(ChildActivatedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxChildActivated", methodType);
@@ -440,7 +530,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onMoveCursor(MoveCursorHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxMoveCursor", methodType);
@@ -468,7 +558,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onSelectAll(SelectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxSelectAll", methodType);
@@ -495,7 +585,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onSelectedChildrenChanged(SelectedChildrenChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxSelectedChildrenChanged", methodType);
@@ -522,7 +612,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onToggleCursorChild(ToggleCursorChildHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxToggleCursorChild", methodType);
@@ -550,7 +640,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public void onUnselectAll(UnselectAllHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFlowBoxUnselectAll", methodType);

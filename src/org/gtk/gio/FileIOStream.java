@@ -79,6 +79,29 @@ public class FileIOStream extends IOStream implements Seekable {
     }
     
     /**
+     * Asynchronously queries the @stream for a #GFileInfo. When completed,
+     * @callback will be called with a #GAsyncResult which can be used to
+     * finish the operation with g_file_io_stream_query_info_finish().
+     * 
+     * For the synchronous version of this function, see
+     * g_file_io_stream_query_info().
+     */
+    public void queryInfoAsync(FileIOStream stream, java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_file_io_stream_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finalizes the asynchronous query started
      * by g_file_io_stream_query_info_async().
      */

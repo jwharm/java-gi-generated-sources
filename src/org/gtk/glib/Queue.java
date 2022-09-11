@@ -53,6 +53,35 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
     }
     
     /**
+     * Finds an element in a #GQueue, using a supplied function to find the
+     * desired element. It iterates over the queue, calling the given function
+     * which should return 0 when the desired element is found. The function
+     * takes two gconstpointer arguments, the #GQueue element's data as the
+     * first argument and the given user data as the second argument.
+     */
+    /**
+     * Calls @func for each element in the queue passing @user_data to the
+     * function.
+     * 
+     * It is safe for @func to remove the element from @queue, but it must
+     * not modify any part of the queue after that element.
+     */
+    public void foreach(Queue queue, Func func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_queue_foreach(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Frees the memory allocated for the #GQueue. Only call this function
      * if @queue was created with g_queue_new(). If queue elements contain
      * dynamically-allocated memory, they should be freed first.
@@ -126,6 +155,24 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public void insertBeforeLink(org.gtk.glib.List sibling, org.gtk.glib.List link) {
         gtk_h.g_queue_insert_before_link(handle(), sibling.handle(), link.handle());
+    }
+    
+    /**
+     * Inserts @data into @queue using @func to determine the new position.
+     */
+    public void insertSorted(Queue queue, CompareDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_queue_insert_sorted(handle(), intSegment, nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -303,6 +350,24 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      */
     public void reverse() {
         gtk_h.g_queue_reverse(handle());
+    }
+    
+    /**
+     * Sorts @queue using @compare_func.
+     */
+    public void sort(Queue queue, CompareDataFunc compareFunc) {
+        try {
+            int hash = compareFunc.hashCode();
+            Interop.signalRegistry.put(hash, compareFunc);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_queue_sort(handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**

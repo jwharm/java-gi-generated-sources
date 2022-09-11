@@ -316,6 +316,30 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
+     * Sets the `GtkTreeCellDataFunc` to use for the column.
+     * 
+     * This
+     * function is used instead of the standard attributes mapping for
+     * setting the column value, and should set the value of @tree_column's
+     * cell renderer as appropriate.  @func may be %NULL to remove an
+     * older one.
+     */
+    public void setCellDataFunc(TreeViewColumn treeColumn, CellRenderer cellRenderer, TreeCellDataFunc func) {
+        try {
+            int hash = func.hashCode();
+            Interop.signalRegistry.put(hash, func);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeCellDataFunc", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gtk_tree_view_column_set_cell_data_func(handle(), cellRenderer.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Sets the header to be active if @clickable is %TRUE.  When the header is
      * active, then it can take keyboard focus, and can be clicked.
      */
@@ -475,7 +499,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public void onClicked(ClickedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewColumnClicked", methodType);

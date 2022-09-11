@@ -47,6 +47,26 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Ejects a mount. This is an asynchronous operation, and is
+     * finished by calling g_mount_eject_with_operation_finish() with the @mount
+     * and #GAsyncResult data returned in the @callback.
+     */
+    public default void ejectWithOperation(Mount mount, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_mount_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes ejecting a mount. If any errors occurred during the operation,
      * @error will be set to contain the errors and %FALSE will be returned.
      */
@@ -140,6 +160,34 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Tries to guess the type of content stored on @mount. Returns one or
+     * more textual identifiers of well-known content types (typically
+     * prefixed with "x-content/"), e.g. x-content/image-dcf for camera
+     * memory cards. See the
+     * [shared-mime-info](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
+     * specification for more on x-content types.
+     * 
+     * This is an asynchronous operation (see
+     * g_mount_guess_content_type_sync() for the synchronous version), and
+     * is finished by calling g_mount_guess_content_type_finish() with the
+     * @mount and #GAsyncResult data returned in the @callback.
+     */
+    public default void guessContentType(Mount mount, boolean forceRescan, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_mount_guess_content_type(handle(), forceRescan ? 1 : 0, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Determines if @mount is shadowed. Applications or libraries should
      * avoid displaying @mount in the user interface if it is shadowed.
      * 
@@ -170,6 +218,32 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     /**
+     * Remounts a mount. This is an asynchronous operation, and is
+     * finished by calling g_mount_remount_finish() with the @mount
+     * and #GAsyncResults data returned in the @callback.
+     * 
+     * Remounting is useful when some setting affecting the operation
+     * of the volume has been changed, as these may need a remount to
+     * take affect. While this is semantically equivalent with unmounting
+     * and then remounting not all backends might need to actually be
+     * unmounted.
+     */
+    public default void remount(Mount mount, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_mount_remount(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes remounting a mount. If any errors occurred during the operation,
      * @error will be set to contain the errors and %FALSE will be returned.
      */
@@ -190,6 +264,26 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
      */
     public default void shadow() {
         gtk_h.g_mount_shadow(handle());
+    }
+    
+    /**
+     * Unmounts a mount. This is an asynchronous operation, and is
+     * finished by calling g_mount_unmount_with_operation_finish() with the @mount
+     * and #GAsyncResult data returned in the @callback.
+     */
+    public default void unmountWithOperation(Mount mount, int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_mount_unmount_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -226,7 +320,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onChanged(ChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountChanged", methodType);
@@ -253,7 +347,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onPreUnmount(PreUnmountHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountPreUnmount", methodType);
@@ -279,7 +373,7 @@ public interface Mount extends io.github.jwharm.javagi.interop.NativeAddress {
     public default void onUnmounted(UnmountedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMountUnmounted", methodType);

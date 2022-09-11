@@ -152,6 +152,65 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     }
     
     /**
+     * Asynchronously invokes the @method_name method on @proxy.
+     * 
+     * If @method_name contains any dots, then @name is split into interface and
+     * method name parts. This allows using @proxy for invoking methods on
+     * other interfaces.
+     * 
+     * If the #GDBusConnection associated with @proxy is closed then
+     * the operation will fail with %G_IO_ERROR_CLOSED. If
+     * @cancellable is canceled, the operation will fail with
+     * %G_IO_ERROR_CANCELLED. If @parameters contains a value not
+     * compatible with the D-Bus protocol, the operation fails with
+     * %G_IO_ERROR_INVALID_ARGUMENT.
+     * 
+     * If the @parameters #GVariant is floating, it is consumed. This allows
+     * convenient 'inline' use of g_variant_new(), e.g.:
+     * |[<!-- language="C" -->
+     *  g_dbus_proxy_call (proxy,
+     *                     "TwoStrings",
+     *                     g_variant_new ("(ss)",
+     *                                    "Thing One",
+     *                                    "Thing Two"),
+     *                     G_DBUS_CALL_FLAGS_NONE,
+     *                     -1,
+     *                     NULL,
+     *                     (GAsyncReadyCallback) two_strings_done,
+     *                     &data);
+     * ]|
+     * 
+     * If @proxy has an expected interface (see
+     * #GDBusProxy:g-interface-info) and @method_name is referenced by it,
+     * then the return value is checked against the return type.
+     * 
+     * This is an asynchronous method. When the operation is finished,
+     * @callback will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from.
+     * You can then call g_dbus_proxy_call_finish() to get the result of
+     * the operation. See g_dbus_proxy_call_sync() for the synchronous
+     * version of this method.
+     * 
+     * If @callback is %NULL then the D-Bus method call message will be sent with
+     * the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.
+     */
+    public void call(DBusProxy proxy, java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_proxy_call(handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), flags, timeoutMsec, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an operation started with g_dbus_proxy_call().
      */
     public org.gtk.glib.Variant callFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
@@ -206,6 +265,26 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
             throw new GErrorException(GERROR);
         }
         return new org.gtk.glib.Variant(References.get(RESULT, true));
+    }
+    
+    /**
+     * Like g_dbus_proxy_call() but also takes a #GUnixFDList object.
+     * 
+     * This method is only available on UNIX.
+     */
+    public void callWithUnixFdList(DBusProxy proxy, java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, UnixFDList fdList, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_proxy_call_with_unix_fd_list(handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), flags, timeoutMsec, fdList.handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -383,6 +462,70 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         gtk_h.g_dbus_proxy_set_interface_info(handle(), info.handle());
     }
     
+    /**
+     * Creates a proxy for accessing @interface_name on the remote object
+     * at @object_path owned by @name at @connection and asynchronously
+     * loads D-Bus properties unless the
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES flag is used. Connect to
+     * the #GDBusProxy::g-properties-changed signal to get notified about
+     * property changes.
+     * 
+     * If the %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS flag is not set, also sets up
+     * match rules for signals. Connect to the #GDBusProxy::g-signal signal
+     * to handle signals from the remote object.
+     * 
+     * If both %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES and
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS are set, this constructor is
+     * guaranteed to complete immediately without blocking.
+     * 
+     * If @name is a well-known name and the
+     * %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START and %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
+     * flags aren't set and no name owner currently exists, the message bus
+     * will be requested to launch a name owner for the name.
+     * 
+     * This is a failable asynchronous constructor - when the proxy is
+     * ready, @callback will be invoked and you can use
+     * g_dbus_proxy_new_finish() to get the result.
+     * 
+     * See g_dbus_proxy_new_sync() and for a synchronous version of this constructor.
+     * 
+     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     */
+    public void new_(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_proxy_new(connection.handle(), flags, info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Like g_dbus_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
+     * 
+     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     */
+    public void newForBus(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.g_dbus_proxy_new_for_bus(busType.getValue(), flags, info.handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     @FunctionalInterface
     public interface GPropertiesChangedHandler {
         void signalReceived(DBusProxy source, org.gtk.glib.Variant changedProperties, java.lang.String[] invalidatedProperties);
@@ -405,7 +548,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     public void onGPropertiesChanged(GPropertiesChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusProxyGPropertiesChanged", methodType);
@@ -432,7 +575,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     public void onGSignal(GSignalHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusProxyGSignal", methodType);

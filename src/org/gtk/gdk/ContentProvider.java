@@ -112,6 +112,35 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
+     * Asynchronously writes the contents of @provider to @stream in the given
+     * @mime_type.
+     * 
+     * When the operation is finished @callback will be called. You must then call
+     * [method@Gdk.ContentProvider.write_mime_type_finish] to get the result
+     * of the operation.
+     * 
+     * The given mime type does not need to be listed in the formats returned by
+     * [method@Gdk.ContentProvider.ref_formats]. However, if the given `GType` is
+     * not supported, `G_IO_ERROR_NOT_SUPPORTED` will be reported.
+     * 
+     * The given @stream will not be closed.
+     */
+    public void writeMimeTypeAsync(ContentProvider provider, java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+        try {
+            int hash = callback.hashCode();
+            Interop.signalRegistry.put(hash, callback);
+            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
+            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
+            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
+            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            gtk_h.gdk_content_provider_write_mime_type_async(handle(), Interop.allocateNativeString(mimeType).handle(), stream.handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an asynchronous write operation.
      * 
      * See [method@Gdk.ContentProvider.write_mime_type_async].
@@ -136,7 +165,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public void onContentChanged(ContentChangedHandler handler) {
         try {
             int hash = handler.hashCode();
-            JVMCallbacks.signalRegistry.put(hash, handler);
+            Interop.signalRegistry.put(hash, handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalContentProviderContentChanged", methodType);
