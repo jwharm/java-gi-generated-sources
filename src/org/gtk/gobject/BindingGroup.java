@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  */
 public class BindingGroup extends Object {
 
-    public BindingGroup(io.github.jwharm.javagi.interop.Reference reference) {
+    public BindingGroup(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -27,11 +27,16 @@ public class BindingGroup extends Object {
         return new BindingGroup(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_binding_group_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GBindingGroup.
      */
     public BindingGroup() {
-        super(References.get(gtk_h.g_binding_group_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -54,16 +59,21 @@ public class BindingGroup extends Object {
      * 
      * See g_object_bind_property_full() for more information.
      */
-    public void bindFull(BindingGroup self, java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+    public void bindFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
-            int hash = transformTo.hashCode();
-            Interop.signalRegistry.put(hash, transformTo);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_binding_group_bind_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.g_binding_group_bind_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

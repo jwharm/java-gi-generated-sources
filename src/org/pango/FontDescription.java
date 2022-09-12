@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,17 +15,22 @@ import java.lang.invoke.*;
  * available on the system and also for specifying the characteristics of
  * a font to load.
  */
-public class FontDescription extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
 
-    public FontDescription(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontDescription(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.pango_font_description_new(), true);
+        return RESULT;
     }
     
     /**
      * Creates a new font description structure with all fields unset.
      */
     public FontDescription() {
-        super(References.get(gtk_h.pango_font_description_new(), true));
+        super(constructNew());
     }
     
     /**

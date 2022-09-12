@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * The scope can be used with g_io_modules_load_all_in_directory_with_scope()
  * or g_io_modules_scan_all_in_directory_with_scope().
  */
-public class IOModuleScope extends io.github.jwharm.javagi.interop.ResourceBase {
+public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOModuleScope(io.github.jwharm.javagi.interop.Reference reference) {
+    public IOModuleScope(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

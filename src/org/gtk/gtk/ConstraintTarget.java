@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,10 @@ import java.lang.invoke.*;
  * 
  * Besides `GtkWidget`, it is also implemented by `GtkConstraintGuide`.
  */
-public interface ConstraintTarget extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface ConstraintTarget extends io.github.jwharm.javagi.NativeAddress {
 
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {
-        public ConstraintTargetImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ConstraintTargetImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

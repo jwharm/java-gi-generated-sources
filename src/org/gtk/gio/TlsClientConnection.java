@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * #GTlsClientConnection is the client-side subclass of
  * #GTlsConnection, representing a client-side TLS connection.
  */
-public interface TlsClientConnection extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Possibly copies session state from one connection to another, for use
@@ -88,7 +88,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
      * on when application code can run operations on the @base_io_stream after
      * this function has returned.
      */
-    public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_client_connection_new(baseIoStream.handle(), serverIdentity.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -98,7 +98,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.interop.Nat
     }
     
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {
-        public TlsClientConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public TlsClientConnectionImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

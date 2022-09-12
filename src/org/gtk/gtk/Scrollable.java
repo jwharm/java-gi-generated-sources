@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  * - When any of the adjustments emits the [signal@Gtk.Adjustment::value-changed]
  *   signal, the scrollable widget should scroll its contents.
  */
-public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Returns the size of a non-scrolling border around the
@@ -119,7 +119,7 @@ public interface Scrollable extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class ScrollableImpl extends org.gtk.gobject.Object implements Scrollable {
-        public ScrollableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ScrollableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

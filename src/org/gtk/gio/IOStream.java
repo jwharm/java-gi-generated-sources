@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -57,7 +57,7 @@ import java.lang.invoke.*;
  */
 public class IOStream extends org.gtk.gobject.Object {
 
-    public IOStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public IOStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -108,7 +108,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * The default implementation of this method just calls close on the
      * individual input/output streams.
      */
-    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_stream_close(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -129,16 +129,15 @@ public class IOStream extends org.gtk.gobject.Object {
      * to implement asynchronicity, so they are optional for inheriting
      * classes. However, if you override one you must override all.
      */
-    public void closeAsync(IOStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_io_stream_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_io_stream_close_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -147,7 +146,7 @@ public class IOStream extends org.gtk.gobject.Object {
     /**
      * Closes a stream.
      */
-    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_stream_close_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -195,7 +194,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * already set or @stream is closed, it will return %FALSE and set
      * @error.
      */
-    public boolean setPending() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_stream_set_pending(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -213,16 +212,15 @@ public class IOStream extends org.gtk.gobject.Object {
      * You can then call g_io_stream_splice_finish() to get the
      * result of the operation.
      */
-    public void spliceAsync(IOStream stream1, IOStream stream2, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void spliceAsync(IOStream stream2, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_io_stream_splice_async(handle(), stream2.handle(), flags, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_io_stream_splice_async(handle(), stream2.handle(), flags, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -231,7 +229,7 @@ public class IOStream extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous io stream splice operation.
      */
-    public static boolean spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_stream_splice_finish(result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

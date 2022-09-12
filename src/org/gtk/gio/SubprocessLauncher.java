@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,13 +19,18 @@ import java.lang.invoke.*;
  */
 public class SubprocessLauncher extends org.gtk.gobject.Object {
 
-    public SubprocessLauncher(io.github.jwharm.javagi.interop.Reference reference) {
+    public SubprocessLauncher(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to SubprocessLauncher */
     public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
         return new SubprocessLauncher(gobject.getReference());
+    }
+    
+    private static Reference constructNew(int flags) {
+        Reference RESULT = References.get(gtk_h.g_subprocess_launcher_new(flags), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +41,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * and will be used as the environment that the process is launched in.
      */
     public SubprocessLauncher(int flags) {
-        super(References.get(gtk_h.g_subprocess_launcher_new(flags), true));
+        super(constructNew(flags));
     }
     
     /**
@@ -82,16 +87,16 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * 
      * Child setup functions are only available on UNIX.
      */
-    public void setChildSetup(SubprocessLauncher self, org.gtk.glib.SpawnChildSetupFunc childSetup) {
+    public void setChildSetup(org.gtk.glib.SpawnChildSetupFunc childSetup) {
         try {
-            int hash = childSetup.hashCode();
-            Interop.signalRegistry.put(hash, childSetup);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_subprocess_launcher_set_child_setup(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.g_subprocess_launcher_set_child_setup(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -219,7 +224,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Creates a #GSubprocess given a provided array of arguments.
      */
-    public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.interop.GErrorException {
+    public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_launcher_spawnv(handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

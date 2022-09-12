@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -29,7 +29,7 @@ import java.lang.invoke.*;
  */
 public class DBusServer extends org.gtk.gobject.Object implements Initable {
 
-    public DBusServer(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusServer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -38,7 +38,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         return new DBusServer(gobject.getReference());
     }
     
-    private static Reference constructNewSyncOrThrow(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewSync(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags, Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -70,7 +70,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * asynchronous version.
      */
     public static DBusServer newSync(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
-        return new DBusServer(constructNewSyncOrThrow(address, flags, guid, observer, cancellable));
+        return new DBusServer(constructNewSync(address, flags, guid, observer, cancellable));
     }
     
     /**
@@ -151,16 +151,16 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * that it's suitable to call g_dbus_connection_register_object() or
      * similar from the signal handler.
      */
-    public void onNewConnection(NewConnectionHandler handler) {
+    public SignalHandle onNewConnection(NewConnectionHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusServerNewConnection", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("new-connection").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("new-connection").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

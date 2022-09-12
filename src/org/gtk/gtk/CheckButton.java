@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -62,7 +62,7 @@ import java.lang.invoke.*;
  */
 public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public CheckButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public CheckButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -71,25 +71,40 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         return new CheckButton(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_check_button_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkCheckButton`.
      */
     public CheckButton() {
-        super(References.get(gtk_h.gtk_check_button_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithLabel(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text.
      */
     public static CheckButton newWithLabel(java.lang.String label) {
-        return new CheckButton(References.get(gtk_h.gtk_check_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
+        return new CheckButton(constructNewWithLabel(label));
+    }
+    
+    private static Reference constructNewWithMnemonic(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkCheckButton` with the given text and a mnemonic.
      */
     public static CheckButton newWithMnemonic(java.lang.String label) {
-        return new CheckButton(References.get(gtk_h.gtk_check_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
+        return new CheckButton(constructNewWithMnemonic(label));
     }
     
     /**
@@ -198,16 +213,16 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Applications should never connect to this signal, but use the
      * [signal@Gtk.CheckButton::toggled] signal.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCheckButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -222,16 +237,16 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Emitted when the buttons's [property@Gtk.CheckButton:active]
      * property changes.
      */
-    public void onToggled(ToggledHandler handler) {
+    public SignalHandle onToggled(ToggledHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCheckButtonToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

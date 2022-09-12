@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class TextureNode extends RenderNode {
 
-    public TextureNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public TextureNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class TextureNode extends RenderNode {
         return new TextureNode(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
+        Reference RESULT = References.get(gtk_h.gsk_texture_node_new(texture.handle(), bounds.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will render the given
      * @texture into the area given by @bounds.
      */
     public TextureNode(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
-        super(References.get(gtk_h.gsk_texture_node_new(texture.handle(), bounds.handle()), true));
+        super(constructNew(texture, bounds));
     }
     
     /**

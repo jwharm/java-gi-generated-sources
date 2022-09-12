@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,15 @@ import java.lang.invoke.*;
  * Because sections are nested into one another, you can use
  * [method@CssSection.get_parent] to get the containing region.
  */
-public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
+public class CssSection extends io.github.jwharm.javagi.ResourceBase {
 
-    public CssSection(io.github.jwharm.javagi.interop.Reference reference) {
+    public CssSection(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(org.gtk.gio.File file, CssLocation start, CssLocation end) {
+        Reference RESULT = References.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -25,7 +30,7 @@ public class CssSection extends io.github.jwharm.javagi.interop.ResourceBase {
      * `end` location.
      */
     public CssSection(org.gtk.gio.File file, CssLocation start, CssLocation end) {
-        super(References.get(gtk_h.gtk_css_section_new(file.handle(), start.handle(), end.handle()), true));
+        super(constructNew(file, start, end));
     }
     
     /**

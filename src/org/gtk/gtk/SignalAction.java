@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,13 +15,18 @@ import java.lang.invoke.*;
  */
 public class SignalAction extends ShortcutAction {
 
-    public SignalAction(io.github.jwharm.javagi.interop.Reference reference) {
+    public SignalAction(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to SignalAction */
     public static SignalAction castFrom(org.gtk.gobject.Object gobject) {
         return new SignalAction(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String signalName) {
+        Reference RESULT = References.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -31,7 +36,7 @@ public class SignalAction extends ShortcutAction {
      * It will also unpack the args into arguments passed to the signal.
      */
     public SignalAction(java.lang.String signalName) {
-        super(References.get(gtk_h.gtk_signal_action_new(Interop.allocateNativeString(signalName).handle()), true));
+        super(constructNew(signalName));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,13 +22,18 @@ import java.lang.invoke.*;
  */
 public class Renderer extends org.gtk.gobject.Object {
 
-    public Renderer(io.github.jwharm.javagi.interop.Reference reference) {
+    public Renderer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Renderer */
     public static Renderer castFrom(org.gtk.gobject.Object gobject) {
         return new Renderer(gobject.getReference());
+    }
+    
+    private static Reference constructNewForSurface(org.gtk.gdk.Surface surface) {
+        Reference RESULT = References.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -41,7 +46,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * The renderer will be realized before it is returned.
      */
     public static Renderer newForSurface(org.gtk.gdk.Surface surface) {
-        return new Renderer(References.get(gtk_h.gsk_renderer_new_for_surface(surface.handle()), true));
+        return new Renderer(constructNewForSurface(surface));
     }
     
     /**
@@ -72,7 +77,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Note that it is mandatory to call [method@Gsk.Renderer.unrealize] before
      * destroying the renderer.
      */
-    public boolean realize(org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean realize(org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gsk_renderer_realize(handle(), surface.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

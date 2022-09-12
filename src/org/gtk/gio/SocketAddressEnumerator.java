@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class SocketAddressEnumerator extends org.gtk.gobject.Object {
 
-    public SocketAddressEnumerator(io.github.jwharm.javagi.interop.Reference reference) {
+    public SocketAddressEnumerator(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -49,7 +49,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * internal errors (other than @cancellable being triggered) will be
      * ignored.
      */
-    public SocketAddress next(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketAddress next(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_address_enumerator_next(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -65,16 +65,15 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * 
      * It is an error to call this multiple times before the previous callback has finished.
      */
-    public void nextAsync(SocketAddressEnumerator enumerator, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void nextAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_address_enumerator_next_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_address_enumerator_next_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +85,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * g_socket_address_enumerator_next() for more information about
      * error handling.
      */
-    public SocketAddress nextFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketAddress nextFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_address_enumerator_next_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

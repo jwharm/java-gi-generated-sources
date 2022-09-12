@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,13 +16,18 @@ import java.lang.invoke.*;
  */
 public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Buildable {
 
-    public MultiSorter(io.github.jwharm.javagi.interop.Reference reference) {
+    public MultiSorter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to MultiSorter */
     public static MultiSorter castFrom(org.gtk.gobject.Object gobject) {
         return new MultiSorter(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_multi_sorter_new(), true);
+        return RESULT;
     }
     
     /**
@@ -34,7 +39,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * items as equal.
      */
     public MultiSorter() {
-        super(References.get(gtk_h.gtk_multi_sorter_new(), true));
+        super(constructNew());
     }
     
     /**

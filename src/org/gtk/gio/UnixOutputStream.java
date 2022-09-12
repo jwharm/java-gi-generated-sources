@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,13 +20,18 @@ import java.lang.invoke.*;
  */
 public class UnixOutputStream extends OutputStream implements FileDescriptorBased, PollableOutputStream {
 
-    public UnixOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public UnixOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to UnixOutputStream */
     public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
         return new UnixOutputStream(gobject.getReference());
+    }
+    
+    private static Reference constructNew(int fd, boolean closeFd) {
+        Reference RESULT = References.get(gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +41,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {
-        super(References.get(gtk_h.g_unix_output_stream_new(fd, closeFd ? 1 : 0), true));
+        super(constructNew(fd, closeFd));
     }
     
     /**

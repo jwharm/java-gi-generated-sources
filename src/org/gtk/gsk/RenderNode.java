@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  */
 public class RenderNode extends org.gtk.gobject.Object {
 
-    public RenderNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public RenderNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -107,7 +107,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * It is mostly intended for use inside a debugger to quickly dump a render
      * node to a file for later inspection.
      */
-    public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gsk_render_node_write_to_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -121,16 +121,16 @@ public class RenderNode extends org.gtk.gobject.Object {
      * 
      * For a discussion of the supported format, see that function.
      */
-    public RenderNode deserialize(org.gtk.glib.Bytes bytes, ParseErrorFunc errorFunc) {
+    public static RenderNode deserialize(org.gtk.glib.Bytes bytes, ParseErrorFunc errorFunc) {
         try {
-            int hash = errorFunc.hashCode();
-            Interop.signalRegistry.put(hash, errorFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbParseErrorFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gsk_render_node_deserialize(bytes.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.gsk_render_node_deserialize(bytes.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbParseErrorFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(errorFunc.hashCode(), errorFunc)));
+            return new RenderNode(References.get(RESULT, true));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -47,7 +47,7 @@ import java.lang.invoke.*;
  */
 public class Statusbar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Statusbar(io.github.jwharm.javagi.interop.Reference reference) {
+    public Statusbar(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -56,11 +56,16 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         return new Statusbar(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_statusbar_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkStatusbar` ready for messages.
      */
     public Statusbar() {
-        super(References.get(gtk_h.gtk_statusbar_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -118,16 +123,16 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Emitted whenever a new message is popped off a statusbar's stack.
      */
-    public void onTextPopped(TextPoppedHandler handler) {
+    public SignalHandle onTextPopped(TextPoppedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPopped", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("text-popped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("text-popped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -141,16 +146,16 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Emitted whenever a new message gets pushed onto a statusbar's stack.
      */
-    public void onTextPushed(TextPushedHandler handler) {
+    public SignalHandle onTextPushed(TextPushedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalStatusbarTextPushed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("text-pushed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("text-pushed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -17,9 +17,9 @@ import java.lang.invoke.*;
  * the event or audio streams, and for measuring quality metrics for the
  * application’s display, such as latency and jitter.
  */
-public class FrameTimings extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
 
-    public FrameTimings(io.github.jwharm.javagi.interop.Reference reference) {
+    public FrameTimings(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

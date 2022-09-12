@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * #GDtlsClientConnection is the client-side subclass of
  * #GDtlsConnection, representing a client-side DTLS connection.
  */
-public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DtlsClientConnection extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the list of distinguished names of the Certificate Authorities
@@ -66,7 +66,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
      * Creates a new #GDtlsClientConnection wrapping @base_socket which is
      * assumed to communicate with the server identified by @server_identity.
      */
-    public static DtlsClientConnection new_(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static DtlsClientConnection new_(DatagramBased baseSocket, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_client_connection_new(baseSocket.handle(), serverIdentity.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -76,7 +76,7 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.interop.Na
     }
     
     class DtlsClientConnectionImpl extends org.gtk.gobject.Object implements DtlsClientConnection {
-        public DtlsClientConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DtlsClientConnectionImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

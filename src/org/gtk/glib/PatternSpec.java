@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,17 +11,22 @@ import java.lang.invoke.*;
  * A GPatternSpec struct is the 'compiled' form of a pattern. This
  * structure is opaque and its fields cannot be accessed directly.
  */
-public class PatternSpec extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
 
-    public PatternSpec(io.github.jwharm.javagi.interop.Reference reference) {
+    public PatternSpec(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String pattern) {
+        Reference RESULT = References.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true);
+        return RESULT;
     }
     
     /**
      * Compiles a pattern to a #GPatternSpec.
      */
     public PatternSpec(java.lang.String pattern) {
-        super(References.get(gtk_h.g_pattern_spec_new(Interop.allocateNativeString(pattern).handle()), true));
+        super(constructNew(pattern));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -57,13 +57,18 @@ import java.lang.invoke.*;
  */
 public class FileFilter extends Filter implements Buildable {
 
-    public FileFilter(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileFilter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to FileFilter */
     public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
         return new FileFilter(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_file_filter_new(), true);
+        return RESULT;
     }
     
     /**
@@ -83,7 +88,12 @@ public class FileFilter extends Filter implements Buildable {
      * ```
      */
     public FileFilter() {
-        super(References.get(gtk_h.gtk_file_filter_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Reference RESULT = References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -93,7 +103,7 @@ public class FileFilter extends Filter implements Buildable {
      * [method@Gtk.FileFilter.to_gvariant].
      */
     public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
-        return new FileFilter(References.get(gtk_h.gtk_file_filter_new_from_gvariant(variant.handle()), true));
+        return new FileFilter(constructNewFromGvariant(variant));
     }
     
     /**

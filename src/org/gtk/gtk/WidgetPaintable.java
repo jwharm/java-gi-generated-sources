@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -31,7 +31,7 @@ import java.lang.invoke.*;
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
-    public WidgetPaintable(io.github.jwharm.javagi.interop.Reference reference) {
+    public WidgetPaintable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -40,11 +40,16 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         return new WidgetPaintable(gobject.getReference());
     }
     
+    private static Reference constructNew(Widget widget) {
+        Reference RESULT = References.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new widget paintable observing the given widget.
      */
     public WidgetPaintable(Widget widget) {
-        super(References.get(gtk_h.gtk_widget_paintable_new(widget.handle()), true));
+        super(constructNew(widget));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class ContainerNode extends RenderNode {
 
-    public ContainerNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public ContainerNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,13 +21,18 @@ public class ContainerNode extends RenderNode {
         return new ContainerNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode[] children, int nChildren) {
+        Reference RESULT = References.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GskRenderNode` instance for holding the given @children.
      * 
      * The new node will acquire a reference to each of the children.
      */
     public ContainerNode(RenderNode[] children, int nChildren) {
-        super(References.get(gtk_h.gsk_container_node_new(Interop.allocateNativeArray(children).handle(), nChildren), true));
+        super(constructNew(children, nChildren));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public Switch(io.github.jwharm.javagi.interop.Reference reference) {
+    public Switch(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -46,11 +46,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         return new Switch(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_switch_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkSwitch` widget.
      */
     public Switch() {
-        super(References.get(gtk_h.gtk_switch_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -100,16 +105,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Applications should never connect to this signal,
      * but use the [property@Gtk.Switch:active] property.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSwitchActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -137,16 +142,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * the switch, while the [property@Gtk.Switch:active] property is
      * represented by the position of the switch.
      */
-    public void onStateSet(StateSetHandler handler) {
+    public SignalHandle onStateSet(StateSetHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSwitchStateSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("state-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("state-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

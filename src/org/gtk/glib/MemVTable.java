@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * 
  * This functions related to this has been deprecated in 2.46, and no longer work.
  */
-public class MemVTable extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MemVTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public MemVTable(io.github.jwharm.javagi.interop.Reference reference) {
+    public MemVTable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -27,13 +27,18 @@ import java.lang.invoke.*;
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
-    public Viewport(io.github.jwharm.javagi.interop.Reference reference) {
+    public Viewport(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Viewport */
     public static Viewport castFrom(org.gtk.gobject.Object gobject) {
         return new Viewport(gobject.getReference());
+    }
+    
+    private static Reference constructNew(Adjustment hadjustment, Adjustment vadjustment) {
+        Reference RESULT = References.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -43,7 +48,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * adjustments if none are given.
      */
     public Viewport(Adjustment hadjustment, Adjustment vadjustment) {
-        super(References.get(gtk_h.gtk_viewport_new(hadjustment.handle(), vadjustment.handle()), false));
+        super(constructNew(hadjustment, vadjustment));
     }
     
     /**

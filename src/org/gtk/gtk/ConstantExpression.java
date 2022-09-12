@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class ConstantExpression extends Expression {
 
-    public ConstantExpression(io.github.jwharm.javagi.interop.Reference reference) {
+    public ConstantExpression(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,11 +21,16 @@ public class ConstantExpression extends Expression {
         return new ConstantExpression(gobject.getReference());
     }
     
+    private static Reference constructNewForValue(org.gtk.gobject.Value value) {
+        Reference RESULT = References.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates an expression that always evaluates to the given `value`.
      */
     public static ConstantExpression newForValue(org.gtk.gobject.Value value) {
-        return new ConstantExpression(References.get(gtk_h.gtk_constant_expression_new_for_value(value.handle()), true));
+        return new ConstantExpression(constructNewForValue(value));
     }
     
     /**

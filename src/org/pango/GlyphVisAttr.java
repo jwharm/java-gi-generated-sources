@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,9 +19,9 @@ import java.lang.invoke.*;
  * that is, in Arabic text, accent glyphs follow the glyphs for the
  * base character.
  */
-public class GlyphVisAttr extends io.github.jwharm.javagi.interop.ResourceBase {
+public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphVisAttr(io.github.jwharm.javagi.interop.Reference reference) {
+    public GlyphVisAttr(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class PropertyExpression extends Expression {
 
-    public PropertyExpression(io.github.jwharm.javagi.interop.Reference reference) {
+    public PropertyExpression(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to PropertyExpression */
     public static PropertyExpression castFrom(org.gtk.gobject.Object gobject) {
         return new PropertyExpression(gobject.getReference());
+    }
+    
+    private static Reference constructNew(Type thisType, Expression expression, java.lang.String propertyName) {
+        Reference RESULT = References.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -34,7 +39,12 @@ public class PropertyExpression extends Expression {
      * The given `this_type` must have a property with `property_name`.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
-        super(References.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true));
+        super(constructNew(thisType, expression, propertyName));
+    }
+    
+    private static Reference constructNewForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
+        Reference RESULT = References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -48,7 +58,7 @@ public class PropertyExpression extends Expression {
      * Otherwise, this expression's evaluation will fail.
      */
     public static PropertyExpression newForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
-        return new PropertyExpression(References.get(gtk_h.gtk_property_expression_new_for_pspec(expression.getReference().unowned().handle(), pspec.handle()), true));
+        return new PropertyExpression(constructNewForPspec(expression, pspec));
     }
     
     /**

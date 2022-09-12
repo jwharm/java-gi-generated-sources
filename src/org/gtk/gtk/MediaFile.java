@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  */
 public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
 
-    public MediaFile(io.github.jwharm.javagi.interop.Reference reference) {
+    public MediaFile(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -28,18 +28,33 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
         return new MediaFile(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_media_file_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty media file.
      */
     public MediaFile() {
-        super(References.get(gtk_h.gtk_media_file_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewForFile(org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new media file to play @file.
      */
     public static MediaFile newForFile(org.gtk.gio.File file) {
-        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_file(file.handle()), true));
+        return new MediaFile(constructNewForFile(file));
+    }
+    
+    private static Reference constructNewForFilename(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -49,7 +64,12 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForFilename(java.lang.String filename) {
-        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_filename(Interop.allocateNativeString(filename).handle()), true));
+        return new MediaFile(constructNewForFilename(filename));
+    }
+    
+    private static Reference constructNewForInputStream(org.gtk.gio.InputStream stream) {
+        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -59,7 +79,12 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * the stream should implement the `GSeekable` interface.
      */
     public static MediaFile newForInputStream(org.gtk.gio.InputStream stream) {
-        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_input_stream(stream.handle()), true));
+        return new MediaFile(constructNewForInputStream(stream));
+    }
+    
+    private static Reference constructNewForResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -69,7 +94,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
      */
     public static MediaFile newForResource(java.lang.String resourcePath) {
-        return new MediaFile(References.get(gtk_h.gtk_media_file_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), true));
+        return new MediaFile(constructNewForResource(resourcePath));
     }
     
     /**

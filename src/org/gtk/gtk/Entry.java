@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -98,7 +98,7 @@ import java.lang.invoke.*;
  */
 public class Entry extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable {
 
-    public Entry(io.github.jwharm.javagi.interop.Reference reference) {
+    public Entry(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -107,18 +107,28 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         return new Entry(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_entry_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new entry.
      */
     public Entry() {
-        super(References.get(gtk_h.gtk_entry_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithBuffer(EntryBuffer buffer) {
+        Reference RESULT = References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new entry with the specified text buffer.
      */
     public static Entry newWithBuffer(EntryBuffer buffer) {
-        return new Entry(References.get(gtk_h.gtk_entry_new_with_buffer(buffer.handle()), false));
+        return new Entry(constructNewWithBuffer(buffer));
     }
     
     /**
@@ -737,16 +747,16 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * 
      * The keybindings for this signal are all forms of the Enter key.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -760,16 +770,16 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Emitted when an activatable icon is clicked.
      */
-    public void onIconPress(IconPressHandler handler) {
+    public SignalHandle onIconPress(IconPressHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconPress", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("icon-press").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("icon-press").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -784,16 +794,16 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Emitted on the button release from a mouse click
      * over an activatable icon.
      */
-    public void onIconRelease(IconReleaseHandler handler) {
+    public SignalHandle onIconRelease(IconReleaseHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryIconRelease", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("icon-release").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("icon-release").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * (see #GDBusObjectProxy). It is essentially just a container of
  * interfaces.
  */
-public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DBusObject extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the D-Bus interface with name @interface_name associated with
@@ -48,16 +48,16 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
     /**
      * Emitted when @interface is added to @object.
      */
-    public default void onInterfaceAdded(InterfaceAddedHandler handler) {
+    public default SignalHandle onInterfaceAdded(InterfaceAddedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectInterfaceAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -71,23 +71,23 @@ public interface DBusObject extends io.github.jwharm.javagi.interop.NativeAddres
     /**
      * Emitted when @interface is removed from @object.
      */
-    public default void onInterfaceRemoved(InterfaceRemovedHandler handler) {
+    public default SignalHandle onInterfaceRemoved(InterfaceRemovedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectInterfaceRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class DBusObjectImpl extends org.gtk.gobject.Object implements DBusObject {
-        public DBusObjectImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DBusObjectImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

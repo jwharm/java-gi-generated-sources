@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class BorderNode extends RenderNode {
 
-    public BorderNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public BorderNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to BorderNode */
     public static BorderNode castFrom(org.gtk.gobject.Object gobject) {
         return new BorderNode(gobject.getReference());
+    }
+    
+    private static Reference constructNew(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
+        Reference RESULT = References.get(gtk_h.gsk_border_node_new(outline.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth)).handle(), Interop.allocateNativeArray(borderColor).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -28,7 +33,7 @@ public class BorderNode extends RenderNode {
      * The 4 sides of the border can have different widths and colors.
      */
     public BorderNode(RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
-        super(References.get(gtk_h.gsk_border_node_new(outline.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, borderWidth)).handle(), Interop.allocateNativeArray(borderColor).handle()), true));
+        super(constructNew(outline, borderWidth, borderColor));
     }
     
     /**

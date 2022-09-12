@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class FileOutputStream extends OutputStream implements Seekable {
 
-    public FileOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -63,7 +63,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be set, and %NULL will
      * be returned.
      */
-    public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_output_stream_query_info(handle(), Interop.allocateNativeString(attributes).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -80,16 +80,15 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * For the synchronous version of this function, see
      * g_file_output_stream_query_info().
      */
-    public void queryInfoAsync(FileOutputStream stream, java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void queryInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_file_output_stream_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_file_output_stream_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,7 +98,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * Finalizes the asynchronous query started
      * by g_file_output_stream_query_info_async().
      */
-    public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_output_stream_query_info_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

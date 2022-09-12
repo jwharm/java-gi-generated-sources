@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -38,7 +38,7 @@ import java.lang.invoke.*;
  * Probably the only useful thing to do with a #GAction is to put it
  * inside of a #GSimpleActionGroup.
  */
-public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Action extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Activates the action.
@@ -202,7 +202,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
      * For strings, this third format must be used if * target value is
      * empty or contains characters other than alphanumerics, '-' and '.'.
      */
-    public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_action_parse_detailed_name(Interop.allocateNativeString(detailedName).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(targetValue).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -229,7 +229,7 @@ public interface Action extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class ActionImpl extends org.gtk.gobject.Object implements Action {
-        public ActionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ActionImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

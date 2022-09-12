@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class LinearGradientNode extends RenderNode {
 
-    public LinearGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public LinearGradientNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class LinearGradientNode extends RenderNode {
         return new LinearGradientNode(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
+        Reference RESULT = References.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will create a linear gradient from the given
      * points and color stops, and render that into the area given by @bounds.
      */
     public LinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
-        super(References.get(gtk_h.gsk_linear_gradient_node_new(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true));
+        super(constructNew(bounds, start, end, colorStops, nColorStops));
     }
     
     /**

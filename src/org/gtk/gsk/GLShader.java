@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -124,7 +124,7 @@ import java.lang.invoke.*;
  */
 public class GLShader extends org.gtk.gobject.Object {
 
-    public GLShader(io.github.jwharm.javagi.interop.Reference reference) {
+    public GLShader(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -133,18 +133,28 @@ public class GLShader extends org.gtk.gobject.Object {
         return new GLShader(gobject.getReference());
     }
     
+    private static Reference constructNewFromBytes(org.gtk.glib.Bytes sourcecode) {
+        Reference RESULT = References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public static GLShader newFromBytes(org.gtk.glib.Bytes sourcecode) {
-        return new GLShader(References.get(gtk_h.gsk_gl_shader_new_from_bytes(sourcecode.handle()), true));
+        return new GLShader(constructNewFromBytes(sourcecode));
+    }
+    
+    private static Reference constructNewFromResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a `GskGLShader` that will render pixels using the specified code.
      */
     public static GLShader newFromResource(java.lang.String resourcePath) {
-        return new GLShader(References.get(gtk_h.gsk_gl_shader_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
+        return new GLShader(constructNewFromResource(resourcePath));
     }
     
     /**
@@ -161,7 +171,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * want to call this from the realize signal of a widget, or during
      * widget snapshot.
      */
-    public boolean compile(Renderer renderer) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean compile(Renderer renderer) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gsk_gl_shader_compile(handle(), renderer.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

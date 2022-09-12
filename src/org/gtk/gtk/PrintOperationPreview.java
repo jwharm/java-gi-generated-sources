@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * [signal@Gtk.PrintOperation::preview] signal by
  * [class@Gtk.PrintOperation].
  */
-public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Ends a preview.
@@ -64,16 +64,16 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
      * according to @page_setup and set up a suitable cairo
      * context, using [method@Gtk.PrintContext.set_cairo_context].
      */
-    public default void onGotPageSize(GotPageSizeHandler handler) {
+    public default SignalHandle onGotPageSize(GotPageSizeHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreviewGotPageSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("got-page-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("got-page-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -90,23 +90,23 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.interop.N
      * 
      * A handler for this signal can be used for setup tasks.
      */
-    public default void onReady(ReadyHandler handler) {
+    public default SignalHandle onReady(ReadyHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreviewReady", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("ready").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("ready").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class PrintOperationPreviewImpl extends org.gtk.gobject.Object implements PrintOperationPreview {
-        public PrintOperationPreviewImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public PrintOperationPreviewImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

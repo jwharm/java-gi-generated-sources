@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class ConverterOutputStream extends FilterOutputStream implements PollableOutputStream {
 
-    public ConverterOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public ConverterOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,11 +25,16 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
         return new ConverterOutputStream(gobject.getReference());
     }
     
+    private static Reference constructNew(OutputStream baseStream, Converter converter) {
+        Reference RESULT = References.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new converter output stream for the @base_stream.
      */
     public ConverterOutputStream(OutputStream baseStream, Converter converter) {
-        super(References.get(gtk_h.g_converter_output_stream_new(baseStream.handle(), converter.handle()), true));
+        super(constructNew(baseStream, converter));
     }
     
     /**

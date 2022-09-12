@@ -3,17 +3,22 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * Determines if a string matches a file attribute.
  */
-public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileAttributeMatcher(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileAttributeMatcher(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String attributes) {
+        Reference RESULT = References.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -38,7 +43,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.interop.Resour
      *   namespace and all keys in the unix namespace.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
-        super(References.get(gtk_h.g_file_attribute_matcher_new(Interop.allocateNativeString(attributes).handle()), true));
+        super(constructNew(attributes));
     }
     
     /**

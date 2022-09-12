@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * 
  * There is also an implementation for use inside Flatpak sandboxes.
  */
-public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Attempts to determine whether or not the host pointed to by
@@ -36,7 +36,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * trying to do multicast DNS on the local network), so if you do not
      * want to block, you should use g_network_monitor_can_reach_async().
      */
-    public default boolean canReach(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean canReach(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_network_monitor_can_reach(handle(), connectable.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -56,16 +56,15 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * You can then call g_network_monitor_can_reach_finish()
      * to get the result of the operation.
      */
-    public default void canReachAsync(NetworkMonitor monitor, SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void canReachAsync(SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_network_monitor_can_reach_async(handle(), connectable.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_network_monitor_can_reach_async(handle(), connectable.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,7 +74,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
      * Finishes an async network connectivity test.
      * See g_network_monitor_can_reach_async().
      */
-    public default boolean canReachFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean canReachFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_network_monitor_can_reach_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -146,23 +145,23 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.interop.NativeAd
     /**
      * Emitted when the network configuration changes.
      */
-    public default void onNetworkChanged(NetworkChangedHandler handler) {
+    public default SignalHandle onNetworkChanged(NetworkChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalNetworkMonitorNetworkChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("network-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("network-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class NetworkMonitorImpl extends org.gtk.gobject.Object implements NetworkMonitor {
-        public NetworkMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public NetworkMonitorImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

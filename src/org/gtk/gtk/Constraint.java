@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class Constraint extends org.gtk.gobject.Object {
 
-    public Constraint(io.github.jwharm.javagi.interop.Reference reference) {
+    public Constraint(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -35,12 +35,22 @@ public class Constraint extends org.gtk.gobject.Object {
         return new Constraint(gobject.getReference());
     }
     
+    private static Reference constructNew(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
+        Reference RESULT = References.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new constraint representing a relation between a layout
      * attribute on a source and a layout attribute on a target.
      */
     public Constraint(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, ConstraintTarget source, ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        super(References.get(gtk_h.gtk_constraint_new(target.handle(), targetAttribute.getValue(), relation.getValue(), source.handle(), sourceAttribute.getValue(), multiplier, constant, strength), true));
+        super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength));
+    }
+    
+    private static Reference constructNewConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
+        Reference RESULT = References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true);
+        return RESULT;
     }
     
     /**
@@ -48,7 +58,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * attribute on a target and a constant value.
      */
     public static Constraint newConstant(ConstraintTarget target, ConstraintAttribute targetAttribute, ConstraintRelation relation, double constant, int strength) {
-        return new Constraint(References.get(gtk_h.gtk_constraint_new_constant(target.handle(), targetAttribute.getValue(), relation.getValue(), constant, strength), true));
+        return new Constraint(constructNewConstant(target, targetAttribute, relation, constant, strength));
     }
     
     /**

@@ -1,4 +1,4 @@
-package io.github.jwharm.javagi.interop;
+package io.github.jwharm.javagi;
 
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;

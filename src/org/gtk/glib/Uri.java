@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -117,9 +117,9 @@ import java.lang.invoke.*;
  * thing according to the `data:` URI specification which GLib does not
  * handle.
  */
-public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Uri extends io.github.jwharm.javagi.ResourceBase {
 
-    public Uri(io.github.jwharm.javagi.interop.Reference reference) {
+    public Uri(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -244,7 +244,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the result is not a valid absolute URI, it will be discarded, and an error
      * returned.
      */
-    public Uri parseRelative(java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public Uri parseRelative(java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_parse_relative(handle(), Interop.allocateNativeString(uriRef).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -373,7 +373,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * See g_uri_split(), and the definition of #GUriFlags, for more
      * information on the effect of @flags.
      */
-    public static boolean isValid(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean isValid(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -424,7 +424,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * valid [absolute URI][relative-absolute-uris], it will be discarded, and an
      * error returned.
      */
-    public static Uri parse(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Uri parse(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -459,7 +459,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @params cannot be parsed (for example, it contains two @separators
      * characters in a row), then @error is set and %NULL is returned.
      */
-    public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -508,7 +508,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * (If @base_uri_string is %NULL, this just returns @uri_ref, or
      * %NULL if @uri_ref is invalid or not absolute.)
      */
-    public static java.lang.String resolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static java.lang.String resolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -529,7 +529,7 @@ public class Uri extends io.github.jwharm.javagi.interop.ResourceBase {
      * being expanded in an escaped path element, which might confuse pathname
      * handling.
      */
-    public static Bytes unescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Bytes unescapeBytes(java.lang.String escapedString, long length, java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_unescape_bytes(Interop.allocateNativeString(escapedString).handle(), length, Interop.allocateNativeString(illegalCharacters).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

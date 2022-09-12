@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * [class@Gtk.ColorChooserWidget], [class@Gtk.ColorChooserDialog] and
  * [class@Gtk.ColorButton].
  */
-public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Adds a palette to the color chooser.
@@ -83,23 +83,23 @@ public interface ColorChooser extends io.github.jwharm.javagi.interop.NativeAddr
      * or a color is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
      */
-    public default void onColorActivated(ColorActivatedHandler handler) {
+    public default SignalHandle onColorActivated(ColorActivatedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorChooserColorActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("color-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("color-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {
-        public ColorChooserImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ColorChooserImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * The `PangoAttrShape` structure is used to represent attributes which
  * impose shape restrictions.
  */
-public class AttrShape extends io.github.jwharm.javagi.interop.ResourceBase {
+public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrShape(io.github.jwharm.javagi.interop.Reference reference) {
+    public AttrShape(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -37,16 +37,17 @@ public class AttrShape extends io.github.jwharm.javagi.interop.ResourceBase {
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
      */
-    public Attribute newWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
+    public static Attribute newWithData(Rectangle inkRect, Rectangle logicalRect, AttrDataCopyFunc copyFunc) {
         try {
-            int hash = copyFunc.hashCode();
-            Interop.signalRegistry.put(hash, copyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrDataCopyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), intSegment, nativeSymbol, Interop.cbDestroyNotifySymbol());
+            var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrDataCopyFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.cbDestroyNotifySymbol());
+            return new Attribute(References.get(RESULT, true));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

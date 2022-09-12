@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * Contains the public fields of a
  * [Queue][glib-Double-ended-Queues].
  */
-public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Queue extends io.github.jwharm.javagi.ResourceBase {
 
-    public Queue(io.github.jwharm.javagi.interop.Reference reference) {
+    public Queue(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -59,6 +59,21 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * takes two gconstpointer arguments, the #GQueue element's data as the
      * first argument and the given user data as the second argument.
      */
+    public org.gtk.glib.List findCustom(CompareFunc func) {
+        try {
+            var RESULT = gtk_h.g_queue_find_custom(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
+            return new org.gtk.glib.List(References.get(RESULT, false));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Calls @func for each element in the queue passing @user_data to the
      * function.
@@ -66,16 +81,15 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is safe for @func to remove the element from @queue, but it must
      * not modify any part of the queue after that element.
      */
-    public void foreach(Queue queue, Func func) {
+    public void foreach(Func func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_queue_foreach(handle(), nativeSymbol, intSegment);
+            gtk_h.g_queue_foreach(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -160,16 +174,16 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Inserts @data into @queue using @func to determine the new position.
      */
-    public void insertSorted(Queue queue, CompareDataFunc func) {
+    public void insertSorted(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_queue_insert_sorted(handle(), intSegment, nativeSymbol, intSegment);
+            gtk_h.g_queue_insert_sorted(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -355,16 +369,15 @@ public class Queue extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Sorts @queue using @compare_func.
      */
-    public void sort(Queue queue, CompareDataFunc compareFunc) {
+    public void sort(CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_queue_sort(handle(), nativeSymbol, intSegment);
+            gtk_h.g_queue_sort(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

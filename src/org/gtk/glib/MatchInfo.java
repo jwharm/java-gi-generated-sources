@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * A GMatchInfo is an opaque struct used to return information about
  * matches.
  */
-public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public MatchInfo(io.github.jwharm.javagi.interop.Reference reference) {
+    public MatchInfo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -36,7 +36,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use g_regex_check_replacement() to find out whether @string_to_expand
      * contains references.
      */
-    public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_match_info_expand_references(handle(), Interop.allocateNativeString(stringToExpand).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -182,7 +182,7 @@ public class MatchInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * The match is done on the string passed to the match function, so you
      * cannot free it before calling this function.
      */
-    public boolean next() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean next() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_match_info_next(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -12,5 +12,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufSaveFunc {
-        boolean onPixbufSaveFunc(byte[] buf, long count, org.gtk.glib.Error[] error);
+        boolean onPixbufSaveFunc(byte[] buf, long count);
 }

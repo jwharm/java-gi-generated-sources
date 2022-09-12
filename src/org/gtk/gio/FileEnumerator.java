@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  */
 public class FileEnumerator extends org.gtk.gobject.Object {
 
-    public FileEnumerator(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileEnumerator(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -54,7 +54,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * is dropped, but you might want to call this function to make
      * sure resources are released as early as possible.
      */
-    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_enumerator_close(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -71,16 +71,15 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned in
      * g_file_enumerator_close_finish().
      */
-    public void closeAsync(FileEnumerator enumerator, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_file_enumerator_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_file_enumerator_close_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -98,7 +97,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be set, and %FALSE will be
      * returned.
      */
-    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_enumerator_close_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -191,7 +190,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      *   g_object_unref (direnum); // Note: frees the last @info
      * ]|
      */
-    public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_enumerator_iterate(handle(), Interop.allocateNativeArray(outInfo).handle(), Interop.allocateNativeArray(outChild).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -213,7 +212,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * enumerator is at the end, %NULL will be returned and @error will
      * be unset.
      */
-    public FileInfo nextFile(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public FileInfo nextFile(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_enumerator_next_file(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -243,16 +242,15 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * be executed before an outstanding request with lower priority. Default
      * priority is %G_PRIORITY_DEFAULT.
      */
-    public void nextFilesAsync(FileEnumerator enumerator, int numFiles, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void nextFilesAsync(int numFiles, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_file_enumerator_next_files_async(handle(), numFiles, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_file_enumerator_next_files_async(handle(), numFiles, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -261,7 +259,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     /**
      * Finishes the asynchronous operation started with g_file_enumerator_next_files_async().
      */
-    public org.gtk.glib.List nextFilesFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List nextFilesFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_file_enumerator_next_files_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

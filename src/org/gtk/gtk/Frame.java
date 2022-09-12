@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -53,7 +53,7 @@ import java.lang.invoke.*;
  */
 public class Frame extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Frame(io.github.jwharm.javagi.interop.Reference reference) {
+    public Frame(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -62,13 +62,18 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
         return new Frame(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_frame_new(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkFrame`, with optional label @label.
      * 
      * If @label is %NULL, the label is omitted.
      */
     public Frame(java.lang.String label) {
-        super(References.get(gtk_h.gtk_frame_new(Interop.allocateNativeString(label).handle()), false));
+        super(constructNew(label));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class InsetShadowNode extends RenderNode {
 
-    public InsetShadowNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public InsetShadowNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class InsetShadowNode extends RenderNode {
         return new InsetShadowNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+        Reference RESULT = References.get(gtk_h.gsk_inset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will render an inset shadow
      * into the box given by @outline.
      */
     public InsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        super(References.get(gtk_h.gsk_inset_shadow_node_new(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true));
+        super(constructNew(outline, color, dx, dy, spread, blurRadius));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -49,7 +49,7 @@ import java.lang.invoke.*;
  */
 public class Layout extends org.gtk.gobject.Object {
 
-    public Layout(io.github.jwharm.javagi.interop.Reference reference) {
+    public Layout(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -58,12 +58,17 @@ public class Layout extends org.gtk.gobject.Object {
         return new Layout(gobject.getReference());
     }
     
+    private static Reference constructNew(Context context) {
+        Reference RESULT = References.get(gtk_h.pango_layout_new(context.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Create a new `PangoLayout` object with attributes initialized to
      * default values for a particular `PangoContext`.
      */
     public Layout(Context context) {
-        super(References.get(gtk_h.pango_layout_new(context.handle()), true));
+        super(constructNew(context));
     }
     
     /**
@@ -800,7 +805,7 @@ public class Layout extends org.gtk.gobject.Object {
      * It is mostly intended for use inside a debugger to quickly dump
      * a layout to a file for later inspection.
      */
-    public boolean writeToFile(int flags, java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean writeToFile(int flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.pango_layout_write_to_file(handle(), flags, Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -818,7 +823,7 @@ public class Layout extends org.gtk.gobject.Object {
      * the one that was serialized, you can compare @bytes to the
      * result of serializing the layout again.
      */
-    public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.pango_layout_deserialize(context.handle(), bytes.handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

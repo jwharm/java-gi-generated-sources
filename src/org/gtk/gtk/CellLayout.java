@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -117,7 +117,7 @@ import java.lang.invoke.*;
  * problematic calls out of `init()` and into a `constructor()`
  * for your class.
  */
-public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Adds an attribute mapping to the list in @cell_layout.
@@ -207,23 +207,23 @@ public interface CellLayout extends io.github.jwharm.javagi.interop.NativeAddres
      * 
      * @func may be %NULL to remove a previously set function.
      */
-    public default void setCellDataFunc(CellLayout cellLayout, CellRenderer cell, CellLayoutDataFunc func) {
+    public default void setCellDataFunc(CellRenderer cell, CellLayoutDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCellLayoutDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_cell_layout_set_cell_data_func(handle(), cell.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_cell_layout_set_cell_data_func(handle(), cell.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCellLayoutDataFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class CellLayoutImpl extends org.gtk.gobject.Object implements CellLayout {
-        public CellLayoutImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public CellLayoutImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

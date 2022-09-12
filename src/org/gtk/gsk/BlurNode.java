@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class BlurNode extends RenderNode {
 
-    public BlurNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public BlurNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,11 +21,16 @@ public class BlurNode extends RenderNode {
         return new BlurNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode child, float radius) {
+        Reference RESULT = References.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a render node that blurs the child.
      */
     public BlurNode(RenderNode child, float radius) {
-        super(References.get(gtk_h.gsk_blur_node_new(child.handle(), radius), true));
+        super(constructNew(child, radius));
     }
     
     /**

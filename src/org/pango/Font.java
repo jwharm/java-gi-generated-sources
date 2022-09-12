@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class Font extends org.gtk.gobject.Object {
 
-    public Font(io.github.jwharm.javagi.interop.Reference reference) {
+    public Font(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -162,7 +162,7 @@ public class Font extends org.gtk.gobject.Object {
      * the one that was serialized, you can compare @bytes to the
      * result of serializing the font again.
      */
-    public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.pango_font_deserialize(context.handle(), bytes.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

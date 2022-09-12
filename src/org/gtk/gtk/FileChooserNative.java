@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -157,7 +157,7 @@ import java.lang.invoke.*;
  */
 public class FileChooserNative extends NativeDialog implements FileChooser {
 
-    public FileChooserNative(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileChooserNative(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -166,11 +166,16 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
         return new FileChooserNative(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
+        Reference RESULT = References.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkFileChooserNative`.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
-        super(References.get(gtk_h.gtk_file_chooser_native_new(Interop.allocateNativeString(title).handle(), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel).handle(), Interop.allocateNativeString(cancelLabel).handle()), true));
+        super(constructNew(title, parent, action, acceptLabel, cancelLabel));
     }
     
     /**

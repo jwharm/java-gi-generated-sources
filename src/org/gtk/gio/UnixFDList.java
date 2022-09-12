@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  */
 public class UnixFDList extends org.gtk.gobject.Object {
 
-    public UnixFDList(io.github.jwharm.javagi.interop.Reference reference) {
+    public UnixFDList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,11 +30,21 @@ public class UnixFDList extends org.gtk.gobject.Object {
         return new UnixFDList(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GUnixFDList containing no file descriptors.
      */
     public UnixFDList() {
-        super(References.get(gtk_h.g_unix_fd_list_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFromArray(int[] fds, int nFds) {
+        Reference RESULT = References.get(gtk_h.g_unix_fd_list_new_from_array(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds)).handle(), nFds), true);
+        return RESULT;
     }
     
     /**
@@ -48,7 +58,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * If @n_fds is -1 then @fds must be terminated with -1.
      */
     public static UnixFDList newFromArray(int[] fds, int nFds) {
-        return new UnixFDList(References.get(gtk_h.g_unix_fd_list_new_from_array(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, fds)).handle(), nFds), true));
+        return new UnixFDList(constructNewFromArray(fds, nFds));
     }
     
     /**
@@ -65,7 +75,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * this index with g_unix_fd_list_get() then you will receive back a
      * duplicated copy of the same file descriptor.
      */
-    public int append(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int append(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_fd_list_append(handle(), fd, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -88,7 +98,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
      * A possible cause of failure is exceeding the per-process or
      * system-wide file descriptor limit.
      */
-    public int get(int index) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int get(int index) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_fd_list_get(handle(), index, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

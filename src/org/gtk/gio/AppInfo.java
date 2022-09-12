@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -57,13 +57,13 @@ import java.lang.invoke.*;
  * Different launcher applications (e.g. file managers) may have
  * different ideas of what a given URI means.
  */
-public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Adds a content type to the application information to indicate the
      * application is capable of opening files with the given content type.
      */
-    public default boolean addSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean addSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_add_supports_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -214,7 +214,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * `DESKTOP_STARTUP_ID` environment variables are also set, based
      * on information provided in @context.
      */
-    public default boolean launch(org.gtk.glib.List files, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean launch(org.gtk.glib.List files, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_launch(handle(), files.handle(), context.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -235,7 +235,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * can fail to start if it runs into problems during startup. There is
      * no way to detect this.
      */
-    public default boolean launchUris(org.gtk.glib.List uris, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean launchUris(org.gtk.glib.List uris, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_launch_uris(handle(), uris.handle(), context.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -252,16 +252,15 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * extended error information for sandboxed applications, see notes for
      * g_app_info_launch_default_for_uri_async().
      */
-    public default void launchUrisAsync(AppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void launchUrisAsync(org.gtk.glib.List uris, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_app_info_launch_uris_async(handle(), uris.handle(), context.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_app_info_launch_uris_async(handle(), uris.handle(), context.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -270,7 +269,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Finishes a g_app_info_launch_uris_async() operation.
      */
-    public default boolean launchUrisFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean launchUrisFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_launch_uris_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -282,7 +281,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Removes a supported type from an application, if possible.
      */
-    public default boolean removeSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean removeSupportsType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_remove_supports_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -294,7 +293,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Sets the application as the default handler for the given file extension.
      */
-    public default boolean setAsDefaultForExtension(java.lang.String extension) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean setAsDefaultForExtension(java.lang.String extension) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_set_as_default_for_extension(handle(), Interop.allocateNativeString(extension).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -306,7 +305,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Sets the application as the default handler for a given type.
      */
-    public default boolean setAsDefaultForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean setAsDefaultForType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_set_as_default_for_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -321,7 +320,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * by g_app_info_get_recommended_for_type(), regardless of the default
      * application for that content type.
      */
-    public default boolean setAsLastUsedForType(java.lang.String contentType) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean setAsLastUsedForType(java.lang.String contentType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_set_as_last_used_for_type(handle(), Interop.allocateNativeString(contentType).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -364,7 +363,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * percent-encoded URIs, the percent-character must be doubled in order to prevent it from
      * being swallowed by Exec key unquoting. See the specification for exact quoting rules.
      */
-    public static AppInfo createFromCommandline(java.lang.String commandline, java.lang.String applicationName, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static AppInfo createFromCommandline(java.lang.String commandline, java.lang.String applicationName, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_create_from_commandline(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -451,7 +450,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * terminates too soon after this function. To prevent this, use
      * g_app_info_launch_default_for_uri_async() instead.
      */
-    public static boolean launchDefaultForUri(java.lang.String uri, AppLaunchContext context) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean launchDefaultForUri(java.lang.String uri, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_launch_default_for_uri(Interop.allocateNativeString(uri).handle(), context.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -472,16 +471,15 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
      * applications are really started before termination and if you are interested
      * in receiving error information from their activation.
      */
-    public void launchDefaultForUriAsync(java.lang.String uri, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static void launchDefaultForUriAsync(java.lang.String uri, AppLaunchContext context, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_app_info_launch_default_for_uri_async(Interop.allocateNativeString(uri).handle(), context.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_app_info_launch_default_for_uri_async(Interop.allocateNativeString(uri).handle(), context.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -490,7 +488,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Finishes an asynchronous launch-default-for-uri operation.
      */
-    public static boolean launchDefaultForUriFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean launchDefaultForUriFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_app_info_launch_default_for_uri_finish(result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -511,7 +509,7 @@ public interface AppInfo extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class AppInfoImpl extends org.gtk.gobject.Object implements AppInfo {
-        public AppInfoImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public AppInfoImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

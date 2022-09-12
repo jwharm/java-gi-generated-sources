@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -50,9 +50,9 @@ import java.lang.invoke.*;
  * function or provide an implementation of the `Set` call. If implementing
  * the call, you must return the value of type %G_VARIANT_TYPE_UNIT.
  */
-public class DBusInterfaceVTable extends io.github.jwharm.javagi.interop.ResourceBase {
+public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusInterfaceVTable(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusInterfaceVTable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,10 +11,15 @@ import java.lang.invoke.*;
  * The `GSource` struct is an opaque data type
  * representing an event source.
  */
-public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Source extends io.github.jwharm.javagi.ResourceBase {
 
-    public Source(io.github.jwharm.javagi.interop.Reference reference) {
+    public Source(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(SourceFuncs sourceFuncs, int structSize) {
+        Reference RESULT = References.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true);
+        return RESULT;
     }
     
     /**
@@ -28,7 +33,7 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * executed.
      */
     public Source(SourceFuncs sourceFuncs, int structSize) {
-        super(References.get(gtk_h.g_source_new(sourceFuncs.handle(), structSize), true));
+        super(constructNew(sourceFuncs, structSize));
     }
     
     /**
@@ -393,16 +398,16 @@ public class Source extends io.github.jwharm.javagi.interop.ResourceBase {
      * Note that g_source_destroy() for a currently attached source has the effect
      * of also unsetting the callback.
      */
-    public void setCallback(Source source, SourceFunc func) {
+    public void setCallback(SourceFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_source_set_callback(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.g_source_set_callback(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  */
 public class PrintJob extends org.gtk.gobject.Object {
 
-    public PrintJob(io.github.jwharm.javagi.interop.Reference reference) {
+    public PrintJob(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,11 +30,16 @@ public class PrintJob extends org.gtk.gobject.Object {
         return new PrintJob(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
+        Reference RESULT = References.get(gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).handle(), printer.handle(), settings.handle(), pageSetup.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkPrintJob`.
      */
     public PrintJob(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
-        super(References.get(gtk_h.gtk_print_job_new(Interop.allocateNativeString(title).handle(), printer.handle(), settings.handle(), pageSetup.handle()), true));
+        super(constructNew(title, printer, settings, pageSetup));
     }
     
     /**
@@ -137,7 +142,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets a cairo surface onto which the pages of
      * the print job should be rendered.
      */
-    public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_job_get_surface(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -167,16 +172,16 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Sends the print job off to the printer.
      */
-    public void send(PrintJob job, PrintJobCompleteFunc callback) {
+    public void send(PrintJobCompleteFunc callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrintJobCompleteFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_print_job_send(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_print_job_send(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrintJobCompleteFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -267,7 +272,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * but takes expects an open file descriptor for the file,
      * instead of a filename.
      */
-    public boolean setSourceFd(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setSourceFd(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_job_set_source_fd(handle(), fd, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -285,7 +290,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * PDF may work too). See [method@Gtk.Printer.accepts_pdf] and
      * [method@Gtk.Printer.accepts_ps].
      */
-    public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_print_job_set_source_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -319,16 +324,16 @@ public class PrintJob extends org.gtk.gobject.Object {
      * The signal handler can use [method@Gtk.PrintJob.get_status]
      * to obtain the new status.
      */
-    public void onStatusChanged(StatusChangedHandler handler) {
+    public SignalHandle onStatusChanged(StatusChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintJobStatusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class ZlibDecompressor extends org.gtk.gobject.Object implements Converter {
 
-    public ZlibDecompressor(io.github.jwharm.javagi.interop.Reference reference) {
+    public ZlibDecompressor(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,11 +22,16 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
         return new ZlibDecompressor(gobject.getReference());
     }
     
+    private static Reference constructNew(ZlibCompressorFormat format) {
+        Reference RESULT = References.get(gtk_h.g_zlib_decompressor_new(format.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GZlibDecompressor.
      */
     public ZlibDecompressor(ZlibCompressorFormat format) {
-        super(References.get(gtk_h.g_zlib_decompressor_new(format.getValue()), true));
+        super(constructNew(format));
     }
     
     /**

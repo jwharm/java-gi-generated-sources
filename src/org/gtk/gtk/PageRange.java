@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * 
  * See also [method@Gtk.PrintSettings.set_page_ranges].
  */
-public class PageRange extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PageRange extends io.github.jwharm.javagi.ResourceBase {
 
-    public PageRange(io.github.jwharm.javagi.interop.Reference reference) {
+    public PageRange(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

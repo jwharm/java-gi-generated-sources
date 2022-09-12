@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,13 +19,18 @@ import java.lang.invoke.*;
  */
 public class CellRendererText extends CellRenderer {
 
-    public CellRendererText(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellRendererText(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to CellRendererText */
     public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
         return new CellRendererText(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_text_new(), false);
+        return RESULT;
     }
     
     /**
@@ -38,7 +43,7 @@ public class CellRendererText extends CellRenderer {
      * of the `GtkTreeView`.
      */
     public CellRendererText() {
-        super(References.get(gtk_h.gtk_cell_renderer_text_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -65,16 +70,16 @@ public class CellRendererText extends CellRenderer {
      * It is the responsibility of the application to update the model
      * and store @new_text at the position indicated by @path.
      */
-    public void onEdited(EditedHandler handler) {
+    public SignalHandle onEdited(EditedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererTextEdited", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("edited").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("edited").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

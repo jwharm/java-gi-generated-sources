@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -67,13 +67,18 @@ import java.lang.invoke.*;
  */
 public class RecentManager extends org.gtk.gobject.Object {
 
-    public RecentManager(io.github.jwharm.javagi.interop.Reference reference) {
+    public RecentManager(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to RecentManager */
     public static RecentManager castFrom(org.gtk.gobject.Object gobject) {
         return new RecentManager(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_recent_manager_new(), true);
+        return RESULT;
     }
     
     /**
@@ -89,7 +94,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * instead.
      */
     public RecentManager() {
-        super(References.get(gtk_h.gtk_recent_manager_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -156,7 +161,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * returns a `GtkRecentInfo` containing information about the resource
      * like its MIME type, or its display name.
      */
-    public RecentInfo lookupItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public RecentInfo lookupItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_manager_lookup_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -171,7 +176,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * Please note that this function will not affect the resource pointed
      * by the URIs, but only the URI used in the recently used resources list.
      */
-    public boolean moveItem(java.lang.String uri, java.lang.String newUri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean moveItem(java.lang.String uri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_manager_move_item(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -183,7 +188,7 @@ public class RecentManager extends org.gtk.gobject.Object {
     /**
      * Purges every item from the recently used resources list.
      */
-    public int purgeItems() throws io.github.jwharm.javagi.interop.GErrorException {
+    public int purgeItems() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_manager_purge_items(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -196,7 +201,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * Removes a resource pointed by @uri from the recently used resources
      * list handled by a recent manager.
      */
-    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_manager_remove_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -226,16 +231,16 @@ public class RecentManager extends org.gtk.gobject.Object {
      * This can happen either by calling [method@Gtk.RecentManager.add_item]
      * or by another application.
      */
-    public void onChanged(ChangedHandler handler) {
+    public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalRecentManagerChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

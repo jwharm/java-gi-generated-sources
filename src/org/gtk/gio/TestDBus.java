@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -83,7 +83,7 @@ import java.lang.invoke.*;
  */
 public class TestDBus extends org.gtk.gobject.Object {
 
-    public TestDBus(io.github.jwharm.javagi.interop.Reference reference) {
+    public TestDBus(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -92,11 +92,16 @@ public class TestDBus extends org.gtk.gobject.Object {
         return new TestDBus(gobject.getReference());
     }
     
+    private static Reference constructNew(int flags) {
+        Reference RESULT = References.get(gtk_h.g_test_dbus_new(flags), true);
+        return RESULT;
+    }
+    
     /**
      * Create a new #GTestDBus object.
      */
     public TestDBus(int flags) {
-        super(References.get(gtk_h.g_test_dbus_new(flags), true));
+        super(constructNew(flags));
     }
     
     /**

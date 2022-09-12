@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 import jdk.incubator.foreign.*;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
@@ -243,7 +243,7 @@ public final class JVMCallbacks {
     public static org.gtk.glib.Variant cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Error(References.get(error, false)));
+        return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0));
     }
     
     public static void cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
@@ -333,7 +333,7 @@ public final class JVMCallbacks {
     public static boolean cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(hash);
-        return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)), new org.gtk.glib.Error(References.get(error, false)));
+        return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
     }
     
     public static void cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
@@ -366,10 +366,10 @@ public final class JVMCallbacks {
         return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), condition);
     }
     
-    public static void cbDesktopAppLaunchCallback(MemoryAddress appinfo, MemoryAddress pid, MemoryAddress userData) {
+    public static void cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DesktopAppLaunchCallback) Interop.signalRegistry.get(hash);
-        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), org.gtk.glib.Pid.fromValue(pid));
+        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), new org.gtk.glib.Pid(pid));
     }
     
     public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {

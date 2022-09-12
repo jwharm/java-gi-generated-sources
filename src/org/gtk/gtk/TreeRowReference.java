@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,10 +12,15 @@ import java.lang.invoke.*;
  * same row (a `GtkTreePath` refers to a position, not a fixed row). Create a
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
-public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreeRowReference(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeRowReference(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(TreeModel model, TreePath path) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_row_reference_new(model.handle(), path.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -27,7 +32,12 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * @path isn’t a valid path in @model, then %NULL is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
-        super(References.get(gtk_h.gtk_tree_row_reference_new(model.handle(), path.handle()), true));
+        super(constructNew(model, path));
+    }
+    
+    private static Reference constructNewProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -57,7 +67,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.interop.ResourceBa
      * itself, and is not generally needed by most applications.
      */
     public static TreeRowReference newProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
-        return new TreeRowReference(References.get(gtk_h.gtk_tree_row_reference_new_proxy(proxy.handle(), model.handle(), path.handle()), true));
+        return new TreeRowReference(constructNewProxy(proxy, model, path));
     }
     
     /**

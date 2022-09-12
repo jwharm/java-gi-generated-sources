@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,10 +23,15 @@ import java.lang.invoke.*;
  * #GSocketConnectable interface and not need to worry about
  * #GSrvTarget at all.
  */
-public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
+public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
 
-    public SrvTarget(io.github.jwharm.javagi.interop.Reference reference) {
+    public SrvTarget(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String hostname, short port, short priority, short weight) {
+        Reference RESULT = References.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +41,7 @@ public class SrvTarget extends io.github.jwharm.javagi.interop.ResourceBase {
      * created by #GResolver.
      */
     public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
-        super(References.get(gtk_h.g_srv_target_new(Interop.allocateNativeString(hostname).handle(), port, priority, weight), true));
+        super(constructNew(hostname, port, priority, weight));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class ShadowNode extends RenderNode {
 
-    public ShadowNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public ShadowNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class ShadowNode extends RenderNode {
         return new ShadowNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode child, Shadow[] shadows, long nShadows) {
+        Reference RESULT = References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will draw a @child with the given
      * @shadows below it.
      */
     public ShadowNode(RenderNode child, Shadow[] shadows, long nShadows) {
-        super(References.get(gtk_h.gsk_shadow_node_new(child.handle(), Interop.allocateNativeArray(shadows).handle(), nShadows), true));
+        super(constructNew(child, shadows, nShadows));
     }
     
     /**

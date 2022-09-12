@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -150,7 +150,7 @@ import java.lang.invoke.*;
  */
 public class ListStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
-    public ListStore(io.github.jwharm.javagi.interop.Reference reference) {
+    public ListStore(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -159,11 +159,16 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
         return new ListStore(gobject.getReference());
     }
     
+    private static Reference constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
+        Reference RESULT = References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Non-vararg creation function.  Used primarily by language bindings.
      */
     public static ListStore newv(int nColumns, org.gtk.gobject.Type[] types) {
-        return new ListStore(References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types).handle()), true));
+        return new ListStore(constructNewv(nColumns, types));
     }
     
     /**

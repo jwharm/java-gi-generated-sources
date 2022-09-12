@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  */
 public class Printer extends org.gtk.gobject.Object {
 
-    public Printer(io.github.jwharm.javagi.interop.Reference reference) {
+    public Printer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -29,11 +29,16 @@ public class Printer extends org.gtk.gobject.Object {
         return new Printer(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String name, PrintBackend backend, boolean virtual) {
+        Reference RESULT = References.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkPrinter`.
      */
     public Printer(java.lang.String name, PrintBackend backend, boolean virtual) {
-        super(References.get(gtk_h.gtk_printer_new(Interop.allocateNativeString(name).handle(), backend.handle(), virtual ? 1 : 0), true));
+        super(constructNew(name, backend, virtual));
     }
     
     /**
@@ -232,16 +237,16 @@ public class Printer extends org.gtk.gobject.Object {
      * The @success parameter indicates if the information was
      * actually obtained.
      */
-    public void onDetailsAcquired(DetailsAcquiredHandler handler) {
+    public SignalHandle onDetailsAcquired(DetailsAcquiredHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrinterDetailsAcquired", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("details-acquired").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("details-acquired").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

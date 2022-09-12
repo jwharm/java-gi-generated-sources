@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class StackSidebar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public StackSidebar(io.github.jwharm.javagi.interop.Reference reference) {
+    public StackSidebar(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -35,11 +35,16 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         return new StackSidebar(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_stack_sidebar_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkStackSidebar`.
      */
     public StackSidebar() {
-        super(References.get(gtk_h.gtk_stack_sidebar_new(), false));
+        super(constructNew());
     }
     
     /**

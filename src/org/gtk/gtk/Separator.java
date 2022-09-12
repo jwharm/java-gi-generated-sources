@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -27,7 +27,7 @@ import java.lang.invoke.*;
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Separator(io.github.jwharm.javagi.interop.Reference reference) {
+    public Separator(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -36,11 +36,16 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
         return new Separator(gobject.getReference());
     }
     
+    private static Reference constructNew(Orientation orientation) {
+        Reference RESULT = References.get(gtk_h.gtk_separator_new(orientation.getValue()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkSeparator` with the given orientation.
      */
     public Separator(Orientation orientation) {
-        super(References.get(gtk_h.gtk_separator_new(orientation.getValue()), false));
+        super(constructNew(orientation));
     }
     
 }

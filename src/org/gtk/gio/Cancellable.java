@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,13 +14,18 @@ import java.lang.invoke.*;
  */
 public class Cancellable extends org.gtk.gobject.Object {
 
-    public Cancellable(io.github.jwharm.javagi.interop.Reference reference) {
+    public Cancellable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Cancellable */
     public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
         return new Cancellable(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_cancellable_new(), true);
+        return RESULT;
     }
     
     /**
@@ -34,7 +39,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
-        super(References.get(gtk_h.g_cancellable_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -79,6 +84,22 @@ public class Cancellable extends org.gtk.gobject.Object {
      * earlier GLib versions which now makes it easier to write cleanup
      * code that unconditionally invokes e.g. g_cancellable_cancel().
      */
+    public long connect(org.gtk.gobject.Callback callback) {
+        try {
+            var RESULT = gtk_h.g_cancellable_connect(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    Interop.cbDestroyNotifySymbol());
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Disconnects a handler from a cancellable instance similar to
      * g_signal_handler_disconnect().  Additionally, in the event that a
@@ -210,7 +231,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * If the @cancellable is cancelled, sets the error to notify
      * that the operation was cancelled.
      */
-    public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_cancellable_set_error_if_cancelled(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -301,16 +322,16 @@ public class Cancellable extends org.gtk.gobject.Object {
      * the user cancelled from, which may be the main thread. So, the
      * cancellable signal should not do something that can block.
      */
-    public void onCancelled(CancelledHandler handler) {
+    public SignalHandle onCancelled(CancelledHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCancellableCancelled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("cancelled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("cancelled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

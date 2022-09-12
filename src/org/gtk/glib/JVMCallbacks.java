@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 import jdk.incubator.foreign.*;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
@@ -84,10 +84,10 @@ public final class JVMCallbacks {
         handler.onDestroyNotify();
     }
     
-    public static void cbChildWatchFunc(MemoryAddress pid, int waitStatus, MemoryAddress userData) {
+    public static void cbChildWatchFunc(int pid, int waitStatus, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (ChildWatchFunc) Interop.signalRegistry.get(hash);
-        handler.onChildWatchFunc(Pid.fromValue(pid), waitStatus);
+        handler.onChildWatchFunc(new Pid(pid), waitStatus);
     }
     
     public static void cbTestDataFunc(MemoryAddress userData) {
@@ -204,10 +204,10 @@ public final class JVMCallbacks {
         handler.onNodeForeachFunc(new Node(References.get(node, false)));
     }
     
-    public static void cbDataForeachFunc(MemoryAddress keyId, MemoryAddress data, MemoryAddress userData) {
+    public static void cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DataForeachFunc) Interop.signalRegistry.get(hash);
-        handler.onDataForeachFunc(Quark.fromValue(keyId));
+        handler.onDataForeachFunc(new Quark(keyId));
     }
     
     public static java.lang.String cbTranslateFunc(MemoryAddress str, MemoryAddress data) {

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -78,7 +78,7 @@ import java.lang.invoke.*;
  */
 public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragSource, TreeModel {
 
-    public TreeModelFilter(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeModelFilter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -167,16 +167,16 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Note that gtk_tree_model_filter_set_modify_func()
      * can only be called once for a given filter model.
      */
-    public void setModifyFunc(TreeModelFilter filter, int nColumns, org.gtk.gobject.Type[] types, TreeModelFilterModifyFunc func) {
+    public void setModifyFunc(int nColumns, org.gtk.gobject.Type[] types, TreeModelFilterModifyFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterModifyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_tree_model_filter_set_modify_func(handle(), nColumns, Interop.allocateNativeArray(types).handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_tree_model_filter_set_modify_func(handle(), nColumns, Interop.allocateNativeArray(types).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterModifyFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -233,16 +233,16 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * gtk_tree_model_filter_set_visible_column() can only be called
      * once for a given filter model.
      */
-    public void setVisibleFunc(TreeModelFilter filter, TreeModelFilterVisibleFunc func) {
+    public void setVisibleFunc(TreeModelFilterVisibleFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterVisibleFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_tree_model_filter_set_visible_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_tree_model_filter_set_visible_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterVisibleFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

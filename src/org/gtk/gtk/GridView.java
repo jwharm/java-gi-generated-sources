@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -46,13 +46,18 @@ import java.lang.invoke.*;
  */
 public class GridView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
-    public GridView(io.github.jwharm.javagi.interop.Reference reference) {
+    public GridView(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to GridView */
     public static GridView castFrom(org.gtk.gobject.Object gobject) {
         return new GridView(gobject.getReference());
+    }
+    
+    private static Reference constructNew(SelectionModel model, ListItemFactory factory) {
+        Reference RESULT = References.get(gtk_h.gtk_grid_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false);
+        return RESULT;
     }
     
     /**
@@ -67,7 +72,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * ```
      */
     public GridView(SelectionModel model, ListItemFactory factory) {
-        super(References.get(gtk_h.gtk_grid_view_new(model.getReference().unowned().handle(), factory.getReference().unowned().handle()), false));
+        super(constructNew(model, factory));
     }
     
     /**
@@ -187,16 +192,16 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * See [property@Gtk.ListItem:activatable] for details on how to use
      * this signal.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGridViewActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

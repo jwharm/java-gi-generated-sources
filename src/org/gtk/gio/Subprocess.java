@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -68,7 +68,7 @@ import java.lang.invoke.*;
  */
 public class Subprocess extends org.gtk.gobject.Object implements Initable {
 
-    public Subprocess(io.github.jwharm.javagi.interop.Reference reference) {
+    public Subprocess(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -77,7 +77,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         return new Subprocess(gobject.getReference());
     }
     
-    private static Reference constructNewvOrThrow(java.lang.String[] argv, int flags) throws GErrorException {
+    private static Reference constructNewv(java.lang.String[] argv, int flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -92,7 +92,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * The argument list is expected to be %NULL-terminated.
      */
     public static Subprocess newv(java.lang.String[] argv, int flags) throws GErrorException {
-        return new Subprocess(constructNewvOrThrow(argv, flags));
+        return new Subprocess(constructNewv(argv, flags));
     }
     
     /**
@@ -138,7 +138,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * attempt to interact with the pipes while the operation is in progress
      * (either from another thread or if using the asynchronous version).
      */
-    public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean communicate(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_communicate(handle(), stdinBuf.handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -151,16 +151,15 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * Asynchronous version of g_subprocess_communicate().  Complete
      * invocation with g_subprocess_communicate_finish().
      */
-    public void communicateAsync(Subprocess subprocess, org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void communicateAsync(org.gtk.glib.Bytes stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_subprocess_communicate_async(handle(), stdinBuf.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_subprocess_communicate_async(handle(), stdinBuf.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -169,7 +168,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Complete an invocation of g_subprocess_communicate_async().
      */
-    public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean communicateFinish(AsyncResult result, org.gtk.glib.Bytes[] stdoutBuf, org.gtk.glib.Bytes[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_communicate_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -185,7 +184,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * On error, @stdout_buf and @stderr_buf will be set to undefined values and
      * should not be used.
      */
-    public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean communicateUtf8(java.lang.String stdinBuf, Cancellable cancellable, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_communicate_utf8(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -198,16 +197,15 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * Asynchronous version of g_subprocess_communicate_utf8().  Complete
      * invocation with g_subprocess_communicate_utf8_finish().
      */
-    public void communicateUtf8Async(Subprocess subprocess, java.lang.String stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void communicateUtf8Async(java.lang.String stdinBuf, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_subprocess_communicate_utf8_async(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_subprocess_communicate_utf8_async(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -216,7 +214,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Complete an invocation of g_subprocess_communicate_utf8_async().
      */
-    public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean communicateUtf8Finish(AsyncResult result, java.lang.String[] stdoutBuf, java.lang.String[] stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_communicate_utf8_finish(handle(), result.handle(), Interop.allocateNativeArray(stdoutBuf).handle(), Interop.allocateNativeArray(stderrBuf).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -397,7 +395,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * Cancelling @cancellable doesn't kill the subprocess.  Call
      * g_subprocess_force_exit() if it is desirable.
      */
-    public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_wait(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -411,16 +409,15 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * 
      * This is the asynchronous version of g_subprocess_wait().
      */
-    public void waitAsync(Subprocess subprocess, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void waitAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_subprocess_wait_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_subprocess_wait_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -429,7 +426,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Combines g_subprocess_wait() with g_spawn_check_wait_status().
      */
-    public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean waitCheck(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_wait_check(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -443,16 +440,15 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * 
      * This is the asynchronous version of g_subprocess_wait_check().
      */
-    public void waitCheckAsync(Subprocess subprocess, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void waitCheckAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_subprocess_wait_check_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_subprocess_wait_check_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -462,7 +458,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * Collects the result of a previous call to
      * g_subprocess_wait_check_async().
      */
-    public boolean waitCheckFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean waitCheckFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_wait_check_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -475,7 +471,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * Collects the result of a previous call to
      * g_subprocess_wait_async().
      */
-    public boolean waitFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean waitFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_subprocess_wait_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

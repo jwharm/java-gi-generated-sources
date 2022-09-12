@@ -3,17 +3,22 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * An opaque structure representing a path to a row in a model.
  */
-public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TreePath extends io.github.jwharm.javagi.ResourceBase {
 
-    public TreePath(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreePath(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_tree_path_new(), true);
+        return RESULT;
     }
     
     /**
@@ -21,7 +26,12 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * This refers to a row.
      */
     public TreePath() {
-        super(References.get(gtk_h.gtk_tree_path_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFirst() {
+        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_first(), true);
+        return RESULT;
     }
     
     /**
@@ -30,14 +40,24 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * The string representation of this path is “0”.
      */
     public static TreePath newFirst() {
-        return new TreePath(References.get(gtk_h.gtk_tree_path_new_first(), true));
+        return new TreePath(constructNewFirst());
+    }
+    
+    private static Reference constructNewFromIndicesv(int[] indices, long length) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true);
+        return RESULT;
     }
     
     /**
      * Creates a new path with the given @indices array of @length.
      */
     public static TreePath newFromIndicesv(int[] indices, long length) {
-        return new TreePath(References.get(gtk_h.gtk_tree_path_new_from_indicesv(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, indices)).handle(), length), true));
+        return new TreePath(constructNewFromIndicesv(indices, length));
+    }
+    
+    private static Reference constructNewFromString(java.lang.String path) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -50,7 +70,7 @@ public class TreePath extends io.github.jwharm.javagi.interop.ResourceBase {
      * If an invalid path string is passed in, %NULL is returned.
      */
     public static TreePath newFromString(java.lang.String path) {
-        return new TreePath(References.get(gtk_h.gtk_tree_path_new_from_string(Interop.allocateNativeString(path).handle()), true));
+        return new TreePath(constructNewFromString(path));
     }
     
     /**

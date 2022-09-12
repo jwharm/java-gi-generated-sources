@@ -3,20 +3,20 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * Information about nodes in a remote object hierarchy.
  */
-public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
+public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public DBusNodeInfo(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusNodeInfo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewForXmlOrThrow(java.lang.String xmlData) throws GErrorException {
+    private static Reference constructNewForXml(java.lang.String xmlData) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_dbus_node_info_new_for_xml(Interop.allocateNativeString(xmlData).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -36,7 +36,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * parser that only accepts a subset of valid XML documents.
      */
     public static DBusNodeInfo newForXml(java.lang.String xmlData) throws GErrorException {
-        return new DBusNodeInfo(constructNewForXmlOrThrow(xmlData));
+        return new DBusNodeInfo(constructNewForXml(xmlData));
     }
     
     /**

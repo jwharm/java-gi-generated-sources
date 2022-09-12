@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -29,7 +29,7 @@ import java.lang.invoke.*;
  */
 public class SignalGroup extends Object {
 
-    public SignalGroup(io.github.jwharm.javagi.interop.Reference reference) {
+    public SignalGroup(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -38,11 +38,16 @@ public class SignalGroup extends Object {
         return new SignalGroup(gobject.getReference());
     }
     
+    private static Reference constructNew(Type targetType) {
+        Reference RESULT = References.get(gtk_h.g_signal_group_new(targetType.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GSignalGroup for target instances of @target_type.
      */
     public SignalGroup(Type targetType) {
-        super(References.get(gtk_h.g_signal_group_new(targetType.getValue()), true));
+        super(constructNew(targetType));
     }
     
     /**
@@ -62,6 +67,20 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
+    public void connect(java.lang.String detailedSignal, Callback cHandler) {
+        try {
+            gtk_h.g_signal_group_connect(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
@@ -70,12 +89,45 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
+    public void connectAfter(java.lang.String detailedSignal, Callback cHandler) {
+        try {
+            gtk_h.g_signal_group_connect_after(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
+    public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, int flags) {
+        try {
+            gtk_h.g_signal_group_connect_data(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), flags);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
@@ -85,6 +137,20 @@ public class SignalGroup extends Object {
      * 
      * You cannot connect a signal handler after #GSignalGroup:target has been set.
      */
+    public void connectSwapped(java.lang.String detailedSignal, Callback cHandler) {
+        try {
+            gtk_h.g_signal_group_connect_swapped(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Gets the target instance used when connecting signals.
      */
@@ -126,16 +192,16 @@ public class SignalGroup extends Object {
      * will not emit when #GSignalGroup:target is %NULL and also allows for
      * receiving the #GObject without a data-race.
      */
-    public void onBind(BindHandler handler) {
+    public SignalHandle onBind(BindHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupBind", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("bind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("bind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -153,16 +219,16 @@ public class SignalGroup extends Object {
      * This signal will only be emitted if the previous target of @self is
      * non-%NULL.
      */
-    public void onUnbind(UnbindHandler handler) {
+    public SignalHandle onUnbind(UnbindHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupUnbind", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("unbind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("unbind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

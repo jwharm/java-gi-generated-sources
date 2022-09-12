@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -58,13 +58,18 @@ import java.lang.invoke.*;
  */
 public class PadController extends EventController {
 
-    public PadController(io.github.jwharm.javagi.interop.Reference reference) {
+    public PadController(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to PadController */
     public static PadController castFrom(org.gtk.gobject.Object gobject) {
         return new PadController(gobject.getReference());
+    }
+    
+    private static Reference constructNew(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
+        Reference RESULT = References.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -84,7 +89,7 @@ public class PadController extends EventController {
      * a pad controller to any other type of widget will not have an effect.
      */
     public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
-        super(References.get(gtk_h.gtk_pad_controller_new(group.handle(), pad.handle()), true));
+        super(constructNew(group, pad));
     }
     
     /**

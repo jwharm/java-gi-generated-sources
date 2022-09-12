@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,13 +20,18 @@ import java.lang.invoke.*;
  */
 public class UnixInputStream extends InputStream implements FileDescriptorBased, PollableInputStream {
 
-    public UnixInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public UnixInputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to UnixInputStream */
     public static UnixInputStream castFrom(org.gtk.gobject.Object gobject) {
         return new UnixInputStream(gobject.getReference());
+    }
+    
+    private static Reference constructNew(int fd, boolean closeFd) {
+        Reference RESULT = References.get(gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +41,7 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
      * when the stream is closed.
      */
     public UnixInputStream(int fd, boolean closeFd) {
-        super(References.get(gtk_h.g_unix_input_stream_new(fd, closeFd ? 1 : 0), true));
+        super(constructNew(fd, closeFd));
     }
     
     /**

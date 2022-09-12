@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,13 +24,18 @@ import java.lang.invoke.*;
  */
 public class TreeListRowSorter extends Sorter {
 
-    public TreeListRowSorter(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeListRowSorter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to TreeListRowSorter */
     public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
         return new TreeListRowSorter(gobject.getReference());
+    }
+    
+    private static Reference constructNew(Sorter sorter) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().handle()), true);
+        return RESULT;
     }
     
     /**
@@ -41,7 +46,7 @@ public class TreeListRowSorter extends Sorter {
      * being %FALSE as it can only sort [class@Gtk.TreeListRow]s.
      */
     public TreeListRowSorter(Sorter sorter) {
-        super(References.get(gtk_h.gtk_tree_list_row_sorter_new(sorter.getReference().unowned().handle()), true));
+        super(constructNew(sorter));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * 
  * It should only be accessed through the `g_async_queue_*` functions.
  */
-public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
+public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
 
-    public AsyncQueue(io.github.jwharm.javagi.interop.Reference reference) {
+    public AsyncQueue(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -126,16 +126,16 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * For an example of @func see g_async_queue_sort().
      */
-    public void pushSorted(AsyncQueue queue, CompareDataFunc func) {
+    public void pushSorted(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_queue_push_sorted(handle(), intSegment, nativeSymbol, intSegment);
+            gtk_h.g_async_queue_push_sorted(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -158,16 +158,16 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * For an example of @func see g_async_queue_sort().
      */
-    public void pushSortedUnlocked(AsyncQueue queue, CompareDataFunc func) {
+    public void pushSortedUnlocked(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_queue_push_sorted_unlocked(handle(), intSegment, nativeSymbol, intSegment);
+            gtk_h.g_async_queue_push_sorted_unlocked(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -233,16 +233,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      *  return (id1 > id2 ? +1 : id1 == id2 ? 0 : -1);
      * ]|
      */
-    public void sort(AsyncQueue queue, CompareDataFunc func) {
+    public void sort(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_queue_sort(handle(), nativeSymbol, intSegment);
+            gtk_h.g_async_queue_sort(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -259,16 +258,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * This function must be called while holding the @queue's lock.
      */
-    public void sortUnlocked(AsyncQueue queue, CompareDataFunc func) {
+    public void sortUnlocked(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_queue_sort_unlocked(handle(), nativeSymbol, intSegment);
+            gtk_h.g_async_queue_sort_unlocked(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

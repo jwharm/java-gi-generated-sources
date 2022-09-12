@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * out through [method@Gdk.DevicePad.get_group_n_modes], and the current mode
  * for a given group will be notified through events of type `GDK_PAD_GROUP_MODE`.
  */
-public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DevicePad extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Returns the group the given @feature and @idx belong to.
@@ -67,7 +67,7 @@ public interface DevicePad extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class DevicePadImpl extends org.gtk.gobject.Object implements DevicePad {
-        public DevicePadImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DevicePadImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

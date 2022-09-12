@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -60,7 +60,7 @@ import java.lang.invoke.*;
  */
 public class GLContext extends DrawContext {
 
-    public GLContext(io.github.jwharm.javagi.interop.Reference reference) {
+    public GLContext(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -185,7 +185,7 @@ public class GLContext extends DrawContext {
      * 
      * It is safe to call this function on a realized `GdkGLContext`.
      */
-    public boolean realize() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean realize() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_gl_context_realize(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

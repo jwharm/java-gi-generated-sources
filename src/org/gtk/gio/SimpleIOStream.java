@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  */
 public class SimpleIOStream extends IOStream {
 
-    public SimpleIOStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public SimpleIOStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -28,12 +28,17 @@ public class SimpleIOStream extends IOStream {
         return new SimpleIOStream(gobject.getReference());
     }
     
+    private static Reference constructNew(InputStream inputStream, OutputStream outputStream) {
+        Reference RESULT = References.get(gtk_h.g_simple_io_stream_new(inputStream.handle(), outputStream.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GSimpleIOStream wrapping @input_stream and @output_stream.
      * See also #GIOStream.
      */
     public SimpleIOStream(InputStream inputStream, OutputStream outputStream) {
-        super(References.get(gtk_h.g_simple_io_stream_new(inputStream.handle(), outputStream.handle()), true));
+        super(constructNew(inputStream, outputStream));
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,10 +16,15 @@ import java.lang.invoke.*;
  * #GVariantBuilder is not threadsafe in any way.  Do not attempt to
  * access it from more than one thread.
  */
-public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
+public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantBuilder(io.github.jwharm.javagi.interop.Reference reference) {
+    public VariantBuilder(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(VariantType type) {
+        Reference RESULT = References.get(gtk_h.g_variant_builder_new(type.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -34,7 +39,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.interop.ResourceBase
      * g_variant_builder_init().
      */
     public VariantBuilder(VariantType type) {
-        super(References.get(gtk_h.g_variant_builder_new(type.handle()), true));
+        super(constructNew(type));
     }
     
     /**

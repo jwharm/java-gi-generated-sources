@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  */
 public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
-    public TreeViewColumn(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeViewColumn(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,18 +30,28 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         return new TreeViewColumn(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_tree_view_column_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkTreeViewColumn`.
      */
     public TreeViewColumn() {
-        super(References.get(gtk_h.gtk_tree_view_column_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithArea(CellArea area) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkTreeViewColumn` using @area to render its cells.
      */
     public static TreeViewColumn newWithArea(CellArea area) {
-        return new TreeViewColumn(References.get(gtk_h.gtk_tree_view_column_new_with_area(area.handle()), false));
+        return new TreeViewColumn(constructNewWithArea(area));
     }
     
     /**
@@ -324,16 +334,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * cell renderer as appropriate.  @func may be %NULL to remove an
      * older one.
      */
-    public void setCellDataFunc(TreeViewColumn treeColumn, CellRenderer cellRenderer, TreeCellDataFunc func) {
+    public void setCellDataFunc(CellRenderer cellRenderer, TreeCellDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeCellDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_tree_view_column_set_cell_data_func(handle(), cellRenderer.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_tree_view_column_set_cell_data_func(handle(), cellRenderer.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeCellDataFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -496,16 +506,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Emitted when the column's header has been clicked.
      */
-    public void onClicked(ClickedHandler handler) {
+    public SignalHandle onClicked(ClickedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTreeViewColumnClicked", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("clicked").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("clicked").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpinner extends CellRenderer {
 
-    public CellRendererSpinner(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellRendererSpinner(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -32,12 +32,17 @@ public class CellRendererSpinner extends CellRenderer {
         return new CellRendererSpinner(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_spinner_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Returns a new cell renderer which will show a spinner to indicate
      * activity.
      */
     public CellRendererSpinner() {
-        super(References.get(gtk_h.gtk_cell_renderer_spinner_new(), false));
+        super(constructNew());
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,10 +20,15 @@ import java.lang.invoke.*;
  * and height) of a paper size and its name, it also provides
  * default print margins.
  */
-public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
 
-    public PaperSize(io.github.jwharm.javagi.interop.Reference reference) {
+    public PaperSize(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String name) {
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -35,7 +40,12 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * see [func@Gtk.PaperSize.get_default].
      */
     public PaperSize(java.lang.String name) {
-        super(References.get(gtk_h.gtk_paper_size_new(Interop.allocateNativeString(name).handle()), true));
+        super(constructNew(name));
+    }
+    
+    private static Reference constructNewCustom(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(displayName).handle(), width, height, unit.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -43,7 +53,12 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * given parameters.
      */
     public static PaperSize newCustom(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
-        return new PaperSize(References.get(gtk_h.gtk_paper_size_new_custom(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(displayName).handle(), width, height, unit.getValue()), true));
+        return new PaperSize(constructNewCustom(name, displayName, width, height, unit));
+    }
+    
+    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_gvariant(variant.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -53,7 +68,12 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * [method@Gtk.PaperSize.to_gvariant].
      */
     public static PaperSize newFromGvariant(org.gtk.glib.Variant variant) {
-        return new PaperSize(References.get(gtk_h.gtk_paper_size_new_from_gvariant(variant.handle()), true));
+        return new PaperSize(constructNewFromGvariant(variant));
+    }
+    
+    private static Reference constructNewFromIpp(java.lang.String ippName, double width, double height) {
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).handle(), width, height), true);
+        return RESULT;
     }
     
     /**
@@ -65,10 +85,10 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public static PaperSize newFromIpp(java.lang.String ippName, double width, double height) {
-        return new PaperSize(References.get(gtk_h.gtk_paper_size_new_from_ipp(Interop.allocateNativeString(ippName).handle(), width, height), true));
+        return new PaperSize(constructNewFromIpp(ippName, width, height));
     }
     
-    private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Reference constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -82,7 +102,12 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * @key_file.
      */
     public static PaperSize newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
-        return new PaperSize(constructNewFromKeyFileOrThrow(keyFile, groupName));
+        return new PaperSize(constructNewFromKeyFile(keyFile, groupName));
+    }
+    
+    private static Reference constructNewFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
+        Reference RESULT = References.get(gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).handle(), Interop.allocateNativeString(ppdDisplayName).handle(), width, height), true);
+        return RESULT;
     }
     
     /**
@@ -94,7 +119,7 @@ public class PaperSize extends io.github.jwharm.javagi.interop.ResourceBase {
      * construct a custom `GtkPaperSize` object.
      */
     public static PaperSize newFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
-        return new PaperSize(References.get(gtk_h.gtk_paper_size_new_from_ppd(Interop.allocateNativeString(ppdName).handle(), Interop.allocateNativeString(ppdDisplayName).handle(), width, height), true));
+        return new PaperSize(constructNewFromPpd(ppdName, ppdDisplayName, width, height));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -54,9 +54,9 @@ import java.lang.invoke.*;
  *    `$libdir/gdk-pixbuf-2.0/$version/loaders.cache`, unless overridden
  *    by the environment variable `GDK_PIXBUF_MODULE_FILE`)
  */
-public class PixbufModule extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
 
-    public PixbufModule(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufModule(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

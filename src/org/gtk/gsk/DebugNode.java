@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,13 +13,18 @@ import java.lang.invoke.*;
  */
 public class DebugNode extends RenderNode {
 
-    public DebugNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public DebugNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to DebugNode */
     public static DebugNode castFrom(org.gtk.gobject.Object gobject) {
         return new DebugNode(gobject.getReference());
+    }
+    
+    private static Reference constructNew(RenderNode child, java.lang.String message) {
+        Reference RESULT = References.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -29,7 +34,7 @@ public class DebugNode extends RenderNode {
      * Adding this node has no visual effect.
      */
     public DebugNode(RenderNode child, java.lang.String message) {
-        super(References.get(gtk_h.gsk_debug_node_new(child.handle(), Interop.allocateNativeString(message).handle()), true));
+        super(constructNew(child, message));
     }
     
     /**

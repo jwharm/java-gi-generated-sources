@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  */
 public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, SymbolicPaintable {
 
-    public IconPaintable(io.github.jwharm.javagi.interop.Reference reference) {
+    public IconPaintable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -23,13 +23,18 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         return new IconPaintable(gobject.getReference());
     }
     
+    private static Reference constructNewForFile(org.gtk.gio.File file, int size, int scale) {
+        Reference RESULT = References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GtkIconPaintable` for a file with a given size and scale.
      * 
      * The icon can then be rendered by using it as a `GdkPaintable`.
      */
     public static IconPaintable newForFile(org.gtk.gio.File file, int size, int scale) {
-        return new IconPaintable(References.get(gtk_h.gtk_icon_paintable_new_for_file(file.handle(), size, scale), true));
+        return new IconPaintable(constructNewForFile(file, size, scale));
     }
     
     /**

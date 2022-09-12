@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  * understood by g_icon_deserialize(), yielding one of the built-in icon
  * types.
  */
-public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Icon extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Checks if two icons are equal.
@@ -106,7 +106,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
      * implementations you need to ensure that each #GType is registered
      * with the type system prior to calling g_icon_new_for_string().
      */
-    public static Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_icon_new_for_string(Interop.allocateNativeString(str).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -116,7 +116,7 @@ public interface Icon extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class IconImpl extends org.gtk.gobject.Object implements Icon {
-        public IconImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public IconImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

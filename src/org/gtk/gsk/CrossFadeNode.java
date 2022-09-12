@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class CrossFadeNode extends RenderNode {
 
-    public CrossFadeNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public CrossFadeNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,11 +21,16 @@ public class CrossFadeNode extends RenderNode {
         return new CrossFadeNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode start, RenderNode end, float progress) {
+        Reference RESULT = References.get(gtk_h.gsk_cross_fade_node_new(start.handle(), end.handle(), progress), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will do a cross-fade between @start and @end.
      */
     public CrossFadeNode(RenderNode start, RenderNode end, float progress) {
-        super(References.get(gtk_h.gsk_cross_fade_node_new(start.handle(), end.handle(), progress), true));
+        super(constructNew(start, end, progress));
     }
     
     /**

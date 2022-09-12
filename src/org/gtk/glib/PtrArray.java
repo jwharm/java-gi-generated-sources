@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * Contains the public fields of a pointer array.
  */
-public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public PtrArray(io.github.jwharm.javagi.interop.Reference reference) {
+    public PtrArray(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -38,16 +38,15 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @func is %NULL, then only the pointers (and not what they are
      * pointing to) are copied to the new #GPtrArray.
      */
-    public void extend(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array, CopyFunc func) {
+    public static void extend(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array, CopyFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_ptr_array_extend(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+            gtk_h.g_ptr_array_extend(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -70,16 +69,15 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls a function for each element of a #GPtrArray. @func must not
      * add elements to or remove elements from the array.
      */
-    public void foreach(jdk.incubator.foreign.MemoryAddress[] array, Func func) {
+    public static void foreach(jdk.incubator.foreign.MemoryAddress[] array, Func func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_ptr_array_foreach(Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+            gtk_h.g_ptr_array_foreach(Interop.allocateNativeArray(array).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -234,16 +232,15 @@ public class PtrArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * This is guaranteed to be a stable sort since version 2.32.
      */
-    public void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+    public static void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_ptr_array_sort_with_data(Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+            gtk_h.g_ptr_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

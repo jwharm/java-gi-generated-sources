@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -33,13 +33,18 @@ import java.lang.invoke.*;
  */
 public class DBusObjectManagerServer extends org.gtk.gobject.Object implements DBusObjectManager {
 
-    public DBusObjectManagerServer(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusObjectManagerServer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to DBusObjectManagerServer */
     public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
         return new DBusObjectManagerServer(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String objectPath) {
+        Reference RESULT = References.get(gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -52,7 +57,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
-        super(References.get(gtk_h.g_dbus_object_manager_server_new(Interop.allocateNativeString(objectPath).handle()), true));
+        super(constructNew(objectPath));
     }
     
     /**

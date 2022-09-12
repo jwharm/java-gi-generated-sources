@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  */
 public class UnixFDMessage extends SocketControlMessage {
 
-    public UnixFDMessage(io.github.jwharm.javagi.interop.Reference reference) {
+    public UnixFDMessage(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -33,19 +33,29 @@ public class UnixFDMessage extends SocketControlMessage {
         return new UnixFDMessage(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_unix_fd_message_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GUnixFDMessage containing an empty file descriptor
      * list.
      */
     public UnixFDMessage() {
-        super(References.get(gtk_h.g_unix_fd_message_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithFdList(UnixFDList fdList) {
+        Reference RESULT = References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GUnixFDMessage containing @list.
      */
     public static UnixFDMessage newWithFdList(UnixFDList fdList) {
-        return new UnixFDMessage(References.get(gtk_h.g_unix_fd_message_new_with_fd_list(fdList.handle()), true));
+        return new UnixFDMessage(constructNewWithFdList(fdList));
     }
     
     /**
@@ -58,7 +68,7 @@ public class UnixFDMessage extends SocketControlMessage {
      * A possible cause of failure is exceeding the per-process or
      * system-wide file descriptor limit.
      */
-    public boolean appendFd(int fd) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean appendFd(int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_fd_message_append_fd(handle(), fd, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

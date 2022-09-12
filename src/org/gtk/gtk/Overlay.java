@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -43,7 +43,7 @@ import java.lang.invoke.*;
  */
 public class Overlay extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Overlay(io.github.jwharm.javagi.interop.Reference reference) {
+    public Overlay(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -52,11 +52,16 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         return new Overlay(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_overlay_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkOverlay`.
      */
     public Overlay() {
-        super(References.get(gtk_h.gtk_overlay_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -151,16 +156,16 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * `GtkScrolledWindow`, the overlays are placed relative
      * to its contents.
      */
-    public void onGetChildPosition(GetChildPositionHandler handler) {
+    public SignalHandle onGetChildPosition(GetChildPositionHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalOverlayGetChildPosition", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("get-child-position").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("get-child-position").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

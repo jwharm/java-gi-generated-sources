@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -33,13 +33,18 @@ import java.lang.invoke.*;
  */
 public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public DirectoryList(io.github.jwharm.javagi.interop.Reference reference) {
+    public DirectoryList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to DirectoryList */
     public static DirectoryList castFrom(org.gtk.gobject.Object gobject) {
         return new DirectoryList(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String attributes, org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).handle(), file.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -49,7 +54,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * with the given @attributes.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
-        super(References.get(gtk_h.gtk_directory_list_new(Interop.allocateNativeString(attributes).handle(), file.handle()), true));
+        super(constructNew(attributes, file));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class ColorNode extends RenderNode {
 
-    public ColorNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public ColorNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class ColorNode extends RenderNode {
         return new ColorNode(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
+        Reference RESULT = References.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will render the color specified by @rgba into
      * the area given by @bounds.
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {
-        super(References.get(gtk_h.gsk_color_node_new(rgba.handle(), bounds.handle()), true));
+        super(constructNew(rgba, bounds));
     }
     
     /**

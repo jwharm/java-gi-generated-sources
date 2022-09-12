@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,9 +19,9 @@ import java.lang.invoke.*;
  * `tv_sec` is that on 32-bit systems `GTimeVal` is subject to the year 2038
  * problem.
  */
-public class TimeVal extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
 
-    public TimeVal(io.github.jwharm.javagi.interop.Reference reference) {
+    public TimeVal(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

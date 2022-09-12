@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,19 @@ import java.lang.invoke.*;
  */
 public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public GLTexture(io.github.jwharm.javagi.interop.Reference reference) {
+    public GLTexture(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to GLTexture */
     public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
         return new GLTexture(gobject.getReference());
+    }
+    
+    private static Reference constructNew(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, jdk.incubator.foreign.MemoryAddress data) {
+        Reference RESULT = References.get(gtk_h.gdk_gl_texture_new(context.handle(), id, width, height, 
+                    Interop.cbDestroyNotifySymbol(), data), true);
+        return RESULT;
     }
     
     /**
@@ -29,7 +35,7 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * an explicit call of [method@Gdk.GLTexture.release].
      */
     public GLTexture(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, jdk.incubator.foreign.MemoryAddress data) {
-        super(References.get(gtk_h.gdk_gl_texture_new(context.handle(), id, width, height, destroy, data), true));
+        super(constructNew(context, id, width, height, destroy, data));
     }
     
     /**

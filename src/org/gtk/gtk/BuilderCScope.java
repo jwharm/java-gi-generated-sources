@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -27,13 +27,18 @@ import java.lang.invoke.*;
  */
 public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScope {
 
-    public BuilderCScope(io.github.jwharm.javagi.interop.Reference reference) {
+    public BuilderCScope(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to BuilderCScope */
     public static BuilderCScope castFrom(org.gtk.gobject.Object gobject) {
         return new BuilderCScope(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_builder_cscope_new(), true);
+        return RESULT;
     }
     
     /**
@@ -44,7 +49,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
      * custom callbacks via [method@Gtk.BuilderCScope.add_callback_symbol].
      */
     public BuilderCScope() {
-        super(References.get(gtk_h.gtk_builder_cscope_new(), true));
+        super(constructNew());
     }
     
 }

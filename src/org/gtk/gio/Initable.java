@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * during normal construction and automatically initialize them, throwing
  * an exception on failure.
  */
-public interface Initable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Initable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Initializes the object implementing the interface.
@@ -75,7 +75,7 @@ public interface Initable extends io.github.jwharm.javagi.interop.NativeAddress 
      * on the result of g_object_new(), regardless of whether it is in fact a new
      * instance.
      */
-    public default boolean init(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean init(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_initable_init(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -89,7 +89,7 @@ public interface Initable extends io.github.jwharm.javagi.interop.NativeAddress 
      * similar to g_object_new_valist() but also initializes the object
      * and returns %NULL, setting an error on failure.
      */
-    public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_initable_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -99,7 +99,7 @@ public interface Initable extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class InitableImpl extends org.gtk.gobject.Object implements Initable {
-        public InitableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public InitableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

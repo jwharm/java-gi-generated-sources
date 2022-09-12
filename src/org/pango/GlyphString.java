@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,17 +14,22 @@ import java.lang.invoke.*;
  * The storage for the glyph information is owned by the structure
  * which simplifies memory management.
  */
-public class GlyphString extends io.github.jwharm.javagi.interop.ResourceBase {
+public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
 
-    public GlyphString(io.github.jwharm.javagi.interop.Reference reference) {
+    public GlyphString(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.pango_glyph_string_new(), true);
+        return RESULT;
     }
     
     /**
      * Create a new `PangoGlyphString`.
      */
     public GlyphString() {
-        super(References.get(gtk_h.pango_glyph_string_new(), true));
+        super(constructNew());
     }
     
     /**

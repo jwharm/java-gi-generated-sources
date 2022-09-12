@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -49,7 +49,7 @@ import java.lang.invoke.*;
  * check button with the given label; if a choice has options, it will
  * be rendered as a combo box.
  */
-public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Adds a 'choice' to the file chooser.
@@ -82,7 +82,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Adds a folder to be displayed with the shortcut folders
      * in a file chooser.
      */
-    public default boolean addShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean addShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_file_chooser_add_shortcut_folder(handle(), folder.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -217,7 +217,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
     /**
      * Removes a folder from the shortcut folders in a file chooser.
      */
-    public default boolean removeShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean removeShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_file_chooser_remove_shortcut_folder(handle(), folder.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -262,7 +262,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
     /**
      * Sets the current folder for @chooser from a `GFile`.
      */
-    public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_file_chooser_set_current_folder(handle(), file.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -334,7 +334,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * }
      * ```
      */
-    public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_file_chooser_set_file(handle(), file.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -370,7 +370,7 @@ public interface FileChooser extends io.github.jwharm.javagi.interop.NativeAddre
     }
     
     class FileChooserImpl extends org.gtk.gobject.Object implements FileChooser {
-        public FileChooserImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public FileChooserImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -48,7 +48,7 @@ import java.lang.invoke.*;
  */
 public class LockButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LockButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public LockButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -57,11 +57,16 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
         return new LockButton(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.Permission permission) {
+        Reference RESULT = References.get(gtk_h.gtk_lock_button_new(permission.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new lock button which reflects the @permission.
      */
     public LockButton(org.gtk.gio.Permission permission) {
-        super(References.get(gtk_h.gtk_lock_button_new(permission.handle()), false));
+        super(constructNew(permission));
     }
     
     /**

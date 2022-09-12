@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -190,7 +190,7 @@ import java.lang.invoke.*;
  */
 public class Label extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Label(io.github.jwharm.javagi.interop.Reference reference) {
+    public Label(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -199,13 +199,23 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         return new Label(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String str) {
+        Reference RESULT = References.get(gtk_h.gtk_label_new(Interop.allocateNativeString(str).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new label with the given text inside it.
      * 
      * You can pass %NULL to get an empty label widget.
      */
     public Label(java.lang.String str) {
-        super(References.get(gtk_h.gtk_label_new(Interop.allocateNativeString(str).handle()), false));
+        super(constructNew(str));
+    }
+    
+    private static Reference constructNewWithMnemonic(java.lang.String str) {
+        Reference RESULT = References.get(gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -225,7 +235,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * and be activated by the mnemonic.
      */
     public static Label newWithMnemonic(java.lang.String str) {
-        return new Label(References.get(gtk_h.gtk_label_new_with_mnemonic(Interop.allocateNativeString(str).handle()), false));
+        return new Label(constructNewWithMnemonic(str));
     }
     
     /**
@@ -766,16 +776,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * The default bindings for this signal are all forms of the Enter key.
      */
-    public void onActivateCurrentLink(ActivateCurrentLinkHandler handler) {
+    public SignalHandle onActivateCurrentLink(ActivateCurrentLinkHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateCurrentLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-current-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-current-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -792,16 +802,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Applications may connect to it to override the default behaviour,
      * which is to call gtk_show_uri().
      */
-    public void onActivateLink(ActivateLinkHandler handler) {
+    public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -819,16 +829,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * The default binding for this signal is Ctrl-c.
      */
-    public void onCopyClipboard(CopyClipboardHandler handler) {
+    public SignalHandle onCopyClipboard(CopyClipboardHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelCopyClipboard", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("copy-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("copy-clipboard").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -858,16 +868,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * - Ctrl-arrow key combinations move by words/paragraphs
      * - Home/End keys move to the ends of the buffer
      */
-    public void onMoveCursor(MoveCursorHandler handler) {
+    public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLabelMoveCursor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("move-cursor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

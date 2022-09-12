@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class RepeatingRadialGradientNode extends RenderNode {
 
-    public RepeatingRadialGradientNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public RepeatingRadialGradientNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to RepeatingRadialGradientNode */
     public static RepeatingRadialGradientNode castFrom(org.gtk.gobject.Object gobject) {
         return new RepeatingRadialGradientNode(gobject.getReference());
+    }
+    
+    private static Reference constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
+        Reference RESULT = References.get(gtk_h.gsk_repeating_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+        return RESULT;
     }
     
     /**
@@ -29,7 +34,7 @@ public class RepeatingRadialGradientNode extends RenderNode {
      * in vertial orientation.
      */
     public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
-        super(References.get(gtk_h.gsk_repeating_radial_gradient_node_new(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true));
+        super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops));
     }
     
 }

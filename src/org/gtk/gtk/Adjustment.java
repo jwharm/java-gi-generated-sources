@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  */
 public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
 
-    public Adjustment(io.github.jwharm.javagi.interop.Reference reference) {
+    public Adjustment(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -31,11 +31,16 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         return new Adjustment(gobject.getReference());
     }
     
+    private static Reference constructNew(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
+        Reference RESULT = References.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkAdjustment`.
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
-        super(References.get(gtk_h.gtk_adjustment_new(value, lower, upper, stepIncrement, pageIncrement, pageSize), false));
+        super(constructNew(value, lower, upper, stepIncrement, pageIncrement, pageSize));
     }
     
     /**
@@ -215,16 +220,16 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Note that the [property@Gtk.Adjustment:value] property is
      * covered by the [signal@Gtk.Adjustment::value-changed] signal.
      */
-    public void onChanged(ChangedHandler handler) {
+    public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAdjustmentChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -238,16 +243,16 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Emitted when the value has been changed.
      */
-    public void onValueChanged(ValueChangedHandler handler) {
+    public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAdjustmentValueChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

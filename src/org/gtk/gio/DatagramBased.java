@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  * To use a #GDatagramBased concurrently from multiple threads, you must
  * implement your own locking.
  */
-public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Checks on the readiness of @datagram_based to perform operations. The
@@ -109,7 +109,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      * reached before the condition is met, then %FALSE is returned and @error is
      * set appropriately (%G_IO_ERROR_CANCELLED or %G_IO_ERROR_TIMED_OUT).
      */
-    public default boolean conditionWait(int condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean conditionWait(int condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_datagram_based_condition_wait(handle(), condition, timeout, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -191,7 +191,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      * @cancellable is cancelled, %G_IO_ERROR_CANCELLED is returned as with any
      * other error.
      */
-    public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default int receiveMessages(InputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_datagram_based_receive_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -243,7 +243,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
      * successfully sent before the error will be returned. If @cancellable is
      * cancelled, %G_IO_ERROR_CANCELLED is returned as with any other error.
      */
-    public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default int sendMessages(OutputMessage[] messages, int numMessages, int flags, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_datagram_based_send_messages(handle(), Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeout, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -253,7 +253,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class DatagramBasedImpl extends org.gtk.gobject.Object implements DatagramBased {
-        public DatagramBasedImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DatagramBasedImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

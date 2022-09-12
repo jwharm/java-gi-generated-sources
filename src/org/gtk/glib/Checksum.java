@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,15 @@ import java.lang.invoke.*;
  * To create a new GChecksum, use g_checksum_new(). To free
  * a GChecksum, use g_checksum_free().
  */
-public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Checksum extends io.github.jwharm.javagi.ResourceBase {
 
-    public Checksum(io.github.jwharm.javagi.interop.Reference reference) {
+    public Checksum(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(ChecksumType checksumType) {
+        Reference RESULT = References.get(gtk_h.g_checksum_new(checksumType.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -35,7 +40,7 @@ public class Checksum extends io.github.jwharm.javagi.interop.ResourceBase {
      * on it anymore.
      */
     public Checksum(ChecksumType checksumType) {
-        super(References.get(gtk_h.g_checksum_new(checksumType.getValue()), true));
+        super(constructNew(checksumType));
     }
     
     /**

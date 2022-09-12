@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class DBusMessage extends org.gtk.gobject.Object {
 
-    public DBusMessage(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusMessage(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,14 +22,19 @@ public class DBusMessage extends org.gtk.gobject.Object {
         return new DBusMessage(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty #GDBusMessage.
      */
     public DBusMessage() {
-        super(References.get(gtk_h.g_dbus_message_new(), true));
+        super(constructNew());
     }
     
-    private static Reference constructNewFromBlobOrThrow(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+    private static Reference constructNewFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, capabilities, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -47,21 +52,31 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * headers, %G_IO_ERROR_INVALID_ARGUMENT will be returned.
      */
     public static DBusMessage newFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
-        return new DBusMessage(constructNewFromBlobOrThrow(blob, blobLen, capabilities));
+        return new DBusMessage(constructNewFromBlob(blob, blobLen, capabilities));
+    }
+    
+    private static Reference constructNewMethodCall(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GDBusMessage for a method call.
      */
     public static DBusMessage newMethodCall(java.lang.String name, java.lang.String path, java.lang.String interface_, java.lang.String method) {
-        return new DBusMessage(References.get(gtk_h.g_dbus_message_new_method_call(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(method).handle()), true));
+        return new DBusMessage(constructNewMethodCall(name, path, interface_, method));
+    }
+    
+    private static Reference constructNewSignal(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GDBusMessage for a signal emission.
      */
     public static DBusMessage newSignal(java.lang.String path, java.lang.String interface_, java.lang.String signal) {
-        return new DBusMessage(References.get(gtk_h.g_dbus_message_new_signal(Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(interface_).handle(), Interop.allocateNativeString(signal).handle()), true));
+        return new DBusMessage(constructNewSignal(path, interface_, signal));
     }
     
     /**
@@ -72,7 +87,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * This operation can fail if e.g. @message contains file descriptors
      * and the per-process or system-wide open files limit is reached.
      */
-    public DBusMessage copy() throws io.github.jwharm.javagi.interop.GErrorException {
+    public DBusMessage copy() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dbus_message_copy(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -447,7 +462,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * %G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME header field of @message as
      * well as the first string item in @message's body.
      */
-    public boolean toGerror() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean toGerror() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dbus_message_to_gerror(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -460,7 +475,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Utility function to calculate how many bytes are needed to
      * completely deserialize the D-Bus message stored at @blob.
      */
-    public static long bytesNeeded(byte[] blob, long blobLen) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static long bytesNeeded(byte[] blob, long blobLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dbus_message_bytes_needed(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

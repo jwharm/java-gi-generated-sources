@@ -3,17 +3,22 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A sphere, represented by its center and radius.
  */
-public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Sphere extends io.github.jwharm.javagi.ResourceBase {
 
-    public Sphere(io.github.jwharm.javagi.interop.Reference reference) {
+    public Sphere(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_sphere_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -22,7 +27,7 @@ public class Sphere extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the newly allocated structure are undefined.
      */
     public static Sphere alloc() {
-        return new Sphere(References.get(gtk_h.graphene_sphere_alloc(), true));
+        return new Sphere(constructAlloc());
     }
     
     /**

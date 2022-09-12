@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  */
 public class SocketAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public SocketAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public SocketAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -23,12 +23,17 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
         return new SocketAddress(gobject.getReference());
     }
     
+    private static Reference constructNewFromNative(jdk.incubator.foreign.MemoryAddress native_, long len) {
+        Reference RESULT = References.get(gtk_h.g_socket_address_new_from_native(native_, len), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a #GSocketAddress subclass corresponding to the native
      * struct sockaddr @native.
      */
     public static SocketAddress newFromNative(jdk.incubator.foreign.MemoryAddress native_, long len) {
-        return new SocketAddress(References.get(gtk_h.g_socket_address_new_from_native(native_, len), true));
+        return new SocketAddress(constructNewFromNative(native_, len));
     }
     
     /**
@@ -57,7 +62,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * is returned. If the address type is not known on the system
      * then a %G_IO_ERROR_NOT_SUPPORTED error is returned.
      */
-    public boolean toNative(jdk.incubator.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean toNative(jdk.incubator.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_address_to_native(handle(), dest, destlen, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -102,7 +102,7 @@ import java.lang.invoke.*;
  */
 public class Expander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Expander(io.github.jwharm.javagi.interop.Reference reference) {
+    public Expander(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -111,11 +111,21 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         return new Expander(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_expander_new(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new expander using @label as the text of the label.
      */
     public Expander(java.lang.String label) {
-        super(References.get(gtk_h.gtk_expander_new(Interop.allocateNativeString(label).handle()), false));
+        super(constructNew(label));
+    }
+    
+    private static Reference constructNewWithMnemonic(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -129,7 +139,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
-        return new Expander(References.get(gtk_h.gtk_expander_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
+        return new Expander(constructNewWithMnemonic(label));
     }
     
     /**
@@ -263,16 +273,16 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Activates the `GtkExpander`.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalExpanderActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

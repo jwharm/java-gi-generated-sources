@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -57,7 +57,7 @@ import java.lang.invoke.*;
  */
 public class Picture extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Picture(io.github.jwharm.javagi.interop.Reference reference) {
+    public Picture(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -66,11 +66,21 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty `GtkPicture` widget.
      */
     public Picture() {
-        super(References.get(gtk_h.gtk_picture_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewForFile(org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -84,7 +94,12 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * then create the `GtkPicture` from the texture.
      */
     public static Picture newForFile(org.gtk.gio.File file) {
-        return new Picture(References.get(gtk_h.gtk_picture_new_for_file(file.handle()), false));
+        return new Picture(constructNewForFile(file));
+    }
+    
+    private static Reference constructNewForFilename(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -94,7 +109,12 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForFilename(java.lang.String filename) {
-        return new Picture(References.get(gtk_h.gtk_picture_new_for_filename(Interop.allocateNativeString(filename).handle()), false));
+        return new Picture(constructNewForFilename(filename));
+    }
+    
+    private static Reference constructNewForPaintable(org.gtk.gdk.Paintable paintable) {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -104,7 +124,12 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * its size and contents in response to it.
      */
     public static Picture newForPaintable(org.gtk.gdk.Paintable paintable) {
-        return new Picture(References.get(gtk_h.gtk_picture_new_for_paintable(paintable.handle()), false));
+        return new Picture(constructNewForPaintable(paintable));
+    }
+    
+    private static Reference constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -116,7 +141,12 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The pixbuf must not be modified after passing it to this function.
      */
     public static Picture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Picture(References.get(gtk_h.gtk_picture_new_for_pixbuf(pixbuf.handle()), false));
+        return new Picture(constructNewForPixbuf(pixbuf));
+    }
+    
+    private static Reference constructNewForResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -126,7 +156,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * See that function for details.
      */
     public static Picture newForResource(java.lang.String resourcePath) {
-        return new Picture(References.get(gtk_h.gtk_picture_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false));
+        return new Picture(constructNewForResource(resourcePath));
     }
     
     /**

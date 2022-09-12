@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -71,7 +71,7 @@ import java.lang.invoke.*;
  */
 public class ComboBox extends Widget implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBox(io.github.jwharm.javagi.interop.Reference reference) {
+    public ComboBox(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -80,11 +80,21 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         return new ComboBox(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty `GtkComboBox`.
      */
     public ComboBox() {
-        super(References.get(gtk_h.gtk_combo_box_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithEntry() {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_entry(), false);
+        return RESULT;
     }
     
     /**
@@ -95,14 +105,24 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * by calling [method@Gtk.ComboBox.set_entry_text_column].
      */
     public static ComboBox newWithEntry() {
-        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_entry(), false));
+        return new ComboBox(constructNewWithEntry());
+    }
+    
+    private static Reference constructNewWithModel(TreeModel model) {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_model(model.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkComboBox` with a model.
      */
     public static ComboBox newWithModel(TreeModel model) {
-        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_model(model.handle()), false));
+        return new ComboBox(constructNewWithModel(model));
+    }
+    
+    private static Reference constructNewWithModelAndEntry(TreeModel model) {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_new_with_model_and_entry(model.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -111,7 +131,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * See also [ctor@Gtk.ComboBox.new_with_entry].
      */
     public static ComboBox newWithModelAndEntry(TreeModel model) {
-        return new ComboBox(References.get(gtk_h.gtk_combo_box_new_with_model_and_entry(model.handle()), false));
+        return new ComboBox(constructNewWithModelAndEntry(model));
     }
     
     /**
@@ -356,16 +376,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * If the row separator function is %NULL, no separators are drawn.
      * This is the default value.
      */
-    public void setRowSeparatorFunc(ComboBox comboBox, TreeViewRowSeparatorFunc func) {
+    public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewRowSeparatorFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_combo_box_set_row_separator_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_combo_box_set_row_separator_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeViewRowSeparatorFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -382,16 +402,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * The `::activate` signal on `GtkComboBox` is an action signal and
      * emitting it causes the combo box to pop up its dropdown.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -409,16 +429,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * or due to a call to [method@Gtk.ComboBox.set_active_iter]. It will
      * also be emitted while typing into the entry of a combo box with an entry.
      */
-    public void onChanged(ChangedHandler handler) {
+    public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -462,16 +482,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * }
      * ```
      */
-    public void onFormatEntryText(FormatEntryTextHandler handler) {
+    public SignalHandle onFormatEntryText(FormatEntryTextHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxFormatEntryText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("format-entry-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("format-entry-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -487,16 +507,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * 
      * This is an [keybinding signal](class.SignalAction.html).
      */
-    public void onMoveActive(MoveActiveHandler handler) {
+    public SignalHandle onMoveActive(MoveActiveHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxMoveActive", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("move-active").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("move-active").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -514,16 +534,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * 
      * The default bindings for this signal are Alt+Up and Escape.
      */
-    public void onPopdown(PopdownHandler handler) {
+    public SignalHandle onPopdown(PopdownHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxPopdown", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("popdown").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("popdown").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -541,16 +561,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * 
      * The default binding for this signal is Alt+Down.
      */
-    public void onPopup(PopupHandler handler) {
+    public SignalHandle onPopup(PopupHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalComboBoxPopup", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("popup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("popup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

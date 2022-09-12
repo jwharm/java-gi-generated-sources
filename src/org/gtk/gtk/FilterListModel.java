@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  */
 public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FilterListModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public FilterListModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -29,12 +29,17 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         return new FilterListModel(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.ListModel model, Filter filter) {
+        Reference RESULT = References.get(gtk_h.gtk_filter_list_model_new(model.getReference().unowned().handle(), filter.getReference().unowned().handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkFilterListModel` that will filter @model using the given
      * @filter.
      */
     public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
-        super(References.get(gtk_h.gtk_filter_list_model_new(model.getReference().unowned().handle(), filter.getReference().unowned().handle()), true));
+        super(constructNew(model, filter));
     }
     
     /**

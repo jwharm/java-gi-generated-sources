@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  */
 public class LayoutChild extends org.gtk.gobject.Object {
 
-    public LayoutChild(io.github.jwharm.javagi.interop.Reference reference) {
+    public LayoutChild(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

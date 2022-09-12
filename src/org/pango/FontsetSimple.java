@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class FontsetSimple extends Fontset {
 
-    public FontsetSimple(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontsetSimple(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,11 +25,16 @@ public class FontsetSimple extends Fontset {
         return new FontsetSimple(gobject.getReference());
     }
     
+    private static Reference constructNew(Language language) {
+        Reference RESULT = References.get(gtk_h.pango_fontset_simple_new(language.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `PangoFontsetSimple` for the given language.
      */
     public FontsetSimple(Language language) {
-        super(References.get(gtk_h.pango_fontset_simple_new(language.handle()), true));
+        super(constructNew(language));
     }
     
     /**

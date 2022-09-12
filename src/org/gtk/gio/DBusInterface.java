@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * on the service side (see #GDBusInterfaceSkeleton) and client side
  * (see #GDBusProxy).
  */
-public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the #GDBusObject that @interface_ belongs to, if any.
@@ -53,7 +53,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class DBusInterfaceImpl extends org.gtk.gobject.Object implements DBusInterface {
-        public DBusInterfaceImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DBusInterfaceImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

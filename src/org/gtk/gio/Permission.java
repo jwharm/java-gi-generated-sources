@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class Permission extends org.gtk.gobject.Object {
 
-    public Permission(io.github.jwharm.javagi.interop.Reference reference) {
+    public Permission(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -52,7 +52,7 @@ public class Permission extends org.gtk.gobject.Object {
      * user interaction is required).  See g_permission_acquire_async() for
      * the non-blocking version.
      */
-    public boolean acquire(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean acquire(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_permission_acquire(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -67,16 +67,15 @@ public class Permission extends org.gtk.gobject.Object {
      * This is the first half of the asynchronous version of
      * g_permission_acquire().
      */
-    public void acquireAsync(Permission permission, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void acquireAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_permission_acquire_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_permission_acquire_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +88,7 @@ public class Permission extends org.gtk.gobject.Object {
      * This is the second half of the asynchronous version of
      * g_permission_acquire().
      */
-    public boolean acquireFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean acquireFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_permission_acquire_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -156,7 +155,7 @@ public class Permission extends org.gtk.gobject.Object {
      * user interaction is required).  See g_permission_release_async() for
      * the non-blocking version.
      */
-    public boolean release(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean release(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_permission_release(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -171,16 +170,15 @@ public class Permission extends org.gtk.gobject.Object {
      * This is the first half of the asynchronous version of
      * g_permission_release().
      */
-    public void releaseAsync(Permission permission, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void releaseAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_permission_release_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_permission_release_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -193,7 +191,7 @@ public class Permission extends org.gtk.gobject.Object {
      * This is the second half of the asynchronous version of
      * g_permission_release().
      */
-    public boolean releaseFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean releaseFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_permission_release_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class BufferedInputStream extends FilterInputStream implements Seekable {
 
-    public BufferedInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public BufferedInputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,12 +34,22 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
         return new BufferedInputStream(gobject.getReference());
     }
     
+    private static Reference constructNew(InputStream baseStream) {
+        Reference RESULT = References.get(gtk_h.g_buffered_input_stream_new(baseStream.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GInputStream from the given @base_stream, with
      * a buffer set to the default size (4 kilobytes).
      */
     public BufferedInputStream(InputStream baseStream) {
-        super(References.get(gtk_h.g_buffered_input_stream_new(baseStream.handle()), true));
+        super(constructNew(baseStream));
+    }
+    
+    private static Reference constructNewSized(InputStream baseStream, long size) {
+        Reference RESULT = References.get(gtk_h.g_buffered_input_stream_new_sized(baseStream.handle(), size), true);
+        return RESULT;
     }
     
     /**
@@ -47,7 +57,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * with a buffer set to @size.
      */
     public static BufferedInputStream newSized(InputStream baseStream, long size) {
-        return new BufferedInputStream(References.get(gtk_h.g_buffered_input_stream_new_sized(baseStream.handle(), size), true));
+        return new BufferedInputStream(constructNewSized(baseStream, size));
     }
     
     /**
@@ -76,7 +86,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * For the asynchronous, non-blocking, version of this function, see
      * g_buffered_input_stream_fill_async().
      */
-    public long fill(long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long fill(long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_buffered_input_stream_fill(handle(), count, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -93,16 +103,15 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * If @count is -1 then the attempted read size is equal to the number
      * of bytes that are required to fill the buffer.
      */
-    public void fillAsync(BufferedInputStream stream, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void fillAsync(long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_buffered_input_stream_fill_async(handle(), count, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_buffered_input_stream_fill_async(handle(), count, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -111,7 +120,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
     /**
      * Finishes an asynchronous read.
      */
-    public long fillFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long fillFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_buffered_input_stream_fill_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -160,7 +169,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * 
      * On error -1 is returned and @error is set accordingly.
      */
-    public int readInt(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int readInt(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_buffered_input_stream_read_byte(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

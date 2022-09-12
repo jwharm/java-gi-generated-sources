@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -251,10 +251,15 @@ import java.lang.invoke.*;
  * management for those dictionaries, but the type information would
  * be shared.
  */
-public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Variant extends io.github.jwharm.javagi.ResourceBase {
 
-    public Variant(io.github.jwharm.javagi.interop.Reference reference) {
+    public Variant(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNewArray(VariantType childType, Variant[] children, long nChildren) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false);
+        return RESULT;
     }
     
     /**
@@ -275,21 +280,36 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newArray(VariantType childType, Variant[] children, long nChildren) {
-        return new Variant(References.get(gtk_h.g_variant_new_array(childType.handle(), Interop.allocateNativeArray(children).handle(), nChildren), false));
+        return new Variant(constructNewArray(childType, children, nChildren));
+    }
+    
+    private static Reference constructNewBoolean(boolean value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false);
+        return RESULT;
     }
     
     /**
      * Creates a new boolean #GVariant instance -- either %TRUE or %FALSE.
      */
     public static Variant newBoolean(boolean value) {
-        return new Variant(References.get(gtk_h.g_variant_new_boolean(value ? 1 : 0), false));
+        return new Variant(constructNewBoolean(value));
+    }
+    
+    private static Reference constructNewByte(byte value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_byte(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new byte #GVariant instance.
      */
     public static Variant newByte(byte value) {
-        return new Variant(References.get(gtk_h.g_variant_new_byte(value), false));
+        return new Variant(constructNewByte(value));
+    }
+    
+    private static Reference constructNewBytestring(byte[] string) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -301,7 +321,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the array.
      */
     public static Variant newBytestring(byte[] string) {
-        return new Variant(References.get(gtk_h.g_variant_new_bytestring(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, string)).handle()), false));
+        return new Variant(constructNewBytestring(string));
+    }
+    
+    private static Reference constructNewBytestringArray(java.lang.String[] strv, long length) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv).handle(), length), false);
+        return RESULT;
     }
     
     /**
@@ -311,7 +336,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_bytestring_array(Interop.allocateNativeArray(strv).handle(), length), false));
+        return new Variant(constructNewBytestringArray(strv, length));
+    }
+    
+    private static Reference constructNewDictEntry(Variant key, Variant value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -322,14 +352,24 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * the new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newDictEntry(Variant key, Variant value) {
-        return new Variant(References.get(gtk_h.g_variant_new_dict_entry(key.handle(), value.handle()), false));
+        return new Variant(constructNewDictEntry(key, value));
+    }
+    
+    private static Reference constructNewDouble(double value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_double(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new double #GVariant instance.
      */
     public static Variant newDouble(double value) {
-        return new Variant(References.get(gtk_h.g_variant_new_double(value), false));
+        return new Variant(constructNewDouble(value));
+    }
+    
+    private static Reference constructNewFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false);
+        return RESULT;
     }
     
     /**
@@ -348,7 +388,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * @n_elements must be the length of the @elements array.
      */
     public static Variant newFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
-        return new Variant(References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false));
+        return new Variant(constructNewFixedArray(elementType, elements, nElements, elementSize));
+    }
+    
+    private static Reference constructNewFromBytes(VariantType type, Bytes bytes, boolean trusted) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false);
+        return RESULT;
     }
     
     /**
@@ -363,7 +408,13 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * GLib 2.60) or (in older versions) fail and exit the process.
      */
     public static Variant newFromBytes(VariantType type, Bytes bytes, boolean trusted) {
-        return new Variant(References.get(gtk_h.g_variant_new_from_bytes(type.handle(), bytes.handle(), trusted ? 1 : 0), false));
+        return new Variant(constructNewFromBytes(type, bytes, trusted));
+    }
+    
+    private static Reference constructNewFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, jdk.incubator.foreign.MemoryAddress userData) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_from_data(type.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, trusted ? 1 : 0, 
+                    Interop.cbDestroyNotifySymbol(), userData), false);
+        return RESULT;
     }
     
     /**
@@ -398,7 +449,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * process.
      */
     public static Variant newFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, jdk.incubator.foreign.MemoryAddress userData) {
-        return new Variant(References.get(gtk_h.g_variant_new_from_data(type.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, trusted ? 1 : 0, notify, userData), false));
+        return new Variant(constructNewFromData(type, data, size, trusted, notify, userData));
+    }
+    
+    private static Reference constructNewHandle(int value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_handle(value), false);
+        return RESULT;
     }
     
     /**
@@ -409,28 +465,48 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * with D-Bus, you probably don't need them.
      */
     public static Variant newHandle(int value) {
-        return new Variant(References.get(gtk_h.g_variant_new_handle(value), false));
+        return new Variant(constructNewHandle(value));
+    }
+    
+    private static Reference constructNewInt16(short value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_int16(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new int16 #GVariant instance.
      */
     public static Variant newInt16(short value) {
-        return new Variant(References.get(gtk_h.g_variant_new_int16(value), false));
+        return new Variant(constructNewInt16(value));
+    }
+    
+    private static Reference constructNewInt32(int value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_int32(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new int32 #GVariant instance.
      */
     public static Variant newInt32(int value) {
-        return new Variant(References.get(gtk_h.g_variant_new_int32(value), false));
+        return new Variant(constructNewInt32(value));
+    }
+    
+    private static Reference constructNewInt64(long value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_int64(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new int64 #GVariant instance.
      */
     public static Variant newInt64(long value) {
-        return new Variant(References.get(gtk_h.g_variant_new_int64(value), false));
+        return new Variant(constructNewInt64(value));
+    }
+    
+    private static Reference constructNewMaybe(VariantType childType, Variant child) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -446,7 +522,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * instance takes ownership of @child.
      */
     public static Variant newMaybe(VariantType childType, Variant child) {
-        return new Variant(References.get(gtk_h.g_variant_new_maybe(childType.handle(), child.handle()), false));
+        return new Variant(constructNewMaybe(childType, child));
+    }
+    
+    private static Reference constructNewObjectPath(java.lang.String objectPath) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -455,7 +536,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_object_path() if you're not sure.
      */
     public static Variant newObjectPath(java.lang.String objectPath) {
-        return new Variant(References.get(gtk_h.g_variant_new_object_path(Interop.allocateNativeString(objectPath).handle()), false));
+        return new Variant(constructNewObjectPath(objectPath));
+    }
+    
+    private static Reference constructNewObjv(java.lang.String[] strv, long length) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv).handle(), length), false);
+        return RESULT;
     }
     
     /**
@@ -468,7 +554,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newObjv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_objv(Interop.allocateNativeArray(strv).handle(), length), false));
+        return new Variant(constructNewObjv(strv, length));
+    }
+    
+    private static Reference constructNewParsedVa(java.lang.String format, VaList app) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true);
+        return RESULT;
     }
     
     /**
@@ -495,7 +586,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public static Variant newParsedVa(java.lang.String format, VaList app) {
-        return new Variant(References.get(gtk_h.g_variant_new_parsed_va(Interop.allocateNativeString(format).handle(), app), true));
+        return new Variant(constructNewParsedVa(format, app));
+    }
+    
+    private static Reference constructNewSignature(java.lang.String signature) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -504,7 +600,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_variant_is_signature() if you're not sure.
      */
     public static Variant newSignature(java.lang.String signature) {
-        return new Variant(References.get(gtk_h.g_variant_new_signature(Interop.allocateNativeString(signature).handle()), false));
+        return new Variant(constructNewSignature(signature));
+    }
+    
+    private static Reference constructNewString(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_string(Interop.allocateNativeString(string).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -515,7 +616,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * [format string][gvariant-format-strings-maybe-types].
      */
     public static Variant newString(java.lang.String string) {
-        return new Variant(References.get(gtk_h.g_variant_new_string(Interop.allocateNativeString(string).handle()), false));
+        return new Variant(constructNewString(string));
+    }
+    
+    private static Reference constructNewStrv(java.lang.String[] strv, long length) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv).handle(), length), false);
+        return RESULT;
     }
     
     /**
@@ -525,7 +631,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newStrv(java.lang.String[] strv, long length) {
-        return new Variant(References.get(gtk_h.g_variant_new_strv(Interop.allocateNativeArray(strv).handle(), length), false));
+        return new Variant(constructNewStrv(strv, length));
+    }
+    
+    private static Reference constructNewTakeString(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -542,7 +653,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * freed.
      */
     public static Variant newTakeString(java.lang.String string) {
-        return new Variant(References.get(gtk_h.g_variant_new_take_string(Interop.allocateNativeString(string).handle()), false));
+        return new Variant(constructNewTakeString(string));
+    }
+    
+    private static Reference constructNewTuple(Variant[] children, long nChildren) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children).handle(), nChildren), false);
+        return RESULT;
     }
     
     /**
@@ -556,28 +672,48 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newTuple(Variant[] children, long nChildren) {
-        return new Variant(References.get(gtk_h.g_variant_new_tuple(Interop.allocateNativeArray(children).handle(), nChildren), false));
+        return new Variant(constructNewTuple(children, nChildren));
+    }
+    
+    private static Reference constructNewUint16(short value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_uint16(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new uint16 #GVariant instance.
      */
     public static Variant newUint16(short value) {
-        return new Variant(References.get(gtk_h.g_variant_new_uint16(value), false));
+        return new Variant(constructNewUint16(value));
+    }
+    
+    private static Reference constructNewUint32(int value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_uint32(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new uint32 #GVariant instance.
      */
     public static Variant newUint32(int value) {
-        return new Variant(References.get(gtk_h.g_variant_new_uint32(value), false));
+        return new Variant(constructNewUint32(value));
+    }
+    
+    private static Reference constructNewUint64(long value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_uint64(value), false);
+        return RESULT;
     }
     
     /**
      * Creates a new uint64 #GVariant instance.
      */
     public static Variant newUint64(long value) {
-        return new Variant(References.get(gtk_h.g_variant_new_uint64(value), false));
+        return new Variant(constructNewUint64(value));
+    }
+    
+    private static Reference constructNewVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true);
+        return RESULT;
     }
     
     /**
@@ -619,7 +755,12 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * or by passing it to another g_variant_new() call.
      */
     public static Variant newVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
-        return new Variant(References.get(gtk_h.g_variant_new_va(Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app), true));
+        return new Variant(constructNewVa(formatString, endptr, app));
+    }
+    
+    private static Reference constructNewVariant(Variant value) {
+        Reference RESULT = References.get(gtk_h.g_variant_new_variant(value.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -630,7 +771,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * instance takes ownership of @child.
      */
     public static Variant newVariant(Variant value) {
-        return new Variant(References.get(gtk_h.g_variant_new_variant(value.handle()), false));
+        return new Variant(constructNewVariant(value));
     }
     
     /**
@@ -1341,7 +1482,7 @@ public class Variant extends io.github.jwharm.javagi.interop.ResourceBase {
      * which would result in a %G_VARIANT_PARSE_ERROR_RECURSION error. #GVariant is
      * guaranteed to handle nesting up to at least 64 levels.
      */
-    public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_variant_parse(type.handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeString(limit).handle(), Interop.allocateNativeArray(endptr).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
-    public InetAddressMask(io.github.jwharm.javagi.interop.Reference reference) {
+    public InetAddressMask(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -24,7 +24,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
         return new InetAddressMask(gobject.getReference());
     }
     
-    private static Reference constructNewOrThrow(InetAddress addr, int length) throws GErrorException {
+    private static Reference constructNew(InetAddress addr, int length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_inet_address_mask_new(addr.handle(), length, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -38,10 +38,10 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * first @length bits match @addr.
      */
     public InetAddressMask(InetAddress addr, int length) throws GErrorException {
-        super(constructNewOrThrow(addr, length));
+        super(constructNew(addr, length));
     }
     
-    private static Reference constructNewFromStringOrThrow(java.lang.String maskString) throws GErrorException {
+    private static Reference constructNewFromString(java.lang.String maskString) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_inet_address_mask_new_from_string(Interop.allocateNativeString(maskString).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -57,7 +57,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      * assumed to be the full length of the address.
      */
     public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
-        return new InetAddressMask(constructNewFromStringOrThrow(maskString));
+        return new InetAddressMask(constructNewFromString(maskString));
     }
     
     /**

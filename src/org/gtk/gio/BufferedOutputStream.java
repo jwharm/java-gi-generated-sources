@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
 
-    public BufferedOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public BufferedOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,18 +34,28 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
         return new BufferedOutputStream(gobject.getReference());
     }
     
+    private static Reference constructNew(OutputStream baseStream) {
+        Reference RESULT = References.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new buffered output stream for a base stream.
      */
     public BufferedOutputStream(OutputStream baseStream) {
-        super(References.get(gtk_h.g_buffered_output_stream_new(baseStream.handle()), true));
+        super(constructNew(baseStream));
+    }
+    
+    private static Reference constructNewSized(OutputStream baseStream, long size) {
+        Reference RESULT = References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true);
+        return RESULT;
     }
     
     /**
      * Creates a new buffered output stream with a given buffer size.
      */
     public static BufferedOutputStream newSized(OutputStream baseStream, long size) {
-        return new BufferedOutputStream(References.get(gtk_h.g_buffered_output_stream_new_sized(baseStream.handle(), size), true));
+        return new BufferedOutputStream(constructNewSized(baseStream, size));
     }
     
     /**

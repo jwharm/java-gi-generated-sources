@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -93,7 +93,7 @@ import java.lang.invoke.*;
  * %G_PRIORITY_LOW and %G_PRIORITY_HIGH, with %G_PRIORITY_DEFAULT
  * as a default.
  */
-public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the source object from a #GAsyncResult.
@@ -132,7 +132,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
      * set by virtual methods should also be extracted by virtual methods,
      * to enable subclasses to chain up correctly.
      */
-    public default boolean legacyPropagateError() throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_async_result_legacy_propagate_error(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -142,7 +142,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.interop.NativeAddre
     }
     
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {
-        public AsyncResultImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public AsyncResultImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

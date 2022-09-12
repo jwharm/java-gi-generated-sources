@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,10 +20,15 @@ import java.lang.invoke.*;
  * suitable for storing attributes for large amounts of text. In general, you
  * should not use a single `PangoAttrList` for more than one paragraph of text.
  */
-public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
+public class AttrList extends io.github.jwharm.javagi.ResourceBase {
 
-    public AttrList(io.github.jwharm.javagi.interop.Reference reference) {
+    public AttrList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.pango_attr_list_new(), true);
+        return RESULT;
     }
     
     /**
@@ -31,7 +36,7 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * count of one.
      */
     public AttrList() {
-        super(References.get(gtk_h.pango_attr_list_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -78,16 +83,16 @@ public class AttrList extends io.github.jwharm.javagi.interop.ResourceBase {
      * any elements of @list for which @func returns %TRUE and
      * inserts them into a new list.
      */
-    public AttrList filter(AttrList list, AttrFilterFunc func) {
+    public AttrList filter(AttrFilterFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrFilterFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.pango_attr_list_filter(handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.pango_attr_list_filter(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrFilterFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return new AttrList(References.get(RESULT, true));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

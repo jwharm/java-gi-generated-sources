@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class BoxLayout extends LayoutManager implements Orientable {
 
-    public BoxLayout(io.github.jwharm.javagi.interop.Reference reference) {
+    public BoxLayout(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,11 +34,16 @@ public class BoxLayout extends LayoutManager implements Orientable {
         return new BoxLayout(gobject.getReference());
     }
     
+    private static Reference constructNew(Orientation orientation) {
+        Reference RESULT = References.get(gtk_h.gtk_box_layout_new(orientation.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkBoxLayout`.
      */
     public BoxLayout(Orientation orientation) {
-        super(References.get(gtk_h.gtk_box_layout_new(orientation.getValue()), true));
+        super(constructNew(orientation));
     }
     
     /**

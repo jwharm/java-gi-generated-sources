@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,10 +20,15 @@ import java.lang.invoke.*;
  * becomes valid after you set it to a Julian day or you set a day, month,
  * and year.
  */
-public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Date extends io.github.jwharm.javagi.ResourceBase {
 
-    public Date(io.github.jwharm.javagi.interop.Reference reference) {
+    public Date(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_date_new(), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +38,12 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * represent an existing day). Free the return value with g_date_free().
      */
     public Date() {
-        super(References.get(gtk_h.g_date_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewDmy(DateDay day, DateMonth month, DateYear year) {
+        Reference RESULT = References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -44,7 +54,12 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * and valid.
      */
     public static Date newDmy(DateDay day, DateMonth month, DateYear year) {
-        return new Date(References.get(gtk_h.g_date_new_dmy(day.getValue(), month.getValue(), year.getValue()), true));
+        return new Date(constructNewDmy(day, month, year));
+    }
+    
+    private static Reference constructNewJulian(int julianDay) {
+        Reference RESULT = References.get(gtk_h.g_date_new_julian(julianDay), true);
+        return RESULT;
     }
     
     /**
@@ -55,7 +70,7 @@ public class Date extends io.github.jwharm.javagi.interop.ResourceBase {
      * valid.
      */
     public static Date newJulian(int julianDay) {
-        return new Date(References.get(gtk_h.g_date_new_julian(julianDay), true));
+        return new Date(constructNewJulian(julianDay));
     }
     
     /**

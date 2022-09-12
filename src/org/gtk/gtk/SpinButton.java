@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -123,7 +123,7 @@ import java.lang.invoke.*;
  */
 public class SpinButton extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable, Orientable {
 
-    public SpinButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public SpinButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -132,11 +132,21 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         return new SpinButton(gobject.getReference());
     }
     
+    private static Reference constructNew(Adjustment adjustment, double climbRate, int digits) {
+        Reference RESULT = References.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkSpinButton`.
      */
     public SpinButton(Adjustment adjustment, double climbRate, int digits) {
-        super(References.get(gtk_h.gtk_spin_button_new(adjustment.handle(), climbRate, digits), false));
+        super(constructNew(adjustment, climbRate, digits));
+    }
+    
+    private static Reference constructNewWithRange(double min, double max, double step) {
+        Reference RESULT = References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false);
+        return RESULT;
     }
     
     /**
@@ -155,7 +165,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * [method@Gtk.SpinButton.set_digits] to correct it.
      */
     public static SpinButton newWithRange(double min, double max, double step) {
-        return new SpinButton(References.get(gtk_h.gtk_spin_button_new_with_range(min, max, step), false));
+        return new SpinButton(constructNewWithRange(min, max, step));
     }
     
     /**
@@ -362,16 +372,16 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * 
      * The default bindings for this signal are Up/Down and PageUp/PageDown.
      */
-    public void onChangeValue(ChangeValueHandler handler) {
+    public SignalHandle onChangeValue(ChangeValueHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonChangeValue", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-value").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-value").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -391,16 +401,16 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * 
      * The default conversion uses g_strtod().
      */
-    public void onInput(InputHandler handler) {
+    public SignalHandle onInput(InputHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonInput", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("input").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("input").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -434,16 +444,16 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * }
      * ```
      */
-    public void onOutput(OutputHandler handler) {
+    public SignalHandle onOutput(OutputHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonOutput", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("output").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("output").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -459,16 +469,16 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * 
      * Also see the [signal@Gtk.SpinButton::output] signal.
      */
-    public void onValueChanged(ValueChangedHandler handler) {
+    public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonValueChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("value-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -483,16 +493,16 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Emitted right after the spinbutton wraps from its maximum
      * to its minimum value or vice-versa.
      */
-    public void onWrapped(WrappedHandler handler) {
+    public SignalHandle onWrapped(WrappedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSpinButtonWrapped", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("wrapped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("wrapped").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

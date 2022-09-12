@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,13 +16,18 @@ import java.lang.invoke.*;
  */
 public class AlternativeTrigger extends ShortcutTrigger {
 
-    public AlternativeTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+    public AlternativeTrigger(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to AlternativeTrigger */
     public static AlternativeTrigger castFrom(org.gtk.gobject.Object gobject) {
         return new AlternativeTrigger(gobject.getReference());
+    }
+    
+    private static Reference constructNew(ShortcutTrigger first, ShortcutTrigger second) {
+        Reference RESULT = References.get(gtk_h.gtk_alternative_trigger_new(first.getReference().unowned().handle(), second.getReference().unowned().handle()), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +38,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * alternative, create a new alternative trigger for each option.
      */
     public AlternativeTrigger(ShortcutTrigger first, ShortcutTrigger second) {
-        super(References.get(gtk_h.gtk_alternative_trigger_new(first.getReference().unowned().handle(), second.getReference().unowned().handle()), true));
+        super(constructNew(first, second));
     }
     
     /**

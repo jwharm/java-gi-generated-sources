@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -41,10 +41,15 @@ import java.lang.invoke.*;
  * The [struct@Gdk.ContentFormatsBuilder] structure is meant to help in this
  * endeavor.
  */
-public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
 
-    public ContentFormats(io.github.jwharm.javagi.interop.Reference reference) {
+    public ContentFormats(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String[] mimeTypes, int nMimeTypes) {
+        Reference RESULT = References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true);
+        return RESULT;
     }
     
     /**
@@ -55,14 +60,19 @@ public class ContentFormats extends io.github.jwharm.javagi.interop.ResourceBase
      * this, use [struct@Gdk.ContentFormatsBuilder] instead.
      */
     public ContentFormats(java.lang.String[] mimeTypes, int nMimeTypes) {
-        super(References.get(gtk_h.gdk_content_formats_new(Interop.allocateNativeArray(mimeTypes).handle(), nMimeTypes), true));
+        super(constructNew(mimeTypes, nMimeTypes));
+    }
+    
+    private static Reference constructNewForGtype(Type type) {
+        Reference RESULT = References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new `GdkContentFormats` for a given `GType`.
      */
     public static ContentFormats newForGtype(Type type) {
-        return new ContentFormats(References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true));
+        return new ContentFormats(constructNewForGtype(type));
     }
     
     /**

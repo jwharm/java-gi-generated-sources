@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class BlendNode extends RenderNode {
 
-    public BlendNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public BlendNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class BlendNode extends RenderNode {
         return new BlendNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode bottom, RenderNode top, BlendMode blendMode) {
+        Reference RESULT = References.get(gtk_h.gsk_blend_node_new(bottom.handle(), top.handle(), blendMode.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will use @blend_mode to blend the @top
      * node onto the @bottom node.
      */
     public BlendNode(RenderNode bottom, RenderNode top, BlendMode blendMode) {
-        super(References.get(gtk_h.gsk_blend_node_new(bottom.handle(), top.handle(), blendMode.getValue()), true));
+        super(constructNew(bottom, top, blendMode));
     }
     
     /**

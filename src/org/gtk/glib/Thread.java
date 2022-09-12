@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,10 +22,25 @@ import java.lang.invoke.*;
  * The structure is opaque -- none of its fields may be directly
  * accessed.
  */
-public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Thread extends io.github.jwharm.javagi.ResourceBase {
 
-    public Thread(io.github.jwharm.javagi.interop.Reference reference) {
+    public Thread(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String name, ThreadFunc func) {
+        try {
+            Reference RESULT = References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func))), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -57,17 +72,27 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      * Starting with GLib 2.64 the behaviour is now consistent between Windows and
      * POSIX and all threads inherit their parent thread's priority.
      */
-    public Thread(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) {
-        super(References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), func, data), true));
+    public Thread(java.lang.String name, ThreadFunc func) {
+        super(constructNew(name, func));
     }
     
-    private static Reference constructTryNewOrThrow(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) throws GErrorException {
+    private static Reference constructTryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), func, data, GERROR), true);
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
+        try {
+            Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), GERROR), true);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return RESULT;
     }
     
     /**
@@ -77,8 +102,8 @@ public class Thread extends io.github.jwharm.javagi.interop.ResourceBase {
      * If a thread can not be created (due to resource limits),
      * @error is set and %NULL is returned.
      */
-    public static Thread tryNew(java.lang.String name, ThreadFunc func, jdk.incubator.foreign.MemoryAddress data) throws GErrorException {
-        return new Thread(constructTryNewOrThrow(name, func, data));
+    public static Thread tryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
+        return new Thread(constructTryNew(name, func));
     }
     
     /**

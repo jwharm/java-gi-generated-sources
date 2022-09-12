@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -54,7 +54,7 @@ import java.lang.invoke.*;
  * [method@Gdk.Paintable.invalidate_size],
  * [func@Gdk.Paintable.new_empty].
  */
-public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets an immutable paintable for the current contents displayed by @paintable.
@@ -206,16 +206,16 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * Examples for such an event would be videos changing to the next frame or
      * the icon theme for an icon changing.
      */
-    public default void onInvalidateContents(InvalidateContentsHandler handler) {
+    public default SignalHandle onInvalidateContents(InvalidateContentsHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPaintableInvalidateContents", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("invalidate-contents").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("invalidate-contents").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -238,23 +238,23 @@ public interface Paintable extends io.github.jwharm.javagi.interop.NativeAddress
      * Examples for such an event would be a paintable displaying
      * the contents of a toplevel surface being resized.
      */
-    public default void onInvalidateSize(InvalidateSizeHandler handler) {
+    public default SignalHandle onInvalidateSize(InvalidateSizeHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPaintableInvalidateSize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("invalidate-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("invalidate-size").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class PaintableImpl extends org.gtk.gobject.Object implements Paintable {
-        public PaintableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public PaintableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  * the [thread-default main context][g-main-context-push-thread-default]
  * in effect at the time that the model was created.
  */
-public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Get the item at @position.
@@ -159,23 +159,23 @@ public interface ListModel extends io.github.jwharm.javagi.interop.NativeAddress
      * Note: If `removed != added`, the positions of all later items
      * in the model change.
      */
-    public default void onItemsChanged(ItemsChangedHandler handler) {
+    public default SignalHandle onItemsChanged(ItemsChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalListModelItemsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("items-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("items-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class ListModelImpl extends org.gtk.gobject.Object implements ListModel {
-        public ListModelImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ListModelImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

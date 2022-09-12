@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,10 +14,15 @@ import java.lang.invoke.*;
  * Each tab stop has an alignment, a position, and optionally
  * a character to use as decimal point.
  */
-public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TabArray extends io.github.jwharm.javagi.ResourceBase {
 
-    public TabArray(io.github.jwharm.javagi.interop.Reference reference) {
+    public TabArray(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(int initialSize, boolean positionsInPixels) {
+        Reference RESULT = References.get(gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
@@ -27,7 +32,7 @@ public class TabArray extends io.github.jwharm.javagi.interop.ResourceBase {
      * otherwise in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
-        super(References.get(gtk_h.pango_tab_array_new(initialSize, positionsInPixels ? 1 : 0), true));
+        super(constructNew(initialSize, positionsInPixels));
     }
     
     /**

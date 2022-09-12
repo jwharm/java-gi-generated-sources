@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -28,7 +28,7 @@ import java.lang.invoke.*;
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontChooserWidget(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -37,11 +37,16 @@ public class FontChooserWidget extends Widget implements Accessible, Buildable, 
         return new FontChooserWidget(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_font_chooser_widget_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkFontChooserWidget`.
      */
     public FontChooserWidget() {
-        super(References.get(gtk_h.gtk_font_chooser_widget_new(), false));
+        super(constructNew());
     }
     
 }

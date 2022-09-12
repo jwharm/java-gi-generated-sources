@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * An object only needs to implement this interface if it needs to extend the
  * `GtkBuilder` XML format or run any extra routines at deserialization time.
  */
-public interface Buildable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Buildable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the ID of the @buildable object.
@@ -36,7 +36,7 @@ public interface Buildable extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class BuildableImpl extends org.gtk.gobject.Object implements Buildable {
-        public BuildableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public BuildableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

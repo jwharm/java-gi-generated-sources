@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -98,10 +98,15 @@ import java.lang.invoke.*;
  *   }
  * ]|
  */
-public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
+public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantDict(io.github.jwharm.javagi.interop.Reference reference) {
+    public VariantDict(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(Variant fromAsv) {
+        Reference RESULT = References.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -117,7 +122,7 @@ public class VariantDict extends io.github.jwharm.javagi.interop.ResourceBase {
      * using #GVariantDict to construct a #GVariant.
      */
     public VariantDict(Variant fromAsv) {
-        super(References.get(gtk_h.g_variant_dict_new(fromAsv.handle()), true));
+        super(constructNew(fromAsv));
     }
     
     /**

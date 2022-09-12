@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  */
 public class PixbufLoader extends org.gtk.gobject.Object {
 
-    public PixbufLoader(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufLoader(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -65,14 +65,19 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         return new PixbufLoader(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new pixbuf loader object.
      */
     public PixbufLoader() {
-        super(References.get(gtk_h.gdk_pixbuf_loader_new(), true));
+        super(constructNew());
     }
     
-    private static Reference constructNewWithMimeTypeOrThrow(java.lang.String mimeType) throws GErrorException {
+    private static Reference constructNewWithMimeType(java.lang.String mimeType) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_mime_type(Interop.allocateNativeString(mimeType).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -99,10 +104,10 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * structs returned by gdk_pixbuf_get_formats().
      */
     public static PixbufLoader newWithMimeType(java.lang.String mimeType) throws GErrorException {
-        return new PixbufLoader(constructNewWithMimeTypeOrThrow(mimeType));
+        return new PixbufLoader(constructNewWithMimeType(mimeType));
     }
     
-    private static Reference constructNewWithTypeOrThrow(java.lang.String imageType) throws GErrorException {
+    private static Reference constructNewWithType(java.lang.String imageType) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_loader_new_with_type(Interop.allocateNativeString(imageType).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -128,7 +133,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * of the #GdkPixbufFormat structs returned by gdk_pixbuf_get_formats().
      */
     public static PixbufLoader newWithType(java.lang.String imageType) throws GErrorException {
-        return new PixbufLoader(constructNewWithTypeOrThrow(imageType));
+        return new PixbufLoader(constructNewWithType(imageType));
     }
     
     /**
@@ -148,7 +153,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * Remember that this function does not release a reference on the loader, so
      * you will need to explicitly release any reference you hold.
      */
-    public boolean close() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean close() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_loader_close(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -220,7 +225,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     /**
      * Parses the next `count` bytes in the given image buffer.
      */
-    public boolean write(byte[] buf, long count) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean write(byte[] buf, long count) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_loader_write(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -232,7 +237,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     /**
      * Parses the next contents of the given image buffer.
      */
-    public boolean writeBytes(org.gtk.glib.Bytes buffer) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean writeBytes(org.gtk.glib.Bytes buffer) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_loader_write_bytes(handle(), buffer.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -254,16 +259,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * gdk_pixbuf_loader_get_pixbuf() to fetch the partially-loaded
      * pixbuf.
      */
-    public void onAreaPrepared(AreaPreparedHandler handler) {
+    public SignalHandle onAreaPrepared(AreaPreparedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPixbufLoaderAreaPrepared", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("area-prepared").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("area-prepared").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -284,16 +289,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * Applications can use this signal to know when to repaint
      * areas of an image that is being loaded.
      */
-    public void onAreaUpdated(AreaUpdatedHandler handler) {
+    public SignalHandle onAreaUpdated(AreaUpdatedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPixbufLoaderAreaUpdated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("area-updated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("area-updated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -311,16 +316,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * notification when an image loader is closed by the code that
      * drives it.
      */
-    public void onClosed(ClosedHandler handler) {
+    public SignalHandle onClosed(ClosedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPixbufLoaderClosed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("closed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("closed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -340,16 +345,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * to this signal to set the desired size to which the image
      * should be scaled.
      */
-    public void onSizePrepared(SizePreparedHandler handler) {
+    public SignalHandle onSizePrepared(SizePreparedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPixbufLoaderSizePrepared", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("size-prepared").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("size-prepared").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

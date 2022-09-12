@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class TlsPassword extends org.gtk.gobject.Object {
 
-    public TlsPassword(io.github.jwharm.javagi.interop.Reference reference) {
+    public TlsPassword(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,11 +21,16 @@ public class TlsPassword extends org.gtk.gobject.Object {
         return new TlsPassword(gobject.getReference());
     }
     
+    private static Reference constructNew(int flags, java.lang.String description) {
+        Reference RESULT = References.get(gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Create a new #GTlsPassword object.
      */
     public TlsPassword(int flags, java.lang.String description) {
-        super(References.get(gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).handle()), true));
+        super(constructNew(flags, description));
     }
     
     /**

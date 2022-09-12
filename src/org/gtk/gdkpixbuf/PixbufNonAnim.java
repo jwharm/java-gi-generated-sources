@@ -3,13 +3,13 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 public class PixbufNonAnim extends PixbufAnimation {
 
-    public PixbufNonAnim(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufNonAnim(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -18,8 +18,13 @@ public class PixbufNonAnim extends PixbufAnimation {
         return new PixbufNonAnim(gobject.getReference());
     }
     
+    private static Reference constructNew(Pixbuf pixbuf) {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true);
+        return RESULT;
+    }
+    
     public PixbufNonAnim(Pixbuf pixbuf) {
-        super(References.get(gtk_h.gdk_pixbuf_non_anim_new(pixbuf.handle()), true));
+        super(constructNew(pixbuf));
     }
     
 }

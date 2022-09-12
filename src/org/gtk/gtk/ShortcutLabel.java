@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  */
 public class ShortcutLabel extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public ShortcutLabel(io.github.jwharm.javagi.interop.Reference reference) {
+    public ShortcutLabel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -23,11 +23,16 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
         return new ShortcutLabel(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String accelerator) {
+        Reference RESULT = References.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkShortcutLabel` with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
-        super(References.get(gtk_h.gtk_shortcut_label_new(Interop.allocateNativeString(accelerator).handle()), false));
+        super(constructNew(accelerator));
     }
     
     /**

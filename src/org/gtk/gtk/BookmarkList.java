@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  */
 public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public BookmarkList(io.github.jwharm.javagi.interop.Reference reference) {
+    public BookmarkList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -28,11 +28,16 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         return new BookmarkList(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String filename, java.lang.String attributes) {
+        Reference RESULT = References.get(gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkBookmarkList` with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
-        super(References.get(gtk_h.gtk_bookmark_list_new(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true));
+        super(constructNew(filename, attributes));
     }
     
     /**

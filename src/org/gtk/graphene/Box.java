@@ -3,7 +3,7 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,10 +11,15 @@ import java.lang.invoke.*;
  * A 3D box, described as the volume between a minimum and
  * a maximum vertices.
  */
-public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Box extends io.github.jwharm.javagi.ResourceBase {
 
-    public Box(io.github.jwharm.javagi.interop.Reference reference) {
+    public Box(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_box_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -23,7 +28,7 @@ public class Box extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public static Box alloc() {
-        return new Box(References.get(gtk_h.graphene_box_alloc(), true));
+        return new Box(constructAlloc());
     }
     
     /**

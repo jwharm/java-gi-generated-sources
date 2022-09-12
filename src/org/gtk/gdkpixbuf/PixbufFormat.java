@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * Only modules should access the fields directly, applications should
  * use the `gdk_pixbuf_format_*` family of functions.
  */
-public class PixbufFormat extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
 
-    public PixbufFormat(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufFormat(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

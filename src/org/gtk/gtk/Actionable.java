@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * are added with [method@Gtk.Widget.insert_action_group] will be consulted
  * as well.
  */
-public interface Actionable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the action name for @actionable.
@@ -95,7 +95,7 @@ public interface Actionable extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class ActionableImpl extends org.gtk.gobject.Object implements Actionable {
-        public ActionableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ActionableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

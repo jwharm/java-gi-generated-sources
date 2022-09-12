@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,24 +11,34 @@ import java.lang.invoke.*;
  * The `GMainContext` struct is an opaque data
  * type representing a set of sources to be handled in a main loop.
  */
-public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MainContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public MainContext(io.github.jwharm.javagi.interop.Reference reference) {
+    public MainContext(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_main_context_new(), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GMainContext structure.
      */
     public MainContext() {
-        super(References.get(gtk_h.g_main_context_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithFlags(int flags) {
+        Reference RESULT = References.get(gtk_h.g_main_context_new_with_flags(flags), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GMainContext structure.
      */
     public static MainContext newWithFlags(int flags) {
-        return new MainContext(References.get(gtk_h.g_main_context_new_with_flags(flags), true));
+        return new MainContext(constructNewWithFlags(flags));
     }
     
     /**
@@ -143,16 +153,15 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * return %FALSE.  If it returns %TRUE, it will be continuously run in a
      * loop (and may prevent this call from returning).
      */
-    public void invoke(MainContext context, SourceFunc function) {
+    public void invoke(SourceFunc function) {
         try {
-            int hash = function.hashCode();
-            Interop.signalRegistry.put(hash, function);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_main_context_invoke(handle(), nativeSymbol, intSegment);
+            gtk_h.g_main_context_invoke(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -169,16 +178,16 @@ public class MainContext extends io.github.jwharm.javagi.interop.ResourceBase {
      * @notify should not assume that it is called from any particular
      * thread or with any particular context acquired.
      */
-    public void invokeFull(MainContext context, int priority, SourceFunc function) {
+    public void invokeFull(int priority, SourceFunc function) {
         try {
-            int hash = function.hashCode();
-            Interop.signalRegistry.put(hash, function);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_main_context_invoke_full(handle(), priority, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.g_main_context_invoke_full(handle(), priority, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

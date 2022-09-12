@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * The #GNode struct represents one node in a [n-ary tree][glib-N-ary-Trees].
  */
-public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Node extends io.github.jwharm.javagi.ResourceBase {
 
-    public Node(io.github.jwharm.javagi.interop.Reference reference) {
+    public Node(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -40,16 +40,15 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * doesn't descend beneath the child nodes. @func must not do anything
      * that would modify the structure of the tree.
      */
-    public void childrenForeach(Node node, int flags, NodeForeachFunc func) {
+    public void childrenForeach(int flags, NodeForeachFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeForeachFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_node_children_foreach(handle(), flags, nativeSymbol, intSegment);
+            gtk_h.g_node_children_foreach(handle(), flags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeForeachFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,16 +66,16 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Recursively copies a #GNode and its data.
      */
-    public Node copyDeep(Node node, CopyFunc copyFunc) {
+    public Node copyDeep(CopyFunc copyFunc) {
         try {
-            int hash = copyFunc.hashCode();
-            Interop.signalRegistry.put(hash, copyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_node_copy_deep(handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_node_copy_deep(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)));
+            return new Node(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -245,16 +244,15 @@ public class Node extends io.github.jwharm.javagi.interop.ResourceBase {
      * The traversal can be halted at any point by returning %TRUE from @func.
      * @func must not do anything that would modify the structure of the tree.
      */
-    public void traverse(Node root, TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
+    public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeTraverseFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, nativeSymbol, intSegment);
+            gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeTraverseFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

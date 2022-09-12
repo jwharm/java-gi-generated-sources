@@ -3,17 +3,22 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A point with two coordinates.
  */
-public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Point extends io.github.jwharm.javagi.ResourceBase {
 
-    public Point(io.github.jwharm.javagi.interop.Reference reference) {
+    public Point(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_point_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -39,7 +44,7 @@ public class Point extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public static Point alloc() {
-        return new Point(References.get(gtk_h.graphene_point_alloc(), true));
+        return new Point(constructAlloc());
     }
     
     /**

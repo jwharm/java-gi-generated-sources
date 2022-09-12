@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class Vfs extends org.gtk.gobject.Object {
 
-    public Vfs(io.github.jwharm.javagi.interop.Reference reference) {
+    public Vfs(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -81,16 +81,24 @@ public class Vfs extends org.gtk.gobject.Object {
      * It's an error to call this function twice with the same scheme. To unregister
      * a custom URI scheme, use g_vfs_unregister_uri_scheme().
      */
-    public boolean registerUriScheme(Vfs vfs, java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {
+    public boolean registerUriScheme(java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {
         try {
-            int hash = uriFunc.hashCode();
-            Interop.signalRegistry.put(hash, uriFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_vfs_register_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            var RESULT = gtk_h.g_vfs_register_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    Interop.cbDestroyNotifySymbol(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
+                    Interop.cbDestroyNotifySymbol());
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

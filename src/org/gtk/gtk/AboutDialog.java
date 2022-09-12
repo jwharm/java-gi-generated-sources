@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -58,7 +58,7 @@ import java.lang.invoke.*;
  */
 public class AboutDialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AboutDialog(io.github.jwharm.javagi.interop.Reference reference) {
+    public AboutDialog(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -67,11 +67,16 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         return new AboutDialog(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_about_dialog_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkAboutDialog`.
      */
     public AboutDialog() {
-        super(References.get(gtk_h.gtk_about_dialog_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -351,16 +356,16 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Applications may connect to it to override the default behaviour,
      * which is to call [func@Gtk.show_uri].
      */
-    public void onActivateLink(ActivateLinkHandler handler) {
+    public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAboutDialogActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

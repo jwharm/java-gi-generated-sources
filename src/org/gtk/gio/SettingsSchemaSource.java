@@ -3,20 +3,20 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * This is an opaque structure type.  You may not access it directly.
  */
-public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.ResourceBase {
+public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsSchemaSource(io.github.jwharm.javagi.interop.Reference reference) {
+    public SettingsSchemaSource(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewFromDirectoryOrThrow(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+    private static Reference constructNewFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_settings_schema_source_new_from_directory(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -59,7 +59,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.interop.Resour
      * returned by g_settings_schema_source_get_default().
      */
     public static SettingsSchemaSource newFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        return new SettingsSchemaSource(constructNewFromDirectoryOrThrow(directory, parent, trusted));
+        return new SettingsSchemaSource(constructNewFromDirectory(directory, parent, trusted));
     }
     
     /**

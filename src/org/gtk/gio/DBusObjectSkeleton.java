@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusObject {
 
-    public DBusObjectSkeleton(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusObjectSkeleton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,11 +25,16 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         return new DBusObjectSkeleton(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String objectPath) {
+        Reference RESULT = References.get(gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GDBusObjectSkeleton.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
-        super(References.get(gtk_h.g_dbus_object_skeleton_new(Interop.allocateNativeString(objectPath).handle()), true));
+        super(constructNew(objectPath));
     }
     
     /**
@@ -93,16 +98,16 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * 
      * The default class handler just returns %TRUE.
      */
-    public void onAuthorizeMethod(AuthorizeMethodHandler handler) {
+    public SignalHandle onAuthorizeMethod(AuthorizeMethodHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectSkeletonAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

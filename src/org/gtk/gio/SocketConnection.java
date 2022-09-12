@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -27,7 +27,7 @@ import java.lang.invoke.*;
  */
 public class SocketConnection extends IOStream {
 
-    public SocketConnection(io.github.jwharm.javagi.interop.Reference reference) {
+    public SocketConnection(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -39,7 +39,7 @@ public class SocketConnection extends IOStream {
     /**
      * Connect @connection to the specified remote address.
      */
-    public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_connection_connect(handle(), address.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -56,16 +56,15 @@ public class SocketConnection extends IOStream {
      * 
      * Use g_socket_connection_connect_finish() to retrieve the result.
      */
-    public void connectAsync(SocketConnection connection, SocketAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void connectAsync(SocketAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_connection_connect_async(handle(), address.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_connection_connect_async(handle(), address.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -74,7 +73,7 @@ public class SocketConnection extends IOStream {
     /**
      * Gets the result of a g_socket_connection_connect_async() call.
      */
-    public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_connection_connect_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -86,7 +85,7 @@ public class SocketConnection extends IOStream {
     /**
      * Try to get the local address of a socket connection.
      */
-    public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_connection_get_local_address(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -105,7 +104,7 @@ public class SocketConnection extends IOStream {
      * applications to print e.g. "Connecting to example.com
      * (10.42.77.3)...".
      */
-    public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_connection_get_remote_address(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

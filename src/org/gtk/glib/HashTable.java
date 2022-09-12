@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * [Hash Table][glib-Hash-Tables]. It should only be accessed via the
  * following functions.
  */
-public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
+public class HashTable extends io.github.jwharm.javagi.ResourceBase {
 
-    public HashTable(io.github.jwharm.javagi.interop.Reference reference) {
+    public HashTable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -75,16 +75,16 @@ public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
      * (keep in mind that an O(n) find/foreach operation issued for all n
      * values in a hash table ends up needing O(n*n) operations).
      */
-    public jdk.incubator.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
+    public static jdk.incubator.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
         try {
-            int hash = predicate.hashCode();
-            Interop.signalRegistry.put(hash, predicate);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_hash_table_find(hashTable.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_hash_table_find(hashTable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(predicate.hashCode(), predicate)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -104,16 +104,15 @@ public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
      * See g_hash_table_find() for performance caveats for linear
      * order searches in contrast to g_hash_table_lookup().
      */
-    public void foreach(org.gtk.glib.HashTable hashTable, HFunc func) {
+    public static void foreach(org.gtk.glib.HashTable hashTable, HFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_hash_table_foreach(hashTable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_hash_table_foreach(hashTable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -129,16 +128,16 @@ public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
      * See #GHashTableIter for an alternative way to loop over the
      * key/value pairs in the hash table.
      */
-    public int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
+    public static int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_hash_table_foreach_remove(hashTable.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_hash_table_foreach_remove(hashTable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -153,16 +152,16 @@ public class HashTable extends io.github.jwharm.javagi.interop.ResourceBase {
      * See #GHashTableIter for an alternative way to loop over the
      * key/value pairs in the hash table.
      */
-    public int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
+    public static int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_hash_table_foreach_steal(hashTable.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_hash_table_foreach_steal(hashTable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

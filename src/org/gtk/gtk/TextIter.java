@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,9 +15,9 @@ import java.lang.invoke.*;
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  */
-public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TextIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public TextIter(io.github.jwharm.javagi.interop.Reference reference) {
+    public TextIter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -83,16 +83,16 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * Same as gtk_text_iter_forward_find_char(),
      * but goes backward from @iter.
      */
-    public boolean backwardFindChar(TextIter iter, TextCharPredicate pred, TextIter limit) {
+    public boolean backwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
-            int hash = pred.hashCode();
-            Interop.signalRegistry.put(hash, pred);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_text_iter_backward_find_char(handle(), nativeSymbol, intSegment, limit.handle());
+            var RESULT = gtk_h.gtk_text_iter_backward_find_char(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate",
+                            MethodType.methodType(boolean.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -480,16 +480,16 @@ public class TextIter extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @pred never returns %TRUE, @iter is set to @limit if
      * @limit is non-%NULL, otherwise to the end iterator.
      */
-    public boolean forwardFindChar(TextIter iter, TextCharPredicate pred, TextIter limit) {
+    public boolean forwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
-            int hash = pred.hashCode();
-            Interop.signalRegistry.put(hash, pred);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_text_iter_forward_find_char(handle(), nativeSymbol, intSegment, limit.handle());
+            var RESULT = gtk_h.gtk_text_iter_forward_find_char(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTextCharPredicate",
+                            MethodType.methodType(boolean.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(pred.hashCode(), pred)), limit.handle());
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

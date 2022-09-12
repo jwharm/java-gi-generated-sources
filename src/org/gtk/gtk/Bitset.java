@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,24 +24,34 @@ import java.lang.invoke.*;
  * The main use case for `GtkBitset` is implementing complex selections for
  * [iface@Gtk.SelectionModel].
  */
-public class Bitset extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Bitset extends io.github.jwharm.javagi.ResourceBase {
 
-    public Bitset(io.github.jwharm.javagi.interop.Reference reference) {
+    public Bitset(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNewEmpty() {
+        Reference RESULT = References.get(gtk_h.gtk_bitset_new_empty(), true);
+        return RESULT;
     }
     
     /**
      * Creates a new empty bitset.
      */
     public static Bitset newEmpty() {
-        return new Bitset(References.get(gtk_h.gtk_bitset_new_empty(), true));
+        return new Bitset(constructNewEmpty());
+    }
+    
+    private static Reference constructNewRange(int start, int nItems) {
+        Reference RESULT = References.get(gtk_h.gtk_bitset_new_range(start, nItems), true);
+        return RESULT;
     }
     
     /**
      * Creates a bitset with the given range set.
      */
     public static Bitset newRange(int start, int nItems) {
-        return new Bitset(References.get(gtk_h.gtk_bitset_new_range(start, nItems), true));
+        return new Bitset(constructNewRange(start, nItems));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,17 +13,22 @@ import java.lang.invoke.*;
  * You typically obtain `PangoItems` by itemizing a piece of text
  * with [func@itemize].
  */
-public class Item extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Item extends io.github.jwharm.javagi.ResourceBase {
 
-    public Item(io.github.jwharm.javagi.interop.Reference reference) {
+    public Item(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.pango_item_new(), true);
+        return RESULT;
     }
     
     /**
      * Creates a new `PangoItem` structure initialized to default values.
      */
     public Item() {
-        super(References.get(gtk_h.pango_item_new(), true));
+        super(constructNew());
     }
     
     /**

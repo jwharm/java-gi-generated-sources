@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * The #GSequence struct is an opaque data type representing a
  * [sequence][glib-Sequences] data type.
  */
-public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Sequence extends io.github.jwharm.javagi.ResourceBase {
 
-    public Sequence(io.github.jwharm.javagi.interop.Reference reference) {
+    public Sequence(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -29,16 +29,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * Calls @func for each item in the sequence passing @user_data
      * to the function. @func must not modify the sequence itself.
      */
-    public void foreach(Sequence seq, Func func) {
+    public void foreach(Func func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_foreach(handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_foreach(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -102,16 +101,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
-    public SequenceIter insertSorted(Sequence seq, CompareDataFunc cmpFunc) {
+    public SequenceIter insertSorted(CompareDataFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_insert_sorted(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_insert_sorted(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -131,16 +131,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
-    public SequenceIter insertSortedIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+    public SequenceIter insertSortedIter(SequenceIterCompareFunc iterCmp) {
         try {
-            int hash = iterCmp.hashCode();
-            Interop.signalRegistry.put(hash, iterCmp);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_insert_sorted_iter(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_insert_sorted_iter(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -173,16 +174,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter lookup(Sequence seq, CompareDataFunc cmpFunc) {
+    public SequenceIter lookup(CompareDataFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_lookup(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_lookup(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -200,16 +202,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter lookupIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+    public SequenceIter lookupIter(SequenceIterCompareFunc iterCmp) {
         try {
-            int hash = iterCmp.hashCode();
-            Interop.signalRegistry.put(hash, iterCmp);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_lookup_iter(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_lookup_iter(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -238,16 +241,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter search(Sequence seq, CompareDataFunc cmpFunc) {
+    public SequenceIter search(CompareDataFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_search(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_search(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -268,16 +272,17 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter searchIter(Sequence seq, SequenceIterCompareFunc iterCmp) {
+    public SequenceIter searchIter(SequenceIterCompareFunc iterCmp) {
         try {
-            int hash = iterCmp.hashCode();
-            Interop.signalRegistry.put(hash, iterCmp);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_search_iter(handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_sequence_search_iter(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+            return new SequenceIter(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -291,16 +296,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * first comes before the second, and a positive value
      * if the second comes before the first.
      */
-    public void sort(Sequence seq, CompareDataFunc cmpFunc) {
+    public void sort(CompareDataFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_sort(handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_sort(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -315,16 +319,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterator comes before the second, and a positive value if the second
      * iterator comes before the first.
      */
-    public void sortIter(Sequence seq, SequenceIterCompareFunc cmpFunc) {
+    public void sortIter(SequenceIterCompareFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_sort_iter(handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_sort_iter(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -335,16 +338,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * @user_data to the function. @func must not modify the sequence
      * itself.
      */
-    public void foreachRange(SequenceIter begin, SequenceIter end, Func func) {
+    public static void foreachRange(SequenceIter begin, SequenceIter end, Func func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_foreach_range(begin.handle(), end.handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_foreach_range(begin.handle(), end.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -445,16 +447,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * the first item comes before the second, and a positive value if
      * the second item comes before the first.
      */
-    public void sortChanged(SequenceIter iter, CompareDataFunc cmpFunc) {
+    public static void sortChanged(SequenceIter iter, CompareDataFunc cmpFunc) {
         try {
-            int hash = cmpFunc.hashCode();
-            Interop.signalRegistry.put(hash, cmpFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_sort_changed(iter.handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_sort_changed(iter.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -471,16 +472,15 @@ public class Sequence extends io.github.jwharm.javagi.interop.ResourceBase {
      * iterator comes before the second, and a positive value if the second
      * iterator comes before the first.
      */
-    public void sortChangedIter(SequenceIter iter, SequenceIterCompareFunc iterCmp) {
+    public static void sortChangedIter(SequenceIter iter, SequenceIterCompareFunc iterCmp) {
         try {
-            int hash = iterCmp.hashCode();
-            Interop.signalRegistry.put(hash, iterCmp);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_sequence_sort_changed_iter(iter.handle(), nativeSymbol, intSegment);
+            gtk_h.g_sequence_sort_changed_iter(iter.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

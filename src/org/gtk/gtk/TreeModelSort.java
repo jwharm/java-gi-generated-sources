@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -107,7 +107,7 @@ import java.lang.invoke.*;
  */
 public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSource, TreeModel, TreeSortable {
 
-    public TreeModelSort(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeModelSort(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -116,11 +116,16 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
         return new TreeModelSort(gobject.getReference());
     }
     
+    private static Reference constructNewWithModel(TreeModel childModel) {
+        Reference RESULT = References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkTreeModelSort`, with @child_model as the child model.
      */
     public static TreeModelSort newWithModel(TreeModel childModel) {
-        return new TreeModelSort(References.get(gtk_h.gtk_tree_model_sort_new_with_model(childModel.handle()), true));
+        return new TreeModelSort(constructNewWithModel(childModel));
     }
     
     /**

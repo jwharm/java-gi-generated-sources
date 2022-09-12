@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class ColorMatrixNode extends RenderNode {
 
-    public ColorMatrixNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public ColorMatrixNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to ColorMatrixNode */
     public static ColorMatrixNode castFrom(org.gtk.gobject.Object gobject) {
         return new ColorMatrixNode(gobject.getReference());
+    }
+    
+    private static Reference constructNew(RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
+        Reference RESULT = References.get(gtk_h.gsk_color_matrix_node_new(child.handle(), colorMatrix.handle(), colorOffset.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -32,7 +37,7 @@ public class ColorMatrixNode extends RenderNode {
      * for every pixel.
      */
     public ColorMatrixNode(RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
-        super(References.get(gtk_h.gsk_color_matrix_node_new(child.handle(), colorMatrix.handle(), colorOffset.handle()), true));
+        super(constructNew(child, colorMatrix, colorOffset));
     }
     
     /**

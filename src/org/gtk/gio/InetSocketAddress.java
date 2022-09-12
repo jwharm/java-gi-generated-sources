@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class InetSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public InetSocketAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public InetSocketAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,11 +22,21 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
         return new InetSocketAddress(gobject.getReference());
     }
     
+    private static Reference constructNew(InetAddress address, short port) {
+        Reference RESULT = References.get(gtk_h.g_inet_socket_address_new(address.handle(), port), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GInetSocketAddress for @address and @port.
      */
     public InetSocketAddress(InetAddress address, short port) {
-        super(References.get(gtk_h.g_inet_socket_address_new(address.handle(), port), true));
+        super(constructNew(address, port));
+    }
+    
+    private static Reference constructNewFromString(java.lang.String address, int port) {
+        Reference RESULT = References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +46,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * (separated from the address by a `%`).
      */
     public static InetSocketAddress newFromString(java.lang.String address, int port) {
-        return new InetSocketAddress(References.get(gtk_h.g_inet_socket_address_new_from_string(Interop.allocateNativeString(address).handle(), port), true));
+        return new InetSocketAddress(constructNewFromString(address, port));
     }
     
     /**

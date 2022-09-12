@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,13 +15,18 @@ import java.lang.invoke.*;
  */
 public class TextChildAnchor extends org.gtk.gobject.Object {
 
-    public TextChildAnchor(io.github.jwharm.javagi.interop.Reference reference) {
+    public TextChildAnchor(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to TextChildAnchor */
     public static TextChildAnchor castFrom(org.gtk.gobject.Object gobject) {
         return new TextChildAnchor(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_text_child_anchor_new(), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +38,12 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * function [method@Gtk.TextBuffer.create_child_anchor].
      */
     public TextChildAnchor() {
-        super(References.get(gtk_h.gtk_text_child_anchor_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithReplacement(java.lang.String character) {
+        Reference RESULT = References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -43,7 +53,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * [method@Gtk.TextBuffer.insert_child_anchor].
      */
     public static TextChildAnchor newWithReplacement(java.lang.String character) {
-        return new TextChildAnchor(References.get(gtk_h.gtk_text_child_anchor_new_with_replacement(Interop.allocateNativeString(character).handle()), true));
+        return new TextChildAnchor(constructNewWithReplacement(character));
     }
     
     /**

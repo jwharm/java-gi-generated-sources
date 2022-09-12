@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,13 +20,18 @@ import java.lang.invoke.*;
  */
 public class Surface extends org.gtk.gobject.Object {
 
-    public Surface(io.github.jwharm.javagi.interop.Reference reference) {
+    public Surface(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Surface */
     public static Surface castFrom(org.gtk.gobject.Object gobject) {
         return new Surface(gobject.getReference());
+    }
+    
+    private static Reference constructNewPopup(Surface parent, boolean autohide) {
+        Reference RESULT = References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
@@ -36,14 +41,19 @@ public class Surface extends org.gtk.gobject.Object {
      * relative to it using [method@Gdk.Popup.present].
      */
     public static Surface newPopup(Surface parent, boolean autohide) {
-        return new Surface(References.get(gtk_h.gdk_surface_new_popup(parent.handle(), autohide ? 1 : 0), true));
+        return new Surface(constructNewPopup(parent, autohide));
+    }
+    
+    private static Reference constructNewToplevel(Display display) {
+        Reference RESULT = References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new toplevel surface.
      */
     public static Surface newToplevel(Display display) {
-        return new Surface(References.get(gtk_h.gdk_surface_new_toplevel(display.handle()), true));
+        return new Surface(constructNewToplevel(display));
     }
     
     /**
@@ -72,7 +82,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Before using the returned `GdkGLContext`, you will need to
      * call [method@Gdk.GLContext.make_current] or [method@Gdk.GLContext.realize].
      */
-    public GLContext createGlContext() throws io.github.jwharm.javagi.interop.GErrorException {
+    public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_surface_create_gl_context(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -108,7 +118,7 @@ public class Surface extends org.gtk.gobject.Object {
      * 
      * If the creation of the `GdkVulkanContext` failed, @error will be set.
      */
-    public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.interop.GErrorException {
+    public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_surface_create_vulkan_context(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -346,16 +356,16 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Emitted when @surface starts being present on the monitor.
      */
-    public void onEnterMonitor(EnterMonitorHandler handler) {
+    public SignalHandle onEnterMonitor(EnterMonitorHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceEnterMonitor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("enter-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("enter-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -369,16 +379,16 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Emitted when GDK receives an input event for @surface.
      */
-    public void onEvent(EventHandler handler) {
+    public SignalHandle onEvent(EventHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -396,16 +406,16 @@ public class Surface extends org.gtk.gobject.Object {
      * Surface size is reported in ”application pixels”, not
      * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
-    public void onLayout(LayoutHandler handler) {
+    public SignalHandle onLayout(LayoutHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceLayout", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("layout").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("layout").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -419,16 +429,16 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Emitted when @surface stops being present on the monitor.
      */
-    public void onLeaveMonitor(LeaveMonitorHandler handler) {
+    public SignalHandle onLeaveMonitor(LeaveMonitorHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceLeaveMonitor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("leave-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("leave-monitor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -442,16 +452,16 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Emitted when part of the surface needs to be redrawn.
      */
-    public void onRender(RenderHandler handler) {
+    public SignalHandle onRender(RenderHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSurfaceRender", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("render").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("render").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

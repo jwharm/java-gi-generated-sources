@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  */
 public class InetAddress extends org.gtk.gobject.Object {
 
-    public InetAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public InetAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,12 +30,22 @@ public class InetAddress extends org.gtk.gobject.Object {
         return new InetAddress(gobject.getReference());
     }
     
+    private static Reference constructNewAny(SocketFamily family) {
+        Reference RESULT = References.get(gtk_h.g_inet_address_new_any(family.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a #GInetAddress for the "any" address (unassigned/"don't
      * care") for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
-        return new InetAddress(References.get(gtk_h.g_inet_address_new_any(family.getValue()), true));
+        return new InetAddress(constructNewAny(family));
+    }
+    
+    private static Reference constructNewFromBytes(byte[] bytes, SocketFamily family) {
+        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -44,21 +54,31 @@ public class InetAddress extends org.gtk.gobject.Object {
      * %G_SOCKET_FAMILY_IPV6.
      */
     public static InetAddress newFromBytes(byte[] bytes, SocketFamily family) {
-        return new InetAddress(References.get(gtk_h.g_inet_address_new_from_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, bytes)).handle(), family.getValue()), true));
+        return new InetAddress(constructNewFromBytes(bytes, family));
+    }
+    
+    private static Reference constructNewFromString(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true);
+        return RESULT;
     }
     
     /**
      * Parses @string as an IP address and creates a new #GInetAddress.
      */
     public static InetAddress newFromString(java.lang.String string) {
-        return new InetAddress(References.get(gtk_h.g_inet_address_new_from_string(Interop.allocateNativeString(string).handle()), true));
+        return new InetAddress(constructNewFromString(string));
+    }
+    
+    private static Reference constructNewLoopback(SocketFamily family) {
+        Reference RESULT = References.get(gtk_h.g_inet_address_new_loopback(family.getValue()), true);
+        return RESULT;
     }
     
     /**
      * Creates a #GInetAddress for the loopback address for @family.
      */
     public static InetAddress newLoopback(SocketFamily family) {
-        return new InetAddress(References.get(gtk_h.g_inet_address_new_loopback(family.getValue()), true));
+        return new InetAddress(constructNewLoopback(family));
     }
     
     /**

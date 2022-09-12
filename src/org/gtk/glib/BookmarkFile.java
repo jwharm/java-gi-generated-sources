@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * An opaque data structure representing a set of bookmarks.
  */
-public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
+public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public BookmarkFile(io.github.jwharm.javagi.interop.Reference reference) {
+    public BookmarkFile(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -67,7 +67,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_added_date_time(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -82,7 +82,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_description(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -97,7 +97,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_icon(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(href).handle(), Interop.allocateNativeArray(mimeType).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -114,7 +114,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * event that the private flag cannot be found, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_INVALID_VALUE.
      */
-    public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_is_private(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -131,7 +131,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * event that the MIME type cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_INVALID_VALUE.
      */
-    public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_mime_type(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -146,7 +146,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_modified_date_time(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -171,7 +171,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_title(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -186,7 +186,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %NULL is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_get_visited_date_time(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -202,7 +202,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_has_application(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -218,7 +218,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_has_group(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -240,7 +240,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * structure.  If the object cannot be created then @error is set to a
      * #GBookmarkFileError.
      */
-    public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_load_from_data(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -256,7 +256,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * @full_path.  If the file could not be loaded then @error is
      * set to either a #GFileError or #GBookmarkFileError.
      */
-    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -270,7 +270,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If the file could not be loaded then @error is set to either a #GFileError
      * or #GBookmarkFileError.
      */
-    public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_load_from_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -287,7 +287,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event the URI cannot be found, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_URI_NOT_FOUND.
      */
-    public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_move_item(handle(), Interop.allocateNativeString(oldUri).handle(), Interop.allocateNativeString(newUri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -306,7 +306,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * a bookmark for @uri,  %FALSE is returned and error is set to
      * %G_BOOKMARK_FILE_ERROR_APP_NOT_REGISTERED.
      */
-    public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_remove_application(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -324,7 +324,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * In the event no group was defined, %FALSE is returned and
      * @error is set to %G_BOOKMARK_FILE_ERROR_INVALID_VALUE.
      */
-    public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_remove_group(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -336,7 +336,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Removes the bookmark for @uri from the bookmark file @bookmark.
      */
-    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_remove_item(handle(), Interop.allocateNativeString(uri).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -383,7 +383,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * %G_BOOKMARK_FILE_ERROR_APP_NOT_REGISTERED.  Otherwise, if no bookmark
      * for @uri is found, one is created.
      */
-    public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_set_application_info(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle(), count, stamp.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -487,7 +487,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function outputs @bookmark into a file.  The write process is
      * guaranteed to be atomic by using g_file_set_contents() internally.
      */
-    public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_bookmark_file_to_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

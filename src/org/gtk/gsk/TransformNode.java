@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class TransformNode extends RenderNode {
 
-    public TransformNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public TransformNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class TransformNode extends RenderNode {
         return new TransformNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode child, Transform transform) {
+        Reference RESULT = References.get(gtk_h.gsk_transform_node_new(child.handle(), transform.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will transform the given @child
      * with the given @transform.
      */
     public TransformNode(RenderNode child, Transform transform) {
-        super(References.get(gtk_h.gsk_transform_node_new(child.handle(), transform.handle()), true));
+        super(constructNew(child, transform));
     }
     
     /**

@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * The #GHook struct represents a single hook function in a #GHookList.
  */
-public class Hook extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Hook extends io.github.jwharm.javagi.ResourceBase {
 
-    public Hook(io.github.jwharm.javagi.interop.Reference reference) {
+    public Hook(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -53,16 +53,16 @@ public class Hook extends io.github.jwharm.javagi.interop.ResourceBase {
      * Finds a #GHook in a #GHookList using the given function to
      * test for a match.
      */
-    public Hook find(HookList hookList, boolean needValids, HookFindFunc func) {
+    public static Hook find(HookList hookList, boolean needValids, HookFindFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookFindFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_hook_find(hookList.handle(), needValids ? 1 : 0, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_hook_find(hookList.handle(), needValids ? 1 : 0, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookFindFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return new Hook(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

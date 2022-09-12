@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,13 +21,18 @@ import java.lang.invoke.*;
  */
 public class NetworkAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public NetworkAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to NetworkAddress */
     public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
         return new NetworkAddress(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String hostname, short port) {
+        Reference RESULT = References.get(gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).handle(), port), true);
+        return RESULT;
     }
     
     /**
@@ -41,7 +46,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is guaranteed to resolve to both addresses.
      */
     public NetworkAddress(java.lang.String hostname, short port) {
-        super(References.get(gtk_h.g_network_address_new(Interop.allocateNativeString(hostname).handle(), port), true));
+        super(constructNew(hostname, port));
+    }
+    
+    private static Reference constructNewLoopback(short port) {
+        Reference RESULT = References.get(gtk_h.g_network_address_new_loopback(port), true);
+        return RESULT;
     }
     
     /**
@@ -59,7 +69,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * a #GNetworkAddress created with this constructor.
      */
     public static NetworkAddress newLoopback(short port) {
-        return new NetworkAddress(References.get(gtk_h.g_network_address_new_loopback(port), true));
+        return new NetworkAddress(constructNewLoopback(port));
     }
     
     /**
@@ -110,7 +120,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is deprecated, because it depends on the contents of /etc/services,
      * which is generally quite sparse on platforms other than Linux.)
      */
-    public static NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_network_address_parse(Interop.allocateNativeString(hostAndPort).handle(), defaultPort, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -127,7 +137,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * g_network_address_parse() allows #GSocketClient to determine
      * when to use application-specific proxy protocols.
      */
-    public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_network_address_parse_uri(Interop.allocateNativeString(uri).handle(), defaultPort, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

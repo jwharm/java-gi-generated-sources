@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -73,13 +73,18 @@ import java.lang.invoke.*;
  */
 public class MenuButton extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public MenuButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public MenuButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to MenuButton */
     public static MenuButton castFrom(org.gtk.gobject.Object gobject) {
         return new MenuButton(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_menu_button_new(), false);
+        return RESULT;
     }
     
     /**
@@ -90,7 +95,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * should you wish to.
      */
     public MenuButton() {
-        super(References.get(gtk_h.gtk_menu_button_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -227,16 +232,16 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Using this function will not reset the menu widget attached to
      * @menu_button. Instead, this can be done manually in @func.
      */
-    public void setCreatePopupFunc(MenuButton menuButton, MenuButtonCreatePopupFunc func) {
+    public void setCreatePopupFunc(MenuButtonCreatePopupFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMenuButtonCreatePopupFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_menu_button_set_create_popup_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_menu_button_set_create_popup_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMenuButtonCreatePopupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -347,16 +352,16 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * The `::activate` signal on `GtkMenuButton` is an action signal and
      * emitting it causes the button to pop up its menu.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMenuButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

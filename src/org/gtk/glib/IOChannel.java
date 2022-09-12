@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  * considered private and should only be accessed with the following
  * functions.
  */
-public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
+public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
 
-    public IOChannel(io.github.jwharm.javagi.interop.Reference reference) {
+    public IOChannel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewFileOrThrow(java.lang.String filename, java.lang.String mode) throws GErrorException {
+    private static Reference constructNewFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_io_channel_new_file(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(mode).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -35,7 +35,12 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * access the channel after it is closed).
      */
     public static IOChannel newFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
-        return new IOChannel(constructNewFileOrThrow(filename, mode));
+        return new IOChannel(constructNewFile(filename, mode));
+    }
+    
+    private static Reference constructUnixNew(int fd) {
+        Reference RESULT = References.get(gtk_h.g_io_channel_unix_new(fd), true);
+        return RESULT;
     }
     
     /**
@@ -63,13 +68,13 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * issued, and GLib assumes that it is the file descriptor you mean.
      */
     public static IOChannel unixNew(int fd) {
-        return new IOChannel(References.get(gtk_h.g_io_channel_unix_new(fd), true));
+        return new IOChannel(constructUnixNew(fd));
     }
     
     /**
      * Flushes the write buffer for the GIOChannel.
      */
-    public IOStatus flush() throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus flush() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_flush(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -163,7 +168,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Replacement for g_io_channel_seek() with the new API.
      */
-    public IOStatus seekPosition(long offset, SeekType type) throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus seekPosition(long offset, SeekType type) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_seek_position(handle(), offset, type.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -252,7 +257,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * they are "seekable", cannot call g_io_channel_write_chars() after
      * calling one of the API "read" functions.
      */
-    public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_set_encoding(handle(), Interop.allocateNativeString(encoding).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -264,7 +269,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Sets the (writeable) flags in @channel to (@flags & %G_IO_FLAG_SET_MASK).
      */
-    public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_set_flags(handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -286,7 +291,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * flushed if @flush is %TRUE. The channel will not be freed until the
      * last reference is dropped using g_io_channel_unref().
      */
-    public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_shutdown(handle(), flush ? 1 : 0, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -317,7 +322,7 @@ public class IOChannel extends io.github.jwharm.javagi.interop.ResourceBase {
      * Writes a Unicode character to @channel.
      * This function cannot be called on a channel with %NULL encoding.
      */
-    public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.interop.GErrorException {
+    public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_io_channel_write_unichar(handle(), thechar, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

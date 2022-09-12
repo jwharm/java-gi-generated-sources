@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  */
 public class ParamSpec extends org.gtk.gobject.Object {
 
-    public ParamSpec(io.github.jwharm.javagi.interop.Reference reference) {
+    public ParamSpec(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -135,19 +135,9 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * finalized, or the data is being overwritten by a call to
      * g_param_spec_set_qdata() with the same @quark.
      */
-    public void setQdataFull(ParamSpec pspec, org.gtk.glib.Quark quark) {
-        try {
-            int hash = destroy.hashCode();
-            Interop.signalRegistry.put(hash, destroy);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_param_spec_set_qdata_full(handle(), quark.getValue(), intSegment, Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setQdataFull(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+        gtk_h.g_param_spec_set_qdata_full(handle(), quark.getValue(), data, 
+                    Interop.cbDestroyNotifySymbol());
     }
     
     /**

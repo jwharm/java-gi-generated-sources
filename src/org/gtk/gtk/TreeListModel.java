@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public TreeListModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public TreeListModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,28 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new TreeListModel(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc) {
+        try {
+            Reference RESULT = References.get(gtk_h.gtk_tree_list_model_new(root.getReference().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeListModelCreateModelFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(createFunc.hashCode(), createFunc)), 
+                    Interop.cbDestroyNotifySymbol()), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Creates a new empty `GtkTreeListModel` displaying @root
      * with all rows collapsed.
      */
-    public TreeListModel(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDestroy) {
-        super(References.get(gtk_h.gtk_tree_list_model_new(root.getReference().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, createFunc, userData, userDestroy), true));
+    public TreeListModel(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, TreeListModelCreateModelFunc createFunc) {
+        super(constructNew(root, passthrough, autoexpand, createFunc));
     }
     
     /**

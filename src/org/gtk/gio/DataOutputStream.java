@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class DataOutputStream extends FilterOutputStream implements Seekable {
 
-    public DataOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public DataOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,11 +22,16 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
         return new DataOutputStream(gobject.getReference());
     }
     
+    private static Reference constructNew(OutputStream baseStream) {
+        Reference RESULT = References.get(gtk_h.g_data_output_stream_new(baseStream.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new data output stream for @base_stream.
      */
     public DataOutputStream(OutputStream baseStream) {
-        super(References.get(gtk_h.g_data_output_stream_new(baseStream.handle()), true));
+        super(constructNew(baseStream));
     }
     
     /**
@@ -40,7 +45,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts a byte into the output stream.
      */
-    public boolean putByte(byte data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putByte(byte data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_byte(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -52,7 +57,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts a signed 16-bit integer into the output stream.
      */
-    public boolean putInt16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putInt16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_int16(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -64,7 +69,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts a signed 32-bit integer into the output stream.
      */
-    public boolean putInt32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putInt32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_int32(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -76,7 +81,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts a signed 64-bit integer into the stream.
      */
-    public boolean putInt64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putInt64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_int64(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -88,7 +93,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts a string into the output stream.
      */
-    public boolean putString(java.lang.String str, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putString(java.lang.String str, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_string(handle(), Interop.allocateNativeString(str).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -100,7 +105,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts an unsigned 16-bit integer into the output stream.
      */
-    public boolean putUint16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putUint16(short data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_uint16(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -112,7 +117,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts an unsigned 32-bit integer into the stream.
      */
-    public boolean putUint32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putUint32(int data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_uint32(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -124,7 +129,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     /**
      * Puts an unsigned 64-bit integer into the stream.
      */
-    public boolean putUint64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean putUint64(long data, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_output_stream_put_uint64(handle(), data, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -39,9 +39,9 @@ import java.lang.invoke.*;
  * In the example above, the signature matches e.g. "auud\\0" with
  * relevance 100, and "blau" with relevance 90.
  */
-public class PixbufModulePattern extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
 
-    public PixbufModulePattern(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufModulePattern(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

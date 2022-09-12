@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  */
 public class ConstraintGuide extends org.gtk.gobject.Object implements ConstraintTarget {
 
-    public ConstraintGuide(io.github.jwharm.javagi.interop.Reference reference) {
+    public ConstraintGuide(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -32,11 +32,16 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
         return new ConstraintGuide(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_constraint_guide_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkConstraintGuide` object.
      */
     public ConstraintGuide() {
-        super(References.get(gtk_h.gtk_constraint_guide_new(), true));
+        super(constructNew());
     }
     
     /**

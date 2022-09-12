@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class DataInputStream extends BufferedInputStream implements Seekable {
 
-    public DataInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public DataInputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,11 +22,16 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         return new DataInputStream(gobject.getReference());
     }
     
+    private static Reference constructNew(InputStream baseStream) {
+        Reference RESULT = References.get(gtk_h.g_data_input_stream_new(baseStream.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new data input stream for the @base_stream.
      */
     public DataInputStream(InputStream baseStream) {
-        super(References.get(gtk_h.g_data_input_stream_new(baseStream.handle()), true));
+        super(constructNew(baseStream));
     }
     
     /**
@@ -48,7 +53,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     /**
      * Reads an unsigned 8-bit/1-byte value from @stream.
      */
-    public byte readByte(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public byte readByte(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_byte(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -63,7 +68,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      */
-    public short readInt16(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public short readInt16(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_int16(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -82,7 +87,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public int readInt32(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int readInt32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_int32(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -101,7 +106,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public long readInt64(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long readInt64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_int64(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -118,16 +123,15 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * can then call g_data_input_stream_read_line_finish() to get
      * the result of the operation.
      */
-    public void readLineAsync(DataInputStream stream, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void readLineAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_data_input_stream_read_line_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_data_input_stream_read_line_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -139,7 +143,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      */
-    public short readUint16(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public short readUint16(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_uint16(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -158,7 +162,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public int readUint32(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int readUint32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_uint32(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -177,7 +181,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public long readUint64(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long readUint64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_data_input_stream_read_uint64(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -202,16 +206,15 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * can then call g_data_input_stream_read_upto_finish() to get
      * the result of the operation.
      */
-    public void readUptoAsync(DataInputStream stream, java.lang.String stopChars, long stopCharsLen, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void readUptoAsync(java.lang.String stopChars, long stopCharsLen, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_data_input_stream_read_upto_async(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_data_input_stream_read_upto_async(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

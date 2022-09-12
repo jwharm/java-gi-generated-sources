@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -58,7 +58,7 @@ import java.lang.invoke.*;
  */
 public class Stack extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Stack(io.github.jwharm.javagi.interop.Reference reference) {
+    public Stack(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -67,11 +67,16 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
         return new Stack(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_stack_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkStack`.
      */
     public Stack() {
-        super(References.get(gtk_h.gtk_stack_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -132,7 +137,9 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns the `GtkStackPage` object for @child or NULL if @child isn't a `GtkStack` child.
+     * Retrieves the stack page for the given @child.
+     * 
+     * If the given @child is not a child widget of the stack, this function will return `NULL`.
      */
     public StackPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_stack_get_page(handle(), child.handle());

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBusInterface {
 
-    public DBusInterfaceSkeleton(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusInterfaceSkeleton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,7 +30,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * 
      * Use g_dbus_interface_skeleton_unexport() to unexport the object.
      */
-    public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dbus_interface_skeleton_export(handle(), connection.handle(), Interop.allocateNativeString(objectPath).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -188,16 +188,16 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * handled in the same thread as the object that @interface belongs
      * to was exported in.
      */
-    public void onGAuthorizeMethod(GAuthorizeMethodHandler handler) {
+    public SignalHandle onGAuthorizeMethod(GAuthorizeMethodHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("g-authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("g-authorize-method").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -176,7 +176,7 @@ import java.lang.invoke.*;
  */
 public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncResult {
 
-    public SimpleAsyncResult(io.github.jwharm.javagi.interop.Reference reference) {
+    public SimpleAsyncResult(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -185,19 +185,49 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
         return new SimpleAsyncResult(gobject.getReference());
     }
     
+    private static Reference constructNewFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        try {
+            Reference RESULT = References.get(gtk_h.g_simple_async_result_new_from_error(sourceObject.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), error.handle()), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Creates a #GSimpleAsyncResult from an error condition.
      */
-    public static SimpleAsyncResult newFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(References.get(gtk_h.g_simple_async_result_new_from_error(sourceObject.handle(), callback, userData, error.handle()), true));
+    public static SimpleAsyncResult newFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error));
+    }
+    
+    private static Reference constructNewTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        try {
+            Reference RESULT = References.get(gtk_h.g_simple_async_result_new_take_error(sourceObject.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), error.handle()), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
      * Creates a #GSimpleAsyncResult from an error condition, and takes over the
      * caller's ownership of @error, so the caller does not need to free it anymore.
      */
-    public static SimpleAsyncResult newTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(References.get(gtk_h.g_simple_async_result_new_take_error(sourceObject.handle(), callback, userData, error.handle()), true));
+    public static SimpleAsyncResult newTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error));
     }
     
 }

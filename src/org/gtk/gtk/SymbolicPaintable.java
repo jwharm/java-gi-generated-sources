@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * 
  * More colors may be added in the future.
  */
-public interface SymbolicPaintable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface SymbolicPaintable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Snapshots the paintable with the given colors.
@@ -34,7 +34,7 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {
-        public SymbolicPaintableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public SymbolicPaintableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

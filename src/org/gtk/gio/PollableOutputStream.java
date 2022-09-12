@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * interfacing with a non-GIO API that expects
  * UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.
  */
-public interface PollableOutputStream extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Checks if @stream is actually pollable. Some classes may implement
@@ -76,7 +76,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.interop.Na
      * transports like D/TLS require that you re-send the same @buffer and
      * @count in the next write call.
      */
-    public default long writeNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default long writeNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_pollable_output_stream_write_nonblocking(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -86,7 +86,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.interop.Na
     }
     
     class PollableOutputStreamImpl extends org.gtk.gobject.Object implements PollableOutputStream {
-        public PollableOutputStreamImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public PollableOutputStreamImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class TextNode extends RenderNode {
 
-    public TextNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public TextNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to TextNode */
     public static TextNode castFrom(org.gtk.gobject.Object gobject) {
         return new TextNode(gobject.getReference());
+    }
+    
+    private static Reference constructNew(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
+        Reference RESULT = References.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -28,7 +33,7 @@ public class TextNode extends RenderNode {
      * color glyphs.
      */
     public TextNode(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
-        super(References.get(gtk_h.gsk_text_node_new(font.handle(), glyphs.handle(), color.handle(), offset.handle()), true));
+        super(constructNew(font, glyphs, color, offset));
     }
     
     /**

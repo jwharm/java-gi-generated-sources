@@ -3,24 +3,29 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A point with three components: X, Y, and Z.
  */
-public class Point3D extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Point3D extends io.github.jwharm.javagi.ResourceBase {
 
-    public Point3D(io.github.jwharm.javagi.interop.Reference reference) {
+    public Point3D(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_point3d_alloc(), true);
+        return RESULT;
     }
     
     /**
      * Allocates a #graphene_point3d_t structure.
      */
     public static Point3D alloc() {
-        return new Point3D(References.get(gtk_h.graphene_point3d_alloc(), true));
+        return new Point3D(constructAlloc());
     }
     
     /**

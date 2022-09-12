@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * The implementation of the #GObject property system uses such a pool to
  * store the #GParamSpecs of the properties all object types.
  */
-public class ParamSpecPool extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
 
-    public ParamSpecPool(io.github.jwharm.javagi.interop.Reference reference) {
+    public ParamSpecPool(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

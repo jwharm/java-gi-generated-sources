@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class FontChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FontChooser, Native, Root, ShortcutManager {
 
-    public FontChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontChooserDialog(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,11 +34,16 @@ public class FontChooserDialog extends Dialog implements Accessible, Buildable, 
         return new FontChooserDialog(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String title, Window parent) {
+        Reference RESULT = References.get(gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkFontChooserDialog`.
      */
     public FontChooserDialog(java.lang.String title, Window parent) {
-        super(References.get(gtk_h.gtk_font_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false));
+        super(constructNew(title, parent));
     }
     
 }

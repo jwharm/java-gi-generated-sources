@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  */
 public class GestureSwipe extends GestureSingle {
 
-    public GestureSwipe(io.github.jwharm.javagi.interop.Reference reference) {
+    public GestureSwipe(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -32,11 +32,16 @@ public class GestureSwipe extends GestureSingle {
         return new GestureSwipe(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_gesture_swipe_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Returns a newly created `GtkGesture` that recognizes swipes.
      */
     public GestureSwipe() {
-        super(References.get(gtk_h.gtk_gesture_swipe_new(), true));
+        super(constructNew());
     }
     
     @FunctionalInterface
@@ -49,16 +54,16 @@ public class GestureSwipe extends GestureSingle {
      * 
      * Velocity and direction are a product of previously recorded events.
      */
-    public void onSwipe(SwipeHandler handler) {
+    public SignalHandle onSwipe(SwipeHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureSwipeSwipe", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("swipe").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("swipe").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

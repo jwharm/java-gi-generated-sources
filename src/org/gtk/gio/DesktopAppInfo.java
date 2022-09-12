@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -17,13 +17,18 @@ import java.lang.invoke.*;
  */
 public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
 
-    public DesktopAppInfo(io.github.jwharm.javagi.interop.Reference reference) {
+    public DesktopAppInfo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to DesktopAppInfo */
     public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
         return new DesktopAppInfo(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String desktopId) {
+        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -40,21 +45,31 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * `/usr/share/applications/kde/foo.desktop`).
      */
     public DesktopAppInfo(java.lang.String desktopId) {
-        super(References.get(gtk_h.g_desktop_app_info_new(Interop.allocateNativeString(desktopId).handle()), true));
+        super(constructNew(desktopId));
+    }
+    
+    private static Reference constructNewFromFilename(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
-        return new DesktopAppInfo(References.get(gtk_h.g_desktop_app_info_new_from_filename(Interop.allocateNativeString(filename).handle()), true));
+        return new DesktopAppInfo(constructNewFromFilename(filename));
+    }
+    
+    private static Reference constructNewFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+        Reference RESULT = References.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GDesktopAppInfo.
      */
     public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
-        return new DesktopAppInfo(References.get(gtk_h.g_desktop_app_info_new_from_keyfile(keyFile.handle()), true));
+        return new DesktopAppInfo(constructNewFromKeyfile(keyFile));
     }
     
     /**
@@ -220,16 +235,26 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * activation) then @spawn_flags, @user_setup, @user_setup_data,
      * @pid_callback and @pid_callback_data are ignored.
      */
-    public boolean launchUrisAsManager(DesktopAppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback) {
+    public boolean launchUrisAsManager(org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = userSetup.hashCode();
-            Interop.signalRegistry.put(hash, userSetup);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_desktop_app_info_launch_uris_as_manager(handle(), uris.handle(), launchContext.handle(), spawnFlags, nativeSymbol, intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_desktop_app_info_launch_uris_as_manager(handle(), uris.handle(), launchContext.handle(), spawnFlags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDesktopAppLaunchCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -243,16 +268,26 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * If application launching occurs via some non-spawn mechanism (e.g. D-Bus
      * activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.
      */
-    public boolean launchUrisAsManagerWithFds(DesktopAppInfo appinfo, org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) {
+    public boolean launchUrisAsManagerWithFds(org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = userSetup.hashCode();
-            Interop.signalRegistry.put(hash, userSetup);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_desktop_app_info_launch_uris_as_manager_with_fds(handle(), uris.handle(), launchContext.handle(), spawnFlags, nativeSymbol, intSegment, nativeSymbol, intSegment, stdinFd, stdoutFd, stderrFd);
+            var RESULT = gtk_h.g_desktop_app_info_launch_uris_as_manager_with_fds(handle(), uris.handle(), launchContext.handle(), spawnFlags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDesktopAppLaunchCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), stdinFd, stdoutFd, stderrFd, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

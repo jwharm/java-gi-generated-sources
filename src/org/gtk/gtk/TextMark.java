@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -44,13 +44,18 @@ import java.lang.invoke.*;
  */
 public class TextMark extends org.gtk.gobject.Object {
 
-    public TextMark(io.github.jwharm.javagi.interop.Reference reference) {
+    public TextMark(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to TextMark */
     public static TextMark castFrom(org.gtk.gobject.Object gobject) {
         return new TextMark(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String name, boolean leftGravity) {
+        Reference RESULT = References.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
@@ -67,7 +72,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * right side of the text you’re typing).
      */
     public TextMark(java.lang.String name, boolean leftGravity) {
-        super(References.get(gtk_h.gtk_text_mark_new(Interop.allocateNativeString(name).handle(), leftGravity ? 1 : 0), true));
+        super(constructNew(name, leftGravity));
     }
     
     /**

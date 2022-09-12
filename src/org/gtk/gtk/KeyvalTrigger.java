@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class KeyvalTrigger extends ShortcutTrigger {
 
-    public KeyvalTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+    public KeyvalTrigger(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class KeyvalTrigger extends ShortcutTrigger {
         return new KeyvalTrigger(gobject.getReference());
     }
     
+    private static Reference constructNew(int keyval, int modifiers) {
+        Reference RESULT = References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GtkShortcutTrigger` that will trigger whenever
      * the key with the given @keyval and @modifiers is pressed.
      */
     public KeyvalTrigger(int keyval, int modifiers) {
-        super(References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true));
+        super(constructNew(keyval, modifiers));
     }
     
     /**

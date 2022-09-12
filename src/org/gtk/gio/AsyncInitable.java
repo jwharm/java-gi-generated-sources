@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -108,7 +108,7 @@ import java.lang.invoke.*;
  * }
  * ]|
  */
-public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Starts asynchronous initialization of the object implementing the
@@ -148,16 +148,15 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
      * threads, just implement the #GAsyncInitable interface without overriding
      * any interface methods.
      */
-    public default void initAsync(AsyncInitable initable, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void initAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_initable_init_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_async_initable_init_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -167,7 +166,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
      * Finishes asynchronous initialization and returns the result.
      * See g_async_initable_init_async().
      */
-    public default boolean initFinish(AsyncResult res) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean initFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_async_initable_init_finish(handle(), res.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -185,23 +184,22 @@ public interface AsyncInitable extends io.github.jwharm.javagi.interop.NativeAdd
      * then call g_async_initable_new_finish() to get the new object and check
      * for any errors.
      */
-    public void newValistAsync(Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static void newValistAsync(Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_async_initable_new_valist_async(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_async_initable_new_valist_async(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {
-        public AsyncInitableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public AsyncInitableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

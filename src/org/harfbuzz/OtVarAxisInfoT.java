@@ -3,7 +3,7 @@ package org.harfbuzz;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,9 +15,9 @@ import java.lang.invoke.*;
  * <note>Note: at present, the only flag defined for @flags is
  * #HB_OT_VAR_AXIS_FLAG_HIDDEN.</note>
  */
-public class OtVarAxisInfoT extends io.github.jwharm.javagi.interop.ResourceBase {
+public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
 
-    public OtVarAxisInfoT(io.github.jwharm.javagi.interop.Reference reference) {
+    public OtVarAxisInfoT(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

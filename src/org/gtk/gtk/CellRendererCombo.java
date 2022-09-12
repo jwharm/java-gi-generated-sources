@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,13 +23,18 @@ import java.lang.invoke.*;
  */
 public class CellRendererCombo extends CellRendererText {
 
-    public CellRendererCombo(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellRendererCombo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to CellRendererCombo */
     public static CellRendererCombo castFrom(org.gtk.gobject.Object gobject) {
         return new CellRendererCombo(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_combo_new(), false);
+        return RESULT;
     }
     
     /**
@@ -42,7 +47,7 @@ public class CellRendererCombo extends CellRendererText {
      * a different string in each row of the `GtkTreeView`.
      */
     public CellRendererCombo() {
-        super(References.get(gtk_h.gtk_cell_renderer_combo_new(), false));
+        super(constructNew());
     }
     
     @FunctionalInterface
@@ -63,16 +68,16 @@ public class CellRendererCombo extends CellRendererText {
      * means that you most probably want to refrain from changing the model
      * until the combo cell renderer emits the edited or editing_canceled signal.
      */
-    public void onChanged(ChangedHandler handler) {
+    public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellRendererComboChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

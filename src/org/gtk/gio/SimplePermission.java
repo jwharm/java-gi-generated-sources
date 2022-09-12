@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class SimplePermission extends Permission {
 
-    public SimplePermission(io.github.jwharm.javagi.interop.Reference reference) {
+    public SimplePermission(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,12 +25,17 @@ public class SimplePermission extends Permission {
         return new SimplePermission(gobject.getReference());
     }
     
+    private static Reference constructNew(boolean allowed) {
+        Reference RESULT = References.get(gtk_h.g_simple_permission_new(allowed ? 1 : 0), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GPermission instance that represents an action that is
      * either always or never allowed.
      */
     public SimplePermission(boolean allowed) {
-        super(References.get(gtk_h.g_simple_permission_new(allowed ? 1 : 0), true));
+        super(constructNew(allowed));
     }
     
 }

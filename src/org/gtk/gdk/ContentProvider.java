@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  */
 public class ContentProvider extends org.gtk.gobject.Object {
 
-    public ContentProvider(io.github.jwharm.javagi.interop.Reference reference) {
+    public ContentProvider(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -29,19 +29,34 @@ public class ContentProvider extends org.gtk.gobject.Object {
         return new ContentProvider(gobject.getReference());
     }
     
+    private static Reference constructNewForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Create a content provider that provides the given @bytes as data for
      * the given @mime_type.
      */
     public static ContentProvider newForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
-        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_for_bytes(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true));
+        return new ContentProvider(constructNewForBytes(mimeType, bytes));
+    }
+    
+    private static Reference constructNewForValue(org.gtk.gobject.Value value) {
+        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true);
+        return RESULT;
     }
     
     /**
      * Create a content provider that provides the given @value.
      */
     public static ContentProvider newForValue(org.gtk.gobject.Value value) {
-        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_for_value(value.handle()), true));
+        return new ContentProvider(constructNewForValue(value));
+    }
+    
+    private static Reference constructNewUnion(ContentProvider[] providers, long nProviders) {
+        Reference RESULT = References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true);
+        return RESULT;
     }
     
     /**
@@ -62,7 +77,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * ```
      */
     public static ContentProvider newUnion(ContentProvider[] providers, long nProviders) {
-        return new ContentProvider(References.get(gtk_h.gdk_content_provider_new_union(Interop.allocateNativeArray(providers).handle(), nProviders), true));
+        return new ContentProvider(constructNewUnion(providers, nProviders));
     }
     
     /**
@@ -81,7 +96,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * given `GType` is not supported, this operation can fail and
      * `G_IO_ERROR_NOT_SUPPORTED` will be reported.
      */
-    public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_content_provider_get_value(handle(), value.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -125,16 +140,15 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * 
      * The given @stream will not be closed.
      */
-    public void writeMimeTypeAsync(ContentProvider provider, java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public void writeMimeTypeAsync(java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_content_provider_write_mime_type_async(handle(), Interop.allocateNativeString(mimeType).handle(), stream.handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_content_provider_write_mime_type_async(handle(), Interop.allocateNativeString(mimeType).handle(), stream.handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -145,7 +159,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * 
      * See [method@Gdk.ContentProvider.write_mime_type_async].
      */
-    public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_content_provider_write_mime_type_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -162,16 +176,16 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Emitted whenever the content provided by this provider has changed.
      */
-    public void onContentChanged(ContentChangedHandler handler) {
+    public SignalHandle onContentChanged(ContentChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalContentProviderContentChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("content-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("content-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

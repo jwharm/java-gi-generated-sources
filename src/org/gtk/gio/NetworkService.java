@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  */
 public class NetworkService extends org.gtk.gobject.Object implements SocketConnectable {
 
-    public NetworkService(io.github.jwharm.javagi.interop.Reference reference) {
+    public NetworkService(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -29,13 +29,18 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
         return new NetworkService(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
+        Reference RESULT = References.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GNetworkService representing the given @service,
      * @protocol, and @domain. This will initially be unresolved; use the
      * #GSocketConnectable interface to resolve it.
      */
     public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
-        super(References.get(gtk_h.g_network_service_new(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true));
+        super(constructNew(service, protocol, domain));
     }
     
     /**

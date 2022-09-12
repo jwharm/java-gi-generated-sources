@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  */
 public class ColorChooserDialog extends Dialog implements Accessible, Buildable, ColorChooser, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ColorChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+    public ColorChooserDialog(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -32,11 +32,16 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
         return new ColorChooserDialog(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String title, Window parent) {
+        Reference RESULT = References.get(gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkColorChooserDialog`.
      */
     public ColorChooserDialog(java.lang.String title, Window parent) {
-        super(References.get(gtk_h.gtk_color_chooser_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false));
+        super(constructNew(title, parent));
     }
     
 }

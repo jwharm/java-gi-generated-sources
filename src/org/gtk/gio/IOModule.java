@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  */
 public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobject.TypePlugin {
 
-    public IOModule(io.github.jwharm.javagi.interop.Reference reference) {
+    public IOModule(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -23,12 +23,17 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         return new IOModule(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new GIOModule that will load the specific
      * shared library when in use.
      */
     public IOModule(java.lang.String filename) {
-        super(References.get(gtk_h.g_io_module_new(Interop.allocateNativeString(filename).handle()), true));
+        super(constructNew(filename));
     }
     
     /**

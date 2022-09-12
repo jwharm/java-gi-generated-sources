@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  */
 public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public PageSetupUnixDialog(io.github.jwharm.javagi.interop.Reference reference) {
+    public PageSetupUnixDialog(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -28,11 +28,16 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
         return new PageSetupUnixDialog(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String title, Window parent) {
+        Reference RESULT = References.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new page setup dialog.
      */
     public PageSetupUnixDialog(java.lang.String title, Window parent) {
-        super(References.get(gtk_h.gtk_page_setup_unix_dialog_new(Interop.allocateNativeString(title).handle(), parent.handle()), false));
+        super(constructNew(title, parent));
     }
     
     /**

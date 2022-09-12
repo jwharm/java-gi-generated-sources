@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,15 +21,20 @@ import java.lang.invoke.*;
  * struct, the #GObjectClass (or derived) struct, and any private data allocated
  * by G_ADD_PRIVATE().
  */
-public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Object extends io.github.jwharm.javagi.ResourceBase {
 
-    public Object(io.github.jwharm.javagi.interop.Reference reference) {
+    public Object(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Object */
     public static Object castFrom(org.gtk.gobject.Object gobject) {
         return new Object(gobject.getReference());
+    }
+    
+    private static Reference constructNewValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
+        Reference RESULT = References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
+        return RESULT;
     }
     
     /**
@@ -39,7 +44,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public static Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
-        return new Object(References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true));
+        return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
+    }
+    
+    private static Reference constructNewWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
+        Reference RESULT = References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -51,7 +61,12 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public static Object newWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
-        return new Object(References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true));
+        return new Object(constructNewWithProperties(objectType, nProperties, names, values));
+    }
+    
+    private static Reference constructNewv(Type objectType, int nParameters, Parameter[] parameters) {
+        Reference RESULT = References.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -61,7 +76,7 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * which are not explicitly specified are set to their default values.
      */
     public static Object newv(Type objectType, int nParameters, Parameter[] parameters) {
-        return new Object(References.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true));
+        return new Object(constructNewv(objectType, nParameters, parameters));
     }
     
     /**
@@ -94,16 +109,15 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * this reason, you should only ever use a toggle reference if there
      * is important state in the proxy object.
      */
-    public void addToggleRef(Object object, ToggleNotify notify) {
+    public void addToggleRef(ToggleNotify notify) {
         try {
-            int hash = notify.hashCode();
-            Interop.signalRegistry.put(hash, notify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_add_toggle_ref(handle(), nativeSymbol, intSegment);
+            gtk_h.g_object_add_toggle_ref(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -189,16 +203,22 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * for each transformation function, please use
      * g_object_bind_property_with_closures() instead.
      */
-    public Binding bindPropertyFull(Object source, java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+    public Binding bindPropertyFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
-            int hash = transformTo.hashCode();
-            Interop.signalRegistry.put(hash, transformTo);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
+                    Interop.cbDestroyNotifySymbol());
+            return new Binding(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -234,16 +254,16 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * threads are using object data on the same key on the same
      * object.
      */
-    public jdk.incubator.foreign.MemoryAddress dupData(Object object, java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
+    public jdk.incubator.foreign.MemoryAddress dupData(java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
-            int hash = dupFunc.hashCode();
-            Interop.signalRegistry.put(hash, dupFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -265,16 +285,16 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * threads are using object data on the same key on the same
      * object.
      */
-    public jdk.incubator.foreign.MemoryAddress dupQdata(Object object, org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
+    public jdk.incubator.foreign.MemoryAddress dupQdata(org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
-            int hash = dupFunc.hashCode();
-            Interop.signalRegistry.put(hash, dupFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_dup_qdata(handle(), quark.getValue(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_object_dup_qdata(handle(), quark.getValue(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -470,16 +490,15 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes a reference added with g_object_add_toggle_ref(). The
      * reference count of the object is decreased by one.
      */
-    public void removeToggleRef(Object object, ToggleNotify notify) {
+    public void removeToggleRef(ToggleNotify notify) {
         try {
-            int hash = notify.hashCode();
-            Interop.signalRegistry.put(hash, notify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, boolean.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_remove_toggle_ref(handle(), nativeSymbol, intSegment);
+            gtk_h.g_object_remove_toggle_ref(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -527,19 +546,9 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Note that the @destroy callback is not called if @data is %NULL.
      */
-    public void setDataFull(Object object, java.lang.String key) {
-        try {
-            int hash = destroy.hashCode();
-            Interop.signalRegistry.put(hash, destroy);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), intSegment, Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setDataFull(java.lang.String key, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+        gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), data, 
+                    Interop.cbDestroyNotifySymbol());
     }
     
     /**
@@ -570,19 +579,9 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * the data is being overwritten by a call to g_object_set_qdata()
      * with the same @quark.
      */
-    public void setQdataFull(Object object, org.gtk.glib.Quark quark) {
-        try {
-            int hash = destroy.hashCode();
-            Interop.signalRegistry.put(hash, destroy);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_set_qdata_full(handle(), quark.getValue(), intSegment, Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setQdataFull(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+        gtk_h.g_object_set_qdata_full(handle(), quark.getValue(), data, 
+                    Interop.cbDestroyNotifySymbol());
     }
     
     /**
@@ -750,16 +749,15 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * object's last g_object_unref() might happen in another thread.
      * Use #GWeakRef if thread-safety is required.
      */
-    public void weakRef(Object object, WeakNotify notify) {
+    public void weakRef(WeakNotify notify) {
         try {
-            int hash = notify.hashCode();
-            Interop.signalRegistry.put(hash, notify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_weak_ref(handle(), nativeSymbol, intSegment);
+            gtk_h.g_object_weak_ref(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -768,16 +766,15 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Removes a weak reference callback to an object.
      */
-    public void weakUnref(Object object, WeakNotify notify) {
+    public void weakUnref(WeakNotify notify) {
         try {
-            int hash = notify.hashCode();
-            Interop.signalRegistry.put(hash, notify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_object_weak_unref(handle(), nativeSymbol, intSegment);
+            gtk_h.g_object_weak_unref(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -854,16 +851,16 @@ public class Object extends io.github.jwharm.javagi.interop.ResourceBase {
      * [canonical parameter names][canonical-parameter-names] as
      * detail strings for the notify signal.
      */
-    public void onNotify(NotifyHandler handler) {
+    public SignalHandle onNotify(NotifyHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * The #GSList struct is used for each element in the singly-linked
  * list.
  */
-public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
+public class SList extends io.github.jwharm.javagi.ResourceBase {
 
-    public SList(io.github.jwharm.javagi.interop.Reference reference) {
+    public SList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -101,16 +101,16 @@ public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
      * g_slist_free_full (another_list, g_object_unref);
      * ]|
      */
-    public org.gtk.glib.SList copyDeep(org.gtk.glib.SList list, CopyFunc func) {
+    public static org.gtk.glib.SList copyDeep(org.gtk.glib.SList list, CopyFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_slist_copy_deep(list.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_slist_copy_deep(list.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return new org.gtk.glib.SList(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -149,22 +149,36 @@ public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
      * the #GSList element's data as the first argument and the
      * given user data.
      */
+    public static org.gtk.glib.SList findCustom(org.gtk.glib.SList list, CompareFunc func) {
+        try {
+            var RESULT = gtk_h.g_slist_find_custom(list.handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
+            return new org.gtk.glib.SList(References.get(RESULT, false));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Calls a function for each element of a #GSList.
      * 
      * It is safe for @func to remove the element from @list, but it must
      * not modify any part of the list after that element.
      */
-    public void foreach(org.gtk.glib.SList list, Func func) {
+    public static void foreach(org.gtk.glib.SList list, Func func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_slist_foreach(list.handle(), nativeSymbol, intSegment);
+            gtk_h.g_slist_foreach(list.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -226,20 +240,36 @@ public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
      * Inserts a new element into the list, using the given
      * comparison function to determine its position.
      */
+    public static org.gtk.glib.SList insertSorted(org.gtk.glib.SList list, CompareFunc func) {
+        try {
+            var RESULT = gtk_h.g_slist_insert_sorted(list.handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
+            return new org.gtk.glib.SList(References.get(RESULT, false));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Inserts a new element into the list, using the given
      * comparison function to determine its position.
      */
-    public org.gtk.glib.SList insertSortedWithData(org.gtk.glib.SList list, CompareDataFunc func) {
+    public static org.gtk.glib.SList insertSortedWithData(org.gtk.glib.SList list, CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_slist_insert_sorted_with_data(list.handle(), intSegment, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_slist_insert_sorted_with_data(list.handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
+            return new org.gtk.glib.SList(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -359,16 +389,16 @@ public class SList extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Like g_slist_sort(), but the sort function accepts a user data argument.
      */
-    public org.gtk.glib.SList sortWithData(org.gtk.glib.SList list, CompareDataFunc compareFunc) {
+    public static org.gtk.glib.SList sortWithData(org.gtk.glib.SList list, CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_slist_sort_with_data(list.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_slist_sort_with_data(list.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+            return new org.gtk.glib.SList(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

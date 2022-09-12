@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -55,7 +55,7 @@ import java.lang.invoke.*;
  * Don't forget to disconnect the #GMemoryMonitor::low-memory-warning
  * signal, and unref the #GMemoryMonitor itself when exiting.
  */
-public interface MemoryMonitor extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets a reference to the default #GMemoryMonitor for the system.
@@ -76,23 +76,23 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.interop.NativeAdd
      * warning level. See the #GMemoryMonitorWarningLevel documentation for
      * details.
      */
-    public default void onLowMemoryWarning(LowMemoryWarningHandler handler) {
+    public default SignalHandle onLowMemoryWarning(LowMemoryWarningHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalMemoryMonitorLowMemoryWarning", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("low-memory-warning").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("low-memory-warning").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {
-        public MemoryMonitorImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public MemoryMonitorImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

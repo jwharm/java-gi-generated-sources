@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * The font faces in a family share a common design, but differ in
  * slant, weight, width or other aspects.
  */
-public class FontFamily extends org.gtk.gobject.Object {
+public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FontFamily(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontFamily(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

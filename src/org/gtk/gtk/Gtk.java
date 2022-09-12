@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -227,16 +227,16 @@ public final class Gtk {
      * 
      * If @func returns %TRUE, the enumeration is stopped.
      */
-    public void enumeratePrinters(PrinterFunc func, boolean wait) {
+    public static void enumeratePrinters(PrinterFunc func, boolean wait) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrinterFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_enumerate_printers(nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), wait ? 1 : 0);
+            gtk_h.gtk_enumerate_printers(
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrinterFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol(), wait ? 1 : 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -507,16 +507,15 @@ public final class Gtk {
      * showing the page setup dialog on platforms that support this, and calls @done_cb
      * from a signal handler for the ::response signal of the dialog.
      */
-    public void printRunPageSetupDialogAsync(Window parent, PageSetup pageSetup, PrintSettings settings, PageSetupDoneFunc doneCb) {
+    public static void printRunPageSetupDialogAsync(Window parent, PageSetup pageSetup, PrintSettings settings, PageSetupDoneFunc doneCb) {
         try {
-            int hash = doneCb.hashCode();
-            Interop.signalRegistry.put(hash, doneCb);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPageSetupDoneFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_print_run_page_setup_dialog_async(parent.handle(), pageSetup.handle(), settings.handle(), nativeSymbol, intSegment);
+            gtk_h.gtk_print_run_page_setup_dialog_async(parent.handle(), pageSetup.handle(), settings.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPageSetupDoneFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(doneCb.hashCode(), doneCb)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -685,16 +684,15 @@ public final class Gtk {
      * This is the recommended call to be used as it passes information
      * necessary for sandbox helpers to parent their dialogs properly.
      */
-    public void showUriFull(Window parent, java.lang.String uri, int timestamp, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void showUriFull(Window parent, java.lang.String uri, int timestamp, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_show_uri_full(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gtk_show_uri_full(parent.handle(), Interop.allocateNativeString(uri).handle(), timestamp, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -704,7 +702,7 @@ public final class Gtk {
      * Finishes the gtk_show_uri() call and returns the result
      * of the operation.
      */
-    public static boolean showUriFullFinish(Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean showUriFullFinish(Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_show_uri_full_finish(parent.handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

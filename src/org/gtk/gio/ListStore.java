@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class ListStore extends org.gtk.gobject.Object implements ListModel {
 
-    public ListStore(io.github.jwharm.javagi.interop.Reference reference) {
+    public ListStore(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,12 +25,17 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         return new ListStore(gobject.getReference());
     }
     
+    private static Reference constructNew(Type itemType) {
+        Reference RESULT = References.get(gtk_h.g_list_store_new(itemType.getValue()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GListStore with items of type @item_type. @item_type
      * must be a subclass of #GObject.
      */
     public ListStore(Type itemType) {
-        super(References.get(gtk_h.g_list_store_new(itemType.getValue()), true));
+        super(constructNew(itemType));
     }
     
     /**
@@ -69,16 +74,16 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * 
      * This function takes a ref on @item.
      */
-    public int insertSorted(ListStore store, org.gtk.gobject.Object item, org.gtk.glib.CompareDataFunc compareFunc) {
+    public int insertSorted(org.gtk.gobject.Object item, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_list_store_insert_sorted(handle(), item.handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_list_store_insert_sorted(handle(), item.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -105,16 +110,15 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     /**
      * Sort the items in @store according to @compare_func.
      */
-    public void sort(ListStore store, org.gtk.glib.CompareDataFunc compareFunc) {
+    public void sort(org.gtk.glib.CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_list_store_sort(handle(), nativeSymbol, intSegment);
+            gtk_h.g_list_store_sort(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

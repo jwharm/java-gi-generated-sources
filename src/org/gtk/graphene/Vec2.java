@@ -3,7 +3,7 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,15 @@ import java.lang.invoke.*;
  * The contents of the #graphene_vec2_t structure are private and should
  * never be accessed directly.
  */
-public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
 
-    public Vec2(io.github.jwharm.javagi.interop.Reference reference) {
+    public Vec2(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_vec2_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -27,7 +32,7 @@ public class Vec2 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec2_init() to initialize the vector.
      */
     public static Vec2 alloc() {
-        return new Vec2(References.get(gtk_h.graphene_vec2_alloc(), true));
+        return new Vec2(constructAlloc());
     }
     
     /**

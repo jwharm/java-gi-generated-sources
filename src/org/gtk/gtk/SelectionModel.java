@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -46,7 +46,7 @@ import java.lang.invoke.*;
  * Selections may happen asynchronously, so the only reliable way to find out
  * when an item was selected is to listen to the signals that indicate selection.
  */
-public interface SelectionModel extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the set containing all currently selected items in the model.
@@ -193,23 +193,23 @@ public interface SelectionModel extends io.github.jwharm.javagi.interop.NativeAd
      * a model to change the selection state of any of the items in the selection
      * model, though it would be rather useless to emit such a signal.
      */
-    public default void onSelectionChanged(SelectionChangedHandler handler) {
+    public default SignalHandle onSelectionChanged(SelectionChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSelectionModelSelectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("selection-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("selection-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class SelectionModelImpl extends org.gtk.gobject.Object implements SelectionModel {
-        public SelectionModelImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public SelectionModelImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

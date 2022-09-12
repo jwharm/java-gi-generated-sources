@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -38,13 +38,18 @@ import java.lang.invoke.*;
  */
 public class ShortcutAction extends org.gtk.gobject.Object {
 
-    public ShortcutAction(io.github.jwharm.javagi.interop.Reference reference) {
+    public ShortcutAction(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to ShortcutAction */
     public static ShortcutAction castFrom(org.gtk.gobject.Object gobject) {
         return new ShortcutAction(gobject.getReference());
+    }
+    
+    private static Reference constructParseString(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -62,7 +67,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * - `signal(NAME)`, for a `GtkSignalAction` for the signal `NAME`
      */
     public static ShortcutAction parseString(java.lang.String string) {
-        return new ShortcutAction(References.get(gtk_h.gtk_shortcut_action_parse_string(Interop.allocateNativeString(string).handle()), true));
+        return new ShortcutAction(constructParseString(string));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -74,13 +74,18 @@ import java.lang.invoke.*;
  */
 public class Application extends org.gtk.gio.Application implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
 
-    public Application(io.github.jwharm.javagi.interop.Reference reference) {
+    public Application(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Application */
     public static Application castFrom(org.gtk.gobject.Object gobject) {
         return new Application(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String applicationId, int flags) {
+        Reference RESULT = References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags), true);
+        return RESULT;
     }
     
     /**
@@ -104,7 +109,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
-        super(References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags), true));
+        super(constructNew(applicationId, flags));
     }
     
     /**
@@ -297,16 +302,16 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * [method@Gtk.Application.inhibit] with `GTK_APPLICATION_INHIBIT_LOGOUT`
      * to delay the end of the session until state has been saved.
      */
-    public void onQueryEnd(QueryEndHandler handler) {
+    public SignalHandle onQueryEnd(QueryEndHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationQueryEnd", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("query-end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("query-end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -321,16 +326,16 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * Emitted when a [class@Gtk.Window] is added to `application` through
      * [method@Gtk.Application.add_window].
      */
-    public void onWindowAdded(WindowAddedHandler handler) {
+    public SignalHandle onWindowAdded(WindowAddedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowAdded", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("window-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("window-added").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -347,16 +352,16 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * This can happen as a side-effect of the window being destroyed
      * or explicitly through [method@Gtk.Application.remove_window].
      */
-    public void onWindowRemoved(WindowRemovedHandler handler) {
+    public SignalHandle onWindowRemoved(WindowRemovedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalApplicationWindowRemoved", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("window-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("window-removed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,7 +1,5 @@
 package test;
 
-import io.github.jwharm.javagi.interop.GErrorException;
-import org.gtk.gdkpixbuf.Pixbuf;
 import org.gtk.gtk.*;
 import org.gtk.gio.ApplicationFlags;
 

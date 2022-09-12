@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  */
 public class StringObject extends org.gtk.gobject.Object {
 
-    public StringObject(io.github.jwharm.javagi.interop.Reference reference) {
+    public StringObject(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -24,11 +24,16 @@ public class StringObject extends org.gtk.gobject.Object {
         return new StringObject(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Wraps a string in an object for use with `GListModel`.
      */
     public StringObject(java.lang.String string) {
-        super(References.get(gtk_h.gtk_string_object_new(Interop.allocateNativeString(string).handle()), true));
+        super(constructNew(string));
     }
     
     /**

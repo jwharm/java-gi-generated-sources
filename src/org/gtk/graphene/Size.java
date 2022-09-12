@@ -3,17 +3,22 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A size.
  */
-public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Size extends io.github.jwharm.javagi.ResourceBase {
 
-    public Size(io.github.jwharm.javagi.interop.Reference reference) {
+    public Size(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_size_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -22,7 +27,7 @@ public class Size extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned value are undefined.
      */
     public static Size alloc() {
-        return new Size(References.get(gtk_h.graphene_size_alloc(), true));
+        return new Size(constructAlloc());
     }
     
     /**

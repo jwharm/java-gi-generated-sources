@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -510,13 +510,28 @@ import java.lang.invoke.*;
  */
 public class Task extends org.gtk.gobject.Object implements AsyncResult {
 
-    public Task(io.github.jwharm.javagi.interop.Reference reference) {
+    public Task(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Task */
     public static Task castFrom(org.gtk.gobject.Object gobject) {
         return new Task(gobject.getReference());
+    }
+    
+    private static Reference constructNew(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            Reference RESULT = References.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback))), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -537,8 +552,8 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * do not want this behavior, you can use
      * g_task_set_check_cancellable() to change it.
      */
-    public Task(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress callbackData) {
-        super(References.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), callback, callbackData), true));
+    public Task(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
+        super(constructNew(sourceObject, cancellable, callback));
     }
     
     /**
@@ -649,7 +664,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public boolean propagateBoolean() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean propagateBoolean() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_task_propagate_boolean(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -667,7 +682,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public long propagateInt() throws io.github.jwharm.javagi.interop.GErrorException {
+    public long propagateInt() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_task_propagate_int(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -686,7 +701,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public jdk.incubator.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.interop.GErrorException {
+    public jdk.incubator.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_task_propagate_pointer(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -707,7 +722,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_task_propagate_value(handle(), value.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -881,19 +896,9 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Sets @task's task data (freeing the existing task data, if any).
      */
-    public void setTaskData(Task task) {
-        try {
-            int hash = taskDataDestroy.hashCode();
-            Interop.signalRegistry.put(hash, taskDataDestroy);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_task_set_task_data(handle(), intSegment, Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setTaskData(jdk.incubator.foreign.MemoryAddress taskData, org.gtk.glib.DestroyNotify taskDataDestroy) {
+        gtk_h.g_task_set_task_data(handle(), taskData, 
+                    Interop.cbDestroyNotifySymbol());
     }
     
     /**
@@ -916,16 +921,15 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * 
      * See also g_task_report_new_error().
      */
-    public void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
+    public static void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_task_report_error(sourceObject.handle(), nativeSymbol, intSegment, sourceTag, error.handle());
+            gtk_h.g_task_report_error(sourceObject.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.handle());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

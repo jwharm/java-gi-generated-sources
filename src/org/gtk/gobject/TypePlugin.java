@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -57,7 +57,7 @@ import java.lang.invoke.*;
  * implements most of this except for the actual module loading and
  * unloading. It even handles multiple registered types per module.
  */
-public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Calls the @complete_interface_info function from the
@@ -96,7 +96,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {
-        public TypePluginImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public TypePluginImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

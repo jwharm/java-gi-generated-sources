@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class SelectionFilterModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SelectionFilterModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public SelectionFilterModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,12 +22,17 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         return new SelectionFilterModel(gobject.getReference());
     }
     
+    private static Reference constructNew(SelectionModel model) {
+        Reference RESULT = References.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkSelectionFilterModel` that will include the
      * selected items from the underlying selection model.
      */
     public SelectionFilterModel(SelectionModel model) {
-        super(References.get(gtk_h.gtk_selection_filter_model_new(model.handle()), true));
+        super(constructNew(model));
     }
     
     /**

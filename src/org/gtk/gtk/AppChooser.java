@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -28,7 +28,7 @@ import java.lang.invoke.*;
  * To obtain the application that has been selected in a `GtkAppChooser`,
  * use [method@Gtk.AppChooser.get_app_info].
  */
-public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface AppChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Returns the currently selected application.
@@ -55,7 +55,7 @@ public interface AppChooser extends io.github.jwharm.javagi.interop.NativeAddres
     }
     
     class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {
-        public AppChooserImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public AppChooserImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

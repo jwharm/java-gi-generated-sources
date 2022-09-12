@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,9 +22,9 @@ import java.lang.invoke.*;
  * The algorithm used for normalizing corner sizes is described in
  * [the CSS specification](https://drafts.csswg.org/css-backgrounds-3/#border-radius).
  */
-public class RoundedRect extends io.github.jwharm.javagi.interop.ResourceBase {
+public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
 
-    public RoundedRect(io.github.jwharm.javagi.interop.Reference reference) {
+    public RoundedRect(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

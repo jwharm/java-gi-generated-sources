@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -53,7 +53,7 @@ import java.lang.invoke.*;
  */
 public class PageSetup extends org.gtk.gobject.Object {
 
-    public PageSetup(io.github.jwharm.javagi.interop.Reference reference) {
+    public PageSetup(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -62,14 +62,19 @@ public class PageSetup extends org.gtk.gobject.Object {
         return new PageSetup(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_page_setup_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkPageSetup`.
      */
     public PageSetup() {
-        super(References.get(gtk_h.gtk_page_setup_new(), true));
+        super(constructNew());
     }
     
-    private static Reference constructNewFromFileOrThrow(java.lang.String fileName) throws GErrorException {
+    private static Reference constructNewFromFile(java.lang.String fileName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gtk_page_setup_new_from_file(Interop.allocateNativeString(fileName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -86,7 +91,12 @@ public class PageSetup extends org.gtk.gobject.Object {
      * See [method@Gtk.PageSetup.to_file].
      */
     public static PageSetup newFromFile(java.lang.String fileName) throws GErrorException {
-        return new PageSetup(constructNewFromFileOrThrow(fileName));
+        return new PageSetup(constructNewFromFile(fileName));
+    }
+    
+    private static Reference constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        Reference RESULT = References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -96,10 +106,10 @@ public class PageSetup extends org.gtk.gobject.Object {
      * [method@Gtk.PageSetup.to_gvariant].
      */
     public static PageSetup newFromGvariant(org.gtk.glib.Variant variant) {
-        return new PageSetup(References.get(gtk_h.gtk_page_setup_new_from_gvariant(variant.handle()), true));
+        return new PageSetup(constructNewFromGvariant(variant));
     }
     
-    private static Reference constructNewFromKeyFileOrThrow(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Reference constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gtk_page_setup_new_from_key_file(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -116,7 +126,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * page setup, or %NULL if an error occurred.
      */
     public static PageSetup newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
-        return new PageSetup(constructNewFromKeyFileOrThrow(keyFile, groupName));
+        return new PageSetup(constructNewFromKeyFile(keyFile, groupName));
     }
     
     /**
@@ -228,7 +238,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * 
      * See [method@Gtk.PageSetup.to_file].
      */
-    public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_page_setup_load_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -241,7 +251,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Reads the page setup from the group @group_name in the key file
      * @key_file.
      */
-    public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_page_setup_load_key_file(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -306,7 +316,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * This function saves the information from @setup to @file_name.
      */
-    public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_page_setup_to_file(handle(), Interop.allocateNativeString(fileName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

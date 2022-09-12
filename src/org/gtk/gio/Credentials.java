@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -48,7 +48,7 @@ import java.lang.invoke.*;
  */
 public class Credentials extends org.gtk.gobject.Object {
 
-    public Credentials(io.github.jwharm.javagi.interop.Reference reference) {
+    public Credentials(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -57,12 +57,17 @@ public class Credentials extends org.gtk.gobject.Object {
         return new Credentials(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_credentials_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GCredentials object with credentials matching the
      * the current process.
      */
     public Credentials() {
-        super(References.get(gtk_h.g_credentials_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -86,7 +91,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * OS or if the native credentials type does not contain information
      * about the UNIX process ID.
      */
-    public int getUnixPid() throws io.github.jwharm.javagi.interop.GErrorException {
+    public int getUnixPid() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_credentials_get_unix_pid(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -103,7 +108,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * OS or if the native credentials type does not contain information
      * about the UNIX user.
      */
-    public int getUnixUser() throws io.github.jwharm.javagi.interop.GErrorException {
+    public int getUnixUser() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_credentials_get_unix_user(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -118,7 +123,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * This operation can fail if #GCredentials is not supported on the
      * the OS.
      */
-    public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_credentials_is_same_user(handle(), otherCredentials.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -148,7 +153,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * about the UNIX user. It can also fail if the OS does not allow the
      * use of "spoofed" credentials.
      */
-    public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_credentials_set_unix_user(handle(), uid, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

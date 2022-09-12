@@ -1,7 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import jdk.incubator.foreign.*;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
 public final class JVMCallbacks {
@@ -51,7 +51,7 @@ public final class JVMCallbacks {
     public static boolean cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PixbufSaveFunc) Interop.signalRegistry.get(hash);
-        return handler.onPixbufSaveFunc(null, count, new org.gtk.glib.Error(References.get(error, true)));
+        return handler.onPixbufSaveFunc(null, count);
     }
     
     public static void cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {

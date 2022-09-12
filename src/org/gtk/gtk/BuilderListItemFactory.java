@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -34,7 +34,7 @@ import java.lang.invoke.*;
  */
 public class BuilderListItemFactory extends ListItemFactory {
 
-    public BuilderListItemFactory(io.github.jwharm.javagi.interop.Reference reference) {
+    public BuilderListItemFactory(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -43,12 +43,22 @@ public class BuilderListItemFactory extends ListItemFactory {
         return new BuilderListItemFactory(gobject.getReference());
     }
     
+    private static Reference constructNewFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
+        Reference RESULT = References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkBuilderListItemFactory` that instantiates widgets
      * using @bytes as the data to pass to `GtkBuilder`.
      */
     public static BuilderListItemFactory newFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
-        return new BuilderListItemFactory(References.get(gtk_h.gtk_builder_list_item_factory_new_from_bytes(scope.handle(), bytes.handle()), true));
+        return new BuilderListItemFactory(constructNewFromBytes(scope, bytes));
+    }
+    
+    private static Reference constructNewFromResource(BuilderScope scope, java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -56,7 +66,7 @@ public class BuilderListItemFactory extends ListItemFactory {
      * using data read from the given @resource_path to pass to `GtkBuilder`.
      */
     public static BuilderListItemFactory newFromResource(BuilderScope scope, java.lang.String resourcePath) {
-        return new BuilderListItemFactory(References.get(gtk_h.gtk_builder_list_item_factory_new_from_resource(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true));
+        return new BuilderListItemFactory(constructNewFromResource(scope, resourcePath));
     }
     
     /**

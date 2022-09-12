@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  */
 public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
-    public SingleSelection(io.github.jwharm.javagi.interop.Reference reference) {
+    public SingleSelection(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -27,11 +27,16 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         return new SingleSelection(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.ListModel model) {
+        Reference RESULT = References.get(gtk_h.gtk_single_selection_new(model.getReference().unowned().handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new selection to handle @model.
      */
     public SingleSelection(org.gtk.gio.ListModel model) {
-        super(References.get(gtk_h.gtk_single_selection_new(model.getReference().unowned().handle()), true));
+        super(constructNew(model));
     }
     
     /**

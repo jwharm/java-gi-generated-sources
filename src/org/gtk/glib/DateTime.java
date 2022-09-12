@@ -3,17 +3,22 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * An opaque structure that represents a date and time, including a time zone.
  */
-public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
+public class DateTime extends io.github.jwharm.javagi.ResourceBase {
 
-    public DateTime(io.github.jwharm.javagi.interop.Reference reference) {
+    public DateTime(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true);
+        return RESULT;
     }
     
     /**
@@ -47,7 +52,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public DateTime(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        super(References.get(gtk_h.g_date_time_new(tz.handle(), year, month, day, hour, minute, seconds), true));
+        super(constructNew(tz, year, month, day, hour, minute, seconds));
+    }
+    
+    private static Reference constructNewFromIso8601(java.lang.String text, TimeZone defaultTz) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -96,7 +106,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromIso8601(java.lang.String text, TimeZone defaultTz) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_from_iso8601(Interop.allocateNativeString(text).handle(), defaultTz.handle()), true));
+        return new DateTime(constructNewFromIso8601(text, defaultTz));
+    }
+    
+    private static Reference constructNewFromTimevalLocal(TimeVal tv) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -114,7 +129,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalLocal(TimeVal tv) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_from_timeval_local(tv.handle()), true));
+        return new DateTime(constructNewFromTimevalLocal(tv));
+    }
+    
+    private static Reference constructNewFromTimevalUtc(TimeVal tv) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -130,7 +150,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromTimevalUtc(TimeVal tv) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_from_timeval_utc(tv.handle()), true));
+        return new DateTime(constructNewFromTimevalUtc(tv));
+    }
+    
+    private static Reference constructNewFromUnixLocal(long t) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_from_unix_local(t), true);
+        return RESULT;
     }
     
     /**
@@ -147,7 +172,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixLocal(long t) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_from_unix_local(t), true));
+        return new DateTime(constructNewFromUnixLocal(t));
+    }
+    
+    private static Reference constructNewFromUnixUtc(long t) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_from_unix_utc(t), true);
+        return RESULT;
     }
     
     /**
@@ -163,7 +193,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newFromUnixUtc(long t) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_from_unix_utc(t), true));
+        return new DateTime(constructNewFromUnixUtc(t));
+    }
+    
+    private static Reference constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true);
+        return RESULT;
     }
     
     /**
@@ -174,7 +209,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_local(year, month, day, hour, minute, seconds), true));
+        return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds));
+    }
+    
+    private static Reference constructNewNow(TimeZone tz) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_now(tz.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -189,7 +229,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static DateTime newNow(TimeZone tz) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_now(tz.handle()), true));
+        return new DateTime(constructNewNow(tz));
+    }
+    
+    private static Reference constructNewNowLocal() {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_now_local(), true);
+        return RESULT;
     }
     
     /**
@@ -200,7 +245,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_local().
      */
     public static DateTime newNowLocal() {
-        return new DateTime(References.get(gtk_h.g_date_time_new_now_local(), true));
+        return new DateTime(constructNewNowLocal());
+    }
+    
+    private static Reference constructNewNowUtc() {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_now_utc(), true);
+        return RESULT;
     }
     
     /**
@@ -210,7 +260,12 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newNowUtc() {
-        return new DateTime(References.get(gtk_h.g_date_time_new_now_utc(), true));
+        return new DateTime(constructNewNowUtc());
+    }
+    
+    private static Reference constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
+        Reference RESULT = References.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true);
+        return RESULT;
     }
     
     /**
@@ -221,7 +276,7 @@ public class DateTime extends io.github.jwharm.javagi.interop.ResourceBase {
      * zone returned by g_time_zone_new_utc().
      */
     public static DateTime newUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(References.get(gtk_h.g_date_time_new_utc(year, month, day, hour, minute, seconds), true));
+        return new DateTime(constructNewUtc(year, month, day, hour, minute, seconds));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -156,10 +156,15 @@ import java.lang.invoke.*;
  * that, due to the restriction that the key of a dictionary entry must
  * be a basic type, "{**}" is not a valid type string.
  */
-public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
+public class VariantType extends io.github.jwharm.javagi.ResourceBase {
 
-    public VariantType(io.github.jwharm.javagi.interop.Reference reference) {
+    public VariantType(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String typeString) {
+        Reference RESULT = References.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -171,7 +176,12 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * string.  Use g_variant_type_string_is_valid() if you are unsure.
      */
     public VariantType(java.lang.String typeString) {
-        super(References.get(gtk_h.g_variant_type_new(Interop.allocateNativeString(typeString).handle()), true));
+        super(constructNew(typeString));
+    }
+    
+    private static Reference constructNewArray(VariantType element) {
+        Reference RESULT = References.get(gtk_h.g_variant_type_new_array(element.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -181,7 +191,12 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newArray(VariantType element) {
-        return new VariantType(References.get(gtk_h.g_variant_type_new_array(element.handle()), true));
+        return new VariantType(constructNewArray(element));
+    }
+    
+    private static Reference constructNewDictEntry(VariantType key, VariantType value) {
+        Reference RESULT = References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -191,7 +206,12 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newDictEntry(VariantType key, VariantType value) {
-        return new VariantType(References.get(gtk_h.g_variant_type_new_dict_entry(key.handle(), value.handle()), true));
+        return new VariantType(constructNewDictEntry(key, value));
+    }
+    
+    private static Reference constructNewMaybe(VariantType element) {
+        Reference RESULT = References.get(gtk_h.g_variant_type_new_maybe(element.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -201,7 +221,12 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newMaybe(VariantType element) {
-        return new VariantType(References.get(gtk_h.g_variant_type_new_maybe(element.handle()), true));
+        return new VariantType(constructNewMaybe(element));
+    }
+    
+    private static Reference constructNewTuple(VariantType[] items, int length) {
+        Reference RESULT = References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true);
+        return RESULT;
     }
     
     /**
@@ -213,7 +238,7 @@ public class VariantType extends io.github.jwharm.javagi.interop.ResourceBase {
      * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newTuple(VariantType[] items, int length) {
-        return new VariantType(References.get(gtk_h.g_variant_type_new_tuple(Interop.allocateNativeArray(items).handle(), length), true));
+        return new VariantType(constructNewTuple(items, length));
     }
     
     /**

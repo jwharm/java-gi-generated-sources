@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  */
 public class Resolver extends org.gtk.gobject.Object {
 
-    public Resolver(io.github.jwharm.javagi.interop.Reference reference) {
+    public Resolver(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -39,7 +39,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * operation, in which case @error (if non-%NULL) will be set to
      * %G_IO_ERROR_CANCELLED.
      */
-    public java.lang.String lookupByAddress(InetAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String lookupByAddress(InetAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_address(handle(), address.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -53,16 +53,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * associated hostname, and eventually calls @callback, which must
      * call g_resolver_lookup_by_address_finish() to get the final result.
      */
-    public void lookupByAddressAsync(Resolver resolver, InetAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupByAddressAsync(InetAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_resolver_lookup_by_address_async(handle(), address.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_resolver_lookup_by_address_async(handle(), address.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -76,7 +75,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
-    public java.lang.String lookupByAddressFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String lookupByAddressFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_address_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -110,7 +109,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * address, it may be easier to create a #GNetworkAddress and use its
      * #GSocketConnectable interface.
      */
-    public org.gtk.glib.List lookupByName(java.lang.String hostname, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupByName(java.lang.String hostname, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_name(handle(), Interop.allocateNativeString(hostname).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -125,16 +124,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * must call g_resolver_lookup_by_name_finish() to get the result.
      * See g_resolver_lookup_by_name() for more details.
      */
-    public void lookupByNameAsync(Resolver resolver, java.lang.String hostname, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupByNameAsync(java.lang.String hostname, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_resolver_lookup_by_name_async(handle(), Interop.allocateNativeString(hostname).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_resolver_lookup_by_name_async(handle(), Interop.allocateNativeString(hostname).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -148,7 +146,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
-    public org.gtk.glib.List lookupByNameFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupByNameFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_name_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -162,7 +160,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * the lookup behavior with @flags. For example this can be used to limit
      * results with %G_RESOLVER_NAME_LOOKUP_FLAGS_IPV4_ONLY.
      */
-    public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_name_with_flags(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -177,16 +175,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * must call g_resolver_lookup_by_name_with_flags_finish() to get the result.
      * See g_resolver_lookup_by_name() for more details.
      */
-    public void lookupByNameWithFlagsAsync(Resolver resolver, java.lang.String hostname, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupByNameWithFlagsAsync(java.lang.String hostname, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_resolver_lookup_by_name_with_flags_async(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_resolver_lookup_by_name_with_flags_async(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -200,7 +197,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
-    public org.gtk.glib.List lookupByNameWithFlagsFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupByNameWithFlagsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_by_name_with_flags_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -221,7 +218,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * operation, in which case @error (if non-%NULL) will be set to
      * %G_IO_ERROR_CANCELLED.
      */
-    public org.gtk.glib.List lookupRecords(java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupRecords(java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_records(handle(), Interop.allocateNativeString(rrname).handle(), recordType.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -236,16 +233,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * g_resolver_lookup_records_finish() to get the final result. See
      * g_resolver_lookup_records() for more details.
      */
-    public void lookupRecordsAsync(Resolver resolver, java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupRecordsAsync(java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_resolver_lookup_records_async(handle(), Interop.allocateNativeString(rrname).handle(), recordType.getValue(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_resolver_lookup_records_async(handle(), Interop.allocateNativeString(rrname).handle(), recordType.getValue(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -261,7 +257,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
-    public org.gtk.glib.List lookupRecordsFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupRecordsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_records_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -293,7 +289,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * to create a #GNetworkService and use its #GSocketConnectable
      * interface.
      */
-    public org.gtk.glib.List lookupService(java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupService(java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_service(handle(), Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -309,16 +305,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * get the final result. See g_resolver_lookup_service() for more
      * details.
      */
-    public void lookupServiceAsync(Resolver resolver, java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupServiceAsync(java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_resolver_lookup_service_async(handle(), Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_resolver_lookup_service_async(handle(), Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -332,7 +327,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
-    public org.gtk.glib.List lookupServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List lookupServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resolver_lookup_service_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -395,16 +390,16 @@ public class Resolver extends org.gtk.gobject.Object {
      * Emitted when the resolver notices that the system resolver
      * configuration has changed.
      */
-    public void onReload(ReloadHandler handler) {
+    public SignalHandle onReload(ReloadHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalResolverReload", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("reload").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("reload").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

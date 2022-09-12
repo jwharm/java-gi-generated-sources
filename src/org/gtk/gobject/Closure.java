@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -53,10 +53,15 @@ import java.lang.invoke.*;
  * - g_closure_invalidate() and invalidation notifiers allow callbacks to be
  *   automatically removed when the objects they point to go away.
  */
-public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Closure extends io.github.jwharm.javagi.ResourceBase {
 
-    public Closure(io.github.jwharm.javagi.interop.Reference reference) {
+    public Closure(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNewObject(int sizeofClosure, Object object) {
+        Reference RESULT = References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -66,7 +71,12 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * when implementing new types of closures.
      */
     public static Closure newObject(int sizeofClosure, Object object) {
-        return new Closure(References.get(gtk_h.g_closure_new_object(sizeofClosure, object.handle()), true));
+        return new Closure(constructNewObject(sizeofClosure, object));
+    }
+    
+    private static Reference constructNewSimple(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
+        Reference RESULT = References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false);
+        return RESULT;
     }
     
     /**
@@ -109,7 +119,7 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * ]|
      */
     public static Closure newSimple(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
-        return new Closure(References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false));
+        return new Closure(constructNewSimple(sizeofClosure, data));
     }
     
     /**
@@ -121,16 +131,15 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * the closure being both invalidated and finalized, then the invalidate
      * notifiers will be run before the finalize notifiers.
      */
-    public void addFinalizeNotifier(Closure closure, ClosureNotify notifyFunc) {
+    public void addFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
-            int hash = notifyFunc.hashCode();
-            Interop.signalRegistry.put(hash, notifyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_add_finalize_notifier(handle(), intSegment, nativeSymbol);
+            gtk_h.g_closure_add_finalize_notifier(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -143,16 +152,15 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * Invalidation notifiers are invoked before finalization notifiers,
      * in an unspecified order.
      */
-    public void addInvalidateNotifier(Closure closure, ClosureNotify notifyFunc) {
+    public void addInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
-            int hash = notifyFunc.hashCode();
-            Interop.signalRegistry.put(hash, notifyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_add_invalidate_notifier(handle(), intSegment, nativeSymbol);
+            gtk_h.g_closure_add_invalidate_notifier(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -166,16 +174,21 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * duration of the callback. See g_object_watch_closure() for an
      * example of marshal guards.
      */
-    public void addMarshalGuards(Closure closure, ClosureNotify preMarshalNotify, ClosureNotify postMarshalNotify) {
+    public void addMarshalGuards(ClosureNotify preMarshalNotify, ClosureNotify postMarshalNotify) {
         try {
-            int hash = preMarshalNotify.hashCode();
-            Interop.signalRegistry.put(hash, preMarshalNotify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_add_marshal_guards(handle(), intSegment, nativeSymbol, intSegment, nativeSymbol);
+            gtk_h.g_closure_add_marshal_guards(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -223,16 +236,15 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Notice that notifiers are automatically removed after they are run.
      */
-    public void removeFinalizeNotifier(Closure closure, ClosureNotify notifyFunc) {
+    public void removeFinalizeNotifier(ClosureNotify notifyFunc) {
         try {
-            int hash = notifyFunc.hashCode();
-            Interop.signalRegistry.put(hash, notifyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_remove_finalize_notifier(handle(), intSegment, nativeSymbol);
+            gtk_h.g_closure_remove_finalize_notifier(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -243,16 +255,15 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Notice that notifiers are automatically removed after they are run.
      */
-    public void removeInvalidateNotifier(Closure closure, ClosureNotify notifyFunc) {
+    public void removeInvalidateNotifier(ClosureNotify notifyFunc) {
         try {
-            int hash = notifyFunc.hashCode();
-            Interop.signalRegistry.put(hash, notifyFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_remove_invalidate_notifier(handle(), intSegment, nativeSymbol);
+            gtk_h.g_closure_remove_invalidate_notifier(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -277,16 +288,15 @@ public class Closure extends io.github.jwharm.javagi.interop.ResourceBase {
      * the right callback and passes it to the marshaller as the
      * @marshal_data argument.
      */
-    public void setMetaMarshal(Closure closure, ClosureMarshal metaMarshal) {
+    public void setMetaMarshal(ClosureMarshal metaMarshal) {
         try {
-            int hash = metaMarshal.hashCode();
-            Interop.signalRegistry.put(hash, metaMarshal);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureMarshal", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_closure_set_meta_marshal(handle(), intSegment, nativeSymbol);
+            gtk_h.g_closure_set_meta_marshal(handle(), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureMarshal",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,7 +1,6 @@
-package io.github.jwharm.javagi.interop;
+package io.github.jwharm.javagi;
 
 import jdk.incubator.foreign.*;
-import org.gtk.gtk.JVMCallbacks;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -21,17 +20,17 @@ public class Interop {
     private static void initialize() {
         scope = ResourceScope.newConfinedScope();
         allocator = SegmentAllocator.nativeAllocator(scope);
+        initialized = true;
 
         // Initialize upcall stub for DestroyNotify callback
         try {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDestroyNotify", methodType);
+            MethodHandle methodHandle = MethodHandles.lookup().findStatic(Interop.class, "cbDestroyNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            cbDestroyNotify_nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            cbDestroyNotify_nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, scope);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        initialized = true;
     }
 
     public static ResourceScope getScope() {
@@ -46,6 +45,11 @@ public class Interop {
             initialize();
         }
         return allocator;
+    }
+
+    public static int registerCallback(int hash, Object callback) {
+        signalRegistry.put(hash, callback);
+        return hash;
     }
 
     public static void cbDestroyNotify(MemoryAddress data) {

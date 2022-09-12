@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * public read-only members, but the underlying struct is bigger,
  * so you must not copy this struct.
  */
-public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
 
-    public ThreadPool(io.github.jwharm.javagi.interop.Reference reference) {
+    public ThreadPool(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -79,7 +79,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Before version 2.32, this function did not return a success status.
      */
-    public boolean push(jdk.incubator.foreign.MemoryAddress data) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean push(jdk.incubator.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_thread_pool_push(handle(), data, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -110,7 +110,7 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * Before version 2.32, this function did not return a success status.
      */
-    public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_thread_pool_set_max_threads(handle(), maxThreads, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -130,16 +130,15 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * cannot be assumed that threads are executed in the order they are
      * created.
      */
-    public void setSortFunction(ThreadPool pool, CompareDataFunc func) {
+    public void setSortFunction(CompareDataFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_thread_pool_set_sort_function(handle(), nativeSymbol, intSegment);
+            gtk_h.g_thread_pool_set_sort_function(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -215,16 +214,20 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * See #GThreadError for possible errors that may occur.
      * Note, even in case of error a valid #GThreadPool is returned.
      */
-    public ThreadPool new_(Func func, int maxThreads, boolean exclusive) {
+    public static ThreadPool new_(Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_thread_pool_new(nativeSymbol, intSegment, maxThreads, exclusive ? 1 : 0);
+            var RESULT = gtk_h.g_thread_pool_new(
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), maxThreads, exclusive ? 1 : 0, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new ThreadPool(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -236,16 +239,21 @@ public class ThreadPool extends io.github.jwharm.javagi.interop.ResourceBase {
      * to g_thread_pool_push() in the case that the #GThreadPool is stopped
      * and freed before all tasks have been executed.
      */
-    public ThreadPool newFull(Func func, int maxThreads, boolean exclusive) {
+    public static ThreadPool newFull(Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_thread_pool_new_full(nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0);
+            var RESULT = gtk_h.g_thread_pool_new_full(
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return new ThreadPool(References.get(RESULT, true));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class Video extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Video(io.github.jwharm.javagi.interop.Reference reference) {
+    public Video(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,18 +34,33 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
         return new Video(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_video_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty `GtkVideo`.
      */
     public Video() {
-        super(References.get(gtk_h.gtk_video_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewForFile(org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_video_new_for_file(file.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @file.
      */
     public static Video newForFile(org.gtk.gio.File file) {
-        return new Video(References.get(gtk_h.gtk_video_new_for_file(file.handle()), false));
+        return new Video(constructNewForFile(file));
+    }
+    
+    private static Reference constructNewForFilename(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -55,14 +70,24 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * See that function for details.
      */
     public static Video newForFilename(java.lang.String filename) {
-        return new Video(References.get(gtk_h.gtk_video_new_for_filename(Interop.allocateNativeString(filename).handle()), false));
+        return new Video(constructNewForFilename(filename));
+    }
+    
+    private static Reference constructNewForMediaStream(MediaStream stream) {
+        Reference RESULT = References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a `GtkVideo` to play back the given @stream.
      */
     public static Video newForMediaStream(MediaStream stream) {
-        return new Video(References.get(gtk_h.gtk_video_new_for_media_stream(stream.handle()), false));
+        return new Video(constructNewForMediaStream(stream));
+    }
+    
+    private static Reference constructNewForResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -72,7 +97,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * This is a utility function that calls [ctor@Gtk.Video.new_for_file].
      */
     public static Video newForResource(java.lang.String resourcePath) {
-        return new Video(References.get(gtk_h.gtk_video_new_for_resource(Interop.allocateNativeString(resourcePath).handle()), false));
+        return new Video(constructNewForResource(resourcePath));
     }
     
     /**

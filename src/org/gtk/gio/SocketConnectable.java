@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -66,7 +66,7 @@ import java.lang.invoke.*;
  * }
  * ]|
  */
-public interface SocketConnectable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Creates a #GSocketAddressEnumerator for @connectable.
@@ -105,7 +105,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class SocketConnectableImpl extends org.gtk.gobject.Object implements SocketConnectable {
-        public SocketConnectableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public SocketConnectableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

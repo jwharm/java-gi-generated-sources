@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -53,7 +53,7 @@ import java.lang.invoke.*;
  */
 public class Scrollbar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public Scrollbar(io.github.jwharm.javagi.interop.Reference reference) {
+    public Scrollbar(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -62,11 +62,16 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
         return new Scrollbar(gobject.getReference());
     }
     
+    private static Reference constructNew(Orientation orientation, Adjustment adjustment) {
+        Reference RESULT = References.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new scrollbar with the given orientation.
      */
     public Scrollbar(Orientation orientation, Adjustment adjustment) {
-        super(References.get(gtk_h.gtk_scrollbar_new(orientation.getValue(), adjustment.handle()), false));
+        super(constructNew(orientation, adjustment));
     }
     
     /**

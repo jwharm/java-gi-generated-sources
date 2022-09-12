@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,10 +11,15 @@ import java.lang.invoke.*;
  * The GKeyFile struct contains only private data
  * and should not be accessed directly.
  */
-public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
+public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public KeyFile(io.github.jwharm.javagi.interop.Reference reference) {
+    public KeyFile(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_key_file_new(), true);
+        return RESULT;
     }
     
     /**
@@ -24,7 +29,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * read an existing key file.
      */
     public KeyFile() {
-        super(References.get(gtk_h.g_key_file_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -45,7 +50,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * associated with @key cannot be interpreted as a boolean then %FALSE
      * is returned and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
      */
-    public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_boolean(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -64,7 +69,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * but does include any whitespace after them (on each line). It includes
      * the line breaks between lines, but does not include the final line break.
      */
-    public java.lang.String getComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_comment(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -82,7 +87,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * with @key cannot be interpreted as a double then 0.0 is returned
      * and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
      */
-    public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_double(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -96,7 +101,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * 64-bit integer. This is similar to g_key_file_get_integer() but can return
      * 64-bit results without truncation.
      */
-    public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_int64(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -115,7 +120,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * for a #gint, then 0 is returned
      * and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
      */
-    public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_integer(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -154,7 +159,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * with @key cannot be interpreted or no suitable translation can
      * be found then the untranslated value is returned.
      */
-    public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_locale_string(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -181,7 +186,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * event that the @group_name cannot be found, %NULL is returned
      * and @error is set to %G_KEY_FILE_ERROR_GROUP_NOT_FOUND.
      */
-    public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_string(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -195,7 +200,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * 64-bit integer. This is similar to g_key_file_get_integer() but can return
      * large positive results without truncation.
      */
-    public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_uint64(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -213,7 +218,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * event that the @group_name cannot be found, %NULL is returned
      * and @error is set to %G_KEY_FILE_ERROR_GROUP_NOT_FOUND.
      */
-    public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_get_value(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -242,7 +247,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Language bindings should use g_key_file_get_value() to test whether
      * or not a key exists.
      */
-    public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_has_key(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -255,7 +260,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Loads a key file from the data in @bytes into an empty #GKeyFile structure.
      * If the object cannot be created then %error is set to a #GKeyFileError.
      */
-    public boolean loadFromBytes(Bytes bytes, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromBytes(Bytes bytes, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_load_from_bytes(handle(), bytes.handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -268,7 +273,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Loads a key file from memory into an empty #GKeyFile structure.
      * If the object cannot be created then %error is set to a #GKeyFileError.
      */
-    public boolean loadFromData(java.lang.String data, long length, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromData(java.lang.String data, long length, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_load_from_data(handle(), Interop.allocateNativeString(data).handle(), length, flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -284,7 +289,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * @full_path.  If the file could not be loaded then an %error is
      * set to either a #GFileError or #GKeyFileError.
      */
-    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -304,7 +309,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * file, a %G_FILE_ERROR is returned. If there is a problem parsing the file, a
      * %G_KEY_FILE_ERROR is returned.
      */
-    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_load_from_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -323,7 +328,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function will never return a %G_KEY_FILE_ERROR_NOT_FOUND error. If the
      * @file is not found, %G_FILE_ERROR_NOENT is returned.
      */
-    public boolean loadFromFile(java.lang.String file, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean loadFromFile(java.lang.String file, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_load_from_file(handle(), Interop.allocateNativeString(file).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -346,7 +351,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * If both @key and @group_name are %NULL, then @comment will
      * be removed above the first group in the file.
      */
-    public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_remove_comment(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -359,7 +364,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Removes the specified group, @group_name,
      * from the key file.
      */
-    public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_remove_group(handle(), Interop.allocateNativeString(groupName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -371,7 +376,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
     /**
      * Removes @key in @group_name from the key file.
      */
-    public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_remove_key(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -389,7 +394,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * This function can fail for any of the reasons that
      * g_file_set_contents() may fail.
      */
-    public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_save_to_file(handle(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -425,7 +430,7 @@ public class KeyFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * Note that this function prepends a '#' comment marker to
      * each line of @comment.
      */
-    public boolean setComment(java.lang.String groupName, java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean setComment(java.lang.String groupName, java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_key_file_set_comment(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(comment).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

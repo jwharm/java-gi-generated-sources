@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * compression, decompression and regular expression
  * replace.
  */
-public interface Converter extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Converter extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Resets all internal state in the converter, making it behave
@@ -28,7 +28,7 @@ public interface Converter extends io.github.jwharm.javagi.interop.NativeAddress
     }
     
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {
-        public ConverterImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ConverterImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

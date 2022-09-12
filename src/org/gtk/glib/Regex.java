@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -74,13 +74,13 @@ import java.lang.invoke.*;
  * [PCRE](http://www.pcre.org/)
  * library written by Philip Hazel.
  */
-public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Regex extends io.github.jwharm.javagi.ResourceBase {
 
-    public Regex(io.github.jwharm.javagi.interop.Reference reference) {
+    public Regex(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewOrThrow(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
+    private static Reference constructNew(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions, matchOptions, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -94,7 +94,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * the initial setup of the #GRegex structure.
      */
     public Regex(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
-        super(constructNewOrThrow(pattern, compileOptions, matchOptions));
+        super(constructNew(pattern, compileOptions, matchOptions));
     }
     
     /**
@@ -278,7 +278,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * you use any #GMatchInfo method (except g_match_info_free()) after
      * freeing or modifying @string then the behaviour is undefined.
      */
-    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -340,7 +340,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * }
      * ]|
      */
-    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -385,7 +385,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern that
      * begins with any kind of lookbehind assertion, such as "\\b".
      */
-    public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -441,16 +441,20 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * ...
      * ]|
      */
-    public java.lang.String replaceEval(Regex regex, java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) {
+    public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = eval.hashCode();
-            Interop.signalRegistry.put(hash, eval);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbRegexEvalCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbRegexEvalCallback",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(eval.hashCode(), eval)), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return RESULT.getUtf8String(0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -466,7 +470,7 @@ public class Regex extends io.github.jwharm.javagi.interop.ResourceBase {
      * case of a pattern that begins with any kind of lookbehind
      * assertion, such as "\\b".
      */
-    public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.interop.GErrorException {
+    public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,10 +11,15 @@ import java.lang.invoke.*;
  * #GTimeZone is an opaque structure whose members cannot be accessed
  * directly.
  */
-public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
 
-    public TimeZone(io.github.jwharm.javagi.interop.Reference reference) {
+    public TimeZone(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNewIdentifier(java.lang.String identifier) {
+        Reference RESULT = References.get(gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -85,7 +90,12 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newIdentifier(java.lang.String identifier) {
-        return new TimeZone(References.get(gtk_h.g_time_zone_new_identifier(Interop.allocateNativeString(identifier).handle()), true));
+        return new TimeZone(constructNewIdentifier(identifier));
+    }
+    
+    private static Reference constructNewLocal() {
+        Reference RESULT = References.get(gtk_h.g_time_zone_new_local(), true);
+        return RESULT;
     }
     
     /**
@@ -100,7 +110,12 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newLocal() {
-        return new TimeZone(References.get(gtk_h.g_time_zone_new_local(), true));
+        return new TimeZone(constructNewLocal());
+    }
+    
+    private static Reference constructNewOffset(int seconds) {
+        Reference RESULT = References.get(gtk_h.g_time_zone_new_offset(seconds), true);
+        return RESULT;
     }
     
     /**
@@ -111,7 +126,12 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * `[+|-]hh[:mm[:ss]]`.
      */
     public static TimeZone newOffset(int seconds) {
-        return new TimeZone(References.get(gtk_h.g_time_zone_new_offset(seconds), true));
+        return new TimeZone(constructNewOffset(seconds));
+    }
+    
+    private static Reference constructNewUtc() {
+        Reference RESULT = References.get(gtk_h.g_time_zone_new_utc(), true);
+        return RESULT;
     }
     
     /**
@@ -124,7 +144,7 @@ public class TimeZone extends io.github.jwharm.javagi.interop.ResourceBase {
      * when you are done with it.
      */
     public static TimeZone newUtc() {
-        return new TimeZone(References.get(gtk_h.g_time_zone_new_utc(), true));
+        return new TimeZone(constructNewUtc());
     }
     
     /**

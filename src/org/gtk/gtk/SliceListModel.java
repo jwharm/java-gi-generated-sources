@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,13 +16,18 @@ import java.lang.invoke.*;
  */
 public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SliceListModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public SliceListModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to SliceListModel */
     public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
         return new SliceListModel(gobject.getReference());
+    }
+    
+    private static Reference constructNew(org.gtk.gio.ListModel model, int offset, int size) {
+        Reference RESULT = References.get(gtk_h.gtk_slice_list_model_new(model.getReference().unowned().handle(), offset, size), true);
+        return RESULT;
     }
     
     /**
@@ -32,7 +37,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * of the given @model.
      */
     public SliceListModel(org.gtk.gio.ListModel model, int offset, int size) {
-        super(References.get(gtk_h.gtk_slice_list_model_new(model.getReference().unowned().handle(), offset, size), true));
+        super(constructNew(model, offset, size));
     }
     
     /**

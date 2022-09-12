@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class TlsCertificate extends org.gtk.gobject.Object {
 
-    public TlsCertificate(io.github.jwharm.javagi.interop.Reference reference) {
+    public TlsCertificate(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,7 +25,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         return new TlsCertificate(gobject.getReference());
     }
     
-    private static Reference constructNewFromFileOrThrow(java.lang.String file) throws GErrorException {
+    private static Reference constructNewFromFile(java.lang.String file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_file(Interop.allocateNativeString(file).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -46,10 +46,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * set @error.
      */
     public static TlsCertificate newFromFile(java.lang.String file) throws GErrorException {
-        return new TlsCertificate(constructNewFromFileOrThrow(file));
+        return new TlsCertificate(constructNewFromFile(file));
     }
     
-    private static Reference constructNewFromFileWithPasswordOrThrow(java.lang.String file, java.lang.String password) throws GErrorException {
+    private static Reference constructNewFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_file_with_password(Interop.allocateNativeString(file).handle(), Interop.allocateNativeString(password).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -69,10 +69,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * See g_tls_certificate_new_from_pkcs12() for more details.
      */
     public static TlsCertificate newFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
-        return new TlsCertificate(constructNewFromFileWithPasswordOrThrow(file, password));
+        return new TlsCertificate(constructNewFromFileWithPassword(file, password));
     }
     
-    private static Reference constructNewFromFilesOrThrow(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
+    private static Reference constructNewFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_files(Interop.allocateNativeString(certFile).handle(), Interop.allocateNativeString(keyFile).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -98,10 +98,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * g_tls_certificate_new_from_pem().
      */
     public static TlsCertificate newFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
-        return new TlsCertificate(constructNewFromFilesOrThrow(certFile, keyFile));
+        return new TlsCertificate(constructNewFromFiles(certFile, keyFile));
     }
     
-    private static Reference constructNewFromPemOrThrow(java.lang.String data, long length) throws GErrorException {
+    private static Reference constructNewFromPem(java.lang.String data, long length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pem(Interop.allocateNativeString(data).handle(), length, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -127,10 +127,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * the file will still be returned.
      */
     public static TlsCertificate newFromPem(java.lang.String data, long length) throws GErrorException {
-        return new TlsCertificate(constructNewFromPemOrThrow(data, length));
+        return new TlsCertificate(constructNewFromPem(data, length));
     }
     
-    private static Reference constructNewFromPkcs11UrisOrThrow(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
+    private static Reference constructNewFromPkcs11Uris(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs11_uris(Interop.allocateNativeString(pkcs11Uri).handle(), Interop.allocateNativeString(privateKeyPkcs11Uri).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -166,10 +166,10 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Note that the private key is not accessed until usage and may fail or require a PIN later.
      */
     public static TlsCertificate newFromPkcs11Uris(java.lang.String pkcs11Uri, java.lang.String privateKeyPkcs11Uri) throws GErrorException {
-        return new TlsCertificate(constructNewFromPkcs11UrisOrThrow(pkcs11Uri, privateKeyPkcs11Uri));
+        return new TlsCertificate(constructNewFromPkcs11Uris(pkcs11Uri, privateKeyPkcs11Uri));
     }
     
-    private static Reference constructNewFromPkcs12OrThrow(byte[] data, long length, java.lang.String password) throws GErrorException {
+    private static Reference constructNewFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_tls_certificate_new_from_pkcs12(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), length, Interop.allocateNativeString(password).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -198,7 +198,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Other parsing failures will error with %G_TLS_ERROR_BAD_CERTIFICATE.
      */
     public static TlsCertificate newFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
-        return new TlsCertificate(constructNewFromPkcs12OrThrow(data, length, password));
+        return new TlsCertificate(constructNewFromPkcs12(data, length, password));
     }
     
     /**
@@ -298,7 +298,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * PEM-encoded certificates, this will return an empty list and not
      * set @error.
      */
-    public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_certificate_list_new_from_file(Interop.allocateNativeString(file).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

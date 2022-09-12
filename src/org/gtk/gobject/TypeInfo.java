@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,9 +18,9 @@ import java.lang.invoke.*;
  * copy of this structure, so its memory does not need to be persistent
  * across invocation of g_type_register_static().
  */
-public class TypeInfo extends io.github.jwharm.javagi.interop.ResourceBase {
+public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public TypeInfo(io.github.jwharm.javagi.interop.Reference reference) {
+    public TypeInfo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * An opaque structure representing an opened directory.
  */
-public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Dir extends io.github.jwharm.javagi.ResourceBase {
 
-    public Dir(io.github.jwharm.javagi.interop.Reference reference) {
+    public Dir(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -64,7 +64,7 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
      * Note that in contrast to g_mkdtemp() (and mkdtemp()) @tmpl is not
      * modified, and might thus be a read-only literal string.
      */
-    public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dir_make_tmp(Interop.allocateNativeString(tmpl).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -78,7 +78,7 @@ public class Dir extends io.github.jwharm.javagi.interop.ResourceBase {
      * directory can then be retrieved using g_dir_read_name().  Note
      * that the ordering is not defined.
      */
-    public static Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dir_open(Interop.allocateNativeString(path).handle(), flags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * to edit the contents of a `GtkTreeView` cell. It provides a way to specify how
  * temporary widgets should be configured for editing, get the new value, etc.
  */
-public interface CellEditable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Emits the `GtkCellEditable::editing-done` signal.
@@ -64,16 +64,16 @@ public interface CellEditable extends io.github.jwharm.javagi.interop.NativeAddr
      * gtk_cell_editable_editing_done() is a convenience method
      * for emitting `GtkCellEditable::editing-done`.
      */
-    public default void onEditingDone(EditingDoneHandler handler) {
+    public default SignalHandle onEditingDone(EditingDoneHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellEditableEditingDone", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("editing-done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("editing-done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -98,23 +98,23 @@ public interface CellEditable extends io.github.jwharm.javagi.interop.NativeAddr
      * gtk_cell_editable_remove_widget() is a convenience method
      * for emitting `GtkCellEditable::remove-widget`.
      */
-    public default void onRemoveWidget(RemoveWidgetHandler handler) {
+    public default SignalHandle onRemoveWidget(RemoveWidgetHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalCellEditableRemoveWidget", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("remove-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("remove-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {
-        public CellEditableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public CellEditableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

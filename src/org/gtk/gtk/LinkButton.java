@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  */
 public class LinkButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public LinkButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public LinkButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -46,18 +46,28 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         return new LinkButton(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String uri) {
+        Reference RESULT = References.get(gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkLinkButton` with the URI as its text.
      */
     public LinkButton(java.lang.String uri) {
-        super(References.get(gtk_h.gtk_link_button_new(Interop.allocateNativeString(uri).handle()), false));
+        super(constructNew(uri));
+    }
+    
+    private static Reference constructNewWithLabel(java.lang.String uri, java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkLinkButton` containing a label.
      */
     public static LinkButton newWithLabel(java.lang.String uri, java.lang.String label) {
-        return new LinkButton(References.get(gtk_h.gtk_link_button_new_with_label(Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(label).handle()), false));
+        return new LinkButton(constructNewWithLabel(uri, label));
     }
     
     /**
@@ -114,16 +124,16 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * ::activate-link signal and stop the propagation of the signal
      * by returning %TRUE from your handler.
      */
-    public void onActivateLink(ActivateLinkHandler handler) {
+    public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalLinkButtonActivateLink", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate-link").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

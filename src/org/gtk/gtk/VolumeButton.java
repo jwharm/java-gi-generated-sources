@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,13 +15,18 @@ import java.lang.invoke.*;
  */
 public class VolumeButton extends ScaleButton implements Accessible, Buildable, ConstraintTarget, Orientable {
 
-    public VolumeButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public VolumeButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to VolumeButton */
     public static VolumeButton castFrom(org.gtk.gobject.Object gobject) {
         return new VolumeButton(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_volume_button_new(), false);
+        return RESULT;
     }
     
     /**
@@ -32,7 +37,7 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
      * [class@Gtk.ScaleButton].
      */
     public VolumeButton() {
-        super(References.get(gtk_h.gtk_volume_button_new(), false));
+        super(constructNew());
     }
     
 }

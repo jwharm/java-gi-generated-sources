@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -28,7 +28,7 @@ import java.lang.invoke.*;
  * base socket, the #GDtlsConnection will not raise a %G_IO_ERROR_NOT_CONNECTED
  * error on further I/O.
  */
-public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Close the DTLS connection. This is equivalent to calling
@@ -51,7 +51,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * partially-closed and any pending untransmitted data may be lost. Call
      * g_dtls_connection_close() again to complete closing the #GDtlsConnection.
      */
-    public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_close(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -64,16 +64,15 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Asynchronously close the DTLS connection. See g_dtls_connection_close() for
      * more information.
      */
-    public default void closeAsync(DtlsConnection conn, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_dtls_connection_close_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_dtls_connection_close_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +82,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Finish an asynchronous TLS close operation. See g_dtls_connection_close()
      * for more information.
      */
-    public default boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_close_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -125,7 +124,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * support @type or the binding data is not available yet due to additional
      * negotiation or input required.
      */
-    public default boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean getChannelBindingData(TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_get_channel_binding_data(handle(), type.getValue(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -251,7 +250,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * #GDtlsConnection::accept_certificate may be emitted during the
      * handshake.
      */
-    public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_handshake(handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -264,16 +263,15 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Asynchronously performs a TLS handshake on @conn. See
      * g_dtls_connection_handshake() for more information.
      */
-    public default void handshakeAsync(DtlsConnection conn, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void handshakeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_dtls_connection_handshake_async(handle(), ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_dtls_connection_handshake_async(handle(), ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -283,7 +281,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Finish an asynchronous TLS handshake operation. See
      * g_dtls_connection_handshake() for more information.
      */
-    public default boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_handshake_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -410,7 +408,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * partially-closed and any pending untransmitted data may be lost. Call
      * g_dtls_connection_shutdown() again to complete closing the #GDtlsConnection.
      */
-    public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_shutdown(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -423,16 +421,15 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Asynchronously shut down part or all of the DTLS connection. See
      * g_dtls_connection_shutdown() for more information.
      */
-    public default void shutdownAsync(DtlsConnection conn, boolean shutdownRead, boolean shutdownWrite, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void shutdownAsync(boolean shutdownRead, boolean shutdownWrite, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_dtls_connection_shutdown_async(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, ioPriority, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_dtls_connection_shutdown_async(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, ioPriority, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -442,7 +439,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * Finish an asynchronous TLS shutdown operation. See
      * g_dtls_connection_shutdown() for more information.
      */
-    public default boolean shutdownFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean shutdownFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dtls_connection_shutdown_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -500,23 +497,23 @@ public interface DtlsConnection extends io.github.jwharm.javagi.interop.NativeAd
      * need to worry about this, and can simply block in the signal
      * handler until the UI thread returns an answer.
      */
-    public default void onAcceptCertificate(AcceptCertificateHandler handler) {
+    public default SignalHandle onAcceptCertificate(AcceptCertificateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDtlsConnectionAcceptCertificate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("accept-certificate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("accept-certificate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {
-        public DtlsConnectionImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DtlsConnectionImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

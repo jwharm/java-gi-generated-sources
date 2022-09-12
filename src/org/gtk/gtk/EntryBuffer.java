@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
-    public EntryBuffer(io.github.jwharm.javagi.interop.Reference reference) {
+    public EntryBuffer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -30,13 +30,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         return new EntryBuffer(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String initialChars, int nInitialChars) {
+        Reference RESULT = References.get(gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true);
+        return RESULT;
+    }
+    
     /**
      * Create a new `GtkEntryBuffer` object.
      * 
      * Optionally, specify initial text to set in the buffer.
      */
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
-        super(References.get(gtk_h.gtk_entry_buffer_new(Interop.allocateNativeString(initialChars).handle(), nInitialChars), true));
+        super(constructNew(initialChars, nInitialChars));
     }
     
     /**
@@ -158,16 +163,16 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * If you want access to the text after the text has been modified,
      * use %G_CONNECT_AFTER.
      */
-    public void onDeletedText(DeletedTextHandler handler) {
+    public SignalHandle onDeletedText(DeletedTextHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryBufferDeletedText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("deleted-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("deleted-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -181,16 +186,16 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     /**
      * This signal is emitted after text is inserted into the buffer.
      */
-    public void onInsertedText(InsertedTextHandler handler) {
+    public SignalHandle onInsertedText(InsertedTextHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalEntryBufferInsertedText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("inserted-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("inserted-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

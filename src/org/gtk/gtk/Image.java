@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -50,7 +50,7 @@ import java.lang.invoke.*;
  */
 public class Image extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public Image(io.github.jwharm.javagi.interop.Reference reference) {
+    public Image(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -59,11 +59,21 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
         return new Image(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_image_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty `GtkImage` widget.
      */
     public Image() {
-        super(References.get(gtk_h.gtk_image_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFromFile(java.lang.String filename) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -82,7 +92,12 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * is appropriate for displaying the file.
      */
     public static Image newFromFile(java.lang.String filename) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_file(Interop.allocateNativeString(filename).handle()), false));
+        return new Image(constructNewFromFile(filename));
+    }
+    
+    private static Reference constructNewFromGicon(org.gtk.gio.Icon icon) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -93,7 +108,12 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public static Image newFromGicon(org.gtk.gio.Icon icon) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_gicon(icon.handle()), false));
+        return new Image(constructNewFromGicon(icon));
+    }
+    
+    private static Reference constructNewFromIconName(java.lang.String iconName) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -104,7 +124,12 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * will be updated appropriately.
      */
     public static Image newFromIconName(java.lang.String iconName) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false));
+        return new Image(constructNewFromIconName(iconName));
+    }
+    
+    private static Reference constructNewFromPaintable(org.gtk.gdk.Paintable paintable) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -118,7 +143,12 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * its size and contents in response to it.
      */
     public static Image newFromPaintable(org.gtk.gdk.Paintable paintable) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_paintable(paintable.handle()), false));
+        return new Image(constructNewFromPaintable(paintable));
+    }
+    
+    private static Reference constructNewFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -136,7 +166,12 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * want that, you should use [ctor@Gtk.Image.new_from_icon_name].
      */
     public static Image newFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_pixbuf(pixbuf.handle()), false));
+        return new Image(constructNewFromPixbuf(pixbuf));
+    }
+    
+    private static Reference constructNewFromResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -155,7 +190,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * appropriate for displaying the file.
      */
     public static Image newFromResource(java.lang.String resourcePath) {
-        return new Image(References.get(gtk_h.gtk_image_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), false));
+        return new Image(constructNewFromResource(resourcePath));
     }
     
     /**

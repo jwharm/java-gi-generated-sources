@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -174,7 +174,7 @@ import java.lang.invoke.*;
  */
 public class ConstraintLayout extends LayoutManager implements Buildable {
 
-    public ConstraintLayout(io.github.jwharm.javagi.interop.Reference reference) {
+    public ConstraintLayout(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -183,11 +183,16 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         return new ConstraintLayout(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_constraint_layout_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkConstraintLayout` layout manager.
      */
     public ConstraintLayout() {
-        super(References.get(gtk_h.gtk_constraint_layout_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -288,7 +293,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      *   [button1(==button2.height)]
      * ```
      */
-    public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_constraint_layout_add_constraints_from_descriptionv(handle(), Interop.allocateNativeArray(lines).handle(), nLines, hspacing, vspacing, views.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

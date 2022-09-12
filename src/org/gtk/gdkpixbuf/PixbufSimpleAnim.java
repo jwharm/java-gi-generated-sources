@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class PixbufSimpleAnim extends PixbufAnimation {
 
-    public PixbufSimpleAnim(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufSimpleAnim(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,11 +21,16 @@ public class PixbufSimpleAnim extends PixbufAnimation {
         return new PixbufSimpleAnim(gobject.getReference());
     }
     
+    private static Reference constructNew(int width, int height, float rate) {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new, empty animation.
      */
     public PixbufSimpleAnim(int width, int height, float rate) {
-        super(References.get(gtk_h.gdk_pixbuf_simple_anim_new(width, height, rate), true));
+        super(constructNew(width, height, rate));
     }
     
     /**

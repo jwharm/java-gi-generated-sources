@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * be found in glib-networking. GIO comes with an implementation for use inside
  * Flatpak portals.
  */
-public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Checks if @resolver can be used on this system. (This is used
@@ -32,16 +32,15 @@ public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAdd
      * Asynchronous lookup of proxy. See g_proxy_resolver_lookup() for more
      * details.
      */
-    public default void lookupAsync(ProxyResolver resolver, java.lang.String uri, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void lookupAsync(java.lang.String uri, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_proxy_resolver_lookup_async(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_proxy_resolver_lookup_async(handle(), Interop.allocateNativeString(uri).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +55,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.interop.NativeAdd
     }
     
     class ProxyResolverImpl extends org.gtk.gobject.Object implements ProxyResolver {
-        public ProxyResolverImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ProxyResolverImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

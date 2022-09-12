@@ -3,7 +3,7 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -33,9 +33,9 @@ import java.lang.invoke.*;
  * It is invalid to take a #GWeakRef on an object during #GObjectClass.dispose
  * without first having or creating a strong reference to the object.
  */
-public class WeakRef extends io.github.jwharm.javagi.interop.ResourceBase {
+public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
 
-    public WeakRef(io.github.jwharm.javagi.interop.Reference reference) {
+    public WeakRef(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

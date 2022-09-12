@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -145,13 +145,13 @@ import java.lang.invoke.*;
  * the slash should ideally be absolute, but this is not strictly required.  It is possible to overlay the
  * location of a single resource with an individual file.
  */
-public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Resource extends io.github.jwharm.javagi.ResourceBase {
 
-    public Resource(io.github.jwharm.javagi.interop.Reference reference) {
+    public Resource(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewFromDataOrThrow(org.gtk.glib.Bytes data) throws GErrorException {
+    private static Reference constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_resource_new_from_data(data.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -175,7 +175,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * If @data is empty or corrupt, %G_RESOURCE_ERROR_INTERNAL will be returned.
      */
     public static Resource newFromData(org.gtk.glib.Bytes data) throws GErrorException {
-        return new Resource(constructNewFromDataOrThrow(data));
+        return new Resource(constructNewFromData(data));
     }
     
     /**
@@ -210,7 +210,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * @lookup_flags controls the behaviour of the lookup.
      */
-    public org.gtk.glib.Bytes lookupData(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.glib.Bytes lookupData(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resource_lookup_data(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -225,7 +225,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * @lookup_flags controls the behaviour of the lookup.
      */
-    public InputStream openStream(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.interop.GErrorException {
+    public InputStream openStream(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resource_open_stream(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -265,7 +265,7 @@ public class Resource extends io.github.jwharm.javagi.interop.ResourceBase {
      * there is an error in reading it, an error from g_mapped_file_new() will be
      * returned.
      */
-    public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_resource_load(Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

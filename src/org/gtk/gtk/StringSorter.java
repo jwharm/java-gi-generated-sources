@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -19,13 +19,18 @@ import java.lang.invoke.*;
  */
 public class StringSorter extends Sorter {
 
-    public StringSorter(io.github.jwharm.javagi.interop.Reference reference) {
+    public StringSorter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to StringSorter */
     public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
         return new StringSorter(gobject.getReference());
+    }
+    
+    private static Reference constructNew(Expression expression) {
+        Reference RESULT = References.get(gtk_h.gtk_string_sorter_new(expression.getReference().unowned().handle()), true);
+        return RESULT;
     }
     
     /**
@@ -36,7 +41,7 @@ public class StringSorter extends Sorter {
      * compare items as invalid.
      */
     public StringSorter(Expression expression) {
-        super(References.get(gtk_h.gtk_string_sorter_new(expression.getReference().unowned().handle()), true));
+        super(constructNew(expression));
     }
     
     /**

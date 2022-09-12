@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * [class@Gtk.FontChooserWidget], [class@Gtk.FontChooserDialog] and
  * [class@Gtk.FontButton].
  */
-public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the currently-selected font name.
@@ -135,16 +135,16 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * Adds a filter function that decides which fonts to display
      * in the font chooser.
      */
-    public default void setFilterFunc(FontChooser fontchooser, FontFilterFunc filter) {
+    public default void setFilterFunc(FontFilterFunc filter) {
         try {
-            int hash = filter.hashCode();
-            Interop.signalRegistry.put(hash, filter);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontFilterFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_font_chooser_set_filter_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_font_chooser_set_filter_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontFilterFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(filter.hashCode(), filter)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -237,23 +237,23 @@ public interface FontChooser extends io.github.jwharm.javagi.interop.NativeAddre
      * or an item is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
      */
-    public default void onFontActivated(FontActivatedHandler handler) {
+    public default SignalHandle onFontActivated(FontActivatedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontChooserFontActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("font-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("font-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     class FontChooserImpl extends org.gtk.gobject.Object implements FontChooser {
-        public FontChooserImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public FontChooserImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

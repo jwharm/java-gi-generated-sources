@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -66,7 +66,7 @@ import java.lang.invoke.*;
  */
 public class ComboBoxText extends ComboBox implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
-    public ComboBoxText(io.github.jwharm.javagi.interop.Reference reference) {
+    public ComboBoxText(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -75,18 +75,28 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         return new ComboBoxText(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_text_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkComboBoxText`.
      */
     public ComboBoxText() {
-        super(References.get(gtk_h.gtk_combo_box_text_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithEntry() {
+        Reference RESULT = References.get(gtk_h.gtk_combo_box_text_new_with_entry(), false);
+        return RESULT;
     }
     
     /**
      * Creates a new `GtkComboBoxText` with an entry.
      */
     public static ComboBoxText newWithEntry() {
-        return new ComboBoxText(References.get(gtk_h.gtk_combo_box_text_new_with_entry(), false));
+        return new ComboBoxText(constructNewWithEntry());
     }
     
     /**

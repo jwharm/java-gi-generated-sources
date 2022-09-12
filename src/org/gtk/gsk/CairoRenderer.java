@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,13 +15,18 @@ import java.lang.invoke.*;
  */
 public class CairoRenderer extends Renderer {
 
-    public CairoRenderer(io.github.jwharm.javagi.interop.Reference reference) {
+    public CairoRenderer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to CairoRenderer */
     public static CairoRenderer castFrom(org.gtk.gobject.Object gobject) {
         return new CairoRenderer(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gsk_cairo_renderer_new(), true);
+        return RESULT;
     }
     
     /**
@@ -35,7 +40,7 @@ public class CairoRenderer extends Renderer {
      * avoided.
      */
     public CairoRenderer() {
-        super(References.get(gtk_h.gsk_cairo_renderer_new(), true));
+        super(constructNew());
     }
     
 }

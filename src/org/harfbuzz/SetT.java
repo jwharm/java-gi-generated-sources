@@ -3,7 +3,7 @@ package org.harfbuzz;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,9 +13,9 @@ import java.lang.invoke.*;
  * points, and various other collections of discrete
  * values.
  */
-public class SetT extends io.github.jwharm.javagi.interop.ResourceBase {
+public class SetT extends io.github.jwharm.javagi.ResourceBase {
 
-    public SetT(io.github.jwharm.javagi.interop.Reference reference) {
+    public SetT(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

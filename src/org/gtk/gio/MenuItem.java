@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,13 +13,18 @@ import java.lang.invoke.*;
  */
 public class MenuItem extends org.gtk.gobject.Object {
 
-    public MenuItem(io.github.jwharm.javagi.interop.Reference reference) {
+    public MenuItem(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to MenuItem */
     public static MenuItem castFrom(org.gtk.gobject.Object gobject) {
         return new MenuItem(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String label, java.lang.String detailedAction) {
+        Reference RESULT = References.get(gtk_h.g_menu_item_new(Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +38,12 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_detailed_action() for more information.
      */
     public MenuItem(java.lang.String label, java.lang.String detailedAction) {
-        super(References.get(gtk_h.g_menu_item_new(Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle()), true));
+        super(constructNew(label, detailedAction));
+    }
+    
+    private static Reference constructNewFromModel(MenuModel model, int itemIndex) {
+        Reference RESULT = References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true);
+        return RESULT;
     }
     
     /**
@@ -44,7 +54,12 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_model_get_n_items() first).
      */
     public static MenuItem newFromModel(MenuModel model, int itemIndex) {
-        return new MenuItem(References.get(gtk_h.g_menu_item_new_from_model(model.handle(), itemIndex), true));
+        return new MenuItem(constructNewFromModel(model, itemIndex));
+    }
+    
+    private static Reference constructNewSection(java.lang.String label, MenuModel section) {
+        Reference RESULT = References.get(gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).handle(), section.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -110,7 +125,12 @@ public class MenuItem extends org.gtk.gobject.Object {
      * ]|
      */
     public static MenuItem newSection(java.lang.String label, MenuModel section) {
-        return new MenuItem(References.get(gtk_h.g_menu_item_new_section(Interop.allocateNativeString(label).handle(), section.handle()), true));
+        return new MenuItem(constructNewSection(label, section));
+    }
+    
+    private static Reference constructNewSubmenu(java.lang.String label, MenuModel submenu) {
+        Reference RESULT = References.get(gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).handle(), submenu.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -120,7 +140,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * g_menu_item_set_submenu().
      */
     public static MenuItem newSubmenu(java.lang.String label, MenuModel submenu) {
-        return new MenuItem(References.get(gtk_h.g_menu_item_new_submenu(Interop.allocateNativeString(label).handle(), submenu.handle()), true));
+        return new MenuItem(constructNewSubmenu(label, submenu));
     }
     
     /**

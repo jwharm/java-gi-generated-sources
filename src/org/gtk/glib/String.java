@@ -3,24 +3,34 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * The GString struct contains the public fields of a GString.
  */
-public class String extends io.github.jwharm.javagi.interop.ResourceBase {
+public class String extends io.github.jwharm.javagi.ResourceBase {
 
-    public String(io.github.jwharm.javagi.interop.Reference reference) {
+    public String(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(java.lang.String init) {
+        Reference RESULT = References.get(gtk_h.g_string_new(Interop.allocateNativeString(init).handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GString, initialized with the given string.
      */
     public String(java.lang.String init) {
-        super(References.get(gtk_h.g_string_new(Interop.allocateNativeString(init).handle()), true));
+        super(constructNew(init));
+    }
+    
+    private static Reference constructNewLen(java.lang.String init, long len) {
+        Reference RESULT = References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +43,12 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * bytes.
      */
     public static String newLen(java.lang.String init, long len) {
-        return new String(References.get(gtk_h.g_string_new_len(Interop.allocateNativeString(init).handle(), len), true));
+        return new String(constructNewLen(init, len));
+    }
+    
+    private static Reference constructSizedNew(long dflSize) {
+        Reference RESULT = References.get(gtk_h.g_string_sized_new(dflSize), true);
+        return RESULT;
     }
     
     /**
@@ -43,7 +58,7 @@ public class String extends io.github.jwharm.javagi.interop.ResourceBase {
      * too often.
      */
     public static String sizedNew(long dflSize) {
-        return new String(References.get(gtk_h.g_string_sized_new(dflSize), true));
+        return new String(constructSizedNew(dflSize));
     }
     
     /**

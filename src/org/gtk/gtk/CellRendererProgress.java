@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  */
 public class CellRendererProgress extends CellRenderer implements Orientable {
 
-    public CellRendererProgress(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellRendererProgress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -24,11 +24,16 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
         return new CellRendererProgress(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_progress_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkCellRendererProgress`.
      */
     public CellRendererProgress() {
-        super(References.get(gtk_h.gtk_cell_renderer_progress_new(), false));
+        super(constructNew());
     }
     
 }

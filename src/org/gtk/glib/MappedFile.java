@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,13 @@ import java.lang.invoke.*;
  * g_mapped_file_new(). It has only private members and should
  * not be accessed directly.
  */
-public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
 
-    public MappedFile(io.github.jwharm.javagi.interop.Reference reference) {
+    public MappedFile(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
-    private static Reference constructNewOrThrow(java.lang.String filename, boolean writable) throws GErrorException {
+    private static Reference constructNew(java.lang.String filename, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_mapped_file_new(Interop.allocateNativeString(filename).handle(), writable ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -46,10 +46,10 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * to the #GFileError value %G_FILE_ERROR_INVAL.
      */
     public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
-        super(constructNewOrThrow(filename, writable));
+        super(constructNew(filename, writable));
     }
     
-    private static Reference constructNewFromFdOrThrow(int fd, boolean writable) throws GErrorException {
+    private static Reference constructNewFromFd(int fd, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_mapped_file_new_from_fd(fd, writable ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -72,7 +72,7 @@ public class MappedFile extends io.github.jwharm.javagi.interop.ResourceBase {
      * atomically (e.g. using g_file_set_contents()).
      */
     public static MappedFile newFromFd(int fd, boolean writable) throws GErrorException {
-        return new MappedFile(constructNewFromFdOrThrow(fd, writable));
+        return new MappedFile(constructNewFromFd(fd, writable));
     }
     
     /**

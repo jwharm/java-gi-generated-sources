@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class CellRendererSpin extends CellRendererText {
 
-    public CellRendererSpin(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellRendererSpin(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -35,11 +35,16 @@ public class CellRendererSpin extends CellRendererText {
         return new CellRendererSpin(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_renderer_spin_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkCellRendererSpin`.
      */
     public CellRendererSpin() {
-        super(References.get(gtk_h.gtk_cell_renderer_spin_new(), false));
+        super(constructNew());
     }
     
 }

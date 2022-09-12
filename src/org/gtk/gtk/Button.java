@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -41,7 +41,7 @@ import java.lang.invoke.*;
  */
 public class Button extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public Button(io.github.jwharm.javagi.interop.Reference reference) {
+    public Button(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -50,13 +50,23 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         return new Button(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_button_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkButton` widget.
      * 
      * To add a child widget to the button, use [method@Gtk.Button.set_child].
      */
     public Button() {
-        super(References.get(gtk_h.gtk_button_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFromIconName(java.lang.String iconName) {
+        Reference RESULT = References.get(gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -67,14 +77,24 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * will be updated appropriately.
      */
     public static Button newFromIconName(java.lang.String iconName) {
-        return new Button(References.get(gtk_h.gtk_button_new_from_icon_name(Interop.allocateNativeString(iconName).handle()), false));
+        return new Button(constructNewFromIconName(iconName));
+    }
+    
+    private static Reference constructNewWithLabel(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a `GtkButton` widget with a `GtkLabel` child.
      */
     public static Button newWithLabel(java.lang.String label) {
-        return new Button(References.get(gtk_h.gtk_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
+        return new Button(constructNewWithLabel(label));
+    }
+    
+    private static Reference constructNewWithMnemonic(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -86,7 +106,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * accelerator called a mnemonic. Pressing Alt and that key activates the button.
      */
     public static Button newWithMnemonic(java.lang.String label) {
-        return new Button(References.get(gtk_h.gtk_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
+        return new Button(constructNewWithMnemonic(label));
     }
     
     /**
@@ -201,16 +221,16 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * This is an action signal. Applications should never connect
      * to this signal, but use the [signal@Gtk.Button::clicked] signal.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -224,16 +244,16 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     /**
      * Emitted when the button has been activated (pressed and released).
      */
-    public void onClicked(ClickedHandler handler) {
+    public SignalHandle onClicked(ClickedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalButtonClicked", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("clicked").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("clicked").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

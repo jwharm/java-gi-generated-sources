@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,13 +16,29 @@ import java.lang.invoke.*;
  */
 public class MemoryOutputStream extends OutputStream implements PollableOutputStream, Seekable {
 
-    public MemoryOutputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public MemoryOutputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to MemoryOutputStream */
     public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
         return new MemoryOutputStream(gobject.getReference());
+    }
+    
+    private static Reference constructNew(long size, ReallocFunc reallocFunction) {
+        try {
+            Reference RESULT = References.get(gtk_h.g_memory_output_stream_new(
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(reallocFunction.hashCode(), reallocFunction)), size, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbReallocFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
+                        Interop.getScope()), 
+                    Interop.cbDestroyNotifySymbol()), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -68,8 +84,13 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * stream3 = g_memory_output_stream_new (data, 200, NULL, free);
      * ]|
      */
-    public MemoryOutputStream(jdk.incubator.foreign.MemoryAddress data, long size, ReallocFunc reallocFunction, org.gtk.glib.DestroyNotify destroyFunction) {
-        super(References.get(gtk_h.g_memory_output_stream_new(data, size, reallocFunction, destroyFunction), true));
+    public MemoryOutputStream(long size, ReallocFunc reallocFunction) {
+        super(constructNew(size, reallocFunction));
+    }
+    
+    private static Reference constructNewResizable() {
+        Reference RESULT = References.get(gtk_h.g_memory_output_stream_new_resizable(), true);
+        return RESULT;
     }
     
     /**
@@ -77,7 +98,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * for memory allocation.
      */
     public static MemoryOutputStream newResizable() {
-        return new MemoryOutputStream(References.get(gtk_h.g_memory_output_stream_new_resizable(), true));
+        return new MemoryOutputStream(constructNewResizable());
     }
     
     /**

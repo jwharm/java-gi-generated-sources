@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -29,13 +29,18 @@ import java.lang.invoke.*;
  */
 public class ColorButton extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
 
-    public ColorButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public ColorButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to ColorButton */
     public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
         return new ColorButton(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_color_button_new(), false);
+        return RESULT;
     }
     
     /**
@@ -48,14 +53,19 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * color when the user finishes.
      */
     public ColorButton() {
-        super(References.get(gtk_h.gtk_color_button_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithRgba(org.gtk.gdk.RGBA rgba) {
+        Reference RESULT = References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new color button showing the given color.
      */
     public static ColorButton newWithRgba(org.gtk.gdk.RGBA rgba) {
-        return new ColorButton(References.get(gtk_h.gtk_color_button_new_with_rgba(rgba.handle()), false));
+        return new ColorButton(constructNewWithRgba(rgba));
     }
     
     /**
@@ -99,16 +109,16 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * The `::activate` signal on `GtkMenuButton` is an action signal and
      * emitting it causes the button to pop up its dialog.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -129,16 +139,16 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
      * If you need to react to programmatic color changes as well, use
      * the notify::rgba signal.
      */
-    public void onColorSet(ColorSetHandler handler) {
+    public SignalHandle onColorSet(ColorSetHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalColorButtonColorSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("color-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("color-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,17 +12,22 @@ import java.lang.invoke.*;
  * 
  * Each side can have different width.
  */
-public class Border extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Border extends io.github.jwharm.javagi.ResourceBase {
 
-    public Border(io.github.jwharm.javagi.interop.Reference reference) {
+    public Border(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_border_new(), true);
+        return RESULT;
     }
     
     /**
      * Allocates a new `GtkBorder` struct and initializes its elements to zero.
      */
     public Border() {
-        super(References.get(gtk_h.gtk_border_new(), true));
+        super(constructNew());
     }
     
     /**

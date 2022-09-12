@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,13 +15,18 @@ import java.lang.invoke.*;
  */
 public class MnemonicTrigger extends ShortcutTrigger {
 
-    public MnemonicTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+    public MnemonicTrigger(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to MnemonicTrigger */
     public static MnemonicTrigger castFrom(org.gtk.gobject.Object gobject) {
         return new MnemonicTrigger(gobject.getReference());
+    }
+    
+    private static Reference constructNew(int keyval) {
+        Reference RESULT = References.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true);
+        return RESULT;
     }
     
     /**
@@ -32,7 +37,7 @@ public class MnemonicTrigger extends ShortcutTrigger {
      * modifiers is detected.
      */
     public MnemonicTrigger(int keyval) {
-        super(References.get(gtk_h.gtk_mnemonic_trigger_new(keyval), true));
+        super(constructNew(keyval));
     }
     
     /**

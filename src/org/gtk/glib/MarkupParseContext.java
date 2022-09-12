@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,10 +14,16 @@ import java.lang.invoke.*;
  * See g_markup_parse_context_new(), #GMarkupParser, and so
  * on for more details.
  */
-public class MarkupParseContext extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
 
-    public MarkupParseContext(io.github.jwharm.javagi.interop.Reference reference) {
+    public MarkupParseContext(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+        Reference RESULT = References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags, userData, 
+                    Interop.cbDestroyNotifySymbol()), true);
+        return RESULT;
     }
     
     /**
@@ -28,7 +34,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * free it and create a new parse context).
      */
     public MarkupParseContext(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
-        super(References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags, userData, userDataDnotify), true));
+        super(constructNew(parser, flags, userData, userDataDnotify));
     }
     
     /**
@@ -38,7 +44,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * This function reports an error if the document isn't complete,
      * for example if elements are still open.
      */
-    public boolean endParse() throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_markup_parse_context_end_parse(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -111,7 +117,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.interop.Resource
      * is reported, no further data may be fed to the #GMarkupParseContext;
      * all errors are fatal.
      */
-    public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_markup_parse_context_parse(handle(), Interop.allocateNativeString(text).handle(), textLen, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

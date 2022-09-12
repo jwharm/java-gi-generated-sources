@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,17 +11,22 @@ import java.lang.invoke.*;
  * The `GMainLoop` struct is an opaque data type
  * representing the main event loop of a GLib or GTK+ application.
  */
-public class MainLoop extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
 
-    public MainLoop(io.github.jwharm.javagi.interop.Reference reference) {
+    public MainLoop(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(MainContext context, boolean isRunning) {
+        Reference RESULT = References.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GMainLoop structure.
      */
     public MainLoop(MainContext context, boolean isRunning) {
-        super(References.get(gtk_h.g_main_loop_new(context.handle(), isRunning ? 1 : 0), true));
+        super(constructNew(context, isRunning));
     }
     
     /**

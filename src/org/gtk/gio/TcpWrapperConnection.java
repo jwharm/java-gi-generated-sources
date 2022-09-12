@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class TcpWrapperConnection extends TcpConnection {
 
-    public TcpWrapperConnection(io.github.jwharm.javagi.interop.Reference reference) {
+    public TcpWrapperConnection(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,11 +25,16 @@ public class TcpWrapperConnection extends TcpConnection {
         return new TcpWrapperConnection(gobject.getReference());
     }
     
+    private static Reference constructNew(IOStream baseIoStream, Socket socket) {
+        Reference RESULT = References.get(gtk_h.g_tcp_wrapper_connection_new(baseIoStream.handle(), socket.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Wraps @base_io_stream and @socket together as a #GSocketConnection.
      */
     public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
-        super(References.get(gtk_h.g_tcp_wrapper_connection_new(baseIoStream.handle(), socket.handle()), true));
+        super(constructNew(baseIoStream, socket));
     }
     
     /**

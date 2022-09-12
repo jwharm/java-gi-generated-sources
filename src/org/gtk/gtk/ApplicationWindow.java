@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -82,7 +82,7 @@ import java.lang.invoke.*;
  */
 public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public ApplicationWindow(io.github.jwharm.javagi.interop.Reference reference) {
+    public ApplicationWindow(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -91,11 +91,16 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
         return new ApplicationWindow(gobject.getReference());
     }
     
+    private static Reference constructNew(Application application) {
+        Reference RESULT = References.get(gtk_h.gtk_application_window_new(application.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkApplicationWindow`.
      */
     public ApplicationWindow(Application application) {
-        super(References.get(gtk_h.gtk_application_window_new(application.handle()), false));
+        super(constructNew(application));
     }
     
     /**

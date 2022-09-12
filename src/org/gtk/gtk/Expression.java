@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -138,7 +138,7 @@ import java.lang.invoke.*;
  */
 public class Expression extends org.gtk.gobject.Object {
 
-    public Expression(io.github.jwharm.javagi.interop.Reference reference) {
+    public Expression(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -236,16 +236,17 @@ public class Expression extends org.gtk.gobject.Object {
      * gets invoked, but it guarantees the opposite: When it did in fact change,
      * the @notify will be invoked.
      */
-    public ExpressionWatch watch(Expression self, org.gtk.gobject.Object this_, ExpressionNotify notify) {
+    public ExpressionWatch watch(org.gtk.gobject.Object this_, ExpressionNotify notify) {
         try {
-            int hash = notify.hashCode();
-            Interop.signalRegistry.put(hash, notify);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbExpressionNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_expression_watch(handle(), this_.handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            var RESULT = gtk_h.gtk_expression_watch(handle(), this_.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbExpressionNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)), 
+                    Interop.cbDestroyNotifySymbol());
+            return new ExpressionWatch(References.get(RESULT, false));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

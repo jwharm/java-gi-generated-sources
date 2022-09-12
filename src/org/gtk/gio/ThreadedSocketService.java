@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class ThreadedSocketService extends SocketService {
 
-    public ThreadedSocketService(io.github.jwharm.javagi.interop.Reference reference) {
+    public ThreadedSocketService(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -35,12 +35,17 @@ public class ThreadedSocketService extends SocketService {
         return new ThreadedSocketService(gobject.getReference());
     }
     
+    private static Reference constructNew(int maxThreads) {
+        Reference RESULT = References.get(gtk_h.g_threaded_socket_service_new(maxThreads), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GThreadedSocketService with no listeners. Listeners
      * must be added with one of the #GSocketListener "add" methods.
      */
     public ThreadedSocketService(int maxThreads) {
-        super(References.get(gtk_h.g_threaded_socket_service_new(maxThreads), true));
+        super(constructNew(maxThreads));
     }
     
     @FunctionalInterface
@@ -54,16 +59,16 @@ public class ThreadedSocketService extends SocketService {
      * @connection and may perform blocking IO. The signal handler need
      * not return until the connection is closed.
      */
-    public void onRun(RunHandler handler) {
+    public SignalHandle onRun(RunHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalThreadedSocketServiceRun", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("run").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("run").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

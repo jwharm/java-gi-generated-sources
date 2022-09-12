@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  */
 public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public SortListModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public SortListModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -39,11 +39,16 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new SortListModel(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.ListModel model, Sorter sorter) {
+        Reference RESULT = References.get(gtk_h.gtk_sort_list_model_new(model.getReference().unowned().handle(), sorter.getReference().unowned().handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new sort list model that uses the @sorter to sort @model.
      */
     public SortListModel(org.gtk.gio.ListModel model, Sorter sorter) {
-        super(References.get(gtk_h.gtk_sort_list_model_new(model.getReference().unowned().handle(), sorter.getReference().unowned().handle()), true));
+        super(constructNew(model, sorter));
     }
     
     /**

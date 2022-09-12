@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,9 +23,9 @@ import java.lang.invoke.*;
  * @msg_handler field. The type of the message handler function
  * is declared by #GScannerMsgFunc.
  */
-public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Scanner extends io.github.jwharm.javagi.ResourceBase {
 
-    public Scanner(io.github.jwharm.javagi.interop.Reference reference) {
+    public Scanner(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -140,16 +140,15 @@ public class Scanner extends io.github.jwharm.javagi.interop.ResourceBase {
      * the symbol and value of each pair, and the given @user_data
      * parameter.
      */
-    public void scopeForeachSymbol(Scanner scanner, int scopeId, HFunc func) {
+    public void scopeForeachSymbol(int scopeId, HFunc func) {
         try {
-            int hash = func.hashCode();
-            Interop.signalRegistry.put(hash, func);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, nativeSymbol, intSegment);
+            gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

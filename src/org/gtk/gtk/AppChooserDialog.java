@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
-    public AppChooserDialog(io.github.jwharm.javagi.interop.Reference reference) {
+    public AppChooserDialog(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -32,13 +32,23 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
         return new AppChooserDialog(gobject.getReference());
     }
     
+    private static Reference constructNew(Window parent, int flags, org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags, file.handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkAppChooserDialog` for the provided `GFile`.
      * 
      * The dialog will show applications that can open the file.
      */
     public AppChooserDialog(Window parent, int flags, org.gtk.gio.File file) {
-        super(References.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags, file.handle()), false));
+        super(constructNew(parent, flags, file));
+    }
+    
+    private static Reference constructNewForContentType(Window parent, int flags, java.lang.String contentType) {
+        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags, Interop.allocateNativeString(contentType).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -47,7 +57,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * The dialog will show applications that can open the content type.
      */
     public static AppChooserDialog newForContentType(Window parent, int flags, java.lang.String contentType) {
-        return new AppChooserDialog(References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags, Interop.allocateNativeString(contentType).handle()), false));
+        return new AppChooserDialog(constructNewForContentType(parent, flags, contentType));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  */
 public class MemoryInputStream extends InputStream implements PollableInputStream, Seekable {
 
-    public MemoryInputStream(io.github.jwharm.javagi.interop.Reference reference) {
+    public MemoryInputStream(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -25,18 +25,28 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
         return new MemoryInputStream(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_memory_input_stream_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new empty #GMemoryInputStream.
      */
     public MemoryInputStream() {
-        super(References.get(gtk_h.g_memory_input_stream_new(), true));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewFromBytes(org.gtk.glib.Bytes bytes) {
+        Reference RESULT = References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new #GMemoryInputStream with data from the given @bytes.
      */
     public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
-        return new MemoryInputStream(References.get(gtk_h.g_memory_input_stream_new_from_bytes(bytes.handle()), true));
+        return new MemoryInputStream(constructNewFromBytes(bytes));
     }
     
     /**

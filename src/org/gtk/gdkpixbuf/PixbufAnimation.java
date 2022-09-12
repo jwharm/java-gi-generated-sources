@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  */
 public class PixbufAnimation extends org.gtk.gobject.Object {
 
-    public PixbufAnimation(io.github.jwharm.javagi.interop.Reference reference) {
+    public PixbufAnimation(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -33,7 +33,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
         return new PixbufAnimation(gobject.getReference());
     }
     
-    private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
+    private static Reference constructNewFromFile(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -53,10 +53,10 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * Possible errors are in the `GDK_PIXBUF_ERROR` and `G_FILE_ERROR` domains.
      */
     public static PixbufAnimation newFromFile(java.lang.String filename) throws GErrorException {
-        return new PixbufAnimation(constructNewFromFileOrThrow(filename));
+        return new PixbufAnimation(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromResourceOrThrow(java.lang.String resourcePath) throws GErrorException {
+    private static Reference constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -72,10 +72,10 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * @error will be set.
      */
     public static PixbufAnimation newFromResource(java.lang.String resourcePath) throws GErrorException {
-        return new PixbufAnimation(constructNewFromResourceOrThrow(resourcePath));
+        return new PixbufAnimation(constructNewFromResource(resourcePath));
     }
     
-    private static Reference constructNewFromStreamOrThrow(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -99,10 +99,10 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * The stream is not closed.
      */
     public static PixbufAnimation newFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        return new PixbufAnimation(constructNewFromStreamOrThrow(stream, cancellable));
+        return new PixbufAnimation(constructNewFromStream(stream, cancellable));
     }
     
-    private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+    private static Reference constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_animation_new_from_stream_finish(asyncResult.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -116,7 +116,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * [func@GdkPixbuf.PixbufAnimation.new_from_stream_async].
      */
     public static PixbufAnimation newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
-        return new PixbufAnimation(constructNewFromStreamFinishOrThrow(asyncResult));
+        return new PixbufAnimation(constructNewFromStreamFinish(asyncResult));
     }
     
     /**
@@ -217,16 +217,15 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * You can then call gdk_pixbuf_animation_new_from_stream_finish() to get the
      * result of the operation.
      */
-    public void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_animation_new_from_stream_async(stream.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_pixbuf_animation_new_from_stream_async(stream.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

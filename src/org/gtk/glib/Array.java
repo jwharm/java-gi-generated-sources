@@ -3,16 +3,16 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * Contains the public fields of a GArray.
  */
-public class Array extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Array extends io.github.jwharm.javagi.ResourceBase {
 
-    public Array(io.github.jwharm.javagi.interop.Reference reference) {
+    public Array(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -55,16 +55,15 @@ public class Array extends io.github.jwharm.javagi.interop.ResourceBase {
      * using the addresses of the elements in the comparison function.
      * This did not actually work, so any such code should be removed.
      */
-    public void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+    public static void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
         try {
-            int hash = compareFunc.hashCode();
-            Interop.signalRegistry.put(hash, compareFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_array_sort_with_data(Interop.allocateNativeArray(array).handle(), nativeSymbol, intSegment);
+            gtk_h.g_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

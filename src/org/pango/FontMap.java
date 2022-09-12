@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,9 +14,9 @@ import java.lang.invoke.*;
  * This is a virtual object with implementations being specific to
  * particular rendering systems.
  */
-public class FontMap extends org.gtk.gobject.Object {
+public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public FontMap(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontMap(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  */
 public class SocketClient extends org.gtk.gobject.Object {
 
-    public SocketClient(io.github.jwharm.javagi.interop.Reference reference) {
+    public SocketClient(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -33,11 +33,16 @@ public class SocketClient extends org.gtk.gobject.Object {
         return new SocketClient(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_socket_client_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GSocketClient with the default options.
      */
     public SocketClient() {
-        super(References.get(gtk_h.g_socket_client_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -85,7 +90,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * If a local address is specified with g_socket_client_set_local_address() the
      * socket will be bound to this address before connecting.
      */
-    public SocketConnection connect(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connect(SocketConnectable connectable, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect(handle(), connectable.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -110,16 +115,15 @@ public class SocketClient extends org.gtk.gobject.Object {
      * called. You can then call g_socket_client_connect_finish() to get
      * the result of the operation.
      */
-    public void connectAsync(SocketClient client, SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void connectAsync(SocketConnectable connectable, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_client_connect_async(handle(), connectable.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_client_connect_async(handle(), connectable.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -128,7 +132,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Finishes an async connect operation. See g_socket_client_connect_async()
      */
-    public SocketConnection connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -169,7 +173,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * connectable) %NULL is returned and @error (if non-%NULL) is set
      * accordingly.
      */
-    public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_host(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -185,16 +189,15 @@ public class SocketClient extends org.gtk.gobject.Object {
      * called. You can then call g_socket_client_connect_to_host_finish() to get
      * the result of the operation.
      */
-    public void connectToHostAsync(SocketClient client, java.lang.String hostAndPort, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void connectToHostAsync(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_client_connect_to_host_async(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_client_connect_to_host_async(handle(), Interop.allocateNativeString(hostAndPort).handle(), defaultPort, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -203,7 +206,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Finishes an async connect operation. See g_socket_client_connect_to_host_async()
      */
-    public SocketConnection connectToHostFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToHostFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_host_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -228,7 +231,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * connectable) %NULL is returned and @error (if non-%NULL) is set
      * accordingly.
      */
-    public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_service(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -241,16 +244,15 @@ public class SocketClient extends org.gtk.gobject.Object {
      * This is the asynchronous version of
      * g_socket_client_connect_to_service().
      */
-    public void connectToServiceAsync(SocketClient client, java.lang.String domain, java.lang.String service, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void connectToServiceAsync(java.lang.String domain, java.lang.String service, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_client_connect_to_service_async(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_client_connect_to_service_async(handle(), Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(service).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -259,7 +261,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Finishes an async connect operation. See g_socket_client_connect_to_service_async()
      */
-    public SocketConnection connectToServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_service_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -291,7 +293,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * connectable) %NULL is returned and @error (if non-%NULL) is set
      * accordingly.
      */
-    public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_uri(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -307,16 +309,15 @@ public class SocketClient extends org.gtk.gobject.Object {
      * called. You can then call g_socket_client_connect_to_uri_finish() to get
      * the result of the operation.
      */
-    public void connectToUriAsync(SocketClient client, java.lang.String uri, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void connectToUriAsync(java.lang.String uri, short defaultPort, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_client_connect_to_uri_async(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_client_connect_to_uri_async(handle(), Interop.allocateNativeString(uri).handle(), defaultPort, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -325,7 +326,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Finishes an async connect operation. See g_socket_client_connect_to_uri_async()
      */
-    public SocketConnection connectToUriFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection connectToUriFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_client_connect_to_uri_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -579,16 +580,16 @@ public class SocketClient extends org.gtk.gobject.Object {
      * Note that there may be additional #GSocketClientEvent values in
      * the future; unrecognized @event values should be ignored.
      */
-    public void onEvent(EventHandler handler) {
+    public SignalHandle onEvent(EventHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketClientEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

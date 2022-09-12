@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -44,13 +44,18 @@ import java.lang.invoke.*;
  */
 public class Cursor extends org.gtk.gobject.Object {
 
-    public Cursor(io.github.jwharm.javagi.interop.Reference reference) {
+    public Cursor(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Cursor */
     public static Cursor castFrom(org.gtk.gobject.Object gobject) {
         return new Cursor(gobject.getReference());
+    }
+    
+    private static Reference constructNewFromName(java.lang.String name, Cursor fallback) {
+        Reference RESULT = References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -73,14 +78,19 @@ public class Cursor extends org.gtk.gobject.Object {
      * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
      */
     public static Cursor newFromName(java.lang.String name, Cursor fallback) {
-        return new Cursor(References.get(gtk_h.gdk_cursor_new_from_name(Interop.allocateNativeString(name).handle(), fallback.handle()), true));
+        return new Cursor(constructNewFromName(name, fallback));
+    }
+    
+    private static Reference constructNewFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
+        Reference RESULT = References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new cursor from a `GdkTexture`.
      */
     public static Cursor newFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
-        return new Cursor(References.get(gtk_h.gdk_cursor_new_from_texture(texture.handle(), hotspotX, hotspotY, fallback.handle()), true));
+        return new Cursor(constructNewFromTexture(texture, hotspotX, hotspotY, fallback));
     }
     
     /**

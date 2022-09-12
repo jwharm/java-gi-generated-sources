@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,13 +25,18 @@ import java.lang.invoke.*;
  */
 public class Texture extends org.gtk.gobject.Object implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public Texture(io.github.jwharm.javagi.interop.Reference reference) {
+    public Texture(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Texture */
     public static Texture castFrom(org.gtk.gobject.Object gobject) {
         return new Texture(gobject.getReference());
+    }
+    
+    private static Reference constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        Reference RESULT = References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -42,10 +47,10 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Texture(References.get(gtk_h.gdk_texture_new_for_pixbuf(pixbuf.handle()), true));
+        return new Texture(constructNewForPixbuf(pixbuf));
     }
     
-    private static Reference constructNewFromBytesOrThrow(org.gtk.glib.Bytes bytes) throws GErrorException {
+    private static Reference constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_texture_new_from_bytes(bytes.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -67,10 +72,10 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
-        return new Texture(constructNewFromBytesOrThrow(bytes));
+        return new Texture(constructNewFromBytes(bytes));
     }
     
-    private static Reference constructNewFromFileOrThrow(org.gtk.gio.File file) throws GErrorException {
+    private static Reference constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_texture_new_from_file(file.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -92,10 +97,10 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromFile(org.gtk.gio.File file) throws GErrorException {
-        return new Texture(constructNewFromFileOrThrow(file));
+        return new Texture(constructNewFromFile(file));
     }
     
-    private static Reference constructNewFromFilenameOrThrow(java.lang.String path) throws GErrorException {
+    private static Reference constructNewFromFilename(java.lang.String path) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_texture_new_from_filename(Interop.allocateNativeString(path).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -117,7 +122,12 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromFilename(java.lang.String path) throws GErrorException {
-        return new Texture(constructNewFromFilenameOrThrow(path));
+        return new Texture(constructNewFromFilename(path));
+    }
+    
+    private static Reference constructNewFromResource(java.lang.String resourcePath) {
+        Reference RESULT = References.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -136,7 +146,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
-        return new Texture(References.get(gtk_h.gdk_texture_new_from_resource(Interop.allocateNativeString(resourcePath).handle()), true));
+        return new Texture(constructNewFromResource(resourcePath));
     }
     
     /**

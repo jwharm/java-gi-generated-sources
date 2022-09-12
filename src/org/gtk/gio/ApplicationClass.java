@@ -3,16 +3,16 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * Virtual function table for #GApplication.
  */
-public class ApplicationClass extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ApplicationClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public ApplicationClass(io.github.jwharm.javagi.interop.Reference reference) {
+    public ApplicationClass(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

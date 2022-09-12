@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  */
 public class CharsetConverter extends org.gtk.gobject.Object implements Converter, Initable {
 
-    public CharsetConverter(io.github.jwharm.javagi.interop.Reference reference) {
+    public CharsetConverter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -22,7 +22,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
         return new CharsetConverter(gobject.getReference());
     }
     
-    private static Reference constructNewOrThrow(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+    private static Reference constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.g_charset_converter_new(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -35,7 +35,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Creates a new #GCharsetConverter.
      */
     public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
-        super(constructNewOrThrow(toCharset, fromCharset));
+        super(constructNew(toCharset, fromCharset));
     }
     
     /**

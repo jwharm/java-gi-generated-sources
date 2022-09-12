@@ -1,10 +1,9 @@
-package io.github.jwharm.javagi.interop;
+package io.github.jwharm.javagi;
 
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import io.github.jwharm.javagi.interop.jextract.GError;
 
-import static io.github.jwharm.javagi.interop.Interop.getScope;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_POINTER;
 
 public class GErrorException extends Exception {
@@ -12,26 +11,48 @@ public class GErrorException extends Exception {
     private final int code, domain;
 
     private static MemorySegment dereference(MemorySegment pointer) {
-        return GError.ofAddress(pointer.get(C_POINTER, 0), getScope());
+        return GError.ofAddress(pointer.get(C_POINTER, 0), Interop.getScope());
     }
+
     private static String getMessage(MemorySegment pointer) {
         return GError.message$get(dereference(pointer)).getUtf8String(0);
     }
-    private static int getCode(MemorySegment pointer) {
+
+    private int getCode(MemorySegment pointer) {
         return GError.code$get(dereference(pointer));
     }
-    private static int getDomain(MemorySegment pointer) {
+
+    private int getDomain(MemorySegment pointer) {
         return GError.domain$get(dereference(pointer));
     }
-    private static void freeMemory(MemorySegment pointer) {
+
+    private void freeMemory(MemorySegment pointer) {
         io.github.jwharm.javagi.interop.jextract.gtk_h.g_error_free(dereference(pointer));
     }
 
+    /**
+     * Create a GErrorException from a GError memory segment that was
+     * returned by a native function.
+     */
     public GErrorException(MemorySegment gerrorPtr) {
         super(getMessage(gerrorPtr));
         this.code = getCode(gerrorPtr);
         this.domain = getDomain(gerrorPtr);
         freeMemory(gerrorPtr);
+    }
+
+    /**
+     * Create a GErrorException that can be used to return a GError from a Java callback function to
+     * native code. See <a href="https://docs.gtk.org/glib/error-reporting.html">the Gtk documentation
+     * on error reporting</a> for details.
+     * @param domain The GError error domain
+     * @param code The GError error code
+     * @param message The error message
+     */
+    public GErrorException(int domain, int code, String message) {
+        super(message);
+        this.code = code;
+        this.domain = domain;
     }
 
     /**

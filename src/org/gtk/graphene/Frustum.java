@@ -3,7 +3,7 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,15 @@ import java.lang.invoke.*;
  * The contents of the `graphene_frustum_t` are private, and should not be
  * modified directly.
  */
-public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Frustum extends io.github.jwharm.javagi.ResourceBase {
 
-    public Frustum(io.github.jwharm.javagi.interop.Reference reference) {
+    public Frustum(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_frustum_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -25,7 +30,7 @@ public class Frustum extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public static Frustum alloc() {
-        return new Frustum(References.get(gtk_h.graphene_frustum_alloc(), true));
+        return new Frustum(constructAlloc());
     }
     
     /**

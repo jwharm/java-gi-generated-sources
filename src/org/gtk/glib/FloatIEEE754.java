@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.NativeAddress;
+import io.github.jwharm.javagi.NativeAddress;
 import jdk.incubator.foreign.MemoryAddress;
 
 /**
@@ -9,9 +9,9 @@ import jdk.incubator.foreign.MemoryAddress;
  * as appropriate for a given platform. IEEE floats and doubles are supported
  * (used for storage) by at least Intel, PPC and Sparc.
  */
-public class FloatIEEE754 extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FloatIEEE754 extends io.github.jwharm.javagi.ResourceBase {
     
-    public FloatIEEE754(io.github.jwharm.javagi.interop.Reference reference) {
+    public FloatIEEE754(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

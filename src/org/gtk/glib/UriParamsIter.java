@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,9 +18,9 @@ import java.lang.invoke.*;
  * g_uri_params_iter_init(). See the documentation for g_uri_params_iter_init()
  * for a usage example.
  */
-public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase {
+public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
 
-    public UriParamsIter(io.github.jwharm.javagi.interop.Reference reference) {
+    public UriParamsIter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -74,7 +74,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.interop.ResourceBase 
      * Note that the same @attribute may be returned multiple times, since URIs
      * allow repeated attributes.
      */
-    public boolean next(java.lang.String[] attribute, java.lang.String[] value) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean next(java.lang.String[] attribute, java.lang.String[] value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_uri_params_iter_next(handle(), Interop.allocateNativeArray(attribute).handle(), Interop.allocateNativeArray(value).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

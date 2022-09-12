@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,17 +11,22 @@ import java.lang.invoke.*;
  * Acts as a lightweight registry for possible valid file attributes.
  * The registry stores Key-Value pair formats as #GFileAttributeInfos.
  */
-public class FileAttributeInfoList extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase {
 
-    public FileAttributeInfoList(io.github.jwharm.javagi.interop.Reference reference) {
+    public FileAttributeInfoList(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_file_attribute_info_list_new(), true);
+        return RESULT;
     }
     
     /**
      * Creates a new file attribute info list.
      */
     public FileAttributeInfoList() {
-        super(References.get(gtk_h.g_file_attribute_info_list_new(), true));
+        super(constructNew());
     }
     
     /**

@@ -3,7 +3,7 @@ package org.pango;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * The `PangoFontMapClass` structure holds the virtual functions for
  * a particular `PangoFontMap` implementation.
  */
-public class FontMapClass extends io.github.jwharm.javagi.interop.ResourceBase {
+public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
 
-    public FontMapClass(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontMapClass(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

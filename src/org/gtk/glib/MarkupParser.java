@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,9 +16,9 @@ import java.lang.invoke.*;
  * from a callback, g_markup_parse_context_parse() will report that error
  * back to its caller.
  */
-public class MarkupParser extends io.github.jwharm.javagi.interop.ResourceBase {
+public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
 
-    public MarkupParser(io.github.jwharm.javagi.interop.Reference reference) {
+    public MarkupParser(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

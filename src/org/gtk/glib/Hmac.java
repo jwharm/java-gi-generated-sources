@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * To create a new GHmac, use g_hmac_new(). To free
  * a GHmac, use g_hmac_unref().
  */
-public class Hmac extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Hmac extends io.github.jwharm.javagi.ResourceBase {
 
-    public Hmac(io.github.jwharm.javagi.interop.Reference reference) {
+    public Hmac(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  */
 public class SocketListener extends org.gtk.gobject.Object {
 
-    public SocketListener(io.github.jwharm.javagi.interop.Reference reference) {
+    public SocketListener(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -34,13 +34,18 @@ public class SocketListener extends org.gtk.gobject.Object {
         return new SocketListener(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_socket_listener_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GSocketListener with no sockets to listen for.
      * New listeners can be added with e.g. g_socket_listener_add_address()
      * or g_socket_listener_add_inet_port().
      */
     public SocketListener() {
-        super(References.get(gtk_h.g_socket_listener_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -56,7 +61,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public SocketConnection accept(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection accept(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_accept(handle(), Interop.allocateNativeArray(sourceObject).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -72,16 +77,15 @@ public class SocketListener extends org.gtk.gobject.Object {
      * called. You can then call g_socket_listener_accept_finish()
      * to get the result of the operation.
      */
-    public void acceptAsync(SocketListener listener, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void acceptAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_listener_accept_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_listener_accept_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -90,7 +94,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_async()
      */
-    public SocketConnection acceptFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.interop.GErrorException {
+    public SocketConnection acceptFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_accept_finish(handle(), result.handle(), Interop.allocateNativeArray(sourceObject).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -115,7 +119,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public Socket acceptSocket(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public Socket acceptSocket(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_accept_socket(handle(), Interop.allocateNativeArray(sourceObject).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -131,16 +135,15 @@ public class SocketListener extends org.gtk.gobject.Object {
      * called. You can then call g_socket_listener_accept_socket_finish()
      * to get the result of the operation.
      */
-    public void acceptSocketAsync(SocketListener listener, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void acceptSocketAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_socket_listener_accept_socket_async(handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_socket_listener_accept_socket_async(handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -149,7 +152,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_socket_async()
      */
-    public Socket acceptSocketFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.interop.GErrorException {
+    public Socket acceptSocketFinish(AsyncResult result, org.gtk.gobject.Object[] sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_accept_socket_finish(handle(), result.handle(), Interop.allocateNativeArray(sourceObject).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -183,7 +186,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * be done automatically when you drop your final reference to @listener, as
      * references may be held internally.
      */
-    public boolean addAddress(SocketAddress address, SocketType type, SocketProtocol protocol, org.gtk.gobject.Object sourceObject, SocketAddress[] effectiveAddress) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean addAddress(SocketAddress address, SocketType type, SocketProtocol protocol, org.gtk.gobject.Object sourceObject, SocketAddress[] effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_add_address(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), Interop.allocateNativeArray(effectiveAddress).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -204,7 +207,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * useful if you're listening on multiple addresses and do
      * different things depending on what address is connected to.
      */
-    public short addAnyInetPort(org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.interop.GErrorException {
+    public short addAnyInetPort(org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_add_any_inet_port(handle(), sourceObject.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -227,7 +230,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * be done automatically when you drop your final reference to @listener, as
      * references may be held internally.
      */
-    public boolean addInetPort(short port, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean addInetPort(short port, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_add_inet_port(handle(), port, sourceObject.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -251,7 +254,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * the @socket was automatically closed on finalization of the @listener, even
      * if references to it were held elsewhere.
      */
-    public boolean addSocket(Socket socket, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean addSocket(Socket socket, org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_socket_listener_add_socket(handle(), socket.handle(), sourceObject.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -289,16 +292,16 @@ public class SocketListener extends org.gtk.gobject.Object {
      * IPv6, a separate set of signals will be emitted for each, and
      * the order they happen in is undefined.
      */
-    public void onEvent(EventHandler handler) {
+    public SignalHandle onEvent(EventHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSocketListenerEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

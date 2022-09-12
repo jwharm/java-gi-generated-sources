@@ -3,7 +3,7 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  */
 public class OpacityNode extends RenderNode {
 
-    public OpacityNode(io.github.jwharm.javagi.interop.Reference reference) {
+    public OpacityNode(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -21,12 +21,17 @@ public class OpacityNode extends RenderNode {
         return new OpacityNode(gobject.getReference());
     }
     
+    private static Reference constructNew(RenderNode child, float opacity) {
+        Reference RESULT = References.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a `GskRenderNode` that will drawn the @child with reduced
      * @opacity.
      */
     public OpacityNode(RenderNode child, float opacity) {
-        super(References.get(gtk_h.gsk_opacity_node_new(child.handle(), opacity), true));
+        super(constructNew(child, opacity));
     }
     
     /**

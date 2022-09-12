@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * name 'socks5' using the function
  * g_io_extension_point_get_extension_by_name().
  */
-public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Given @connection to communicate with a proxy (eg, a
@@ -23,7 +23,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
      * does the necessary handshake to connect to @proxy_address, and if
      * required, wraps the #GIOStream to handle proxy payload.
      */
-    public default IOStream connect(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default IOStream connect(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_proxy_connect(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -35,16 +35,15 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * Asynchronous version of g_proxy_connect().
      */
-    public default void connectAsync(Proxy proxy, IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void connectAsync(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_proxy_connect_async(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_proxy_connect_async(handle(), connection.handle(), proxyAddress.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +52,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
     /**
      * See g_proxy_connect().
      */
-    public default IOStream connectFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default IOStream connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_proxy_connect_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -86,7 +85,7 @@ public interface Proxy extends io.github.jwharm.javagi.interop.NativeAddress {
     }
     
     class ProxyImpl extends org.gtk.gobject.Object implements Proxy {
-        public ProxyImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public ProxyImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

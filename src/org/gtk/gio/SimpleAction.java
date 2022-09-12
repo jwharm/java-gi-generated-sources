@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -16,13 +16,18 @@ import java.lang.invoke.*;
  */
 public class SimpleAction extends org.gtk.gobject.Object implements Action {
 
-    public SimpleAction(io.github.jwharm.javagi.interop.Reference reference) {
+    public SimpleAction(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to SimpleAction */
     public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
         return new SimpleAction(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String name, org.gtk.glib.VariantType parameterType) {
+        Reference RESULT = References.get(gtk_h.g_simple_action_new(Interop.allocateNativeString(name).handle(), parameterType.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -32,7 +37,12 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * an action that has state.
      */
     public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType) {
-        super(References.get(gtk_h.g_simple_action_new(Interop.allocateNativeString(name).handle(), parameterType.handle()), true));
+        super(constructNew(name, parameterType));
+    }
+    
+    private static Reference constructNewStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+        Reference RESULT = References.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -44,7 +54,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * If the @state #GVariant is floating, it is consumed.
      */
     public static SimpleAction newStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
-        return new SimpleAction(References.get(gtk_h.g_simple_action_new_stateful(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true));
+        return new SimpleAction(constructNewStateful(name, parameterType, state));
     }
     
     /**
@@ -106,16 +116,16 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * #GSimpleAction::change-state.  This should allow almost all users
      * of #GSimpleAction to connect only one handler or the other.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSimpleActionActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -161,16 +171,16 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * The handler need not set the state to the requested value.
      * It could set it to any value at all, or take some other action.
      */
-    public void onChangeState(ChangeStateHandler handler) {
+    public SignalHandle onChangeState(ChangeStateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSimpleActionChangeState", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-state").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-state").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

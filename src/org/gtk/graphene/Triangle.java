@@ -3,17 +3,22 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A triangle.
  */
-public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Triangle extends io.github.jwharm.javagi.ResourceBase {
 
-    public Triangle(io.github.jwharm.javagi.interop.Reference reference) {
+    public Triangle(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_triangle_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -22,7 +27,7 @@ public class Triangle extends io.github.jwharm.javagi.interop.ResourceBase {
      * The contents of the returned structure are undefined.
      */
     public static Triangle alloc() {
-        return new Triangle(References.get(gtk_h.graphene_triangle_alloc(), true));
+        return new Triangle(constructAlloc());
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  */
 public class PasswordEntryBuffer extends EntryBuffer {
 
-    public PasswordEntryBuffer(io.github.jwharm.javagi.interop.Reference reference) {
+    public PasswordEntryBuffer(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -24,11 +24,16 @@ public class PasswordEntryBuffer extends EntryBuffer {
         return new PasswordEntryBuffer(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_password_entry_buffer_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkEntryBuffer` using secure memory allocations.
      */
     public PasswordEntryBuffer() {
-        super(References.get(gtk_h.gtk_password_entry_buffer_new(), true));
+        super(constructNew());
     }
     
 }

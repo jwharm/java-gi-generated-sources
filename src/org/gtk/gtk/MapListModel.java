@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -38,7 +38,7 @@ import java.lang.invoke.*;
  */
 public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
-    public MapListModel(io.github.jwharm.javagi.interop.Reference reference) {
+    public MapListModel(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -47,11 +47,27 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         return new MapListModel(gobject.getReference());
     }
     
+    private static Reference constructNew(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
+        try {
+            Reference RESULT = References.get(gtk_h.gtk_map_list_model_new(model.getReference().unowned().handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMapListModelMapFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    Interop.cbDestroyNotifySymbol()), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Creates a new `GtkMapListModel` for the given arguments.
      */
-    public MapListModel(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDestroy) {
-        super(References.get(gtk_h.gtk_map_list_model_new(model.getReference().unowned().handle(), mapFunc, userData, userDestroy), true));
+    public MapListModel(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
+        super(constructNew(model, mapFunc));
     }
     
     /**
@@ -83,16 +99,16 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * of @self. It assumes that the caller knows what they are doing and the map
      * function returns items of the appropriate type.
      */
-    public void setMapFunc(MapListModel self, MapListModelMapFunc mapFunc) {
+    public void setMapFunc(MapListModelMapFunc mapFunc) {
         try {
-            int hash = mapFunc.hashCode();
-            Interop.signalRegistry.put(hash, mapFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMapListModelMapFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_map_list_model_set_map_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_map_list_model_set_map_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMapListModelMapFunc",
+                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -73,7 +73,7 @@ import java.lang.invoke.*;
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
 
-    public DBusAuthObserver(io.github.jwharm.javagi.interop.Reference reference) {
+    public DBusAuthObserver(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -82,11 +82,16 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         return new DBusAuthObserver(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.g_dbus_auth_observer_new(), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new #GDBusAuthObserver object.
      */
     public DBusAuthObserver() {
-        super(References.get(gtk_h.g_dbus_auth_observer_new(), true));
+        super(constructNew());
     }
     
     /**
@@ -113,16 +118,16 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     /**
      * Emitted to check if @mechanism is allowed to be used.
      */
-    public void onAllowMechanism(AllowMechanismHandler handler) {
+    public SignalHandle onAllowMechanism(AllowMechanismHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusAuthObserverAllowMechanism", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("allow-mechanism").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("allow-mechanism").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -137,16 +142,16 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
      * Emitted to check if a peer that is successfully authenticated
      * is authorized.
      */
-    public void onAuthorizeAuthenticatedPeer(AuthorizeAuthenticatedPeerHandler handler) {
+    public SignalHandle onAuthorizeAuthenticatedPeer(AuthorizeAuthenticatedPeerHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusAuthObserverAuthorizeAuthenticatedPeer", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("authorize-authenticated-peer").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("authorize-authenticated-peer").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -33,10 +33,15 @@ import java.lang.invoke.*;
  * mutable array for a #GBytes sequence. To create an immutable #GBytes from
  * a mutable #GByteArray, use the g_byte_array_free_to_bytes() function.
  */
-public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Bytes extends io.github.jwharm.javagi.ResourceBase {
 
-    public Bytes(io.github.jwharm.javagi.interop.Reference reference) {
+    public Bytes(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(byte[] data, long size) {
+        Reference RESULT = References.get(gtk_h.g_bytes_new(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        return RESULT;
     }
     
     /**
@@ -45,7 +50,12 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data is copied. If @size is 0, @data may be %NULL.
      */
     public Bytes(byte[] data, long size) {
-        super(References.get(gtk_h.g_bytes_new(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
+        super(constructNew(data, size));
+    }
+    
+    private static Reference constructNewStatic(byte[] data, long size) {
+        Reference RESULT = References.get(gtk_h.g_bytes_new_static(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        return RESULT;
     }
     
     /**
@@ -55,7 +65,12 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
-        return new Bytes(References.get(gtk_h.g_bytes_new_static(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
+        return new Bytes(constructNewStatic(data, size));
+    }
+    
+    private static Reference constructNewTake(byte[] data, long size) {
+        Reference RESULT = References.get(gtk_h.g_bytes_new_take(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true);
+        return RESULT;
     }
     
     /**
@@ -73,7 +88,13 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data may be %NULL if @size is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
-        return new Bytes(References.get(gtk_h.g_bytes_new_take(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size), true));
+        return new Bytes(constructNewTake(data, size));
+    }
+    
+    private static Reference constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
+        Reference RESULT = References.get(gtk_h.g_bytes_new_with_free_func(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, 
+                    Interop.cbDestroyNotifySymbol(), userData), true);
+        return RESULT;
     }
     
     /**
@@ -88,7 +109,7 @@ public class Bytes extends io.github.jwharm.javagi.interop.ResourceBase {
      * @data may be %NULL if @size is 0.
      */
     public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
-        return new Bytes(References.get(gtk_h.g_bytes_new_with_free_func(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, freeFunc, userData), true));
+        return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData));
     }
     
     /**

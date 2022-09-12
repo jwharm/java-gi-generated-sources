@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -146,13 +146,18 @@ import java.lang.invoke.*;
  */
 public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
-    public Pixbuf(io.github.jwharm.javagi.interop.Reference reference) {
+    public Pixbuf(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Pixbuf */
     public static Pixbuf castFrom(org.gtk.gobject.Object gobject) {
         return new Pixbuf(gobject.getReference());
+    }
+    
+    private static Reference constructNew(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true);
+        return RESULT;
     }
     
     /**
@@ -164,7 +169,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * you will have to fill it completely yourself.
      */
     public Pixbuf(Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height) {
-        super(References.get(gtk_h.gdk_pixbuf_new(colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height), true));
+        super(constructNew(colorspace, hasAlpha, bitsPerSample, width, height));
+    }
+    
+    private static Reference constructNewFromBytes(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true);
+        return RESULT;
     }
     
     /**
@@ -176,7 +186,22 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * for language bindings.
      */
     public static Pixbuf newFromBytes(org.gtk.glib.Bytes data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride) {
-        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_bytes(data.handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride), true));
+        return new Pixbuf(constructNewFromBytes(data, colorspace, hasAlpha, bitsPerSample, width, height, rowstride));
+    }
+    
+    private static Reference constructNewFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn) {
+        try {
+            Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_data(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufDestroyNotify",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(destroyFn.hashCode(), destroyFn))), true);
+            return RESULT;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -192,11 +217,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * See also: [ctor@GdkPixbuf.Pixbuf.new_from_bytes]
      */
-    public static Pixbuf newFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn, jdk.incubator.foreign.MemoryAddress destroyFnData) {
-        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_data(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, destroyFn, destroyFnData), true));
+    public static Pixbuf newFromData(byte[] data, Colorspace colorspace, boolean hasAlpha, int bitsPerSample, int width, int height, int rowstride, PixbufDestroyNotify destroyFn) {
+        return new Pixbuf(constructNewFromData(data, colorspace, hasAlpha, bitsPerSample, width, height, rowstride, destroyFn));
     }
     
-    private static Reference constructNewFromFileOrThrow(java.lang.String filename) throws GErrorException {
+    private static Reference constructNewFromFile(java.lang.String filename) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file(Interop.allocateNativeString(filename).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -220,10 +245,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * The error domains are `GDK_PIXBUF_ERROR` and `G_FILE_ERROR`.
      */
     public static Pixbuf newFromFile(java.lang.String filename) throws GErrorException {
-        return new Pixbuf(constructNewFromFileOrThrow(filename));
+        return new Pixbuf(constructNewFromFile(filename));
     }
     
-    private static Reference constructNewFromFileAtScaleOrThrow(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+    private static Reference constructNewFromFileAtScale(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_scale(Interop.allocateNativeString(filename).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -257,10 +282,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * allowed since 2.8.
      */
     public static Pixbuf newFromFileAtScale(java.lang.String filename, int width, int height, boolean preserveAspectRatio) throws GErrorException {
-        return new Pixbuf(constructNewFromFileAtScaleOrThrow(filename, width, height, preserveAspectRatio));
+        return new Pixbuf(constructNewFromFileAtScale(filename, width, height, preserveAspectRatio));
     }
     
-    private static Reference constructNewFromFileAtSizeOrThrow(java.lang.String filename, int width, int height) throws GErrorException {
+    private static Reference constructNewFromFileAtSize(java.lang.String filename, int width, int height) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_file_at_size(Interop.allocateNativeString(filename).handle(), width, height, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -290,10 +315,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * [ctor@GdkPixbuf.Pixbuf.new_from_file_at_scale].
      */
     public static Pixbuf newFromFileAtSize(java.lang.String filename, int width, int height) throws GErrorException {
-        return new Pixbuf(constructNewFromFileAtSizeOrThrow(filename, width, height));
+        return new Pixbuf(constructNewFromFileAtSize(filename, width, height));
     }
     
-    private static Reference constructNewFromInlineOrThrow(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
+    private static Reference constructNewFromInline(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_inline(dataLength, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), copyPixels ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -338,10 +363,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * addition.
      */
     public static Pixbuf newFromInline(int dataLength, byte[] data, boolean copyPixels) throws GErrorException {
-        return new Pixbuf(constructNewFromInlineOrThrow(dataLength, data, copyPixels));
+        return new Pixbuf(constructNewFromInline(dataLength, data, copyPixels));
     }
     
-    private static Reference constructNewFromResourceOrThrow(java.lang.String resourcePath) throws GErrorException {
+    private static Reference constructNewFromResource(java.lang.String resourcePath) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource(Interop.allocateNativeString(resourcePath).handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -357,10 +382,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * @error will be set.
      */
     public static Pixbuf newFromResource(java.lang.String resourcePath) throws GErrorException {
-        return new Pixbuf(constructNewFromResourceOrThrow(resourcePath));
+        return new Pixbuf(constructNewFromResource(resourcePath));
     }
     
-    private static Reference constructNewFromResourceAtScaleOrThrow(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
+    private static Reference constructNewFromResourceAtScale(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_resource_at_scale(Interop.allocateNativeString(resourcePath).handle(), width, height, preserveAspectRatio ? 1 : 0, GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -385,10 +410,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * The stream is not closed.
      */
     public static Pixbuf newFromResourceAtScale(java.lang.String resourcePath, int width, int height, boolean preserveAspectRatio) throws GErrorException {
-        return new Pixbuf(constructNewFromResourceAtScaleOrThrow(resourcePath, width, height, preserveAspectRatio));
+        return new Pixbuf(constructNewFromResourceAtScale(resourcePath, width, height, preserveAspectRatio));
     }
     
-    private static Reference constructNewFromStreamOrThrow(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream(stream.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -412,10 +437,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * The stream is not closed.
      */
     public static Pixbuf newFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        return new Pixbuf(constructNewFromStreamOrThrow(stream, cancellable));
+        return new Pixbuf(constructNewFromStream(stream, cancellable));
     }
     
-    private static Reference constructNewFromStreamAtScaleOrThrow(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewFromStreamAtScale(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_at_scale(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -448,10 +473,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * The stream is not closed.
      */
     public static Pixbuf newFromStreamAtScale(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        return new Pixbuf(constructNewFromStreamAtScaleOrThrow(stream, width, height, preserveAspectRatio, cancellable));
+        return new Pixbuf(constructNewFromStreamAtScale(stream, width, height, preserveAspectRatio, cancellable));
     }
     
-    private static Reference constructNewFromStreamFinishOrThrow(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
+    private static Reference constructNewFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_stream_finish(asyncResult.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -465,7 +490,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * gdk_pixbuf_new_from_stream_async().
      */
     public static Pixbuf newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
-        return new Pixbuf(constructNewFromStreamFinishOrThrow(asyncResult));
+        return new Pixbuf(constructNewFromStreamFinish(asyncResult));
+    }
+    
+    private static Reference constructNewFromXpmData(java.lang.String[] data) {
+        Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -475,7 +505,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * program's C source.
      */
     public static Pixbuf newFromXpmData(java.lang.String[] data) {
-        return new Pixbuf(References.get(gtk_h.gdk_pixbuf_new_from_xpm_data(Interop.allocateNativeArray(data).handle()), true));
+        return new Pixbuf(constructNewFromXpmData(data));
     }
     
     /**
@@ -794,16 +824,20 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * See [method@GdkPixbuf.Pixbuf.save_to_callback] for more details.
      */
-    public boolean saveToCallbackv(Pixbuf pixbuf, PixbufSaveFunc saveFunc, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) {
+    public boolean saveToCallbackv(PixbufSaveFunc saveFunc, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            int hash = saveFunc.hashCode();
-            Interop.signalRegistry.put(hash, saveFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufSaveFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_save_to_callbackv(handle(), nativeSymbol, intSegment, Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle());
+            var RESULT = gtk_h.gdk_pixbuf_save_to_callbackv(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufSaveFunc",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(saveFunc.hashCode(), saveFunc)), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (RESULT != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -817,7 +851,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * See [method@GdkPixbuf.Pixbuf.save_to_stream] for more details.
      */
-    public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_save_to_streamv(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -837,16 +871,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * You can then call gdk_pixbuf_save_to_stream_finish() to get the result of
      * the operation.
      */
-    public void saveToStreamvAsync(Pixbuf pixbuf, org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public void saveToStreamvAsync(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_save_to_streamv_async(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_pixbuf_save_to_streamv_async(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -861,7 +894,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * See [method@GdkPixbuf.Pixbuf.save] for more details.
      */
-    public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.interop.GErrorException {
+    public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_savev(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -948,16 +981,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * main thread. You can then call gdk_pixbuf_get_file_info_finish() to
      * get the result of the operation.
      */
-    public void getFileInfoAsync(java.lang.String filename, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void getFileInfoAsync(java.lang.String filename, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_get_file_info_async(Interop.allocateNativeString(filename).handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_pixbuf_get_file_info_async(Interop.allocateNativeString(filename).handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -987,7 +1019,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * with the application in a separate directory from the OS or runtime-
      * provided modules.
      */
-    public static boolean initModules(java.lang.String path) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean initModules(java.lang.String path) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_init_modules(Interop.allocateNativeString(path).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -1006,16 +1038,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * You can then call gdk_pixbuf_new_from_stream_finish() to get the result of
      * the operation.
      */
-    public void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void newFromStreamAsync(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_new_from_stream_async(stream.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_pixbuf_new_from_stream_async(stream.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1030,16 +1061,15 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * When the operation is finished, @callback will be called in the main thread.
      * You can then call gdk_pixbuf_new_from_stream_finish() to get the result of the operation.
      */
-    public void newFromStreamAtScaleAsync(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void newFromStreamAtScaleAsync(org.gtk.gio.InputStream stream, int width, int height, boolean preserveAspectRatio, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gdk_pixbuf_new_from_stream_at_scale_async(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.gdk_pixbuf_new_from_stream_at_scale_async(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1049,7 +1079,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Finishes an asynchronous pixbuf save operation started with
      * gdk_pixbuf_save_to_stream_async().
      */
-    public static boolean saveToStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws io.github.jwharm.javagi.interop.GErrorException {
+    public static boolean saveToStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gdk_pixbuf_save_to_stream_finish(asyncResult.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

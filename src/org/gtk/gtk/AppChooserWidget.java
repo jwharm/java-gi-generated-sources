@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -34,7 +34,7 @@ import java.lang.invoke.*;
  */
 public class AppChooserWidget extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
-    public AppChooserWidget(io.github.jwharm.javagi.interop.Reference reference) {
+    public AppChooserWidget(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -43,12 +43,17 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         return new AppChooserWidget(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String contentType) {
+        Reference RESULT = References.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkAppChooserWidget` for applications
      * that can handle content of the given type.
      */
     public AppChooserWidget(java.lang.String contentType) {
-        super(References.get(gtk_h.gtk_app_chooser_widget_new(Interop.allocateNativeString(contentType).handle()), false));
+        super(constructNew(contentType));
     }
     
     /**
@@ -165,16 +170,16 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
      * is selected and the user presses one of the keys Space, Shift+Space,
      * Return or Enter.
      */
-    public void onApplicationActivated(ApplicationActivatedHandler handler) {
+    public SignalHandle onApplicationActivated(ApplicationActivatedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserWidgetApplicationActivated", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("application-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("application-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -188,16 +193,16 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     /**
      * Emitted when an application item is selected from the widget's list.
      */
-    public void onApplicationSelected(ApplicationSelectedHandler handler) {
+    public SignalHandle onApplicationSelected(ApplicationSelectedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAppChooserWidgetApplicationSelected", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("application-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("application-selected").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

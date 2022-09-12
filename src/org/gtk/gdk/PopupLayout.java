@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -42,10 +42,15 @@ import java.lang.invoke.*;
  * But you have to be careful avoid changing the size of the popover, or it
  * has to be presented again.
  */
-public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
+public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
 
-    public PopupLayout(io.github.jwharm.javagi.interop.Reference reference) {
+    public PopupLayout(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
+        Reference RESULT = References.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -63,7 +68,7 @@ public class PopupLayout extends io.github.jwharm.javagi.interop.ResourceBase {
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
-        super(References.get(gtk_h.gdk_popup_layout_new(anchorRect.handle(), rectAnchor.getValue(), surfaceAnchor.getValue()), true));
+        super(constructNew(anchorRect, rectAnchor, surfaceAnchor));
     }
     
     /**

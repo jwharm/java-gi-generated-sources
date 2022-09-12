@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  * provides a mechanism by which to receive platform data for action
  * invocations that arrive by way of D-Bus.
  */
-public interface RemoteActionGroup extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface RemoteActionGroup extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Activates the remote action.
@@ -63,7 +63,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.interop.Nativ
     }
     
     class RemoteActionGroupImpl extends org.gtk.gobject.Object implements RemoteActionGroup {
-        public RemoteActionGroupImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public RemoteActionGroupImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

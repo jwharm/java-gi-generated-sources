@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,10 +23,10 @@ import java.lang.invoke.*;
  * By default, GTK will use its own implementation of `GtkBuilderScope`
  * for the C language which can be created via [ctor@Gtk.BuilderCScope.new].
  */
-public interface BuilderScope extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface BuilderScope extends io.github.jwharm.javagi.NativeAddress {
 
     class BuilderScopeImpl extends org.gtk.gobject.Object implements BuilderScope {
-        public BuilderScopeImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public BuilderScopeImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

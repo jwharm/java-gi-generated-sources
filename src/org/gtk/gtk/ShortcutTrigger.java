@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -22,13 +22,18 @@ import java.lang.invoke.*;
  */
 public class ShortcutTrigger extends org.gtk.gobject.Object {
 
-    public ShortcutTrigger(io.github.jwharm.javagi.interop.Reference reference) {
+    public ShortcutTrigger(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to ShortcutTrigger */
     public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
         return new ShortcutTrigger(gobject.getReference());
+    }
+    
+    private static Reference constructParseString(java.lang.String string) {
+        Reference RESULT = References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -50,7 +55,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * `<` and `&gt;` instead of `>`.
      */
     public static ShortcutTrigger parseString(java.lang.String string) {
-        return new ShortcutTrigger(References.get(gtk_h.gtk_shortcut_trigger_parse_string(Interop.allocateNativeString(string).handle()), true));
+        return new ShortcutTrigger(constructParseString(string));
     }
     
     /**

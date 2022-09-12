@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -28,7 +28,7 @@ import java.lang.invoke.*;
  */
 public class FontButton extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
-    public FontButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public FontButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -37,18 +37,28 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         return new FontButton(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_font_button_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new font picker widget.
      */
     public FontButton() {
-        super(References.get(gtk_h.gtk_font_button_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithFont(java.lang.String fontname) {
+        Reference RESULT = References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new font picker widget showing the given font.
      */
     public static FontButton newWithFont(java.lang.String fontname) {
-        return new FontButton(References.get(gtk_h.gtk_font_button_new_with_font(Interop.allocateNativeString(fontname).handle()), false));
+        return new FontButton(constructNewWithFont(fontname));
     }
     
     /**
@@ -124,16 +134,16 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * The `::activate` signal on `GtkFontButton` is an action signal and
      * emitting it causes the button to present its dialog.
      */
-    public void onActivate(ActivateHandler handler) {
+    public SignalHandle onActivate(ActivateHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontButtonActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -154,16 +164,16 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
      * If you need to react to programmatic font changes as well, use
      * the notify::font signal.
      */
-    public void onFontSet(FontSetHandler handler) {
+    public SignalHandle onFontSet(FontSetHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalFontButtonFontSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("font-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("font-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * lseek() on a normal file.  Seeking past the end and writing data will
  * usually cause the stream to resize by introducing zero bytes.
  */
-public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Tests if the stream supports the #GSeekableIface.
@@ -58,7 +58,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
      */
-    public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_seekable_seek(handle(), offset, type.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -86,7 +86,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      */
-    public default boolean truncate(long offset, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default boolean truncate(long offset, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_seekable_truncate(handle(), offset, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -96,7 +96,7 @@ public interface Seekable extends io.github.jwharm.javagi.interop.NativeAddress 
     }
     
     class SeekableImpl extends org.gtk.gobject.Object implements Seekable {
-        public SeekableImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public SeekableImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

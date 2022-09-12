@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  */
 public class CellView extends Widget implements Accessible, Buildable, CellLayout, ConstraintTarget, Orientable {
 
-    public CellView(io.github.jwharm.javagi.interop.Reference reference) {
+    public CellView(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -39,11 +39,21 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
         return new CellView(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_cell_view_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkCellView` widget.
      */
     public CellView() {
-        super(References.get(gtk_h.gtk_cell_view_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithContext(CellArea area, CellAreaContext context) {
+        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -56,7 +66,12 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * possible.
      */
     public static CellView newWithContext(CellArea area, CellAreaContext context) {
-        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_context(area.handle(), context.handle()), false));
+        return new CellView(constructNewWithContext(area, context));
+    }
+    
+    private static Reference constructNewWithMarkup(java.lang.String markup) {
+        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -65,7 +80,12 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
      */
     public static CellView newWithMarkup(java.lang.String markup) {
-        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_markup(Interop.allocateNativeString(markup).handle()), false));
+        return new CellView(constructNewWithMarkup(markup));
+    }
+    
+    private static Reference constructNewWithText(java.lang.String text) {
+        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -73,7 +93,12 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @text.
      */
     public static CellView newWithText(java.lang.String text) {
-        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_text(Interop.allocateNativeString(text).handle()), false));
+        return new CellView(constructNewWithText(text));
+    }
+    
+    private static Reference constructNewWithTexture(org.gtk.gdk.Texture texture) {
+        Reference RESULT = References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -81,7 +106,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * to it, and makes it show @texture.
      */
     public static CellView newWithTexture(org.gtk.gdk.Texture texture) {
-        return new CellView(References.get(gtk_h.gtk_cell_view_new_with_texture(texture.handle()), false));
+        return new CellView(constructNewWithTexture(texture));
     }
     
     /**

@@ -3,7 +3,7 @@ package org.gtk.glib;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,10 +11,15 @@ import java.lang.invoke.*;
  * The `GError` structure contains information about
  * an error that has occurred.
  */
-public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Error extends io.github.jwharm.javagi.ResourceBase {
 
-    public Error(io.github.jwharm.javagi.interop.Reference reference) {
+    public Error(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNewLiteral(Quark domain, int code, java.lang.String message) {
+        Reference RESULT = References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -24,7 +29,12 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * that could include printf() escape sequences.
      */
     public static Error newLiteral(Quark domain, int code, java.lang.String message) {
-        return new Error(References.get(gtk_h.g_error_new_literal(domain.getValue(), code, Interop.allocateNativeString(message).handle()), true));
+        return new Error(constructNewLiteral(domain, code, message));
+    }
+    
+    private static Reference constructNewValist(Quark domain, int code, java.lang.String format, VaList args) {
+        Reference RESULT = References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true);
+        return RESULT;
     }
     
     /**
@@ -32,7 +42,7 @@ public class Error extends io.github.jwharm.javagi.interop.ResourceBase {
      * and a message formatted with @format.
      */
     public static Error newValist(Quark domain, int code, java.lang.String format, VaList args) {
-        return new Error(References.get(gtk_h.g_error_new_valist(domain.getValue(), code, Interop.allocateNativeString(format).handle(), args), true));
+        return new Error(constructNewValist(domain, code, format, args));
     }
     
     /**

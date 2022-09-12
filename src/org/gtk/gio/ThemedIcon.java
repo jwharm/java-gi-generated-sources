@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  */
 public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
 
-    public ThemedIcon(io.github.jwharm.javagi.interop.Reference reference) {
+    public ThemedIcon(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -27,18 +27,33 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(gobject.getReference());
     }
     
+    private static Reference constructNew(java.lang.String iconname) {
+        Reference RESULT = References.get(gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new themed icon for @iconname.
      */
     public ThemedIcon(java.lang.String iconname) {
-        super(References.get(gtk_h.g_themed_icon_new(Interop.allocateNativeString(iconname).handle()), true));
+        super(constructNew(iconname));
+    }
+    
+    private static Reference constructNewFromNames(java.lang.String[] iconnames, int len) {
+        Reference RESULT = References.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true);
+        return RESULT;
     }
     
     /**
      * Creates a new themed icon for @iconnames.
      */
     public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
-        return new ThemedIcon(References.get(gtk_h.g_themed_icon_new_from_names(Interop.allocateNativeArray(iconnames).handle(), len), true));
+        return new ThemedIcon(constructNewFromNames(iconnames, len));
+    }
+    
+    private static Reference constructNewWithDefaultFallbacks(java.lang.String iconname) {
+        Reference RESULT = References.get(gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -59,7 +74,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
-        return new ThemedIcon(References.get(gtk_h.g_themed_icon_new_with_default_fallbacks(Interop.allocateNativeString(iconname).handle()), true));
+        return new ThemedIcon(constructNewWithDefaultFallbacks(iconname));
     }
     
     /**

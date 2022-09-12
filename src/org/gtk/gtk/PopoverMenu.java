@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -113,13 +113,18 @@ import java.lang.invoke.*;
  */
 public class PopoverMenu extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
 
-    public PopoverMenu(io.github.jwharm.javagi.interop.Reference reference) {
+    public PopoverMenu(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to PopoverMenu */
     public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
         return new PopoverMenu(gobject.getReference());
+    }
+    
+    private static Reference constructNewFromModel(org.gtk.gio.MenuModel model) {
+        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model(model.handle()), false);
+        return RESULT;
     }
     
     /**
@@ -138,7 +143,12 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * to control this.
      */
     public static PopoverMenu newFromModel(org.gtk.gio.MenuModel model) {
-        return new PopoverMenu(References.get(gtk_h.gtk_popover_menu_new_from_model(model.handle()), false));
+        return new PopoverMenu(constructNewFromModel(model));
+    }
+    
+    private static Reference constructNewFromModelFull(org.gtk.gio.MenuModel model, int flags) {
+        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags), true);
+        return RESULT;
     }
     
     /**
@@ -155,7 +165,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * nested submenus instead of the default sliding submenus.
      */
     public static PopoverMenu newFromModelFull(org.gtk.gio.MenuModel model, int flags) {
-        return new PopoverMenu(References.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags), true));
+        return new PopoverMenu(constructNewFromModelFull(model, flags));
     }
     
     /**

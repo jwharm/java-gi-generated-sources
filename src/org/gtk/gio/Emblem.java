@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  */
 public class Emblem extends org.gtk.gobject.Object implements Icon {
 
-    public Emblem(io.github.jwharm.javagi.interop.Reference reference) {
+    public Emblem(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -26,18 +26,28 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         return new Emblem(gobject.getReference());
     }
     
+    private static Reference constructNew(Icon icon) {
+        Reference RESULT = References.get(gtk_h.g_emblem_new(icon.handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new emblem for @icon.
      */
     public Emblem(Icon icon) {
-        super(References.get(gtk_h.g_emblem_new(icon.handle()), true));
+        super(constructNew(icon));
+    }
+    
+    private static Reference constructNewWithOrigin(Icon icon, EmblemOrigin origin) {
+        Reference RESULT = References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true);
+        return RESULT;
     }
     
     /**
      * Creates a new emblem for @icon.
      */
     public static Emblem newWithOrigin(Icon icon, EmblemOrigin origin) {
-        return new Emblem(References.get(gtk_h.g_emblem_new_with_origin(icon.handle(), origin.getValue()), true));
+        return new Emblem(constructNewWithOrigin(icon, origin));
     }
     
     /**

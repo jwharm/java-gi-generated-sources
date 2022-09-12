@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -298,13 +298,18 @@ import java.lang.invoke.*;
  */
 public class Settings extends org.gtk.gobject.Object {
 
-    public Settings(io.github.jwharm.javagi.interop.Reference reference) {
+    public Settings(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to Settings */
     public static Settings castFrom(org.gtk.gobject.Object gobject) {
         return new Settings(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String schemaId) {
+        Reference RESULT = References.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -323,7 +328,12 @@ public class Settings extends org.gtk.gobject.Object {
      * on the context.  See g_main_context_push_thread_default().
      */
     public Settings(java.lang.String schemaId) {
-        super(References.get(gtk_h.g_settings_new(Interop.allocateNativeString(schemaId).handle()), true));
+        super(constructNew(schemaId));
+    }
+    
+    private static Reference constructNewFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
+        Reference RESULT = References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -352,7 +362,12 @@ public class Settings extends org.gtk.gobject.Object {
      * have.
      */
     public static Settings newFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
-        return new Settings(References.get(gtk_h.g_settings_new_full(schema.handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
+        return new Settings(constructNewFull(schema, backend, path));
+    }
+    
+    private static Reference constructNewWithBackend(java.lang.String schemaId, SettingsBackend backend) {
+        Reference RESULT = References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -366,7 +381,12 @@ public class Settings extends org.gtk.gobject.Object {
      * settings instead of the settings for this user.
      */
     public static Settings newWithBackend(java.lang.String schemaId, SettingsBackend backend) {
-        return new Settings(References.get(gtk_h.g_settings_new_with_backend(Interop.allocateNativeString(schemaId).handle(), backend.handle()), true));
+        return new Settings(constructNewWithBackend(schemaId, backend));
+    }
+    
+    private static Reference constructNewWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
+        Reference RESULT = References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -377,7 +397,12 @@ public class Settings extends org.gtk.gobject.Object {
      * g_settings_new_with_path().
      */
     public static Settings newWithBackendAndPath(java.lang.String schemaId, SettingsBackend backend, java.lang.String path) {
-        return new Settings(References.get(gtk_h.g_settings_new_with_backend_and_path(Interop.allocateNativeString(schemaId).handle(), backend.handle(), Interop.allocateNativeString(path).handle()), true));
+        return new Settings(constructNewWithBackendAndPath(schemaId, backend, path));
+    }
+    
+    private static Reference constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
+        Reference RESULT = References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -396,7 +421,7 @@ public class Settings extends org.gtk.gobject.Object {
      * characters.
      */
     public static Settings newWithPath(java.lang.String schemaId, java.lang.String path) {
-        return new Settings(References.get(gtk_h.g_settings_new_with_path(Interop.allocateNativeString(schemaId).handle(), Interop.allocateNativeString(path).handle()), true));
+        return new Settings(constructNewWithPath(schemaId, path));
     }
     
     /**
@@ -447,16 +472,21 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      */
-    public void bindWithMapping(Settings settings, java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
+    public void bindWithMapping(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
         try {
-            int hash = getMapping.hashCode();
-            Interop.signalRegistry.put(hash, getMapping);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsBindGetMapping", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags, nativeSymbol, nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags, 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsBindGetMapping",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsBindSetMapping",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getMapping.hashCode(), getMapping)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -687,16 +717,16 @@ public class Settings extends org.gtk.gobject.Object {
      * what is returned by this function.  %NULL is valid; it is returned
      * just as any other value would be.
      */
-    public jdk.incubator.foreign.MemoryAddress getMapped(Settings settings, java.lang.String key, SettingsGetMapping mapping) {
+    public jdk.incubator.foreign.MemoryAddress getMapped(java.lang.String key, SettingsGetMapping mapping) {
         try {
-            int hash = mapping.hashCode();
-            Interop.signalRegistry.put(hash, mapping);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsGetMapping", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_settings_get_mapped(handle(), Interop.allocateNativeString(key).handle(), nativeSymbol, intSegment);
+            var RESULT = gtk_h.g_settings_get_mapped(handle(), Interop.allocateNativeString(key).handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSettingsGetMapping",
+                            MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapping.hashCode(), mapping)));
+            return RESULT;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1015,16 +1045,16 @@ public class Settings extends org.gtk.gobject.Object {
      * for each affected key.  If any other connected handler returns
      * %TRUE then this default functionality will be suppressed.
      */
-    public void onChangeEvent(ChangeEventHandler handler) {
+    public SignalHandle onChangeEvent(ChangeEventHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChangeEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1047,16 +1077,16 @@ public class Settings extends org.gtk.gobject.Object {
      * Note that @settings only emits this signal if you have read @key at
      * least once while a signal handler was already connected for @key.
      */
-    public void onChanged(ChangedHandler handler) {
+    public SignalHandle onChanged(ChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1087,16 +1117,16 @@ public class Settings extends org.gtk.gobject.Object {
      * connected handler returns %TRUE then this default functionality
      * will be suppressed.
      */
-    public void onWritableChangeEvent(WritableChangeEventHandler handler) {
+    public SignalHandle onWritableChangeEvent(WritableChangeEventHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChangeEvent", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("writable-change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("writable-change-event").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -1116,16 +1146,16 @@ public class Settings extends org.gtk.gobject.Object {
      * detailed signal "writable-changed::x" in order to only receive
      * callbacks when the writability of "x" changes.
      */
-    public void onWritableChanged(WritableChangedHandler handler) {
+    public SignalHandle onWritableChanged(WritableChangedHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSettingsWritableChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("writable-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("writable-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

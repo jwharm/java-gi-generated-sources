@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.interop.NativeAddress;
+import io.github.jwharm.javagi.NativeAddress;
 import jdk.incubator.foreign.MemoryAddress;
 
 /**
@@ -49,9 +49,9 @@ import jdk.incubator.foreign.MemoryAddress;
  * 
  * A #GMutex should only be accessed via g_mutex_ functions.
  */
-public class Mutex extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Mutex extends io.github.jwharm.javagi.ResourceBase {
     
-    public Mutex(io.github.jwharm.javagi.interop.Reference reference) {
+    public Mutex(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

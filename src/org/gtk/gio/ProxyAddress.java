@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -12,13 +12,18 @@ import java.lang.invoke.*;
  */
 public class ProxyAddress extends InetSocketAddress implements SocketConnectable {
 
-    public ProxyAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public ProxyAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to ProxyAddress */
     public static ProxyAddress castFrom(org.gtk.gobject.Object gobject) {
         return new ProxyAddress(gobject.getReference());
+    }
+    
+    private static Reference constructNew(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
+        Reference RESULT = References.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -30,7 +35,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * directly if you want to set those.)
      */
     public ProxyAddress(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
-        super(References.get(gtk_h.g_proxy_address_new(inetaddr.handle(), port, Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(destHostname).handle(), destPort, Interop.allocateNativeString(username).handle(), Interop.allocateNativeString(password).handle()), true));
+        super(constructNew(inetaddr, port, protocol, destHostname, destPort, username, password));
     }
     
     /**

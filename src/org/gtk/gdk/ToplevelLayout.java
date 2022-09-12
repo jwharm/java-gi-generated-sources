@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -18,10 +18,15 @@ import java.lang.invoke.*;
  * to the user in various states (maximized, on all workspaces,
  * etc).
  */
-public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
 
-    public ToplevelLayout(io.github.jwharm.javagi.interop.Reference reference) {
+    public ToplevelLayout(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gdk_toplevel_layout_new(), true);
+        return RESULT;
     }
     
     /**
@@ -34,7 +39,7 @@ public class ToplevelLayout extends io.github.jwharm.javagi.interop.ResourceBase
      * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
     public ToplevelLayout() {
-        super(References.get(gtk_h.gdk_toplevel_layout_new(), true));
+        super(constructNew());
     }
     
     /**

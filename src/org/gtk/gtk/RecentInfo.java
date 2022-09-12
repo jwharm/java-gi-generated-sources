@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * `GtkRecentInfo` contains the metadata associated with an item in the
  * recently used files list.
  */
-public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
+public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
 
-    public RecentInfo(io.github.jwharm.javagi.interop.Reference reference) {
+    public RecentInfo(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -23,7 +23,7 @@ public class RecentInfo extends io.github.jwharm.javagi.interop.ResourceBase {
      * In case of error, @error will be set either with a
      * %GTK_RECENT_MANAGER_ERROR or a %G_IO_ERROR
      */
-    public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.interop.GErrorException {
+    public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_recent_info_create_app_info(handle(), Interop.allocateNativeString(appName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

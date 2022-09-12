@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * creating one of the built-in implementations of #GDebugController should be
  * all that’s needed to dynamically enable or disable debug output.
  */
-public interface DebugController extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface DebugController extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Get the value of #GDebugController:debug-enabled.
@@ -42,7 +42,7 @@ public interface DebugController extends io.github.jwharm.javagi.interop.NativeA
     }
     
     class DebugControllerImpl extends org.gtk.gobject.Object implements DebugController {
-        public DebugControllerImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public DebugControllerImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }

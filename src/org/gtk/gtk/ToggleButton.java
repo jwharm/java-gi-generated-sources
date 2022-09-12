@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -82,7 +82,7 @@ import java.lang.invoke.*;
  */
 public class ToggleButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
-    public ToggleButton(io.github.jwharm.javagi.interop.Reference reference) {
+    public ToggleButton(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -91,20 +91,35 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new toggle button.
      * 
      * A widget should be packed into the button, as in [ctor@Gtk.Button.new].
      */
     public ToggleButton() {
-        super(References.get(gtk_h.gtk_toggle_button_new(), false));
+        super(constructNew());
+    }
+    
+    private static Reference constructNewWithLabel(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
      * Creates a new toggle button with a text label.
      */
     public static ToggleButton newWithLabel(java.lang.String label) {
-        return new ToggleButton(References.get(gtk_h.gtk_toggle_button_new_with_label(Interop.allocateNativeString(label).handle()), false));
+        return new ToggleButton(constructNewWithLabel(label));
+    }
+    
+    private static Reference constructNewWithMnemonic(java.lang.String label) {
+        Reference RESULT = References.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false);
+        return RESULT;
     }
     
     /**
@@ -114,7 +129,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
-        return new ToggleButton(References.get(gtk_h.gtk_toggle_button_new_with_mnemonic(Interop.allocateNativeString(label).handle()), false));
+        return new ToggleButton(constructNewWithMnemonic(label));
     }
     
     /**
@@ -175,16 +190,16 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     /**
      * Emitted whenever the `GtkToggleButton`'s state is changed.
      */
-    public void onToggled(ToggledHandler handler) {
+    public SignalHandle onToggled(ToggledHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalToggleButtonToggled", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("toggled").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

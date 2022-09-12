@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -99,9 +99,9 @@ import java.lang.invoke.*;
  * In that case, the plugin loading system must compile the schemas for
  * itself before attempting to create the settings source.
  */
-public class SettingsSchema extends io.github.jwharm.javagi.interop.ResourceBase {
+public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
 
-    public SettingsSchema(io.github.jwharm.javagi.interop.Reference reference) {
+    public SettingsSchema(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

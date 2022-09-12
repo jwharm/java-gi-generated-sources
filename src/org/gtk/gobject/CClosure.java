@@ -3,16 +3,16 @@ package org.gtk.gobject;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * A #GCClosure is a specialization of #GClosure for C function callbacks.
  */
-public class CClosure extends io.github.jwharm.javagi.interop.ResourceBase {
+public class CClosure extends io.github.jwharm.javagi.ResourceBase {
 
-    public CClosure(io.github.jwharm.javagi.interop.Reference reference) {
+    public CClosure(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -374,10 +374,50 @@ public class CClosure extends io.github.jwharm.javagi.interop.ResourceBase {
      * 
      * @destroy_data will be called as a finalize notifier on the #GClosure.
      */
+    public static Closure new_(Callback callbackFunc, ClosureNotify destroyData) {
+        try {
+            var RESULT = gtk_h.g_cclosure_new(
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()));
+            return new Closure(References.get(RESULT, false));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     /**
      * Creates a new closure which invokes @callback_func with @user_data as
      * the first parameter.
      * 
      * @destroy_data will be called as a finalize notifier on the #GClosure.
      */
+    public static Closure newSwap(Callback callbackFunc, ClosureNotify destroyData) {
+        try {
+            var RESULT = gtk_h.g_cclosure_new_swap(
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                            MethodType.methodType(void.class)),
+                        FunctionDescriptor.ofVoid(),
+                        Interop.getScope()));
+            return new Closure(References.get(RESULT, false));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }

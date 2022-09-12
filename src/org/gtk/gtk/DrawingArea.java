@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -92,7 +92,7 @@ import java.lang.invoke.*;
  */
 public class DrawingArea extends Widget implements Accessible, Buildable, ConstraintTarget {
 
-    public DrawingArea(io.github.jwharm.javagi.interop.Reference reference) {
+    public DrawingArea(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -101,11 +101,16 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         return new DrawingArea(gobject.getReference());
     }
     
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_drawing_area_new(), false);
+        return RESULT;
+    }
+    
     /**
      * Creates a new drawing area.
      */
     public DrawingArea() {
-        super(References.get(gtk_h.gtk_drawing_area_new(), false));
+        super(constructNew());
     }
     
     /**
@@ -168,16 +173,16 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * If what you are drawing does change, call [method@Gtk.Widget.queue_draw]
      * on the drawing area. This will cause a redraw and will call @draw_func again.
      */
-    public void setDrawFunc(DrawingArea self, DrawingAreaDrawFunc drawFunc) {
+    public void setDrawFunc(DrawingAreaDrawFunc drawFunc) {
         try {
-            int hash = drawFunc.hashCode();
-            Interop.signalRegistry.put(hash, drawFunc);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDrawingAreaDrawFunc", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.gtk_drawing_area_set_draw_func(handle(), nativeSymbol, intSegment, Interop.cbDestroyNotifySymbol());
+            gtk_h.gtk_drawing_area_set_draw_func(handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDrawingAreaDrawFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(drawFunc.hashCode(), drawFunc)), 
+                    Interop.cbDestroyNotifySymbol());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -195,16 +200,16 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * This is useful in order to keep state up to date with the widget size,
      * like for instance a backing surface.
      */
-    public void onResize(ResizeHandler handler) {
+    public SignalHandle onResize(ResizeHandler handler) {
         try {
-            int hash = handler.hashCode();
-            Interop.signalRegistry.put(hash, handler);
+            int hash = Interop.registerCallback(handler.hashCode(), handler);
             MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDrawingAreaResize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
             NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("resize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("resize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

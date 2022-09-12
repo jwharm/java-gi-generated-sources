@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  */
 public class Shortcut extends org.gtk.gobject.Object {
 
-    public Shortcut(io.github.jwharm.javagi.interop.Reference reference) {
+    public Shortcut(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -35,12 +35,17 @@ public class Shortcut extends org.gtk.gobject.Object {
         return new Shortcut(gobject.getReference());
     }
     
+    private static Reference constructNew(ShortcutTrigger trigger, ShortcutAction action) {
+        Reference RESULT = References.get(gtk_h.gtk_shortcut_new(trigger.getReference().unowned().handle(), action.getReference().unowned().handle()), true);
+        return RESULT;
+    }
+    
     /**
      * Creates a new `GtkShortcut` that is triggered by
      * @trigger and then activates @action.
      */
     public Shortcut(ShortcutTrigger trigger, ShortcutAction action) {
-        super(References.get(gtk_h.gtk_shortcut_new(trigger.getReference().unowned().handle(), action.getReference().unowned().handle()), true));
+        super(constructNew(trigger, action));
     }
     
     /**

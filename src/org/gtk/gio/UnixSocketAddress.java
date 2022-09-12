@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -29,13 +29,18 @@ import java.lang.invoke.*;
  */
 public class UnixSocketAddress extends SocketAddress implements SocketConnectable {
 
-    public UnixSocketAddress(io.github.jwharm.javagi.interop.Reference reference) {
+    public UnixSocketAddress(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to UnixSocketAddress */
     public static UnixSocketAddress castFrom(org.gtk.gobject.Object gobject) {
         return new UnixSocketAddress(gobject.getReference());
+    }
+    
+    private static Reference constructNew(java.lang.String path) {
+        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true);
+        return RESULT;
     }
     
     /**
@@ -45,7 +50,12 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use g_unix_socket_address_new_abstract().
      */
     public UnixSocketAddress(java.lang.String path) {
-        super(References.get(gtk_h.g_unix_socket_address_new(Interop.allocateNativeString(path).handle()), true));
+        super(constructNew(path));
+    }
+    
+    private static Reference constructNewAbstract(byte[] path, int pathLen) {
+        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_abstract(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen), true);
+        return RESULT;
     }
     
     /**
@@ -53,7 +63,12 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * #GUnixSocketAddress for @path.
      */
     public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
-        return new UnixSocketAddress(References.get(gtk_h.g_unix_socket_address_new_abstract(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen), true));
+        return new UnixSocketAddress(constructNewAbstract(path, pathLen));
+    }
+    
+    private static Reference constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
+        Reference RESULT = References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true);
+        return RESULT;
     }
     
     /**
@@ -90,7 +105,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * its listening socket.
      */
     public static UnixSocketAddress newWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
-        return new UnixSocketAddress(References.get(gtk_h.g_unix_socket_address_new_with_type(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, path)).handle(), pathLen, type.getValue()), true));
+        return new UnixSocketAddress(constructNewWithType(path, pathLen, type));
     }
     
     /**

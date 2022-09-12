@@ -3,17 +3,22 @@ package org.gtk.gsk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
  * An object to build the uniforms data for a `GskGLShader`.
  */
-public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceBase {
+public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
-    public ShaderArgsBuilder(io.github.jwharm.javagi.interop.Reference reference) {
+    public ShaderArgsBuilder(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructNew(GLShader shader, org.gtk.glib.Bytes initialValues) {
+        Reference RESULT = References.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true);
+        return RESULT;
     }
     
     /**
@@ -21,7 +26,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.interop.ResourceB
      * chunk.
      */
     public ShaderArgsBuilder(GLShader shader, org.gtk.glib.Bytes initialValues) {
-        super(References.get(gtk_h.gsk_shader_args_builder_new(shader.handle(), initialValues.handle()), true));
+        super(constructNew(shader, initialValues));
     }
     
     /**

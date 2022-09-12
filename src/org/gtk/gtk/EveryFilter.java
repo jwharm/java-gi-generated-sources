@@ -3,7 +3,7 @@ package org.gtk.gtk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -14,13 +14,18 @@ import java.lang.invoke.*;
  */
 public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
-    public EveryFilter(io.github.jwharm.javagi.interop.Reference reference) {
+    public EveryFilter(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
     /** Cast object to EveryFilter */
     public static EveryFilter castFrom(org.gtk.gobject.Object gobject) {
         return new EveryFilter(gobject.getReference());
+    }
+    
+    private static Reference constructNew() {
+        Reference RESULT = References.get(gtk_h.gtk_every_filter_new(), true);
+        return RESULT;
     }
     
     /**
@@ -33,7 +38,7 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
      * has been added to it, the filter matches every item.
      */
     public EveryFilter() {
-        super(References.get(gtk_h.gtk_every_filter_new(), true));
+        super(constructNew());
     }
     
 }

@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -31,7 +31,7 @@ import java.lang.invoke.*;
  */
 public class TlsInteraction extends org.gtk.gobject.Object {
 
-    public TlsInteraction(io.github.jwharm.javagi.interop.Reference reference) {
+    public TlsInteraction(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     
@@ -55,7 +55,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult askPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult askPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_ask_password(handle(), password.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -81,16 +81,15 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * 
      * Certain implementations may not support immediate cancellation.
      */
-    public void askPasswordAsync(TlsInteraction interaction, TlsPassword password, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void askPasswordAsync(TlsPassword password, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_tls_interaction_ask_password_async(handle(), password.handle(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_tls_interaction_ask_password_async(handle(), password.handle(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -107,7 +106,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
      * contains a %G_IO_ERROR_CANCELLED error code.
      */
-    public TlsInteractionResult askPasswordFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult askPasswordFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_ask_password_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -137,7 +136,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult invokeAskPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult invokeAskPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_invoke_ask_password(handle(), password.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -168,7 +167,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult invokeRequestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult invokeRequestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_invoke_request_certificate(handle(), connection.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -195,7 +194,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult requestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult requestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_request_certificate(handle(), connection.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -214,16 +213,15 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * when the operation completes. Alternatively the user may abort this certificate
      * request, which will usually abort the TLS connection.
      */
-    public void requestCertificateAsync(TlsInteraction interaction, TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void requestCertificateAsync(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            int hash = callback.hashCode();
-            Interop.signalRegistry.put(hash, callback);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            gtk_h.g_tls_interaction_request_certificate_async(handle(), connection.handle(), flags.getValue(), cancellable.handle(), nativeSymbol, intSegment);
+            gtk_h.g_tls_interaction_request_certificate_async(handle(), connection.handle(), flags.getValue(), cancellable.handle(), 
+                    CLinker.systemCLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -241,7 +239,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
      * contains a %G_IO_ERROR_CANCELLED error code.
      */
-    public TlsInteractionResult requestCertificateFinish(AsyncResult result) throws io.github.jwharm.javagi.interop.GErrorException {
+    public TlsInteractionResult requestCertificateFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_interaction_request_certificate_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

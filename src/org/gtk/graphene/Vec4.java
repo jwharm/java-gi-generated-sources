@@ -3,7 +3,7 @@ package org.gtk.graphene;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,10 +13,15 @@ import java.lang.invoke.*;
  * The contents of the #graphene_vec4_t structure are private and should
  * never be accessed directly.
  */
-public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
 
-    public Vec4(io.github.jwharm.javagi.interop.Reference reference) {
+    public Vec4(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    private static Reference constructAlloc() {
+        Reference RESULT = References.get(gtk_h.graphene_vec4_alloc(), true);
+        return RESULT;
     }
     
     /**
@@ -27,7 +32,7 @@ public class Vec4 extends io.github.jwharm.javagi.interop.ResourceBase {
      * Use graphene_vec4_init() to initialize the vector.
      */
     public static Vec4 alloc() {
-        return new Vec4(References.get(gtk_h.graphene_vec4_alloc(), true));
+        return new Vec4(constructAlloc());
     }
     
     /**

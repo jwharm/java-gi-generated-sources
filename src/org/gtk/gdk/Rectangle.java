@@ -3,7 +3,7 @@ package org.gtk.gdk;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -24,9 +24,9 @@ import java.lang.invoke.*;
  * The Graphene library has a number of other data types for regions and
  * volumes in 2D and 3D.
  */
-public class Rectangle extends io.github.jwharm.javagi.interop.ResourceBase {
+public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
 
-    public Rectangle(io.github.jwharm.javagi.interop.Reference reference) {
+    public Rectangle(io.github.jwharm.javagi.Reference reference) {
         super(reference);
     }
     

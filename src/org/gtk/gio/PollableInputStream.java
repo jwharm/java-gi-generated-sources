@@ -3,7 +3,7 @@ package org.gtk.gio;
 import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.interop.*;
+import io.github.jwharm.javagi.*;
 import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * interfacing with a non-GIO API that expects
  * UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.
  */
-public interface PollableInputStream extends io.github.jwharm.javagi.interop.NativeAddress {
+public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Checks if @stream is actually pollable. Some classes may implement
@@ -72,7 +72,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
      * may happen if you call this method after a source triggers due
      * to having been cancelled.
      */
-    public default long readNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.interop.GErrorException {
+    public default long readNonblocking(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_pollable_input_stream_read_nonblocking(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -82,7 +82,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.interop.Nat
     }
     
     class PollableInputStreamImpl extends org.gtk.gobject.Object implements PollableInputStream {
-        public PollableInputStreamImpl(io.github.jwharm.javagi.interop.Reference reference) {
+        public PollableInputStreamImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);
         }
     }
