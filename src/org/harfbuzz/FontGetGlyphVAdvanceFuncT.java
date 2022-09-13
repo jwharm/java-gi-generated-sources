@@ -14,16 +14,6 @@ import java.lang.invoke.*;
  * vertical-direction text segments. Advances must be returned in
  * an #hb_position_t output parameter.
  */
-public class FontGetGlyphVAdvanceFuncT {
+public interface FontGetGlyphVAdvanceFuncT extends FontGetGlyphAdvanceFuncT {
 
-    private final FontGetGlyphAdvanceFuncT value;
-    
-    public FontGetGlyphVAdvanceFuncT(FontGetGlyphAdvanceFuncT value) {
-        this.value = value;
-    }
-    
-    public FontGetGlyphAdvanceFuncT getValue() {
-        return this.value;
-    }
-    
 }

@@ -13,16 +13,6 @@ import java.lang.invoke.*;
  * This method should retrieve the kerning-adjustment value for a glyph-pair in
  * the specified font, for horizontal text segments.
  */
-public class FontGetGlyphHKerningFuncT {
+public interface FontGetGlyphHKerningFuncT extends FontGetGlyphKerningFuncT {
 
-    private final FontGetGlyphKerningFuncT value;
-    
-    public FontGetGlyphHKerningFuncT(FontGetGlyphKerningFuncT value) {
-        this.value = value;
-    }
-    
-    public FontGetGlyphKerningFuncT getValue() {
-        return this.value;
-    }
-    
 }

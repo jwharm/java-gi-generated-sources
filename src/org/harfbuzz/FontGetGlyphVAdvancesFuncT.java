@@ -13,16 +13,6 @@ import java.lang.invoke.*;
  * This method should retrieve the advances for a sequence of glyphs, in
  * vertical-direction text segments.
  */
-public class FontGetGlyphVAdvancesFuncT {
+public interface FontGetGlyphVAdvancesFuncT extends FontGetGlyphAdvancesFuncT {
 
-    private final FontGetGlyphAdvancesFuncT value;
-    
-    public FontGetGlyphVAdvancesFuncT(FontGetGlyphAdvancesFuncT value) {
-        this.value = value;
-    }
-    
-    public FontGetGlyphAdvancesFuncT getValue() {
-        return this.value;
-    }
-    
 }

@@ -14,16 +14,6 @@ import java.lang.invoke.*;
  * text segments. Extents must be returned in an #hb_glyph_extents output
  * parameter.
  */
-public class FontGetFontHExtentsFuncT {
+public interface FontGetFontHExtentsFuncT extends FontGetFontExtentsFuncT {
 
-    private final FontGetFontExtentsFuncT value;
-    
-    public FontGetFontHExtentsFuncT(FontGetFontExtentsFuncT value) {
-        this.value = value;
-    }
-    
-    public FontGetFontExtentsFuncT getValue() {
-        return this.value;
-    }
-    
 }

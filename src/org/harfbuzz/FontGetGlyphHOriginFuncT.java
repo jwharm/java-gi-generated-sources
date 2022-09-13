@@ -14,16 +14,6 @@ import java.lang.invoke.*;
  * origin for a glyph, for horizontal-direction text segments. Each
  * coordinate must be returned in an #hb_position_t output parameter.
  */
-public class FontGetGlyphHOriginFuncT {
+public interface FontGetGlyphHOriginFuncT extends FontGetGlyphOriginFuncT {
 
-    private final FontGetGlyphOriginFuncT value;
-    
-    public FontGetGlyphHOriginFuncT(FontGetGlyphOriginFuncT value) {
-        this.value = value;
-    }
-    
-    public FontGetGlyphOriginFuncT getValue() {
-        return this.value;
-    }
-    
 }

@@ -16,16 +16,6 @@ import java.lang.invoke.*;
  * takes over responsibility of actual function invocation for the signal
  * system.
  */
-public class SignalCMarshaller {
+public interface SignalCMarshaller extends ClosureMarshal {
 
-    private final ClosureMarshal value;
-    
-    public SignalCMarshaller(ClosureMarshal value) {
-        this.value = value;
-    }
-    
-    public ClosureMarshal getValue() {
-        return this.value;
-    }
-    
 }
