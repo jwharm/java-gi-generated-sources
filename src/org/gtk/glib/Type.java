@@ -19,4 +19,12 @@ public class Type {
         return this.value;
     }
     
+    public static long[] getValues(Type[] array) {
+        long[] values = new long[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

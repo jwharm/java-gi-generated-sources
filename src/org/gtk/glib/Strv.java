@@ -23,4 +23,12 @@ public class Strv {
         return this.value;
     }
     
+    public static java.lang.String[] getValues(Strv[] array) {
+        java.lang.String[] values = new java.lang.String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -776,18 +776,6 @@ public final class GLib {
     }
     
     /**
-     * If @err or *@err is %NULL, does nothing. Otherwise,
-     * calls g_error_free() on *@err and sets *@err to %NULL.
-     */
-    public static void clearError() throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        gtk_h.g_clear_error();
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-    }
-    
-    /**
      * This wraps the close() call; in case of error, %errno will be
      * preserved, but the error will also be stored as a #GError in @error.
      * 
@@ -4529,68 +4517,6 @@ public final class GLib {
     public static int spacedPrimesClosest(int num) {
         var RESULT = gtk_h.g_spaced_primes_closest(num);
         return RESULT;
-    }
-    
-    /**
-     * Executes a child program asynchronously.
-     * 
-     * See g_spawn_async_with_pipes() for a full description; this function
-     * simply calls the g_spawn_async_with_pipes() without any pipes.
-     * 
-     * You should call g_spawn_close_pid() on the returned child process
-     * reference when you don't need it any more.
-     * 
-     * If you are writing a GTK application, and the program you are spawning is a
-     * graphical application too, then to ensure that the spawned program opens its
-     * windows on the right screen, you may want to use #GdkAppLaunchContext,
-     * #GAppLaunchContext, or set the %DISPLAY environment variable.
-     * 
-     * Note that the returned @child_pid on Windows is a handle to the child
-     * process and not its identifier. Process handles and process identifiers
-     * are different concepts on Windows.
-     */
-    public static boolean spawnAsync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        try {
-            var RESULT = gtk_h.g_spawn_async(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
-                    CLinker.systemCLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPid.getValue(), GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return (RESULT != 0);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
-    /**
-     * Executes a child program asynchronously.
-     * 
-     * Identical to g_spawn_async_with_pipes_and_fds() but with `n_fds` set to zero,
-     * so no FD assignments are used.
-     */
-    public static boolean spawnAsyncWithFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        try {
-            var RESULT = gtk_h.g_spawn_async_with_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
-                    CLinker.systemCLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
-                        Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPid.getValue(), stdinFd, stdoutFd, stderrFd, GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return (RESULT != 0);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
     
     /**

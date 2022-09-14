@@ -32,4 +32,12 @@ public class GlyphUnit {
         return this.value;
     }
     
+    public static int[] getValues(GlyphUnit[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

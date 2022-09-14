@@ -180,7 +180,7 @@ public final class HarfBuzz {
      * to ensure it contains a valid Unicode code points.
      */
     public static void bufferAddCodepoints(BufferT buffer, CodepointT[] text, int textLength, int itemOffset, int itemLength) {
-        gtk_h.hb_buffer_add_codepoints(buffer.handle(), Interop.allocateNativeArray(text).handle(), textLength, itemOffset, itemLength);
+        gtk_h.hb_buffer_add_codepoints(buffer.handle(), Interop.allocateNativeArray(CodepointT.getValues(text)).handle(), textLength, itemOffset, itemLength);
     }
     
     /**
@@ -1028,17 +1028,6 @@ public final class HarfBuzz {
     }
     
     /**
-     * Adds the origin coordinates to an (X,Y) point coordinate, in
-     * the specified glyph ID in the specified font.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontAddGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
-        gtk_h.hb_font_add_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), x.getValue(), y.getValue());
-    }
-    
-    /**
      * Constructs a new font object from the specified face.
      * 
      * <note>Note: If @face's index value (as passed to hb_face_create()
@@ -1156,62 +1145,6 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the glyph ID for a Unicode code point in the specified
-     * font, with an optional variation selector.
-     * 
-     * If @variation_selector is 0, calls hb_font_get_nominal_glyph();
-     * otherwise calls hb_font_get_variation_glyph().
-     */
-    public static BoolT fontGetGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyph.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the advance for a glyph ID from the specified font,
-     * in a text segment of the specified direction.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontGetGlyphAdvanceForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
-        gtk_h.hb_font_get_glyph_advance_for_direction(font.handle(), glyph.getValue(), direction.getValue(), x.getValue(), y.getValue());
-    }
-    
-    /**
-     * Fetches the advances for a sequence of glyph IDs in the specified
-     * font, in a text segment of the specified direction.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontGetGlyphAdvancesForDirection(FontT font, DirectionT direction, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
-        gtk_h.hb_font_get_glyph_advances_for_direction(font.handle(), direction.getValue(), count, firstGlyph.getValue(), glyphStride, firstAdvance.getValue(), advanceStride);
-    }
-    
-    /**
-     * Fetches the (x,y) coordinates of a specified contour-point index
-     * in the specified glyph, within the specified font.
-     */
-    public static BoolT fontGetGlyphContourPoint(FontT font, CodepointT glyph, int pointIndex, PositionT x, PositionT y) {
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point(font.handle(), glyph.getValue(), pointIndex, x.getValue(), y.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the (X,Y) coordinates of a specified contour-point index
-     * in the specified glyph ID in the specified font, with respect
-     * to the origin in a text segment in the specified direction.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static BoolT fontGetGlyphContourPointForOrigin(FontT font, CodepointT glyph, int pointIndex, DirectionT direction, PositionT x, PositionT y) {
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point_for_origin(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), x.getValue(), y.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
      * Fetches the #hb_glyph_extents_t data for a glyph ID
      * in the specified font.
      */
@@ -1234,30 +1167,12 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the glyph ID that corresponds to a name string in the specified @font.
-     * 
-     * <note>Note: @len == -1 means the name string is null-terminated.</note>
-     */
-    public static BoolT fontGetGlyphFromName(FontT font, java.lang.String[] name, int len, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_glyph_from_name(font.handle(), Interop.allocateNativeArray(name).handle(), len, glyph.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
      * Fetches the advance for a glyph ID in the specified font,
      * for horizontal text segments.
      */
     public static PositionT fontGetGlyphHAdvance(FontT font, CodepointT glyph) {
         var RESULT = gtk_h.hb_font_get_glyph_h_advance(font.handle(), glyph.getValue());
         return new PositionT(RESULT);
-    }
-    
-    /**
-     * Fetches the advances for a sequence of glyph IDs in the specified
-     * font, for horizontal text segments.
-     */
-    public static void fontGetGlyphHAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
-        gtk_h.hb_font_get_glyph_h_advances(font.handle(), count, firstGlyph.getValue(), glyphStride, firstAdvance.getValue(), advanceStride);
     }
     
     /**
@@ -1273,41 +1188,11 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the (X,Y) coordinates of the origin for a glyph ID
-     * in the specified font, for horizontal text segments.
-     */
-    public static BoolT fontGetGlyphHOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
-        var RESULT = gtk_h.hb_font_get_glyph_h_origin(font.handle(), glyph.getValue(), x.getValue(), y.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the kerning-adjustment value for a glyph-pair in the specified font.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontGetGlyphKerningForDirection(FontT font, CodepointT firstGlyph, CodepointT secondGlyph, DirectionT direction, PositionT x, PositionT y) {
-        gtk_h.hb_font_get_glyph_kerning_for_direction(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), x.getValue(), y.getValue());
-    }
-    
-    /**
      * Fetches the glyph-name string for a glyph ID in the specified @font.
      */
     public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, java.lang.String[] name, int size) {
         var RESULT = gtk_h.hb_font_get_glyph_name(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
         return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the (X,Y) coordinates of the origin for a glyph in
-     * the specified font.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontGetGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
-        gtk_h.hb_font_get_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), x.getValue(), y.getValue());
     }
     
     /**
@@ -1329,51 +1214,12 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the advances for a sequence of glyph IDs in the specified
-     * font, for vertical text segments.
-     */
-    public static void fontGetGlyphVAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
-        gtk_h.hb_font_get_glyph_v_advances(font.handle(), count, firstGlyph.getValue(), glyphStride, firstAdvance.getValue(), advanceStride);
-    }
-    
-    /**
-     * Fetches the (X,Y) coordinates of the origin for a glyph ID
-     * in the specified font, for vertical text segments.
-     */
-    public static BoolT fontGetGlyphVOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
-        var RESULT = gtk_h.hb_font_get_glyph_v_origin(font.handle(), glyph.getValue(), x.getValue(), y.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
      * Fetches the extents for a specified font, for horizontal
      * text segments.
      */
     public static BoolT fontGetHExtents(FontT font, FontExtentsT extents) {
         var RESULT = gtk_h.hb_font_get_h_extents(font.handle(), extents.handle());
         return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the nominal glyph ID for a Unicode code point in the
-     * specified font.
-     * 
-     * This version of the function should not be used to fetch glyph IDs
-     * for code points modified by variation selectors. For variation-selector
-     * support, user hb_font_get_variation_glyph() or use hb_font_get_glyph().
-     */
-    public static BoolT fontGetNominalGlyph(FontT font, CodepointT unicode, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_nominal_glyph(font.handle(), unicode.getValue(), glyph.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the nominal glyph IDs for a sequence of Unicode code points. Glyph
-     * IDs must be returned in a #hb_codepoint_t output parameter.
-     */
-    public static int fontGetNominalGlyphs(FontT font, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride) {
-        var RESULT = gtk_h.hb_font_get_nominal_glyphs(font.handle(), count, firstUnicode.getValue(), unicodeStride, firstGlyph.getValue(), glyphStride);
-        return RESULT;
     }
     
     /**
@@ -1416,27 +1262,6 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetVExtents(FontT font, FontExtentsT extents) {
         var RESULT = gtk_h.hb_font_get_v_extents(font.handle(), extents.handle());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the glyph ID for a Unicode code point when followed by
-     * by the specified variation-selector code point, in the specified
-     * font.
-     */
-    public static BoolT fontGetVariationGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_get_variation_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyph.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the glyph ID from @font that matches the specified string.
-     * Strings of the format `gidDDD` or `uniUUUU` are parsed automatically.
-     * 
-     * <note>Note: @len == -1 means the string is null-terminated.</note>
-     */
-    public static BoolT fontGlyphFromString(FontT font, byte[] s, int len, CodepointT glyph) {
-        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, s)).handle(), len, glyph.getValue());
         return new BoolT(RESULT);
     }
     
@@ -1573,17 +1398,6 @@ public final class HarfBuzz {
      */
     public static void fontSetVariations(FontT font, VariationT[] variations, int variationsLength) {
         gtk_h.hb_font_set_variations(font.handle(), Interop.allocateNativeArray(variations).handle(), variationsLength);
-    }
-    
-    /**
-     * Subtracts the origin coordinates from an (X,Y) point coordinate,
-     * in the specified glyph ID in the specified font.
-     * 
-     * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
-     */
-    public static void fontSubtractGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
-        gtk_h.hb_font_subtract_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), x.getValue(), y.getValue());
     }
     
     /**
@@ -1925,44 +1739,6 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches a list of all feature indexes in the specified face's GSUB table
-     * or GPOS table, underneath the specified scripts, languages, and features.
-     * If no list of scripts is provided, all scripts will be queried. If no list
-     * of languages is provided, all languages will be queried. If no list of
-     * features is provided, all features will be queried.
-     */
-    public static void otLayoutCollectFeatures(FaceT face, TagT tableTag, TagT scripts, TagT languages, TagT features, SetT featureIndexes) {
-        gtk_h.hb_ot_layout_collect_features(face.handle(), tableTag.getValue(), scripts.getValue(), languages.getValue(), features.getValue(), featureIndexes.handle());
-    }
-    
-    /**
-     * Fetches a list of all feature-lookup indexes in the specified face's GSUB
-     * table or GPOS table, underneath the specified scripts, languages, and
-     * features. If no list of scripts is provided, all scripts will be queried.
-     * If no list of languages is provided, all languages will be queried. If no
-     * list of features is provided, all features will be queried.
-     */
-    public static void otLayoutCollectLookups(FaceT face, TagT tableTag, TagT scripts, TagT languages, TagT features, SetT lookupIndexes) {
-        gtk_h.hb_ot_layout_collect_lookups(face.handle(), tableTag.getValue(), scripts.getValue(), languages.getValue(), features.getValue(), lookupIndexes.handle());
-    }
-    
-    /**
-     * Fetches a baseline value from the face.
-     */
-    public static BoolT otLayoutGetBaseline(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
-        var RESULT = gtk_h.hb_ot_layout_get_baseline(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coord.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches a baseline value from the face, and synthesizes
-     * it if the font does not have it.
-     */
-    public static void otLayoutGetBaselineWithFallback(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
-        gtk_h.hb_ot_layout_get_baseline_with_fallback(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coord.getValue());
-    }
-    
-    /**
      * Fetches the GDEF class of the requested glyph in the specified face.
      */
     public static OtLayoutGlyphClassT otLayoutGetGlyphClass(FaceT face, CodepointT glyph) {
@@ -2024,15 +1800,6 @@ public final class HarfBuzz {
      */
     public static void otLayoutLookupSubstituteClosure(FaceT face, int lookupIndex, SetT glyphs) {
         gtk_h.hb_ot_layout_lookup_substitute_closure(face.handle(), lookupIndex, glyphs.handle());
-    }
-    
-    /**
-     * Tests whether a specified lookup in the specified face would
-     * trigger a substitution on the given glyph sequence.
-     */
-    public static BoolT otLayoutLookupWouldSubstitute(FaceT face, int lookupIndex, CodepointT glyphs, int glyphsLength, BoolT zeroContext) {
-        var RESULT = gtk_h.hb_ot_layout_lookup_would_substitute(face.handle(), lookupIndex, glyphs.getValue(), glyphsLength, zeroContext.getValue());
-        return new BoolT(RESULT);
     }
     
     /**
@@ -2144,22 +1911,6 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches metrics value corresponding to @metrics_tag from @font.
-     */
-    public static BoolT otMetricsGetPosition(FontT font, OtMetricsTagT metricsTag, PositionT position) {
-        var RESULT = gtk_h.hb_ot_metrics_get_position(font.handle(), metricsTag.getValue(), position.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches metrics value corresponding to @metrics_tag from @font,
-     * and synthesizes a value if it the value is missing in the font.
-     */
-    public static void otMetricsGetPositionWithFallback(FontT font, OtMetricsTagT metricsTag, PositionT position) {
-        gtk_h.hb_ot_metrics_get_position_with_fallback(font.handle(), metricsTag.getValue(), position.getValue());
-    }
-    
-    /**
      * Fetches metrics value corresponding to @metrics_tag from @font with the
      * current font variation settings applied.
      */
@@ -2222,10 +1973,6 @@ public final class HarfBuzz {
     public static ScriptT otTagToScript(TagT tag) {
         var RESULT = gtk_h.hb_ot_tag_to_script(tag.getValue());
         return ScriptT.fromValue(RESULT);
-    }
-    
-    public static void otTagsFromScript(ScriptT script, TagT scriptTag1, TagT scriptTag2) {
-        gtk_h.hb_ot_tags_from_script(script.getValue(), scriptTag1.getValue(), scriptTag2.getValue());
     }
     
     /**
@@ -2519,48 +2266,6 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the next element in @set that is greater than current value of @codepoint.
-     * 
-     * Set @codepoint to #HB_SET_VALUE_INVALID to get started.
-     */
-    public static BoolT setNext(SetT set, CodepointT codepoint) {
-        var RESULT = gtk_h.hb_set_next(set.handle(), codepoint.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the next consecutive range of elements in @set that
-     * are greater than current value of @last.
-     * 
-     * Set @last to #HB_SET_VALUE_INVALID to get started.
-     */
-    public static BoolT setNextRange(SetT set, CodepointT first, CodepointT last) {
-        var RESULT = gtk_h.hb_set_next_range(set.handle(), first.getValue(), last.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the previous element in @set that is lower than current value of @codepoint.
-     * 
-     * Set @codepoint to #HB_SET_VALUE_INVALID to get started.
-     */
-    public static BoolT setPrevious(SetT set, CodepointT codepoint) {
-        var RESULT = gtk_h.hb_set_previous(set.handle(), codepoint.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the previous consecutive range of elements in @set that
-     * are greater than current value of @last.
-     * 
-     * Set @first to #HB_SET_VALUE_INVALID to get started.
-     */
-    public static BoolT setPreviousRange(SetT set, CodepointT first, CodepointT last) {
-        var RESULT = gtk_h.hb_set_previous_range(set.handle(), first.getValue(), last.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
      * Increases the reference count on a set.
      */
     public static SetT setReference(SetT set) {
@@ -2744,29 +2449,6 @@ public final class HarfBuzz {
     public static UnicodeCombiningClassT unicodeCombiningClass(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_combining_class(ufuncs.handle(), unicode.getValue());
         return UnicodeCombiningClassT.fromValue(RESULT);
-    }
-    
-    /**
-     * Fetches the composition of a sequence of two Unicode
-     * code points.
-     * 
-     * Calls the composition function of the specified
-     * Unicode-functions structure @ufuncs.
-     */
-    public static BoolT unicodeCompose(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab) {
-        var RESULT = gtk_h.hb_unicode_compose(ufuncs.handle(), a.getValue(), b.getValue(), ab.getValue());
-        return new BoolT(RESULT);
-    }
-    
-    /**
-     * Fetches the decomposition of a Unicode code point.
-     * 
-     * Calls the decomposition function of the specified
-     * Unicode-functions structure @ufuncs.
-     */
-    public static BoolT unicodeDecompose(UnicodeFuncsT ufuncs, CodepointT ab, CodepointT a, CodepointT b) {
-        var RESULT = gtk_h.hb_unicode_decompose(ufuncs.handle(), ab.getValue(), a.getValue(), b.getValue());
-        return new BoolT(RESULT);
     }
     
     /**

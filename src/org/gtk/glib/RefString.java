@@ -28,4 +28,12 @@ public class RefString {
         return this.value;
     }
     
+    public static byte[] getValues(RefString[] array) {
+        byte[] values = new byte[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

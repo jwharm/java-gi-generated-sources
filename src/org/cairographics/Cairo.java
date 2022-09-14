@@ -9,8 +9,4 @@ import java.lang.invoke.*;
 
 public final class Cairo {
     
-    public static void imageSurfaceCreate() {
-        gtk_h.cairo_image_surface_create();
-    }
-    
 }

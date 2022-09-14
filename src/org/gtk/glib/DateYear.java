@@ -28,4 +28,12 @@ public class DateYear {
         return this.value;
     }
     
+    public static short[] getValues(DateYear[] array) {
+        short[] values = new short[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }
