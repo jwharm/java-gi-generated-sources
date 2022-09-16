@@ -9,6 +9,128 @@ import java.lang.invoke.*;
 
 public final class Gtk {
     
+    public static final int ACCESSIBLE_VALUE_UNDEFINED = -1;
+
+    public static final int BINARY_AGE = 607;
+
+    public static final java.lang.String IM_MODULE_EXTENSION_POINT_NAME = "gtk-im-module";
+
+    public static final int INPUT_ERROR = -1;
+
+    public static final int INTERFACE_AGE = 7;
+
+    public static final java.lang.String LEVEL_BAR_OFFSET_FULL = "full";
+
+    public static final java.lang.String LEVEL_BAR_OFFSET_HIGH = "high";
+
+    public static final java.lang.String LEVEL_BAR_OFFSET_LOW = "low";
+
+    public static final int MAJOR_VERSION = 4;
+
+    public static final int MAX_COMPOSE_LEN = 7;
+
+    public static final java.lang.String MEDIA_FILE_EXTENSION_POINT_NAME = "gtk-media-file";
+
+    public static final int MICRO_VERSION = 7;
+
+    public static final int MINOR_VERSION = 6;
+
+    public static final java.lang.String PAPER_NAME_A3 = "iso_a3";
+
+    public static final java.lang.String PAPER_NAME_A4 = "iso_a4";
+
+    public static final java.lang.String PAPER_NAME_A5 = "iso_a5";
+
+    public static final java.lang.String PAPER_NAME_B5 = "iso_b5";
+
+    public static final java.lang.String PAPER_NAME_EXECUTIVE = "na_executive";
+
+    public static final java.lang.String PAPER_NAME_LEGAL = "na_legal";
+
+    public static final java.lang.String PAPER_NAME_LETTER = "na_letter";
+
+    public static final java.lang.String PRINT_SETTINGS_COLLATE = "collate";
+
+    public static final java.lang.String PRINT_SETTINGS_DEFAULT_SOURCE = "default-source";
+
+    public static final java.lang.String PRINT_SETTINGS_DITHER = "dither";
+
+    public static final java.lang.String PRINT_SETTINGS_DUPLEX = "duplex";
+
+    public static final java.lang.String PRINT_SETTINGS_FINISHINGS = "finishings";
+
+    public static final java.lang.String PRINT_SETTINGS_MEDIA_TYPE = "media-type";
+
+    public static final java.lang.String PRINT_SETTINGS_NUMBER_UP = "number-up";
+
+    public static final java.lang.String PRINT_SETTINGS_NUMBER_UP_LAYOUT = "number-up-layout";
+
+    public static final java.lang.String PRINT_SETTINGS_N_COPIES = "n-copies";
+
+    public static final java.lang.String PRINT_SETTINGS_ORIENTATION = "orientation";
+
+    public static final java.lang.String PRINT_SETTINGS_OUTPUT_BASENAME = "output-basename";
+
+    public static final java.lang.String PRINT_SETTINGS_OUTPUT_BIN = "output-bin";
+
+    public static final java.lang.String PRINT_SETTINGS_OUTPUT_DIR = "output-dir";
+
+    public static final java.lang.String PRINT_SETTINGS_OUTPUT_FILE_FORMAT = "output-file-format";
+
+    public static final java.lang.String PRINT_SETTINGS_OUTPUT_URI = "output-uri";
+
+    public static final java.lang.String PRINT_SETTINGS_PAGE_RANGES = "page-ranges";
+
+    public static final java.lang.String PRINT_SETTINGS_PAGE_SET = "page-set";
+
+    public static final java.lang.String PRINT_SETTINGS_PAPER_FORMAT = "paper-format";
+
+    public static final java.lang.String PRINT_SETTINGS_PAPER_HEIGHT = "paper-height";
+
+    public static final java.lang.String PRINT_SETTINGS_PAPER_WIDTH = "paper-width";
+
+    public static final java.lang.String PRINT_SETTINGS_PRINTER = "printer";
+
+    public static final java.lang.String PRINT_SETTINGS_PRINTER_LPI = "printer-lpi";
+
+    public static final java.lang.String PRINT_SETTINGS_PRINT_PAGES = "print-pages";
+
+    public static final java.lang.String PRINT_SETTINGS_QUALITY = "quality";
+
+    public static final java.lang.String PRINT_SETTINGS_RESOLUTION = "resolution";
+
+    public static final java.lang.String PRINT_SETTINGS_RESOLUTION_X = "resolution-x";
+
+    public static final java.lang.String PRINT_SETTINGS_RESOLUTION_Y = "resolution-y";
+
+    public static final java.lang.String PRINT_SETTINGS_REVERSE = "reverse";
+
+    public static final java.lang.String PRINT_SETTINGS_SCALE = "scale";
+
+    public static final java.lang.String PRINT_SETTINGS_USE_COLOR = "use-color";
+
+    public static final java.lang.String PRINT_SETTINGS_WIN32_DRIVER_EXTRA = "win32-driver-extra";
+
+    public static final java.lang.String PRINT_SETTINGS_WIN32_DRIVER_VERSION = "win32-driver-version";
+
+    public static final int PRIORITY_RESIZE = 110;
+
+    public static final int STYLE_PROVIDER_PRIORITY_APPLICATION = 600;
+
+    public static final int STYLE_PROVIDER_PRIORITY_FALLBACK = 1;
+
+    public static final int STYLE_PROVIDER_PRIORITY_SETTINGS = 400;
+
+    public static final int STYLE_PROVIDER_PRIORITY_THEME = 200;
+
+    public static final int STYLE_PROVIDER_PRIORITY_USER = 800;
+
+    public static final int TEXT_VIEW_PRIORITY_VALIDATE = 125;
+
+    public static final int TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID = -1;
+
+    public static final int TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID = -2;
+
     /**
      * Gets the modifier mask.
      * 

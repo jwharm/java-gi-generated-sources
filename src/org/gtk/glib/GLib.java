@@ -9,6 +9,256 @@ import java.lang.invoke.*;
 
 public final class GLib {
     
+    public static final int ANALYZER_ANALYZING = 1;
+
+    public static final int ASCII_DTOSTR_BUF_SIZE = 39;
+
+    public static final int BIG_ENDIAN = 4321;
+
+    public static final java.lang.String CSET_A_2_Z = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    public static final java.lang.String CSET_DIGITS = "0123456789";
+
+    public static final java.lang.String CSET_a_2_z = "abcdefghijklmnopqrstuvwxyz";
+
+    public static final int DATALIST_FLAGS_MASK = 3;
+
+    public static final int DATE_BAD_DAY = 0;
+
+    public static final int DATE_BAD_JULIAN = 0;
+
+    public static final int DATE_BAD_YEAR = 0;
+
+    public static final int DIR_SEPARATOR = 47;
+
+    public static final java.lang.String DIR_SEPARATOR_S = "/";
+
+    public static final double E = 2.718282d;
+
+    public static final java.lang.String GINT16_FORMAT = "hi";
+
+    public static final java.lang.String GINT16_MODIFIER = "h";
+
+    public static final java.lang.String GINT32_FORMAT = "i";
+
+    public static final java.lang.String GINT32_MODIFIER = "";
+
+    public static final java.lang.String GINT64_FORMAT = "li";
+
+    public static final java.lang.String GINT64_MODIFIER = "l";
+
+    public static final java.lang.String GINTPTR_FORMAT = "li";
+
+    public static final java.lang.String GINTPTR_MODIFIER = "l";
+
+    public static final java.lang.String GNUC_FUNCTION = "";
+
+    public static final java.lang.String GNUC_PRETTY_FUNCTION = "";
+
+    public static final java.lang.String GSIZE_FORMAT = "lu";
+
+    public static final java.lang.String GSIZE_MODIFIER = "l";
+
+    public static final java.lang.String GSSIZE_FORMAT = "li";
+
+    public static final java.lang.String GSSIZE_MODIFIER = "l";
+
+    public static final java.lang.String GUINT16_FORMAT = "hu";
+
+    public static final java.lang.String GUINT32_FORMAT = "u";
+
+    public static final java.lang.String GUINT64_FORMAT = "lu";
+
+    public static final java.lang.String GUINTPTR_FORMAT = "lu";
+
+    public static final int HAVE_GINT64 = 1;
+
+    public static final int HAVE_GNUC_VARARGS = 1;
+
+    public static final int HAVE_GNUC_VISIBILITY = 1;
+
+    public static final int HAVE_GROWING_STACK = 0;
+
+    public static final int HAVE_ISO_VARARGS = 1;
+
+    public static final int HOOK_FLAG_USER_SHIFT = 4;
+
+    public static final int IEEE754_DOUBLE_BIAS = 1023;
+
+    public static final int IEEE754_FLOAT_BIAS = 127;
+
+    public static final java.lang.String KEY_FILE_DESKTOP_GROUP = "Desktop Entry";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_ACTIONS = "Actions";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_CATEGORIES = "Categories";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_COMMENT = "Comment";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_DBUS_ACTIVATABLE = "DBusActivatable";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_EXEC = "Exec";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_GENERIC_NAME = "GenericName";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_HIDDEN = "Hidden";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_ICON = "Icon";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_MIME_TYPE = "MimeType";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_NAME = "Name";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_NOT_SHOW_IN = "NotShowIn";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_NO_DISPLAY = "NoDisplay";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_ONLY_SHOW_IN = "OnlyShowIn";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_PATH = "Path";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_STARTUP_NOTIFY = "StartupNotify";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_STARTUP_WM_CLASS = "StartupWMClass";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_TERMINAL = "Terminal";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_TRY_EXEC = "TryExec";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_TYPE = "Type";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_URL = "URL";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_KEY_VERSION = "Version";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_TYPE_APPLICATION = "Application";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_TYPE_DIRECTORY = "Directory";
+
+    public static final java.lang.String KEY_FILE_DESKTOP_TYPE_LINK = "Link";
+
+    public static final int LITTLE_ENDIAN = 1234;
+
+    public static final double LN10 = 2.302585d;
+
+    public static final double LN2 = 0.693147d;
+
+    public static final double LOG_2_BASE_10 = 0.30103d;
+
+    public static final byte LOG_DOMAIN = 0;
+
+    public static final int LOG_FATAL_MASK = 5;
+
+    public static final int LOG_LEVEL_USER_SHIFT = 8;
+
+    public static final int MAJOR_VERSION = 2;
+
+    public static final short MAXINT16 = 32767;
+
+    public static final int MAXINT32 = 2147483647;
+
+    public static final long MAXINT64 = 9223372036854775807L;
+
+    public static final byte MAXINT8 = 127;
+
+    public static final int MICRO_VERSION = 0;
+
+    public static final short MININT16 = -32768;
+
+    public static final int MININT32 = -2147483648;
+
+    public static final long MININT64 = -9223372036854775808L;
+
+    public static final byte MININT8 = -128;
+
+    public static final int MINOR_VERSION = 72;
+
+    public static final java.lang.String MODULE_SUFFIX = "so";
+
+    public static final java.lang.String OPTION_REMAINING = "";
+
+    public static final int PDP_ENDIAN = 3412;
+
+    public static final double PI = 3.141593d;
+
+    public static final java.lang.String PID_FORMAT = "i";
+
+    public static final double PI_2 = 1.570796d;
+
+    public static final double PI_4 = 0.785398d;
+
+    public static final java.lang.String POLLFD_FORMAT = "%d";
+
+    public static final int PRIORITY_DEFAULT = 0;
+
+    public static final int PRIORITY_DEFAULT_IDLE = 200;
+
+    public static final int PRIORITY_HIGH = -100;
+
+    public static final int PRIORITY_HIGH_IDLE = 100;
+
+    public static final int PRIORITY_LOW = 300;
+
+    public static final int SEARCHPATH_SEPARATOR = 58;
+
+    public static final java.lang.String SEARCHPATH_SEPARATOR_S = ":";
+
+    public static final int SIZEOF_LONG = 8;
+
+    public static final int SIZEOF_SIZE_T = 8;
+
+    public static final int SIZEOF_SSIZE_T = 8;
+
+    public static final int SIZEOF_VOID_P = 8;
+
+    public static final boolean SOURCE_CONTINUE = true;
+
+    public static final boolean SOURCE_REMOVE = false;
+
+    public static final double SQRT2 = 1.414214d;
+
+    public static final java.lang.String STR_DELIMITERS = "_-|> <.";
+
+    public static final int SYSDEF_AF_INET = 2;
+
+    public static final int SYSDEF_AF_INET6 = 10;
+
+    public static final int SYSDEF_AF_UNIX = 1;
+
+    public static final int SYSDEF_MSG_DONTROUTE = 4;
+
+    public static final int SYSDEF_MSG_OOB = 1;
+
+    public static final int SYSDEF_MSG_PEEK = 2;
+
+    public static final java.lang.String TEST_OPTION_ISOLATE_DIRS = "isolate_dirs";
+
+    public static final long TIME_SPAN_DAY = 86400000000L;
+
+    public static final long TIME_SPAN_HOUR = 3600000000L;
+
+    public static final long TIME_SPAN_MILLISECOND = 1000L;
+
+    public static final long TIME_SPAN_MINUTE = 60000000L;
+
+    public static final long TIME_SPAN_SECOND = 1000000L;
+
+    public static final int UNICHAR_MAX_DECOMPOSITION_LENGTH = 18;
+
+    public static final java.lang.String URI_RESERVED_CHARS_GENERIC_DELIMITERS = ":/?#[]@";
+
+    public static final java.lang.String URI_RESERVED_CHARS_SUBCOMPONENT_DELIMITERS = "!$&'()*+,;=";
+
+    public static final int USEC_PER_SEC = 1000000;
+
+    public static final int VA_COPY_AS_ARRAY = 1;
+
+    public static final int VERSION_MIN_REQUIRED = 2;
+
+    public static final int WIN32_MSG_HANDLE = 19981206;
+
+    public static final int macro__has_attribute___noreturn__ = 0;
+
     /**
      * A wrapper for the POSIX access() function. This function is used to
      * test a pathname for one or several of read, write or execute

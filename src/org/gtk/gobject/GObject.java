@@ -9,6 +9,36 @@ import java.lang.invoke.*;
 
 public final class GObject {
     
+    public static final int PARAM_MASK = 255;
+
+    public static final int PARAM_STATIC_STRINGS = 224;
+
+    public static final int PARAM_USER_SHIFT = 8;
+
+    public static final int SIGNAL_FLAGS_MASK = 511;
+
+    public static final int SIGNAL_MATCH_MASK = 63;
+
+    public static final org.gtk.glib.Type TYPE_FLAG_RESERVED_ID_BIT = new org.gtk.glib.Type(1L);
+
+    public static final int TYPE_FUNDAMENTAL_MAX = 255;
+
+    public static final int TYPE_FUNDAMENTAL_SHIFT = 2;
+
+    public static final int TYPE_RESERVED_BSE_FIRST = 32;
+
+    public static final int TYPE_RESERVED_BSE_LAST = 48;
+
+    public static final int TYPE_RESERVED_GLIB_FIRST = 22;
+
+    public static final int TYPE_RESERVED_GLIB_LAST = 31;
+
+    public static final int TYPE_RESERVED_USER_FIRST = 49;
+
+    public static final int VALUE_INTERNED_STRING = 268435456;
+
+    public static final int VALUE_NOCOPY_CONTENTS = 134217728;
+
     /**
      * Provide a copy of a boxed structure @src_boxed which is of type @boxed_type.
      */

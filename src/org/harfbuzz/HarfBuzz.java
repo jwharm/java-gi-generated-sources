@@ -9,6 +9,34 @@ import java.lang.invoke.*;
 
 public final class HarfBuzz {
     
+    public static final int AAT_LAYOUT_NO_SELECTOR_INDEX = 65535;
+
+    public static final int BUFFER_REPLACEMENT_CODEPOINT_DEFAULT = 65533;
+
+    public static final int FEATURE_GLOBAL_START = 0;
+
+    public static final int OT_LAYOUT_DEFAULT_LANGUAGE_INDEX = 65535;
+
+    public static final int OT_LAYOUT_NO_FEATURE_INDEX = 65535;
+
+    public static final int OT_LAYOUT_NO_SCRIPT_INDEX = 65535;
+
+    public static final int OT_MAX_TAGS_PER_LANGUAGE = 3;
+
+    public static final int OT_MAX_TAGS_PER_SCRIPT = 3;
+
+    public static final int UNICODE_MAX = 1114111;
+
+    public static final int UNICODE_MAX_DECOMPOSITION_LEN = 19;
+
+    public static final int VERSION_MAJOR = 4;
+
+    public static final int VERSION_MICRO = 0;
+
+    public static final int VERSION_MINOR = 0;
+
+    public static final java.lang.String VERSION_STRING = "4.0.0";
+
     /**
      * Fetches the name identifier of the specified feature type in the face's `name` table.
      */

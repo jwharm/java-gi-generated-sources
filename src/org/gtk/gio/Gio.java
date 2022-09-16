@@ -9,6 +9,232 @@ import java.lang.invoke.*;
 
 public final class Gio {
     
+    public static final boolean DBUS_METHOD_INVOCATION_HANDLED = true;
+
+    public static final boolean DBUS_METHOD_INVOCATION_UNHANDLED = false;
+
+    public static final java.lang.String DEBUG_CONTROLLER_EXTENSION_POINT_NAME = "gio-debug-controller";
+
+    public static final java.lang.String DESKTOP_APP_INFO_LOOKUP_EXTENSION_POINT_NAME = "gio-desktop-app-info-lookup";
+
+    public static final java.lang.String DRIVE_IDENTIFIER_KIND_UNIX_DEVICE = "unix-device";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_DELETE = "access::can-delete";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE = "access::can-execute";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_READ = "access::can-read";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_RENAME = "access::can-rename";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_TRASH = "access::can-trash";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ACCESS_CAN_WRITE = "access::can-write";
+
+    public static final java.lang.String FILE_ATTRIBUTE_DOS_IS_ARCHIVE = "dos::is-archive";
+
+    public static final java.lang.String FILE_ATTRIBUTE_DOS_IS_MOUNTPOINT = "dos::is-mountpoint";
+
+    public static final java.lang.String FILE_ATTRIBUTE_DOS_IS_SYSTEM = "dos::is-system";
+
+    public static final java.lang.String FILE_ATTRIBUTE_DOS_REPARSE_POINT_TAG = "dos::reparse-point-tag";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ETAG_VALUE = "etag::value";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_FREE = "filesystem::free";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_READONLY = "filesystem::readonly";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_REMOTE = "filesystem::remote";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_SIZE = "filesystem::size";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_TYPE = "filesystem::type";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_USED = "filesystem::used";
+
+    public static final java.lang.String FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW = "filesystem::use-preview";
+
+    public static final java.lang.String FILE_ATTRIBUTE_GVFS_BACKEND = "gvfs::backend";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ID_FILE = "id::file";
+
+    public static final java.lang.String FILE_ATTRIBUTE_ID_FILESYSTEM = "id::filesystem";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_EJECT = "mountable::can-eject";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_MOUNT = "mountable::can-mount";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_POLL = "mountable::can-poll";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_START = "mountable::can-start";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_START_DEGRADED = "mountable::can-start-degraded";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_STOP = "mountable::can-stop";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_CAN_UNMOUNT = "mountable::can-unmount";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_HAL_UDI = "mountable::hal-udi";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_IS_MEDIA_CHECK_AUTOMATIC = "mountable::is-media-check-automatic";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_START_STOP_TYPE = "mountable::start-stop-type";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE = "mountable::unix-device";
+
+    public static final java.lang.String FILE_ATTRIBUTE_MOUNTABLE_UNIX_DEVICE_FILE = "mountable::unix-device-file";
+
+    public static final java.lang.String FILE_ATTRIBUTE_OWNER_GROUP = "owner::group";
+
+    public static final java.lang.String FILE_ATTRIBUTE_OWNER_USER = "owner::user";
+
+    public static final java.lang.String FILE_ATTRIBUTE_OWNER_USER_REAL = "owner::user-real";
+
+    public static final java.lang.String FILE_ATTRIBUTE_PREVIEW_ICON = "preview::icon";
+
+    public static final java.lang.String FILE_ATTRIBUTE_RECENT_MODIFIED = "recent::modified";
+
+    public static final java.lang.String FILE_ATTRIBUTE_SELINUX_CONTEXT = "selinux::context";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_ALLOCATED_SIZE = "standard::allocated-size";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE = "standard::content-type";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_COPY_NAME = "standard::copy-name";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_DESCRIPTION = "standard::description";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME = "standard::display-name";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_EDIT_NAME = "standard::edit-name";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE = "standard::fast-content-type";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_ICON = "standard::icon";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_IS_BACKUP = "standard::is-backup";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_IS_HIDDEN = "standard::is-hidden";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_IS_SYMLINK = "standard::is-symlink";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_IS_VIRTUAL = "standard::is-virtual";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_IS_VOLATILE = "standard::is-volatile";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_NAME = "standard::name";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_SIZE = "standard::size";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_SORT_ORDER = "standard::sort-order";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON = "standard::symbolic-icon";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET = "standard::symlink-target";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_TARGET_URI = "standard::target-uri";
+
+    public static final java.lang.String FILE_ATTRIBUTE_STANDARD_TYPE = "standard::type";
+
+    public static final java.lang.String FILE_ATTRIBUTE_THUMBNAILING_FAILED = "thumbnail::failed";
+
+    public static final java.lang.String FILE_ATTRIBUTE_THUMBNAIL_IS_VALID = "thumbnail::is-valid";
+
+    public static final java.lang.String FILE_ATTRIBUTE_THUMBNAIL_PATH = "thumbnail::path";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_ACCESS = "time::access";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_ACCESS_USEC = "time::access-usec";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_CHANGED = "time::changed";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_CHANGED_USEC = "time::changed-usec";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_CREATED = "time::created";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_CREATED_USEC = "time::created-usec";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_MODIFIED = "time::modified";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TIME_MODIFIED_USEC = "time::modified-usec";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TRASH_DELETION_DATE = "trash::deletion-date";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TRASH_ITEM_COUNT = "trash::item-count";
+
+    public static final java.lang.String FILE_ATTRIBUTE_TRASH_ORIG_PATH = "trash::orig-path";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_BLOCKS = "unix::blocks";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_BLOCK_SIZE = "unix::block-size";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_DEVICE = "unix::device";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_GID = "unix::gid";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_INODE = "unix::inode";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_IS_MOUNTPOINT = "unix::is-mountpoint";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_MODE = "unix::mode";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_NLINK = "unix::nlink";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_RDEV = "unix::rdev";
+
+    public static final java.lang.String FILE_ATTRIBUTE_UNIX_UID = "unix::uid";
+
+    public static final java.lang.String MEMORY_MONITOR_EXTENSION_POINT_NAME = "gio-memory-monitor";
+
+    public static final java.lang.String MENU_ATTRIBUTE_ACTION = "action";
+
+    public static final java.lang.String MENU_ATTRIBUTE_ACTION_NAMESPACE = "action-namespace";
+
+    public static final java.lang.String MENU_ATTRIBUTE_ICON = "icon";
+
+    public static final java.lang.String MENU_ATTRIBUTE_LABEL = "label";
+
+    public static final java.lang.String MENU_ATTRIBUTE_TARGET = "target";
+
+    public static final java.lang.String MENU_LINK_SECTION = "section";
+
+    public static final java.lang.String MENU_LINK_SUBMENU = "submenu";
+
+    public static final java.lang.String NATIVE_VOLUME_MONITOR_EXTENSION_POINT_NAME = "gio-native-volume-monitor";
+
+    public static final java.lang.String NETWORK_MONITOR_EXTENSION_POINT_NAME = "gio-network-monitor";
+
+    public static final java.lang.String POWER_PROFILE_MONITOR_EXTENSION_POINT_NAME = "gio-power-profile-monitor";
+
+    public static final java.lang.String PROXY_EXTENSION_POINT_NAME = "gio-proxy";
+
+    public static final java.lang.String PROXY_RESOLVER_EXTENSION_POINT_NAME = "gio-proxy-resolver";
+
+    public static final java.lang.String SETTINGS_BACKEND_EXTENSION_POINT_NAME = "gsettings-backend";
+
+    public static final java.lang.String TLS_BACKEND_EXTENSION_POINT_NAME = "gio-tls-backend";
+
+    public static final java.lang.String TLS_DATABASE_PURPOSE_AUTHENTICATE_CLIENT = "1.3.6.1.5.5.7.3.2";
+
+    public static final java.lang.String TLS_DATABASE_PURPOSE_AUTHENTICATE_SERVER = "1.3.6.1.5.5.7.3.1";
+
+    public static final java.lang.String VFS_EXTENSION_POINT_NAME = "gio-vfs";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_CLASS = "class";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_HAL_UDI = "hal-udi";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_LABEL = "label";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_NFS_MOUNT = "nfs-mount";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_UNIX_DEVICE = "unix-device";
+
+    public static final java.lang.String VOLUME_IDENTIFIER_KIND_UUID = "uuid";
+
+    public static final java.lang.String VOLUME_MONITOR_EXTENSION_POINT_NAME = "gio-volume-monitor";
+
     /**
      * Checks if @action_name is valid.
      * 

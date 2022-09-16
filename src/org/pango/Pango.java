@@ -9,6 +9,28 @@ import java.lang.invoke.*;
 
 public final class Pango {
     
+    public static final int ANALYSIS_FLAG_CENTERED_BASELINE = 1;
+
+    public static final int ANALYSIS_FLAG_IS_ELLIPSIS = 2;
+
+    public static final int ANALYSIS_FLAG_NEED_HYPHEN = 4;
+
+    public static final int ATTR_INDEX_FROM_TEXT_BEGINNING = 0;
+
+    public static final Glyph GLYPH_EMPTY = new Glyph(268435455);
+
+    public static final Glyph GLYPH_UNKNOWN_FLAG = new Glyph(268435456);
+
+    public static final int SCALE = 1024;
+
+    public static final int VERSION_MAJOR = 1;
+
+    public static final int VERSION_MICRO = 9;
+
+    public static final int VERSION_MINOR = 50;
+
+    public static final java.lang.String VERSION_STRING = "1.50.9";
+
     /**
      * Create a new allow-breaks attribute.
      * 

@@ -9,6 +9,16 @@ import java.lang.invoke.*;
 
 public final class Graphene {
     
+    public static final double PI = 3.141593d;
+
+    public static final double PI_2 = 1.570796d;
+
+    public static final int VEC2_LEN = 2;
+
+    public static final int VEC3_LEN = 3;
+
+    public static final int VEC4_LEN = 4;
+
     /**
      * A degenerate #graphene_box_t that can only be expanded.
      * 
