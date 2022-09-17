@@ -9,10 +9,10 @@ import java.lang.invoke.*;
 
 /**
  * A #GProxy handles connecting to a remote host via a given type of
- * proxy server. It is implemented by the 'gio-proxy' extension point.
+ * proxy server. It is implemented by the &#39;gio-proxy&#39; extension point.
  * The extensions are named after their proxy protocol name. As an
  * example, a SOCKS5 proxy implementation can be retrieved with the
- * name 'socks5' using the function
+ * name &#39;socks5&#39; using the function
  * g_io_extension_point_get_extension_by_name().
  */
 public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
@@ -64,8 +64,8 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Some proxy protocols expect to be passed a hostname, which they
      * will resolve to an IP address themselves. Others, like SOCKS4, do
-     * not allow this. This function will return %FALSE if @proxy is
-     * implementing such a protocol. When %FALSE is returned, the caller
+     * not allow this. This function will return <code>false</code> if @proxy is
+     * implementing such a protocol. When <code>false</code> is returned, the caller
      * should resolve the destination hostname first, and then pass a
      * #GProxyAddress containing the stringified IP address to
      * g_proxy_connect() or g_proxy_connect_async().
@@ -76,7 +76,7 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Find the `gio-proxy` extension point for a proxy implementation that supports
+     * Find the <code>gio-proxy</code> extension point for a proxy implementation that supports
      * the specified protocol.
      */
     public static Proxy getDefaultForProtocol(java.lang.String protocol) {

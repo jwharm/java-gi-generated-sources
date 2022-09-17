@@ -24,14 +24,14 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new `GtkBorder` struct and initializes its elements to zero.
+     * Allocates a new <code>GtkBorder</code> struct and initializes its elements to zero.
      */
     public Border() {
         super(constructNew());
     }
     
     /**
-     * Copies a `GtkBorder`.
+     * Copies a <code>GtkBorder</code>.
      */
     public Border copy() {
         var RESULT = gtk_h.gtk_border_copy(handle());
@@ -39,7 +39,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a `GtkBorder`.
+     * Frees a <code>GtkBorder</code>.
      */
     public void free() {
         gtk_h.gtk_border_free(handle());

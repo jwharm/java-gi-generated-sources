@@ -1,21 +1,21 @@
 package org.gtk.gio;
 
 /**
- * Indicates the file's on-disk type.
+ * Indicates the file&#39;s on-disk type.
  * 
- * On Windows systems a file will never have %G_FILE_TYPE_SYMBOLIC_LINK type;
- * use #GFileInfo and %G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK to determine
+ * On Windows systems a file will never have {@link org.gtk.gio.FileType#SYMBOLIC_LINK} type;
+ * use #GFileInfo and <code>G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK</code> to determine
  * whether a file is a symlink or not. This is due to the fact that NTFS does
  * not have a single filesystem object type for symbolic links - it has
  * files that symlink to files, and directories that symlink to directories.
  * #GFileType enumeration cannot precisely represent this important distinction,
  * which is why all Windows symlinks will continue to be reported as
- * %G_FILE_TYPE_REGULAR or %G_FILE_TYPE_DIRECTORY.
+ * {@link org.gtk.gio.FileType#REGULAR} or or %G_FILE_TYPE_DIRECTORY.
  */
 public enum FileType {
 
     /**
-     * File's type is unknown.
+     * File&#39;s type is unknown.
      */
     UNKNOWN,
     
@@ -36,7 +36,7 @@ public enum FileType {
     SYMBOLIC_LINK,
     
     /**
-     * File is a "special" file, such as a socket, fifo,
+     * File is a &#34;special&#34; file, such as a socket, fifo,
      *    block device, or character device.
      */
     SPECIAL,

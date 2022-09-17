@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes how [class@LevelBar] contents should be rendered.
+ * Describes how {@link [class@LevelBar]} contents should be rendered.
  * 
  * Note that this enumeration could be extended with additional modes
  * in the future.

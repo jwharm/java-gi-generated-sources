@@ -34,8 +34,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)` where the #gint parameter
+     * A marshaller for a #GCClosure with a callback of type<code>gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter
      * denotes a flags type.
      */
     public static void marshalBOOLEANFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
@@ -50,8 +49,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)</code>.
      */
     public static void marshalSTRINGOBJECTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_STRING__OBJECT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -65,8 +63,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDBOOLEAN(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOOLEAN(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -80,8 +77,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOXED(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -95,8 +91,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gchar arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gchar arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__CHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -110,8 +105,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDDOUBLE(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__DOUBLE(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -125,8 +119,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gint arg1, gpointer user_data)` where the #gint parameter denotes an enumeration type..
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter denotes an enumeration type..
      */
     public static void marshalVOIDENUM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ENUM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -140,8 +133,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gint arg1, gpointer user_data)` where the #gint parameter denotes a flags type.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter denotes a flags type.
      */
     public static void marshalVOIDFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLAGS(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -155,8 +147,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDFLOAT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLOAT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -170,8 +161,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gint arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__INT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -185,8 +175,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, glong arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, glong arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDLONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__LONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -200,8 +189,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDOBJECT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__OBJECT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -215,8 +203,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDPARAM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__PARAM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -230,8 +217,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -245,8 +231,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDSTRING(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__STRING(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -260,8 +245,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, guchar arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guchar arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDUCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UCHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -275,16 +259,14 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, guint arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDUINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)</code>.
      */
     public static void marshalVOIDUINTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -305,8 +287,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gulong arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gulong arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDULONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ULONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -320,8 +301,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)</code>.
      */
     public static void marshalVOIDVARIANT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VARIANT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -335,8 +315,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type
-     * `void (*callback) (gpointer instance, gpointer user_data)`.
+     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gpointer user_data)</code>.
      */
     public static void marshalVOIDVOID(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VOID(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -351,10 +330,10 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * A generic marshaller function implemented via
-     * [libffi](http://sourceware.org/libffi/).
+     * {@link [libffi]}(http://sourceware.org/libffi/).
      * 
      * Normally this function is not passed explicitly to g_signal_new(),
-     * but used automatically by GLib when specifying a %NULL marshaller.
+     * but used automatically by GLib when specifying a <code>null</code> marshaller.
      */
     public static void marshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_generic(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -362,7 +341,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * A generic #GVaClosureMarshal function implemented via
-     * [libffi](http://sourceware.org/libffi/).
+     * {@link [libffi]}(http://sourceware.org/libffi/).
      */
     public static void marshalGenericVa(Closure closure, Value returnValue, TypeInstance instance, VaList argsList, jdk.incubator.foreign.MemoryAddress marshalData, int nParams, org.gtk.gobject.Type[] paramTypes) {
         gtk_h.g_cclosure_marshal_generic_va(closure.handle(), returnValue.handle(), instance.handle(), argsList, marshalData, nParams, Interop.allocateNativeArray(paramTypes).handle());

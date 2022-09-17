@@ -18,9 +18,9 @@ public enum SelectionMode {
     /**
      * Exactly one element is selected.
      *   In some circumstances, such as initially or during a search
-     *   operation, it’s possible for no element to be selected with
-     *   %GTK_SELECTION_BROWSE. What is really enforced is that the user
-     *   can’t deselect a currently selected element except by selecting
+     *   operation, it&#8217;s possible for no element to be selected with
+     *   <code>GTK_SELECTION_BROWSE.</code> What is really enforced is that the user
+     *   can&#8217;t deselect a currently selected element except by selecting
      *   another element.
      */
     BROWSE,

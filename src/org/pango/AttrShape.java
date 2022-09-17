@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoAttrShape` structure is used to represent attributes which
+ * The <code>PangoAttrShape</code> structure is used to represent attributes which
  * impose shape restrictions.
  */
 public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
@@ -19,11 +19,11 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Create a new shape attribute.
-     * 
+     * <p>
      * A shape is used to impose a particular ink and logical
      * rectangle on the result of shaping a particular glyph.
      * This might be used, for instance, for embedding a picture
-     * or a widget inside a `PangoLayout`.
+     * or a widget inside a <code>PangoLayout</code>.
      */
     public static Attribute new_(Rectangle inkRect, Rectangle logicalRect) {
         var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
@@ -33,7 +33,7 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new shape attribute.
      * 
-     * Like [func@Pango.AttrShape.new], but a user data pointer
+     * Like {@link Pango#AttrShape}, but a user data pointer
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
      */

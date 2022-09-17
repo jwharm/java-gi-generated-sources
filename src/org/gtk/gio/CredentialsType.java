@@ -11,37 +11,37 @@ public enum CredentialsType {
     INVALID,
     
     /**
-     * The native credentials type is a `struct ucred`.
+     * The native credentials type is a <code>struct ucred</code>.
      */
     LINUX_UCRED,
     
     /**
-     * The native credentials type is a `struct cmsgcred`.
+     * The native credentials type is a <code>struct cmsgcred</code>.
      */
     FREEBSD_CMSGCRED,
     
     /**
-     * The native credentials type is a `struct sockpeercred`. Added in 2.30.
+     * The native credentials type is a <code>struct sockpeercred</code>. Added in 2.30.
      */
     OPENBSD_SOCKPEERCRED,
     
     /**
-     * The native credentials type is a `ucred_t`. Added in 2.40.
+     * The native credentials type is a <code>ucred_t</code>. Added in 2.40.
      */
     SOLARIS_UCRED,
     
     /**
-     * The native credentials type is a `struct unpcbid`. Added in 2.42.
+     * The native credentials type is a <code>struct unpcbid</code>. Added in 2.42.
      */
     NETBSD_UNPCBID,
     
     /**
-     * The native credentials type is a `struct xucred`. Added in 2.66.
+     * The native credentials type is a <code>struct xucred</code>. Added in 2.66.
      */
     APPLE_XUCRED,
     
     /**
-     * The native credentials type is a PID `DWORD`. Added in 2.72.
+     * The native credentials type is a PID <code>DWORD</code>. Added in 2.72.
      */
     WIN32_PID;
     

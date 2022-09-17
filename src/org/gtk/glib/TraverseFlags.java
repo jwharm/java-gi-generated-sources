@@ -9,12 +9,22 @@ public class TraverseFlags {
     /**
      * only leaf nodes should be visited. This name has
      *                     been introduced in 2.6, for older version use
+     *                     
+     *       
+     *       
+     *         only leaf nodes should be visited. This name has
+     *                     been introduced in 2.6, for older version use
      *                     %G_TRAVERSE_LEAFS.
      */
     public static final int LEAVES = 1;
     
     /**
      * only non-leaf nodes should be visited. This
+     *                         name has been introduced in 2.6, for older
+     *                         version use 
+     *       
+     *       
+     *         only non-leaf nodes should be visited. This
      *                         name has been introduced in 2.6, for older
      *                         version use %G_TRAVERSE_NON_LEAFS.
      */
@@ -31,12 +41,18 @@ public class TraverseFlags {
     public static final int MASK = 3;
     
     /**
-     * identical to %G_TRAVERSE_LEAVES.
+     * identical to 
+     *       
+     *       
+     *         identical to %G_TRAVERSE_LEAVES.
      */
     public static final int LEAFS = 1;
     
     /**
-     * identical to %G_TRAVERSE_NON_LEAVES.
+     * identical to 
+     *       
+     *       
+     *         identical to %G_TRAVERSE_NON_LEAVES.
      */
     public static final int NON_LEAFS = 2;
     

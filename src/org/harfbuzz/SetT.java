@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data type for holding a set of integers. #hb_set_t's are
+ * Data type for holding a set of integers. #hb_set_t&#39;s are
  * used to gather and contain glyph IDs, Unicode code
  * points, and various other collections of discrete
  * values.

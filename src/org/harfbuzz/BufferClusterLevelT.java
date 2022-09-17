@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Data type for holding HarfBuzz's clustering behavior options. The cluster level
+ * Data type for holding HarfBuzz&#39;s clustering behavior options. The cluster level
  * dictates one aspect of how HarfBuzz will treat non-base characters
  * during shaping.
  * 
@@ -32,7 +32,7 @@ public enum BufferClusterLevelT {
     MONOTONE_CHARACTERS,
     
     /**
-     * Don't group cluster values.
+     * Don&#39;t group cluster values.
      */
     CHARACTERS,
     

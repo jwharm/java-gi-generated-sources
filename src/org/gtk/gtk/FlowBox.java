@@ -8,52 +8,48 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkFlowBox` puts child widgets in reflowing grid.
- * 
+ * A <code>GtkFlowBox</code> puts child widgets in reflowing grid.
+ * <p>
  * For instance, with the horizontal orientation, the widgets will be
  * arranged from left to right, starting a new row under the previous
  * row when necessary. Reducing the width in this case will require more
  * rows, so a larger height will be requested.
- * 
+ * <p>
  * Likewise, with the vertical orientation, the widgets will be arranged
  * from top to bottom, starting a new column to the right when necessary.
  * Reducing the height will require more columns, so a larger width will
  * be requested.
- * 
- * The size request of a `GtkFlowBox` alone may not be what you expect;
+ * <p>
+ * The size request of a <code>GtkFlowBox</code> alone may not be what you expect;
  * if you need to be able to shrink it along both axes and dynamically
- * reflow its children, you may have to wrap it in a `GtkScrolledWindow`
+ * reflow its children, you may have to wrap it in a <code>GtkScrolledWindow</code>
  * to enable that.
- * 
- * The children of a `GtkFlowBox` can be dynamically sorted and filtered.
- * 
- * Although a `GtkFlowBox` must have only `GtkFlowBoxChild` children, you
- * can add any kind of widget to it via [method@Gtk.FlowBox.insert], and a
- * `GtkFlowBoxChild` widget will automatically be inserted between the box
+ * <p>
+ * The children of a <code>GtkFlowBox</code> can be dynamically sorted and filtered.
+ * <p>
+ * Although a <code>GtkFlowBox</code> must have only <code>GtkFlowBoxChild</code> children, you
+ * can add any kind of widget to it via {@link org.gtk.gtk.FlowBox#insert}, and a<code>GtkFlowBoxChild</code> widget will automatically be inserted between the box
  * and the widget.
- * 
- * Also see [class@Gtk.ListBox].
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ * Also see {@link org.gtk.gtk.ListBox}.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * flowbox
- * ├── flowboxchild
- * │   ╰── <child>
- * ├── flowboxchild
- * │   ╰── <child>
- * ┊
- * ╰── [rubberband]
- * ```
- * 
- * `GtkFlowBox` uses a single CSS node with name flowbox. `GtkFlowBoxChild`
+ * &#9500;&#9472;&#9472; flowboxchild
+ * &#9474;   &#9584;&#9472;&#9472; &#60;child&#62;
+ * &#9500;&#9472;&#9472; flowboxchild
+ * &#9474;   &#9584;&#9472;&#9472; &#60;child&#62;
+ * &#9482;
+ * &#9584;&#9472;&#9472; {@link [rubberband]}
+ * </pre>
+ * <p><code>GtkFlowBox</code> uses a single CSS node with name flowbox. <code>GtkFlowBoxChild</code>
  * uses a single CSS node with name flowboxchild. For rubberband selection,
  * a subnode with name rubberband is used.
- * 
- * # Accessibility
- * 
- * `GtkFlowBox` uses the %GTK_ACCESSIBLE_ROLE_GRID role, and `GtkFlowBoxChild`
- * uses the %GTK_ACCESSIBLE_ROLE_GRID_CELL role.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkFlowBox</code> uses the {@link org.gtk.gtk.AccessibleRole#GRID} role, and <code>GtkFlowBoxChild</code>
+ * uses the {@link org.gtk.gtk.AccessibleRole#GRID_CELL} role.
  */
 public class FlowBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -72,7 +68,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Creates a `GtkFlowBox`.
+     * Creates a <code>GtkFlowBox</code>.
      */
     public FlowBox() {
         super(constructNew());
@@ -84,7 +80,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
      * 
-     * See also: [method@Gtk.FlowBox.insert].
+     * See also: {@link org.gtk.gtk.FlowBox#insert}.
      */
     public void append(Widget child) {
         gtk_h.gtk_flow_box_append(handle(), child.handle());
@@ -92,19 +88,19 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Binds @model to @box.
-     * 
+     * <p>
      * If @box was already bound to a model, that previous binding is
      * destroyed.
-     * 
+     * <p>
      * The contents of @box are cleared and then filled with widgets that
      * represent items from @model. @box is updated whenever @model changes.
-     * If @model is %NULL, @box is left empty.
-     * 
+     * If @model is <code>NULL,</code> @box is left empty.
+     * <p>
      * It is undefined to add or remove widgets directly (for example, with
-     * [method@Gtk.FlowBox.insert]) while @box is bound to a model.
-     * 
+     * {@link org.gtk.gtk.FlowBox#insert}) while @box is bound to a model.
+     * <p>
      * Note that using a model is incompatible with the filtering and sorting
-     * functionality in `GtkFlowBox`. When using a model, filtering and sorting
+     * functionality in <code>GtkFlowBox</code>. When using a model, filtering and sorting
      * should be implemented by the model.
      */
     public void bindModel(org.gtk.gio.ListModel model, FlowBoxCreateWidgetFunc createWidgetFunc) {
@@ -246,7 +242,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
      * 
-     * See also: [method@Gtk.FlowBox.insert].
+     * See also: {@link org.gtk.gtk.FlowBox#insert}.
      */
     public void prepend(Widget child) {
         gtk_h.gtk_flow_box_prepend(handle(), child.handle());
@@ -296,7 +292,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If @single is %TRUE, children will be activated when you click
+     * If @single is <code>TRUE,</code> children will be activated when you click
      * on them, otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {
@@ -319,11 +315,11 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * 
      * The @filter_func will be called for each child after the call, and
      * it will continue to be called each time a child changes (via
-     * [method@Gtk.FlowBoxChild.changed]) or when
-     * [method@Gtk.FlowBox.invalidate_filter] is called.
+     * {@link org.gtk.gtk.FlowBoxChild#changed}) or when
+     * {@link org.gtk.gtk.FlowBox#invalidateFilter} is called.
      * 
      * Note that using a filter function is incompatible with using a model
-     * (see [method@Gtk.FlowBox.bind_model]).
+     * (see {@link org.gtk.gtk.FlowBox#bindModel}).
      */
     public void setFilterFunc(FlowBoxFilterFunc filterFunc) {
         try {
@@ -344,9 +340,9 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Hooks up an adjustment to focus handling in @box.
      * 
      * The adjustment is also used for autoscrolling during
-     * rubberband selection. See [method@Gtk.ScrolledWindow.get_hadjustment]
+     * rubberband selection. See {@link org.gtk.gtk.ScrolledWindow#getHadjustment}
      * for a typical way of obtaining the adjustment, and
-     * [method@Gtk.FlowBox.set_vadjustment] for setting the vertical
+     * {@link org.gtk.gtk.FlowBox#setVadjustment} for setting the vertical
      * adjustment.
      * 
      * The adjustments have to be in pixel units and in the same
@@ -367,7 +363,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Sets the maximum number of children to request and
-     * allocate space for in @box’s orientation.
+     * allocate space for in @box&#8217;s orientation.
      * 
      * Setting the maximum number of children per line
      * limits the overall natural size request to be no more
@@ -379,7 +375,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Sets the minimum number of children to line up
-     * in @box’s orientation before flowing.
+     * in @box&#8217;s orientation before flowing.
      */
     public void setMinChildrenPerLine(int nChildren) {
         gtk_h.gtk_flow_box_set_min_children_per_line(handle(), nChildren);
@@ -406,11 +402,11 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * 
      * The @sort_func will be called for each child after the call,
      * and will continue to be called each time a child changes (via
-     * [method@Gtk.FlowBoxChild.changed]) and when
-     * [method@Gtk.FlowBox.invalidate_sort] is called.
+     * {@link org.gtk.gtk.FlowBoxChild#changed}) and when
+     * {@link org.gtk.gtk.FlowBox#invalidateSort} is called.
      * 
      * Note that using a sort function is incompatible with using a model
-     * (see [method@Gtk.FlowBox.bind_model]).
+     * (see {@link org.gtk.gtk.FlowBox#bindModel}).
      */
     public void setSortFunc(FlowBoxSortFunc sortFunc) {
         try {
@@ -431,9 +427,9 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Hooks up an adjustment to focus handling in @box.
      * 
      * The adjustment is also used for autoscrolling during
-     * rubberband selection. See [method@Gtk.ScrolledWindow.get_vadjustment]
+     * rubberband selection. See {@link org.gtk.gtk.ScrolledWindow#getVadjustment}
      * for a typical way of obtaining the adjustment, and
-     * [method@Gtk.FlowBox.set_hadjustment] for setting the horizontal
+     * {@link org.gtk.gtk.FlowBox#setHadjustment} for setting the horizontal
      * adjustment.
      * 
      * The adjustments have to be in pixel units and in the same
@@ -468,7 +464,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted when the user activates the @box.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      */
     public SignalHandle onActivateCursorChild(ActivateCursorChildHandler handler) {
         try {
@@ -516,7 +512,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted when the user initiates a cursor movement.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * Applications should not connect to it, but may emit it with
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically.
@@ -526,10 +522,10 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * the variant without the Shift modifier does not.
      * There are too many key combinations to list them all here.
      * 
-     * - <kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd>
+     * - &#60;kbd&#62;&#8592;&#60;/kbd&#62;, &#60;kbd&#62;&#8594;&#60;/kbd&#62;, &#60;kbd&#62;&#8593;&#60;/kbd&#62;, &#60;kbd&#62;&#8595;&#60;/kbd&#62;
      *   move by individual children
-     * - <kbd>Home</kbd>, <kbd>End</kbd> move to the ends of the box
-     * - <kbd>PgUp</kbd>, <kbd>PgDn</kbd> move vertically by pages
+     * - &#60;kbd&#62;Home&#60;/kbd&#62;, &#60;kbd&#62;End&#60;/kbd&#62; move to the ends of the box
+     * - &#60;kbd&#62;PgUp&#60;/kbd&#62;, &#60;kbd&#62;PgDn&#60;/kbd&#62; move vertically by pages
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
@@ -555,9 +551,9 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Emitted to select all children of the box,
      * if the selection mode permits it.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default bindings for this signal is <kbd>Ctrl</kbd>-<kbd>a</kbd>.
+     * The default bindings for this signal is &#60;kbd&#62;Ctrl&#60;/kbd&#62;-&#60;kbd&#62;a&#60;/kbd&#62;.
      */
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
@@ -582,8 +578,8 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted when the set of selected children changes.
      * 
-     * Use [method@Gtk.FlowBox.selected_foreach] or
-     * [method@Gtk.FlowBox.get_selected_children] to obtain the
+     * Use {@link org.gtk.gtk.FlowBox#selectedForeach} or
+     * {@link org.gtk.gtk.FlowBox#getSelectedChildren} to obtain the
      * selected children.
      */
     public SignalHandle onSelectedChildrenChanged(SelectedChildrenChangedHandler handler) {
@@ -609,9 +605,9 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted to toggle the selection of the child that has the focus.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding for this signal is <kbd>Ctrl</kbd>-<kbd>Space</kbd>.
+     * The default binding for this signal is &#60;kbd&#62;Ctrl&#60;/kbd&#62;-&#60;kbd&#62;Space&#60;/kbd&#62;.
      */
     public SignalHandle onToggleCursorChild(ToggleCursorChildHandler handler) {
         try {
@@ -637,9 +633,9 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * Emitted to unselect all children of the box,
      * if the selection mode permits it.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default bindings for this signal is <kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>a</kbd>.
+     * The default bindings for this signal is &#60;kbd&#62;Ctrl&#60;/kbd&#62;-&#60;kbd&#62;Shift&#60;/kbd&#62;-&#60;kbd&#62;a&#60;/kbd&#62;.
      */
     public SignalHandle onUnselectAll(UnselectAllHandler handler) {
         try {

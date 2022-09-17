@@ -40,7 +40,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls all of the #GHook functions in a #GHookList.
-     * Any function which returns %FALSE is removed from the #GHookList.
+     * Any function which returns <code>false</code> is removed from the #GHookList.
      */
     public void invokeCheck(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke_check(handle(), mayRecurse ? 1 : 0);
@@ -65,6 +65,13 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls a function on each valid #GHook and destroys it if the
+     * function returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Calls a function on each valid #GHook and destroys it if the
      * function returns %FALSE.
      */
     public void marshalCheck(boolean mayRecurse, HookCheckMarshaller marshaller) {

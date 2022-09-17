@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An object to build the uniforms data for a `GskGLShader`.
+ * An object to build the uniforms data for a <code>GskGLShader</code>.
  */
 public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
@@ -30,7 +30,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GBytes` args from the current state of the
+     * Creates a new <code>GBytes</code> args from the current state of the
      * given @builder, and frees the @builder instance.
      * 
      * Any uniforms of the shader that have not been explicitly set
@@ -42,7 +42,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of a `GskShaderArgsBuilder` by one.
+     * Increases the reference count of a <code>GskShaderArgsBuilder</code> by one.
      */
     public ShaderArgsBuilder ref() {
         var RESULT = gtk_h.gsk_shader_args_builder_ref(handle());
@@ -113,17 +113,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GBytes` args from the current state of the
+     * Creates a new <code>GBytes</code> args from the current state of the
      * given @builder.
-     * 
+     * <p>
      * Any uniforms of the shader that have not been explicitly set on
      * the @builder are zero-initialized.
-     * 
-     * The given `GskShaderArgsBuilder` is reset once this function returns;
+     * <p>
+     * The given <code>GskShaderArgsBuilder</code> is reset once this function returns;
      * you cannot call this function multiple times on the same @builder instance.
      * 
      * This function is intended primarily for bindings. C code should use
-     * [method@Gsk.ShaderArgsBuilder.free_to_args].
+     * {@link org.gtk.gsk.ShaderArgsBuilder#freeToArgs}.
      */
     public org.gtk.glib.Bytes toArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());
@@ -131,7 +131,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of a `GskShaderArgBuilder` by one.
+     * Decreases the reference count of a <code>GskShaderArgBuilder</code> by one.
      * 
      * If the resulting reference count is zero, frees the builder.
      */

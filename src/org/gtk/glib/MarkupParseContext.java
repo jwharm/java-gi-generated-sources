@@ -30,7 +30,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new parse context. A parse context is used to parse
      * marked-up documents. You can feed any number of documents into
      * a context, as long as no errors occur; once an error occurs,
-     * the parse context can't continue to parse text (you have to
+     * the parse context can&#39;t continue to parse text (you have to
      * free it and create a new parse context).
      */
     public MarkupParseContext(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
@@ -41,7 +41,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * Signals to the #GMarkupParseContext that all data has been
      * fed into the parse context with g_markup_parse_context_parse().
      * 
-     * This function reports an error if the document isn't complete,
+     * This function reports an error if the document isn&#39;t complete,
      * for example if elements are still open.
      */
     public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
@@ -56,7 +56,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a #GMarkupParseContext.
      * 
-     * This function can't be called from inside one of the
+     * This function can&#39;t be called from inside one of the
      * #GMarkupParser functions or while a subparser is pushed.
      */
     public void free() {
@@ -109,7 +109,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * Feed some data to the #GMarkupParseContext.
      * 
      * The data need not be valid UTF-8; an error will be signaled if
-     * it's invalid. The data need not be an entire document; you can
+     * it&#39;s invalid. The data need not be an entire document; you can
      * feed a document into the parser incrementally, via multiple calls
      * to this function. Typically, as you receive data from a network
      * connection or file, you feed each received chunk of data into this
@@ -162,8 +162,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The end tag matching the start tag for which this call was made is
      * handled by the previous parser (which is given its own user_data)
-     * which is why g_markup_parse_context_pop() is provided to allow "one
-     * last access" to the @user_data provided to this function. In the
+     * which is why g_markup_parse_context_pop() is provided to allow &#34;one
+     * last access&#34; to the @user_data provided to this function. In the
      * case of error, the @user_data provided here is passed directly to
      * the error callback of the subparser and g_markup_parse_context_pop()
      * should not be called. In either case, if @user_data was allocated
@@ -177,7 +177,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * As an example, see the following implementation of a simple
      * parser that counts the number of tags encountered.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * typedef struct
      * {
      *   gint tag_count;
@@ -193,7 +193,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   CounterData *data = user_data;
      * 
-     *   data->tag_count++;
+     *   data-&#62;tag_count++;
      * }
      * 
      * static void
@@ -214,19 +214,19 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *   NULL,
      *   counter_error
      * };
-     * ]|
+     * ]}|
      * 
      * In order to allow this parser to be easily used as a subparser, the
      * following interface is provided:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * void
      * start_counting (GMarkupParseContext *context)
      * {
      *   CounterData *data = g_slice_new (CounterData);
      * 
-     *   data->tag_count = 0;
-     *   g_markup_parse_context_push (context, &counter_subparser, data);
+     *   data-&#62;tag_count = 0;
+     *   g_markup_parse_context_push (context, &#38;counter_subparser, data);
      * }
      * 
      * gint
@@ -235,19 +235,19 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *   CounterData *data = g_markup_parse_context_pop (context);
      *   int result;
      * 
-     *   result = data->tag_count;
+     *   result = data-&#62;tag_count;
      *   g_slice_free (CounterData, data);
      * 
      *   return result;
      * }
-     * ]|
+     * ]}|
      * 
      * The subparser would then be used as follows:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void start_element (context, element_name, ...)
      * {
-     *   if (strcmp (element_name, "count-these") == 0)
+     *   if (strcmp (element_name, &#34;count-these&#34;) == 0)
      *     start_counting (context);
      * 
      *   // else, handle other tags...
@@ -255,12 +255,12 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * static void end_element (context, element_name, ...)
      * {
-     *   if (strcmp (element_name, "count-these") == 0)
-     *     g_print ("Counted %d tags\\n", end_counting (context));
+     *   if (strcmp (element_name, &#34;count-these&#34;) == 0)
+     *     g_print (&#34;Counted <code>d</code> tags\\n&#34;, end_counting (context));
      * 
      *   // else, handle other tags...
      * }
-     * ]|
+     * ]}|
      */
     public void push(MarkupParser parser, jdk.incubator.foreign.MemoryAddress userData) {
         gtk_h.g_markup_parse_context_push(handle(), parser.handle(), userData);

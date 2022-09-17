@@ -8,17 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkWindowGroup` makes group of windows behave like separate applications.
- * 
+ * <code>GtkWindowGroup</code> makes group of windows behave like separate applications.
+ * <p>
  * It achieves this by limiting the effect of GTK grabs and modality
  * to windows in the same group.
- * 
+ * <p>
  * A window can be a member in at most one window group at a time.
  * Windows that have not been explicitly assigned to a group are
  * implicitly treated like windows of the default window group.
- * 
- * `GtkWindowGroup` objects are referenced by each window in the group,
- * so once you have added all windows to a `GtkWindowGroup`, you can drop
+ * <p><code>GtkWindowGroup</code> objects are referenced by each window in the group,
+ * so once you have added all windows to a <code>GtkWindowGroup</code>, you can drop
  * the initial reference to the window group with g_object_unref(). If the
  * windows in the window group are subsequently destroyed, then they will
  * be removed from the window group and drop their references on the window
@@ -42,24 +41,24 @@ public class WindowGroup extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkWindowGroup` object.
-     * 
+     * Creates a new <code>GtkWindowGroup</code> object.
+     * <p>
      * Modality of windows only affects windows
-     * within the same `GtkWindowGroup`.
+     * within the same <code>GtkWindowGroup</code>.
      */
     public WindowGroup() {
         super(constructNew());
     }
     
     /**
-     * Adds a window to a `GtkWindowGroup`.
+     * Adds a window to a <code>GtkWindowGroup</code>.
      */
     public void addWindow(Window window) {
         gtk_h.gtk_window_group_add_window(handle(), window.handle());
     }
     
     /**
-     * Returns a list of the `GtkWindows` that belong to @window_group.
+     * Returns a list of the <code>GtkWindows</code> that belong to @window_group.
      */
     public org.gtk.glib.List listWindows() {
         var RESULT = gtk_h.gtk_window_group_list_windows(handle());
@@ -67,7 +66,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
     }
     
     /**
-     * Removes a window from a `GtkWindowGroup`.
+     * Removes a window from a <code>GtkWindowGroup</code>.
      */
     public void removeWindow(Window window) {
         gtk_h.gtk_window_group_remove_window(handle(), window.handle());

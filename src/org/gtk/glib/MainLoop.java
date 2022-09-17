@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GMainLoop` struct is an opaque data type
+ * The <code>GMainLoop</code> struct is an opaque data type
  * representing the main event loop of a GLib or GTK+ application.
  */
 public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
@@ -66,7 +66,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Runs a main loop until g_main_loop_quit() is called on the loop.
-     * If this is called for the thread of the loop's #GMainContext,
+     * If this is called for the thread of the loop&#39;s #GMainContext,
      * it will process events from the loop, otherwise it will
      * simply wait.
      */

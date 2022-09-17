@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A variant of `GtkClosureExpression` using a C closure.
+ * A variant of <code>GtkClosureExpression</code> using a C closure.
  */
 public class CClosureExpression extends Expression {
 
@@ -47,11 +47,10 @@ public class CClosureExpression extends Expression {
     }
     
     /**
-     * Creates a `GtkExpression` that calls `callback_func` when it is evaluated.
-     * 
-     * This function is a variant of [ctor@Gtk.ClosureExpression.new] that
-     * creates a `GClosure` by calling g_cclosure_new() with the given
-     * `callback_func`, `user_data` and `user_destroy`.
+     * Creates a <code>GtkExpression</code> that calls <code>callback_func</code> when it is evaluated.
+     * <p>
+     * This function is a variant of {@link [ctor@Gtk.ClosureExpression.new] (ref=ctor)} that
+     * creates a <code>GClosure</code> by calling g_cclosure_new() with the given<code>callback_func</code>, <code>user_data</code> and <code>user_destroy</code>.
      */
     public CClosureExpression(Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
         super(constructNew(valueType, marshal, nParams, params, callbackFunc, userDestroy));

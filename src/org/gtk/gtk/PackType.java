@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Represents the packing location of a children in its parent.
  * 
- * See [class@WindowControls] for example.
+ * See {@link [class@WindowControls]} for example.
  */
 public enum PackType {
 

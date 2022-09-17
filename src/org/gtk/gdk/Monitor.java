@@ -8,12 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkMonitor` objects represent the individual outputs that are
- * associated with a `GdkDisplay`.
- * 
- * `GdkDisplay` keeps a `GListModel` to enumerate and monitor
- * monitors with [method@Gdk.Display.get_monitors]. You can use
- * [method@Gdk.Display.get_monitor_at_surface] to find a particular
+ * <code>GdkMonitor</code> objects represent the individual outputs that are
+ * associated with a <code>GdkDisplay</code>.
+ * <p><code>GdkDisplay</code> keeps a <code>GListModel</code> to enumerate and monitor
+ * monitors with {@link org.gtk.gdk.Display#getMonitors}. You can use
+ * {@link org.gtk.gdk.Display#getMonitorAtSurface} to find a particular
  * monitor.
  */
 public class Monitor extends org.gtk.gobject.Object {
@@ -28,7 +27,7 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the name of the monitor's connector, if available.
+     * Gets the name of the monitor&#39;s connector, if available.
      */
     public java.lang.String getConnector() {
         var RESULT = gtk_h.gdk_monitor_get_connector(handle());
@@ -47,8 +46,8 @@ public class Monitor extends org.gtk.gobject.Object {
      * Retrieves the size and position of the monitor within the
      * display coordinate space.
      * 
-     * The returned geometry is in  ”application pixels”, not in
-     * ”device pixels” (see [method@Gdk.Monitor.get_scale_factor]).
+     * The returned geometry is in  &#8221;application pixels&#8221;, not in
+     * &#8221;device pixels&#8221; (see {@link org.gtk.gdk.Monitor#getScaleFactor}).
      */
     public void getGeometry(Rectangle geometry) {
         gtk_h.gdk_monitor_get_geometry(handle(), geometry.handle());
@@ -63,13 +62,13 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the name or PNP ID of the monitor's manufacturer.
+     * Gets the name or PNP ID of the monitor&#39;s manufacturer.
      * 
      * Note that this value might also vary depending on actual
      * display backend.
      * 
      * The PNP ID registry is located at
-     * [https://uefi.org/pnp_id_list](https://uefi.org/pnp_id_list).
+     * {@link [https://uefi.org/pnp_id_list]}(https://uefi.org/pnp_id_list).
      */
     public java.lang.String getManufacturer() {
         var RESULT = gtk_h.gdk_monitor_get_manufacturer(handle());
@@ -103,8 +102,8 @@ public class Monitor extends org.gtk.gobject.Object {
      * it can be a higher value (often 2).
      * 
      * This can be used if you want to create pixel based data for a
-     * particular monitor, but most of the time you’re drawing to a surface
-     * where it is better to use [method@Gdk.Surface.get_scale_factor] instead.
+     * particular monitor, but most of the time you&#8217;re drawing to a surface
+     * where it is better to use {@link org.gtk.gdk.Surface#getScaleFactor} instead.
      */
     public int getScaleFactor() {
         var RESULT = gtk_h.gdk_monitor_get_scale_factor(handle());
@@ -129,7 +128,7 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns %TRUE if the @monitor object corresponds to a
+     * Returns <code>true</code> if the @monitor object corresponds to a
      * physical monitor.
      * 
      * The @monitor becomes invalid when the physical monitor

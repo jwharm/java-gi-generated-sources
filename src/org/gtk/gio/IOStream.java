@@ -24,14 +24,14 @@ import java.lang.invoke.*;
  * way around, so keeping the substreams alive will not keep the #GIOStream
  * object alive. If the #GIOStream object is freed it will be closed, thus
  * closing the substreams, so even if the substreams stay alive they will
- * always return %G_IO_ERROR_CLOSED for all operations.
+ * always return {@link org.gtk.gio.IOErrorEnum#CLOSED} for all operations.
  * 
  * To close a stream use g_io_stream_close() which will close the common
  * stream object and also the individual substreams. You can also close
  * the substreams themselves. In most cases this only marks the
  * substream as closed, so further I/O on it fails but common state in the
  * #GIOStream may still be open. However, some streams may support
- * "half-closed" states where one direction of the stream is actually shut down.
+ * &#34;half-closed&#34; states where one direction of the stream is actually shut down.
  * 
  * Operations on #GIOStreams cannot be started while another operation on the
  * #GIOStream or its substreams is in progress. Specifically, an application can
@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  * (either in separate threads, or as asynchronous operations in the same
  * thread), but an application cannot start any #GIOStream operation while there
  * is a #GIOStream, #GInputStream or #GOutputStream operation in progress, and
- * an application can’t start any #GInputStream or #GOutputStream operation
+ * an application can&#8217;t start any #GInputStream or #GOutputStream operation
  * while there is a #GIOStream operation in progress.
  * 
  * This is a product of individual stream operations being associated with a
@@ -79,7 +79,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * closed.
      * 
      * Once the stream is closed, all other operations will return
-     * %G_IO_ERROR_CLOSED. Closing a stream multiple times will not
+     * <code>G_IO_ERROR_CLOSED.</code> Closing a stream multiple times will not
      * return an error.
      * 
      * Closing a stream will automatically flush any outstanding buffers
@@ -95,15 +95,15 @@ public class IOStream extends org.gtk.gobject.Object {
      * 
      * On failure the first error that happened will be reported, but the
      * close operation will finish as much as possible. A stream that failed
-     * to close will still return %G_IO_ERROR_CLOSED for all operations.
+     * to close will still return {@link org.gtk.gio.IOErrorEnum#CLOSED} for all operations.
      * Still, it is important to check and report the error to the user,
      * otherwise there might be a loss of data as all data might not be written.
      * 
      * If @cancellable is not NULL, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
      * Cancelling a close will still leave the stream closed, but some streams
-     * can use a faster close that doesn't block to e.g. check errors.
+     * can use a faster close that doesn&#39;t block to e.g. check errors.
      * 
      * The default implementation of this method just calls close on the
      * individual input/output streams.
@@ -191,7 +191,7 @@ public class IOStream extends org.gtk.gobject.Object {
     
     /**
      * Sets @stream to have actions pending. If the pending flag is
-     * already set or @stream is closed, it will return %FALSE and set
+     * already set or @stream is closed, it will return <code>false</code> and set
      * @error.
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {

@@ -8,19 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcut` describes a keyboard shortcut.
- * 
+ * A <code>GtkShortcut</code> describes a keyboard shortcut.
+ * <p>
  * It contains a description of how to trigger the shortcut via a
- * [class@Gtk.ShortcutTrigger] and a way to activate the shortcut
- * on a widget via a [class@Gtk.ShortcutAction].
- * 
- * The actual work is usually done via [class@Gtk.ShortcutController],
+ * {@link org.gtk.gtk.ShortcutTrigger} and a way to activate the shortcut
+ * on a widget via a {@link org.gtk.gtk.ShortcutAction}.
+ * <p>
+ * The actual work is usually done via {@link org.gtk.gtk.ShortcutController},
  * which decides if and when to activate a shortcut. Using that controller
  * directly however is rarely necessary as various higher level
- * convenience APIs exist on `GtkWidget`s that make it easier to use
+ * convenience APIs exist on <code>GtkWidget</code>s that make it easier to use
  * shortcuts in GTK.
- * 
- * `GtkShortcut` does provide functionality to make it easy for users
+ * <p><code>GtkShortcut</code> does provide functionality to make it easy for users
  * to work with shortcuts, either by providing informational strings
  * for display purposes or by allowing shortcuts to be configured.
  */
@@ -41,7 +40,7 @@ public class Shortcut extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkShortcut` that is triggered by
+     * Creates a new <code>GtkShortcut</code> that is triggered by
      * @trigger and then activates @action.
      */
     public Shortcut(ShortcutTrigger trigger, ShortcutAction action) {

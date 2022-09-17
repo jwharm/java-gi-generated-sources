@@ -10,30 +10,28 @@ import java.lang.invoke.*;
 /**
  * A singleton object that offers notification when displays appear or
  * disappear.
- * 
- * You can use [func@Gdk.DisplayManager.get] to obtain the `GdkDisplayManager`
+ * <p>
+ * You can use {@link Gdk#DisplayManager} to obtain the <code>GdkDisplayManager</code>
  * singleton, but that should be rarely necessary. Typically, initializing
- * GTK opens a display that you can work with without ever accessing the
- * `GdkDisplayManager`.
- * 
+ * GTK opens a display that you can work with without ever accessing the<code>GdkDisplayManager</code>.
+ * <p>
  * The GDK library can be built with support for multiple backends.
- * The `GdkDisplayManager` object determines which backend is used
+ * The <code>GdkDisplayManager</code> object determines which backend is used
  * at runtime.
- * 
+ * <p>
  * In the rare case that you need to influence which of the backends
- * is being used, you can use [func@Gdk.set_allowed_backends]. Note
+ * is being used, you can use {@link Gdk#setAllowedBackends}. Note
  * that you need to call this function before initializing GTK.
- * 
- * ## Backend-specific code
- * 
+ * <p>
+ * <h2>Backend-specific code</h2>
+ * <p>
  * When writing backend-specific code that is supposed to work with
  * multiple GDK backends, you have to consider both compile time and
- * runtime. At compile time, use the `GDK_WINDOWING_X11`, `GDK_WINDOWING_WIN32`
+ * runtime. At compile time, use the <code>GDK_WINDOWING_X11</code>, <code>GDK_WINDOWING_WIN32</code>
  * macros, etc. to find out which backends are present in the GDK library
  * you are building your application against. At runtime, use type-check
  * macros like GDK_IS_X11_DISPLAY() to find out which backend is in use:
- * 
- * ```c
+ * <p><pre>c
  * #ifdef GDK_WINDOWING_X11
  *   if (GDK_IS_X11_DISPLAY (display))
  *     {
@@ -48,8 +46,8 @@ import java.lang.invoke.*;
  *     }
  *   else
  * #endif
- *   g_error ("Unsupported GDK backend");
- * ```
+ *   g_error (&#34;Unsupported GDK backend&#34;);
+ * </pre>
  */
 public class DisplayManager extends org.gtk.gobject.Object {
 
@@ -63,7 +61,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default `GdkDisplay`.
+     * Gets the default <code>GdkDisplay</code>.
      */
     public Display getDefaultDisplay() {
         var RESULT = gtk_h.gdk_display_manager_get_default_display(handle());
@@ -94,14 +92,13 @@ public class DisplayManager extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the singleton `GdkDisplayManager` object.
-     * 
-     * When called for the first time, this function consults the
-     * `GDK_BACKEND` environment variable to find out which of the
+     * Gets the singleton <code>GdkDisplayManager</code> object.
+     * <p>
+     * When called for the first time, this function consults the<code>GDK_BACKEND</code> environment variable to find out which of the
      * supported GDK backends to use (in case GDK has been compiled
      * with multiple backends).
      * 
-     * Applications can use [func@set_allowed_backends] to limit what
+     * Applications can use {@link [func@set_allowed_backends]} to limit what
      * backends wil be used.
      */
     public static DisplayManager get() {

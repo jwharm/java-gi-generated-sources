@@ -32,11 +32,12 @@ public class Resolver extends org.gtk.gobject.Object {
      * Synchronously reverse-resolves @address to determine its
      * associated hostname.
      * 
-     * If the DNS resolution fails, @error (if non-%NULL) will be set to
+     * If the DNS resolution fails, @error (if non-<code>NULL)</code> will be set to
      * a value from #GResolverError.
      * 
-     * If @cancellable is non-%NULL, it can be used to cancel the
-     * operation, in which case @error (if non-%NULL) will be set to
+     * If @cancellable is non-<code>NULL,</code> it can be used to cancel the
+     * operation, in which case @error (if non-<code>NULL)</code> will be set to
+     * will be set to
      * %G_IO_ERROR_CANCELLED.
      */
     public java.lang.String lookupByAddress(InetAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -71,7 +72,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * Retrieves the result of a previous call to
      * g_resolver_lookup_by_address_async().
      * 
-     * If the DNS resolution failed, @error (if non-%NULL) will be set to
+     * If the DNS resolution failed, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError. If the operation was cancelled,
+     * @error will be set to will be set to
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
@@ -98,14 +101,14 @@ public class Resolver extends org.gtk.gobject.Object {
      * the result to listen on a socket, it is appropriate to add each
      * result using e.g. g_socket_listener_add_address().
      * 
-     * If the DNS resolution fails, @error (if non-%NULL) will be set to a
-     * value from #GResolverError and %NULL will be returned.
+     * If the DNS resolution fails, @error (if non-<code>NULL)</code> will be set to a
+     * value from #GResolverError and <code>null</code> will be returned.
      * 
-     * If @cancellable is non-%NULL, it can be used to cancel the
-     * operation, in which case @error (if non-%NULL) will be set to
-     * %G_IO_ERROR_CANCELLED.
+     * If @cancellable is non-<code>NULL,</code> it can be used to cancel the
+     * operation, in which case @error (if non-<code>NULL)</code> will be set to
+     * <code>G_IO_ERROR_CANCELLED.
      * 
-     * If you are planning to connect to a socket on the resolved IP
+     * If</code> you are planning to connect to a socket on the resolved IP
      * address, it may be easier to create a #GNetworkAddress and use its
      * #GSocketConnectable interface.
      */
@@ -142,7 +145,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * Retrieves the result of a call to
      * g_resolver_lookup_by_name_async().
      * 
-     * If the DNS resolution failed, @error (if non-%NULL) will be set to
+     * If the DNS resolution failed, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError. If the operation was cancelled,
+     * @error will be set to will be set to
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
@@ -157,6 +162,14 @@ public class Resolver extends org.gtk.gobject.Object {
     
     /**
      * This differs from g_resolver_lookup_by_name() in that you can modify
+     * the lookup behavior with @flags. For example this can be used to limit
+     * results with 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         This differs from g_resolver_lookup_by_name() in that you can modify
      * the lookup behavior with @flags. For example this can be used to limit
      * results with %G_RESOLVER_NAME_LOOKUP_FLAGS_IPV4_ONLY.
      */
@@ -193,7 +206,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * Retrieves the result of a call to
      * g_resolver_lookup_by_name_with_flags_async().
      * 
-     * If the DNS resolution failed, @error (if non-%NULL) will be set to
+     * If the DNS resolution failed, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError. If the operation was cancelled,
+     * @error will be set to will be set to
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
@@ -211,11 +226,12 @@ public class Resolver extends org.gtk.gobject.Object {
      * a list of records as #GVariant tuples. See #GResolverRecordType for
      * information on what the records contain for each @record_type.
      * 
-     * If the DNS resolution fails, @error (if non-%NULL) will be set to
-     * a value from #GResolverError and %NULL will be returned.
+     * If the DNS resolution fails, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError and <code>null</code> will be returned.
      * 
-     * If @cancellable is non-%NULL, it can be used to cancel the
-     * operation, in which case @error (if non-%NULL) will be set to
+     * If @cancellable is non-<code>NULL,</code> it can be used to cancel the
+     * operation, in which case @error (if non-<code>NULL)</code> will be set to
+     * will be set to
      * %G_IO_ERROR_CANCELLED.
      */
     public org.gtk.glib.List lookupRecords(java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -253,7 +269,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * #GVariant tuples. See #GResolverRecordType for information on what the
      * records contain.
      * 
-     * If the DNS resolution failed, @error (if non-%NULL) will be set to
+     * If the DNS resolution failed, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError. If the operation was cancelled,
+     * @error will be set to will be set to
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
@@ -278,14 +296,14 @@ public class Resolver extends org.gtk.gobject.Object {
      * attempt to connect to the first target first, then the second if
      * the first fails, etc.)
      * 
-     * If the DNS resolution fails, @error (if non-%NULL) will be set to
-     * a value from #GResolverError and %NULL will be returned.
+     * If the DNS resolution fails, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError and <code>null</code> will be returned.
      * 
-     * If @cancellable is non-%NULL, it can be used to cancel the
-     * operation, in which case @error (if non-%NULL) will be set to
-     * %G_IO_ERROR_CANCELLED.
+     * If @cancellable is non-<code>NULL,</code> it can be used to cancel the
+     * operation, in which case @error (if non-<code>NULL)</code> will be set to
+     * <code>G_IO_ERROR_CANCELLED.
      * 
-     * If you are planning to connect to the service, it is usually easier
+     * If</code> you are planning to connect to the service, it is usually easier
      * to create a #GNetworkService and use its #GSocketConnectable
      * interface.
      */
@@ -323,7 +341,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * Retrieves the result of a previous call to
      * g_resolver_lookup_service_async().
      * 
-     * If the DNS resolution failed, @error (if non-%NULL) will be set to
+     * If the DNS resolution failed, @error (if non-<code>NULL)</code> will be set to
+     * a value from #GResolverError. If the operation was cancelled,
+     * @error will be set to will be set to
      * a value from #GResolverError. If the operation was cancelled,
      * @error will be set to %G_IO_ERROR_CANCELLED.
      */
@@ -337,12 +357,12 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @resolver to be the application's default resolver (reffing
+     * Sets @resolver to be the application&#39;s default resolver (reffing
      * @resolver, and unreffing the previous default resolver, if any).
      * Future calls to g_resolver_get_default() will return this resolver.
      * 
      * This can be used if an application wants to perform any sort of DNS
-     * caching or "pinning"; it can implement its own #GResolver that
+     * caching or &#34;pinning&#34;; it can implement its own #GResolver that
      * calls the original default resolver for DNS operations, and
      * implements its own cache policies on top of that, and then set
      * itself as the default resolver for all later code to use.

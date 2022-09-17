@@ -9,35 +9,33 @@ import java.lang.invoke.*;
 
 /**
  * Incremental image loader.
- * 
- * `GdkPixbufLoader` provides a way for applications to drive the
+ * <p><code>GdkPixbufLoader</code> provides a way for applications to drive the
  * process of loading an image, by letting them send the image data
  * directly to the loader instead of having the loader read the data
- * from a file. Applications can use this functionality instead of
- * `gdk_pixbuf_new_from_file()` or `gdk_pixbuf_animation_new_from_file()`
+ * from a file. Applications can use this functionality instead of<code>gdk_pixbuf_new_from_file()</code> or <code>gdk_pixbuf_animation_new_from_file()</code>
  * when they need to parse image data in small chunks. For example,
  * it should be used when reading an image from a (potentially) slow
  * network connection, or when loading an extremely large file.
- * 
- * To use `GdkPixbufLoader` to load an image, create a new instance,
- * and call [method@GdkPixbuf.PixbufLoader.write] to send the data
- * to it. When done, [method@GdkPixbuf.PixbufLoader.close] should be
+ * <p>
+ * To use <code>GdkPixbufLoader</code> to load an image, create a new instance,
+ * and call {@link org.gtk.gdkpixbuf.PixbufLoader#write} to send the data
+ * to it. When done, {@link org.gtk.gdkpixbuf.PixbufLoader#close} should be
  * called to end the stream and finalize everything.
- * 
+ * <p>
  * The loader will emit three important signals throughout the process:
- * 
- *  - [signal@GdkPixbuf.PixbufLoader::size-prepared] will be emitted as
+ * <p>
+ *  - {@link [signal@GdkPixbuf.PixbufLoader::size-prepared] (ref=signal)} will be emitted as
  *    soon as the image has enough information to determine the size of
  *    the image to be used. If you want to scale the image while loading
- *    it, you can call [method@GdkPixbuf.PixbufLoader.set_size] in
+ *    it, you can call {@link org.gtk.gdkpixbuf.PixbufLoader#setSize} in
  *    response to this signal.
- *  - [signal@GdkPixbuf.PixbufLoader::area-prepared] will be emitted as
+ *  - {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} will be emitted as
  *    soon as the pixbuf of the desired has been allocated. You can obtain
- *    the `GdkPixbuf` instance by calling [method@GdkPixbuf.PixbufLoader.get_pixbuf].
+ *    the <code>GdkPixbuf</code> instance by calling {@link org.gtk.gdkpixbuf.PixbufLoader#getPixbuf}.
  *    If you want to use it, simply acquire a reference to it. You can
- *    also call `gdk_pixbuf_loader_get_pixbuf()` later to get the same
+ *    also call <code>gdk_pixbuf_loader_get_pixbuf()</code> later to get the same
  *    pixbuf.
- *  - [signal@GdkPixbuf.PixbufLoader::area-updated] will be emitted every
+ *  - {@link [signal@GdkPixbuf.PixbufLoader::area-updated] (ref=signal)} will be emitted every
  *    time a region is updated. This way you can update a partially
  *    completed image. Note that you do not know anything about the
  *    completeness of an image from the updated area. For example, in an
@@ -47,11 +45,11 @@ import java.lang.invoke.*;
  * ## Loading an animation
  * 
  * Loading an animation is almost as easy as loading an image. Once the
- * first [signal@GdkPixbuf.PixbufLoader::area-prepared] signal has been
- * emitted, you can call [method@GdkPixbuf.PixbufLoader.get_animation] to
- * get the [class@GdkPixbuf.PixbufAnimation] instance, and then call
- * and [method@GdkPixbuf.PixbufAnimation.get_iter] to get a
- * [class@GdkPixbuf.PixbufAnimationIter] to retrieve the pixbuf for the
+ * first {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been
+ * emitted, you can call {@link org.gtk.gdkpixbuf.PixbufLoader#getAnimation} to
+ * get the {@link org.gtk.gdkpixbuf.PixbufAnimation} instance, and then call
+ * and {@link org.gtk.gdkpixbuf.PixbufAnimation#getIter} to get a
+ * {@link org.gtk.gdkpixbuf.PixbufAnimationIter} to retrieve the pixbuf for the
  * desired time stamp.
  */
 public class PixbufLoader extends org.gtk.gobject.Object {
@@ -91,14 +89,14 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * image data as if it were an image of MIME type @mime_type, instead of
      * identifying the type automatically.
      * 
-     * This function is useful if you want an error if the image isn't the
-     * expected MIME type; for loading image formats that can't be reliably
+     * This function is useful if you want an error if the image isn&#39;t the
+     * expected MIME type; for loading image formats that can&#39;t be reliably
      * identified by looking at the data; or if the user manually forces a
      * specific MIME type.
      * 
      * The list of supported mime types depends on what image loaders
-     * are installed, but typically "image/png", "image/jpeg", "image/gif",
-     * "image/tiff" and "image/x-xpixmap" are among the supported mime types.
+     * are installed, but typically &#34;image/png&#34;, &#34;image/jpeg&#34;, &#34;image/gif&#34;,
+     * &#34;image/tiff&#34; and &#34;image/x-xpixmap&#34; are among the supported mime types.
      * To obtain the full list of supported mime types, call
      * gdk_pixbuf_format_get_mime_types() on each of the #GdkPixbufFormat
      * structs returned by gdk_pixbuf_get_formats().
@@ -121,14 +119,14 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * image data as if it were an image of type @image_type, instead of
      * identifying the type automatically.
      * 
-     * This function is useful if you want an error if the image isn't the
-     * expected type; for loading image formats that can't be reliably
+     * This function is useful if you want an error if the image isn&#39;t the
+     * expected type; for loading image formats that can&#39;t be reliably
      * identified by looking at the data; or if the user manually forces
      * a specific type.
      * 
      * The list of supported image formats depends on what image loaders
-     * are installed, but typically "png", "jpeg", "gif", "tiff" and
-     * "xpm" are among the supported formats. To obtain the full list of
+     * are installed, but typically &#34;png&#34;, &#34;jpeg&#34;, &#34;gif&#34;, &#34;tiff&#34; and
+     * &#34;xpm&#34; are among the supported formats. To obtain the full list of
      * supported image formats, call gdk_pixbuf_format_get_name() on each
      * of the #GdkPixbufFormat structs returned by gdk_pixbuf_get_formats().
      */
@@ -140,15 +138,14 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * Informs a pixbuf loader that no further writes with
      * gdk_pixbuf_loader_write() will occur, so that it can free its
      * internal loading structures.
-     * 
-     * This function also tries to parse any data that hasn't yet been parsed;
+     * <p>
+     * This function also tries to parse any data that hasn&#39;t yet been parsed;
      * if the remaining data is partial or corrupt, an error will be returned.
-     * 
-     * If `FALSE` is returned, `error` will be set to an error from the
-     * `GDK_PIXBUF_ERROR` or `G_FILE_ERROR` domains.
-     * 
-     * If you're just cancelling a load rather than expecting it to be finished,
-     * passing `NULL` for `error` to ignore it is reasonable.
+     * <p>
+     * If <code>FALSE</code> is returned, <code>error</code> will be set to an error from the<code>GDK_PIXBUF_ERROR</code> or <code>G_FILE_ERROR</code> domains.
+     * <p>
+     * If you&#39;re just cancelling a load rather than expecting it to be finished,
+     * passing <code>NULL</code> for <code>error</code> to ignore it is reasonable.
      * 
      * Remember that this function does not release a reference on the loader, so
      * you will need to explicitly release any reference you hold.
@@ -164,13 +161,13 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     /**
      * Queries the #GdkPixbufAnimation that a pixbuf loader is currently creating.
-     * 
+     * <p>
      * In general it only makes sense to call this function after the
-     * [signal@GdkPixbuf.PixbufLoader::area-prepared] signal has been emitted by
+     * {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been emitted by
      * the loader.
-     * 
-     * If the loader doesn't have enough bytes yet, and hasn't emitted the `area-prepared`
-     * signal, this function will return `NULL`.
+     * <p>
+     * If the loader doesn&#39;t have enough bytes yet, and hasn&#39;t emitted the <code>area-prepared</code>
+     * signal, this function will return <code>NULL</code>.
      */
     public PixbufAnimation getAnimation() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_animation(handle());
@@ -188,20 +185,20 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     
     /**
      * Queries the #GdkPixbuf that a pixbuf loader is currently creating.
-     * 
+     * <p>
      * In general it only makes sense to call this function after the
-     * [signal@GdkPixbuf.PixbufLoader::area-prepared] signal has been
+     * {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been
      * emitted by the loader; this means that enough data has been read
      * to know the size of the image that will be allocated.
-     * 
+     * <p>
      * If the loader has not received enough data via gdk_pixbuf_loader_write(),
-     * then this function returns `NULL`.
+     * then this function returns <code>NULL</code>.
      * 
      * The returned pixbuf will be the same in all future calls to the loader,
      * so if you want to keep using it, you should acquire a reference to it.
      * 
-     * Additionally, if the loader is an animation, it will return the "static
-     * image" of the animation (see gdk_pixbuf_animation_get_static_image()).
+     * Additionally, if the loader is an animation, it will return the &#34;static
+     * image&#34; of the animation (see gdk_pixbuf_animation_get_static_image()).
      */
     public Pixbuf getPixbuf() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_pixbuf(handle());
@@ -223,7 +220,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses the next `count` bytes in the given image buffer.
+     * Parses the next <code>count</code> bytes in the given image buffer.
      */
     public boolean write(byte[] buf, long count) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

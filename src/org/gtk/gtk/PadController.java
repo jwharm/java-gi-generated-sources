@@ -8,53 +8,52 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkPadController` is an event controller for the pads found in drawing
+ * <code>GtkPadController</code> is an event controller for the pads found in drawing
  * tablets.
- * 
+ * <p>
  * Pads are the collection of buttons and tactile sensors often found around
  * the stylus-sensitive area.
- * 
+ * <p>
  * These buttons and sensors have no implicit meaning, and by default they
- * perform no action. `GtkPadController` is provided to map those to
- * [iface@Gio.Action] objects, thus letting the application give them a more
+ * perform no action. <code>GtkPadController</code> is provided to map those to
+ * {@link [iface@Gio.Action] (ref=iface)} objects, thus letting the application give them a more
  * semantic meaning.
- * 
+ * <p>
  * Buttons and sensors are not constrained to triggering a single action,
- * some %GDK_SOURCE_TABLET_PAD devices feature multiple "modes". All these
+ * some {@link org.gtk.gdk.InputSource#TABLET_PAD} devices feature multiple &#34;modes&#34;. All these
  * input elements have one current mode, which may determine the final action
  * being triggered.
- * 
+ * <p>
  * Pad devices often divide buttons and sensors into groups. All elements
  * in a group share the same current mode, but different groups may have
- * different modes. See [method@Gdk.DevicePad.get_n_groups] and
- * [method@Gdk.DevicePad.get_group_n_modes].
- * 
+ * different modes. See {@link org.gtk.gdk.DevicePad#getNGroups} and
+ * {@link org.gtk.gdk.DevicePad#getGroupNModes}.
+ * <p>
  * Each of the actions that a given button/strip/ring performs for a given mode
- * is defined by a [struct@Gtk.PadActionEntry]. It contains an action name that
- * will be looked up in the given [iface@Gio.ActionGroup] and activated whenever
+ * is defined by a {@link [struct@Gtk.PadActionEntry] (ref=struct)}. It contains an action name that
+ * will be looked up in the given {@link [iface@Gio.ActionGroup] (ref=iface)} and activated whenever
  * the specified input element and mode are triggered.
- * 
- * A simple example of `GtkPadController` usage: Assigning button 1 in all
- * modes and pad devices to an "invert-selection" action:
- * 
- * ```c
- * GtkPadActionEntry *pad_actions[] = {
- *   { GTK_PAD_ACTION_BUTTON, 1, -1, "Invert selection", "pad-actions.invert-selection" },
- *   …
+ * <p>
+ * A simple example of <code>GtkPadController</code> usage: Assigning button 1 in all
+ * modes and pad devices to an &#34;invert-selection&#34; action:
+ * <p><pre>c
+ * GtkPadActionEntry *pad_actions{@link []} = {
+ *   { GTK_PAD_ACTION_BUTTON, 1, -1, &#34;Invert selection&#34;, &#34;pad-actions.invert-selection&#34; },
+ *   &#8230;
  * };
- * 
- * …
+ * <p>
+ * &#8230;
  * action_group = g_simple_action_group_new ();
- * action = g_simple_action_new ("pad-actions.invert-selection", NULL);
- * g_signal_connect (action, "activate", on_invert_selection_activated, NULL);
+ * action = g_simple_action_new (&#34;pad-actions.invert-selection&#34;, NULL);
+ * g_signal_connect (action, &#34;activate&#34;, on_invert_selection_activated, NULL);
  * g_action_map_add_action (G_ACTION_MAP (action_group), action);
- * …
+ * &#8230;
  * pad_controller = gtk_pad_controller_new (action_group, NULL);
- * ```
- * 
+ * </pre>
+ * <p>
  * The actions belonging to rings/strips will be activated with a parameter
- * of type %G_VARIANT_TYPE_DOUBLE bearing the value of the given axis, it
- * is required that those are made stateful and accepting this `GVariantType`.
+ * of type <code>G_VARIANT_TYPE_DOUBLE</code> bearing the value of the given axis, it
+ * is required that those are made stateful and accepting this <code>GVariantType</code>.
  */
 public class PadController extends EventController {
 
@@ -73,19 +72,19 @@ public class PadController extends EventController {
     }
     
     /**
-     * Creates a new `GtkPadController` that will associate events from @pad to
+     * Creates a new <code>GtkPadController</code> that will associate events from @pad to
      * actions.
-     * 
-     * A %NULL pad may be provided so the controller manages all pad devices
-     * generically, it is discouraged to mix `GtkPadController` objects with
-     * %NULL and non-%NULL @pad argument on the same toplevel window, as execution
+     * <p>
+     * A <code>null</code> pad may be provided so the controller manages all pad devices
+     * generically, it is discouraged to mix <code>GtkPadController</code> objects with
+     * <code>null</code> and non-<code>null</code> @pad argument on the same toplevel window, as execution
      * order is not guaranteed.
-     * 
-     * The `GtkPadController` is created with no mapped actions. In order to
-     * map pad events to actions, use [method@Gtk.PadController.set_action_entries]
-     * or [method@Gtk.PadController.set_action].
-     * 
-     * Be aware that pad events will only be delivered to `GtkWindow`s, so adding
+     * <p>
+     * The <code>GtkPadController</code> is created with no mapped actions. In order to
+     * map pad events to actions, use {@link org.gtk.gtk.PadController#setActionEntries}
+     * or {@link org.gtk.gtk.PadController#setAction}.
+     * <p>
+     * Be aware that pad events will only be delivered to <code>GtkWindow</code>s, so adding
      * a pad controller to any other type of widget will not have an effect.
      */
     public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
@@ -111,7 +110,7 @@ public class PadController extends EventController {
      * A convenience function to add a group of action entries on
      * @controller.
      * 
-     * See [struct@Gtk.PadActionEntry] and [method@Gtk.PadController.set_action].
+     * See {@link [struct@Gtk.PadActionEntry] (ref=struct)} and {@link org.gtk.gtk.PadController#setAction}.
      */
     public void setActionEntries(PadActionEntry[] entries, int nEntries) {
         gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);

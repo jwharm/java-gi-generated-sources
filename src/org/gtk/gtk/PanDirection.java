@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes the panning direction of a [class@GesturePan].
+ * Describes the panning direction of a {@link [class@GesturePan]}.
  */
 public enum PanDirection {
 

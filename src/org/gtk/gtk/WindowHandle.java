@@ -8,18 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkWindowHandle` is a titlebar area widget.
- * 
+ * <code>GtkWindowHandle</code> is a titlebar area widget.
+ * <p>
  * When added into a window, it can be dragged to move the window, and handles
  * right click, double click and middle click as expected of a titlebar.
- * 
- * # CSS nodes
- * 
- * `GtkWindowHandle` has a single CSS node with the name `windowhandle`.
- * 
- * # Accessibility
- * 
- * `GtkWindowHandle` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkWindowHandle</code> has a single CSS node with the name <code>windowhandle</code>.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkWindowHandle</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
  */
 public class WindowHandle extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -38,7 +36,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new `GtkWindowHandle`.
+     * Creates a new <code>GtkWindowHandle</code>.
      */
     public WindowHandle() {
         super(constructNew());

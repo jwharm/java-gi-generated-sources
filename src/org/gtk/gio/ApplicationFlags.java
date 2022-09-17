@@ -19,7 +19,7 @@ public class ApplicationFlags {
     public static final int IS_SERVICE = 1;
     
     /**
-     * Don't try to become the primary instance.
+     * Don&#39;t try to become the primary instance.
      */
     public static final int IS_LAUNCHER = 2;
     
@@ -27,7 +27,7 @@ public class ApplicationFlags {
      * This application handles opening files (in
      *     the primary instance). Note that this flag only affects the default
      *     implementation of local_command_line(), and has no effect if
-     *     %G_APPLICATION_HANDLES_COMMAND_LINE is given.
+     *     {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is given.
      *     See g_application_run() for details.
      */
     public static final int HANDLES_OPEN = 4;
@@ -45,7 +45,7 @@ public class ApplicationFlags {
      *     launching process to the primary instance. Set this flag if your
      *     application is expected to behave differently depending on certain
      *     environment variables. For instance, an editor might be expected
-     *     to use the `GIT_COMMITTER_NAME` environment variable
+     *     to use the <code>GIT_COMMITTER_NAME</code> environment variable
      *     when editing a git commit message. The environment is available
      *     to the #GApplication::command-line signal handler, via
      *     g_application_command_line_getenv().
@@ -64,7 +64,7 @@ public class ApplicationFlags {
     
     /**
      * Allow users to override the
-     *     application ID from the command line with `--gapplication-app-id`.
+     *     application ID from the command line with <code>--gapplication-app-id</code>.
      *     Since: 2.48
      */
     public static final int CAN_OVERRIDE_APP_ID = 64;
@@ -77,7 +77,7 @@ public class ApplicationFlags {
     
     /**
      * Take over from another instance. This flag is
-     *     usually set by passing `--gapplication-replace` on the commandline.
+     *     usually set by passing <code>--gapplication-replace</code> on the commandline.
      *     Since: 2.60
      */
     public static final int REPLACE = 256;

@@ -14,7 +14,7 @@ public class MarkupParseFlags {
      * When this flag is set, CDATA marked
      *     sections are not passed literally to the @passthrough function of
      *     the parser. Instead, the content of the section (without the
-     *     `<![CDATA[` and `]]>`) is
+     *     <code>&#60;!{@link [CDATA[</code> and <code>]}]&#62;</code>) is
      *     passed to the @text function. This flag was added in GLib 2.12
      */
     public static final int TREAT_CDATA_AS_TEXT = 2;
@@ -29,9 +29,9 @@ public class MarkupParseFlags {
     public static final int PREFIX_ERROR_POSITION = 4;
     
     /**
-     * Ignore (don't report) qualified
+     * Ignore (don&#39;t report) qualified
      *     attributes and tags, along with their contents.  A qualified
-     *     attribute or tag is one that contains ':' in its name (ie: is in
+     *     attribute or tag is one that contains &#39;:&#39; in its name (ie: is in
      *     another namespace).  Since: 2.40.
      */
     public static final int IGNORE_QUALIFIED = 8;

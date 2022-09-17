@@ -1,13 +1,13 @@
 package org.harfbuzz;
 
 /**
- * Defined by [OpenType Design-Variation Axis Tag Registry](https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg).
+ * Defined by {@link [OpenType Design-Variation Axis Tag Registry]}(https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg).
  */
 public enum StyleTagT {
 
     /**
      * Used to vary between non-italic and italic.
-     * A value of 0 can be interpreted as "Roman" (non-italic); a value of 1 can
+     * A value of 0 can be interpreted as &#34;Roman&#34; (non-italic); a value of 1 can
      * be interpreted as (fully) italic.
      */
     ITALIC,
@@ -36,7 +36,7 @@ public enum StyleTagT {
     /**
      * Used to vary width of text from narrower to wider.
      * Non-zero. Values can be interpreted as a percentage of whatever the font
-     * designer considers “normal width” for that font design.
+     * designer considers &#8220;normal width&#8221; for that font design.
      */
     WIDTH,
     

@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkPrinter` object represents a printer.
- * 
+ * A <code>GtkPrinter</code> object represents a printer.
+ * <p>
  * You only need to deal directly with printers if you use the
- * non-portable [class@Gtk.PrintUnixDialog] API.
- * 
- * A `GtkPrinter` allows to get status information about the printer,
+ * non-portable {@link org.gtk.gtk.PrintUnixDialog} API.
+ * <p>
+ * A <code>GtkPrinter</code> allows to get status information about the printer,
  * such as its description, its location, the number of queued jobs,
- * etc. Most importantly, a `GtkPrinter` object can be used to create
- * a [class@Gtk.PrintJob] object, which lets you print to the printer.
+ * etc. Most importantly, a <code>GtkPrinter</code> object can be used to create
+ * a {@link org.gtk.gtk.PrintJob} object, which lets you print to the printer.
  */
 public class Printer extends org.gtk.gobject.Object {
 
@@ -35,7 +35,7 @@ public class Printer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkPrinter`.
+     * Creates a new <code>GtkPrinter</code>.
      */
     public Printer(java.lang.String name, PrintBackend backend, boolean virtual) {
         super(constructNew(name, backend, virtual));
@@ -76,15 +76,15 @@ public class Printer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the printer’s capabilities.
-     * 
-     * This is useful when you’re using `GtkPrintUnixDialog`’s
+     * Returns the printer&#8217;s capabilities.
+     * <p>
+     * This is useful when you&#8217;re using <code>GtkPrintUnixDialog</code>&#8217;s
      * manual-capabilities setting and need to know which settings
      * the printer can handle and which you must handle yourself.
      * 
-     * This will return 0 unless the printer’s details are
-     * available, see [method@Gtk.Printer.has_details] and
-     * [method@Gtk.Printer.request_details].
+     * This will return 0 unless the printer&#8217;s details are
+     * available, see {@link org.gtk.gtk.Printer#hasDetails} and
+     * {@link org.gtk.gtk.Printer#requestDetails}.
      */
     public int getCapabilities() {
         var RESULT = gtk_h.gtk_printer_get_capabilities(handle());
@@ -205,9 +205,9 @@ public class Printer extends org.gtk.gobject.Object {
     /**
      * Lists all the paper sizes @printer supports.
      * 
-     * This will return and empty list unless the printer’s details
-     * are available, see [method@Gtk.Printer.has_details] and
-     * [method@Gtk.Printer.request_details].
+     * This will return and empty list unless the printer&#8217;s details
+     * are available, see {@link org.gtk.gtk.Printer#hasDetails} and
+     * {@link org.gtk.gtk.Printer#requestDetails}.
      */
     public org.gtk.glib.List listPapers() {
         var RESULT = gtk_h.gtk_printer_list_papers(handle());
@@ -218,7 +218,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Requests the printer details.
      * 
      * When the details are available, the
-     * [signal@Gtk.Printer::details-acquired] signal
+     * {@link [signal@Gtk.Printer::details-acquired] (ref=signal)} signal
      * will be emitted on @printer.
      */
     public void requestDetails() {

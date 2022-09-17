@@ -51,7 +51,7 @@ public class SocketConnection extends IOStream {
     /**
      * Asynchronously connect @connection to the specified remote address.
      * 
-     * This clears the #GSocket:blocking flag on @connection's underlying
+     * This clears the #GSocket:blocking flag on @connection&#39;s underlying
      * socket if it is currently set.
      * 
      * Use g_socket_connection_connect_finish() to retrieve the result.
@@ -99,10 +99,10 @@ public class SocketConnection extends IOStream {
      * 
      * Since GLib 2.40, when used with g_socket_client_connect() or
      * g_socket_client_connect_async(), during emission of
-     * %G_SOCKET_CLIENT_CONNECTING, this function will return the remote
+     * <code>G_SOCKET_CLIENT_CONNECTING,</code> this function will return the remote
      * address that will be used for the connection.  This allows
-     * applications to print e.g. "Connecting to example.com
-     * (10.42.77.3)...".
+     * applications to print e.g. &#34;Connecting to example.com
+     * (10.42.77.3)...&#34;.
      */
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -125,7 +125,7 @@ public class SocketConnection extends IOStream {
     
     /**
      * Checks if @connection is connected. This is equivalent to calling
-     * g_socket_is_connected() on @connection's underlying #GSocket.
+     * g_socket_is_connected() on @connection&#39;s underlying #GSocket.
      */
     public boolean isConnected() {
         var RESULT = gtk_h.g_socket_connection_is_connected(handle());

@@ -16,10 +16,10 @@ import java.lang.invoke.*;
  * can also be used for taking existing dictionaries and modifying them
  * in order to create new ones.
  * 
- * #GVariantDict can only be used with %G_VARIANT_TYPE_VARDICT
+ * #GVariantDict can only be used with <code>G_VARIANT_TYPE_VARDICT
  * dictionaries.
  * 
- * It is possible to use #GVariantDict allocated on the stack or on the
+ * It</code> is possible to use #GVariantDict allocated on the stack or on the
  * heap.  When using a stack-allocated #GVariantDict, you begin with a
  * call to g_variant_dict_init() and free the resources with a call to
  * g_variant_dict_clear().
@@ -39,14 +39,14 @@ import java.lang.invoke.*;
  * stack-allocated form will be more convenient.
  * 
  * Consider the following two examples that do the same thing in each
- * style: take an existing dictionary and look up the "count" uint32
+ * style: take an existing dictionary and look up the &#34;count&#34; uint32
  * key, adding 1 to it if it is found, or returning an error if the
  * key is not found.  Each returns the new dictionary as a floating
  * #GVariant.
  * 
  * ## Using a stack-allocated GVariantDict
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   GVariant *
  *   add_to_count (GVariant  *orig,
  *                 GError   **error)
@@ -54,23 +54,23 @@ import java.lang.invoke.*;
  *     GVariantDict dict;
  *     guint32 count;
  * 
- *     g_variant_dict_init (&dict, orig);
- *     if (!g_variant_dict_lookup (&dict, "count", "u", &count))
+ *     g_variant_dict_init (&#38;dict, orig);
+ *     if (!g_variant_dict_lookup (&#38;dict, &#34;count&#34;, &#34;u&#34;, &#38;count))
  *       {
  *         g_set_error (...);
- *         g_variant_dict_clear (&dict);
+ *         g_variant_dict_clear (&#38;dict);
  *         return NULL;
  *       }
  * 
- *     g_variant_dict_insert (&dict, "count", "u", count + 1);
+ *     g_variant_dict_insert (&#38;dict, &#34;count&#34;, &#34;u&#34;, count + 1);
  * 
- *     return g_variant_dict_end (&dict);
+ *     return g_variant_dict_end (&#38;dict);
  *   }
- * ]|
+ * ]}|
  * 
  * ## Using heap-allocated GVariantDict
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   GVariant *
  *   add_to_count (GVariant  *orig,
  *                 GError   **error)
@@ -81,9 +81,9 @@ import java.lang.invoke.*;
  * 
  *     dict = g_variant_dict_new (orig);
  * 
- *     if (g_variant_dict_lookup (dict, "count", "u", &count))
+ *     if (g_variant_dict_lookup (dict, &#34;count&#34;, &#34;u&#34;, &#38;count))
  *       {
- *         g_variant_dict_insert (dict, "count", "u", count + 1);
+ *         g_variant_dict_insert (dict, &#34;count&#34;, &#34;u&#34;, count + 1);
  *         result = g_variant_dict_end (dict);
  *       }
  *     else
@@ -96,7 +96,7 @@ import java.lang.invoke.*;
  * 
  *     return result;
  *   }
- * ]|
+ * ]}|
  */
 public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
 
@@ -132,7 +132,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * It typically only makes sense to do this on a stack-allocated
      * #GVariantDict if you want to abort building the value part-way
      * through.  This function need not be called if you call
-     * g_variant_dict_end() and it also doesn't need to be called on dicts
+     * g_variant_dict_end() and it also doesn&#39;t need to be called on dicts
      * allocated with g_variant_dict_new (see g_variant_dict_unref() for
      * that).
      * 
@@ -155,7 +155,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the current value of @dict as a #GVariant of type
-     * %G_VARIANT_TYPE_VARDICT, clearing it in the process.
+     * <code>G_VARIANT_TYPE_VARDICT,</code> clearing it in the process.
      * 
      * It is not permissible to use @dict in any way after this call except
      * for reference counting operations (in the case of a heap-allocated
@@ -201,14 +201,14 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a value in a #GVariantDict.
      * 
-     * If @key is not found in @dictionary, %NULL is returned.
+     * If @key is not found in @dictionary, <code>null</code> is returned.
      * 
      * The @expected_type string specifies what type of value is expected.
-     * If the value associated with @key has a different type then %NULL is
+     * If the value associated with @key has a different type then <code>null</code> is
      * returned.
      * 
      * If the key is found and the value has the correct type, it is
-     * returned.  If @expected_type was specified then any non-%NULL return
+     * returned.  If @expected_type was specified then any non-<code>null</code> return
      * value will have this type.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
@@ -219,7 +219,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count on @dict.
      * 
-     * Don't call this on stack-allocated #GVariantDict instances or bad
+     * Don&#39;t call this on stack-allocated #GVariantDict instances or bad
      * things will happen.
      */
     public VariantDict ref() {
@@ -241,7 +241,7 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
      * In the event that there are no more references, releases all memory
      * associated with the #GVariantDict.
      * 
-     * Don't call this on stack-allocated #GVariantDict instances or bad
+     * Don&#39;t call this on stack-allocated #GVariantDict instances or bad
      * things will happen.
      */
     public void unref() {

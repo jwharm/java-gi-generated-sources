@@ -36,7 +36,7 @@ public class TlsConnection extends IOStream {
     }
     
     /**
-     * Gets @conn's certificate, as set by
+     * Gets @conn&#39;s certificate, as set by
      * g_tls_connection_set_certificate().
      */
     public TlsCertificate getCertificate() {
@@ -48,11 +48,11 @@ public class TlsConnection extends IOStream {
      * Query the TLS backend for TLS channel binding data of @type for @conn.
      * 
      * This call retrieves TLS channel binding data as specified in RFC
-     * [5056](https://tools.ietf.org/html/rfc5056), RFC
-     * [5929](https://tools.ietf.org/html/rfc5929), and related RFCs.  The
+     * {@link [5056]}(https://tools.ietf.org/html/rfc5056), RFC
+     * {@link [5929]}(https://tools.ietf.org/html/rfc5929), and related RFCs.  The
      * binding data is returned in @data.  The @data is resized by the callee
      * using #GByteArray buffer management and will be freed when the @data
-     * is destroyed by g_byte_array_unref(). If @data is %NULL, it will only
+     * is destroyed by g_byte_array_unref(). If @data is <code>NULL,</code> it will only
      * check whether TLS backend is able to fetch the data (e.g. whether @type
      * is supported by the TLS backend). It does not guarantee that the data
      * will be available though.  That could happen if TLS connection does not
@@ -69,7 +69,7 @@ public class TlsConnection extends IOStream {
     }
     
     /**
-     * Returns the name of the current TLS ciphersuite, or %NULL if the
+     * Returns the name of the current TLS ciphersuite, or <code>null</code> if the
      * connection has not handshaked or has been closed. Beware that the TLS
      * backend may use any of multiple different naming conventions, because
      * OpenSSL and GnuTLS have their own ciphersuite naming conventions that
@@ -94,7 +94,7 @@ public class TlsConnection extends IOStream {
     
     /**
      * Get the object that will be used to interact with the user. It will be used
-     * for things like prompting the user for passwords. If %NULL is returned, then
+     * for things like prompting the user for passwords. If <code>null</code> is returned, then
      * no user interaction will occur for this connection.
      */
     public TlsInteraction getInteraction() {
@@ -107,8 +107,8 @@ public class TlsConnection extends IOStream {
      * the handshake.
      * 
      * If the peer did not use the ALPN extension, or did not advertise a
-     * protocol that matched one of @conn's protocols, or the TLS backend
-     * does not support ALPN, then this will be %NULL. See
+     * protocol that matched one of @conn&#39;s protocols, or the TLS backend
+     * does not support ALPN, then this will be <code>NULL.</code> See
      * g_tls_connection_set_advertised_protocols().
      */
     public java.lang.String getNegotiatedProtocol() {
@@ -117,7 +117,7 @@ public class TlsConnection extends IOStream {
     }
     
     /**
-     * Gets @conn's peer's certificate after the handshake has completed
+     * Gets @conn&#39;s peer&#39;s certificate after the handshake has completed
      * or failed. (It is not set during the emission of
      * #GTlsConnection::accept-certificate.)
      */
@@ -127,7 +127,7 @@ public class TlsConnection extends IOStream {
     }
     
     /**
-     * Gets the errors associated with validating @conn's peer's
+     * Gets the errors associated with validating @conn&#39;s peer&#39;s
      * certificate, after the handshake has completed or failed. (It is
      * not set during the emission of #GTlsConnection::accept-certificate.)
      * 
@@ -140,7 +140,7 @@ public class TlsConnection extends IOStream {
     
     /**
      * Returns the current TLS protocol version, which may be
-     * %G_TLS_PROTOCOL_VERSION_UNKNOWN if the connection has not handshaked, or
+     * {@link org.gtk.gio.TlsProtocolVersion#UNKNOWN} if the connection has not handshaked, or
      * has been closed, or if the TLS backend has implemented a protocol version
      * that is not a recognized #GTlsProtocolVersion.
      */
@@ -164,7 +164,7 @@ public class TlsConnection extends IOStream {
      * 
      * On the client side, it is never necessary to call this method;
      * although the connection needs to perform a handshake after
-     * connecting (or after sending a "STARTTLS"-type command),
+     * connecting (or after sending a &#34;STARTTLS&#34;-type command),
      * #GTlsConnection will handle this for you automatically when you try
      * to send or receive data on the connection. You can call
      * g_tls_connection_handshake() manually if you want to know whether
@@ -238,10 +238,10 @@ public class TlsConnection extends IOStream {
      * Application-Layer Protocol Negotiation (ALPN) extension will be
      * used to negotiate a compatible protocol with the peer; use
      * g_tls_connection_get_negotiated_protocol() to find the negotiated
-     * protocol after the handshake.  Specifying %NULL for the the value
+     * protocol after the handshake.  Specifying <code>null</code> for the the value
      * of @protocols will disable ALPN negotiation.
      * 
-     * See [IANA TLS ALPN Protocol IDs](https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids)
+     * See {@link [IANA TLS ALPN Protocol IDs]}(https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids)
      * for a list of registered protocol IDs.
      */
     public void setAdvertisedProtocols(java.lang.String[] protocols) {
@@ -255,7 +255,7 @@ public class TlsConnection extends IOStream {
      * time.
      * 
      * For a #GTlsClientConnection, this is optional. If a handshake fails
-     * with %G_TLS_ERROR_CERTIFICATE_REQUIRED, that means that the server
+     * with <code>G_TLS_ERROR_CERTIFICATE_REQUIRED,</code> that means that the server
      * requires a certificate, and if you try connecting again, you should
      * call this method first. You can call
      * g_tls_client_connection_get_accepted_cas() on the failed connection
@@ -263,7 +263,18 @@ public class TlsConnection extends IOStream {
      * accept certificates from.
      * 
      * (It is also possible that a server will allow the connection with
-     * or without a certificate; in that case, if you don't provide a
+     * or without a certificate; in that case, if you don&#39;t provide a
+     * certificate, you can tell that the server requested one by the fact
+     * that g_tls_client_connection_get_accepted_cas() will return
+     * non-that means that the server
+     * requires a certificate, and if you try connecting again, you should
+     * call this method first. You can call
+     * g_tls_client_connection_get_accepted_cas() on the failed connection
+     * to get a list of Certificate Authorities that the server will
+     * accept certificates from.
+     * 
+     * (It is also possible that a server will allow the connection with
+     * or without a certificate; in that case, if you don&#39;t provide a
      * certificate, you can tell that the server requested one by the fact
      * that g_tls_client_connection_get_accepted_cas() will return
      * non-%NULL.)
@@ -275,9 +286,9 @@ public class TlsConnection extends IOStream {
     /**
      * Sets the certificate database that is used to verify peer certificates.
      * This is set to the default database by default. See
-     * g_tls_backend_get_default_database(). If set to %NULL, then
+     * g_tls_backend_get_default_database(). If set to <code>NULL,</code> then
      * peer certificate validation will always set the
-     * %G_TLS_CERTIFICATE_UNKNOWN_CA error (meaning
+     * {@link org.gtk.gio.TlsCertificateFlags#UNKNOWN_CA} error (meaning
      * #GTlsConnection::accept-certificate will always be emitted on
      * client-side connections, unless that bit is not set in
      * #GTlsClientConnection:validation-flags).
@@ -294,7 +305,7 @@ public class TlsConnection extends IOStream {
      * for things like prompting the user for passwords.
      * 
      * The @interaction argument will normally be a derived subclass of
-     * #GTlsInteraction. %NULL can also be provided if no user interaction
+     * #GTlsInteraction. <code>null</code> can also be provided if no user interaction
      * should occur for this connection.
      */
     public void setInteraction(TlsInteraction interaction) {
@@ -303,10 +314,10 @@ public class TlsConnection extends IOStream {
     
     /**
      * Sets whether or not @conn expects a proper TLS close notification
-     * before the connection is closed. If this is %TRUE (the default),
+     * before the connection is closed. If this is <code>true</code> (the default),
      * then @conn will expect to receive a TLS close notification from its
      * peer before the connection is closed, and will return a
-     * %G_TLS_ERROR_EOF error if the connection is closed without proper
+     * {@link org.gtk.gio.TlsError#EOF} error if the connection is closed without proper
      * notification (since this may indicate a network error, or
      * man-in-the-middle attack).
      * 
@@ -317,7 +328,7 @@ public class TlsConnection extends IOStream {
      * redundant and sometimes omitted. (TLS 1.1 explicitly allows this;
      * in TLS 1.0 it is technically an error, but often done anyway.) You
      * can use g_tls_connection_set_require_close_notify() to tell @conn
-     * to allow an "unannounced" connection close, in which case the close
+     * to allow an &#34;unannounced&#34; connection close, in which case the close
      * will show up as a 0-length read, as in a non-TLS
      * #GSocketConnection, and it is up to the application to check that
      * the data has been fully received.
@@ -326,7 +337,7 @@ public class TlsConnection extends IOStream {
      * connection; when the application calls g_io_stream_close() itself
      * on @conn, this will send a close notification regardless of the
      * setting of this property. If you explicitly want to do an unclean
-     * close, you can close @conn's #GTlsConnection:base-io-stream rather
+     * close, you can close @conn&#39;s #GTlsConnection:base-io-stream rather
      * than closing @conn itself, but note that this may only be done when no other
      * operations are pending on @conn or the base I/O stream.
      */
@@ -341,42 +352,42 @@ public class TlsConnection extends IOStream {
     
     /**
      * Emitted during the TLS handshake after the peer certificate has
-     * been received. You can examine @peer_cert's certification path by
+     * been received. You can examine @peer_cert&#39;s certification path by
      * calling g_tls_certificate_get_issuer() on it.
      * 
-     * For a client-side connection, @peer_cert is the server's
+     * For a client-side connection, @peer_cert is the server&#39;s
      * certificate, and the signal will only be emitted if the
-     * certificate was not acceptable according to @conn's
+     * certificate was not acceptable according to @conn&#39;s
      * #GTlsClientConnection:validation_flags. If you would like the
-     * certificate to be accepted despite @errors, return %TRUE from the
+     * certificate to be accepted despite @errors, return <code>true</code> from the
      * signal handler. Otherwise, if no handler accepts the certificate,
-     * the handshake will fail with %G_TLS_ERROR_BAD_CERTIFICATE.
+     * the handshake will fail with <code>G_TLS_ERROR_BAD_CERTIFICATE.
      * 
-     * GLib guarantees that if certificate verification fails, this signal
+     * GLib</code> guarantees that if certificate verification fails, this signal
      * will be emitted with at least one error will be set in @errors, but
      * it does not guarantee that all possible errors will be set.
      * Accordingly, you may not safely decide to ignore any particular
      * type of error. For example, it would be incorrect to ignore
-     * %G_TLS_CERTIFICATE_EXPIRED if you want to allow expired
+     * {@link org.gtk.gio.TlsCertificateFlags#EXPIRED} if you want to allow expired
      * certificates, because this could potentially be the only error flag
      * set even if other problems exist with the certificate.
      * 
      * For a server-side connection, @peer_cert is the certificate
-     * presented by the client, if this was requested via the server's
+     * presented by the client, if this was requested via the server&#39;s
      * #GTlsServerConnection:authentication_mode. On the server side,
      * the signal is always emitted when the client presents a
      * certificate, and the certificate will only be accepted if a
-     * handler returns %TRUE.
+     * handler returns <code>TRUE.
      * 
-     * Note that if this signal is emitted as part of asynchronous I/O
+     * Note</code> that if this signal is emitted as part of asynchronous I/O
      * in the main thread, then you should not attempt to interact with
      * the user before returning from the signal handler. If you want to
      * let the user decide whether or not to accept the certificate, you
-     * would have to return %FALSE from the signal handler on the first
+     * would have to return <code>false</code> from the signal handler on the first
      * attempt, and then after the connection attempt returns a
-     * %G_TLS_ERROR_BAD_CERTIFICATE, you can interact with the user, and
+     * <code>G_TLS_ERROR_BAD_CERTIFICATE,</code> you can interact with the user, and
      * if the user decides to accept the certificate, remember that fact,
-     * create a new connection, and return %TRUE from the signal handler
+     * create a new connection, and return <code>true</code> from the signal handler
      * the next time.
      * 
      * If you are doing I/O in another thread, you do not

@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  *  - Ensuring that blocked state transfers across target instances.
  * 
  * One place you might want to use such a structure is with #GtkTextView and
- * #GtkTextBuffer. Often times, you'll need to connect to many signals on
+ * #GtkTextBuffer. Often times, you&#39;ll need to connect to many signals on
  * #GtkTextBuffer from a #GtkTextView subclass. This allows you to create a
  * signal group during instance construction, simply bind the
  * #GtkTextView:buffer property to #GSignalGroup:target and connect
@@ -188,8 +188,8 @@ public class SignalGroup extends Object {
     
     /**
      * This signal is emitted when #GSignalGroup:target is set to a new value
-     * other than %NULL. It is similar to #GObject::notify on `target` except it
-     * will not emit when #GSignalGroup:target is %NULL and also allows for
+     * other than <code>NULL.</code> It is similar to #GObject::notify on <code>target</code> except it
+     * will not emit when #GSignalGroup:target is <code>null</code> and also allows for
      * receiving the #GObject without a data-race.
      */
     public SignalHandle onBind(BindHandler handler) {
@@ -214,6 +214,16 @@ public class SignalGroup extends Object {
     
     /**
      * This signal is emitted when the target instance of @self is set to a
+     * new #GObject.
+     * 
+     * This signal will only be emitted if the previous target of @self is
+     * non-
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         This signal is emitted when the target instance of @self is set to a
      * new #GObject.
      * 
      * This signal will only be emitted if the previous target of @self is

@@ -54,9 +54,12 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GParamSpecPool.
      * 
-     * If @type_prefixing is %TRUE, lookups in the newly created pool will
+     * If @type_prefixing is <code>TRUE,</code> lookups in the newly created pool will
      * allow to specify the owner as a colon-separated prefix of the
-     * property name, like "GtkContainer:border-width". This feature is
+     * property name, like &#34;GtkContainer:border-width&#34;. This feature is
+     * deprecated, so you should always set @type_prefixing to lookups in the newly created pool will
+     * allow to specify the owner as a colon-separated prefix of the
+     * property name, like &#34;GtkContainer:border-width&#34;. This feature is
      * deprecated, so you should always set @type_prefixing to %FALSE.
      */
     public static ParamSpecPool new_(boolean typePrefixing) {

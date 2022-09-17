@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * 
  * If your application or service is using the default GLib log writer function,
  * creating one of the built-in implementations of #GDebugController should be
- * all that’s needed to dynamically enable or disable debug output.
+ * all that&#8217;s needed to dynamically enable or disable debug output.
  */
 public interface DebugController extends io.github.jwharm.javagi.NativeAddress {
 

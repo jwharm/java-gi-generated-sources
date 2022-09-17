@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * The indexes of colors passed to symbolic color rendering, such as
- * [vfunc@Gtk.SymbolicPaintable.snapshot_symbolic].
+ * {@link org.gtk.gtk.SymbolicPaintable#snapshotSymbolic}.
  * 
  * More values may be added over time.
  */

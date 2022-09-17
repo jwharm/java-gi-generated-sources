@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * Defines a part of a CSS document.
  * 
  * Because sections are nested into one another, you can use
- * [method@CssSection.get_parent] to get the containing region.
+ * {@link [method@CssSection.get_parent]} to get the containing region.
  */
 public class CssSection extends io.github.jwharm.javagi.ResourceBase {
 
@@ -25,9 +25,8 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkCssSection` referring to the section
-     * in the given `file` from the `start` location to the
-     * `end` location.
+     * Creates a new <code>GtkCssSection</code> referring to the section
+     * in the given <code>file</code> from the <code>start</code> location to the<code>end</code> location.
      */
     public CssSection(org.gtk.gio.File file, CssLocation start, CssLocation end) {
         super(constructNew(file, start, end));
@@ -43,9 +42,9 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the file that @section was parsed from.
-     * 
+     * <p>
      * If no such file exists, for example because the CSS was loaded via
-     * [method@Gtk.CssProvider.load_from_data], then `NULL` is returned.
+     * {@link org.gtk.gtk.CssProvider#loadFromData}, then <code>NULL</code> is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_css_section_get_file(handle());
@@ -53,13 +52,12 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the parent section for the given `section`.
-     * 
-     * The parent section is the section that contains this `section`. A special
-     * case are sections of  type `GTK_CSS_SECTION_DOCUMEN`T. Their parent will
-     * either be `NULL` if they are the original CSS document that was loaded by
-     * [method@Gtk.CssProvider.load_from_file] or a section of type
-     * `GTK_CSS_SECTION_IMPORT` if it was loaded with an `@import` rule from
+     * Gets the parent section for the given <code>section</code>.
+     * <p>
+     * The parent section is the section that contains this <code>section</code>. A special
+     * case are sections of  type <code>GTK_CSS_SECTION_DOCUMEN</code>T. Their parent will
+     * either be <code>NULL</code> if they are the original CSS document that was loaded by
+     * {@link org.gtk.gtk.CssProvider#loadFromFile} or a section of type<code>GTK_CSS_SECTION_IMPORT</code> if it was loaded with an <code>@import</code> rule from
      * a different file.
      */
     public CssSection getParent() {
@@ -76,17 +74,17 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Prints the `section` into `string` in a human-readable form.
-     * 
-     * This is a form like `gtk.css:32:1-23` to denote line 32, characters
-     * 1 to 23 in the file `gtk.css`.
+     * Prints the <code>section</code> into <code>string</code> in a human-readable form.
+     * <p>
+     * This is a form like <code>gtk.css:32:1-23</code> to denote line 32, characters
+     * 1 to 23 in the file <code>gtk.css</code>.
      */
     public void print(org.gtk.glib.String string) {
         gtk_h.gtk_css_section_print(handle(), string.handle());
     }
     
     /**
-     * Increments the reference count on `section`.
+     * Increments the reference count on <code>section</code>.
      */
     public CssSection ref() {
         var RESULT = gtk_h.gtk_css_section_ref(handle());
@@ -95,7 +93,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Prints the section into a human-readable text form using
-     * [method@Gtk.CssSection.print].
+     * {@link org.gtk.gtk.CssSection#print}.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gtk_css_section_to_string(handle());
@@ -103,7 +101,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrements the reference count on `section`, freeing the
+     * Decrements the reference count on <code>section</code>, freeing the
      * structure if the reference count reaches 0.
      */
     public void unref() {

@@ -70,7 +70,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * This behaviour changed in GLib 2.64: before threads on Windows were not
      * inheriting the thread priority but were spawned with the default priority.
      * Starting with GLib 2.64 the behaviour is now consistent between Windows and
-     * POSIX and all threads inherit their parent thread's priority.
+     * POSIX and all threads inherit their parent thread&#39;s priority.
      */
     public Thread(java.lang.String name, ThreadFunc func) {
         super(constructNew(name, func));
@@ -100,7 +100,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * it allows for the possibility of failure.
      * 
      * If a thread can not be created (due to resource limits),
-     * @error is set and %NULL is returned.
+     * @error is set and <code>null</code> is returned.
      */
     public static Thread tryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         return new Thread(constructTryNew(name, func));
@@ -113,7 +113,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * returns immediately.
      * 
      * Any thread can wait for any other thread by calling g_thread_join(),
-     * not just its 'creator'. Calling g_thread_join() from multiple threads
+     * not just its &#39;creator&#39;. Calling g_thread_join() from multiple threads
      * for the same @thread leads to undefined behaviour.
      * 
      * The value returned by @func or given to g_thread_exit() is
@@ -143,7 +143,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * 
      * Note that each thread holds a reference to its #GThread while
      * it is running, so it is safe to drop your own reference to it
-     * if you don't need it anymore.
+     * if you don&#39;t need it anymore.
      */
     public void unref() {
         gtk_h.g_thread_unref(handle());

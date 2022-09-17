@@ -36,9 +36,9 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
     
     /**
      * Retrieves the #GFileInfo constructed from the GZIP header data
-     * of compressed data processed by @compressor, or %NULL if @decompressor's
-     * #GZlibDecompressor:format property is not %G_ZLIB_COMPRESSOR_FORMAT_GZIP,
-     * or the header data was not fully processed yet, or it not present in the
+     * of compressed data processed by @compressor, or <code>null</code> if @decompressor&#39;s
+     * #GZlibDecompressor:format property is not <code>G_ZLIB_COMPRESSOR_FORMAT_GZIP,
+     * or</code> the header data was not fully processed yet, or it not present in the
      * data stream at all.
      */
     public FileInfo getFileInfo() {

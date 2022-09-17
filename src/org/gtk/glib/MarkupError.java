@@ -22,13 +22,13 @@ public enum MarkupError {
     
     /**
      * error should be set by #GMarkupParser
-     *     functions; element wasn't known
+     *     functions; element wasn&#39;t known
      */
     UNKNOWN_ELEMENT,
     
     /**
      * error should be set by #GMarkupParser
-     *     functions; attribute wasn't known
+     *     functions; attribute wasn&#39;t known
      */
     UNKNOWN_ATTRIBUTE,
     

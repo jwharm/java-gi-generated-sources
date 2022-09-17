@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The strength of a constraint, expressed as a symbolic constant.
  * 
- * The strength of a [class@Constraint] can be expressed with any positive
+ * The strength of a {@link [class@Constraint]} can be expressed with any positive
  * integer; the values of this enumeration can be used for readability.
  */
 public enum ConstraintStrength {

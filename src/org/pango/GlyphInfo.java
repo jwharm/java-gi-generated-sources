@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoGlyphInfo` structure represents a single glyph with
+ * A <code>PangoGlyphInfo</code> structure represents a single glyph with
  * positioning information and visual attributes.
  */
 public class GlyphInfo extends io.github.jwharm.javagi.ResourceBase {

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkTexture` representing image data in memory.
+ * A <code>GdkTexture</code> representing image data in memory.
  */
 public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
@@ -28,8 +28,8 @@ public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Ico
     
     /**
      * Creates a new texture for a blob of image data.
-     * 
-     * The `GBytes` must contain @stride × @height pixels
+     * <p>
+     * The <code>GBytes</code> must contain @stride &#215; @height pixels
      * in the given format.
      */
     public MemoryTexture(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {

@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkPixbufFormat` contains information about the image format accepted
+ * A <code>GdkPixbufFormat</code> contains information about the image format accepted
  * by a module.
- * 
+ * <p>
  * Only modules should access the fields directly, applications should
- * use the `gdk_pixbuf_format_*` family of functions.
+ * use the <code>gdk_pixbuf_format_*</code> family of functions.
  */
 public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
 
@@ -21,7 +21,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a copy of `format`.
+     * Creates a copy of <code>format</code>.
      */
     public PixbufFormat copy() {
         var RESULT = gtk_h.gdk_pixbuf_format_copy(handle());
@@ -29,7 +29,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the resources allocated when copying a `GdkPixbufFormat`
+     * Frees the resources allocated when copying a <code>GdkPixbufFormat</code>
      * using gdk_pixbuf_format_copy()
      */
     public void free() {
@@ -48,7 +48,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Returns information about the license of the image loader for the format.
      * 
      * The returned string should be a shorthand for a well known license, e.g.
-     * "LGPL", "GPL", "QPL", "GPL/QPL", or "other" to indicate some other license.
+     * &#34;LGPL&#34;, &#34;GPL&#34;, &#34;QPL&#34;, &#34;GPL/QPL&#34;, or &#34;other&#34; to indicate some other license.
      */
     public java.lang.String getLicense() {
         var RESULT = gtk_h.gdk_pixbuf_format_get_license(handle());
@@ -74,7 +74,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns `TRUE` if the save option specified by @option_key is supported when
+     * Returns <code>TRUE</code> if the save option specified by @option_key is supported when
      * saving a pixbuf using the module implementing @format.
      * 
      * See gdk_pixbuf_save() for more information about option keys.
@@ -107,7 +107,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Disables or enables an image format.
      * 
-     * If a format is disabled, GdkPixbuf won't use the image loader for
+     * If a format is disabled, GdkPixbuf won&#39;t use the image loader for
      * this format to load images.
      * 
      * Applications can use this to avoid using image loaders with an

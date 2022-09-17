@@ -8,16 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkEntryBuffer` hold the text displayed in a `GtkText` widget.
- * 
- * A single `GtkEntryBuffer` object can be shared by multiple widgets
+ * A <code>GtkEntryBuffer</code> hold the text displayed in a <code>GtkText</code> widget.
+ * <p>
+ * A single <code>GtkEntryBuffer</code> object can be shared by multiple widgets
  * which will then share the same text content, but not the cursor
  * position, visibility attributes, icon etc.
- * 
- * `GtkEntryBuffer` may be derived from. Such a derived class might allow
+ * <p><code>GtkEntryBuffer</code> may be derived from. Such a derived class might allow
  * text to be stored in an alternate location, such as non-pageable memory,
  * useful in the case of important passwords. Or a derived class could
- * integrate with an application’s concept of undo/redo.
+ * integrate with an application&#8217;s concept of undo/redo.
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
@@ -36,7 +35,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new `GtkEntryBuffer` object.
+     * Create a new <code>GtkEntryBuffer</code> object.
      * 
      * Optionally, specify initial text to set in the buffer.
      */
@@ -63,14 +62,14 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Used when subclassing `GtkEntryBuffer`.
+     * Used when subclassing <code>GtkEntryBuffer</code>.
      */
     public void emitDeletedText(int position, int nChars) {
         gtk_h.gtk_entry_buffer_emit_deleted_text(handle(), position, nChars);
     }
     
     /**
-     * Used when subclassing `GtkEntryBuffer`.
+     * Used when subclassing <code>GtkEntryBuffer</code>.
      */
     public void emitInsertedText(int position, java.lang.String chars, int nChars) {
         gtk_h.gtk_entry_buffer_emit_inserted_text(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
@@ -79,7 +78,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     /**
      * Retrieves the length in bytes of the buffer.
      * 
-     * See [method@Gtk.EntryBuffer.get_length].
+     * See {@link org.gtk.gtk.EntryBuffer#getLength}.
      */
     public long getBytes() {
         var RESULT = gtk_h.gtk_entry_buffer_get_bytes(handle());
@@ -143,8 +142,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Sets the text in the buffer.
      * 
      * This is roughly equivalent to calling
-     * [method@Gtk.EntryBuffer.delete_text] and
-     * [method@Gtk.EntryBuffer.insert_text].
+     * {@link org.gtk.gtk.EntryBuffer#deleteText} and
+     * {@link org.gtk.gtk.EntryBuffer#insertText}.
      * 
      * Note that @n_chars is in characters, not in bytes.
      */
@@ -159,6 +158,16 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * The text is altered in the default handler for this signal.
+     * 
+     * If you want access to the text after the text has been modified,
+     * use 
+     *         
+     *       
+     *       
+     *         
+     *       
+     *       
+     *         The text is altered in the default handler for this signal.
      * 
      * If you want access to the text after the text has been modified,
      * use %G_CONNECT_AFTER.

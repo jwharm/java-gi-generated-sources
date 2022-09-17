@@ -42,10 +42,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     /**
      * If @interface_ has outstanding changes, request for these changes to be
      * emitted immediately.
-     * 
+     * <p>
      * For example, an exported D-Bus interface may queue up property
-     * changes and emit the
-     * `org.freedesktop.DBus.Properties.PropertiesChanged`
+     * changes and emit the<code>org.freedesktop.DBus.Properties.PropertiesChanged</code>
      * signal later (e.g. in an idle handler). This technique is useful
      * for collapsing multiple property changes into one.
      */
@@ -160,31 +159,31 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Note that this signal is emitted in a thread dedicated to
      * handling the method call so handlers are allowed to perform
      * blocking IO. This means that it is appropriate to call e.g.
-     * [polkit_authority_check_authorization_sync()](http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#polkit-authority-check-authorization-sync)
+     * {@link [polkit_authority_check_authorization_sync()]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#polkit-authority-check-authorization-sync)
      * with the
-     * [POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION](http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#POLKIT-CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS)
+     * {@link [POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#POLKIT-CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS)
      * flag set.
      * 
-     * If %FALSE is returned then no further handlers are run and the
+     * If <code>false</code> is returned then no further handlers are run and the
      * signal handler must take a reference to @invocation and finish
      * handling the call (e.g. return an error via
      * g_dbus_method_invocation_return_error()).
      * 
-     * Otherwise, if %TRUE is returned, signal emission continues. If no
-     * handlers return %FALSE, then the method is dispatched. If
+     * Otherwise, if <code>true</code> is returned, signal emission continues. If no
+     * handlers return <code>FALSE,</code> then the method is dispatched. If
      * @interface has an enclosing #GDBusObjectSkeleton, then the
      * #GDBusObjectSkeleton::authorize-method signal handlers run before
      * the handlers for this signal.
      * 
-     * The default class handler just returns %TRUE.
+     * The default class handler just returns <code>TRUE.
      * 
-     * Please note that the common case is optimized: if no signals
-     * handlers are connected and the default class handler isn't
+     * Please</code> note that the common case is optimized: if no signals
+     * handlers are connected and the default class handler isn&#39;t
      * overridden (for both @interface and the enclosing
      * #GDBusObjectSkeleton, if any) and #GDBusInterfaceSkeleton:g-flags does
      * not have the
-     * %G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD
-     * flags set, no dedicated thread is ever used and the call will be
+     * <code>G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD
+     * flags</code> set, no dedicated thread is ever used and the call will be
      * handled in the same thread as the object that @interface belongs
      * to was exported in.
      */

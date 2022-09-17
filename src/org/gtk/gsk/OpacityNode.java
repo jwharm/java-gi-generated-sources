@@ -27,7 +27,7 @@ public class OpacityNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will drawn the @child with reduced
+     * Creates a <code>GskRenderNode</code> that will drawn the @child with reduced
      * @opacity.
      */
     public OpacityNode(RenderNode child, float opacity) {

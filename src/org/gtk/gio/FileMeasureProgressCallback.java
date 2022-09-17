@@ -10,8 +10,8 @@ package org.gtk.gio;
  * always be made immediately.
  * 
  * In the case that there is no support, @reporting will be set to
- * %FALSE (and the other values undefined) and no further calls will be
- * made.  Otherwise, the @reporting will be %TRUE and the other values
+ * <code>false</code> (and the other values undefined) and no further calls will be
+ * made.  Otherwise, the @reporting will be <code>true</code> and the other values
  * all-zeros during the first (immediate) call.  In this way, you can
  * know which type of progress UI to show without a delay.
  * 
@@ -21,9 +21,9 @@ package org.gtk.gio;
  * final async result would be reported).
  * 
  * @current_size is in the same units as requested by the operation (see
- * %G_FILE_MEASURE_APPARENT_SIZE).
+ * <code>G_FILE_MEASURE_APPARENT_SIZE).
  * 
- * The frequency of the updates is implementation defined, but is
+ * The</code> frequency of the updates is implementation defined, but is
  * ideally about once every 200ms.
  * 
  * The last progress callback may or may not be equal to the final

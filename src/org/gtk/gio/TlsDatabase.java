@@ -32,8 +32,8 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     /**
      * Create a handle string for the certificate. The database will only be able
      * to create a handle for certificates that originate from the database. In
-     * cases where the database cannot create a handle for a certificate, %NULL
-     * will be returned.
+     * cases where the database cannot create a handle for a certificate, <code>NULL
+     * will</code> be returned.
      * 
      * This handle should be stable across various instances of the application,
      * and between applications. If a certificate is modified in the database,
@@ -53,7 +53,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * instantiations of the database.
      * 
      * If the handle is no longer valid, or does not point to a certificate in
-     * this database, then %NULL will be returned.
+     * this database, then <code>null</code> will be returned.
      * 
      * This function can block, use g_tls_database_lookup_certificate_for_handle_async() to perform
      * the lookup operation asynchronously.
@@ -90,7 +90,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * g_tls_database_lookup_certificate_for_handle() for more information.
      * 
      * If the handle is no longer valid, or does not point to a certificate in
-     * this database, then %NULL will be returned.
+     * this database, then <code>null</code> will be returned.
      */
     public TlsCertificate lookupCertificateForHandleFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -113,9 +113,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * issuer certificate returned by this function may not be the same as
      * the certificate that would actually be used to construct a valid
      * certification path during certificate verification.
-     * [RFC 4158](https://datatracker.ietf.org/doc/html/rfc4158) explains
+     * {@link [RFC 4158]}(https://datatracker.ietf.org/doc/html/rfc4158) explains
      * why an issuer certificate cannot be naively assumed to be part of the
-     * the certification path (though GLib's TLS backends may not follow the
+     * the certification path (though GLib&#39;s TLS backends may not follow the
      * path building strategies outlined in this RFC). Due to the complexity
      * of certification path building, GLib does not provide any way to know
      * which certification path will actually be used when verifying a TLS
@@ -221,19 +221,19 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * certificate in the chain by its #GTlsCertificate:issuer property.
      * 
      * @purpose describes the purpose (or usage) for which the certificate
-     * is being used. Typically @purpose will be set to %G_TLS_DATABASE_PURPOSE_AUTHENTICATE_SERVER
-     * which means that the certificate is being used to authenticate a server
+     * is being used. Typically @purpose will be set to <code>G_TLS_DATABASE_PURPOSE_AUTHENTICATE_SERVER
+     * which</code> means that the certificate is being used to authenticate a server
      * (and we are acting as the client).
      * 
      * The @identity is used to ensure the server certificate is valid for
      * the expected peer identity. If the identity does not match the
-     * certificate, %G_TLS_CERTIFICATE_BAD_IDENTITY will be set in the
-     * return value. If @identity is %NULL, that bit will never be set in
+     * certificate, {@link org.gtk.gio.TlsCertificateFlags#BAD_IDENTITY} will be set in the
+     * return value. If @identity is <code>NULL,</code> that bit will never be set in
      * the return value. The peer identity may also be used to check for
      * pinned certificates (trust exceptions) in the database. These may
      * override the normal verification process on a host-by-host basis.
      * 
-     * Currently there are no @flags, and %G_TLS_DATABASE_VERIFY_NONE should be
+     * Currently there are no @flags, and {@link org.gtk.gio.TlsDatabaseVerifyFlags#NONE} should be
      * used.
      * 
      * If @chain is found to be valid, then the return value will be 0. If
@@ -241,7 +241,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * least one problem found. If the function is unable to determine
      * whether @chain is valid (for example, because @cancellable is
      * triggered before it completes) then the return value will be
-     * %G_TLS_CERTIFICATE_GENERIC_ERROR and @error will be set accordingly.
+     * {@link org.gtk.gio.TlsCertificateFlags#GENERIC_ERROR} and @error will be set accordingly.
      * @error is not set when @chain is successfully analyzed but found to
      * be invalid.
      * 
@@ -249,11 +249,11 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * error will be set in the return value, but it does not guarantee
      * that all possible errors will be set. Accordingly, you may not safely
      * decide to ignore any particular type of error. For example, it would
-     * be incorrect to mask %G_TLS_CERTIFICATE_EXPIRED if you want to allow
+     * be incorrect to mask {@link org.gtk.gio.TlsCertificateFlags#EXPIRED} if you want to allow
      * expired certificates, because this could potentially be the only
      * error flag set even if other problems exist with the certificate.
      * 
-     * Prior to GLib 2.48, GLib's default TLS backend modified @chain to
+     * Prior to GLib 2.48, GLib&#39;s default TLS backend modified @chain to
      * represent the certification path built by #GTlsDatabase during
      * certificate verification by adjusting the #GTlsCertificate:issuer
      * property of each certificate in @chain. Since GLib 2.48, this no
@@ -312,7 +312,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * the problems found. If the function is unable to determine whether
      * @chain is valid or not (eg, because @cancellable is triggered
      * before it completes) then the return value will be
-     * %G_TLS_CERTIFICATE_GENERIC_ERROR and @error will be set
+     * {@link org.gtk.gio.TlsCertificateFlags#GENERIC_ERROR} and @error will be set
      * accordingly. @error is not set when @chain is successfully analyzed
      * but found to be invalid.
      */

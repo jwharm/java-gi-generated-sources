@@ -9,6 +9,12 @@ import java.lang.invoke.*;
 
 /**
  * A GQuark is a non-zero integer which uniquely identifies a
+ * particular string. A GQuark value of zero is associated to 
+ *       
+ *       
+ *     
+ *     
+ *       A GQuark is a non-zero integer which uniquely identifies a
  * particular string. A GQuark value of zero is associated to %NULL.
  */
 public class Quark {

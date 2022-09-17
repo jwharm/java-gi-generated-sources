@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkGLAreaClass` structure contains only private data.
+ * The <code>GtkGLAreaClass</code> structure contains only private data.
  */
 public class GLAreaClass extends io.github.jwharm.javagi.ResourceBase {
 

@@ -7,42 +7,42 @@ package org.gtk.gtk;
 public enum NumberUpLayout {
 
     /**
-     * ![](layout-lrtb.png)
+     * !{@link []}(layout-lrtb.png)
      */
     LRTB,
     
     /**
-     * ![](layout-lrbt.png)
+     * !{@link []}(layout-lrbt.png)
      */
     LRBT,
     
     /**
-     * ![](layout-rltb.png)
+     * !{@link []}(layout-rltb.png)
      */
     RLTB,
     
     /**
-     * ![](layout-rlbt.png)
+     * !{@link []}(layout-rlbt.png)
      */
     RLBT,
     
     /**
-     * ![](layout-tblr.png)
+     * !{@link []}(layout-tblr.png)
      */
     TBLR,
     
     /**
-     * ![](layout-tbrl.png)
+     * !{@link []}(layout-tbrl.png)
      */
     TBRL,
     
     /**
-     * ![](layout-btlr.png)
+     * !{@link []}(layout-btlr.png)
      */
     BTLR,
     
     /**
-     * ![](layout-btrl.png)
+     * !{@link []}(layout-btrl.png)
      */
     BTRL;
     

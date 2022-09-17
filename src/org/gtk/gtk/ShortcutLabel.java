@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkShortcutLabel` displays a single keyboard shortcut or gesture.
- * 
- * The main use case for `GtkShortcutLabel` is inside a [class@Gtk.ShortcutsWindow].
+ * <code>GtkShortcutLabel</code> displays a single keyboard shortcut or gesture.
+ * <p>
+ * The main use case for <code>GtkShortcutLabel</code> is inside a {@link org.gtk.gtk.ShortcutsWindow}.
  */
 public class ShortcutLabel extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -29,7 +29,7 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new `GtkShortcutLabel` with @accelerator set.
+     * Creates a new <code>GtkShortcutLabel</code> with @accelerator set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
         super(constructNew(accelerator));

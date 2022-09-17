@@ -17,7 +17,7 @@ public class BusNameOwnerFlags {
     
     /**
      * If another message bus connection owns the name and have
-     * specified %G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT, then take the name from the other connection.
+     * specified <code>G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT,</code> then take the name from the other connection.
      */
     public static final int REPLACE = 2;
     

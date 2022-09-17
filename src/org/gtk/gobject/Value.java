@@ -33,7 +33,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_BOXED derived #GValue.  Upon getting,
+     * Get the contents of a <code>G_TYPE_BOXED</code> derived #GValue.  Upon getting,
      * the boxed value is duplicated and needs to be later freed with
      * g_boxed_free(), e.g. like: g_boxed_free (G_VALUE_TYPE (@value),
      * return_value);
@@ -44,9 +44,9 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_OBJECT derived #GValue, increasing
-     * its reference count. If the contents of the #GValue are %NULL, then
-     * %NULL will be returned.
+     * Get the contents of a <code>G_TYPE_OBJECT</code> derived #GValue, increasing
+     * its reference count. If the contents of the #GValue are <code>NULL,</code> then
+     * <code>null</code> will be returned.
      */
     public Object dupObject() {
         var RESULT = gtk_h.g_value_dup_object(handle());
@@ -54,7 +54,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_PARAM #GValue, increasing its
+     * Get the contents of a <code>G_TYPE_PARAM</code> #GValue, increasing its
      * reference count.
      */
     public ParamSpec dupParam() {
@@ -63,7 +63,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get a copy the contents of a %G_TYPE_STRING #GValue.
+     * Get a copy the contents of a <code>G_TYPE_STRING</code> #GValue.
      */
     public java.lang.String dupString() {
         var RESULT = gtk_h.g_value_dup_string(handle());
@@ -89,7 +89,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_BOOLEAN #GValue.
+     * Get the contents of a <code>G_TYPE_BOOLEAN</code> #GValue.
      */
     public boolean getBoolean() {
         var RESULT = gtk_h.g_value_get_boolean(handle());
@@ -97,7 +97,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_BOXED derived #GValue.
+     * Get the contents of a <code>G_TYPE_BOXED</code> derived #GValue.
      */
     public jdk.incubator.foreign.MemoryAddress getBoxed() {
         var RESULT = gtk_h.g_value_get_boxed(handle());
@@ -105,7 +105,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_DOUBLE #GValue.
+     * Get the contents of a <code>G_TYPE_DOUBLE</code> #GValue.
      */
     public double getDouble() {
         var RESULT = gtk_h.g_value_get_double(handle());
@@ -113,7 +113,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_ENUM #GValue.
+     * Get the contents of a <code>G_TYPE_ENUM</code> #GValue.
      */
     public int getEnum() {
         var RESULT = gtk_h.g_value_get_enum(handle());
@@ -121,7 +121,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_FLAGS #GValue.
+     * Get the contents of a <code>G_TYPE_FLAGS</code> #GValue.
      */
     public int getFlags() {
         var RESULT = gtk_h.g_value_get_flags(handle());
@@ -129,7 +129,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_FLOAT #GValue.
+     * Get the contents of a <code>G_TYPE_FLOAT</code> #GValue.
      */
     public float getFloat() {
         var RESULT = gtk_h.g_value_get_float(handle());
@@ -137,7 +137,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_GTYPE #GValue.
+     * Get the contents of a <code>G_TYPE_GTYPE</code> #GValue.
      */
     public org.gtk.gobject.Type getGtype() {
         var RESULT = gtk_h.g_value_get_gtype(handle());
@@ -145,7 +145,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_INT #GValue.
+     * Get the contents of a <code>G_TYPE_INT</code> #GValue.
      */
     public int getInt() {
         var RESULT = gtk_h.g_value_get_int(handle());
@@ -153,7 +153,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_INT64 #GValue.
+     * Get the contents of a <code>G_TYPE_INT64</code> #GValue.
      */
     public long getInt64() {
         var RESULT = gtk_h.g_value_get_int64(handle());
@@ -161,7 +161,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_LONG #GValue.
+     * Get the contents of a <code>G_TYPE_LONG</code> #GValue.
      */
     public long getLong() {
         var RESULT = gtk_h.g_value_get_long(handle());
@@ -169,7 +169,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_OBJECT derived #GValue.
+     * Get the contents of a <code>G_TYPE_OBJECT</code> derived #GValue.
      */
     public Object getObject() {
         var RESULT = gtk_h.g_value_get_object(handle());
@@ -177,7 +177,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_PARAM #GValue.
+     * Get the contents of a <code>G_TYPE_PARAM</code> #GValue.
      */
     public ParamSpec getParam() {
         var RESULT = gtk_h.g_value_get_param(handle());
@@ -193,7 +193,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_CHAR #GValue.
+     * Get the contents of a <code>G_TYPE_CHAR</code> #GValue.
      */
     public byte getSchar() {
         var RESULT = gtk_h.g_value_get_schar(handle());
@@ -201,7 +201,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_STRING #GValue.
+     * Get the contents of a <code>G_TYPE_STRING</code> #GValue.
      */
     public java.lang.String getString() {
         var RESULT = gtk_h.g_value_get_string(handle());
@@ -209,7 +209,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_UCHAR #GValue.
+     * Get the contents of a <code>G_TYPE_UCHAR</code> #GValue.
      */
     public byte getUchar() {
         var RESULT = gtk_h.g_value_get_uchar(handle());
@@ -217,7 +217,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_UINT #GValue.
+     * Get the contents of a <code>G_TYPE_UINT</code> #GValue.
      */
     public int getUint() {
         var RESULT = gtk_h.g_value_get_uint(handle());
@@ -225,7 +225,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_UINT64 #GValue.
+     * Get the contents of a <code>G_TYPE_UINT64</code> #GValue.
      */
     public long getUint64() {
         var RESULT = gtk_h.g_value_get_uint64(handle());
@@ -233,7 +233,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the contents of a %G_TYPE_ULONG #GValue.
+     * Get the contents of a <code>G_TYPE_ULONG</code> #GValue.
      */
     public long getUlong() {
         var RESULT = gtk_h.g_value_get_ulong(handle());
@@ -258,10 +258,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Initializes and sets @value from an instantiatable type via the
-     * value_table's collect_value() function.
+     * value_table&#39;s collect_value() function.
      * 
      * Note: The @value will be initialised with the exact type of
-     * @instance.  If you wish to set the @value's type to a different GType
+     * @instance.  If you wish to set the @value&#39;s type to a different GType
      * (such as a parent class GType), you need to manually call
      * g_value_init() and g_value_set_instance().
      */
@@ -271,7 +271,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the value contents as pointer. This function asserts that
-     * g_value_fits_pointer() returned %TRUE for the passed in value.
+     * g_value_fits_pointer() returned <code>true</code> for the passed in value.
      * This is an internal function introduced mainly for C marshallers.
      */
     public jdk.incubator.foreign.MemoryAddress peekPointer() {
@@ -289,49 +289,49 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_BOOLEAN #GValue to @v_boolean.
+     * Set the contents of a <code>G_TYPE_BOOLEAN</code> #GValue to @v_boolean.
      */
     public void setBoolean(boolean vBoolean) {
         gtk_h.g_value_set_boolean(handle(), vBoolean ? 1 : 0);
     }
     
     /**
-     * Set the contents of a %G_TYPE_BOXED derived #GValue to @v_boxed.
+     * Set the contents of a <code>G_TYPE_BOXED</code> derived #GValue to @v_boxed.
      */
     public void setBoxed(jdk.incubator.foreign.MemoryAddress vBoxed) {
         gtk_h.g_value_set_boxed(handle(), vBoxed);
     }
     
     /**
-     * Set the contents of a %G_TYPE_DOUBLE #GValue to @v_double.
+     * Set the contents of a <code>G_TYPE_DOUBLE</code> #GValue to @v_double.
      */
     public void setDouble(double vDouble) {
         gtk_h.g_value_set_double(handle(), vDouble);
     }
     
     /**
-     * Set the contents of a %G_TYPE_ENUM #GValue to @v_enum.
+     * Set the contents of a <code>G_TYPE_ENUM</code> #GValue to @v_enum.
      */
     public void setEnum(int vEnum) {
         gtk_h.g_value_set_enum(handle(), vEnum);
     }
     
     /**
-     * Set the contents of a %G_TYPE_FLAGS #GValue to @v_flags.
+     * Set the contents of a <code>G_TYPE_FLAGS</code> #GValue to @v_flags.
      */
     public void setFlags(int vFlags) {
         gtk_h.g_value_set_flags(handle(), vFlags);
     }
     
     /**
-     * Set the contents of a %G_TYPE_FLOAT #GValue to @v_float.
+     * Set the contents of a <code>G_TYPE_FLOAT</code> #GValue to @v_float.
      */
     public void setFloat(float vFloat) {
         gtk_h.g_value_set_float(handle(), vFloat);
     }
     
     /**
-     * Set the contents of a %G_TYPE_GTYPE #GValue to @v_gtype.
+     * Set the contents of a <code>G_TYPE_GTYPE</code> #GValue to @v_gtype.
      */
     public void setGtype(Type vGtype) {
         gtk_h.g_value_set_gtype(handle(), vGtype.getValue());
@@ -339,28 +339,28 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets @value from an instantiatable type via the
-     * value_table's collect_value() function.
+     * value_table&#39;s collect_value() function.
      */
     public void setInstance(jdk.incubator.foreign.MemoryAddress instance) {
         gtk_h.g_value_set_instance(handle(), instance);
     }
     
     /**
-     * Set the contents of a %G_TYPE_INT #GValue to @v_int.
+     * Set the contents of a <code>G_TYPE_INT</code> #GValue to @v_int.
      */
     public void setInt(int vInt) {
         gtk_h.g_value_set_int(handle(), vInt);
     }
     
     /**
-     * Set the contents of a %G_TYPE_INT64 #GValue to @v_int64.
+     * Set the contents of a <code>G_TYPE_INT64</code> #GValue to @v_int64.
      */
     public void setInt64(long vInt64) {
         gtk_h.g_value_set_int64(handle(), vInt64);
     }
     
     /**
-     * Set the contents of a %G_TYPE_STRING #GValue to @v_string.  The string is
+     * Set the contents of a <code>G_TYPE_STRING</code> #GValue to @v_string.  The string is
      * assumed to be static and interned (canonical, for example from
      * g_intern_string()), and is thus not duplicated when setting the #GValue.
      */
@@ -369,14 +369,14 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_LONG #GValue to @v_long.
+     * Set the contents of a <code>G_TYPE_LONG</code> #GValue to @v_long.
      */
     public void setLong(long vLong) {
         gtk_h.g_value_set_long(handle(), vLong);
     }
     
     /**
-     * Set the contents of a %G_TYPE_OBJECT derived #GValue to @v_object.
+     * Set the contents of a <code>G_TYPE_OBJECT</code> derived #GValue to @v_object.
      * 
      * g_value_set_object() increases the reference count of @v_object
      * (the #GValue holds a reference to @v_object).  If you do not wish
@@ -385,7 +385,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * need it), use g_value_take_object() instead.
      * 
      * It is important that your #GValue holds a reference to @v_object (either its
-     * own, or one it has taken) to ensure that the object won't be destroyed while
+     * own, or one it has taken) to ensure that the object won&#39;t be destroyed while
      * the #GValue still exists).
      */
     public void setObject(Object vObject) {
@@ -393,7 +393,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_PARAM #GValue to @param.
+     * Set the contents of a <code>G_TYPE_PARAM</code> #GValue to @param.
      */
     public void setParam(ParamSpec param) {
         gtk_h.g_value_set_param(handle(), param.handle());
@@ -407,14 +407,14 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_CHAR #GValue to @v_char.
+     * Set the contents of a <code>G_TYPE_CHAR</code> #GValue to @v_char.
      */
     public void setSchar(byte vChar) {
         gtk_h.g_value_set_schar(handle(), vChar);
     }
     
     /**
-     * Set the contents of a %G_TYPE_BOXED derived #GValue to @v_boxed.
+     * Set the contents of a <code>G_TYPE_BOXED</code> derived #GValue to @v_boxed.
      * 
      * The boxed value is assumed to be static, and is thus not duplicated
      * when setting the #GValue.
@@ -424,7 +424,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_STRING #GValue to @v_string.
+     * Set the contents of a <code>G_TYPE_STRING</code> #GValue to @v_string.
      * The string is assumed to be static, and is thus not duplicated
      * when setting the #GValue.
      * 
@@ -436,35 +436,35 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Set the contents of a %G_TYPE_STRING #GValue to a copy of @v_string.
+     * Set the contents of a <code>G_TYPE_STRING</code> #GValue to a copy of @v_string.
      */
     public void setString(java.lang.String vString) {
         gtk_h.g_value_set_string(handle(), Interop.allocateNativeString(vString).handle());
     }
     
     /**
-     * Set the contents of a %G_TYPE_UCHAR #GValue to @v_uchar.
+     * Set the contents of a <code>G_TYPE_UCHAR</code> #GValue to @v_uchar.
      */
     public void setUchar(byte vUchar) {
         gtk_h.g_value_set_uchar(handle(), vUchar);
     }
     
     /**
-     * Set the contents of a %G_TYPE_UINT #GValue to @v_uint.
+     * Set the contents of a <code>G_TYPE_UINT</code> #GValue to @v_uint.
      */
     public void setUint(int vUint) {
         gtk_h.g_value_set_uint(handle(), vUint);
     }
     
     /**
-     * Set the contents of a %G_TYPE_UINT64 #GValue to @v_uint64.
+     * Set the contents of a <code>G_TYPE_UINT64</code> #GValue to @v_uint64.
      */
     public void setUint64(long vUint64) {
         gtk_h.g_value_set_uint64(handle(), vUint64);
     }
     
     /**
-     * Set the contents of a %G_TYPE_ULONG #GValue to @v_ulong.
+     * Set the contents of a <code>G_TYPE_ULONG</code> #GValue to @v_ulong.
      */
     public void setUlong(long vUlong) {
         gtk_h.g_value_set_ulong(handle(), vUlong);
@@ -479,18 +479,18 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the contents of a %G_TYPE_BOXED derived #GValue to @v_boxed
-     * and takes over the ownership of the caller’s reference to @v_boxed;
-     * the caller doesn’t have to unref it any more.
+     * Sets the contents of a <code>G_TYPE_BOXED</code> derived #GValue to @v_boxed
+     * and takes over the ownership of the caller&#8217;s reference to @v_boxed;
+     * the caller doesn&#8217;t have to unref it any more.
      */
     public void takeBoxed(jdk.incubator.foreign.MemoryAddress vBoxed) {
         gtk_h.g_value_take_boxed(handle(), vBoxed);
     }
     
     /**
-     * Sets the contents of a %G_TYPE_OBJECT derived #GValue to @v_object
-     * and takes over the ownership of the caller’s reference to @v_object;
-     * the caller doesn’t have to unref it any more (i.e. the reference
+     * Sets the contents of a <code>G_TYPE_OBJECT</code> derived #GValue to @v_object
+     * and takes over the ownership of the caller&#8217;s reference to @v_object;
+     * the caller doesn&#8217;t have to unref it any more (i.e. the reference
      * count of the object is not increased).
      * 
      * If you want the #GValue to hold its own reference to @v_object, use
@@ -501,16 +501,16 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the contents of a %G_TYPE_PARAM #GValue to @param and takes
-     * over the ownership of the caller’s reference to @param; the caller
-     * doesn’t have to unref it any more.
+     * Sets the contents of a <code>G_TYPE_PARAM</code> #GValue to @param and takes
+     * over the ownership of the caller&#8217;s reference to @param; the caller
+     * doesn&#8217;t have to unref it any more.
      */
     public void takeParam(ParamSpec param) {
         gtk_h.g_value_take_param(handle(), param.handle());
     }
     
     /**
-     * Sets the contents of a %G_TYPE_STRING #GValue to @v_string.
+     * Sets the contents of a <code>G_TYPE_STRING</code> #GValue to @v_string.
      */
     public void takeString(java.lang.String vString) {
         gtk_h.g_value_take_string(handle(), Interop.allocateNativeString(vString).handle());
@@ -518,8 +518,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Set the contents of a variant #GValue to @variant, and takes over
-     * the ownership of the caller's reference to @variant;
-     * the caller doesn't have to unref it any more (i.e. the reference
+     * the ownership of the caller&#39;s reference to @variant;
+     * the caller doesn&#39;t have to unref it any more (i.e. the reference
      * count of the variant is not increased).
      * 
      * If @variant was floating then its floating reference is converted to
@@ -536,11 +536,11 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to cast the contents of @src_value into a type appropriate
-     * to store in @dest_value, e.g. to transform a %G_TYPE_INT value
-     * into a %G_TYPE_FLOAT value. Performing transformations between
+     * to store in @dest_value, e.g. to transform a <code>G_TYPE_INT</code> value
+     * into a <code>G_TYPE_FLOAT</code> value. Performing transformations between
      * value types might incur precision lossage. Especially
      * transformations into strings might reveal seemingly arbitrary
-     * results and shouldn't be relied upon for production code (such
+     * results and shouldn&#39;t be relied upon for production code (such
      * as rcfile value or object property serialization).
      */
     public boolean transform(Value destValue) {
@@ -549,7 +549,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Clears the current value in @value (if any) and "unsets" the type,
+     * Clears the current value in @value (if any) and &#34;unsets&#34; the type,
      * this releases all resources associated with this GValue. An unset
      * value is the same as an uninitialized (zero-filled) #GValue
      * structure.

@@ -138,12 +138,12 @@ public enum EventType {
     PAD_BUTTON_RELEASE,
     
     /**
-     * A tablet pad axis event from a "ring".
+     * A tablet pad axis event from a &#34;ring&#34;.
      */
     PAD_RING,
     
     /**
-     * A tablet pad axis event from a "strip".
+     * A tablet pad axis event from a &#34;strip&#34;.
      */
     PAD_STRIP,
     

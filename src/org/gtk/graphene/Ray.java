@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A ray emitted from an origin in a given direction.
- * 
- * The contents of the `graphene_ray_t` structure are private, and should not
+ * <p>
+ * The contents of the <code>graphene_ray_t</code> structure are private, and should not
  * be modified directly.
  */
 public class Ray extends io.github.jwharm.javagi.ResourceBase {
@@ -66,8 +66,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the distance of the origin of the given #graphene_ray_t from the
      * given plane.
-     * 
-     * If the ray does not intersect the plane, this function returns `INFINITY`.
+     * <p>
+     * If the ray does not intersect the plane, this function returns <code>INFINITY</code>.
      */
     public float getDistanceToPlane(Plane p) {
         var RESULT = gtk_h.graphene_ray_get_distance_to_plane(handle(), p.handle());

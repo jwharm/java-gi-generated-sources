@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GSourceCallbackFuncs` struct contains
+ * The <code>GSourceCallbackFuncs</code> struct contains
  * functions for managing callback objects.
  */
 public class SourceCallbackFuncs extends io.github.jwharm.javagi.ResourceBase {

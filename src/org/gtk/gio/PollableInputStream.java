@@ -18,7 +18,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Checks if @stream is actually pollable. Some classes may implement
      * #GPollableInputStream but have only certain instances of that class
-     * be pollable. If this method returns %FALSE, then the behavior of
+     * be pollable. If this method returns <code>FALSE,</code> then the behavior of
      * other #GPollableInputStream methods is undefined.
      * 
      * For any given stream, the value returned by this method is constant;
@@ -47,12 +47,12 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Checks if @stream can be read.
      * 
-     * Note that some stream types may not be able to implement this 100%
-     * reliably, and it is possible that a call to g_input_stream_read()
-     * after this returns %TRUE would still block. To guarantee
+     * Note that some stream types may not be able to implement this 100<code>
+     * reliably,</code> and it is possible that a call to g_input_stream_read()
+     * after this returns <code>true</code> would still block. To guarantee
      * non-blocking behavior, you should always use
      * g_pollable_input_stream_read_nonblocking(), which will return a
-     * %G_IO_ERROR_WOULD_BLOCK error rather than blocking.
+     * {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} error rather than blocking.
      */
     public default boolean isReadable() {
         var RESULT = gtk_h.g_pollable_input_stream_is_readable(handle());
@@ -62,7 +62,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Attempts to read up to @count bytes from @stream into @buffer, as
      * with g_input_stream_read(). If @stream is not currently readable,
-     * this will immediately return %G_IO_ERROR_WOULD_BLOCK, and you can
+     * this will immediately return <code>G_IO_ERROR_WOULD_BLOCK,</code> and you can
      * use g_pollable_input_stream_create_source() to create a #GSource
      * that will be triggered when @stream is readable.
      * 

@@ -3,8 +3,8 @@ package org.gtk.glib;
 /**
  * The #GOptionArg enum values determine which type of extra argument the
  * options expect to find. If an option expects an extra argument, it can
- * be specified in several ways; with a short option: `-x arg`, with a long
- * option: `--name arg` or combined in a single argument: `--name=arg`.
+ * be specified in several ways; with a short option: <code>-x arg</code>, with a long
+ * option: <code>--name arg</code> or combined in a single argument: <code>--name=arg</code>.
  */
 public enum OptionArg {
 
@@ -49,16 +49,16 @@ public enum OptionArg {
     
     /**
      * The option takes a double argument. The argument
-     *     can be formatted either for the user's locale or for the "C" locale.
+     *     can be formatted either for the user&#39;s locale or for the &#34;C&#34; locale.
      *     Since 2.12
      */
     DOUBLE,
     
     /**
      * The option takes a 64-bit integer. Like
-     *     %G_OPTION_ARG_INT but for larger numbers. The number can be in
-     *     decimal base, or in hexadecimal (when prefixed with `0x`, for
-     *     example, `0xffffffff`). Since 2.12
+     *     {@link org.gtk.glib.OptionArg#INT} but for larger numbers. The number can be in
+     *     decimal base, or in hexadecimal (when prefixed with <code>0x</code>, for
+     *     example, <code>0xffffffff</code>). Since 2.12
      */
     INT64;
     

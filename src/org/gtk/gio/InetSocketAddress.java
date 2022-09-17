@@ -41,16 +41,25 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     
     /**
      * Creates a new #GInetSocketAddress for @address and @port.
-     * 
+     * <p>
      * If @address is an IPv6 address, it can also contain a scope ID
-     * (separated from the address by a `%`).
+     * (separated from the address by a <code>
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Creates a new #GInetSocketAddress for @address and @port.
+     * <p>
+     * If @address is an IPv6 address, it can also contain a scope ID
+     * (separated from the address by a <code>%</code>).
      */
     public static InetSocketAddress newFromString(java.lang.String address, int port) {
         return new InetSocketAddress(constructNewFromString(address, port));
     }
     
     /**
-     * Gets @address's #GInetAddress.
+     * Gets @address&#39;s #GInetAddress.
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_socket_address_get_address(handle());
@@ -58,7 +67,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets the `sin6_flowinfo` field from @address,
+     * Gets the <code>sin6_flowinfo</code> field from @address,
      * which must be an IPv6 address.
      */
     public int getFlowinfo() {
@@ -67,7 +76,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets @address's port.
+     * Gets @address&#39;s port.
      */
     public short getPort() {
         var RESULT = gtk_h.g_inet_socket_address_get_port(handle());
@@ -75,7 +84,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets the `sin6_scope_id` field from @address,
+     * Gets the <code>sin6_scope_id</code> field from @address,
      * which must be an IPv6 address.
      */
     public int getScopeId() {

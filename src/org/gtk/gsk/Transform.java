@@ -8,13 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GskTransform` is an object to describe transform matrices.
- * 
- * Unlike `graphene_matrix_t`, `GskTransform` retains the steps in how
+ * <code>GskTransform</code> is an object to describe transform matrices.
+ * <p>
+ * Unlike <code>graphene_matrix_t</code>, <code>GskTransform</code> retains the steps in how
  * a transform was constructed, and allows inspecting them. It is modeled
  * after the way CSS describes transforms.
- * 
- * `GskTransform` objects are immutable and cannot be changed after creation.
+ * <p><code>GskTransform</code> objects are immutable and cannot be changed after creation.
  * This means code can safely expose them as properties of objects without
  * having to worry about others changing them.
  */
@@ -52,11 +51,11 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inverts the given transform.
      * 
-     * If @self is not invertible, %NULL is returned.
-     * Note that inverting %NULL also returns %NULL, which is
-     * the correct inverse of %NULL. If you need to differentiate
-     * between those cases, you should check @self is not %NULL
-     * before calling this function.
+     * If @self is not invertible, <code>null</code> is returned.
+     * Note that inverting <code>null</code> also returns <code>NULL,</code> which is
+     * the correct inverse of <code>NULL.</code> If you need to differentiate
+     * between those cases, you should check @self is not <code>NULL
+     * before</code> calling this function.
      */
     public Transform invert() {
         var RESULT = gtk_h.gsk_transform_invert(handle());
@@ -89,14 +88,14 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * for printing.
      * 
      * The result of this function can later be parsed with
-     * [func@Gsk.Transform.parse].
+     * {@link Gsk#Transform}.
      */
     public void print(org.gtk.glib.String string) {
         gtk_h.gsk_transform_print(handle(), string.handle());
     }
     
     /**
-     * Acquires a reference on the given `GskTransform`.
+     * Acquires a reference on the given <code>GskTransform</code>.
      */
     public Transform ref() {
         var RESULT = gtk_h.gsk_transform_ref(handle());
@@ -114,7 +113,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Rotates @next @angle degrees around @axis.
      * 
-     * For a rotation in 2D space, use [method@Gsk.Transform.rotate]
+     * For a rotation in 2D space, use {@link org.gtk.gsk.Transform#rotate}
      */
     public Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         var RESULT = gtk_h.gsk_transform_rotate_3d(handle(), angle, axis.handle());
@@ -124,7 +123,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Scales @next in 2-dimensional space by the given factors.
      * 
-     * Use [method@Gsk.Transform.scale_3d] to scale in all 3 dimensions.
+     * Use {@link org.gtk.gsk.Transform#scale3d} to scale in all 3 dimensions.
      */
     public Transform scale(float factorX, float factorY) {
         var RESULT = gtk_h.gsk_transform_scale(handle(), factorX, factorY);
@@ -159,9 +158,9 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Converts a matrix into a string that is suitable for printing.
      * 
-     * The resulting string can be parsed with [func@Gsk.Transform.parse].
+     * The resulting string can be parsed with {@link Gsk#Transform}.
      * 
-     * This is a wrapper around [method@Gsk.Transform.print].
+     * This is a wrapper around {@link org.gtk.gsk.Transform#print}.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gsk_transform_to_string(handle());
@@ -177,7 +176,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms a `graphene_rect_t` using the given transform @self.
+     * Transforms a <code>graphene_rect_t</code> using the given transform @self.
      * 
      * The result is the bounding box containing the coplanar quad.
      */
@@ -186,7 +185,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms a `graphene_point_t` using the given transform @self.
+     * Transforms a <code>graphene_point_t</code> using the given transform @self.
      */
     public void transformPoint(org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
         gtk_h.gsk_transform_transform_point(handle(), point.handle(), outPoint.handle());
@@ -209,7 +208,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Releases a reference on the given `GskTransform`.
+     * Releases a reference on the given <code>GskTransform</code>.
      * 
      * If the reference was the last, the resources associated to the @self are
      * freed.
@@ -222,11 +221,11 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * Parses the given @string into a transform and puts it in
      * @out_transform.
      * 
-     * Strings printed via [method@Gsk.Transform.to_string]
+     * Strings printed via {@link org.gtk.gsk.Transform#toString}
      * can be read in again successfully using this function.
      * 
-     * If @string does not describe a valid transform, %FALSE is
-     * returned and %NULL is put in @out_transform.
+     * If @string does not describe a valid transform, <code>false</code> is
+     * returned and <code>null</code> is put in @out_transform.
      */
     public static boolean parse(java.lang.String string, Transform[] outTransform) {
         var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());

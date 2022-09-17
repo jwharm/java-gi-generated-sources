@@ -8,27 +8,24 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkEmojiChooser` is used by text widgets such as `GtkEntry` or
- * `GtkTextView` to let users insert Emoji characters.
- * 
- * ![An example GtkEmojiChooser](emojichooser.png)
- * 
- * `GtkEmojiChooser` emits the [signal@Gtk.EmojiChooser::emoji-picked]
+ * The <code>GtkEmojiChooser</code> is used by text widgets such as <code>GtkEntry</code> or<code>GtkTextView</code> to let users insert Emoji characters.
+ * <p>
+ * !{@link [An example GtkEmojiChooser]}(emojichooser.png)
+ * <p><code>GtkEmojiChooser</code> emits the {@link [signal@Gtk.EmojiChooser::emoji-picked] (ref=signal)}
  * signal when an Emoji is selected.
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * popover
- * ├── box.emoji-searchbar
- * │   ╰── entry.search
- * ╰── box.emoji-toolbar
- *     ├── button.image-button.emoji-section
- *     ├── ...
- *     ╰── button.image-button.emoji-section
- * ```
- * 
- * Every `GtkEmojiChooser` consists of a main node called popover.
+ * &#9500;&#9472;&#9472; box.emoji-searchbar
+ * &#9474;   &#9584;&#9472;&#9472; entry.search
+ * &#9584;&#9472;&#9472; box.emoji-toolbar
+ *     &#9500;&#9472;&#9472; button.image-button.emoji-section
+ *     &#9500;&#9472;&#9472; ...
+ *     &#9584;&#9472;&#9472; button.image-button.emoji-section
+ * </pre>
+ * <p>
+ * Every <code>GtkEmojiChooser</code> consists of a main node called popover.
  * The contents of the popover are largely implementation defined
  * and supposed to inherit general styles.
  * The top searchbar used to search emoji and gets the .emoji-searchbar
@@ -54,7 +51,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new `GtkEmojiChooser`.
+     * Creates a new <code>GtkEmojiChooser</code>.
      */
     public EmojiChooser() {
         super(constructNew());

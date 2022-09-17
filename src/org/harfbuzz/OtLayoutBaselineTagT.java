@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Baseline tags from [Baseline Tags](https://docs.microsoft.com/en-us/typography/opentype/spec/baselinetags) registry.
+ * Baseline tags from {@link [Baseline Tags]}(https://docs.microsoft.com/en-us/typography/opentype/spec/baselinetags) registry.
  */
 public enum OtLayoutBaselineTagT {
 

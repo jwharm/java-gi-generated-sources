@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * 
  * If the property is an enum then the state will be string-typed and
  * conversion will automatically be performed between the enum value and
- * "nick" string as per the #GEnumValue table.
+ * &#34;nick&#34; string as per the #GEnumValue table.
  * 
  * Flags types are not currently supported.
  * 
@@ -43,17 +43,17 @@ import java.lang.invoke.*;
  * in sync with the property value -- its state is the property value.
  * 
  * For example, it might be useful to create a #GAction corresponding to
- * the "visible-child-name" property of a #GtkStack so that the current
+ * the &#34;visible-child-name&#34; property of a #GtkStack so that the current
  * page can be switched from a menu.  The active radio indication in the
  * menu is then directly determined from the active page of the
  * #GtkStack.
  * 
- * An anti-example would be binding the "active-id" property on a
+ * An anti-example would be binding the &#34;active-id&#34; property on a
  * #GtkComboBox.  This is because the state of the combobox itself is
  * probably uninteresting and is actually being used to control
  * something else.
  * 
- * Another anti-example would be to bind to the "visible-child-name"
+ * Another anti-example would be to bind to the &#34;visible-child-name&#34;
  * property of a #GtkStack if this value is actually stored in
  * #GSettings.  In that case, the real source of the value is
  * #GSettings.  If you want a #GAction to control a setting stored in
@@ -83,7 +83,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * The property must be existent and readable and writable (and not
      * construct-only).
      * 
-     * This function takes a reference on @object and doesn't release it
+     * This function takes a reference on @object and doesn&#39;t release it
      * until the action is destroyed.
      */
     public PropertyAction(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {

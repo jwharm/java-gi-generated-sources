@@ -38,18 +38,18 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * elements. A common idiom to avoid the inefficiency is to prepend
      * the elements and reverse the list when all elements have been added.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * // Notice that these are initialized to the empty list.
      * GSList *list = NULL, *number_list = NULL;
      * 
      * // This is a list of strings.
-     * list = g_slist_append (list, "first");
-     * list = g_slist_append (list, "second");
+     * list = g_slist_append (list, &#34;first&#34;);
+     * list = g_slist_append (list, &#34;second&#34;);
      * 
      * // This is a list of integers.
      * number_list = g_slist_append (number_list, GINT_TO_POINTER (27));
      * number_list = g_slist_append (number_list, GINT_TO_POINTER (14));
-     * ]|
+     * ]}|
      */
     public static org.gtk.glib.SList append(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_append(list.handle(), data);
@@ -69,9 +69,9 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a #GSList.
      * 
-     * Note that this is a "shallow" copy. If the list elements
+     * Note that this is a &#34;shallow&#34; copy. If the list elements
      * consist of pointers to data, the pointers are copied but
-     * the actual data isn't. See g_slist_copy_deep() if you need
+     * the actual data isn&#39;t. See g_slist_copy_deep() if you need
      * to copy the data as well.
      */
     public static org.gtk.glib.SList copy(org.gtk.glib.SList list) {
@@ -81,25 +81,24 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Makes a full (deep) copy of a #GSList.
-     * 
+     * <p>
      * In contrast with g_slist_copy(), this function uses @func to make a copy of
      * each list element, in addition to copying the list container itself.
-     * 
+     * <p>
      * @func, as a #GCopyFunc, takes two arguments, the data to be copied
-     * and a @user_data pointer. On common processor architectures, it's safe to
-     * pass %NULL as @user_data if the copy function takes only one argument. You
-     * may get compiler warnings from this though if compiling with GCC’s
-     * `-Wcast-function-type` warning.
+     * and a @user_data pointer. On common processor architectures, it&#39;s safe to
+     * pass <code>null</code> as @user_data if the copy function takes only one argument. You
+     * may get compiler warnings from this though if compiling with GCC&#8217;s<code>-Wcast-function-type</code> warning.
      * 
      * For instance, if @list holds a list of GObjects, you can do:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * another_list = g_slist_copy_deep (list, (GCopyFunc) g_object_ref, NULL);
-     * ]|
+     * ]}|
      * 
      * And, to entirely free the new list, you could do:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * g_slist_free_full (another_list, g_object_unref);
-     * ]|
+     * ]}|
      */
     public static org.gtk.glib.SList copyDeep(org.gtk.glib.SList list, CopyFunc func) {
         try {
@@ -146,7 +145,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * find the desired element. It iterates over the list, calling
      * the given function which should return 0 when the desired
      * element is found. The function takes two #gconstpointer arguments,
-     * the #GSList element's data as the first argument and the
+     * the #GSList element&#39;s data as the first argument and the
      * given user data.
      */
     public static org.gtk.glib.SList findCustom(org.gtk.glib.SList list, CompareFunc func) {
@@ -194,10 +193,10 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * 
      * It can be combined with g_steal_pointer() to ensure the list head pointer
      * is not left dangling:
-     * |[<!-- language="C" -->
-     * GSList *list_of_borrowed_things = …;  /<!-- -->* (transfer container) *<!-- -->/
-     * g_slist_free (g_steal_pointer (&list_of_borrowed_things));
-     * ]|
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * GSList *list_of_borrowed_things = &#8230;;  /&#60;!-- --&#62;* (transfer container) *&#60;!-- --&#62;/
+     * g_slist_free (g_steal_pointer (&#38;list_of_borrowed_things));
+     * ]}|
      */
     public static void free(org.gtk.glib.SList list) {
         gtk_h.g_slist_free(list.handle());
@@ -290,6 +289,18 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This function iterates over the whole list to
      * count its elements. To check whether the list is non-empty, it is faster to
+     * check @list against 
+     *             
+     *               
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the number of elements in a #GSList.
+     * 
+     * This function iterates over the whole list to
+     * count its elements. To check whether the list is non-empty, it is faster to
      * check @list against %NULL.
      */
     public static int length(org.gtk.glib.SList list) {
@@ -328,12 +339,12 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * The return value is the new start of the list, which
      * may have changed, so make sure you store the new value.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * // Notice that it is initialized to the empty list.
      * GSList *list = NULL;
-     * list = g_slist_prepend (list, "last");
-     * list = g_slist_prepend (list, "first");
-     * ]|
+     * list = g_slist_prepend (list, &#34;last&#34;);
+     * list = g_slist_prepend (list, &#34;first&#34;);
+     * ]}|
      */
     public static org.gtk.glib.SList prepend(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_prepend(list.handle(), data);
@@ -363,8 +374,8 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Removes an element from a #GSList, without
-     * freeing the element. The removed element's next
-     * link is set to %NULL, so that it becomes a
+     * freeing the element. The removed element&#39;s next
+     * link is set to <code>NULL,</code> so that it becomes a
      * self-contained list with one element.
      * 
      * Removing arbitrary nodes from a singly-linked list

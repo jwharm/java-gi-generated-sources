@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkListItem` is used by list widgets to represent items in a `GListModel`.
- * 
- * The `GtkListItem`s are managed by the list widget (with its factory)
+ * <code>GtkListItem</code> is used by list widgets to represent items in a <code>GListModel</code>.
+ * <p>
+ * The <code>GtkListItem</code>s are managed by the list widget (with its factory)
  * and cannot be created by applications, but they need to be populated
- * by application code. This is done by calling [method@Gtk.ListItem.set_child].
- * 
- * `GtkListItem`s exist in 2 stages:
+ * by application code. This is done by calling {@link org.gtk.gtk.ListItem#setChild}.
+ * <p><code>GtkListItem</code>s exist in 2 stages:
  * 
  * 1. The unbound stage where the listitem is not currently connected to
- *    an item in the list. In that case, the [property@Gtk.ListItem:item]
- *    property is set to %NULL.
+ *    an item in the list. In that case, the {@link [property@Gtk.ListItem:item] (ref=property)}
+ *    property is set to <code>NULL.
  * 
- * 2. The bound stage where the listitem references an item from the list.
- *    The [property@Gtk.ListItem:item] property is not %NULL.
+ * 2.</code> The bound stage where the listitem references an item from the list.
+ *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not The bound stage where the listitem references an item from the list.
+ *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not %NULL.
  */
 public class ListItem extends org.gtk.gobject.Object {
 
@@ -45,7 +45,7 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Gets the child previously set via gtk_list_item_set_child() or
-     * %NULL if none was set.
+     * <code>null</code> if none was set.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_list_item_get_child(handle());
@@ -54,6 +54,15 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Gets the model item that associated with @self.
+     * 
+     * If @self is unbound, this function returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Gets the model item that associated with @self.
      * 
      * If @self is unbound, this function returns %NULL.
      */
@@ -65,7 +74,7 @@ public class ListItem extends org.gtk.gobject.Object {
     /**
      * Gets the position in the model that @self currently displays.
      * 
-     * If @self is unbound, %GTK_INVALID_LIST_POSITION is returned.
+     * If @self is unbound, <code>GTK_INVALID_LIST_POSITION</code> is returned.
      */
     public int getPosition() {
         var RESULT = gtk_h.gtk_list_item_get_position(handle());
@@ -76,7 +85,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * Checks if a list item has been set to be selectable via
      * gtk_list_item_set_selectable().
      * 
-     * Do not confuse this function with [method@Gtk.ListItem.get_selected].
+     * Do not confuse this function with {@link org.gtk.gtk.ListItem#getSelected}.
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_list_item_get_selectable(handle());
@@ -96,12 +105,12 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Sets @self to be activatable.
-     * 
+     * <p>
      * If an item is activatable, double-clicking on the item, using
      * the Return key or calling gtk_widget_activate() will activate
      * the item. Activating instructs the containing view to handle
-     * activation. `GtkListView` for example will be emitting the
-     * [signal@Gtk.ListView::activate] signal.
+     * activation. <code>GtkListView</code> for example will be emitting the
+     * {@link [signal@Gtk.ListView::activate] (ref=signal)} signal.
      * 
      * By default, list items are activatable.
      */

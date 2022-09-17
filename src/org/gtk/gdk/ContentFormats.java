@@ -8,37 +8,36 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkContentFormats` structure is used to advertise and negotiate the
+ * The <code>GdkContentFormats</code> structure is used to advertise and negotiate the
  * format of content.
- * 
- * You will encounter `GdkContentFormats` when interacting with objects
+ * <p>
+ * You will encounter <code>GdkContentFormats</code> when interacting with objects
  * controlling operations that pass data between different widgets, window
- * or application, like [class@Gdk.Drag], [class@Gdk.Drop],
- * [class@Gdk.Clipboard] or [class@Gdk.ContentProvider].
- * 
- * GDK supports content in 2 forms: `GType` and mime type.
- * Using `GTypes` is meant only for in-process content transfers. Mime types
+ * or application, like {@link org.gtk.gdk.Drag}, {@link org.gtk.gdk.Drop},
+ * {@link org.gtk.gdk.Clipboard} or {@link org.gtk.gdk.ContentProvider}.
+ * <p>
+ * GDK supports content in 2 forms: <code>GType</code> and mime type.
+ * Using <code>GTypes</code> is meant only for in-process content transfers. Mime types
  * are meant to be used for data passing both in-process and out-of-process.
  * The details of how data is passed is described in the documentation of
  * the actual implementations. To transform between the two forms,
- * [class@Gdk.ContentSerializer] and [class@Gdk.ContentDeserializer] are used.
- * 
- * A `GdkContentFormats` describes a set of possible formats content can be
- * exchanged in. It is assumed that this set is ordered. `GTypes` are more
- * important than mime types. Order between different `GTypes` or mime types
+ * {@link org.gtk.gdk.ContentSerializer} and {@link org.gtk.gdk.ContentDeserializer} are used.
+ * <p>
+ * A <code>GdkContentFormats</code> describes a set of possible formats content can be
+ * exchanged in. It is assumed that this set is ordered. <code>GTypes</code> are more
+ * important than mime types. Order between different <code>GTypes</code> or mime types
  * is the order they were added in, most important first. Functions that
- * care about order, such as [method@Gdk.ContentFormats.union], will describe
+ * care about order, such as {@link org.gtk.gdk.ContentFormats#union}, will describe
  * in their documentation how they interpret that order, though in general the
  * order of the first argument is considered the primary order of the result,
  * followed by the order of further arguments.
- * 
- * For debugging purposes, the function [method@Gdk.ContentFormats.to_string]
+ * <p>
+ * For debugging purposes, the function {@link org.gtk.gdk.ContentFormats#toString}
  * exists. It will print a comma-separated list of formats from most important
  * to least important.
- * 
- * `GdkContentFormats` is an immutable struct. After creation, you cannot change
- * the types it represents. Instead, new `GdkContentFormats` have to be created.
- * The [struct@Gdk.ContentFormatsBuilder] structure is meant to help in this
+ * <p><code>GdkContentFormats</code> is an immutable struct. After creation, you cannot change
+ * the types it represents. Instead, new <code>GdkContentFormats</code> have to be created.
+ * The {@link [struct@Gdk.ContentFormatsBuilder] (ref=struct)} structure is meant to help in this
  * endeavor.
  */
 public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
@@ -53,11 +52,11 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GdkContentFormats` from an array of mime types.
+     * Creates a new <code>GdkContentFormats</code> from an array of mime types.
      * 
      * The mime types must be valid and different from each other or the
      * behavior of the return value is undefined. If you cannot guarantee
-     * this, use [struct@Gdk.ContentFormatsBuilder] instead.
+     * this, use {@link [struct@Gdk.ContentFormatsBuilder] (ref=struct)} instead.
      */
     public ContentFormats(java.lang.String[] mimeTypes, int nMimeTypes) {
         super(constructNew(mimeTypes, nMimeTypes));
@@ -69,14 +68,14 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GdkContentFormats` for a given `GType`.
+     * Creates a new <code>GdkContentFormats</code> for a given <code>GType</code>.
      */
     public static ContentFormats newForGtype(Type type) {
         return new ContentFormats(constructNewForGtype(type));
     }
     
     /**
-     * Checks if a given `GType` is part of the given @formats.
+     * Checks if a given <code>GType</code> is part of the given @formats.
      */
     public boolean containGtype(Type type) {
         var RESULT = gtk_h.gdk_content_formats_contain_gtype(handle(), type.getValue());
@@ -100,10 +99,10 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds the first `GType` from @first that is also contained
+     * Finds the first <code>GType</code> from @first that is also contained
      * in @second.
-     * 
-     * If no matching `GType` is found, %G_TYPE_INVALID is returned.
+     * <p>
+     * If no matching <code>GType</code> is found, <code>G_TYPE_INVALID</code> is returned.
      */
     public org.gtk.gobject.Type matchGtype(ContentFormats second) {
         var RESULT = gtk_h.gdk_content_formats_match_gtype(handle(), second.handle());
@@ -114,7 +113,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Finds the first mime type from @first that is also contained
      * in @second.
      * 
-     * If no matching mime type is found, %NULL is returned.
+     * If no matching mime type is found, <code>null</code> is returned.
      */
     public java.lang.String matchMimeType(ContentFormats second) {
         var RESULT = gtk_h.gdk_content_formats_match_mime_type(handle(), second.handle());
@@ -125,14 +124,14 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Prints the given @formats into a string for human consumption.
      * 
      * The result of this function can later be parsed with
-     * [func@Gdk.ContentFormats.parse].
+     * {@link Gdk#ContentFormats}.
      */
     public void print(org.gtk.glib.String string) {
         gtk_h.gdk_content_formats_print(handle(), string.handle());
     }
     
     /**
-     * Increases the reference count of a `GdkContentFormats` by one.
+     * Increases the reference count of a <code>GdkContentFormats</code> by one.
      */
     public ContentFormats ref() {
         var RESULT = gtk_h.gdk_content_formats_ref(handle());
@@ -142,9 +141,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Prints the given @formats into a human-readable string.
      * 
-     * The resulting string can be parsed with [func@Gdk.ContentFormats.parse].
+     * The resulting string can be parsed with {@link Gdk#ContentFormats}.
      * 
-     * This is a small wrapper around [method@Gdk.ContentFormats.print]
+     * This is a small wrapper around {@link org.gtk.gdk.ContentFormats#print}
      * to help when debugging.
      */
     public java.lang.String toString() {
@@ -198,7 +197,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of a `GdkContentFormats` by one.
+     * Decreases the reference count of a <code>GdkContentFormats</code> by one.
      * 
      * If the resulting reference count is zero, frees the formats.
      */
@@ -207,14 +206,14 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses the given @string into `GdkContentFormats` and
+     * Parses the given @string into <code>GdkContentFormats</code> and
      * returns the formats.
      * 
-     * Strings printed via [method@Gdk.ContentFormats.to_string]
+     * Strings printed via {@link org.gtk.gdk.ContentFormats#toString}
      * can be read in again successfully using this function.
      * 
-     * If @string does not describe valid content formats, %NULL
-     * is returned.
+     * If @string does not describe valid content formats, <code>NULL
+     * is</code> returned.
      */
     public static ContentFormats parse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());

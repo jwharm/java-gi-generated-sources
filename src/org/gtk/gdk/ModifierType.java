@@ -9,7 +9,7 @@ package org.gtk.gdk;
  * 
  * Note that GDK may add internal values to events which include values outside
  * of this enumeration. Your code should preserve and ignore them.  You can use
- * %GDK_MODIFIER_MASK to remove all private values.
+ * <code>GDK_MODIFIER_MASK</code> to remove all private values.
  */
 public class ModifierType {
 

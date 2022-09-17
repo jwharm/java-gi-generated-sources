@@ -8,47 +8,47 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutsWindow` shows information about the keyboard shortcuts
+ * A <code>GtkShortcutsWindow</code> shows information about the keyboard shortcuts
  * and gestures of an application.
- * 
+ * <p>
  * The shortcuts can be grouped, and you can have multiple sections in this
  * window, corresponding to the major modes of your application.
- * 
+ * <p>
  * Additionally, the shortcuts can be filtered by the current view, to avoid
  * showing information that is not relevant in the current application context.
- * 
- * The recommended way to construct a `GtkShortcutsWindow` is with
- * [class@Gtk.Builder], by populating a `GtkShortcutsWindow` with one or
- * more `GtkShortcutsSection` objects, which contain `GtkShortcutsGroups`
- * that in turn contain objects of class `GtkShortcutsShortcut`.
- * 
- * # A simple example:
- * 
- * ![](gedit-shortcuts.png)
- * 
+ * <p>
+ * The recommended way to construct a <code>GtkShortcutsWindow</code> is with
+ * {@link org.gtk.gtk.Builder}, by populating a <code>GtkShortcutsWindow</code> with one or
+ * more <code>GtkShortcutsSection</code> objects, which contain <code>GtkShortcutsGroups</code>
+ * that in turn contain objects of class <code>GtkShortcutsShortcut</code>.
+ * <p>
+ * <h1>simple example:</h1>
+ * <p>
+ * !{@link []}(gedit-shortcuts.png)
+ * <p>
  * This example has as single section. As you can see, the shortcut groups
  * are arranged in columns, and spread across several pages if there are too
  * many to find on a single page.
+ * <p>
+ * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-gedit.ui).
+ * <p>
+ * <h1>n example with multiple views:</h1>
+ * <p>
+ * !{@link []}(clocks-shortcuts.png)
+ * <p>
+ * This example shows a <code>GtkShortcutsWindow</code> that has been configured to show only
+ * the shortcuts relevant to the &#34;stopwatch&#34; view.
+ * <p>
+ * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-clocks.ui).
+ * <p>
+ * <h1>n example with multiple sections:</h1>
+ * <p>
+ * !{@link []}(builder-shortcuts.png)
+ * <p>
+ * This example shows a <code>GtkShortcutsWindow</code> with two sections, &#34;Editor Shortcuts&#34;
+ * and &#34;Terminal Shortcuts&#34;.
  * 
- * The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-gedit.ui).
- * 
- * # An example with multiple views:
- * 
- * ![](clocks-shortcuts.png)
- * 
- * This example shows a `GtkShortcutsWindow` that has been configured to show only
- * the shortcuts relevant to the "stopwatch" view.
- * 
- * The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-clocks.ui).
- * 
- * # An example with multiple sections:
- * 
- * ![](builder-shortcuts.png)
- * 
- * This example shows a `GtkShortcutsWindow` with two sections, "Editor Shortcuts"
- * and "Terminal Shortcuts".
- * 
- * The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
+ * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
  */
 public class ShortcutsWindow extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -69,7 +69,7 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
     /**
      * Emitted when the user uses a keybinding to close the window.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
      * The default binding for this signal is the Escape key.
      */
@@ -96,7 +96,7 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
     /**
      * Emitted when the user uses a keybinding to start a search.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
      * The default binding for this signal is Control-F.
      */

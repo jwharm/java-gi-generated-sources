@@ -1,8 +1,8 @@
 package org.harfbuzz;
 
 /**
- * Metric tags corresponding to [MVAR Value
- * Tags](https://docs.microsoft.com/en-us/typography/opentype/spec/mvar#value-tags)
+ * Metric tags corresponding to {@link [MVAR Value
+ * Tags]}(https://docs.microsoft.com/en-us/typography/opentype/spec/mvar#value-tags)
  */
 public enum OtMetricsTagT {
 

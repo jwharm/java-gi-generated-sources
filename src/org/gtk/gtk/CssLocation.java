@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * 
  * Note that the @lines parameter starts from 0 and is increased
  * whenever a CSS line break is encountered. (CSS defines the C character
- * sequences "\\r\\n", "\\r", "\\n" and "\\f" as newlines.)
+ * sequences &#34;\\r\\n&#34;, &#34;\\r&#34;, &#34;\\n&#34; and &#34;\\f&#34; as newlines.)
  * If your document uses different rules for line breaking, you might want
  * run into problems here.
  */

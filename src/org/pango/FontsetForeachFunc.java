@@ -3,7 +3,7 @@ package org.pango;
 /**
  * Callback used when enumerating fonts in a fontset.
  * 
- * See [method@Pango.Fontset.foreach].
+ * See {@link org.pango.Fontset#foreach}.
  */
 @FunctionalInterface
 public interface FontsetForeachFunc {

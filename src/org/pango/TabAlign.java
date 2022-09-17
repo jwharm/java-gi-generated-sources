@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * `PangoTabAlign` specifies where the text appears relative to the tab stop
+ * <code>PangoTabAlign</code> specifies where the text appears relative to the tab stop
  * position.
  */
 public enum TabAlign {

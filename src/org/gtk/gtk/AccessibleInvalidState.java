@@ -1,12 +1,12 @@
 package org.gtk.gtk;
 
 /**
- * The possible values for the %GTK_ACCESSIBLE_STATE_INVALID
- * accessible state.
+ * The possible values for the <code>GTK_ACCESSIBLE_STATE_INVALID
+ * accessible</code> state.
  * 
- * Note that the %GTK_ACCESSIBLE_INVALID_FALSE and
- * %GTK_ACCESSIBLE_INVALID_TRUE have the same values
- * as %FALSE and %TRUE.
+ * Note that the {@link org.gtk.gtk.AccessibleInvalidState#FALSE} and
+ * {@link org.gtk.gtk.AccessibleInvalidState#TRUE} have the same values
+ * as <code>false</code> and and %TRUE.
  */
 public enum AccessibleInvalidState {
 

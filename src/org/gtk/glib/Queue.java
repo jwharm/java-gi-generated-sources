@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * Contains the public fields of a
- * [Queue][glib-Double-ended-Queues].
+ * {@link [Queue]}{@link [glib-Double-ended-Queues]}.
  */
 public class Queue extends io.github.jwharm.javagi.ResourceBase {
 
@@ -56,7 +56,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * Finds an element in a #GQueue, using a supplied function to find the
      * desired element. It iterates over the queue, calling the given function
      * which should return 0 when the desired element is found. The function
-     * takes two gconstpointer arguments, the #GQueue element's data as the
+     * takes two gconstpointer arguments, the #GQueue element&#39;s data as the
      * first argument and the given user data as the second argument.
      */
     public org.gtk.glib.List findCustom(CompareFunc func) {
@@ -126,7 +126,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * A statically-allocated #GQueue must be initialized with this function
      * before it can be used. Alternatively you can initialize it with
-     * %G_QUEUE_INIT. It is not necessary to initialize queues created with
+     * <code>G_QUEUE_INIT.</code> It is not necessary to initialize queues created with
      * g_queue_new().
      */
     public void init() {
@@ -136,7 +136,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts @data into @queue after @sibling.
      * 
-     * @sibling must be part of @queue. Since GLib 2.44 a %NULL sibling pushes the
+     * @sibling must be part of @queue. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the head of the queue.
      */
     public void insertAfter(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
@@ -155,7 +155,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts @data into @queue before @sibling.
      * 
-     * @sibling must be part of @queue. Since GLib 2.44 a %NULL sibling pushes the
+     * @sibling must be part of @queue. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the tail of the queue.
      */
     public void insertBefore(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
@@ -190,7 +190,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if the queue is empty.
+     * Returns <code>true</code> if the queue is empty.
      */
     public boolean isEmpty() {
         var RESULT = gtk_h.g_queue_is_empty(handle());
@@ -222,7 +222,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the @n'th element of @queue.
+     * Returns the @n&#39;th element of @queue.
      */
     public jdk.incubator.foreign.MemoryAddress peekNth(int n) {
         var RESULT = gtk_h.g_queue_peek_nth(handle(), n);
@@ -270,7 +270,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the @n'th element of @queue and returns its data.
+     * Removes the @n&#39;th element of @queue and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popNth(int n) {
         var RESULT = gtk_h.g_queue_pop_nth(handle(), n);

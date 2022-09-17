@@ -66,7 +66,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if the scanner has reached the end of
+     * Returns <code>true</code> if the scanner has reached the end of
      * the file or text buffer.
      */
     public boolean eof() {
@@ -101,7 +101,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a symbol in the current scope and return its value.
-     * If the symbol is not bound in the current scope, %NULL is
+     * If the symbol is not bound in the current scope, <code>null</code> is
      * returned.
      */
     public jdk.incubator.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
@@ -156,7 +156,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a symbol in a scope and return its value. If the
-     * symbol is not bound in the scope, %NULL is returned.
+     * symbol is not bound in the scope, <code>null</code> is returned.
      */
     public jdk.incubator.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
         var RESULT = gtk_h.g_scanner_scope_lookup_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
@@ -189,12 +189,12 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Outputs a message through the scanner's msg_handler,
+     * Outputs a message through the scanner&#39;s msg_handler,
      * resulting from an unexpected token in the input stream.
      * Note that you should not call g_scanner_peek_next_token()
      * followed by g_scanner_unexp_token() without an intermediate
      * call to g_scanner_get_next_token(), as g_scanner_unexp_token()
-     * evaluates the scanner's current token (not the peeked token)
+     * evaluates the scanner&#39;s current token (not the peeked token)
      * to construct part of the message.
      */
     public void unexpToken(TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
@@ -206,7 +206,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The @config_templ structure specifies the initial settings
      * of the scanner, which are copied into the #GScanner
-     * @config field. If you pass %NULL then the default settings
+     * @config field. If you pass <code>null</code> then the default settings
      * are used.
      */
     public static Scanner new_(ScannerConfig configTempl) {

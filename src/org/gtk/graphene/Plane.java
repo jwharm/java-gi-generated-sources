@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A 2D plane that extends infinitely in a 3D volume.
- * 
- * The contents of the `graphene_plane_t` are private, and should not be
+ * <p>
+ * The contents of the <code>graphene_plane_t</code> are private, and should not be
  * modified directly.
  */
 public class Plane extends io.github.jwharm.javagi.ResourceBase {
@@ -141,9 +141,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Transforms a #graphene_plane_t @p using the given @matrix
      * and @normal_matrix.
      * 
-     * If @normal_matrix is %NULL, a transformation matrix for the plane
+     * If @normal_matrix is <code>NULL,</code> a transformation matrix for the plane
      * normal will be computed from @matrix. If you are transforming
-     * multiple planes using the same @matrix it's recommended to compute
+     * multiple planes using the same @matrix it&#39;s recommended to compute
      * the normal matrix beforehand to avoid incurring in the cost of
      * recomputing it every time.
      */

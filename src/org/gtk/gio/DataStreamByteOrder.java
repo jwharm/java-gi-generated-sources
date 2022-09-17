@@ -17,7 +17,7 @@ public enum DataStreamByteOrder {
     LITTLE_ENDIAN,
     
     /**
-     * Selects endianness based on host machine's architecture.
+     * Selects endianness based on host machine&#39;s architecture.
      */
     HOST_ENDIAN;
     

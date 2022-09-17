@@ -10,13 +10,13 @@ import java.lang.invoke.*;
 /**
  * A #GUnixFDList contains a list of file descriptors.  It owns the file
  * descriptors that it contains, closing them when finalized.
- * 
+ * <p>
  * It may be wrapped in a #GUnixFDMessage and sent over a #GSocket in
- * the %G_SOCKET_FAMILY_UNIX family by using g_socket_send_message()
+ * the {@link org.gtk.gio.SocketFamily#UNIX} family by using g_socket_send_message()
  * and received using g_socket_receive_message().
- * 
- * Note that `<gio/gunixfdlist.h>` belongs to the UNIX-specific GIO
- * interfaces, thus you have to use the `gio-unix-2.0.pc` pkg-config
+ * <p>
+ * Note that <code>&#60;gio/gunixfdlist.h&#62;</code> belongs to the UNIX-specific GIO
+ * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
  * file when using it.
  */
 public class UnixFDList extends org.gtk.gobject.Object {

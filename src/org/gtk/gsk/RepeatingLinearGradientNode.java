@@ -27,7 +27,7 @@ public class RepeatingLinearGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will create a repeating linear gradient
+     * Creates a <code>GskRenderNode</code> that will create a repeating linear gradient
      * from the given points and color stops, and render that into the area
      * given by @bounds.
      */

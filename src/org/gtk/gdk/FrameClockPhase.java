@@ -2,8 +2,8 @@ package org.gtk.gdk;
 
 /**
  * Used to represent the different paint clock phases that can be requested.
- * 
- * The elements of the enumeration correspond to the signals of `GdkFrameClock`.
+ * <p>
+ * The elements of the enumeration correspond to the signals of <code>GdkFrameClock</code>.
  */
 public class FrameClockPhase {
 

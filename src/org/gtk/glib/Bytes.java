@@ -47,6 +47,11 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GBytes from @data.
      * 
+     * @data is copied. If @size is 0, @data may be 
+     *       
+     *       
+     *         Creates a new #GBytes from @data.
+     * 
      * @data is copied. If @size is 0, @data may be %NULL.
      */
     public Bytes(byte[] data, long size) {
@@ -61,7 +66,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GBytes from static data.
      * 
-     * @data must be static (ie: never modified or freed). It may be %NULL if @size
+     * @data must be static (ie: never modified or freed). It may be <code>null</code> if @size
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
@@ -85,7 +90,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * For creating #GBytes with memory from other allocators, see
      * g_bytes_new_with_free_func().
      * 
-     * @data may be %NULL if @size is 0.
+     * @data may be <code>null</code> if @size is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
         return new Bytes(constructNewTake(data, size));
@@ -106,7 +111,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * @data must not be modified after this call is made until @free_func has
      * been called to indicate that the bytes is no longer in use.
      * 
-     * @data may be %NULL if @size is 0.
+     * @data may be <code>null</code> if @size is 0.
      */
     public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
         return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData));
@@ -130,10 +135,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares the two #GBytes values being pointed to and returns
-     * %TRUE if they are equal.
+     * <code>true</code> if they are equal.
      * 
      * This function can be passed to g_hash_table_new() as the @key_equal_func
-     * parameter, when using non-%NULL #GBytes pointers as keys in a #GHashTable.
+     * parameter, when using non-<code>null</code> #GBytes pointers as keys in a #GHashTable.
      */
     public boolean equal(Bytes bytes2) {
         var RESULT = gtk_h.g_bytes_equal(handle(), bytes2.handle());
@@ -150,17 +155,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * Ideally, @element_size is a static constant (eg: sizeof a struct).
      * 
      * This function does careful bounds checking (including checking for
-     * arithmetic overflows) and returns a non-%NULL pointer if the
+     * arithmetic overflows) and returns a non-<code>null</code> pointer if the
      * specified region lies entirely within the @bytes. If the region is
-     * in some way out of range, or if an overflow has occurred, then %NULL
-     * is returned.
+     * in some way out of range, or if an overflow has occurred, then <code>NULL
+     * is</code> returned.
      * 
      * Note: it is possible to have a valid zero-size region. In this case,
      * the returned pointer will be equal to the base pointer of the data of
-     * @bytes, plus @offset.  This will be non-%NULL except for the case
+     * @bytes, plus @offset.  This will be non-<code>null</code> except for the case
      * where @bytes itself was a zero-sized region.  Since it is unlikely
      * that you will be using this function to check for a zero-sized region
-     * in a zero-sized @bytes, %NULL effectively always means "error".
+     * in a zero-sized @bytes, <code>null</code> effectively always means &#34;error&#34;.
      */
     public jdk.incubator.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
         var RESULT = gtk_h.g_bytes_get_region(handle(), elementSize, offset, nElements);
@@ -181,7 +186,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * Creates an integer hash code for the byte data in the #GBytes.
      * 
      * This function can be passed to g_hash_table_new() as the @key_hash_func
-     * parameter, when using non-%NULL #GBytes pointers as keys in a #GHashTable.
+     * parameter, when using non-<code>null</code> #GBytes pointers as keys in a #GHashTable.
      */
     public int hash() {
         var RESULT = gtk_h.g_bytes_hash(handle());
@@ -216,7 +221,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Releases a reference on @bytes.  This may result in the bytes being
-     * freed. If @bytes is %NULL, it will return immediately.
+     * freed. If @bytes is <code>NULL,</code> it will return immediately.
      */
     public void unref() {
         gtk_h.g_bytes_unref(handle());

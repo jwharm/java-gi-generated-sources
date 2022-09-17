@@ -35,10 +35,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Decomposes a transformation matrix into its component transformations.
      * 
      * The algorithm for decomposing a matrix is taken from the
-     * [CSS3 Transforms specification](http://dev.w3.org/csswg/css-transforms/);
+     * {@link [CSS3 Transforms specification]}(http://dev.w3.org/csswg/css-transforms/);
      * specifically, the decomposition code is based on the equivalent code
-     * published in "Graphics Gems II", edited by Jim Arvo, and
-     * [available online](http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c).
+     * published in &#34;Graphics Gems II&#34;, edited by Jim Arvo, and
+     * {@link [available online]}(http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c).
      */
     public boolean decompose(Vec3 translate, Vec3 scale, Quaternion rotate, Vec3 shear, Vec4 perspective) {
         var RESULT = gtk_h.graphene_matrix_decompose(handle(), translate.handle(), scale.handle(), rotate.handle(), shear.handle(), perspective.handle());
@@ -70,7 +70,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * conjuction with either graphene_matrix_equal() or
      * graphene_matrix_near(). For instance:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   if (graphene_matrix_equal_fast (a, b))
      *     {
      *       // matrices are definitely the same
@@ -84,7 +84,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      *       else
      *         // matrices are not equal
      *     }
-     * ]|
+     * ]}|
      */
     public boolean equalFast(Matrix b) {
         var RESULT = gtk_h.graphene_matrix_equal_fast(handle(), b.handle());
@@ -167,11 +167,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The arguments map to the following matrix layout:
      * 
-     * |[<!-- language="plain" -->
-     *   ⎛ xx  yx ⎞   ⎛  a   b  0 ⎞
-     *   ⎜ xy  yy ⎟ = ⎜  c   d  0 ⎟
-     *   ⎝ x0  y0 ⎠   ⎝ tx  ty  1 ⎠
-     * ]|
+     * |{@link [&#60;!-- language=&#34;plain&#34; --&#62;
+     *   &#9115; xx  yx &#9118;   &#9115;  a   b  0 &#9118;
+     *   &#9116; xy  yy &#9119; = &#9116;  c   d  0 &#9119;
+     *   &#9117; x0  y0 &#9120;   &#9117; tx  ty  1 &#9120;
+     * ]}|
      * 
      * This function can be used to convert between an affine matrix type
      * from other libraries and a #graphene_matrix_t.
@@ -227,7 +227,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t so that it positions the "camera"
+     * Initializes a #graphene_matrix_t so that it positions the &#34;camera&#34;
      * at the given @eye coordinates towards an object at the @center
      * coordinates. The top of the camera is aligned to the direction
      * of the @up vector.
@@ -357,7 +357,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * Multiplies two #graphene_matrix_t.
      * 
      * Matrix multiplication is not commutative in general; the order of the factors matters.
-     * The product of this multiplication is (@a × @b)
+     * The product of this multiplication is (@a &#215; @b)
      */
     public void multiply(Matrix b, Matrix res) {
         gtk_h.graphene_matrix_multiply(handle(), b.handle(), res.handle());

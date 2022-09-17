@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A GtkTreeRowReference tracks model changes so that it always refers to the
- * same row (a `GtkTreePath` refers to a position, not a fixed row). Create a
+ * same row (a <code>GtkTreePath</code> refers to a position, not a fixed row). Create a
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
 public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
@@ -29,7 +29,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * This reference will keep pointing to the node pointed to
      * by @path, so long as it exists. Any changes that occur on @model are
      * propagated, and the path is updated appropriately. If
-     * @path isn’t a valid path in @model, then %NULL is returned.
+     * @path isn&#8217;t a valid path in @model, then <code>null</code> is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
         super(constructNew(model, path));
@@ -42,25 +42,25 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * You do not need to use this function.
-     * 
+     * <p>
      * Creates a row reference based on @path.
-     * 
+     * <p>
      * This reference will keep pointing to the node pointed to
-     * by @path, so long as it exists. If @path isn’t a valid
-     * path in @model, then %NULL is returned. However, unlike
+     * by @path, so long as it exists. If @path isn&#8217;t a valid
+     * path in @model, then <code>null</code> is returned. However, unlike
      * references created with gtk_tree_row_reference_new(), it
      * does not listen to the model for changes. The creator of
      * the row reference must do this explicitly using
      * gtk_tree_row_reference_inserted(), gtk_tree_row_reference_deleted(),
      * gtk_tree_row_reference_reordered().
-     * 
+     * <p>
      * These functions must be called exactly once per proxy when the
      * corresponding signal on the model is emitted. This single call
      * updates all row references for that proxy. Since built-in GTK
-     * objects like `GtkTreeView` already use this mechanism internally,
+     * objects like <code>GtkTreeView</code> already use this mechanism internally,
      * using them as the proxy object will produce unpredictable results.
      * Further more, passing the same object as @model and @proxy
-     * doesn’t work for reasons of internal implementation.
+     * doesn&#8217;t work for reasons of internal implementation.
      * 
      * This type of row reference is primarily meant by structures that
      * need to carefully monitor exactly when a row reference updates
@@ -71,7 +71,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a `GtkTreeRowReference`.
+     * Copies a <code>GtkTreeRowReference</code>.
      */
     public TreeRowReference copy() {
         var RESULT = gtk_h.gtk_tree_row_reference_copy(handle());
@@ -79,7 +79,13 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free’s @reference. @reference may be %NULL
+     * Free&#8217;s @reference. @reference may be 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Free&#8217;s @reference. @reference may be %NULL
      */
     public void free() {
         gtk_h.gtk_tree_row_reference_free(handle());
@@ -95,7 +101,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns a path that the row reference currently points to,
-     * or %NULL if the path pointed to is no longer valid.
+     * or <code>null</code> if the path pointed to is no longer valid.
      */
     public TreePath getPath() {
         var RESULT = gtk_h.gtk_tree_row_reference_get_path(handle());
@@ -103,7 +109,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if the @reference is non-%NULL and refers to
+     * Returns <code>true</code> if the @reference is non-<code>null</code> and refers to
      * a current valid path.
      */
     public boolean valid() {

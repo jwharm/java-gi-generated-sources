@@ -8,27 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Simply a replacement for `time_t`. It has been deprecated
- * since it is not equivalent to `time_t` on 64-bit platforms
- * with a 64-bit `time_t`.
- * 
+ * Simply a replacement for <code>time_t</code>. It has been deprecated
+ * since it is not equivalent to <code>time_t</code> on 64-bit platforms
+ * with a 64-bit <code>time_t</code>.
+ * <p>
  * Unrelated to #GTimer.
- * 
+ * <p>
  * Note that #GTime is defined to always be a 32-bit integer,
- * unlike `time_t` which may be 64-bit on some systems. Therefore,
+ * unlike <code>time_t</code> which may be 64-bit on some systems. Therefore,
  * #GTime will overflow in the year 2038, and you cannot use the
  * address of a #GTime variable as argument to the UNIX time()
  * function.
  * 
  * Instead, do the following:
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * time_t ttime;
  * GTime gtime;
  * 
- * time (&ttime);
+ * time (&#38;ttime);
  * gtime = (GTime)ttime;
- * ]|
+ * ]}|
  */
 public class Time {
 

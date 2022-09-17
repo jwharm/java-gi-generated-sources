@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkDragIcon` is a `GtkRoot` implementation for drag icons.
+ * <code>GtkDragIcon</code> is a <code>GtkRoot</code> implementation for drag icons.
  * 
  * A drag icon moves with the pointer during a Drag-and-Drop operation
  * and is destroyed when the drag ends.
  * 
  * To set up a drag icon and associate it with an ongoing drag operation,
- * use [func@Gtk.DragIcon.get_for_drag] to get the icon for a drag. You can
- * then use it like any other widget and use [method@Gtk.DragIcon.set_child]
+ * use {@link Gtk#DragIcon} to get the icon for a drag. You can
+ * then use it like any other widget and use {@link org.gtk.gtk.DragIcon#setChild}
  * to set whatever widget should be used for the drag icon.
  * 
  * Keep in mind that drag icons do not allow user input.
@@ -49,13 +49,13 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a widget that can be used as a drag icon for the given
      * @value.
-     * 
-     * Supported types include strings, `GdkRGBA` and `GtkTextBuffer`.
+     * <p>
+     * Supported types include strings, <code>GdkRGBA</code> and <code>GtkTextBuffer</code>.
      * If GTK does not know how to create a widget for a given value,
-     * it will return %NULL.
-     * 
-     * This method is used to set the default drag icon on drag-and-drop
-     * operations started by `GtkDragSource`, so you don't need to set
+     * it will return <code>NULL.
+     * <p>
+     * This</code> method is used to set the default drag icon on drag-and-drop
+     * operations started by <code>GtkDragSource</code>, so you don&#39;t need to set
      * a drag icon using this function there.
      */
     public static Widget createWidgetForValue(org.gtk.gobject.Value value) {
@@ -64,7 +64,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the `GtkDragIcon` in use with @drag.
+     * Gets the <code>GtkDragIcon</code> in use with @drag.
      * 
      * If no drag icon exists yet, a new one will be created
      * and shown.
@@ -75,7 +75,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a `GtkDragIcon` that shows @paintable, and associates
+     * Creates a <code>GtkDragIcon</code> that shows @paintable, and associates
      * it with the drag operation.
      * 
      * The hotspot position on the paintable is aligned with the

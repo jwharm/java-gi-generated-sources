@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A #GDBusObjectProxy is an object used to represent a remote object
- * with one or more D-Bus interfaces. Normally, you don't instantiate
+ * with one or more D-Bus interfaces. Normally, you don&#39;t instantiate
  * a #GDBusObjectProxy yourself - typically #GDBusObjectManagerClient
  * is used to obtain it.
  */

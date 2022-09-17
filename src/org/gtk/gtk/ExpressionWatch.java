@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An opaque structure representing a watched `GtkExpression`.
- * 
- * The contents of `GtkExpressionWatch` should only be accessed through the
+ * An opaque structure representing a watched <code>GtkExpression</code>.
+ * <p>
+ * The contents of <code>GtkExpressionWatch</code> should only be accessed through the
  * provided API.
  */
 public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
@@ -21,10 +21,10 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Evaluates the watched expression and on success stores the result
-     * in `value`.
-     * 
-     * This is equivalent to calling [method@Gtk.Expression.evaluate] with the
-     * expression and this pointer originally used to create `watch`.
+     * in <code>value</code>.
+     * <p>
+     * This is equivalent to calling {@link org.gtk.gtk.Expression#evaluate} with the
+     * expression and this pointer originally used to create <code>watch</code>.
      */
     public boolean evaluate(org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_expression_watch_evaluate(handle(), value.handle());
@@ -32,7 +32,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Acquires a reference on the given `GtkExpressionWatch`.
+     * Acquires a reference on the given <code>GtkExpressionWatch</code>.
      */
     public ExpressionWatch ref() {
         var RESULT = gtk_h.gtk_expression_watch_ref(handle());
@@ -40,9 +40,9 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Releases a reference on the given `GtkExpressionWatch`.
-     * 
-     * If the reference was the last, the resources associated to `self` are
+     * Releases a reference on the given <code>GtkExpressionWatch</code>.
+     * <p>
+     * If the reference was the last, the resources associated to <code>self</code> are
      * freed.
      */
     public void unref() {
@@ -52,7 +52,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Stops watching an expression.
      * 
-     * See [method@Gtk.Expression.watch] for how the watch
+     * See {@link org.gtk.gtk.Expression#watch} for how the watch
      * was established.
      */
     public void unwatch() {

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureStylus` is a `GtkGesture` specific to stylus input.
+ * <code>GtkGestureStylus</code> is a <code>GtkGesture</code> specific to stylus input.
  * 
  * The provided signals just relay the basic information of the
  * stylus events.
@@ -30,18 +30,18 @@ public class GestureStylus extends GestureSingle {
     }
     
     /**
-     * Creates a new `GtkGestureStylus`.
+     * Creates a new <code>GtkGestureStylus</code>.
      */
     public GestureStylus() {
         super(constructNew());
     }
     
     /**
-     * Returns the `GdkDeviceTool` currently driving input through this gesture.
+     * Returns the <code>GdkDeviceTool</code> currently driving input through this gesture.
      * 
      * This function must be called from the handler of one of the
-     * [signal@Gtk.GestureStylus::down], [signal@Gtk.GestureStylus::motion],
-     * [signal@Gtk.GestureStylus::up] or [signal@Gtk.GestureStylus::proximity]
+     * {@link [signal@Gtk.GestureStylus::down] (ref=signal)}, {@link [signal@Gtk.GestureStylus::motion] (ref=signal)},
+     * {@link [signal@Gtk.GestureStylus::up] (ref=signal)} or {@link [signal@Gtk.GestureStylus::proximity] (ref=signal)}
      * signals.
      */
     public org.gtk.gdk.DeviceTool getDeviceTool() {

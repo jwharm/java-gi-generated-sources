@@ -8,77 +8,74 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkApplicationWindow` is a `GtkWindow` subclass that integrates with
- * `GtkApplication`.
- * 
- * Notably, `GtkApplicationWindow` can handle an application menubar.
- * 
- * This class implements the `GActionGroup` and `GActionMap` interfaces,
+ * <code>GtkApplicationWindow</code> is a <code>GtkWindow</code> subclass that integrates with<code>GtkApplication</code>.
+ * <p>
+ * Notably, <code>GtkApplicationWindow</code> can handle an application menubar.
+ * <p>
+ * This class implements the <code>GActionGroup</code> and <code>GActionMap</code> interfaces,
  * to let you add window-specific actions that will be exported by the
- * associated [class@Gtk.Application], together with its application-wide
- * actions. Window-specific actions are prefixed with the “win.”
- * prefix and application-wide actions are prefixed with the “app.”
+ * associated {@link org.gtk.gtk.Application}, together with its application-wide
+ * actions. Window-specific actions are prefixed with the &#8220;win.&#8221;
+ * prefix and application-wide actions are prefixed with the &#8220;app.&#8221;
  * prefix. Actions must be addressed with the prefixed name when
- * referring to them from a `GMenuModel`.
- * 
- * Note that widgets that are placed inside a `GtkApplicationWindow`
+ * referring to them from a <code>GMenuModel</code>.
+ * <p>
+ * Note that widgets that are placed inside a <code>GtkApplicationWindow</code>
  * can also activate these actions, if they implement the
- * [iface@Gtk.Actionable] interface.
- * 
- * The settings [property@Gtk.Settings:gtk-shell-shows-app-menu] and
- * [property@Gtk.Settings:gtk-shell-shows-menubar] tell GTK whether the
+ * {@link [iface@Gtk.Actionable] (ref=iface)} interface.
+ * <p>
+ * The settings {@link [property@Gtk.Settings:gtk-shell-shows-app-menu] (ref=property)} and
+ * {@link [property@Gtk.Settings:gtk-shell-shows-menubar] (ref=property)} tell GTK whether the
  * desktop environment is showing the application menu and menubar
  * models outside the application as part of the desktop shell.
  * For instance, on OS X, both menus will be displayed remotely;
  * on Windows neither will be.
- * 
- * If the desktop environment does not display the menubar, then
- * `GtkApplicationWindow` will automatically show a menubar for it.
+ * <p>
+ * If the desktop environment does not display the menubar, then<code>GtkApplicationWindow</code> will automatically show a menubar for it.
  * This behaviour can be overridden with the
- * [property@Gtk.ApplicationWindow:show-menubar] property. If the
+ * {@link [property@Gtk.ApplicationWindow:show-menubar] (ref=property)} property. If the
  * desktop environment does not display the application menu, then
  * it will automatically be included in the menubar or in the windows
  * client-side decorations.
- * 
- * See [class@Gtk.PopoverMenu] for information about the XML language
- * used by `GtkBuilder` for menu models.
- * 
- * See also: [method@Gtk.Application.set_menubar].
- * 
- * ## A GtkApplicationWindow with a menubar
- * 
- * The code sample below shows how to set up a `GtkApplicationWindow`
- * with a menu bar defined on the [class@Gtk.Application]:
- * 
- * ```c
- * GtkApplication *app = gtk_application_new ("org.gtk.test", 0);
+ * <p>
+ * See {@link org.gtk.gtk.PopoverMenu} for information about the XML language
+ * used by <code>GtkBuilder</code> for menu models.
+ * <p>
+ * See also: {@link org.gtk.gtk.Application#setMenubar}.
+ * <p>
+ * <h2>A GtkApplicationWindow with a menubar</h2>
+ * <p>
+ * The code sample below shows how to set up a <code>GtkApplicationWindow</code>
+ * with a menu bar defined on the {@link org.gtk.gtk.Application}:
+ * <p><pre>c
+ * GtkApplication *app = gtk_application_new (&#34;org.gtk.test&#34;, 0);
  * 
  * GtkBuilder *builder = gtk_builder_new_from_string (
- *     "<interface>"
- *     "  <menu id='menubar'>"
- *     "    <submenu>"
- *     "      <attribute name='label' translatable='yes'>_Edit</attribute>"
- *     "      <item>"
- *     "        <attribute name='label' translatable='yes'>_Copy</attribute>"
- *     "        <attribute name='action'>win.copy</attribute>"
- *     "      </item>"
- *     "      <item>"
- *     "        <attribute name='label' translatable='yes'>_Paste</attribute>"
- *     "        <attribute name='action'>win.paste</attribute>"
- *     "      </item>"
- *     "    </submenu>"
- *     "  </menu>"
- *     "</interface>",
+ *     &#34;&#60;interface&#62;&#34;
+ *     &#34;  &#60;menu id=&#39;menubar&#39;&#62;&#34;
+ *     &#34;    &#60;submenu&#62;&#34;
+ *     &#34;      &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_Edit&#60;/attribute&#62;&#34;
+ *     &#34;      &#60;item&#62;&#34;
+ *     &#34;        &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_Copy&#60;/attribute&#62;&#34;
+ *     &#34;        &#60;attribute name=&#39;action&#39;&#62;win.copy&#60;/attribute&#62;&#34;
+ *     &#34;      &#60;/item&#62;&#34;
+ *     &#34;      &#60;item&#62;&#34;
+ *     &#34;        &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_Paste&#60;/attribute&#62;&#34;
+ *     &#34;        &#60;attribute name=&#39;action&#39;&#62;win.paste&#60;/attribute&#62;&#34;
+ *     &#34;      &#60;/item&#62;&#34;
+ *     &#34;    &#60;/submenu&#62;&#34;
+ *     &#34;  &#60;/menu&#62;&#34;
+ *     &#34;&#60;/interface&#62;&#34;,
  *     -1);
  * 
- * GMenuModel *menubar = G_MENU_MODEL (gtk_builder_get_object (builder, "menubar"));
+ * GMenuModel *menubar = G_MENU_MODEL (gtk_builder_get_object (builder, &#34;menubar&#34;));
  * gtk_application_set_menubar (GTK_APPLICATION (app), menubar);
  * g_object_unref (builder);
  * 
  * // ...
  * 
  * GtkWidget *window = gtk_application_window_new (app);
- * ```
+ * </pre>
  */
 public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -97,16 +94,16 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
     }
     
     /**
-     * Creates a new `GtkApplicationWindow`.
+     * Creates a new <code>GtkApplicationWindow</code>.
      */
     public ApplicationWindow(Application application) {
         super(constructNew(application));
     }
     
     /**
-     * Gets the `GtkShortcutsWindow` that is associated with @window.
+     * Gets the <code>GtkShortcutsWindow</code> that is associated with @window.
      * 
-     * See [method@Gtk.ApplicationWindow.set_help_overlay].
+     * See {@link org.gtk.gtk.ApplicationWindow#setHelpOverlay}.
      */
     public ShortcutsWindow getHelpOverlay() {
         var RESULT = gtk_h.gtk_application_window_get_help_overlay(handle());
@@ -115,8 +112,8 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
     
     /**
      * Returns the unique ID of the window.
-     * 
-     *  If the window has not yet been added to a `GtkApplication`, returns `0`.
+     * <p>
+     *  If the window has not yet been added to a <code>GtkApplication</code>, returns <code>0</code>.
      */
     public int getId() {
         var RESULT = gtk_h.gtk_application_window_get_id(handle());
@@ -134,9 +131,8 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
     
     /**
      * Associates a shortcuts window with the application window.
-     * 
-     * Additionally, sets up an action with the name
-     * `win.show-help-overlay` to present it.
+     * <p>
+     * Additionally, sets up an action with the name<code>win.show-help-overlay</code> to present it.
      * 
      * @window takes responsibility for destroying @help_overlay.
      */

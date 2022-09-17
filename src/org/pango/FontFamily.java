@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoFontFamily` is used to represent a family of related
+ * A <code>PangoFontFamily</code> is used to represent a family of related
  * font faces.
  * 
  * The font faces in a family share a common design, but differ in
@@ -26,7 +26,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Gets the `PangoFontFace` of @family with the given name.
+     * Gets the <code>PangoFontFace</code> of @family with the given name.
      */
     public FontFace getFace(java.lang.String name) {
         var RESULT = gtk_h.pango_font_family_get_face(handle(), Interop.allocateNativeString(name).handle());
@@ -35,9 +35,9 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     
     /**
      * Gets the name of the family.
-     * 
+     * <p>
      * The name is unique among all fonts for the font backend and can
-     * be used in a `PangoFontDescription` to specify that a face from
+     * be used in a <code>PangoFontDescription</code> to specify that a face from
      * this family is desired.
      */
     public java.lang.String getName() {
@@ -57,8 +57,8 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * character is typically double-width in a monospace font.
      * 
      * The best way to find out the grid-cell size is to call
-     * [method@Pango.FontMetrics.get_approximate_digit_width], since the
-     * results of [method@Pango.FontMetrics.get_approximate_char_width] may
+     * {@link org.pango.FontMetrics#getApproximateDigitWidth}, since the
+     * results of {@link org.pango.FontMetrics#getApproximateCharWidth} may
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
@@ -71,7 +71,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * produce different faces.
      * 
      * Such axes are also known as _variations_; see
-     * [method@Pango.FontDescription.set_variations] for more information.
+     * {@link org.pango.FontDescription#setVariations} for more information.
      */
     public boolean isVariable() {
         var RESULT = gtk_h.pango_font_family_is_variable(handle());

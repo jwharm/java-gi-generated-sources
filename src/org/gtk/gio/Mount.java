@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  * The #GMount interface represents user-visible mounts. Note, when
  * porting from GnomeVFS, #GMount is the moral equivalent of #GnomeVFSVolume.
  * 
- * #GMount is a "mounted" filesystem that you can access. Mounted is in
- * quotes because it's not the same as a unix mount, it might be a gvfs
+ * #GMount is a &#34;mounted&#34; filesystem that you can access. Mounted is in
+ * quotes because it&#39;s not the same as a unix mount, it might be a gvfs
  * mount, but you can still access the files on it if you use GIO. Might or
  * might not be related to a volume object.
  * 
@@ -67,7 +67,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a mount. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -142,7 +142,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the UUID for the @mount. The reference is typically based on
      * the file system UUID for the mount in question and should be
-     * considered an opaque string. Returns %NULL if there is no UUID
+     * considered an opaque string. Returns <code>null</code> if there is no UUID
      * available.
      */
     public default java.lang.String getUuid() {
@@ -161,9 +161,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Tries to guess the type of content stored on @mount. Returns one or
      * more textual identifiers of well-known content types (typically
-     * prefixed with "x-content/"), e.g. x-content/image-dcf for camera
+     * prefixed with &#34;x-content/&#34;), e.g. x-content/image-dcf for camera
      * memory cards. See the
-     * [shared-mime-info](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
+     * {@link [shared-mime-info]}(http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
      * specification for more on x-content types.
      * 
      * This is an asynchronous operation (see
@@ -188,20 +188,19 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Determines if @mount is shadowed. Applications or libraries should
      * avoid displaying @mount in the user interface if it is shadowed.
-     * 
+     * <p>
      * A mount is said to be shadowed if there exists one or more user
      * visible objects (currently #GMount objects) with a root that is
      * inside the root of @mount.
-     * 
+     * <p>
      * One application of shadow mounts is when exposing a single file
      * system that is used to address several logical volumes. In this
      * situation, a #GVolumeMonitor implementation would create two
-     * #GVolume objects (for example, one for the camera functionality of
+     * <h1>olume objects (for example, one for the camera functionality of</h1>
      * the device and one for a SD card reader on the device) with
-     * activation URIs `gphoto2://[usb:001,002]/store1/`
-     * and `gphoto2://[usb:001,002]/store2/`. When the
-     * underlying mount (with root
-     * `gphoto2://[usb:001,002]/`) is mounted, said
+     * activation URIs <code>gphoto2://{@link [usb:001,002]}/store1/</code>
+     * and <code>gphoto2://{@link [usb:001,002]}/store2/</code>. When the
+     * underlying mount (with root<code>gphoto2://{@link [usb:001,002]}/</code>) is mounted, said
      * #GVolumeMonitor implementation would create two #GMount objects
      * (each with their root matching the corresponding volume activation
      * root) that would shadow the original mount.
@@ -242,7 +241,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes remounting a mount. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean remountFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -284,7 +283,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes unmounting a mount. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean unmountWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

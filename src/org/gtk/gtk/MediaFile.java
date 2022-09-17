@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkMediaFile` implements `GtkMediaStream` for files.
- * 
+ * <code>GtkMediaFile</code> implements <code>GtkMediaStream</code> for files.
+ * <p>
  * This provides a simple way to play back video files with GTK.
- * 
- * GTK provides a GIO extension point for `GtkMediaFile` implementations
+ * <p>
+ * GTK provides a GIO extension point for <code>GtkMediaFile</code> implementations
  * to allow for external implementations using various media frameworks.
  * 
  * GTK itself includes implementations using GStreamer and ffmpeg.
@@ -59,9 +59,9 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     
     /**
      * Creates a new media file for the given filename.
-     * 
+     * <p>
      * This is a utility function that converts the given @filename
-     * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
+     * to a <code>GFile</code> and calls {@link [ctor@Gtk.MediaFile.new_for_file] (ref=ctor)}.
      */
     public static MediaFile newForFilename(java.lang.String filename) {
         return new MediaFile(constructNewForFilename(filename));
@@ -74,9 +74,9 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     
     /**
      * Creates a new media file to play @stream.
-     * 
+     * <p>
      * If you want the resulting media to be seekable,
-     * the stream should implement the `GSeekable` interface.
+     * the stream should implement the <code>GSeekable</code> interface.
      */
     public static MediaFile newForInputStream(org.gtk.gio.InputStream stream) {
         return new MediaFile(constructNewForInputStream(stream));
@@ -89,9 +89,9 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     
     /**
      * Creates a new new media file for the given resource.
-     * 
+     * <p>
      * This is a utility function that converts the given @resource
-     * to a `GFile` and calls [ctor@Gtk.MediaFile.new_for_file].
+     * to a <code>GFile</code> and calls {@link [ctor@Gtk.MediaFile.new_for_file] (ref=ctor)}.
      */
     public static MediaFile newForResource(java.lang.String resourcePath) {
         return new MediaFile(constructNewForResource(resourcePath));
@@ -108,7 +108,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Returns the file that @self is currently playing from.
      * 
      * When @self is not playing or not playing from a file,
-     * %NULL is returned.
+     * <code>null</code> is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_media_file_get_file(handle());
@@ -119,7 +119,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Returns the stream that @self is currently playing from.
      * 
      * When @self is not playing or not playing from a stream,
-     * %NULL is returned.
+     * <code>null</code> is returned.
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gtk_media_file_get_input_stream(handle());
@@ -127,7 +127,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     }
     
     /**
-     * Sets the `GtkMediaFile` to play the given file.
+     * Sets the <code>GtkMediaFile</code> to play the given file.
      * 
      * If any file is still playing, stop playing it.
      */
@@ -136,17 +136,17 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     }
     
     /**
-     * Sets the `GtkMediaFile to play the given file.
+     * Sets the <code>GtkMediaFile to play the given file.
      * 
      * This is a utility function that converts the given @filename
-     * to a `GFile` and calls [method@Gtk.MediaFile.set_file].
+     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile#setFile}.
      */
     public void setFilename(java.lang.String filename) {
         gtk_h.gtk_media_file_set_filename(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
-     * Sets the `GtkMediaFile` to play the given stream.
+     * Sets the <code>GtkMediaFile</code> to play the given stream.
      * 
      * If anything is still playing, stop playing it.
      * 
@@ -158,10 +158,10 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
     }
     
     /**
-     * Sets the `GtkMediaFile to play the given resource.
+     * Sets the <code>GtkMediaFile to play the given resource.
      * 
      * This is a utility function that converts the given @resource_path
-     * to a `GFile` and calls [method@Gtk.MediaFile.set_file].
+     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile#setFile}.
      */
     public void setResource(java.lang.String resourcePath) {
         gtk_h.gtk_media_file_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());

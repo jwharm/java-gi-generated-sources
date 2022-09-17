@@ -27,7 +27,7 @@ public class RepeatNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will repeat the drawing of @child across
+     * Creates a <code>GskRenderNode</code> that will repeat the drawing of @child across
      * the given @bounds.
      */
     public RepeatNode(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {

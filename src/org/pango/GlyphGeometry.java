@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoGlyphGeometry` structure contains width and positioning
+ * The <code>PangoGlyphGeometry</code> structure contains width and positioning
  * information for a single glyph.
  * 
  * Note that @width is not guaranteed to be the same as the glyph

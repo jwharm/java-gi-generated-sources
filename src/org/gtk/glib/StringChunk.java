@@ -77,7 +77,7 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
      * Adds a copy of the first @len bytes of @string to the #GStringChunk.
      * The copy is nul-terminated.
      * 
-     * Since this function does not stop at nul bytes, it is the caller's
+     * Since this function does not stop at nul bytes, it is the caller&#39;s
      * responsibility to ensure that @string has at least @len addressable
      * bytes.
      * 

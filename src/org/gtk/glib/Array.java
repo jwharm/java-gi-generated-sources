@@ -18,14 +18,14 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Frees the memory allocated for the #GArray. If @free_segment is
-     * %TRUE it frees the memory block holding the elements as well. Pass
-     * %FALSE if you want to free the #GArray wrapper but preserve the
+     * <code>true</code> it frees the memory block holding the elements as well. Pass
+     * <code>false</code> if you want to free the #GArray wrapper but preserve the
      * underlying array for use elsewhere. If the reference count of
      * @array is greater than one, the #GArray wrapper is preserved but
      * the size of  @array will be set to zero.
      * 
      * If array contents point to dynamically-allocated memory, they should
-     * be freed separately if @free_seg is %TRUE and no @clear_func
+     * be freed separately if @free_seg is <code>true</code> and no @clear_func
      * function has been set for @array.
      * 
      * This function is not thread-safe. If using a #GArray from multiple

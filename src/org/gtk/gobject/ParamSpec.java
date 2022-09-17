@@ -10,17 +10,17 @@ import java.lang.invoke.*;
 /**
  * #GParamSpec is an object structure that encapsulates the metadata
  * required to specify parameters, such as e.g. #GObject properties.
- * 
- * ## Parameter names # {#canonical-parameter-names}
- * 
+ * <p>
+ * <h2>Parameter names # {#canonical-parameter-names}</h2>
+ * <p>
  * A property name consists of one or more segments consisting of ASCII letters
- * and digits, separated by either the `-` or `_` character. The first
+ * and digits, separated by either the <code>-</code> or <code>_</code> character. The first
  * character of a property name must be a letter. These are the same rules as
  * for signal naming (see g_signal_new()).
- * 
+ * <p>
  * When creating and looking up a #GParamSpec, either separator can be
- * used, but they cannot be mixed. Using `-` is considerably more
- * efficient, and is the ‘canonical form’. Using `_` is discouraged.
+ * used, but they cannot be mixed. Using <code>-</code> is considerably more
+ * efficient, and is the &#8216;canonical form&#8217;. Using <code>_</code> is discouraged.
  */
 public class ParamSpec extends org.gtk.gobject.Object {
 
@@ -54,7 +54,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Get the name of a #GParamSpec.
      * 
-     * The name is always an "interned" string (as per g_intern_string()).
+     * The name is always an &#34;interned&#34; string (as per g_intern_string()).
      * This allows for pointer-value comparisons.
      */
     public java.lang.String getName() {
@@ -122,7 +122,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * g_quark_from_static_string()), and the pointer can be gotten back
      * from the @pspec with g_param_spec_get_qdata().  Setting a
      * previously set user data pointer, overrides (frees) the old pointer
-     * set, using %NULL as pointer essentially removes the data stored.
+     * set, using <code>null</code> as pointer essentially removes the data stored.
      */
     public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_param_spec_set_qdata(handle(), quark.getValue(), data);
@@ -130,7 +130,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     
     /**
      * This function works like g_param_spec_set_qdata(), but in addition,
-     * a `void (*destroy) (gpointer)` function may be
+     * a <code>void (*destroy) (gpointer)</code> function may be
      * specified which is called with @data as argument when the @pspec is
      * finalized, or the data is being overwritten by a call to
      * g_param_spec_set_qdata() with the same @quark.
@@ -143,11 +143,11 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * The initial reference count of a newly created #GParamSpec is 1,
      * even though no one has explicitly called g_param_spec_ref() on it
-     * yet. So the initial reference count is flagged as "floating", until
-     * someone calls `g_param_spec_ref (pspec); g_param_spec_sink
-     * (pspec);` in sequence on it, taking over the initial
+     * yet. So the initial reference count is flagged as &#34;floating&#34;, until
+     * someone calls <code>g_param_spec_ref (pspec); g_param_spec_sink
+     * (pspec);</code> in sequence on it, taking over the initial
      * reference count (thus ending up with a @pspec that has a reference
-     * count of 1 still, but is not flagged "floating" anymore).
+     * count of 1 still, but is not flagged &#34;floating&#34; anymore).
      */
     public void sink() {
         gtk_h.g_param_spec_sink(handle());
@@ -174,7 +174,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Creates a new #GParamSpec instance.
      * 
-     * See [canonical parameter names][canonical-parameter-names] for details of
+     * See {@link [canonical parameter names]}{@link [canonical-parameter-names]} for details of
      * the rules for @name. Names which violate these rules lead to undefined
      * behaviour.
      * 
@@ -194,7 +194,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * dynamically-generated properties which need to be validated at run-time
      * before actually trying to create them.
      * 
-     * See [canonical parameter names][canonical-parameter-names] for details of
+     * See {@link [canonical parameter names]}{@link [canonical-parameter-names]} for details of
      * the rules for valid names.
      */
     public static boolean isValidName(java.lang.String name) {

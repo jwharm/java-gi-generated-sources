@@ -11,7 +11,7 @@ public class DBusSignalFlags {
     public static final int NONE = 0;
     
     /**
-     * Don't actually send the AddMatch
+     * Don&#39;t actually send the AddMatch
      * D-Bus call for this signal subscription.  This gives you more control
      * over which match rules you add (but you must add them manually).
      */

@@ -21,7 +21,7 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts a #hb_feature_t into a %NULL-terminated string in the format
+     * Converts a #hb_feature_t into a <code>NULL-terminated</code> string in the format
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for @buf, 128 bytes is more than enough.
      */

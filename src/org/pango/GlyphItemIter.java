@@ -8,46 +8,44 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoGlyphItemIter` is an iterator over the clusters in a
- * `PangoGlyphItem`.
- * 
+ * A <code>PangoGlyphItemIter</code> is an iterator over the clusters in a<code>PangoGlyphItem</code>.
+ * <p>
  * The *forward direction* of the iterator is the logical direction of text.
  * That is, with increasing @start_index and @start_char values. If @glyph_item
- * is right-to-left (that is, if `glyph_item->item->analysis.level` is odd),
+ * is right-to-left (that is, if <code>glyph_item-&#62;item-&#62;analysis.level</code> is odd),
  * then @start_glyph decreases as the iterator moves forward.  Moreover,
  * in right-to-left cases, @start_glyph is greater than @end_glyph.
- * 
+ * <p>
  * An iterator should be initialized using either
  * pango_glyph_item_iter_init_start() or
  * pango_glyph_item_iter_init_end(), for forward and backward iteration
  * respectively, and walked over using any desired mixture of
  * pango_glyph_item_iter_next_cluster() and
  * pango_glyph_item_iter_prev_cluster().
- * 
+ * <p>
  * A common idiom for doing a forward iteration over the clusters is:
- * 
- * ```
+ * <p><pre>
  * PangoGlyphItemIter cluster_iter;
  * gboolean have_cluster;
- * 
- * for (have_cluster = pango_glyph_item_iter_init_start (&cluster_iter,
+ * <p>
+ * for (have_cluster = pango_glyph_item_iter_init_start (&#38;cluster_iter,
  *                                                       glyph_item, text);
  *      have_cluster;
- *      have_cluster = pango_glyph_item_iter_next_cluster (&cluster_iter))
+ *      have_cluster = pango_glyph_item_iter_next_cluster (&#38;cluster_iter))
  * {
  *   ...
  * }
- * ```
- * 
+ * </pre>
+ * <p>
  * Note that @text is the start of the text for layout, which is then
- * indexed by `glyph_item->item->offset` to get to the text of @glyph_item.
+ * indexed by <code>glyph_item-&#62;item-&#62;offset</code> to get to the text of @glyph_item.
  * The @start_index and @end_index values can directly index into @text. The
  * @start_glyph, @end_glyph, @start_char, and @end_char values however are
  * zero-based for the @glyph_item.  For each cluster, the item pointed at by
  * the start variables is included in the cluster while the one pointed at by
  * end variables is not.
- * 
- * None of the members of a `PangoGlyphItemIter` should be modified manually.
+ * <p>
+ * None of the members of a <code>PangoGlyphItemIter</code> should be modified manually.
  */
 public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -56,7 +54,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Make a shallow copy of an existing `PangoGlyphItemIter` structure.
+     * Make a shallow copy of an existing <code>PangoGlyphItemIter</code> structure.
      */
     public GlyphItemIter copy() {
         var RESULT = gtk_h.pango_glyph_item_iter_copy(handle());
@@ -64,17 +62,17 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a `PangoGlyphItem`Iter.
+     * Frees a <code>PangoGlyphItem</code>Iter.
      */
     public void free() {
         gtk_h.pango_glyph_item_iter_free(handle());
     }
     
     /**
-     * Initializes a `PangoGlyphItemIter` structure to point to the
+     * Initializes a <code>PangoGlyphItemIter</code> structure to point to the
      * last cluster in a glyph item.
-     * 
-     * See `PangoGlyphItemIter` for details of cluster orders.
+     * <p>
+     * See <code>PangoGlyphItemIter</code> for details of cluster orders.
      */
     public boolean initEnd(GlyphItem glyphItem, java.lang.String text) {
         var RESULT = gtk_h.pango_glyph_item_iter_init_end(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
@@ -82,10 +80,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a `PangoGlyphItemIter` structure to point to the
+     * Initializes a <code>PangoGlyphItemIter</code> structure to point to the
      * first cluster in a glyph item.
-     * 
-     * See `PangoGlyphItemIter` for details of cluster orders.
+     * <p>
+     * See <code>PangoGlyphItemIter</code> for details of cluster orders.
      */
     public boolean initStart(GlyphItem glyphItem, java.lang.String text) {
         var RESULT = gtk_h.pango_glyph_item_iter_init_start(handle(), glyphItem.handle(), Interop.allocateNativeString(text).handle());
@@ -94,8 +92,8 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Advances the iterator to the next cluster in the glyph item.
-     * 
-     * See `PangoGlyphItemIter` for details of cluster orders.
+     * <p>
+     * See <code>PangoGlyphItemIter</code> for details of cluster orders.
      */
     public boolean nextCluster() {
         var RESULT = gtk_h.pango_glyph_item_iter_next_cluster(handle());
@@ -104,7 +102,7 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves the iterator to the preceding cluster in the glyph item.
-     * See `PangoGlyphItemIter` for details of cluster orders.
+     * See <code>PangoGlyphItemIter</code> for details of cluster orders.
      */
     public boolean prevCluster() {
         var RESULT = gtk_h.pango_glyph_item_iter_prev_cluster(handle());

@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutTrigger` that triggers when a specific mnemonic is pressed.
+ * A <code>GtkShortcutTrigger</code> that triggers when a specific mnemonic is pressed.
  * 
- * Mnemonics require a *mnemonic modifier* (typically <kbd>Alt</kbd>) to be
+ * Mnemonics require a *mnemonic modifier* (typically &#60;kbd&#62;Alt&#60;/kbd&#62;) to be
  * pressed together with the mnemonic key.
  */
 public class MnemonicTrigger extends ShortcutTrigger {
@@ -30,7 +30,7 @@ public class MnemonicTrigger extends ShortcutTrigger {
     }
     
     /**
-     * Creates a `GtkShortcutTrigger` that will trigger whenever the key with
+     * Creates a <code>GtkShortcutTrigger</code> that will trigger whenever the key with
      * the given @keyval is pressed and mnemonics have been activated.
      * 
      * Mnemonics are activated by calling code when a key event with the right

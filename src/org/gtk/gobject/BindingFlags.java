@@ -30,8 +30,8 @@ public class BindingFlags {
     
     /**
      * If the two properties being bound are
-     *   booleans, setting one to %TRUE will result in the other being
-     *   set to %FALSE and vice versa. This flag will only work for
+     *   booleans, setting one to <code>true</code> will result in the other being
+     *   set to <code>false</code> and vice versa. This flag will only work for
      *   boolean properties, and cannot be used when passing custom
      *   transformation functions to g_object_bind_property_full().
      */

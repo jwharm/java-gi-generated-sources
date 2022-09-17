@@ -16,25 +16,25 @@ import java.lang.invoke.*;
  * 1. The type is initially introduced (usually upon loading the module
  *    the first time, or by your main application that knows what modules
  *    introduces what types), like this:
- *    |[<!-- language="C" -->
+ *    |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *    new_type_id = g_type_register_dynamic (parent_type_id,
- *                                           "TypeName",
+ *                                           &#34;TypeName&#34;,
  *                                           new_type_plugin,
  *                                           type_flags);
- *    ]|
+ *    ]}|
  *    where @new_type_plugin is an implementation of the
  *    #GTypePlugin interface.
  * 
- * 2. The type's implementation is referenced, e.g. through
+ * 2. The type&#39;s implementation is referenced, e.g. through
  *    g_type_class_ref() or through g_type_create_instance() (this is
  *    being called by g_object_new()) or through one of the above done on
  *    a type derived from @new_type_id.
  * 
- * 3. This causes the type system to load the type's implementation by
+ * 3. This causes the type system to load the type&#39;s implementation by
  *    calling g_type_plugin_use() and g_type_plugin_complete_type_info()
  *    on @new_type_plugin.
  * 
- * 4. At some point the type's implementation isn't required anymore,
+ * 4. At some point the type&#39;s implementation isn&#39;t required anymore,
  *    e.g. after g_type_class_unref() or g_type_free_instance() (called
  *    when the reference count of an instance drops to zero).
  * 

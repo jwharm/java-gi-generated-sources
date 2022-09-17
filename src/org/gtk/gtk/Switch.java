@@ -8,32 +8,28 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSwitch` is a "light switch" that has two states: on or off.
- * 
- * ![An example GtkSwitch](switch.png)
- * 
+ * <code>GtkSwitch</code> is a &#34;light switch&#34; that has two states: on or off.
+ * <p>
+ * !{@link [An example GtkSwitch]}(switch.png)
+ * <p>
  * The user can control which state should be active by clicking the
  * empty area, or by dragging the handle.
- * 
- * `GtkSwitch` can also handle situations where the underlying state
- * changes with a delay. See [signal@GtkSwitch::state-set] for details.
- * 
- * # CSS nodes
- * 
- * ```
+ * <p><code>GtkSwitch</code> can also handle situations where the underlying state
+ * changes with a delay. See {@link [signal@GtkSwitch::state-set] (ref=signal)} for details.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * switch
- * ├── label
- * ├── label
- * ╰── slider
- * ```
- * 
- * `GtkSwitch` has four css nodes, the main node with the name switch and
+ * &#9500;&#9472;&#9472; label
+ * &#9500;&#9472;&#9472; label
+ * &#9584;&#9472;&#9472; slider
+ * </pre>
+ * <p><code>GtkSwitch</code> has four css nodes, the main node with the name switch and
  * subnodes for the slider and the on and off labels. Neither of them is
  * using any style classes.
- * 
- * # Accessibility
- * 
- * `GtkSwitch` uses the %GTK_ACCESSIBLE_ROLE_SWITCH role.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkSwitch</code> uses the {@link org.gtk.gtk.AccessibleRole#SWITCH} role.
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -52,14 +48,14 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Creates a new `GtkSwitch` widget.
+     * Creates a new <code>GtkSwitch</code> widget.
      */
     public Switch() {
         super(constructNew());
     }
     
     /**
-     * Gets whether the `GtkSwitch` is in its “on” or “off” state.
+     * Gets whether the <code>GtkSwitch</code> is in its &#8220;on&#8221; or &#8220;off&#8221; state.
      */
     public boolean getActive() {
         var RESULT = gtk_h.gtk_switch_get_active(handle());
@@ -67,7 +63,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Gets the underlying state of the `GtkSwitch`.
+     * Gets the underlying state of the <code>GtkSwitch</code>.
      */
     public boolean getState() {
         var RESULT = gtk_h.gtk_switch_get_state(handle());
@@ -82,13 +78,13 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Sets the underlying state of the `GtkSwitch`.
+     * Sets the underlying state of the <code>GtkSwitch</code>.
      * 
-     * Normally, this is the same as [property@Gtk.Switch:active], unless
+     * Normally, this is the same as {@link [property@Gtk.Switch:active] (ref=property)}, unless
      * the switch is set up for delayed state changes. This function is
-     * typically called from a [signal@Gtk.Switch::state-set] signal handler.
+     * typically called from a {@link [signal@Gtk.Switch::state-set] (ref=signal)} signal handler.
      * 
-     * See [signal@Gtk.Switch::state-set] for details.
+     * See {@link [signal@Gtk.Switch::state-set] (ref=signal)} for details.
      */
     public void setState(boolean state) {
         gtk_h.gtk_switch_set_state(handle(), state ? 1 : 0);
@@ -103,7 +99,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Emitted to animate the switch.
      * 
      * Applications should never connect to this signal,
-     * but use the [property@Gtk.Switch:active] property.
+     * but use the {@link [property@Gtk.Switch:active] (ref=property)} property.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
@@ -130,16 +126,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * 
      * The ::state-set signal is emitted when the user changes the switch
      * position. The default handler keeps the state in sync with the
-     * [property@Gtk.Switch:active] property.
+     * {@link [property@Gtk.Switch:active] (ref=property)} property.
      * 
      * To implement delayed state change, applications can connect to this
      * signal, initiate the change of the underlying state, and call
-     * [method@Gtk.Switch.set_state] when the underlying state change is
-     * complete. The signal handler should return %TRUE to prevent the
+     * {@link org.gtk.gtk.Switch#setState} when the underlying state change is
+     * complete. The signal handler should return <code>true</code> to prevent the
      * default handler from running.
      * 
      * Visually, the underlying state is represented by the trough color of
-     * the switch, while the [property@Gtk.Switch:active] property is
+     * the switch, while the {@link [property@Gtk.Switch:active] (ref=property)} property is
      * represented by the position of the switch.
      */
     public SignalHandle onStateSet(StateSetHandler handler) {

@@ -12,26 +12,25 @@ import java.lang.invoke.*;
  * non-strictly-typed data that is stored in a hierarchy. To implement
  * an alternative storage backend for #GSettings, you need to implement
  * the #GSettingsBackend interface and then make it implement the
- * extension point %G_SETTINGS_BACKEND_EXTENSION_POINT_NAME.
- * 
- * The interface defines methods for reading and writing values, a
+ * extension point <code>G_SETTINGS_BACKEND_EXTENSION_POINT_NAME.
+ * <p>
+ * The</code> interface defines methods for reading and writing values, a
  * method for determining if writing of certain values will fail
  * (lockdown) and a change notification mechanism.
- * 
+ * <p>
  * The semantics of the interface are very precisely defined and
  * implementations must carefully adhere to the expectations of
  * callers that are documented on each of the interface methods.
- * 
+ * <p>
  * Some of the #GSettingsBackend functions accept or return a #GTree.
  * These trees always have strings as keys and #GVariant as values.
  * g_settings_backend_create_tree() is a convenience function to create
  * suitable trees.
- * 
+ * <p>
  * The #GSettingsBackend API is exported to allow third-party
  * implementations, but does not carry the same stability guarantees
  * as the public GIO API. For this reason, you have to define the
- * C preprocessor symbol %G_SETTINGS_ENABLE_BACKEND before including
- * `gio/gsettingsbackend.h`.
+ * C preprocessor symbol <code>G_SETTINGS_ENABLE_BACKEND</code> before including<code>gio/gsettingsbackend.h</code>.
  */
 public class SettingsBackend extends org.gtk.gobject.Object {
 
@@ -50,7 +49,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * value.
      * 
      * @key must be a valid key (ie starting with a slash, not containing
-     * '//', and not ending with a slash).
+     * &#39;//&#39;, and not ending with a slash).
      * 
      * The implementation must call this function during any call to
      * g_settings_backend_write(), before the call returns (except in the
@@ -87,9 +86,9 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * values.
      * 
      * @path must be a valid path (ie starting and ending with a slash and
-     * not containing '//').  Each string in @items must form a valid key
+     * not containing &#39;//&#39;).  Each string in @items must form a valid key
      * name when @path is prefixed to it (ie: each item must not start or
-     * end with '/' and must not contain '//').
+     * end with &#39;/&#39; and must not contain &#39;//&#39;).
      * 
      * The meaning of this signal is that any of the key names resulting
      * from the contatenation of @path with each item in @items may have
@@ -114,21 +113,21 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * have possibly changed their values.
      * 
      * @path must be a valid path (ie starting and ending with a slash and
-     * not containing '//').
+     * not containing &#39;//&#39;).
      * 
      * The meaning of this signal is that any of the key which has a name
      * starting with @path may have changed.
      * 
      * The same rules for when notifications must occur apply as per
      * g_settings_backend_changed().  This call might be an appropriate
-     * reasponse to a 'reset' call but implementations are also free to
+     * reasponse to a &#39;reset&#39; call but implementations are also free to
      * explicitly list the keys that were affected by that call if they can
      * easily do so.
      * 
      * For efficiency reasons, the implementation should strive for @path to
      * be as long as possible (ie: the longest common prefix of all of the
      * keys that were changed) but this is not strictly required.  As an
-     * example, if this function is called with the path of "/" then every
+     * example, if this function is called with the path of &#34;/&#34; then every
      * single key in the application will be notified of a possible change.
      */
     public void pathChanged(java.lang.String path, jdk.incubator.foreign.MemoryAddress originTag) {
@@ -171,7 +170,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     
     /**
      * Returns the default #GSettingsBackend. It is possible to override
-     * the default by setting the `GSETTINGS_BACKEND` environment variable
+     * the default by setting the <code>GSETTINGS_BACKEND</code> environment variable
      * to the name of a settings backend.
      * 
      * The user gets a reference to the backend.

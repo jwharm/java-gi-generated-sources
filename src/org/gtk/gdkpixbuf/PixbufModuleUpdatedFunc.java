@@ -5,7 +5,7 @@ package org.gtk.gdkpixbuf;
  * of @pixbuf is updated.
  * 
  * #GdkPixbufLoader uses a function of this type to emit the
- * "<link linkend="GdkPixbufLoader-area-updated">area_updated</link>"
+ * &#34;&#60;link linkend=&#34;GdkPixbufLoader-area-updated&#34;&#62;area_updated&#60;/link&#62;&#34;
  * signal.
  */
 @FunctionalInterface

@@ -27,7 +27,7 @@ public class ClipNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will clip the @child to the area
+     * Creates a <code>GskRenderNode</code> that will clip the @child to the area
      * given by @clip.
      */
     public ClipNode(RenderNode child, org.gtk.graphene.Rect clip) {

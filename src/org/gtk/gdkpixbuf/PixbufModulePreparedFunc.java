@@ -5,7 +5,7 @@ package org.gtk.gdkpixbuf;
  * setup of @pixbuf is done.
  * 
  * #GdkPixbufLoader uses a function of this type to emit the
- * "<link linkend="GdkPixbufLoader-area-prepared">area_prepared</link>"
+ * &#34;&#60;link linkend=&#34;GdkPixbufLoader-area-prepared&#34;&#62;area_prepared&#60;/link&#62;&#34;
  * signal.
  */
 @FunctionalInterface

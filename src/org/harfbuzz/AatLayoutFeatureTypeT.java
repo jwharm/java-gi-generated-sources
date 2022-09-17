@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * The possible feature types defined for AAT shaping, from Apple [Font Feature Registry](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html).
+ * The possible feature types defined for AAT shaping, from Apple {@link [Font Feature Registry]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html).
  */
 public enum AatLayoutFeatureTypeT {
 
@@ -11,197 +11,197 @@ public enum AatLayoutFeatureTypeT {
     INVALID,
     
     /**
-     * [All Typographic Features](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type0)
+     * {@link [All Typographic Features]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type0)
      */
     ALL_TYPOGRAPHIC,
     
     /**
-     * [Ligatures](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type1)
+     * {@link [Ligatures]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type1)
      */
     LIGATURES,
     
     /**
-     * [Cursive Connection](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type2)
+     * {@link [Cursive Connection]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type2)
      */
     CURISVE_CONNECTION,
     
     /**
-     * [Letter Case](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type3)
+     * {@link [Letter Case]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type3)
      */
     LETTER_CASE,
     
     /**
-     * [Vertical Substitution](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type4)
+     * {@link [Vertical Substitution]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type4)
      */
     VERTICAL_SUBSTITUTION,
     
     /**
-     * [Linguistic Rearrangement](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type5)
+     * {@link [Linguistic Rearrangement]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type5)
      */
     LINGUISTIC_REARRANGEMENT,
     
     /**
-     * [Number Spacing](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type6)
+     * {@link [Number Spacing]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type6)
      */
     NUMBER_SPACING,
     
     /**
-     * [Smart Swash](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type8)
+     * {@link [Smart Swash]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type8)
      */
     SMART_SWASH_TYPE,
     
     /**
-     * [Diacritics](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type9)
+     * {@link [Diacritics]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type9)
      */
     DIACRITICS_TYPE,
     
     /**
-     * [Vertical Position](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type10)
+     * {@link [Vertical Position]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type10)
      */
     VERTICAL_POSITION,
     
     /**
-     * [Fractions](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type11)
+     * {@link [Fractions]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type11)
      */
     FRACTIONS,
     
     /**
-     * [Overlapping Characters](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type13)
+     * {@link [Overlapping Characters]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type13)
      */
     OVERLAPPING_CHARACTERS_TYPE,
     
     /**
-     * [Typographic Extras](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type14)
+     * {@link [Typographic Extras]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type14)
      */
     TYPOGRAPHIC_EXTRAS,
     
     /**
-     * [Mathematical Extras](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type15)
+     * {@link [Mathematical Extras]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type15)
      */
     MATHEMATICAL_EXTRAS,
     
     /**
-     * [Ornament Sets](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type16)
+     * {@link [Ornament Sets]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type16)
      */
     ORNAMENT_SETS_TYPE,
     
     /**
-     * [Character Alternatives](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type17)
+     * {@link [Character Alternatives]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type17)
      */
     CHARACTER_ALTERNATIVES,
     
     /**
-     * [Design Complexity](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type18)
+     * {@link [Design Complexity]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type18)
      */
     DESIGN_COMPLEXITY_TYPE,
     
     /**
-     * [Style Options](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type19)
+     * {@link [Style Options]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type19)
      */
     STYLE_OPTIONS,
     
     /**
-     * [Character Shape](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type20)
+     * {@link [Character Shape]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type20)
      */
     CHARACTER_SHAPE,
     
     /**
-     * [Number Case](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type21)
+     * {@link [Number Case]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type21)
      */
     NUMBER_CASE,
     
     /**
-     * [Text Spacing](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type22)
+     * {@link [Text Spacing]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type22)
      */
     TEXT_SPACING,
     
     /**
-     * [Transliteration](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type23)
+     * {@link [Transliteration]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type23)
      */
     TRANSLITERATION,
     
     /**
-     * [Annotation](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type24)
+     * {@link [Annotation]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type24)
      */
     ANNOTATION_TYPE,
     
     /**
-     * [Kana Spacing](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type25)
+     * {@link [Kana Spacing]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type25)
      */
     KANA_SPACING_TYPE,
     
     /**
-     * [Ideographic Spacing](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type26)
+     * {@link [Ideographic Spacing]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type26)
      */
     IDEOGRAPHIC_SPACING_TYPE,
     
     /**
-     * [Unicode Decomposition](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type27)
+     * {@link [Unicode Decomposition]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type27)
      */
     UNICODE_DECOMPOSITION_TYPE,
     
     /**
-     * [Ruby Kana](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type28)
+     * {@link [Ruby Kana]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type28)
      */
     RUBY_KANA,
     
     /**
-     * [CJK Symbol Alternatives](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type29)
+     * {@link [CJK Symbol Alternatives]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type29)
      */
     CJK_SYMBOL_ALTERNATIVES_TYPE,
     
     /**
-     * [Ideographic Alternatives](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type30)
+     * {@link [Ideographic Alternatives]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type30)
      */
     IDEOGRAPHIC_ALTERNATIVES_TYPE,
     
     /**
-     * [CJK Vertical Roman Placement](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type31)
+     * {@link [CJK Vertical Roman Placement]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type31)
      */
     CJK_VERTICAL_ROMAN_PLACEMENT_TYPE,
     
     /**
-     * [Italic CJK Roman](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type32)
+     * {@link [Italic CJK Roman]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type32)
      */
     ITALIC_CJK_ROMAN,
     
     /**
-     * [Case Sensitive Layout](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type33)
+     * {@link [Case Sensitive Layout]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type33)
      */
     CASE_SENSITIVE_LAYOUT,
     
     /**
-     * [Alternate Kana](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type34)
+     * {@link [Alternate Kana]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type34)
      */
     ALTERNATE_KANA,
     
     /**
-     * [Stylistic Alternatives](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type35)
+     * {@link [Stylistic Alternatives]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type35)
      */
     STYLISTIC_ALTERNATIVES,
     
     /**
-     * [Contextual Alternatives](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type36)
+     * {@link [Contextual Alternatives]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type36)
      */
     CONTEXTUAL_ALTERNATIVES,
     
     /**
-     * [Lower Case](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type37)
+     * {@link [Lower Case]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type37)
      */
     LOWER_CASE,
     
     /**
-     * [Upper Case](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type38)
+     * {@link [Upper Case]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type38)
      */
     UPPER_CASE,
     
     /**
-     * [Language Tag](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type39)
+     * {@link [Language Tag]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type39)
      */
     LANGUAGE_TAG_TYPE,
     
     /**
-     * [CJK Roman Spacing](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type103)
+     * {@link [CJK Roman Spacing]}(https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html#Type103)
      */
     CJK_ROMAN_SPACING_TYPE;
     

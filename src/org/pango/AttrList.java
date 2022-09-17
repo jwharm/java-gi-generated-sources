@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoAttrList` represents a list of attributes that apply to a section
+ * A <code>PangoAttrList</code> represents a list of attributes that apply to a section
  * of text.
- * 
- * The attributes in a `PangoAttrList` are, in general, allowed to overlap in
+ * <p>
+ * The attributes in a <code>PangoAttrList</code> are, in general, allowed to overlap in
  * an arbitrary fashion. However, if the attributes are manipulated only through
- * [method@Pango.AttrList.change], the overlap between properties will meet
+ * {@link org.pango.AttrList#change}, the overlap between properties will meet
  * stricter criteria.
- * 
- * Since the `PangoAttrList` structure is stored as a linear list, it is not
+ * <p>
+ * Since the <code>PangoAttrList</code> structure is stored as a linear list, it is not
  * suitable for storing attributes for large amounts of text. In general, you
- * should not use a single `PangoAttrList` for more than one paragraph of text.
+ * should not use a single <code>PangoAttrList</code> for more than one paragraph of text.
  */
 public class AttrList extends io.github.jwharm.javagi.ResourceBase {
 
@@ -40,16 +40,16 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Insert the given attribute into the `PangoAttrList`.
+     * Insert the given attribute into the <code>PangoAttrList</code>.
      * 
      * It will replace any attributes of the same type
      * on that segment and be merged with any adjoining
      * attributes that are identical.
      * 
-     * This function is slower than [method@Pango.AttrList.insert]
+     * This function is slower than {@link org.pango.AttrList#insert}
      * for creating an attribute list in order (potentially
      * much slower for large lists). However,
-     * [method@Pango.AttrList.insert] is not suitable for
+     * {@link org.pango.AttrList#insert} is not suitable for
      * continually changing a set of attributes since it
      * never removes or combines existing attributes.
      */
@@ -79,8 +79,8 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Given a `PangoAttrList` and callback function, removes
-     * any elements of @list for which @func returns %TRUE and
+     * Given a <code>PangoAttrList</code> and callback function, removes
+     * any elements of @list for which @func returns <code>true</code> and
      * inserts them into a new list.
      */
     public AttrList filter(AttrFilterFunc func) {
@@ -117,7 +117,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Insert the given attribute into the `PangoAttrList`.
+     * Insert the given attribute into the <code>PangoAttrList</code>.
      * 
      * It will be inserted after all other attributes with a
      * matching @start_index.
@@ -127,7 +127,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Insert the given attribute into the `PangoAttrList`.
+     * Insert the given attribute into the <code>PangoAttrList</code>.
      * 
      * It will be inserted before all other attributes with a
      * matching @start_index.
@@ -152,7 +152,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This operation is equivalent to stretching every attribute
      * that applies at position @pos in @list by an amount @len,
-     * and then calling [method@Pango.AttrList.change] with a copy
+     * and then calling {@link org.pango.AttrList#change} with a copy
      * of each attribute in @other in sequence (offset in position
      * by @pos, and limited in length to @len).
      * 
@@ -170,7 +170,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Serializes a `PangoAttrList` to a string.
+     * Serializes a <code>PangoAttrList</code> to a string.
      * 
      * No guarantees are made about the format of the string,
      * it may change between Pango versions.
@@ -216,9 +216,9 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Deserializes a `PangoAttrList` from a string.
+     * Deserializes a <code>PangoAttrList</code> from a string.
      * 
-     * This is the counterpart to [method@Pango.AttrList.to_string].
+     * This is the counterpart to {@link org.pango.AttrList#toString}.
      * See that functions for details about the format.
      */
     public static AttrList fromString(java.lang.String text) {

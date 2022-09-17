@@ -8,45 +8,42 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkTreeExpander` is a widget that provides an expander for a list.
- * 
- * It is typically placed as a bottommost child into a `GtkListView`
+ * <code>GtkTreeExpander</code> is a widget that provides an expander for a list.
+ * <p>
+ * It is typically placed as a bottommost child into a <code>GtkListView</code>
  * to allow users to expand and collapse children in a list with a
- * [class@Gtk.TreeListModel]. `GtkTreeExpander` provides the common UI
+ * {@link org.gtk.gtk.TreeListModel}. <code>GtkTreeExpander</code> provides the common UI
  * elements, gestures and keybindings for this purpose.
- * 
- * On top of this, the "listitem.expand", "listitem.collapse" and
- * "listitem.toggle-expand" actions are provided to allow adding custom
+ * <p>
+ * On top of this, the &#34;listitem.expand&#34;, &#34;listitem.collapse&#34; and
+ * &#34;listitem.toggle-expand&#34; actions are provided to allow adding custom
  * UI for managing expanded state.
- * 
- * The `GtkTreeListModel` must be set to not be passthrough. Then it
- * will provide [class@Gtk.TreeListRow] items which can be set via
- * [method@Gtk.TreeExpander.set_list_row] on the expander.
+ * <p>
+ * The <code>GtkTreeListModel</code> must be set to not be passthrough. Then it
+ * will provide {@link org.gtk.gtk.TreeListRow} items which can be set via
+ * {@link org.gtk.gtk.TreeExpander#setListRow} on the expander.
  * The expander will then watch that row item automatically.
- * [method@Gtk.TreeExpander.set_child] sets the widget that displays
+ * {@link org.gtk.gtk.TreeExpander#setChild} sets the widget that displays
  * the actual row contents.
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * treeexpander
- * ├── [indent]*
- * ├── [expander]
- * ╰── <child>
- * ```
- * 
- * `GtkTreeExpander` has zero or one CSS nodes with the name "expander" that
- * should display the expander icon. The node will be `:checked` when it
- * is expanded. If the node is not expandable, an "indent" node will be
+ * &#9500;&#9472;&#9472; {@link [indent]}*
+ * &#9500;&#9472;&#9472; {@link [expander]}
+ * &#9584;&#9472;&#9472; &#60;child&#62;
+ * </pre>
+ * <p><code>GtkTreeExpander</code> has zero or one CSS nodes with the name &#34;expander&#34; that
+ * should display the expander icon. The node will be <code>:checked</code> when it
+ * is expanded. If the node is not expandable, an &#34;indent&#34; node will be
  * displayed instead.
- * 
- * For every level of depth, another "indent" node is prepended.
- * 
- * # Accessibility
- * 
- * `GtkTreeExpander` uses the %GTK_ACCESSIBLE_ROLE_GROUP role. The expander icon
- * is represented as a %GTK_ACCESSIBLE_ROLE_BUTTON, labelled by the expander's
- * child, and toggling it will change the %GTK_ACCESSIBLE_STATE_EXPANDED state.
+ * <p>
+ * For every level of depth, another &#34;indent&#34; node is prepended.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkTreeExpander</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role. The expander icon
+ * is represented as a <code>GTK_ACCESSIBLE_ROLE_BUTTON,</code> labelled by the expander&#39;s
+ * child, and toggling it will change the {@link org.gtk.gtk.AccessibleState#EXPANDED} state.
  */
 public class TreeExpander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -65,7 +62,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new `GtkTreeExpander`
+     * Creates a new <code>GtkTreeExpander</code>
      */
     public TreeExpander() {
         super(constructNew());
@@ -88,13 +85,12 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Forwards the item set on the `GtkTreeListRow` that @self is managing.
-     * 
+     * Forwards the item set on the <code>GtkTreeListRow</code> that @self is managing.
+     * <p>
      * This call is essentially equivalent to calling:
-     * 
-     * ```c
+     * <p><pre>c
      * gtk_tree_list_row_get_item (gtk_tree_expander_get_list_row (@self));
-     * ```
+     * </pre>
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_tree_expander_get_item(handle());

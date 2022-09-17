@@ -43,7 +43,7 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object
      * and @target_property on @target. Whenever the @source_property
      * is changed the @target_property is updated using the same value.
-     * The binding flag %G_BINDING_SYNC_CREATE is automatically specified.
+     * The binding flag {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
      * 
      * See g_object_bind_property() for more information.
      */
@@ -55,7 +55,7 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object and
      * @target_property on @target, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * %G_BINDING_SYNC_CREATE is automatically specified.
+     * {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
      * 
      * See g_object_bind_property_full() for more information.
      */
@@ -83,7 +83,7 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object and
      * @target_property on @target, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * %G_BINDING_SYNC_CREATE is automatically specified.
+     * {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
      * 
      * This function is the language bindings friendly version of
      * g_binding_group_bind_property_full(), using #GClosures

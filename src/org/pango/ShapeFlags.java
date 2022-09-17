@@ -2,8 +2,7 @@ package org.pango;
 
 /**
  * Flags influencing the shaping process.
- * 
- * `PangoShapeFlags` can be passed to [func@Pango.shape_with_flags].
+ * <p><code>PangoShapeFlags</code> can be passed to {@link Pango#shapeWithFlags}.
  */
 public class ShapeFlags {
 
@@ -14,7 +13,7 @@ public class ShapeFlags {
     
     /**
      * Round glyph positions and widths to whole device units
-     *   This option should be set if the target renderer can't do subpixel positioning of glyphs
+     *   This option should be set if the target renderer can&#39;t do subpixel positioning of glyphs
      */
     public static final int ROUND_POSITIONS = 1;
     

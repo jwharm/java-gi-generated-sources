@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkNoSelection` is a `GtkSelectionModel` that does not allow selecting
+ * <code>GtkNoSelection</code> is a <code>GtkSelectionModel</code> that does not allow selecting
  * anything.
- * 
- * This model is meant to be used as a simple wrapper around a `GListModel`
- * when a `GtkSelectionModel` is required.
+ * <p>
+ * This model is meant to be used as a simple wrapper around a <code>GListModel</code>
+ * when a <code>GtkSelectionModel</code> is required.
  */
 public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
 
@@ -48,7 +48,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
     /**
      * Sets the model that @self should wrap.
      * 
-     * If @model is %NULL, this model will be empty.
+     * If @model is <code>NULL,</code> this model will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_no_selection_set_model(handle(), model.handle());

@@ -8,45 +8,43 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkCalendar` is a widget that displays a Gregorian calendar, one month
+ * <code>GtkCalendar</code> is a widget that displays a Gregorian calendar, one month
  * at a time.
- * 
- * ![An example GtkCalendar](calendar.png)
- * 
- * A `GtkCalendar` can be created with [ctor@Gtk.Calendar.new].
- * 
+ * <p>
+ * !{@link [An example GtkCalendar]}(calendar.png)
+ * <p>
+ * A <code>GtkCalendar</code> can be created with {@link [ctor@Gtk.Calendar.new] (ref=ctor)}.
+ * <p>
  * The date that is currently displayed can be altered with
- * [method@Gtk.Calendar.select_day].
- * 
+ * {@link org.gtk.gtk.Calendar#selectDay}.
+ * <p>
  * To place a visual marker on a particular day, use
- * [method@Gtk.Calendar.mark_day] and to remove the marker,
- * [method@Gtk.Calendar.unmark_day]. Alternative, all
- * marks can be cleared with [method@Gtk.Calendar.clear_marks].
- * 
- * The selected date can be retrieved from a `GtkCalendar` using
- * [method@Gtk.Calendar.get_date].
- * 
+ * {@link org.gtk.gtk.Calendar#markDay} and to remove the marker,
+ * {@link org.gtk.gtk.Calendar#unmarkDay}. Alternative, all
+ * marks can be cleared with {@link org.gtk.gtk.Calendar#clearMarks}.
+ * <p>
+ * The selected date can be retrieved from a <code>GtkCalendar</code> using
+ * {@link org.gtk.gtk.Calendar#getDate}.
+ * <p>
  * Users should be aware that, although the Gregorian calendar is the
  * legal calendar in most countries, it was adopted progressively
  * between 1582 and 1929. Display before these dates is likely to be
  * historically incorrect.
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * calendar.view
- * ├── header
- * │   ├── button
- * │   ├── stack.month
- * │   ├── button
- * │   ├── button
- * │   ├── label.year
- * │   ╰── button
- * ╰── grid
- *     ╰── label[.day-name][.week-number][.day-number][.other-month][.today]
- * ```
- * 
- * `GtkCalendar` has a main node with name calendar. It contains a subnode
+ * &#9500;&#9472;&#9472; header
+ * &#9474;   &#9500;&#9472;&#9472; button
+ * &#9474;   &#9500;&#9472;&#9472; stack.month
+ * &#9474;   &#9500;&#9472;&#9472; button
+ * &#9474;   &#9500;&#9472;&#9472; button
+ * &#9474;   &#9500;&#9472;&#9472; label.year
+ * &#9474;   &#9584;&#9472;&#9472; button
+ * &#9584;&#9472;&#9472; grid
+ *     &#9584;&#9472;&#9472; label{@link [.day-name]}{@link [.week-number]}{@link [.day-number]}{@link [.other-month]}{@link [.today]}
+ * </pre>
+ * <p><code>GtkCalendar</code> has a main node with name calendar. It contains a subnode
  * called header containing the widgets for switching between years and months.
  * 
  * The grid subnode contains all day labels, including week numbers on the left
@@ -89,7 +87,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns a `GDateTime` representing the shown
+     * Returns a <code>GDateTime</code> representing the shown
      * year, month and the selected day.
      * 
      * The returned date is in the local time zone.
@@ -111,7 +109,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Returns whether @self is currently showing the names
      * of the week days.
      * 
-     * This is the value of the [property@Gtk.Calendar:show-day-names]
+     * This is the value of the {@link [property@Gtk.Calendar:show-day-names] (ref=property)}
      * property.
      */
     public boolean getShowDayNames() {
@@ -122,7 +120,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Returns whether @self is currently showing the heading.
      * 
-     * This is the value of the [property@Gtk.Calendar:show-heading]
+     * This is the value of the {@link [property@Gtk.Calendar:show-heading] (ref=property)}
      * property.
      */
     public boolean getShowHeading() {
@@ -134,7 +132,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * Returns whether @self is showing week numbers right
      * now.
      * 
-     * This is the value of the [property@Gtk.Calendar:show-week-numbers]
+     * This is the value of the {@link [property@Gtk.Calendar:show-week-numbers] (ref=property)}
      * property.
      */
     public boolean getShowWeekNumbers() {
@@ -150,7 +148,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Switches to @date's year and month and select its day.
+     * Switches to @date&#39;s year and month and select its day.
      */
     public void selectDay(org.gtk.glib.DateTime date) {
         gtk_h.gtk_calendar_select_day(handle(), date.handle());

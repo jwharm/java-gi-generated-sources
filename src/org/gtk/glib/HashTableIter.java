@@ -38,16 +38,16 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * The iteration order of a #GHashTableIter over the keys/values in a hash
      * table is not defined.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * GHashTableIter iter;
      * gpointer key, value;
      * 
-     * g_hash_table_iter_init (&iter, hash_table);
-     * while (g_hash_table_iter_next (&iter, &key, &value))
+     * g_hash_table_iter_init (&#38;iter, hash_table);
+     * while (g_hash_table_iter_next (&#38;iter, &#38;key, &#38;value))
      *   {
      *     // do something with key and value
      *   }
-     * ]|
+     * ]}|
      */
     public void init(org.gtk.glib.HashTable hashTable) {
         gtk_h.g_hash_table_iter_init(handle(), hashTable.handle());
@@ -55,7 +55,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Advances @iter and retrieves the key and/or value that are now
-     * pointed to as a result of this advancement. If %FALSE is returned,
+     * pointed to as a result of this advancement. If <code>false</code> is returned,
      * @key and @value are not set, and the iterator becomes invalid.
      */
     public boolean next(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
@@ -66,7 +66,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the key/value pair currently pointed to by the iterator
      * from its associated #GHashTable. Can only be called after
-     * g_hash_table_iter_next() returned %TRUE, and cannot be called
+     * g_hash_table_iter_next() returned <code>TRUE,</code> and cannot be called
      * more than once for the same key/value pair.
      * 
      * If the #GHashTable was created using g_hash_table_new_full(),
@@ -75,13 +75,13 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * values are freed yourself.
      * 
      * It is safe to continue iterating the #GHashTable afterward:
-     * |[<!-- language="C" -->
-     * while (g_hash_table_iter_next (&iter, &key, &value))
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * while (g_hash_table_iter_next (&#38;iter, &#38;key, &#38;value))
      *   {
      *     if (condition)
-     *       g_hash_table_iter_remove (&iter);
+     *       g_hash_table_iter_remove (&#38;iter);
      *   }
-     * ]|
+     * ]}|
      */
     public void remove() {
         gtk_h.g_hash_table_iter_remove(handle());
@@ -90,9 +90,9 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Replaces the value currently pointed to by the iterator
      * from its associated #GHashTable. Can only be called after
-     * g_hash_table_iter_next() returned %TRUE.
+     * g_hash_table_iter_next() returned <code>TRUE.
      * 
-     * If you supplied a @value_destroy_func when creating the
+     * If</code> you supplied a @value_destroy_func when creating the
      * #GHashTable, the old value is freed using that function.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress value) {
@@ -103,7 +103,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * Removes the key/value pair currently pointed to by the
      * iterator from its associated #GHashTable, without calling
      * the key and value destroy functions. Can only be called
-     * after g_hash_table_iter_next() returned %TRUE, and cannot
+     * after g_hash_table_iter_next() returned <code>TRUE,</code> and cannot
      * be called more than once for the same key/value pair.
      */
     public void steal() {

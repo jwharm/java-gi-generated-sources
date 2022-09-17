@@ -1,10 +1,10 @@
 package org.pango;
 
 /**
- * The `PangoAttrType` distinguishes between different types of attributes.
+ * The <code>PangoAttrType</code> distinguishes between different types of attributes.
  * 
  * Along with the predefined values, it is possible to allocate additional
- * values for custom attributes using [func@AttrType.register]. The predefined
+ * values for custom attributes using {@link AttrType#register}. The predefined
  * values are given below. The type of structure used to store the attribute is
  * listed in parentheses after the description.
  */
@@ -16,184 +16,184 @@ public enum AttrType {
     INVALID,
     
     /**
-     * language ([struct@Pango.AttrLanguage])
+     * language ({@link [struct@Pango.AttrLanguage] (ref=struct)})
      */
     LANGUAGE,
     
     /**
-     * font family name list ([struct@Pango.AttrString])
+     * font family name list ({@link [struct@Pango.AttrString] (ref=struct)})
      */
     FAMILY,
     
     /**
-     * font slant style ([struct@Pango.AttrInt])
+     * font slant style ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     STYLE,
     
     /**
-     * font weight ([struct@Pango.AttrInt])
+     * font weight ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     WEIGHT,
     
     /**
-     * font variant (normal or small caps) ([struct@Pango.AttrInt])
+     * font variant (normal or small caps) ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     VARIANT,
     
     /**
-     * font stretch ([struct@Pango.AttrInt])
+     * font stretch ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     STRETCH,
     
     /**
-     * font size in points scaled by %PANGO_SCALE ([struct@Pango.AttrInt])
+     * font size in points scaled by <code>PANGO_SCALE</code> ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     SIZE,
     
     /**
-     * font description ([struct@Pango.AttrFontDesc])
+     * font description ({@link [struct@Pango.AttrFontDesc] (ref=struct)})
      */
     FONT_DESC,
     
     /**
-     * foreground color ([struct@Pango.AttrColor])
+     * foreground color ({@link [struct@Pango.AttrColor] (ref=struct)})
      */
     FOREGROUND,
     
     /**
-     * background color ([struct@Pango.AttrColor])
+     * background color ({@link [struct@Pango.AttrColor] (ref=struct)})
      */
     BACKGROUND,
     
     /**
-     * whether the text has an underline ([struct@Pango.AttrInt])
+     * whether the text has an underline ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     UNDERLINE,
     
     /**
-     * whether the text is struck-through ([struct@Pango.AttrInt])
+     * whether the text is struck-through ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     STRIKETHROUGH,
     
     /**
-     * baseline displacement ([struct@Pango.AttrInt])
+     * baseline displacement ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     RISE,
     
     /**
-     * shape ([struct@Pango.AttrShape])
+     * shape ({@link [struct@Pango.AttrShape] (ref=struct)})
      */
     SHAPE,
     
     /**
-     * font size scale factor ([struct@Pango.AttrFloat])
+     * font size scale factor ({@link [struct@Pango.AttrFloat] (ref=struct)})
      */
     SCALE,
     
     /**
-     * whether fallback is enabled ([struct@Pango.AttrInt])
+     * whether fallback is enabled ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     FALLBACK,
     
     /**
-     * letter spacing ([struct@PangoAttrInt])
+     * letter spacing ({@link [struct@PangoAttrInt] (ref=struct)})
      */
     LETTER_SPACING,
     
     /**
-     * underline color ([struct@Pango.AttrColor])
+     * underline color ({@link [struct@Pango.AttrColor] (ref=struct)})
      */
     UNDERLINE_COLOR,
     
     /**
-     * strikethrough color ([struct@Pango.AttrColor])
+     * strikethrough color ({@link [struct@Pango.AttrColor] (ref=struct)})
      */
     STRIKETHROUGH_COLOR,
     
     /**
-     * font size in pixels scaled by %PANGO_SCALE ([struct@Pango.AttrInt])
+     * font size in pixels scaled by <code>PANGO_SCALE</code> ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     ABSOLUTE_SIZE,
     
     /**
-     * base text gravity ([struct@Pango.AttrInt])
+     * base text gravity ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     GRAVITY,
     
     /**
-     * gravity hint ([struct@Pango.AttrInt])
+     * gravity hint ({@link [struct@Pango.AttrInt] (ref=struct)})
      */
     GRAVITY_HINT,
     
     /**
-     * OpenType font features ([struct@Pango.AttrFontFeatures]). Since 1.38
+     * OpenType font features ({@link [struct@Pango.AttrFontFeatures] (ref=struct)}). Since 1.38
      */
     FONT_FEATURES,
     
     /**
-     * foreground alpha ([struct@Pango.AttrInt]). Since 1.38
+     * foreground alpha ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.38
      */
     FOREGROUND_ALPHA,
     
     /**
-     * background alpha ([struct@Pango.AttrInt]). Since 1.38
+     * background alpha ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.38
      */
     BACKGROUND_ALPHA,
     
     /**
-     * whether breaks are allowed ([struct@Pango.AttrInt]). Since 1.44
+     * whether breaks are allowed ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.44
      */
     ALLOW_BREAKS,
     
     /**
-     * how to render invisible characters ([struct@Pango.AttrInt]). Since 1.44
+     * how to render invisible characters ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.44
      */
     SHOW,
     
     /**
-     * whether to insert hyphens at intra-word line breaks ([struct@Pango.AttrInt]). Since 1.44
+     * whether to insert hyphens at intra-word line breaks ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.44
      */
     INSERT_HYPHENS,
     
     /**
-     * whether the text has an overline ([struct@Pango.AttrInt]). Since 1.46
+     * whether the text has an overline ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.46
      */
     OVERLINE,
     
     /**
-     * overline color ([struct@Pango.AttrColor]). Since 1.46
+     * overline color ({@link [struct@Pango.AttrColor] (ref=struct)}). Since 1.46
      */
     OVERLINE_COLOR,
     
     /**
-     * line height factor ([struct@Pango.AttrFloat]). Since: 1.50
+     * line height factor ({@link [struct@Pango.AttrFloat] (ref=struct)}). Since: 1.50
      */
     LINE_HEIGHT,
     
     /**
-     * line height ([struct@Pango.AttrInt]). Since: 1.50
+     * line height ({@link [struct@Pango.AttrInt] (ref=struct)}). Since: 1.50
      */
     ABSOLUTE_LINE_HEIGHT,
     
     TEXT_TRANSFORM,
     
     /**
-     * override segmentation to classify the range of the attribute as a single word ([struct@Pango.AttrInt]). Since 1.50
+     * override segmentation to classify the range of the attribute as a single word ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.50
      */
     WORD,
     
     /**
-     * override segmentation to classify the range of the attribute as a single sentence ([struct@Pango.AttrInt]). Since 1.50
+     * override segmentation to classify the range of the attribute as a single sentence ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.50
      */
     SENTENCE,
     
     /**
-     * baseline displacement ([struct@Pango.AttrInt]). Since 1.50
+     * baseline displacement ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.50
      */
     BASELINE_SHIFT,
     
     /**
-     * font-relative size change ([struct@Pango.AttrInt]). Since 1.50
+     * font-relative size change ({@link [struct@Pango.AttrInt] (ref=struct)}). Since 1.50
      */
     FONT_SCALE;
     

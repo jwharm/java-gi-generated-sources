@@ -13,42 +13,42 @@ import java.lang.invoke.*;
  * peers. Simply instantiate a #GDBusAuthObserver and connect to the
  * signals you are interested in. Note that new signals may be added
  * in the future
- * 
- * ## Controlling Authentication Mechanisms
- * 
+ * <p>
+ * <h2>Controlling Authentication Mechanisms</h2>
+ * <p>
  * By default, a #GDBusServer or server-side #GDBusConnection will allow
  * any authentication mechanism to be used. If you only
- * want to allow D-Bus connections with the `EXTERNAL` mechanism,
+ * want to allow D-Bus connections with the <code>EXTERNAL</code> mechanism,
  * which makes use of credentials passing and is the recommended
  * mechanism for modern Unix platforms such as Linux and the BSD family,
  * you would use a signal handler like this:
- * 
- * |[<!-- language="C" -->
+ * <p>
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static gboolean
  * on_allow_mechanism (GDBusAuthObserver *observer,
  *                     const gchar       *mechanism,
  *                     gpointer           user_data)
  * {
- *   if (g_strcmp0 (mechanism, "EXTERNAL") == 0)
+ *   if (g_strcmp0 (mechanism, &#34;EXTERNAL&#34;) == 0)
  *     {
  *       return TRUE;
  *     }
- * 
+ * <p>
  *   return FALSE;
  * }
- * ]|
- * 
- * ## Controlling Authorization # {#auth-observer}
- * 
+ * ]}|
+ * <p>
+ * <h2>Controlling Authorization # {#auth-observer}</h2>
+ * <p>
  * By default, a #GDBusServer or server-side #GDBusConnection will accept
  * connections from any successfully authenticated user (but not from
- * anonymous connections using the `ANONYMOUS` mechanism). If you only
+ * anonymous connections using the <code>ANONYMOUS</code> mechanism). If you only
  * want to allow D-Bus connections from processes owned by the same uid
  * as the server, since GLib 2.68, you should use the
- * %G_DBUS_SERVER_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER flag. It’s equivalent
+ * {@link org.gtk.gio.DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag. It&#8217;s equivalent
  * to the following signal handler:
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static gboolean
  * on_authorize_authenticated_peer (GDBusAuthObserver *observer,
  *                                  GIOStream         *stream,
@@ -69,7 +69,7 @@ import java.lang.invoke.*;
  * 
  *   return authorized;
  * }
- * ]|
+ * ]}|
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
 

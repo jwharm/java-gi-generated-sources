@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Represents the orientation of widgets and other objects.
  * 
- * Typical examples are [class@Box] or [class@GesturePan].
+ * Typical examples are {@link [class@Box]} or {@link [class@GesturePan]}.
  */
 public enum Orientation {
 

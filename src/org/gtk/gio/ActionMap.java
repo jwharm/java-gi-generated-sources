@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  * 
  * One useful application of this interface is to map the
  * names of actions from various action groups to unique,
- * prefixed names (e.g. by prepending "app." or "win.").
- * This is the motivation for the 'Map' part of the interface
+ * prefixed names (e.g. by prepending &#34;app.&#34; or &#34;win.&#34;).
+ * This is the motivation for the &#39;Map&#39; part of the interface
  * name.
  */
 public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
@@ -38,7 +38,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      * 
      * Each action is constructed as per one #GActionEntry.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void
      * activate_quit (GSimpleAction *simple,
      *                GVariant      *parameter,
@@ -52,15 +52,15 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      *                        GVariant      *parameter,
      *                        gpointer       user_data)
      * {
-     *   g_print ("%s\\n", g_variant_get_string (parameter, NULL));
+     *   g_print (&#34;<code>s\\n&#34;,</code> g_variant_get_string (parameter, NULL));
      * }
      * 
      * static GActionGroup *
      * create_action_group (void)
      * {
-     *   const GActionEntry entries[] = {
-     *     { "quit",         activate_quit              },
-     *     { "print-string", activate_print_string, "s" }
+     *   const GActionEntry entries[]} = {
+     *     { &#34;quit&#34;,         activate_quit              },
+     *     { &#34;print-string&#34;, activate_print_string, &#34;s&#34; }
      *   };
      *   GSimpleActionGroup *group;
      * 
@@ -77,6 +77,14 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Looks up the action with the name @action_name in @action_map.
+     * 
+     * If no such action exists, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Looks up the action with the name @action_name in @action_map.
      * 
      * If no such action exists, returns %NULL.
      */

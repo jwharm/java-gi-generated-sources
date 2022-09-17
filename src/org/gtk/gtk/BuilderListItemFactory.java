@@ -8,29 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkBuilderListItemFactory` is a `GtkListItemFactory` that creates
- * widgets by instantiating `GtkBuilder` UI templates.
- * 
- * The templates must be extending `GtkListItem`, and typically use
- * `GtkExpression`s to obtain data from the items in the model.
- * 
- * Example:
- * ```xml
- *   <interface>
- *     <template class="GtkListItem">
- *       <property name="child">
- *         <object class="GtkLabel">
- *           <property name="xalign">0</property>
- *           <binding name="label">
- *             <lookup name="name" type="SettingsKey">
- *               <lookup name="item">GtkListItem</lookup>
- *             </lookup>
- *           </binding>
- *         </object>
- *       </property>
- *     </template>
- *   </interface>
- * ```
+ * <code>GtkBuilderListItemFactory</code> is a <code>GtkListItemFactory</code> that creates
+ * widgets by instantiating <code>GtkBuilder</code> UI templates.
+ * <p>
+ * The templates must be extending <code>GtkListItem</code>, and typically use<code>GtkExpression</code>s to obtain data from the items in the model.
+ * <p>
+ * Example:<pre>xml
+ *   &#60;interface&#62;
+ *     &#60;template class=&#34;GtkListItem&#34;&#62;
+ *       &#60;property name=&#34;child&#34;&#62;
+ *         &#60;object class=&#34;GtkLabel&#34;&#62;
+ *           &#60;property name=&#34;xalign&#34;&#62;0&#60;/property&#62;
+ *           &#60;binding name=&#34;label&#34;&#62;
+ *             &#60;lookup name=&#34;name&#34; type=&#34;SettingsKey&#34;&#62;
+ *               &#60;lookup name=&#34;item&#34;&#62;GtkListItem&#60;/lookup&#62;
+ *             &#60;/lookup&#62;
+ *           &#60;/binding&#62;
+ *         &#60;/object&#62;
+ *       &#60;/property&#62;
+ *     &#60;/template&#62;
+ *   &#60;/interface&#62;
+ * </pre>
  */
 public class BuilderListItemFactory extends ListItemFactory {
 
@@ -49,8 +47,8 @@ public class BuilderListItemFactory extends ListItemFactory {
     }
     
     /**
-     * Creates a new `GtkBuilderListItemFactory` that instantiates widgets
-     * using @bytes as the data to pass to `GtkBuilder`.
+     * Creates a new <code>GtkBuilderListItemFactory</code> that instantiates widgets
+     * using @bytes as the data to pass to <code>GtkBuilder</code>.
      */
     public static BuilderListItemFactory newFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
         return new BuilderListItemFactory(constructNewFromBytes(scope, bytes));
@@ -62,15 +60,15 @@ public class BuilderListItemFactory extends ListItemFactory {
     }
     
     /**
-     * Creates a new `GtkBuilderListItemFactory` that instantiates widgets
-     * using data read from the given @resource_path to pass to `GtkBuilder`.
+     * Creates a new <code>GtkBuilderListItemFactory</code> that instantiates widgets
+     * using data read from the given @resource_path to pass to <code>GtkBuilder</code>.
      */
     public static BuilderListItemFactory newFromResource(BuilderScope scope, java.lang.String resourcePath) {
         return new BuilderListItemFactory(constructNewFromResource(scope, resourcePath));
     }
     
     /**
-     * Gets the data used as the `GtkBuilder` UI template for constructing
+     * Gets the data used as the <code>GtkBuilder</code> UI template for constructing
      * listitems.
      */
     public org.gtk.glib.Bytes getBytes() {

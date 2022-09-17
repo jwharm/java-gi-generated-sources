@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkTreeIter` is the primary structure
- * for accessing a `GtkTreeModel`. Models are expected to put a unique
+ * The <code>GtkTreeIter</code> is the primary structure
+ * for accessing a <code>GtkTreeModel</code>. Models are expected to put a unique
  * integer in the @stamp member, and put
  * model-specific data in the three @user_data
  * members.
@@ -22,10 +22,10 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a dynamically allocated tree iterator as a copy of @iter.
-     * 
+     * <p>
      * This function is not intended for use in applications,
      * because you can just copy the structs by value
-     * (`GtkTreeIter new_iter = iter;`).
+     * (<code>GtkTreeIter new_iter = iter;</code>).
      * You must free this iter with gtk_tree_iter_free().
      */
     public TreeIter copy() {

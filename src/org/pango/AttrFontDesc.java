@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoAttrFontDesc` structure is used to store an attribute that
+ * The <code>PangoAttrFontDesc</code> structure is used to store an attribute that
  * sets all aspects of the font description at once.
  */
 public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {

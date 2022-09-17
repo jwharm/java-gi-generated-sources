@@ -8,23 +8,21 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkPrintContext` encapsulates context information that is required when
+ * A <code>GtkPrintContext</code> encapsulates context information that is required when
  * drawing pages for printing.
- * 
+ * <p>
  * This includes the cairo context and important parameters like page size
- * and resolution. It also lets you easily create [class@Pango.Layout] and
- * [class@Pango.Context] objects that match the font metrics of the cairo surface.
- * 
- * `GtkPrintContext` objects get passed to the
- * [signal@Gtk.PrintOperation::begin-print],
- * [signal@Gtk.PrintOperation::end-print],
- * [signal@Gtk.PrintOperation::request-page-setup] and
- * [signal@Gtk.PrintOperation::draw-page] signals on the
- * [class@Gtk.PrintOperation] object.
- * 
- * ## Using GtkPrintContext in a ::draw-page callback
- * 
- * ```c
+ * and resolution. It also lets you easily create {@link org.pango.Layout} and
+ * {@link org.pango.Context} objects that match the font metrics of the cairo surface.
+ * <p><code>GtkPrintContext</code> objects get passed to the
+ * {@link [signal@Gtk.PrintOperation::begin-print] (ref=signal)},
+ * {@link [signal@Gtk.PrintOperation::end-print] (ref=signal)},
+ * {@link [signal@Gtk.PrintOperation::request-page-setup] (ref=signal)} and
+ * {@link [signal@Gtk.PrintOperation::draw-page] (ref=signal)} signals on the
+ * {@link org.gtk.gtk.PrintOperation} object.
+ * <p>
+ * <h2>Using GtkPrintContext in a ::draw-page callback</h2>
+ * <p><pre>c
  * static void
  * draw_page (GtkPrintOperation *operation,
  *            GtkPrintContext   *context,
@@ -57,8 +55,8 @@ import java.lang.invoke.*;
  * 
  *   // Draw some text
  *   layout = gtk_print_context_create_pango_layout (context);
- *   pango_layout_set_text (layout, "Hello World! Printing is easy", -1);
- *   desc = pango_font_description_from_string ("sans 28");
+ *   pango_layout_set_text (layout, &#34;Hello World! Printing is easy&#34;, -1);
+ *   desc = pango_font_description_from_string (&#34;sans 28&#34;);
  *   pango_layout_set_font_description (layout, desc);
  *   pango_font_description_free (desc);
  * 
@@ -76,7 +74,7 @@ import java.lang.invoke.*;
  * 
  *   g_object_unref (layout);
  * }
- * ```
+ * </pre>
  */
 public class PrintContext extends org.gtk.gobject.Object {
 
@@ -90,8 +88,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `PangoContext` that can be used with the
-     * `GtkPrintContext`.
+     * Creates a new <code>PangoContext</code> that can be used with the<code>GtkPrintContext</code>.
      */
     public org.pango.Context createPangoContext() {
         var RESULT = gtk_h.gtk_print_context_create_pango_context(handle());
@@ -99,8 +96,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `PangoLayout` that is suitable for use
-     * with the `GtkPrintContext`.
+     * Creates a new <code>PangoLayout</code> that is suitable for use
+     * with the <code>GtkPrintContext</code>.
      */
     public org.pango.Layout createPangoLayout() {
         var RESULT = gtk_h.gtk_print_context_create_pango_layout(handle());
@@ -108,8 +105,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the cairo context that is associated with the
-     * `GtkPrintContext`.
+     * Obtains the cairo context that is associated with the<code>GtkPrintContext</code>.
      */
     public org.cairographics.Context getCairoContext() {
         var RESULT = gtk_h.gtk_print_context_get_cairo_context(handle());
@@ -117,7 +113,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the horizontal resolution of the `GtkPrintContext`,
+     * Obtains the horizontal resolution of the <code>GtkPrintContext</code>,
      * in dots per inch.
      */
     public double getDpiX() {
@@ -126,7 +122,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the vertical resolution of the `GtkPrintContext`,
+     * Obtains the vertical resolution of the <code>GtkPrintContext</code>,
      * in dots per inch.
      */
     public double getDpiY() {
@@ -135,7 +131,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the height of the `GtkPrintContext`, in pixels.
+     * Obtains the height of the <code>GtkPrintContext</code>, in pixels.
      */
     public double getHeight() {
         var RESULT = gtk_h.gtk_print_context_get_height(handle());
@@ -143,8 +139,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the `GtkPageSetup` that determines the page
-     * dimensions of the `GtkPrintContext`.
+     * Obtains the <code>GtkPageSetup</code> that determines the page
+     * dimensions of the <code>GtkPrintContext</code>.
      */
     public PageSetup getPageSetup() {
         var RESULT = gtk_h.gtk_print_context_get_page_setup(handle());
@@ -152,8 +148,8 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns a `PangoFontMap` that is suitable for use
-     * with the `GtkPrintContext`.
+     * Returns a <code>PangoFontMap</code> that is suitable for use
+     * with the <code>GtkPrintContext</code>.
      */
     public org.pango.FontMap getPangoFontmap() {
         var RESULT = gtk_h.gtk_print_context_get_pango_fontmap(handle());
@@ -161,7 +157,7 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the width of the `GtkPrintContext`, in pixels.
+     * Obtains the width of the <code>GtkPrintContext</code>, in pixels.
      */
     public double getWidth() {
         var RESULT = gtk_h.gtk_print_context_get_width(handle());

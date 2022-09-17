@@ -8,59 +8,54 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkApplication` is a high-level API for writing applications.
- * 
+ * <code>GtkApplication</code> is a high-level API for writing applications.
+ * <p>
  * It supports many aspects of writing a GTK application in a convenient
  * fashion, without enforcing a one-size-fits-all model.
- * 
- * Currently, `GtkApplication` handles GTK initialization, application
+ * <p>
+ * Currently, <code>GtkApplication</code> handles GTK initialization, application
  * uniqueness, session management, provides some basic scriptability and
  * desktop shell integration by exporting actions and menus and manages a
  * list of toplevel windows whose life-cycle is automatically tied to the
  * life-cycle of your application.
- * 
- * While `GtkApplication` works fine with plain [class@Gtk.Window]s, it is
- * recommended to use it together with [class@Gtk.ApplicationWindow].
- * 
- * ## Automatic resources
- * 
- * `GtkApplication` will automatically load menus from the `GtkBuilder`
- * resource located at "gtk/menus.ui", relative to the application's
- * resource base path (see [method@Gio.Application.set_resource_base_path]).
- * The menu with the ID "menubar" is taken as the application's
+ * <p>
+ * While <code>GtkApplication</code> works fine with plain {@link org.gtk.gtk.Window}s, it is
+ * recommended to use it together with {@link org.gtk.gtk.ApplicationWindow}.
+ * <p>
+ * <h2>Automatic resources</h2>
+ * <p><code>GtkApplication</code> will automatically load menus from the <code>GtkBuilder</code>
+ * resource located at &#34;gtk/menus.ui&#34;, relative to the application&#39;s
+ * resource base path (see {@link org.gtk.gio.Application#setResourceBasePath}).
+ * The menu with the ID &#34;menubar&#34; is taken as the application&#39;s
  * menubar. Additional menus (most interesting submenus) can be named
- * and accessed via [method@Gtk.Application.get_menu_by_id] which allows for
+ * and accessed via {@link org.gtk.gtk.Application#getMenuById} which allows for
  * dynamic population of a part of the menu structure.
- * 
+ * <p>
  * It is also possible to provide the menubar manually using
- * [method@Gtk.Application.set_menubar].
- * 
- * `GtkApplication` will also automatically setup an icon search path for
- * the default icon theme by appending "icons" to the resource base
+ * {@link org.gtk.gtk.Application#setMenubar}.
+ * <p><code>GtkApplication</code> will also automatically setup an icon search path for
+ * the default icon theme by appending &#34;icons&#34; to the resource base
  * path. This allows your application to easily store its icons as
- * resources. See [method@Gtk.IconTheme.add_resource_path] for more
+ * resources. See {@link org.gtk.gtk.IconTheme#addResourcePath} for more
  * information.
- * 
- * If there is a resource located at `gtk/help-overlay.ui` which
- * defines a [class@Gtk.ShortcutsWindow] with ID `help_overlay` then
- * `GtkApplication` associates an instance of this shortcuts window with
- * each [class@Gtk.ApplicationWindow] and sets up the keyboard accelerator
- * <kbd>Control</kbd>+<kbd>?</kbd> to open it. To create a menu item that
- * displays the shortcuts window, associate the item with the action
- * `win.show-help-overlay`.
- * 
- * ## A simple application
- * 
- * [A simple example](https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/bp/bloatpad.c)
+ * <p>
+ * If there is a resource located at <code>gtk/help-overlay.ui</code> which
+ * defines a {@link org.gtk.gtk.ShortcutsWindow} with ID <code>help_overlay</code> then<code>GtkApplication</code> associates an instance of this shortcuts window with
+ * each {@link org.gtk.gtk.ApplicationWindow} and sets up the keyboard accelerator
+ * &#60;kbd&#62;Control&#60;/kbd&#62;+&#60;kbd&#62;?&#60;/kbd&#62; to open it. To create a menu item that
+ * displays the shortcuts window, associate the item with the action<code>win.show-help-overlay</code>.
+ * <p>
+ * <h2>A simple application</h2>
+ * <p>
+ * {@link [A simple example]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/bp/bloatpad.c)
  * is available in the GTK source code repository
- * 
- * `GtkApplication` optionally registers with a session manager of the
- * users session (if you set the [property@Gtk.Application:register-session]
+ * <p><code>GtkApplication</code> optionally registers with a session manager of the
+ * users session (if you set the {@link [property@Gtk.Application:register-session] (ref=property)}
  * property) and offers various functionality related to the session
  * life-cycle.
  * 
  * An application can block various ways to end the session with
- * the [method@Gtk.Application.inhibit] function. Typical use cases for
+ * the {@link org.gtk.gtk.Application#inhibit} function. Typical use cases for
  * this kind of inhibiting are long-running, uninterruptible operations,
  * such as burning a CD or performing a disk backup. The session
  * manager may not honor the inhibitor, but it can be expected to
@@ -69,8 +64,8 @@ import java.lang.invoke.*;
  * 
  * ## See Also
  * 
- * [HowDoI: Using GtkApplication](https://wiki.gnome.org/HowDoI/GtkApplication),
- * [Getting Started with GTK: Basics](getting_started.html#basics)
+ * {@link [HowDoI: Using GtkApplication]}(https://wiki.gnome.org/HowDoI/GtkApplication),
+ * {@link [Getting Started with GTK: Basics]}(getting_started.html#basics)
  */
 public class Application extends org.gtk.gio.Application implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
 
@@ -89,21 +84,19 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Creates a new `GtkApplication` instance.
-     * 
-     * When using `GtkApplication`, it is not necessary to call [func@Gtk.init]
+     * Creates a new <code>GtkApplication</code> instance.
+     * <p>
+     * When using <code>GtkApplication</code>, it is not necessary to call {@link Gtk#init}
      * manually. It is called as soon as the application gets registered as
      * the primary instance.
-     * 
-     * Concretely, [func@Gtk.init] is called in the default handler for the
-     * `GApplication::startup` signal. Therefore, `GtkApplication` subclasses should
-     * always chain up in their `GApplication::startup` handler before using any GTK
+     * <p>
+     * Concretely, {@link Gtk#init} is called in the default handler for the<code>GApplication::startup</code> signal. Therefore, <code>GtkApplication</code> subclasses should
+     * always chain up in their <code>GApplication::startup</code> handler before using any GTK
      * API.
-     * 
-     * Note that commandline arguments are not passed to [func@Gtk.init].
-     * 
-     * If `application_id` is not %NULL, then it must be valid. See
-     * `g_application_id_is_valid()`.
+     * <p>
+     * Note that commandline arguments are not passed to {@link Gtk#init}.
+     * <p>
+     * If <code>application_id</code> is not <code>NULL,</code> then it must be valid. See<code>g_application_id_is_valid()</code>.
      * 
      * If no application ID is given then some features (most notably application
      * uniqueness) will be disabled.
@@ -113,20 +106,20 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Adds a window to `application`.
-     * 
-     * This call can only happen after the `application` has started;
+     * Adds a window to <code>application</code>.
+     * <p>
+     * This call can only happen after the <code>application</code> has started;
      * typically, you should add new application windows in response
-     * to the emission of the `GApplication::activate` signal.
-     * 
-     * This call is equivalent to setting the [property@Gtk.Window:application]
-     * property of `window` to `application`.
-     * 
+     * to the emission of the <code>GApplication::activate</code> signal.
+     * <p>
+     * This call is equivalent to setting the {@link [property@Gtk.Window:application] (ref=property)}
+     * property of <code>window</code> to <code>application</code>.
+     * <p>
      * Normally, the connection between the application and the window
      * will remain until the window is destroyed, but you can explicitly
-     * remove it with [method@Gtk.Application.remove_window].
-     * 
-     * GTK will keep the `application` running as long as it has
+     * remove it with {@link org.gtk.gtk.Application#removeWindow}.
+     * <p>
+     * GTK will keep the <code>application</code> running as long as it has
      * any windows.
      */
     public void addWindow(Window window) {
@@ -134,11 +127,11 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Gets the “active” window for the application.
+     * Gets the &#8220;active&#8221; window for the application.
      * 
      * The active window is the one that was most recently focused (within
      * the application).  This window may not have the focus at the moment
-     * if another application has it — this is just the most
+     * if another application has it &#8212; this is just the most
      * recently-focused window within this application.
      */
     public Window getActiveWindow() {
@@ -149,7 +142,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     /**
      * Gets a menu from automatically loaded resources.
      * 
-     * See [the section on Automatic resources](class.Application.html#automatic-resources)
+     * See {@link [the section on Automatic resources]}(class.Application.html#automatic-resources)
      * for more information.
      */
     public org.gtk.gio.Menu getMenuById(java.lang.String id) {
@@ -159,7 +152,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     /**
      * Returns the menu model that has been set with
-     * [method@Gtk.Application.set_menubar].
+     * {@link org.gtk.gtk.Application#setMenubar}.
      */
     public org.gtk.gio.MenuModel getMenubar() {
         var RESULT = gtk_h.gtk_application_get_menubar(handle());
@@ -167,10 +160,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Returns the [class@Gtk.ApplicationWindow] with the given ID.
-     * 
-     * The ID of a `GtkApplicationWindow` can be retrieved with
-     * [method@Gtk.ApplicationWindow.get_id].
+     * Returns the {@link org.gtk.gtk.ApplicationWindow} with the given ID.
+     * <p>
+     * The ID of a <code>GtkApplicationWindow</code> can be retrieved with
+     * {@link org.gtk.gtk.ApplicationWindow#getId}.
      */
     public Window getWindowById(int id) {
         var RESULT = gtk_h.gtk_application_get_window_by_id(handle(), id);
@@ -178,7 +171,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Gets a list of the [class@Gtk.Window] instances associated with `application`.
+     * Gets a list of the {@link org.gtk.gtk.Window} instances associated with <code>application</code>.
      * 
      * The list is sorted by most recently focused window, such that the first
      * element is the currently focused window. (Useful for choosing a parent
@@ -196,26 +189,26 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     /**
      * Inform the session manager that certain types of actions should be
      * inhibited.
-     * 
+     * <p>
      * This is not guaranteed to work on all platforms and for all types of
      * actions.
-     * 
+     * <p>
      * Applications should invoke this method when they begin an operation
      * that should not be interrupted, such as creating a CD or DVD. The
-     * types of actions that may be blocked are specified by the `flags`
+     * types of actions that may be blocked are specified by the <code>flags</code>
      * parameter. When the application completes the operation it should
-     * call [method@Gtk.Application.uninhibit] to remove the inhibitor. Note
+     * call {@link org.gtk.gtk.Application#uninhibit} to remove the inhibitor. Note
      * that an application can have multiple inhibitors, and all of them must
      * be individually removed. Inhibitors are also cleared when the
      * application exits.
-     * 
+     * <p>
      * Applications should not expect that they will always be able to block
      * the action. In most cases, users will be given the option to force
      * the action to take place.
-     * 
-     * The `reason` message should be short and to the point.
-     * 
-     * If `window` is given, the session manager may point the user to
+     * <p>
+     * The <code>reason</code> message should be short and to the point.
+     * <p>
+     * If <code>window</code> is given, the session manager may point the user to
      * this window to find out more about why the action is inhibited.
      */
     public int inhibit(Window window, int flags, java.lang.String reason) {
@@ -224,14 +217,13 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Remove a window from `application`.
-     * 
-     * If `window` belongs to `application` then this call is equivalent to
-     * setting the [property@Gtk.Window:application] property of `window` to
-     * `NULL`.
-     * 
+     * Remove a window from <code>application</code>.
+     * <p>
+     * If <code>window</code> belongs to <code>application</code> then this call is equivalent to
+     * setting the {@link [property@Gtk.Window:application] (ref=property)} property of <code>window</code> to<code>NULL</code>.
+     * <p>
      * The application may stop running as a result of a call to this
-     * function, if `window` was the last window of the `application`.
+     * function, if <code>window</code> was the last window of the <code>application</code>.
      */
     public void removeWindow(Window window) {
         gtk_h.gtk_application_remove_window(handle(), window.handle());
@@ -240,38 +232,37 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     /**
      * Sets zero or more keyboard accelerators that will trigger the
      * given action.
-     * 
-     * The first item in `accels` will be the primary accelerator, which may be
+     * <p>
+     * The first item in <code>accels</code> will be the primary accelerator, which may be
      * displayed in the UI.
-     * 
+     * <p>
      * To remove all accelerators for an action, use an empty, zero-terminated
-     * array for `accels`.
-     * 
-     * For the `detailed_action_name`, see `g_action_parse_detailed_name()` and
-     * `g_action_print_detailed_name()`.
+     * array for <code>accels</code>.
+     * <p>
+     * For the <code>detailed_action_name</code>, see <code>g_action_parse_detailed_name()</code> and<code>g_action_print_detailed_name()</code>.
      */
     public void setAccelsForAction(java.lang.String detailedActionName, java.lang.String[] accels) {
         gtk_h.gtk_application_set_accels_for_action(handle(), Interop.allocateNativeString(detailedActionName).handle(), Interop.allocateNativeArray(accels).handle());
     }
     
     /**
-     * Sets or unsets the menubar for windows of `application`.
-     * 
+     * Sets or unsets the menubar for windows of <code>application</code>.
+     * <p>
      * This is a menubar in the traditional sense.
-     * 
+     * <p>
      * This can only be done in the primary instance of the application,
-     * after it has been registered. `GApplication::startup` is a good place
+     * after it has been registered. <code>GApplication::startup</code> is a good place
      * to call this.
-     * 
+     * <p>
      * Depending on the desktop environment, this may appear at the top of
      * each window, or at the top of the screen.  In some environments, if
      * both the application menu and the menubar are set, the application
      * menu will be presented as if it were the first item of the menubar.
-     * Other environments treat the two as completely separate — for example,
+     * Other environments treat the two as completely separate &#8212; for example,
      * the application menu may be rendered by the desktop shell while the
      * menubar (if set) remains in each individual window.
-     * 
-     * Use the base `GActionMap` interface to add actions, to respond to the
+     * <p>
+     * Use the base <code>GActionMap</code> interface to add actions, to respond to the
      * user selecting these menu items.
      */
     public void setMenubar(org.gtk.gio.MenuModel menubar) {
@@ -281,7 +272,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     /**
      * Removes an inhibitor that has been previously established.
      * 
-     * See [method@Gtk.Application.inhibit].
+     * See {@link org.gtk.gtk.Application#inhibit}.
      * 
      * Inhibitors are also cleared when the application exits.
      */
@@ -296,10 +287,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     /**
      * Emitted when the session manager is about to end the session.
-     * 
-     * This signal is only emitted if [property@Gtk.Application:register-session]
-     * is `TRUE`. Applications can connect to this signal and call
-     * [method@Gtk.Application.inhibit] with `GTK_APPLICATION_INHIBIT_LOGOUT`
+     * <p>
+     * This signal is only emitted if {@link [property@Gtk.Application:register-session] (ref=property)}
+     * is <code>TRUE</code>. Applications can connect to this signal and call
+     * {@link org.gtk.gtk.Application#inhibit} with <code>GTK_APPLICATION_INHIBIT_LOGOUT</code>
      * to delay the end of the session until state has been saved.
      */
     public SignalHandle onQueryEnd(QueryEndHandler handler) {
@@ -323,8 +314,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Emitted when a [class@Gtk.Window] is added to `application` through
-     * [method@Gtk.Application.add_window].
+     * Emitted when a {@link org.gtk.gtk.Window} is added to <code>application</code> through
+     * {@link org.gtk.gtk.Application#addWindow}.
      */
     public SignalHandle onWindowAdded(WindowAddedHandler handler) {
         try {
@@ -347,10 +338,10 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     }
     
     /**
-     * Emitted when a [class@Gtk.Window] is removed from `application`.
+     * Emitted when a {@link org.gtk.gtk.Window} is removed from <code>application</code>.
      * 
      * This can happen as a side-effect of the window being destroyed
-     * or explicitly through [method@Gtk.Application.remove_window].
+     * or explicitly through {@link org.gtk.gtk.Application#removeWindow}.
      */
     public SignalHandle onWindowRemoved(WindowRemovedHandler handler) {
         try {

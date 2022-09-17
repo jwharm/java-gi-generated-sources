@@ -2,8 +2,8 @@ package org.gtk.gio;
 
 /**
  * The protocol family of a #GSocketAddress. (These values are
- * identical to the system defines %AF_INET, %AF_INET6 and %AF_UNIX,
- * if available.)
+ * identical to the system defines <code>AF_INET,</code> <code>AF_INET6</code> and <code>AF_UNIX,
+ * if</code> available.)
  */
 public enum SocketFamily {
 

@@ -8,16 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkPrintJob` object represents a job that is sent to a printer.
- * 
+ * A <code>GtkPrintJob</code> object represents a job that is sent to a printer.
+ * <p>
  * You only need to deal directly with print jobs if you use the
- * non-portable [class@Gtk.PrintUnixDialog] API.
- * 
- * Use [method@Gtk.PrintJob.get_surface] to obtain the cairo surface
- * onto which the pages must be drawn. Use [method@Gtk.PrintJob.send]
- * to send the finished job to the printer. If you don’t use cairo
- * `GtkPrintJob` also supports printing of manually generated PostScript,
- * via [method@Gtk.PrintJob.set_source_file].
+ * non-portable {@link org.gtk.gtk.PrintUnixDialog} API.
+ * <p>
+ * Use {@link org.gtk.gtk.PrintJob#getSurface} to obtain the cairo surface
+ * onto which the pages must be drawn. Use {@link org.gtk.gtk.PrintJob#send}
+ * to send the finished job to the printer. If you don&#8217;t use cairo<code>GtkPrintJob</code> also supports printing of manually generated PostScript,
+ * via {@link org.gtk.gtk.PrintJob#setSourceFile}.
  */
 public class PrintJob extends org.gtk.gobject.Object {
 
@@ -36,7 +35,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkPrintJob`.
+     * Creates a new <code>GtkPrintJob</code>.
      */
     public PrintJob(java.lang.String title, Printer printer, PrintSettings settings, PageSetup pageSetup) {
         super(constructNew(title, printer, settings, pageSetup));
@@ -75,7 +74,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GtkPageSet` setting for this job.
+     * Gets the <code>GtkPageSet</code> setting for this job.
      */
     public PageSet getPageSet() {
         var RESULT = gtk_h.gtk_print_job_get_page_set(handle());
@@ -83,7 +82,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GtkPrintPages` setting for this job.
+     * Gets the <code>GtkPrintPages</code> setting for this job.
      */
     public PrintPages getPages() {
         var RESULT = gtk_h.gtk_print_job_get_pages(handle());
@@ -91,7 +90,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GtkPrinter` of the print job.
+     * Gets the <code>GtkPrinter</code> of the print job.
      */
     public Printer getPrinter() {
         var RESULT = gtk_h.gtk_print_job_get_printer(handle());
@@ -123,7 +122,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GtkPrintSettings` of the print job.
+     * Gets the <code>GtkPrintSettings</code> of the print job.
      */
     public PrintSettings getSettings() {
         var RESULT = gtk_h.gtk_print_job_get_settings(handle());
@@ -162,7 +161,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Returns whether jobs will be tracked after printing.
      * 
-     * For details, see [method@Gtk.PrintJob.set_track_print_status].
+     * For details, see {@link org.gtk.gtk.PrintJob#setTrackPrintStatus}.
      */
     public boolean getTrackPrintStatus() {
         var RESULT = gtk_h.gtk_print_job_get_track_print_status(handle());
@@ -223,14 +222,14 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the `GtkPageSet` setting for this job.
+     * Sets the <code>GtkPageSet</code> setting for this job.
      */
     public void setPageSet(PageSet pageSet) {
         gtk_h.gtk_print_job_set_page_set(handle(), pageSet.getValue());
     }
     
     /**
-     * Sets the `GtkPrintPages` setting for this job.
+     * Sets the <code>GtkPrintPages</code> setting for this job.
      */
     public void setPages(PrintPages pages) {
         gtk_h.gtk_print_job_set_pages(handle(), pages.getValue());
@@ -260,15 +259,15 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Make the `GtkPrintJob` send an existing document to the
+     * Make the <code>GtkPrintJob</code> send an existing document to the
      * printing system.
      * 
      * The file can be in any format understood by the platforms
      * printing system (typically PostScript, but on many platforms
-     * PDF may work too). See [method@Gtk.Printer.accepts_pdf] and
-     * [method@Gtk.Printer.accepts_ps].
+     * PDF may work too). See {@link org.gtk.gtk.Printer#acceptsPdf} and
+     * {@link org.gtk.gtk.Printer#acceptsPs}.
      * 
-     * This is similar to [method@Gtk.PrintJob.set_source_file],
+     * This is similar to {@link org.gtk.gtk.PrintJob#setSourceFile},
      * but takes expects an open file descriptor for the file,
      * instead of a filename.
      */
@@ -282,13 +281,13 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * Make the `GtkPrintJob` send an existing document to the
+     * Make the <code>GtkPrintJob</code> send an existing document to the
      * printing system.
      * 
      * The file can be in any format understood by the platforms
      * printing system (typically PostScript, but on many platforms
-     * PDF may work too). See [method@Gtk.Printer.accepts_pdf] and
-     * [method@Gtk.Printer.accepts_ps].
+     * PDF may work too). See {@link org.gtk.gtk.Printer#acceptsPdf} and
+     * {@link org.gtk.gtk.Printer#acceptsPs}.
      */
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -300,10 +299,10 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * If track_status is %TRUE, the print job will try to continue report
+     * If track_status is <code>TRUE,</code> the print job will try to continue report
      * on the status of the print job in the printer queues and printer.
      * 
-     * This can allow your application to show things like “out of paper”
+     * This can allow your application to show things like &#8220;out of paper&#8221;
      * issues, and when the print job actually reaches the printer.
      * 
      * This function is often implemented using some form of polling,
@@ -321,7 +320,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Emitted when the status of a job changes.
      * 
-     * The signal handler can use [method@Gtk.PrintJob.get_status]
+     * The signal handler can use {@link org.gtk.gtk.PrintJob#getStatus}
      * to obtain the new status.
      */
     public SignalHandle onStatusChanged(StatusChangedHandler handler) {

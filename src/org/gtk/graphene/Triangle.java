@@ -62,22 +62,22 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the [barycentric coordinates](http://en.wikipedia.org/wiki/Barycentric_coordinate_system)
+     * Computes the {@link [barycentric coordinates]}(http://en.wikipedia.org/wiki/Barycentric_coordinate_system)
      * of the given point @p.
-     * 
+     * <p>
      * The point @p must lie on the same plane as the triangle @t; if the
      * point is not coplanar, the result of this function is undefined.
-     * 
-     * If we place the origin in the coordinates of the triangle's A point,
-     * the barycentric coordinates are `u`, which is on the AC vector; and `v`
+     * <p>
+     * If we place the origin in the coordinates of the triangle&#39;s A point,
+     * the barycentric coordinates are <code>u</code>, which is on the AC vector; and <code>v</code>
      * which is on the AB vector:
-     * 
-     * ![](triangle-barycentric.png)
-     * 
+     * <p>
+     * !{@link []}(triangle-barycentric.png)
+     * <p>
      * The returned #graphene_vec2_t contains the following values, in order:
-     * 
-     *  - `res.x = u`
-     *  - `res.y = v`
+     * <p>
+     *  - <code>res.x = u</code>
+     *  - <code>res.y = v</code>
      */
     public boolean getBarycoords(Point3D p, Vec2 res) {
         var RESULT = gtk_h.graphene_triangle_get_barycoords(handle(), p.handle(), res.handle());
@@ -94,7 +94,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the coordinates of the midpoint of the given #graphene_triangle_t.
      * 
-     * The midpoint G is the [centroid](https://en.wikipedia.org/wiki/Centroid#Triangle_centroid)
+     * The midpoint G is the {@link [centroid]}(https://en.wikipedia.org/wiki/Centroid#Triangle_centroid)
      * of the triangle, i.e. the intersection of its medians.
      */
     public void getMidpoint(Point3D res) {
@@ -125,15 +125,15 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the UV coordinates of the given point @p.
-     * 
+     * <p>
      * The point @p must lie on the same plane as the triangle @t; if the point
-     * is not coplanar, the result of this function is undefined. If @p is %NULL,
-     * the point will be set in (0, 0, 0).
-     * 
+     * is not coplanar, the result of this function is undefined. If @p is <code>NULL,
+     * the</code> point will be set in (0, 0, 0).
+     * <p>
      * The UV coordinates will be placed in the @res vector:
-     * 
-     *  - `res.x = u`
-     *  - `res.y = v`
+     * <p>
+     *  - <code>res.x = u</code>
+     *  - <code>res.y = v</code>
      * 
      * See also: graphene_triangle_get_barycoords()
      */

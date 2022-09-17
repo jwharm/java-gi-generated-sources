@@ -29,7 +29,7 @@ import java.lang.invoke.*;
  * g_action_group_change_action_state().
  * 
  * As typical example, consider a text editing application which has an
- * option to change the current font to 'bold'. A good way to represent
+ * option to change the current font to &#39;bold&#39;. A good way to represent
  * this would be a stateful action, with a boolean state. Activating the
  * action would toggle the state.
  * 
@@ -37,10 +37,10 @@ import java.lang.invoke.*;
  * method calls, except g_action_group_list_actions() take the name of
  * an action as an argument.
  * 
- * The #GActionGroup API is meant to be the 'public' API to the action
- * group.  The calls here are exactly the interaction that 'external
- * forces' (eg: UI, incoming D-Bus messages, etc.) are supposed to have
- * with actions.  'Internal' APIs (ie: ones meant only to be accessed by
+ * The #GActionGroup API is meant to be the &#39;public&#39; API to the action
+ * group.  The calls here are exactly the interaction that &#39;external
+ * forces&#39; (eg: UI, incoming D-Bus messages, etc.) are supposed to have
+ * with actions.  &#39;Internal&#39; APIs (ie: ones meant only to be accessed by
  * the action group implementation) are found on subclasses.  This is
  * why you will find - for example - g_action_group_get_action_enabled()
  * but not an equivalent set() call.
@@ -51,7 +51,7 @@ import java.lang.invoke.*;
  * Implementations of #GActionGroup should provide implementations for
  * the virtual functions g_action_group_list_actions() and
  * g_action_group_query_action().  The other virtual functions should
- * not be implemented - their "wrappers" are actually implemented with
+ * not be implemented - their &#34;wrappers&#34; are actually implemented with
  * calls to g_action_group_query_action().
  */
 public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
@@ -94,12 +94,12 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Activate the named action within @action_group.
-     * 
+     * <p>
      * If the action is expecting a parameter, then the correct type of
      * parameter must be given as @parameter.  If the action is expecting no
-     * parameters then @parameter must be %NULL.  See
+     * parameters then @parameter must be <code>NULL.</code>  See
      * g_action_group_get_action_parameter_type().
-     * 
+     * <p>
      * If the #GActionGroup implementation supports asynchronous remote
      * activation over D-Bus, this call may return before the relevant
      * D-Bus traffic has been sent, or any replies have been received. In
@@ -108,24 +108,24 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * depends on the result of the action activation. Without flushing
      * the D-Bus connection, there is no guarantee that the action would
      * have been activated.
-     * 
+     * <p>
      * The following code which runs in a remote app instance, shows an
-     * example of a "quit" action being activated on the primary app
+     * example of a &#34;quit&#34; action being activated on the primary app
      * instance over D-Bus. Here g_dbus_connection_flush() is called
-     * before `exit()`. Without g_dbus_connection_flush(), the "quit" action
+     * before <code>exit()</code>. Without g_dbus_connection_flush(), the &#34;quit&#34; action
      * may fail to be activated on the primary instance.
      * 
-     * |[<!-- language="C" -->
-     * // call "quit" action on primary instance
-     * g_action_group_activate_action (G_ACTION_GROUP (app), "quit", NULL);
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * // call &#34;quit&#34; action on primary instance
+     * g_action_group_activate_action (G_ACTION_GROUP (app), &#34;quit&#34;, NULL);
      * 
      * // make sure the action is activated now
      * g_dbus_connection_flush (...);
      * 
-     * g_debug ("application has been terminated. exiting.");
+     * g_debug (&#34;application has been terminated. exiting.&#34;);
      * 
      * exit (0);
-     * ]|
+     * ]}|
      */
     public default void activateAction(java.lang.String actionName, org.gtk.glib.Variant parameter) {
         gtk_h.g_action_group_activate_action(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle());
@@ -167,8 +167,8 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * the #GVariant given to that function must be of the type returned
      * by this function.
      * 
-     * In the case that this function returns %NULL, you must not give any
-     * #GVariant, but %NULL instead.
+     * In the case that this function returns <code>NULL,</code> you must not give any
+     * #GVariant, but <code>null</code> instead.
      * 
      * The parameter type of a particular action will never change but it is
      * possible for an action to be removed and for a new action to be added
@@ -182,11 +182,11 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Queries the current state of the named action within @action_group.
      * 
-     * If the action is not stateful then %NULL will be returned.  If the
+     * If the action is not stateful then <code>null</code> will be returned.  If the
      * action is stateful then the type of the return value is the type
      * given by g_action_group_get_action_state_type().
      * 
-     * The return value (if non-%NULL) should be freed with
+     * The return value (if non-<code>NULL)</code> should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
@@ -198,7 +198,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * Requests a hint about the valid range of values for the state of the
      * named action within @action_group.
      * 
-     * If %NULL is returned it either means that the action is not stateful
+     * If <code>null</code> is returned it either means that the action is not stateful
      * or that there is no hint about the valid range of values for the
      * state of the action.
      * 
@@ -211,7 +211,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * have a state value outside of the hinted range and setting a value
      * within the range may fail.
      * 
-     * The return value (if non-%NULL) should be freed with
+     * The return value (if non-<code>NULL)</code> should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
@@ -229,9 +229,9 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * type and g_action_group_get_action_state() will return a #GVariant
      * of the same type.
      * 
-     * If the action is not stateful then this function will return %NULL.
-     * In that case, g_action_group_get_action_state() will return %NULL
-     * and you must not call g_action_group_change_action_state().
+     * If the action is not stateful then this function will return <code>NULL.
+     * In</code> that case, g_action_group_get_action_state() will return <code>NULL
+     * and</code> you must not call g_action_group_change_action_state().
      * 
      * The state type of a particular action will never change but it is
      * possible for an action to be removed and for a new action to be added

@@ -8,50 +8,46 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSearchEntry` is an entry widget that has been tailored for use
+ * <code>GtkSearchEntry</code> is an entry widget that has been tailored for use
  * as a search entry.
- * 
- * The main API for interacting with a `GtkSearchEntry` as entry
- * is the `GtkEditable` interface.
- * 
- * ![An example GtkSearchEntry](search-entry.png)
- * 
- * It will show an inactive symbolic “find” icon when the search
- * entry is empty, and a symbolic “clear” icon when there is text.
- * Clicking on the “clear” icon will empty the search entry.
- * 
+ * <p>
+ * The main API for interacting with a <code>GtkSearchEntry</code> as entry
+ * is the <code>GtkEditable</code> interface.
+ * <p>
+ * !{@link [An example GtkSearchEntry]}(search-entry.png)
+ * <p>
+ * It will show an inactive symbolic &#8220;find&#8221; icon when the search
+ * entry is empty, and a symbolic &#8220;clear&#8221; icon when there is text.
+ * Clicking on the &#8220;clear&#8221; icon will empty the search entry.
+ * <p>
  * To make filtering appear more reactive, it is a good idea to
  * not react to every change in the entry text immediately, but
- * only after a short delay. To support this, `GtkSearchEntry`
- * emits the [signal@Gtk.SearchEntry::search-changed] signal which
- * can be used instead of the [signal@Gtk.Editable::changed] signal.
- * 
- * The [signal@Gtk.SearchEntry::previous-match],
- * [signal@Gtk.SearchEntry::next-match] and
- * [signal@Gtk.SearchEntry::stop-search] signals can be used to
+ * only after a short delay. To support this, <code>GtkSearchEntry</code>
+ * emits the {@link [signal@Gtk.SearchEntry::search-changed] (ref=signal)} signal which
+ * can be used instead of the {@link [signal@Gtk.Editable::changed] (ref=signal)} signal.
+ * <p>
+ * The {@link [signal@Gtk.SearchEntry::previous-match] (ref=signal)},
+ * {@link [signal@Gtk.SearchEntry::next-match] (ref=signal)} and
+ * {@link [signal@Gtk.SearchEntry::stop-search] (ref=signal)} signals can be used to
  * implement moving between search results and ending the search.
- * 
- * Often, `GtkSearchEntry` will be fed events by means of being
- * placed inside a [class@Gtk.SearchBar]. If that is not the case,
- * you can use [method@Gtk.SearchEntry.set_key_capture_widget] to
+ * <p>
+ * Often, <code>GtkSearchEntry</code> will be fed events by means of being
+ * placed inside a {@link org.gtk.gtk.SearchBar}. If that is not the case,
+ * you can use {@link org.gtk.gtk.SearchEntry#setKeyCaptureWidget} to
  * let it capture key input from another widget.
- * 
- * `GtkSearchEntry` provides only minimal API and should be used with
- * the [iface@Gtk.Editable] API.
- * 
- * ## CSS Nodes
- * 
- * ```
+ * <p><code>GtkSearchEntry</code> provides only minimal API and should be used with
+ * the {@link [iface@Gtk.Editable] (ref=iface)} API.
+ * <p>
+ * <h2>CSS Nodes</h2>
+ * <p><pre>
  * entry.search
- * ╰── text
- * ```
- * 
- * `GtkSearchEntry` has a single CSS node with name entry that carries
- * a `.search` style class, and the text node is a child of that.
- * 
- * ## Accessibility
- * 
- * `GtkSearchEntry` uses the %GTK_ACCESSIBLE_ROLE_SEARCH_BOX role.
+ * &#9584;&#9472;&#9472; text
+ * </pre>
+ * <p><code>GtkSearchEntry</code> has a single CSS node with name entry that carries
+ * a <code>.search</code> style class, and the text node is a child of that.
+ * <p>
+ * <h2>Accessibility</h2>
+ * <p><code>GtkSearchEntry</code> uses the {@link org.gtk.gtk.AccessibleRole#SEARCH_BOX} role.
  */
 public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -70,7 +66,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Creates a `GtkSearchEntry`.
+     * Creates a <code>GtkSearchEntry</code>.
      */
     public SearchEntry() {
         super(constructNew());
@@ -87,21 +83,21 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     /**
      * Sets @widget as the widget that @entry will capture key
      * events from.
-     * 
+     * <p>
      * Key events are consumed by the search entry to start or
      * continue a search.
-     * 
-     * If the entry is part of a `GtkSearchBar`, it is preferable
-     * to call [method@Gtk.SearchBar.set_key_capture_widget] instead,
+     * <p>
+     * If the entry is part of a <code>GtkSearchBar</code>, it is preferable
+     * to call {@link org.gtk.gtk.SearchBar#setKeyCaptureWidget} instead,
      * which will reveal the entry in addition to triggering the
      * search entry.
      * 
      * Note that despite the name of this function, the events
-     * are only 'captured' in the bubble phase, which means that
+     * are only &#39;captured&#39; in the bubble phase, which means that
      * editable child widgets of @widget will receive text input
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
-     * [method@Gtk.EventControllerKey.forward].
+     * {@link org.gtk.gtk.EventControllerKey#forward}.
      */
     public void setKeyCaptureWidget(Widget widget) {
         gtk_h.gtk_search_entry_set_key_capture_widget(handle(), widget.handle());
@@ -141,7 +137,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * Emitted when the user initiates a move to the next match
      * for the current search string.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
      * Applications should connect to it, to implement moving
      * between matches.
@@ -172,7 +168,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * Emitted when the user initiates a move to the previous match
      * for the current search string.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
      * Applications should connect to it, to implement moving
      * between matches.
@@ -249,7 +245,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     /**
      * Emitted when the user stops a search via keyboard input.
      * 
-     * This is a [keybinding signal](class.SignalAction.html).
+     * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
      * Applications should connect to it, to implement hiding
      * the search entry in this case.

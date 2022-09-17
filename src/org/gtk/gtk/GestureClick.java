@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureClick` is a `GtkGesture` implementation for clicks.
+ * <code>GtkGestureClick</code> is a <code>GtkGesture</code> implementation for clicks.
  * 
  * It is able to recognize multiple clicks on a nearby zone, which
- * can be listened for through the [signal@Gtk.GestureClick::pressed]
+ * can be listened for through the {@link [signal@Gtk.GestureClick::pressed] (ref=signal)}
  * signal. Whenever time or distance between clicks exceed the GTK
- * defaults, [signal@Gtk.GestureClick::stopped] is emitted, and the
+ * defaults, {@link [signal@Gtk.GestureClick::stopped] (ref=signal)} is emitted, and the
  * click counter is reset.
  */
 public class GestureClick extends GestureSingle {
@@ -33,7 +33,7 @@ public class GestureClick extends GestureSingle {
     }
     
     /**
-     * Returns a newly created `GtkGesture` that recognizes
+     * Returns a newly created <code>GtkGesture</code> that recognizes
      * single and multiple presses.
      */
     public GestureClick() {
@@ -72,7 +72,7 @@ public class GestureClick extends GestureSingle {
      * Emitted when a button or touch is released.
      * 
      * @n_press will report the number of press that is paired to
-     * this event, note that [signal@Gtk.GestureClick::stopped] may
+     * this event, note that {@link [signal@Gtk.GestureClick::stopped] (ref=signal)} may
      * have been emitted between the press and its release, @n_press
      * will only start over at the next press.
      */

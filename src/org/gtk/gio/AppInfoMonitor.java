@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * applications).
  * 
  * Call g_app_info_monitor_get() to get a #GAppInfoMonitor and connect
- * to the "changed" signal.
+ * to the &#34;changed&#34; signal.
  * 
  * In the usual case, applications should try to make note of the change
  * (doing things like invalidating caches) but not act on it.  In
@@ -41,7 +41,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * Gets the #GAppInfoMonitor for the current thread-default main
      * context.
      * 
-     * The #GAppInfoMonitor will emit a "changed" signal in the
+     * The #GAppInfoMonitor will emit a &#34;changed&#34; signal in the
      * thread-default main context whenever the list of installed
      * applications (as reported by g_app_info_get_all()) may have changed.
      * 

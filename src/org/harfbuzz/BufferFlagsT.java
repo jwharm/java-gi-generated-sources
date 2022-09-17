@@ -48,7 +48,7 @@ public class BufferFlagsT {
     /**
      * flag indicating that a dotted circle should
      *                      not be inserted in the rendering of incorrect
-     *                      character sequences (such at <0905 093E>). Since: 2.4.0
+     *                      character sequences (such at &#60;0905 093E&#62;). Since: 2.4.0
      */
     public static final int DO_NOT_INSERT_DOTTED_CIRCLE = 16;
     

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Defines a Unix mount entry (e.g. <filename>/media/cdrom</filename>).
+ * Defines a Unix mount entry (e.g. &#60;filename&#62;/media/cdrom&#60;/filename&#62;).
  * This corresponds roughly to a mtab entry.
  */
 public class UnixMountEntry extends io.github.jwharm.javagi.ResourceBase {

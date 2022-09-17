@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoLayoutIter` can be used to iterate over the visual
- * extents of a `PangoLayout`.
- * 
- * To obtain a `PangoLayoutIter`, use [method@Pango.Layout.get_iter].
- * 
- * The `PangoLayoutIter` structure is opaque, and has no user-visible fields.
+ * A <code>PangoLayoutIter</code> can be used to iterate over the visual
+ * extents of a <code>PangoLayout</code>.
+ * <p>
+ * To obtain a <code>PangoLayoutIter</code>, use {@link org.pango.Layout#getIter}.
+ * <p>
+ * The <code>PangoLayoutIter</code> structure is opaque, and has no user-visible fields.
  */
 public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -30,7 +30,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a `PangoLayoutIter`.
+     * Copies a <code>PangoLayoutIter</code>.
      */
     public LayoutIter copy() {
         var RESULT = gtk_h.pango_layout_iter_copy(handle());
@@ -38,14 +38,14 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees an iterator that's no longer in use.
+     * Frees an iterator that&#39;s no longer in use.
      */
     public void free() {
         gtk_h.pango_layout_iter_free(handle());
     }
     
     /**
-     * Gets the Y position of the current line's baseline, in layout
+     * Gets the Y position of the current line&#39;s baseline, in layout
      * coordinates.
      * 
      * Layout coordinates have the origin at the top left of the entire layout.
@@ -82,7 +82,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Note that iterating forward by char moves in visual order,
      * not logical order, so indexes may not be sequential. Also,
      * the index may be equal to the length of the text in the
-     * layout, if on the %NULL run (see [method@Pango.LayoutIter.get_run]).
+     * layout, if on the <code>null</code> run (see {@link org.pango.LayoutIter#getRun}).
      */
     public int getIndex() {
         var RESULT = gtk_h.pango_layout_iter_get_index(handle());
@@ -90,7 +90,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the layout associated with a `PangoLayoutIter`.
+     * Gets the layout associated with a <code>PangoLayoutIter</code>.
      */
     public Layout getLayout() {
         var RESULT = gtk_h.pango_layout_iter_get_layout(handle());
@@ -98,7 +98,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Obtains the extents of the `PangoLayout` being iterated over.
+     * Obtains the extents of the <code>PangoLayout</code> being iterated over.
      */
     public void getLayoutExtents(Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_layout_iter_get_layout_extents(handle(), inkRect.handle(), logicalRect.handle());
@@ -107,7 +107,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current line.
      * 
-     * Use the faster [method@Pango.LayoutIter.get_line_readonly] if
+     * Use the faster {@link org.pango.LayoutIter#getLineReadonly} if
      * you do not plan to modify the contents of the line (glyphs,
      * glyph widths, etc.).
      */
@@ -118,11 +118,11 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Obtains the extents of the current line.
-     * 
+     * <p>
      * Extents are in layout coordinates (origin is the top-left corner
-     * of the entire `PangoLayout`). Thus the extents returned by this
+     * of the entire <code>PangoLayout</code>). Thus the extents returned by this
      * function will be the same width/height but not at the same x/y
-     * as the extents returned from [method@Pango.LayoutLine.get_extents].
+     * as the extents returned from {@link org.pango.LayoutLine#getExtents}.
      */
     public void getLineExtents(Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_layout_iter_get_line_extents(handle(), inkRect.handle(), logicalRect.handle());
@@ -131,7 +131,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current line for read-only access.
      * 
-     * This is a faster alternative to [method@Pango.LayoutIter.get_line],
+     * This is a faster alternative to {@link org.pango.LayoutIter#getLine},
      * but the user is not expected to modify the contents of the line
      * (glyphs, glyph widths, etc.).
      */
@@ -143,12 +143,12 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current run.
      * 
-     * When iterating by run, at the end of each line, there's a position
-     * with a %NULL run, so this function can return %NULL. The %NULL run
+     * When iterating by run, at the end of each line, there&#39;s a position
+     * with a <code>null</code> run, so this function can return <code>NULL.</code> The <code>null</code> run
      * at the end of each line ensures that all lines have at least one run,
      * even lines consisting of only a newline.
      * 
-     * Use the faster [method@Pango.LayoutIter.get_run_readonly] if you do not
+     * Use the faster {@link org.pango.LayoutIter#getRunReadonly} if you do not
      * plan to modify the contents of the run (glyphs, glyph widths, etc.).
      */
     public LayoutRun getRun() {
@@ -157,7 +157,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the Y position of the current run's baseline, in layout
+     * Gets the Y position of the current run&#39;s baseline, in layout
      * coordinates.
      * 
      * Layout coordinates have the origin at the top left of the entire layout.
@@ -182,12 +182,12 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current run for read-only access.
      * 
-     * When iterating by run, at the end of each line, there's a position
-     * with a %NULL run, so this function can return %NULL. The %NULL run
+     * When iterating by run, at the end of each line, there&#39;s a position
+     * with a <code>null</code> run, so this function can return <code>NULL.</code> The <code>null</code> run
      * at the end of each line ensures that all lines have at least one run,
      * even lines consisting of only a newline.
      * 
-     * This is a faster alternative to [method@Pango.LayoutIter.get_run],
+     * This is a faster alternative to {@link org.pango.LayoutIter#getRun},
      * but the user is not expected to modify the contents of the run (glyphs,
      * glyph widths, etc.).
      */
@@ -199,6 +199,14 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves @iter forward to the next character in visual order.
      * 
+     * If @iter was already at the end of the layout, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Moves @iter forward to the next character in visual order.
+     * 
      * If @iter was already at the end of the layout, returns %FALSE.
      */
     public boolean nextChar() {
@@ -208,6 +216,14 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves @iter forward to the next cluster in visual order.
+     * 
+     * If @iter was already at the end of the layout, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Moves @iter forward to the next cluster in visual order.
      * 
      * If @iter was already at the end of the layout, returns %FALSE.
      */
@@ -219,6 +235,14 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves @iter forward to the start of the next line.
      * 
+     * If @iter is already on the last line, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Moves @iter forward to the start of the next line.
+     * 
      * If @iter is already on the last line, returns %FALSE.
      */
     public boolean nextLine() {
@@ -228,6 +252,14 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves @iter forward to the next run in visual order.
+     * 
+     * If @iter was already at the end of the layout, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Moves @iter forward to the next run in visual order.
      * 
      * If @iter was already at the end of the layout, returns %FALSE.
      */

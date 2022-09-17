@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * Specifies which corner a child widget should be placed in when packed into
- * a `GtkScrolledWindow.`
+ * a <code>GtkScrolledWindow.</code>
  * 
  * This is effectively the opposite of where the scroll bars are placed.
  */

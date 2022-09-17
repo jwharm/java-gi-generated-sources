@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkPrintOperationPreview` is the interface that is used to
+ * <code>GtkPrintOperationPreview</code> is the interface that is used to
  * implement print preview.
- * 
- * A `GtkPrintOperationPreview` object is passed to the
- * [signal@Gtk.PrintOperation::preview] signal by
- * [class@Gtk.PrintOperation].
+ * <p>
+ * A <code>GtkPrintOperationPreview</code> object is passed to the
+ * {@link [signal@Gtk.PrintOperation::preview] (ref=signal)} signal by
+ * {@link org.gtk.gtk.PrintOperation}.
  */
 public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAddress {
 
@@ -39,7 +39,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
      * Renders a page to the preview.
      * 
      * This is using the print context that was passed to the
-     * [signal@Gtk.PrintOperation::preview] handler together
+     * {@link [signal@Gtk.PrintOperation::preview] (ref=signal)} handler together
      * with @preview.
      * 
      * A custom print preview should use this function to render
@@ -62,7 +62,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
      * 
      * A handler for this signal should update the @context
      * according to @page_setup and set up a suitable cairo
-     * context, using [method@Gtk.PrintContext.set_cairo_context].
+     * context, using {@link org.gtk.gtk.PrintContext#setCairoContext}.
      */
     public default SignalHandle onGotPageSize(GotPageSizeHandler handler) {
         try {

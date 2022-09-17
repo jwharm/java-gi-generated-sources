@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkDragSurfaceInterface` implementation is private to GDK.
+ * The <code>GdkDragSurfaceInterface</code> implementation is private to GDK.
  */
 public class DragSurfaceInterface extends io.github.jwharm.javagi.ResourceBase {
 

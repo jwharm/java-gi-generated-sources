@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for `GdkContentProvider`.
+ * Class structure for <code>GdkContentProvider</code>.
  */
 public class ContentProviderClass extends io.github.jwharm.javagi.ResourceBase {
 

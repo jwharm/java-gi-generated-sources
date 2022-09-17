@@ -18,7 +18,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
     /**
      * Checks if @stream is actually pollable. Some classes may implement
      * #GPollableOutputStream but have only certain instances of that
-     * class be pollable. If this method returns %FALSE, then the behavior
+     * class be pollable. If this method returns <code>FALSE,</code> then the behavior
      * of other #GPollableOutputStream methods is undefined.
      * 
      * For any given stream, the value returned by this method is constant;
@@ -47,12 +47,12 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
     /**
      * Checks if @stream can be written.
      * 
-     * Note that some stream types may not be able to implement this 100%
-     * reliably, and it is possible that a call to g_output_stream_write()
-     * after this returns %TRUE would still block. To guarantee
+     * Note that some stream types may not be able to implement this 100<code>
+     * reliably,</code> and it is possible that a call to g_output_stream_write()
+     * after this returns <code>true</code> would still block. To guarantee
      * non-blocking behavior, you should always use
      * g_pollable_output_stream_write_nonblocking(), which will return a
-     * %G_IO_ERROR_WOULD_BLOCK error rather than blocking.
+     * {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} error rather than blocking.
      */
     public default boolean isWritable() {
         var RESULT = gtk_h.g_pollable_output_stream_is_writable(handle());
@@ -62,7 +62,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
     /**
      * Attempts to write up to @count bytes from @buffer to @stream, as
      * with g_output_stream_write(). If @stream is not currently writable,
-     * this will immediately return %G_IO_ERROR_WOULD_BLOCK, and you can
+     * this will immediately return <code>G_IO_ERROR_WOULD_BLOCK,</code> and you can
      * use g_pollable_output_stream_create_source() to create a #GSource
      * that will be triggered when @stream is writable.
      * 
@@ -72,7 +72,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
      * may happen if you call this method after a source triggers due
      * to having been cancelled.
      * 
-     * Also note that if %G_IO_ERROR_WOULD_BLOCK is returned some underlying
+     * Also note that if {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} is returned some underlying
      * transports like D/TLS require that you re-send the same @buffer and
      * @count in the next write call.
      */

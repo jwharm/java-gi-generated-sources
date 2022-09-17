@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The list of functions that can be implemented for the `GtkShortcutManager`
+ * The list of functions that can be implemented for the <code>GtkShortcutManager</code>
  * interface.
  * 
  * Note that no function is mandatory to implement, the default implementation

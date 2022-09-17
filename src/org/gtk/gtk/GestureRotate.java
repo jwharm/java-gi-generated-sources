@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureRotate` is a `GtkGesture` for 2-finger rotations.
+ * <code>GtkGestureRotate</code> is a <code>GtkGesture</code> for 2-finger rotations.
  * 
  * Whenever the angle between both handled sequences changes, the
- * [signal@Gtk.GestureRotate::angle-changed] signal is emitted.
+ * {@link [signal@Gtk.GestureRotate::angle-changed] (ref=signal)} signal is emitted.
  */
 public class GestureRotate extends Gesture {
 
@@ -30,7 +30,7 @@ public class GestureRotate extends Gesture {
     }
     
     /**
-     * Returns a newly created `GtkGesture` that recognizes 2-touch
+     * Returns a newly created <code>GtkGesture</code> that recognizes 2-touch
      * rotation gestures.
      */
     public GestureRotate() {

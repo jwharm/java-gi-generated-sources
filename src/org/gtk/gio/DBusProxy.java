@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  * well-known name, the property cache is flushed when the name owner
  * vanishes and reloaded when a name owner appears.
  * 
- * The unique name owner of the proxy's name is tracked and can be read from
+ * The unique name owner of the proxy&#39;s name is tracked and can be read from
  * #GDBusProxy:g-name-owner. Connect to the #GObject::notify signal to
  * get notified of changes. Additionally, only signals and property
  * changes emitted from the current name owner are considered and
@@ -28,30 +28,30 @@ import java.lang.invoke.*;
  * claimed by another. However, if no name owner currently exists,
  * then calls will be sent to the well-known name which may result in
  * the message bus launching an owner (unless
- * %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START is set).
+ * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_AUTO_START} is set).
  * 
  * If the proxy is for a stateless D-Bus service, where the name owner may
  * be started and stopped between calls, the #GDBusProxy:g-name-owner tracking
  * of #GDBusProxy will cause the proxy to drop signal and property changes from
  * the service after it has restarted for the first time. When interacting
- * with a stateless D-Bus service, do not use #GDBusProxy — use direct D-Bus
+ * with a stateless D-Bus service, do not use #GDBusProxy &#8212; use direct D-Bus
  * method calls and signal connections.
  * 
  * The generic #GDBusProxy::g-properties-changed and
  * #GDBusProxy::g-signal signals are not very convenient to work with.
  * Therefore, the recommended way of working with proxies is to subclass
  * #GDBusProxy, and have more natural properties and signals in your derived
- * class. This [example][gdbus-example-gdbus-codegen] shows how this can
- * easily be done using the [gdbus-codegen][gdbus-codegen] tool.
+ * class. This {@link [example]}{@link [gdbus-example-gdbus-codegen]} shows how this can
+ * easily be done using the {@link [gdbus-codegen]}{@link [gdbus-codegen]} tool.
  * 
  * A #GDBusProxy instance can be used from multiple threads but note
  * that all signals (e.g. #GDBusProxy::g-signal, #GDBusProxy::g-properties-changed
  * and #GObject::notify) are emitted in the
- * [thread-default main context][g-main-context-push-thread-default]
+ * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * of the thread where the instance was constructed.
  * 
  * An example using a proxy for a well-known name can be found in
- * [gdbus-example-watch-proxy.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-watch-proxy.c)
+ * {@link [gdbus-example-watch-proxy.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-watch-proxy.c)
  */
 public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, DBusInterface, Initable {
 
@@ -108,7 +108,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Like g_dbus_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
      * 
-     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     * #GDBusProxy is used in this {@link [example]}{@link [gdbus-wellknown-proxy]}.
      */
     public static DBusProxy newForBusSync(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
         return new DBusProxy(constructNewForBusSync(busType, flags, info, name, objectPath, interfaceName, cancellable));
@@ -127,25 +127,25 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * Creates a proxy for accessing @interface_name on the remote object
      * at @object_path owned by @name at @connection and synchronously
      * loads D-Bus properties unless the
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES flag is used.
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_LOAD_PROPERTIES} flag is used.
      * 
-     * If the %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS flag is not set, also sets up
+     * If the {@link org.gtk.gio.DBusProxyFlags#DO_NOT_CONNECT_SIGNALS} flag is not set, also sets up
      * match rules for signals. Connect to the #GDBusProxy::g-signal signal
      * to handle signals from the remote object.
      * 
-     * If both %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES and
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS are set, this constructor is
+     * If both {@link org.gtk.gio.DBusProxyFlags#DO_NOT_LOAD_PROPERTIES} and
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_CONNECT_SIGNALS} are set, this constructor is
      * guaranteed to return immediately without blocking.
      * 
      * If @name is a well-known name and the
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START and %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
-     * flags aren't set and no name owner currently exists, the message bus
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_AUTO_START} and <code>G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
+     * flags</code> aren&#39;t set and no name owner currently exists, the message bus
      * will be requested to launch a name owner for the name.
      * 
      * This is a synchronous failable constructor. See g_dbus_proxy_new()
      * and g_dbus_proxy_new_finish() for the asynchronous version.
      * 
-     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     * #GDBusProxy is used in this {@link [example]}{@link [gdbus-wellknown-proxy]}.
      */
     public static DBusProxy newSync(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable) throws GErrorException {
         return new DBusProxy(constructNewSync(connection, flags, info, name, objectPath, interfaceName, cancellable));
@@ -159,26 +159,26 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * other interfaces.
      * 
      * If the #GDBusConnection associated with @proxy is closed then
-     * the operation will fail with %G_IO_ERROR_CLOSED. If
+     * the operation will fail with <code>G_IO_ERROR_CLOSED.</code> If
      * @cancellable is canceled, the operation will fail with
-     * %G_IO_ERROR_CANCELLED. If @parameters contains a value not
+     * <code>G_IO_ERROR_CANCELLED.</code> If @parameters contains a value not
      * compatible with the D-Bus protocol, the operation fails with
-     * %G_IO_ERROR_INVALID_ARGUMENT.
+     * <code>G_IO_ERROR_INVALID_ARGUMENT.
      * 
-     * If the @parameters #GVariant is floating, it is consumed. This allows
-     * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[<!-- language="C" -->
+     * If</code> the @parameters #GVariant is floating, it is consumed. This allows
+     * convenient &#39;inline&#39; use of g_variant_new(), e.g.:
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  g_dbus_proxy_call (proxy,
-     *                     "TwoStrings",
-     *                     g_variant_new ("(ss)",
-     *                                    "Thing One",
-     *                                    "Thing Two"),
+     *                     &#34;TwoStrings&#34;,
+     *                     g_variant_new (&#34;(ss)&#34;,
+     *                                    &#34;Thing One&#34;,
+     *                                    &#34;Thing Two&#34;),
      *                     G_DBUS_CALL_FLAGS_NONE,
      *                     -1,
      *                     NULL,
      *                     (GAsyncReadyCallback) two_strings_done,
-     *                     &data);
-     * ]|
+     *                     &#38;data);
+     * ]}|
      * 
      * If @proxy has an expected interface (see
      * #GDBusProxy:g-interface-info) and @method_name is referenced by it,
@@ -186,14 +186,14 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * 
      * This is an asynchronous method. When the operation is finished,
      * @callback will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from.
      * You can then call g_dbus_proxy_call_finish() to get the result of
      * the operation. See g_dbus_proxy_call_sync() for the synchronous
      * version of this method.
      * 
-     * If @callback is %NULL then the D-Bus method call message will be sent with
-     * the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.
+     * If @callback is <code>null</code> then the D-Bus method call message will be sent with
+     * the {@link org.gtk.gio.DBusMessageFlags#NO_REPLY_EXPECTED} flag set.
      */
     public void call(java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -229,25 +229,25 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * other interfaces.
      * 
      * If the #GDBusConnection associated with @proxy is disconnected then
-     * the operation will fail with %G_IO_ERROR_CLOSED. If
+     * the operation will fail with <code>G_IO_ERROR_CLOSED.</code> If
      * @cancellable is canceled, the operation will fail with
-     * %G_IO_ERROR_CANCELLED. If @parameters contains a value not
+     * <code>G_IO_ERROR_CANCELLED.</code> If @parameters contains a value not
      * compatible with the D-Bus protocol, the operation fails with
-     * %G_IO_ERROR_INVALID_ARGUMENT.
+     * <code>G_IO_ERROR_INVALID_ARGUMENT.
      * 
-     * If the @parameters #GVariant is floating, it is consumed. This allows
-     * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[<!-- language="C" -->
+     * If</code> the @parameters #GVariant is floating, it is consumed. This allows
+     * convenient &#39;inline&#39; use of g_variant_new(), e.g.:
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  g_dbus_proxy_call_sync (proxy,
-     *                          "TwoStrings",
-     *                          g_variant_new ("(ss)",
-     *                                         "Thing One",
-     *                                         "Thing Two"),
+     *                          &#34;TwoStrings&#34;,
+     *                          g_variant_new (&#34;(ss)&#34;,
+     *                                         &#34;Thing One&#34;,
+     *                                         &#34;Thing Two&#34;),
      *                          G_DBUS_CALL_FLAGS_NONE,
      *                          -1,
      *                          NULL,
-     *                          &error);
-     * ]|
+     *                          &#38;error);
+     * ]}|
      * 
      * The calling thread is blocked until a reply is received. See
      * g_dbus_proxy_call() for the asynchronous version of this
@@ -373,8 +373,8 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Gets the name that @proxy was constructed for.
      * 
-     * When connected to a message bus, this will usually be non-%NULL.
-     * However, it may be %NULL for a proxy that communicates using a peer-to-peer
+     * When connected to a message bus, this will usually be non-<code>NULL.
+     * However,</code> it may be <code>null</code> for a proxy that communicates using a peer-to-peer
      * pattern.
      */
     public java.lang.String getName() {
@@ -383,7 +383,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     }
     
     /**
-     * The unique name that owns the name that @proxy is for or %NULL if
+     * The unique name that owns the name that @proxy is for or <code>null</code> if
      * no-one currently owns that name. You may connect to the
      * #GObject::notify signal to track changes to the
      * #GDBusProxy:g-name-owner property.
@@ -402,39 +402,35 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     }
     
     /**
-     * If @value is not %NULL, sets the cached value for the property with
+     * If @value is not <code>NULL,</code> sets the cached value for the property with
      * name @property_name to the value in @value.
-     * 
-     * If @value is %NULL, then the cached value is removed from the
+     * <p>
+     * If @value is <code>NULL,</code> then the cached value is removed from the
      * property cache.
-     * 
+     * <p>
      * If @proxy has an expected interface (see
-     * #GDBusProxy:g-interface-info) and @property_name is referenced by
+     * <h1>BusProxy:g-interface-info) and @property_name is referenced by</h1>
      * it, then @value is checked against the type of the property.
-     * 
+     * <p>
      * If the @value #GVariant is floating, it is consumed. This allows
-     * convenient 'inline' use of g_variant_new(), e.g.
-     * |[<!-- language="C" -->
+     * convenient &#39;inline&#39; use of g_variant_new(), e.g.
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  g_dbus_proxy_set_cached_property (proxy,
-     *                                    "SomeProperty",
-     *                                    g_variant_new ("(si)",
-     *                                                  "A String",
+     *                                    &#34;SomeProperty&#34;,
+     *                                    g_variant_new (&#34;(si)&#34;,
+     *                                                  &#34;A String&#34;,
      *                                                  42));
-     * ]|
-     * 
+     * ]}|
+     * <p>
      * Normally you will not need to use this method since @proxy
-     * is tracking changes using the
-     * `org.freedesktop.DBus.Properties.PropertiesChanged`
+     * is tracking changes using the<code>org.freedesktop.DBus.Properties.PropertiesChanged</code>
      * D-Bus signal. However, for performance reasons an object may
      * decide to not use this signal for some properties and instead
      * use a proprietary out-of-band mechanism to transmit changes.
-     * 
-     * As a concrete example, consider an object with a property
-     * `ChatroomParticipants` which is an array of strings. Instead of
+     * <p>
+     * As a concrete example, consider an object with a property<code>ChatroomParticipants</code> which is an array of strings. Instead of
      * transmitting the same (long) array every time the property changes,
-     * it is more efficient to only transmit the delta using e.g. signals
-     * `ChatroomParticipantJoined(String name)` and
-     * `ChatroomParticipantParted(String name)`.
+     * it is more efficient to only transmit the delta using e.g. signals<code>ChatroomParticipantJoined(String name)</code> and<code>ChatroomParticipantParted(String name)</code>.
      */
     public void setCachedProperty(java.lang.String propertyName, org.gtk.glib.Variant value) {
         gtk_h.g_dbus_proxy_set_cached_property(handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
@@ -464,21 +460,21 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * Creates a proxy for accessing @interface_name on the remote object
      * at @object_path owned by @name at @connection and asynchronously
      * loads D-Bus properties unless the
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES flag is used. Connect to
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_LOAD_PROPERTIES} flag is used. Connect to
      * the #GDBusProxy::g-properties-changed signal to get notified about
      * property changes.
      * 
-     * If the %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS flag is not set, also sets up
+     * If the {@link org.gtk.gio.DBusProxyFlags#DO_NOT_CONNECT_SIGNALS} flag is not set, also sets up
      * match rules for signals. Connect to the #GDBusProxy::g-signal signal
      * to handle signals from the remote object.
      * 
-     * If both %G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES and
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS are set, this constructor is
+     * If both {@link org.gtk.gio.DBusProxyFlags#DO_NOT_LOAD_PROPERTIES} and
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_CONNECT_SIGNALS} are set, this constructor is
      * guaranteed to complete immediately without blocking.
      * 
      * If @name is a well-known name and the
-     * %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START and %G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
-     * flags aren't set and no name owner currently exists, the message bus
+     * {@link org.gtk.gio.DBusProxyFlags#DO_NOT_AUTO_START} and <code>G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION
+     * flags</code> aren&#39;t set and no name owner currently exists, the message bus
      * will be requested to launch a name owner for the name.
      * 
      * This is a failable asynchronous constructor - when the proxy is
@@ -487,7 +483,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * 
      * See g_dbus_proxy_new_sync() and for a synchronous version of this constructor.
      * 
-     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     * #GDBusProxy is used in this {@link [example]}{@link [gdbus-wellknown-proxy]}.
      */
     public static void new_(DBusConnection connection, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -506,7 +502,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Like g_dbus_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
      * 
-     * #GDBusProxy is used in this [example][gdbus-wellknown-proxy].
+     * #GDBusProxy is used in this {@link [example]}{@link [gdbus-wellknown-proxy]}.
      */
     public static void newForBus(BusType busType, int flags, DBusInterfaceInfo info, java.lang.String name, java.lang.String objectPath, java.lang.String interfaceName, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -531,15 +527,13 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * Emitted when one or more D-Bus properties on @proxy changes. The
      * local cache has already been updated when this signal fires. Note
      * that both @changed_properties and @invalidated_properties are
-     * guaranteed to never be %NULL (either may be empty though).
-     * 
+     * guaranteed to never be <code>null</code> (either may be empty though).
+     * <p>
      * If the proxy has the flag
-     * %G_DBUS_PROXY_FLAGS_GET_INVALIDATED_PROPERTIES set, then
+     * {@link org.gtk.gio.DBusProxyFlags#GET_INVALIDATED_PROPERTIES} set, then
      * @invalidated_properties will always be empty.
-     * 
-     * This signal corresponds to the
-     * `PropertiesChanged` D-Bus signal on the
-     * `org.freedesktop.DBus.Properties` interface.
+     * <p>
+     * This signal corresponds to the<code>PropertiesChanged</code> D-Bus signal on the<code>org.freedesktop.DBus.Properties</code> interface.
      */
     public SignalHandle onGPropertiesChanged(GPropertiesChangedHandler handler) {
         try {
@@ -563,10 +557,10 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     
     /**
      * Emitted when a signal from the remote object and interface that @proxy is for, has been received.
-     * 
+     * <p>
      * Since 2.72 this signal supports detailed connections. You can connect to
-     * the detailed signal `g-signal::x` in order to receive callbacks only when
-     * signal `x` is received from the remote object.
+     * the detailed signal <code>g-signal::x</code> in order to receive callbacks only when
+     * signal <code>x</code> is received from the remote object.
      */
     public SignalHandle onGSignal(GSignalHandler handler) {
         try {

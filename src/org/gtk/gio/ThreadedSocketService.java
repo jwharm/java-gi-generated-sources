@@ -42,7 +42,7 @@ public class ThreadedSocketService extends SocketService {
     
     /**
      * Creates a new #GThreadedSocketService with no listeners. Listeners
-     * must be added with one of the #GSocketListener "add" methods.
+     * must be added with one of the #GSocketListener &#34;add&#34; methods.
      */
     public ThreadedSocketService(int maxThreads) {
         super(constructNew(maxThreads));

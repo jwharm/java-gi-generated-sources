@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkLayoutChild` subclass for children in a `GtkOverlayLayout`.
+ * <code>GtkLayoutChild</code> subclass for children in a <code>GtkOverlayLayout</code>.
  */
 public class OverlayLayoutChild extends LayoutChild {
 

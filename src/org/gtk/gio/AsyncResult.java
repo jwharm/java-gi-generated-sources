@@ -15,30 +15,30 @@ import java.lang.invoke.*;
  * an asynchronous operation, provide a #GAsyncReadyCallback to the
  * asynchronous function. This callback will be triggered when the
  * operation has completed, and must be run in a later iteration of
- * the [thread-default main context][g-main-context-push-thread-default]
+ * the {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * from where the operation was initiated. It will be passed a
- * #GAsyncResult instance filled with the details of the operation's
+ * #GAsyncResult instance filled with the details of the operation&#39;s
  * success or failure, the object the asynchronous function was
  * started for and any error codes returned. The asynchronous callback
- * function is then expected to call the corresponding "_finish()"
+ * function is then expected to call the corresponding &#34;_finish()&#34;
  * function, passing the object the function was called for, the
  * #GAsyncResult instance, and (optionally) an @error to grab any
  * error conditions that may have occurred.
  * 
- * The "_finish()" function for an operation takes the generic result
+ * The &#34;_finish()&#34; function for an operation takes the generic result
  * (of type #GAsyncResult) and returns the specific result that the
  * operation in question yields (e.g. a #GFileEnumerator for a
- * "enumerate children" operation). If the result or error status of the
- * operation is not needed, there is no need to call the "_finish()"
+ * &#34;enumerate children&#34; operation). If the result or error status of the
+ * operation is not needed, there is no need to call the &#34;_finish()&#34;
  * function; GIO will take care of cleaning up the result and error
  * information after the #GAsyncReadyCallback returns. You can pass
- * %NULL for the #GAsyncReadyCallback if you don't need to take any
+ * <code>null</code> for the #GAsyncReadyCallback if you don&#39;t need to take any
  * action at all after the operation completes. Applications may also
- * take a reference to the #GAsyncResult and call "_finish()" later;
- * however, the "_finish()" function may be called at most once.
+ * take a reference to the #GAsyncResult and call &#34;_finish()&#34; later;
+ * however, the &#34;_finish()&#34; function may be called at most once.
  * 
  * Example of a typical asynchronous operation flow:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * void _theoretical_frobnitz_async (Theoretical         *t,
  *                                   GCancellable        *c,
  *                                   GAsyncReadyCallback  cb,
@@ -58,15 +58,15 @@ import java.lang.invoke.*;
  *   success = _theoretical_frobnitz_finish (source_object, res, NULL);
  * 
  *   if (success)
- *     g_printf ("Hurray!\\n");
+ *     g_printf (&#34;Hurray!\\n&#34;);
  *   else
- *     g_printf ("Uh oh!\\n");
+ *     g_printf (&#34;Uh oh!\\n&#34;);
  * 
  *   ...
  * 
  * }
  * 
- * int main (int argc, void *argv[])
+ * int main (int argc, void *argv[]})
  * {
  *    ...
  * 
@@ -81,7 +81,7 @@ import java.lang.invoke.*;
  * 
  * The callback for an asynchronous operation is called only once, and is
  * always called, even in the case of a cancelled operation. On cancellation
- * the result is a %G_IO_ERROR_CANCELLED error.
+ * the result is a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error.
  * 
  * ## I/O Priority # {#io-priority}
  * 
@@ -90,8 +90,8 @@ import java.lang.invoke.*;
  * operations are executed. They are not used to determine system-wide
  * I/O scheduling. Priorities are integers, with lower numbers indicating
  * higher priority. It is recommended to choose priorities between
- * %G_PRIORITY_LOW and %G_PRIORITY_HIGH, with %G_PRIORITY_DEFAULT
- * as a default.
+ * <code>G_PRIORITY_LOW</code> and <code>G_PRIORITY_HIGH,</code> with <code>G_PRIORITY_DEFAULT
+ * as</code> a default.
  */
 public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
 
@@ -123,9 +123,9 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
     /**
      * If @res is a #GSimpleAsyncResult, this is equivalent to
      * g_simple_async_result_propagate_error(). Otherwise it returns
-     * %FALSE.
+     * <code>FALSE.
      * 
-     * This can be used for legacy error handling in async *_finish()
+     * This</code> can be used for legacy error handling in async *_finish()
      * wrapper functions that traditionally handled #GSimpleAsyncResult
      * error returns themselves rather than calling into the virtual method.
      * This should not be used in new code; #GAsyncResult errors that are

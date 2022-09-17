@@ -4,9 +4,9 @@ package org.gtk.gio;
  * Signature for function used in g_dbus_connection_add_filter().
  * 
  * A filter function is passed a #GDBusMessage and expected to return
- * a #GDBusMessage too. Passive filter functions that don't modify the
+ * a #GDBusMessage too. Passive filter functions that don&#39;t modify the
  * message can simply return the @message object:
- * |[
+ * |{@link [
  * static GDBusMessage *
  * passive_filter (GDBusConnection *connection
  *                 GDBusMessage    *message,
@@ -16,9 +16,16 @@ package org.gtk.gio;
  *   // inspect @message
  *   return message;
  * }
- * ]|
- * Filter functions that wants to drop a message can simply return %NULL:
- * |[
+ * ] (ref=
+ * static GDBusMessage *
+ * passive_filter (GDBusConnection *connection
+ *                 GDBusMessage    *message,
+ *                 gboolean         incoming,
+ *                 gpointer         user_data)
+ * {
+ *   // inspect )}|
+ * Filter functions that wants to drop a message can simply return <code>NULL:
+ * |{@link</code> [
  * static GDBusMessage *
  * drop_filter (GDBusConnection *connection
  *              GDBusMessage    *message,
@@ -32,9 +39,9 @@ package org.gtk.gio;
  *     }
  *   return message;
  * }
- * ]|
+ * ]}|
  * Finally, a filter function may modify a message by copying it:
- * |[
+ * |{@link [
  * static GDBusMessage *
  * modifying_filter (GDBusConnection *connection
  *                   GDBusMessage    *message,
@@ -45,7 +52,7 @@ package org.gtk.gio;
  *   GError *error;
  * 
  *   error = NULL;
- *   copy = g_dbus_message_copy (message, &error);
+ *   copy = g_dbus_message_copy (message, &#38;error);
  *   // handle @error being set
  *   g_object_unref (message);
  * 
@@ -53,7 +60,19 @@ package org.gtk.gio;
  * 
  *   return copy;
  * }
- * ]|
+ * ] (ref=
+ * static GDBusMessage *
+ * modifying_filter (GDBusConnection *connection
+ *                   GDBusMessage    *message,
+ *                   gboolean         incoming,
+ *                   gpointer         user_data)
+ * {
+ *   GDBusMessage *copy;
+ *   GError *error;
+ * 
+ *   error = NULL;
+ *   copy = g_dbus_message_copy (message, &#38;error);
+ *   // handle )}|
  * If the returned #GDBusMessage is different from @message and cannot
  * be sent on @connection (it could use features, such as file
  * descriptors, not compatible with @connection), then a warning is

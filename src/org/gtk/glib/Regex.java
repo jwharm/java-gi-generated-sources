@@ -13,53 +13,53 @@ import java.lang.invoke.*;
  * Perl regular expression.
  * 
  * Some functions accept a @start_position argument, setting it differs
- * from just passing over a shortened string and setting %G_REGEX_MATCH_NOTBOL
- * in the case of a pattern that begins with any kind of lookbehind assertion.
- * For example, consider the pattern "\\Biss\\B" which finds occurrences of "iss"
- * in the middle of words. ("\\B" matches only if the current position in the
- * subject is not a word boundary.) When applied to the string "Mississipi"
- * from the fourth byte, namely "issipi", it does not match, because "\\B" is
+ * from just passing over a shortened string and setting <code>G_REGEX_MATCH_NOTBOL
+ * in</code> the case of a pattern that begins with any kind of lookbehind assertion.
+ * For example, consider the pattern &#34;\\Biss\\B&#34; which finds occurrences of &#34;iss&#34;
+ * in the middle of words. (&#34;\\B&#34; matches only if the current position in the
+ * subject is not a word boundary.) When applied to the string &#34;Mississipi&#34;
+ * from the fourth byte, namely &#34;issipi&#34;, it does not match, because &#34;\\B&#34; is
  * always false at the start of the subject, which is deemed to be a word
  * boundary. However, if the entire string is passed , but with
- * @start_position set to 4, it finds the second occurrence of "iss" because
+ * @start_position set to 4, it finds the second occurrence of &#34;iss&#34; because
  * it is able to look behind the starting point to discover that it is
  * preceded by a letter.
  * 
- * Note that, unless you set the %G_REGEX_RAW flag, all the strings passed
+ * Note that, unless you set the {@link org.gtk.glib.RegexCompileFlags#RAW} flag, all the strings passed
  * to these functions must be encoded in UTF-8. The lengths and the positions
  * inside the strings are in bytes and not in characters, so, for instance,
- * "\\xc3\\xa0" (i.e. "à") is two bytes long but it is treated as a
- * single character. If you set %G_REGEX_RAW the strings can be non-valid
- * UTF-8 strings and a byte is treated as a character, so "\\xc3\\xa0" is two
+ * &#34;\\xc3\\xa0&#34; (i.e. &#34;&#224;&#34;) is two bytes long but it is treated as a
+ * single character. If you set {@link org.gtk.glib.RegexCompileFlags#RAW} the strings can be non-valid
+ * UTF-8 strings and a byte is treated as a character, so &#34;\\xc3\\xa0&#34; is two
  * bytes and two characters long.
  * 
- * When matching a pattern, "\\n" matches only against a "\\n" character in
- * the string, and "\\r" matches only a "\\r" character. To match any newline
- * sequence use "\\R". This particular group matches either the two-character
- * sequence CR + LF ("\\r\\n"), or one of the single characters LF (linefeed,
- * U+000A, "\\n"), VT vertical tab, U+000B, "\\v"), FF (formfeed, U+000C, "\\f"),
- * CR (carriage return, U+000D, "\\r"), NEL (next line, U+0085), LS (line
+ * When matching a pattern, &#34;\\n&#34; matches only against a &#34;\\n&#34; character in
+ * the string, and &#34;\\r&#34; matches only a &#34;\\r&#34; character. To match any newline
+ * sequence use &#34;\\R&#34;. This particular group matches either the two-character
+ * sequence CR + LF (&#34;\\r\\n&#34;), or one of the single characters LF (linefeed,
+ * U+000A, &#34;\\n&#34;), VT vertical tab, U+000B, &#34;\\v&#34;), FF (formfeed, U+000C, &#34;\\f&#34;),
+ * CR (carriage return, U+000D, &#34;\\r&#34;), NEL (next line, U+0085), LS (line
  * separator, U+2028), or PS (paragraph separator, U+2029).
  * 
  * The behaviour of the dot, circumflex, and dollar metacharacters are
  * affected by newline characters, the default is to recognize any newline
- * character (the same characters recognized by "\\R"). This can be changed
- * with %G_REGEX_NEWLINE_CR, %G_REGEX_NEWLINE_LF and %G_REGEX_NEWLINE_CRLF
- * compile options, and with %G_REGEX_MATCH_NEWLINE_ANY,
- * %G_REGEX_MATCH_NEWLINE_CR, %G_REGEX_MATCH_NEWLINE_LF and
- * %G_REGEX_MATCH_NEWLINE_CRLF match options. These settings are also
- * relevant when compiling a pattern if %G_REGEX_EXTENDED is set, and an
- * unescaped "#" outside a character class is encountered. This indicates
+ * character (the same characters recognized by &#34;\\R&#34;). This can be changed
+ * with <code>G_REGEX_NEWLINE_CR,</code> {@link org.gtk.glib.RegexCompileFlags#NEWLINE_LF} and <code>G_REGEX_NEWLINE_CRLF
+ * compile</code> options, and with <code>G_REGEX_MATCH_NEWLINE_ANY,
+ * %G_REGEX_MATCH_NEWLINE_CR,</code> {@link org.gtk.glib.RegexMatchFlags#NEWLINE_LF} and
+ * {@link org.gtk.glib.RegexMatchFlags#NEWLINE_CRLF} match options. These settings are also
+ * relevant when compiling a pattern if {@link org.gtk.glib.RegexCompileFlags#EXTENDED} is set, and an
+ * unescaped &#34;#&#34; outside a character class is encountered. This indicates
  * a comment that lasts until after the next newline.
  * 
- * When setting the %G_REGEX_JAVASCRIPT_COMPAT flag, pattern syntax and pattern
+ * When setting the {@link org.gtk.glib.RegexCompileFlags#JAVASCRIPT_COMPAT} flag, pattern syntax and pattern
  * matching is changed to be compatible with the way that regular expressions
- * work in JavaScript. More precisely, a lonely ']' character in the pattern
- * is a syntax error; the '\\x' escape only allows 0 to 2 hexadecimal digits, and
- * you must use the '\\u' escape sequence with 4 hex digits to specify a unicode
- * codepoint instead of '\\x' or 'x{....}'. If '\\x' or '\\u' are not followed by
- * the specified number of hex digits, they match 'x' and 'u' literally; also
- * '\\U' always matches 'U' instead of being an error in the pattern. Finally,
+ * work in JavaScript. More precisely, a lonely &#39;]&#39; character in the pattern
+ * is a syntax error; the &#39;\\x&#39; escape only allows 0 to 2 hexadecimal digits, and
+ * you must use the &#39;\\u&#39; escape sequence with 4 hex digits to specify a unicode
+ * codepoint instead of &#39;\\x&#39; or &#39;x{....}&#39;. If &#39;\\x&#39; or &#39;\\u&#39; are not followed by
+ * the specified number of hex digits, they match &#39;x&#39; and &#39;u&#39; literally; also
+ * &#39;\\U&#39; always matches &#39;U&#39; instead of being an error in the pattern. Finally,
  * pattern matching is modified so that back references to an unset subpattern
  * group produces a match with the empty string instead of an error. See
  * pcreapi(3) for more information.
@@ -71,7 +71,7 @@ import java.lang.invoke.*;
  * 
  * The regular expressions low-level functionalities are obtained through
  * the excellent
- * [PCRE](http://www.pcre.org/)
+ * {@link [PCRE]}(http://www.pcre.org/)
  * library written by Philip Hazel.
  */
 public class Regex extends io.github.jwharm.javagi.ResourceBase {
@@ -107,9 +107,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the compile options that @regex was created with.
-     * 
+     * <p>
      * Depending on the version of PCRE that is used, this may or may not
-     * include flags set by option expressions such as `(?i)` found at the
+     * include flags set by option expressions such as <code>(?i)</code> found at the
      * top-level within the compiled pattern.
      */
     public int getCompileFlags() {
@@ -176,17 +176,17 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * when the @regex structure was created, letting you have more
      * flexibility in reusing #GRegex structures.
      * 
-     * Unless %G_REGEX_RAW is specified in the options, @string must be valid UTF-8.
+     * Unless {@link org.gtk.glib.RegexCompileFlags#RAW} is specified in the options, @string must be valid UTF-8.
      * 
      * A #GMatchInfo structure, used to get information on the match,
-     * is stored in @match_info if not %NULL. Note that if @match_info
-     * is not %NULL then it is created even if the function returns %FALSE,
-     * i.e. you must free it regardless if regular expression actually matched.
+     * is stored in @match_info if not <code>NULL.</code> Note that if @match_info
+     * is not <code>null</code> then it is created even if the function returns <code>FALSE,
+     * i.e.</code> you must free it regardless if regular expression actually matched.
      * 
      * To retrieve all the non-overlapping matches of the pattern in
      * string you can use g_match_info_next().
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void
      * print_uppercase_words (const gchar *string)
      * {
@@ -194,12 +194,12 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *   GRegex *regex;
      *   GMatchInfo *match_info;
      *  
-     *   regex = g_regex_new ("[A-Z]+", 0, 0, NULL);
-     *   g_regex_match (regex, string, 0, &match_info);
+     *   regex = g_regex_new (&#34;[A-Z]}+&#34;, 0, 0, NULL);
+     *   g_regex_match (regex, string, 0, &#38;match_info);
      *   while (g_match_info_matches (match_info))
      *     {
      *       gchar *word = g_match_info_fetch (match_info, 0);
-     *       g_print ("Found: %s\\n", word);
+     *       g_print (&#34;Found: <code>s\\n&#34;,</code> word);
      *       g_free (word);
      *       g_match_info_next (match_info, NULL);
      *     }
@@ -224,9 +224,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * For more documentation see g_regex_match_all_full().
      * 
      * A #GMatchInfo structure, used to get information on the match, is
-     * stored in @match_info if not %NULL. Note that if @match_info is
-     * not %NULL then it is created even if the function returns %FALSE,
-     * i.e. you must free it regardless if regular expression actually
+     * stored in @match_info if not <code>NULL.</code> Note that if @match_info is
+     * not <code>null</code> then it is created even if the function returns <code>FALSE,
+     * i.e.</code> you must free it regardless if regular expression actually
      * matched.
      * 
      * @string is not copied and is used in #GMatchInfo internally. If
@@ -242,15 +242,15 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Using the standard algorithm for regular expression matching only
      * the longest match in the @string is retrieved, it is not possible
      * to obtain all the available matches. For instance matching
-     * "<a> <b> <c>" against the pattern "<.*>"
-     * you get "<a> <b> <c>".
+     * &#34;&#60;a&#62; &#60;b&#62; &#60;c&#62;&#34; against the pattern &#34;&#60;.*&#62;&#34;
+     * you get &#34;&#60;a&#62; &#60;b&#62; &#60;c&#62;&#34;.
      * 
      * This function uses a different algorithm (called DFA, i.e. deterministic
      * finite automaton), so it can retrieve all the possible matches, all
      * starting at the same point in the string. For instance matching
-     * "<a> <b> <c>" against the pattern "<.*>;"
-     * you would obtain three matches: "<a> <b> <c>",
-     * "<a> <b>" and "<a>".
+     * &#34;&#60;a&#62; &#60;b&#62; &#60;c&#62;&#34; against the pattern &#34;&#60;.*&#62;;&#34;
+     * you would obtain three matches: &#34;&#60;a&#62; &#60;b&#62; &#60;c&#62;&#34;,
+     * &#34;&#60;a&#62; &#60;b&#62;&#34; and &#34;&#60;a&#62;&#34;.
      * 
      * The number of matched strings is retrieved using
      * g_match_info_get_match_count(). To obtain the matched strings and
@@ -263,15 +263,15 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * is not able to capture substrings, so backreferences do not work.
      * 
      * Setting @start_position differs from just passing over a shortened
-     * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern
-     * that begins with any kind of lookbehind assertion, such as "\\b".
+     * string and setting {@link org.gtk.glib.RegexMatchFlags#NOTBOL} in the case of a pattern
+     * that begins with any kind of lookbehind assertion, such as &#34;\\b&#34;.
      * 
-     * Unless %G_REGEX_RAW is specified in the options, @string must be valid UTF-8.
+     * Unless {@link org.gtk.glib.RegexCompileFlags#RAW} is specified in the options, @string must be valid UTF-8.
      * 
      * A #GMatchInfo structure, used to get information on the match, is
-     * stored in @match_info if not %NULL. Note that if @match_info is
-     * not %NULL then it is created even if the function returns %FALSE,
-     * i.e. you must free it regardless if regular expression actually
+     * stored in @match_info if not <code>NULL.</code> Note that if @match_info is
+     * not <code>null</code> then it is created even if the function returns <code>FALSE,
+     * i.e.</code> you must free it regardless if regular expression actually
      * matched.
      * 
      * @string is not copied and is used in #GMatchInfo internally. If
@@ -294,15 +294,15 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * flexibility in reusing #GRegex structures.
      * 
      * Setting @start_position differs from just passing over a shortened
-     * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern
-     * that begins with any kind of lookbehind assertion, such as "\\b".
+     * string and setting {@link org.gtk.glib.RegexMatchFlags#NOTBOL} in the case of a pattern
+     * that begins with any kind of lookbehind assertion, such as &#34;\\b&#34;.
      * 
-     * Unless %G_REGEX_RAW is specified in the options, @string must be valid UTF-8.
+     * Unless {@link org.gtk.glib.RegexCompileFlags#RAW} is specified in the options, @string must be valid UTF-8.
      * 
      * A #GMatchInfo structure, used to get information on the match, is
-     * stored in @match_info if not %NULL. Note that if @match_info is
-     * not %NULL then it is created even if the function returns %FALSE,
-     * i.e. you must free it regardless if regular expression actually
+     * stored in @match_info if not <code>NULL.</code> Note that if @match_info is
+     * not <code>null</code> then it is created even if the function returns <code>FALSE,
+     * i.e.</code> you must free it regardless if regular expression actually
      * matched.
      * 
      * @string is not copied and is used in #GMatchInfo internally. If
@@ -312,7 +312,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * To retrieve all the non-overlapping matches of the pattern in
      * string you can use g_match_info_next().
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void
      * print_uppercase_words (const gchar *string)
      * {
@@ -321,20 +321,20 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *   GMatchInfo *match_info;
      *   GError *error = NULL;
      *   
-     *   regex = g_regex_new ("[A-Z]+", 0, 0, NULL);
-     *   g_regex_match_full (regex, string, -1, 0, 0, &match_info, &error);
+     *   regex = g_regex_new (&#34;[A-Z]}+&#34;, 0, 0, NULL);
+     *   g_regex_match_full (regex, string, -1, 0, 0, &#38;match_info, &#38;error);
      *   while (g_match_info_matches (match_info))
      *     {
      *       gchar *word = g_match_info_fetch (match_info, 0);
-     *       g_print ("Found: %s\\n", word);
+     *       g_print (&#34;Found: <code>s\\n&#34;,</code> word);
      *       g_free (word);
-     *       g_match_info_next (match_info, &error);
+     *       g_match_info_next (match_info, &#38;error);
      *     }
      *   g_match_info_free (match_info);
      *   g_regex_unref (regex);
      *   if (error != NULL)
      *     {
-     *       g_printerr ("Error while matching: %s\\n", error->message);
+     *       g_printerr (&#34;Error while matching: <code>s\\n&#34;,</code> error-&#62;message);
      *       g_error_free (error);
      *     }
      * }
@@ -359,13 +359,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Replaces all occurrences of the pattern in @regex with the
-     * replacement text. Backreferences of the form '\\number' or
-     * '\\g<number>' in the replacement text are interpolated by the
-     * number-th captured subexpression of the match, '\\g<name>' refers
-     * to the captured subexpression with the given name. '\\0' refers
-     * to the complete match, but '\\0' followed by a number is the octal
-     * representation of a character. To include a literal '\\' in the
-     * replacement, write '\\\\\\\\'.
+     * replacement text. Backreferences of the form &#39;\\number&#39; or
+     * &#39;\\g&#60;number&#62;&#39; in the replacement text are interpolated by the
+     * number-th captured subexpression of the match, &#39;\\g&#60;name&#62;&#39; refers
+     * to the captured subexpression with the given name. &#39;\\0&#39; refers
+     * to the complete match, but &#39;\\0&#39; followed by a number is the octal
+     * representation of a character. To include a literal &#39;\\&#39; in the
+     * replacement, write &#39;\\\\\\\\&#39;.
      * 
      * There are also escapes that changes the case of the following text:
      * 
@@ -377,13 +377,13 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If you do not need to use backreferences use g_regex_replace_literal().
      * 
-     * The @replacement string must be UTF-8 encoded even if %G_REGEX_RAW was
+     * The @replacement string must be UTF-8 encoded even if {@link org.gtk.glib.RegexCompileFlags#RAW} was
      * passed to g_regex_new(). If you want to use not UTF-8 encoded strings
      * you can use g_regex_replace_literal().
      * 
      * Setting @start_position differs from just passing over a shortened
-     * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern that
-     * begins with any kind of lookbehind assertion, such as "\\b".
+     * string and setting {@link org.gtk.glib.RegexMatchFlags#NOTBOL} in the case of a pattern that
+     * begins with any kind of lookbehind assertion, such as &#34;\\b&#34;.
      */
     public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -399,12 +399,12 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * @eval for that occurrence.
      * 
      * Setting @start_position differs from just passing over a shortened
-     * string and setting %G_REGEX_MATCH_NOTBOL in the case of a pattern
-     * that begins with any kind of lookbehind assertion, such as "\\b".
+     * string and setting {@link org.gtk.glib.RegexMatchFlags#NOTBOL} in the case of a pattern
+     * that begins with any kind of lookbehind assertion, such as &#34;\\b&#34;.
      * 
      * The following example uses g_regex_replace_eval() to replace multiple
      * strings at once:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static gboolean
      * eval_cb (const GMatchInfo *info,
      *          GString          *res,
@@ -429,17 +429,17 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * 
      * h = g_hash_table_new (g_str_hash, g_str_equal);
      * 
-     * g_hash_table_insert (h, "1", "ONE");
-     * g_hash_table_insert (h, "2", "TWO");
-     * g_hash_table_insert (h, "3", "THREE");
-     * g_hash_table_insert (h, "4", "FOUR");
+     * g_hash_table_insert (h, &#34;1&#34;, &#34;ONE&#34;);
+     * g_hash_table_insert (h, &#34;2&#34;, &#34;TWO&#34;);
+     * g_hash_table_insert (h, &#34;3&#34;, &#34;THREE&#34;);
+     * g_hash_table_insert (h, &#34;4&#34;, &#34;FOUR&#34;);
      * 
-     * reg = g_regex_new ("1|2|3|4", 0, 0, NULL);
+     * reg = g_regex_new (&#34;1|2|3|4&#34;, 0, 0, NULL);
      * res = g_regex_replace_eval (reg, text, -1, 0, 0, eval_cb, h, NULL);
      * g_hash_table_destroy (h);
      * 
      * ...
-     * ]|
+     * ]}|
      */
     public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -466,9 +466,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * include backreferences use g_regex_replace().
      * 
      * Setting @start_position differs from just passing over a
-     * shortened string and setting %G_REGEX_MATCH_NOTBOL in the
+     * shortened string and setting {@link org.gtk.glib.RegexMatchFlags#NOTBOL} in the
      * case of a pattern that begins with any kind of lookbehind
-     * assertion, such as "\\b".
+     * assertion, such as &#34;\\b&#34;.
      */
     public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -493,7 +493,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Escapes the nul characters in @string to "\\x00".  It can be used
+     * Escapes the nul characters in @string to &#34;\\x00&#34;.  It can be used
      * to compile a regex with embedded nul characters.
      * 
      * For completeness, @length can be -1 for a nul-terminated string.
@@ -506,10 +506,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Escapes the special characters used for regular expressions
-     * in @string, for instance "a.b*c" becomes "a\\.b\\*c". This
+     * in @string, for instance &#34;a.b*c&#34; becomes &#34;a\\.b\\*c&#34;. This
      * function is useful to dynamically generate regular expressions.
      * 
-     * @string can contain nul characters that are replaced with "\\0",
+     * @string can contain nul characters that are replaced with &#34;\\0&#34;,
      * in this case remember to specify the correct length of @string
      * in @length.
      */
@@ -527,7 +527,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * substrings, capture counts, and so on.
      * 
      * If this function is to be called on the same @pattern more than
-     * once, it's more efficient to compile the pattern once with
+     * once, it&#39;s more efficient to compile the pattern once with
      * g_regex_new() and then use g_regex_match().
      */
     public static boolean matchSimple(java.lang.String pattern, java.lang.String string, int compileOptions, int matchOptions) {

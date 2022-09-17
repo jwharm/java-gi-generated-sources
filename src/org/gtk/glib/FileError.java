@@ -9,9 +9,9 @@ package org.gtk.glib;
  * come from the GNU C Library manual, and are under the copyright
  * of that manual.
  * 
- * It's not very portable to make detailed assumptions about exactly
+ * It&#39;s not very portable to make detailed assumptions about exactly
  * which errors will be returned from a given operation. Some errors
- * don't occur on some systems, etc., sometimes there are subtle
+ * don&#39;t occur on some systems, etc., sometimes there are subtle
  * differences in when a system will report a given error, etc.
  */
 public enum FileError {
@@ -41,14 +41,14 @@ public enum FileError {
     NAMETOOLONG,
     
     /**
-     * No such file or directory. This is a "file
-     *     doesn't exist" error for ordinary files that are referenced in
+     * No such file or directory. This is a &#34;file
+     *     doesn&#39;t exist&#34; error for ordinary files that are referenced in
      *     contexts where they are expected to already exist.
      */
     NOENT,
     
     /**
-     * A file that isn't a directory was specified when
+     * A file that isn&#39;t a directory was specified when
      *     a directory is required.
      */
     NOTDIR,
@@ -56,7 +56,7 @@ public enum FileError {
     /**
      * No such device or address. The system tried to
      *     use the device represented by a file you specified, and it
-     *     couldn't find the device. This can mean that the device file was
+     *     couldn&#39;t find the device. This can mean that the device file was
      *     installed incorrectly, or that the physical device is missing or
      *     not correctly attached to the computer.
      */
@@ -69,8 +69,8 @@ public enum FileError {
     NODEV,
     
     /**
-     * The directory containing the new link can't be
-     *     modified because it's on a read-only file system.
+     * The directory containing the new link can&#39;t be
+     *     modified because it&#39;s on a read-only file system.
      */
     ROFS,
     
@@ -81,7 +81,7 @@ public enum FileError {
     
     /**
      * You passed in a pointer to bad memory.
-     *     (GLib won't reliably return this, don't pass in pointers to bad
+     *     (GLib won&#39;t reliably return this, don&#39;t pass in pointers to bad
      *     memory.)
      */
     FAULT,
@@ -107,7 +107,7 @@ public enum FileError {
     
     /**
      * The current process has too many files open and
-     *     can't open any more. Duplicate descriptors do count toward this
+     *     can&#39;t open any more. Duplicate descriptors do count toward this
      *     limit.
      */
     MFILE,
@@ -135,10 +135,10 @@ public enum FileError {
     /**
      * Broken pipe; there is no process reading from the
      *     other end of a pipe. Every library function that returns this
-     *     error code also generates a 'SIGPIPE' signal; this signal
+     *     error code also generates a &#39;SIGPIPE&#39; signal; this signal
      *     terminates the program if not handled or blocked. Thus, your
      *     program will never actually see this code unless it has handled
-     *     or blocked 'SIGPIPE'.
+     *     or blocked &#39;SIGPIPE&#39;.
      */
     PIPE,
     
@@ -177,7 +177,7 @@ public enum FileError {
     
     /**
      * Does not correspond to a UNIX error code; this
-     *    is the standard "failed for unspecified reason" error code present
+     *    is the standard &#34;failed for unspecified reason&#34; error code present
      *    in all #GError error code enumerations. Returned if no specific
      *    code applies.
      */

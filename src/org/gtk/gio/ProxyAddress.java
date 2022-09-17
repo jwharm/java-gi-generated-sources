@@ -30,7 +30,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
      * Creates a new #GProxyAddress for @inetaddr with @protocol that should
      * tunnel through @dest_hostname and @dest_port.
      * 
-     * (Note that this method doesn't set the #GProxyAddress:uri or
+     * (Note that this method doesn&#39;t set the #GProxyAddress:uri or
      * #GProxyAddress:destination-protocol fields; use g_object_new()
      * directly if you want to set those.)
      */
@@ -39,7 +39,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy's destination hostname; that is, the name of the host
+     * Gets @proxy&#39;s destination hostname; that is, the name of the host
      * that will be connected to via the proxy, not the name of the proxy
      * itself.
      */
@@ -49,7 +49,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy's destination port; that is, the port on the
+     * Gets @proxy&#39;s destination port; that is, the port on the
      * destination host that will be connected to via the proxy, not the
      * port number of the proxy itself.
      */
@@ -60,7 +60,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     
     /**
      * Gets the protocol that is being spoken to the destination
-     * server; eg, "http" or "ftp".
+     * server; eg, &#34;http&#34; or &#34;ftp&#34;.
      */
     public java.lang.String getDestinationProtocol() {
         var RESULT = gtk_h.g_proxy_address_get_destination_protocol(handle());
@@ -68,7 +68,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy's password.
+     * Gets @proxy&#39;s password.
      */
     public java.lang.String getPassword() {
         var RESULT = gtk_h.g_proxy_address_get_password(handle());
@@ -76,7 +76,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy's protocol. eg, "socks" or "http"
+     * Gets @proxy&#39;s protocol. eg, &#34;socks&#34; or &#34;http&#34;
      */
     public java.lang.String getProtocol() {
         var RESULT = gtk_h.g_proxy_address_get_protocol(handle());
@@ -92,7 +92,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy's username.
+     * Gets @proxy&#39;s username.
      */
     public java.lang.String getUsername() {
         var RESULT = gtk_h.g_proxy_address_get_username(handle());

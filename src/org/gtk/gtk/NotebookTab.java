@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The parameter used in the action signals of `GtkNotebook`.
+ * The parameter used in the action signals of <code>GtkNotebook</code>.
  */
 public enum NotebookTab {
 

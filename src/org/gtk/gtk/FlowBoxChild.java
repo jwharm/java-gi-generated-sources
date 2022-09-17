@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkFlowBoxChild` is the kind of widget that can be added to a `GtkFlowBox`.
+ * <code>GtkFlowBoxChild</code> is the kind of widget that can be added to a <code>GtkFlowBox</code>.
  */
 public class FlowBoxChild extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -27,9 +27,9 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new `GtkFlowBoxChild`.
-     * 
-     * This should only be used as a child of a `GtkFlowBox`.
+     * Creates a new <code>GtkFlowBoxChild</code>.
+     * <p>
+     * This should only be used as a child of a <code>GtkFlowBox</code>.
      */
     public FlowBoxChild() {
         super(constructNew());
@@ -49,11 +49,11 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * must only read the new data for the first of the two changed
      * children, otherwise the resorting of the children will be wrong.
      * 
-     * This generally means that if you don’t fully control the data
+     * This generally means that if you don&#8217;t fully control the data
      * model, you have to duplicate the data that affects the sorting
      * and filtering functions into the widgets themselves.
      * 
-     * Another alternative is to call [method@Gtk.FlowBox.invalidate_sort]
+     * Another alternative is to call {@link org.gtk.gtk.FlowBox#invalidateSort}
      * on any model change, but that is more expensive.
      */
     public void changed() {
@@ -69,7 +69,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Gets the current index of the @child in its `GtkFlowBox` container.
+     * Gets the current index of the @child in its <code>GtkFlowBox</code> container.
      */
     public int getIndex() {
         var RESULT = gtk_h.gtk_flow_box_child_get_index(handle());
@@ -77,8 +77,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Returns whether the @child is currently selected in its
-     * `GtkFlowBox` container.
+     * Returns whether the @child is currently selected in its<code>GtkFlowBox</code> container.
      */
     public boolean isSelected() {
         var RESULT = gtk_h.gtk_flow_box_child_is_selected(handle());
@@ -98,15 +97,15 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Emitted when the user activates a child widget in a `GtkFlowBox`.
+     * Emitted when the user activates a child widget in a <code>GtkFlowBox</code>.
      * 
      * This can be happen either by clicking or double-clicking,
      * or via a keybinding.
      * 
-     * This is a [keybinding signal](class.SignalAction.html),
+     * This is a {@link [keybinding signal]}(class.SignalAction.html),
      * but it can be used by applications for their own purposes.
      * 
-     * The default bindings are <kbd>Space</kbd> and <kbd>Enter</kbd>.
+     * The default bindings are &#60;kbd&#62;Space&#60;/kbd&#62; and &#60;kbd&#62;Enter&#60;/kbd&#62;.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

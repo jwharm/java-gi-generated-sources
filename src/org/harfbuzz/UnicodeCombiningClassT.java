@@ -4,9 +4,9 @@ package org.harfbuzz;
  * Data type for the Canonical_Combining_Class (ccc) property
  * from the Unicode Character Database.
  * 
- * <note>Note: newer versions of Unicode may add new values.
+ * &#60;note&#62;Note: newer versions of Unicode may add new values.
  * Client programs should be ready to handle any value in the 0..254 range
- * being returned from hb_unicode_combining_class().</note>
+ * being returned from hb_unicode_combining_class().&#60;/note&#62;
  */
 public enum UnicodeCombiningClassT {
 
@@ -36,182 +36,182 @@ public enum UnicodeCombiningClassT {
     VIRAMA,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC10,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC11,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC12,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC13,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC14,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC15,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC16,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC17,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC18,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC19,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC20,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC21,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC22,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC23,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC24,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC25,
     
     /**
-     * [Hebrew]
+     * {@link [Hebrew]}
      */
     CCC26,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC27,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC28,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC29,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC30,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC31,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC32,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC33,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC34,
     
     /**
-     * [Arabic]
+     * {@link [Arabic]}
      */
     CCC35,
     
     /**
-     * [Syriac]
+     * {@link [Syriac]}
      */
     CCC36,
     
     /**
-     * [Telugu]
+     * {@link [Telugu]}
      */
     CCC84,
     
     /**
-     * [Telugu]
+     * {@link [Telugu]}
      */
     CCC91,
     
     /**
-     * [Thai]
+     * {@link [Thai]}
      */
     CCC103,
     
     /**
-     * [Thai]
+     * {@link [Thai]}
      */
     CCC107,
     
     /**
-     * [Lao]
+     * {@link [Lao]}
      */
     CCC118,
     
     /**
-     * [Lao]
+     * {@link [Lao]}
      */
     CCC122,
     
     /**
-     * [Tibetan]
+     * {@link [Tibetan]}
      */
     CCC129,
     
     /**
-     * [Tibetan]
+     * {@link [Tibetan]}
      */
     CCC130,
     
     /**
-     * [Tibetan]
+     * {@link [Tibetan]}
      */
     CCC133,
     

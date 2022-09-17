@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEventControllerMotion` is an event controller tracking the pointer
+ * <code>GtkEventControllerMotion</code> is an event controller tracking the pointer
  * position.
  * 
- * The event controller offers [signal@Gtk.EventControllerMotion::enter]
- * and [signal@Gtk.EventControllerMotion::leave] signals, as well as
- * [property@Gtk.EventControllerMotion:is-pointer] and
- * [property@Gtk.EventControllerMotion:contains-pointer] properties
+ * The event controller offers {@link [signal@Gtk.EventControllerMotion::enter] (ref=signal)}
+ * and {@link [signal@Gtk.EventControllerMotion::leave] (ref=signal)} signals, as well as
+ * {@link [property@Gtk.EventControllerMotion:is-pointer] (ref=property)} and
+ * {@link [property@Gtk.EventControllerMotion:contains-pointer] (ref=property)} properties
  * which are updated to reflect changes in the pointer position as it
  * moves over the widget.
  */

@@ -11,7 +11,7 @@ public class FileQueryInfoFlags {
     public static final int NONE = 0;
     
     /**
-     * Don't follow symlinks.
+     * Don&#39;t follow symlinks.
      */
     public static final int NOFOLLOW_SYMLINKS = 1;
     

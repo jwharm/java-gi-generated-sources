@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * The base object type.
- * 
- * All the fields in the `GObject` structure are private to the implementation
+ * <p>
+ * All the fields in the <code>GObject</code> structure are private to the implementation
  * and should never be accessed directly.
  * 
  * Since GLib 2.72, all #GObjects are guaranteed to be aligned to at least the
@@ -40,8 +40,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new instance of a #GObject subtype and sets its properties.
      * 
-     * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
-     * which are not explicitly specified are set to their default values.
+     * Construction parameters (see <code>G_PARAM_CONSTRUCT,</code> <code>G_PARAM_CONSTRUCT_ONLY)
+     * which</code> are not explicitly specified are set to their default values.
      */
     public static Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
         return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
@@ -57,8 +57,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * the provided arrays. Both arrays must have exactly @n_properties elements,
      * and the names and values correspond by index.
      * 
-     * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
-     * which are not explicitly specified are set to their default values.
+     * Construction parameters (see <code>G_PARAM_CONSTRUCT,</code> <code>G_PARAM_CONSTRUCT_ONLY)
+     * which</code> are not explicitly specified are set to their default values.
      */
     public static Object newWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
         return new Object(constructNewWithProperties(objectType, nProperties, names, values));
@@ -72,8 +72,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new instance of a #GObject subtype and sets its properties.
      * 
-     * Construction parameters (see %G_PARAM_CONSTRUCT, %G_PARAM_CONSTRUCT_ONLY)
-     * which are not explicitly specified are set to their default values.
+     * Construction parameters (see <code>G_PARAM_CONSTRUCT,</code> <code>G_PARAM_CONSTRUCT_ONLY)
+     * which</code> are not explicitly specified are set to their default values.
      */
     public static Object newv(Type objectType, int nParameters, Parameter[] parameters) {
         return new Object(constructNewv(objectType, nParameters, parameters));
@@ -96,7 +96,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * to the proxy object, but when there are other references held to
      * @object, a strong reference is held. The @notify callback is called
      * when the reference from @object to the proxy object should be
-     * "toggled" from strong to weak (@is_last_ref true) or weak to strong
+     * &#34;toggled&#34; from strong to weak (@is_last_ref true) or weak to strong
      * (@is_last_ref false).
      * 
      * Since a (normal) reference must be held to the object before
@@ -127,11 +127,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Adds a weak reference from weak_pointer to @object to indicate that
      * the pointer located at @weak_pointer_location is only valid during
      * the lifetime of @object. When the @object is finalized,
-     * @weak_pointer will be set to %NULL.
+     * @weak_pointer will be set to <code>NULL.
      * 
-     * Note that as with g_object_weak_ref(), the weak references created by
+     * Note</code> that as with g_object_weak_ref(), the weak references created by
      * this method are not thread-safe: they cannot safely be used in one
-     * thread if the object's last g_object_unref() might happen in another
+     * thread if the object&#39;s last g_object_unref() might happen in another
      * thread. Use #GWeakRef if thread-safety is required.
      */
     public void addWeakPointer(jdk.incubator.foreign.MemoryAddress weakPointerLocation) {
@@ -145,15 +145,15 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Whenever the @source_property is changed the @target_property is
      * updated using the same value. For instance:
      * 
-     * |[<!-- language="C" -->
-     *   g_object_bind_property (action, "active", widget, "sensitive", 0);
-     * ]|
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     *   g_object_bind_property (action, &#34;active&#34;, widget, &#34;sensitive&#34;, 0);
+     * ]}|
      * 
-     * Will result in the "sensitive" property of the widget #GObject instance to be
-     * updated with the same value of the "active" property of the action #GObject
+     * Will result in the &#34;sensitive&#34; property of the widget #GObject instance to be
+     * updated with the same value of the &#34;active&#34; property of the action #GObject
      * instance.
      * 
-     * If @flags contains %G_BINDING_BIDIRECTIONAL then the binding will be mutual:
+     * If @flags contains {@link org.gtk.gobject.BindingFlags#BIDIRECTIONAL} then the binding will be mutual:
      * if @target_property on @target changes then the @source_property on @source
      * will be updated as well.
      * 
@@ -183,7 +183,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * on @target, allowing you to set the transformation functions to be used by
      * the binding.
      * 
-     * If @flags contains %G_BINDING_BIDIRECTIONAL then the binding will be mutual:
+     * If @flags contains {@link org.gtk.gobject.BindingFlags#BIDIRECTIONAL} then the binding will be mutual:
      * if @target_property on @target changes then the @source_property on @source
      * will be updated as well. The @transform_from function is only used in case
      * of bidirectional bindings, otherwise it will be ignored
@@ -240,12 +240,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This is a variant of g_object_get_data() which returns
-     * a 'duplicate' of the value. @dup_func defines the
-     * meaning of 'duplicate' in this context, it could e.g.
+     * a &#39;duplicate&#39; of the value. @dup_func defines the
+     * meaning of &#39;duplicate&#39; in this context, it could e.g.
      * take a reference on a ref-counted object.
      * 
      * If the @key is not set on the object then @dup_func
-     * will be called with a %NULL argument.
+     * will be called with a <code>null</code> argument.
      * 
      * Note that @dup_func is called while user data of @object
      * is locked.
@@ -271,12 +271,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This is a variant of g_object_get_qdata() which returns
-     * a 'duplicate' of the value. @dup_func defines the
-     * meaning of 'duplicate' in this context, it could e.g.
+     * a &#39;duplicate&#39; of the value. @dup_func defines the
+     * meaning of &#39;duplicate&#39; in this context, it could e.g.
      * take a reference on a ref-counted object.
      * 
      * If the @quark is not set on the object then @dup_func
-     * will be called with a %NULL argument.
+     * will be called with a <code>null</code> argument.
      * 
      * Note that @dup_func is called while user data of @object
      * is locked.
@@ -302,7 +302,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function is intended for #GObject implementations to re-enforce
-     * a [floating][floating-ref] object reference. Doing this is seldom
+     * a {@link [floating]}{@link [floating-ref]} object reference. Doing this is seldom
      * required: all #GInitiallyUnowneds are created with a floating reference
      * which usually just needs to be sunken by calling g_object_ref_sink().
      */
@@ -312,7 +312,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increases the freeze count on @object. If the freeze count is
-     * non-zero, the emission of "notify" signals on @object is
+     * non-zero, the emission of &#34;notify&#34; signals on @object is
      * stopped. The signals are queued until the freeze count is decreased
      * to zero. Duplicate notifications are squashed so that at most one
      * #GObject::notify signal is emitted for each property modified while the
@@ -338,7 +338,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The @value can be:
      * 
-     *  - an empty #GValue initialized by %G_VALUE_INIT, which will be
+     *  - an empty #GValue initialized by <code>G_VALUE_INIT,</code> which will be
      *    automatically initialized with the expected type of the property
      *    (since GLib 2.60)
      *  - a #GValue initialized with the expected type of the property
@@ -388,7 +388,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @object has a [floating][floating-ref] reference.
+     * Checks whether @object has a {@link [floating]}{@link [floating-ref]} reference.
      */
     public boolean isFloating() {
         var RESULT = gtk_h.g_object_is_floating(handle());
@@ -396,7 +396,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Emits a "notify" signal for the property @property_name on @object.
+     * Emits a &#34;notify&#34; signal for the property @property_name on @object.
      * 
      * When possible, eg. when signaling a property change from within the class
      * that registered the property, you should use g_object_notify_by_pspec()
@@ -412,7 +412,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Emits a "notify" signal for the property specified by @pspec on @object.
+     * Emits a &#34;notify&#34; signal for the property specified by @pspec on @object.
      * 
      * This function omits the property name lookup, hence it is faster than
      * g_object_notify().
@@ -422,7 +422,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * instead, is to store the GParamSpec used with
      * g_object_class_install_property() inside a static array, e.g.:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   enum
      *   {
      *     PROP_0,
@@ -430,25 +430,25 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      *     PROP_LAST
      *   };
      * 
-     *   static GParamSpec *properties[PROP_LAST];
+     *   static GParamSpec *properties[PROP_LAST]};
      * 
      *   static void
      *   my_object_class_init (MyObjectClass *klass)
      *   {
-     *     properties[PROP_FOO] = g_param_spec_int ("foo", "Foo", "The foo",
+     *     properties{@link [PROP_FOO]} = g_param_spec_int (&#34;foo&#34;, &#34;Foo&#34;, &#34;The foo&#34;,
      *                                              0, 100,
      *                                              50,
      *                                              G_PARAM_READWRITE);
      *     g_object_class_install_property (gobject_class,
      *                                      PROP_FOO,
-     *                                      properties[PROP_FOO]);
+     *                                      properties{@link [PROP_FOO]});
      *   }
      * ]|
      * 
-     * and then notify a change on the "foo" property with:
+     * and then notify a change on the &#34;foo&#34; property with:
      * 
-     * |[<!-- language="C" -->
-     *   g_object_notify_by_pspec (self, properties[PROP_FOO]);
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     *   g_object_notify_by_pspec (self, properties[PROP_FOO]});
      * ]|
      */
     public void notifyByPspec(ParamSpec pspec) {
@@ -457,8 +457,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increases the reference count of @object.
-     * 
-     * Since GLib 2.56, if `GLIB_VERSION_MAX_ALLOWED` is 2.56 or greater, the type
+     * <p>
+     * Since GLib 2.56, if <code>GLIB_VERSION_MAX_ALLOWED</code> is 2.56 or greater, the type
      * of @object will be propagated to the return type (using the GCC typeof()
      * extension), so any casting the caller needs to do on the return type must be
      * explicit.
@@ -470,10 +470,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increase the reference count of @object, and possibly remove the
-     * [floating][floating-ref] reference, if @object has a floating reference.
+     * {@link [floating]}{@link [floating-ref]} reference, if @object has a floating reference.
      * 
-     * In other words, if the object is floating, then this call "assumes
-     * ownership" of the floating reference, converting it to a normal
+     * In other words, if the object is floating, then this call &#34;assumes
+     * ownership&#34; of the floating reference, converting it to a normal
      * reference by clearing the floating flag while leaving the reference
      * count unchanged.  If the object is not floating, then this call
      * adds a new normal reference increasing the reference count by one.
@@ -532,7 +532,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * 
      * Internally, the @key is converted to a #GQuark using g_quark_from_string().
      * This means a copy of @key is kept permanently (even after @object has been
-     * finalized) — so it is recommended to only use a small, bounded set of values
+     * finalized) &#8212; so it is recommended to only use a small, bounded set of values
      * for @key in your program, to avoid the #GQuark storage growing unbounded.
      */
     public void setData(java.lang.String key, jdk.incubator.foreign.MemoryAddress data) {
@@ -541,6 +541,16 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Like g_object_set_data() except it adds notification
+     * for when the association is destroyed, either by setting it
+     * to a different value or when the object is destroyed.
+     * 
+     * Note that the @destroy callback is not called if @data is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Like g_object_set_data() except it adds notification
      * for when the association is destroyed, either by setting it
      * to a different value or when the object is destroyed.
      * 
@@ -602,8 +612,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Remove a specified datum from the object's data associations,
-     * without invoking the association's destroy handler.
+     * Remove a specified datum from the object&#39;s data associations,
+     * without invoking the association&#39;s destroy handler.
      */
     public jdk.incubator.foreign.MemoryAddress stealData(java.lang.String key) {
         var RESULT = gtk_h.g_object_steal_data(handle(), Interop.allocateNativeString(key).handle());
@@ -617,19 +627,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * set).
      * Usually, calling this function is only required to update
      * user data pointers with a destroy notifier, for example:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * void
      * object_add_to_user_list (GObject     *object,
      *                          const gchar *new_string)
      * {
      *   // the quark, naming the object data
-     *   GQuark quark_string_list = g_quark_from_static_string ("my-string-list");
+     *   GQuark quark_string_list = g_quark_from_static_string (&#34;my-string-list&#34;);
      *   // retrieve the old string list
      *   GList *list = g_object_steal_qdata (object, quark_string_list);
      * 
      *   // prepend new string
      *   list = g_list_prepend (list, g_strdup (new_string));
-     *   // this changed 'list', so we need to set it again
+     *   // this changed &#39;list&#39;, so we need to set it again
      *   g_object_set_qdata_full (object, quark_string_list, list, free_string_list);
      * }
      * static void
@@ -637,11 +647,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   GList *node, *list = data;
      * 
-     *   for (node = list; node; node = node->next)
-     *     g_free (node->data);
+     *   for (node = list; node; node = node-&#62;next)
+     *     g_free (node-&#62;data);
      *   g_list_free (list);
      * }
-     * ]|
+     * ]}|
      * Using g_object_get_qdata() in the above example, instead of
      * g_object_steal_qdata() would have left the destroy function set,
      * and thus the partial string list would have been freed upon
@@ -674,7 +684,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * instances, the user can be saved some typing if they are allowed to
      * return a floating reference.
      * 
-     * Using this function on the return value of the user's callback allows
+     * Using this function on the return value of the user&#39;s callback allows
      * the user to do whichever is more convenient for them. The caller will
      * alway receives exactly one full reference to the value: either the
      * one that was returned in the first place, or a floating reference
@@ -697,7 +707,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Reverts the effect of a previous call to
      * g_object_freeze_notify(). The freeze count is decreased on @object
-     * and when it reaches zero, queued "notify" signals are emitted.
+     * and when it reaches zero, queued &#34;notify&#34; signals are emitted.
      * 
      * Duplicate notifications for each property are squashed so that at most one
      * #GObject::notify signal is emitted for each property, in the reverse order
@@ -715,7 +725,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If the pointer to the #GObject may be reused in future (for example, if it is
      * an instance variable of another object), it is recommended to clear the
-     * pointer to %NULL rather than retain a dangling pointer to a potentially
+     * pointer to <code>null</code> rather than retain a dangling pointer to a potentially
      * invalid #GObject instance. Use g_clear_object() for this.
      */
     public void unref() {
@@ -740,13 +750,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a weak reference callback to an object. Weak references are
      * used for notification when an object is disposed. They are called
-     * "weak references" because they allow you to safely hold a pointer
+     * &#34;weak references&#34; because they allow you to safely hold a pointer
      * to an object without calling g_object_ref() (g_object_ref() adds a
      * strong reference, that is, forces the object to stay alive).
      * 
      * Note that the weak references created by this method are not
      * thread-safe: they cannot safely be used in one thread if the
-     * object's last g_object_unref() might happen in another thread.
+     * object&#39;s last g_object_unref() might happen in another thread.
      * Use #GWeakRef if thread-safety is required.
      */
     public void weakRef(WeakNotify notify) {
@@ -808,7 +818,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * property description, default value, bounds, and so forth from the
      * interface property.
      * 
-     * This function is meant to be called from the interface's default
+     * This function is meant to be called from the interface&#39;s default
      * vtable initialization function (the @class_init member of
      * #GTypeInfo.) It must not be called after after @class_init has
      * been called for any object types implementing this interface.
@@ -828,12 +838,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * The notify signal is emitted on an object when one of its properties has
      * its value set through g_object_set_property(), g_object_set(), et al.
      * 
-     * Note that getting this signal doesn’t itself guarantee that the value of
+     * Note that getting this signal doesn&#8217;t itself guarantee that the value of
      * the property has actually changed. When it is emitted is determined by the
      * derived GObject class. If the implementor did not create the property with
-     * %G_PARAM_EXPLICIT_NOTIFY, then any call to g_object_set_property() results
+     * <code>G_PARAM_EXPLICIT_NOTIFY,</code> then any call to g_object_set_property() results
      * in ::notify being emitted, even if the new value is the same as the old.
-     * If they did pass %G_PARAM_EXPLICIT_NOTIFY, then this signal is emitted only
+     * If they did pass <code>G_PARAM_EXPLICIT_NOTIFY,</code> then this signal is emitted only
      * when they explicitly call g_object_notify() or g_object_notify_by_pspec(),
      * and common practice is to do that only when the value has actually changed.
      * 
@@ -841,14 +851,14 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * single property, by specifying the property name as a detail in the
      * g_signal_connect() call, like this:
      * 
-     * |[<!-- language="C" -->
-     * g_signal_connect (text_view->buffer, "notify::paste-target-list",
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * g_signal_connect (text_view-&#62;buffer, &#34;notify::paste-target-list&#34;,
      *                   G_CALLBACK (gtk_text_view_target_list_notify),
      *                   text_view)
-     * ]|
+     * ]}|
      * 
      * It is important to note that you must use
-     * [canonical parameter names][canonical-parameter-names] as
+     * {@link [canonical parameter names]}{@link [canonical-parameter-names]} as
      * detail strings for the notify signal.
      */
     public SignalHandle onNotify(NotifyHandler handler) {

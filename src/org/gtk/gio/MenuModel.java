@@ -20,16 +20,16 @@ import java.lang.invoke.*;
  * sections and submenus are again represented by #GMenuModels.
  * Menus themselves do not define their own roles. Rather, the role
  * of a particular #GMenuModel is defined by the item that references
- * it (or, in the case of the 'root' menu, is defined by the context
+ * it (or, in the case of the &#39;root&#39; menu, is defined by the context
  * in which it is used).
  * 
  * As an example, consider the visible portions of this menu:
  * 
  * ## An example menu # {#menu-example}
  * 
- * ![](menu-example.png)
+ * !{@link []}(menu-example.png)
  * 
- * There are 8 "menus" visible in the screenshot: one menubar, two
+ * There are 8 &#34;menus&#34; visible in the screenshot: one menubar, two
  * submenus and 5 sections:
  * 
  * - the toplevel menubar (containing 4 items)
@@ -41,17 +41,17 @@ import java.lang.invoke.*;
  * - the Sources section (containing 2 items)
  * - the Markup section (containing 2 items)
  * 
- * The [example][menu-model] illustrates the conceptual connection between
+ * The {@link [example]}{@link [menu-model]} illustrates the conceptual connection between
  * these 8 menus. Each large block in the figure represents a menu and the
  * smaller blocks within the large block represent items in that menu. Some
  * items contain references to other menus.
  * 
  * ## A menu example # {#menu-model}
  * 
- * ![](menu-model.png)
+ * !{@link []}(menu-model.png)
  * 
- * Notice that the separators visible in the [example][menu-example]
- * appear nowhere in the [menu model][menu-model]. This is because
+ * Notice that the separators visible in the {@link [example]}{@link [menu-example]}
+ * appear nowhere in the {@link [menu model]}{@link [menu-model]}. This is because
  * separators are not explicitly represented in the menu model. Instead,
  * a separator is inserted between any two non-empty sections of a menu.
  * Section items can have labels just like any other item. In that case,
@@ -60,32 +60,32 @@ import java.lang.invoke.*;
  * The motivation for this abstract model of application controls is
  * that modern user interfaces tend to make these controls available
  * outside the application. Examples include global menus, jumplists,
- * dash boards, etc. To support such uses, it is necessary to 'export'
+ * dash boards, etc. To support such uses, it is necessary to &#39;export&#39;
  * information about actions and their representation in menus, which
- * is exactly what the [GActionGroup exporter][gio-GActionGroup-exporter]
- * and the [GMenuModel exporter][gio-GMenuModel-exporter] do for
+ * is exactly what the {@link [GActionGroup exporter]}{@link [gio-GActionGroup-exporter]}
+ * and the {@link [GMenuModel exporter]}{@link [gio-GMenuModel-exporter]} do for
  * #GActionGroup and #GMenuModel. The client-side counterparts to
  * make use of the exported information are #GDBusActionGroup and
  * #GDBusMenuModel.
  * 
  * The API of #GMenuModel is very generic, with iterators for the
  * attributes and links of an item, see g_menu_model_iterate_item_attributes()
- * and g_menu_model_iterate_item_links(). The 'standard' attributes and
- * link types have predefined names: %G_MENU_ATTRIBUTE_LABEL,
- * %G_MENU_ATTRIBUTE_ACTION, %G_MENU_ATTRIBUTE_TARGET, %G_MENU_LINK_SECTION
- * and %G_MENU_LINK_SUBMENU.
+ * and g_menu_model_iterate_item_links(). The &#39;standard&#39; attributes and
+ * link types have predefined names: <code>G_MENU_ATTRIBUTE_LABEL,
+ * %G_MENU_ATTRIBUTE_ACTION,</code> <code>G_MENU_ATTRIBUTE_TARGET,</code> <code>G_MENU_LINK_SECTION
+ * and</code> <code>G_MENU_LINK_SUBMENU.
  * 
- * Items in a #GMenuModel represent active controls if they refer to
+ * Items</code> in a #GMenuModel represent active controls if they refer to
  * an action that can get activated when the user interacts with the
  * menu item. The reference to the action is encoded by the string id
- * in the %G_MENU_ATTRIBUTE_ACTION attribute. An action id uniquely
+ * in the <code>G_MENU_ATTRIBUTE_ACTION</code> attribute. An action id uniquely
  * identifies an action in an action group. Which action group(s) provide
  * actions depends on the context in which the menu model is used.
  * E.g. when the model is exported as the application menu of a
  * #GtkApplication, actions can be application-wide or window-specific
  * (and thus come from two different action groups). By convention, the
- * application-wide actions have names that start with "app.", while the
- * names of window-specific actions start with "win.".
+ * application-wide actions have names that start with &#34;app.&#34;, while the
+ * names of window-specific actions start with &#34;win.&#34;.
  * 
  * While a wide variety of stateful actions is possible, the following
  * is the minimum that is expected to be supported by all users of exported
@@ -102,12 +102,12 @@ import java.lang.invoke.*;
  * 
  * ## Boolean State
  * 
- * An action with a boolean state will most typically be used with a "toggle"
- * or "switch" menu item. The state can be set directly, but activating the
+ * An action with a boolean state will most typically be used with a &#34;toggle&#34;
+ * or &#34;switch&#34; menu item. The state can be set directly, but activating the
  * action (with no parameter) results in the state being toggled.
  * 
  * Selecting a toggle menu item will activate the action. The menu item should
- * be rendered as "checked" when the state is true.
+ * be rendered as &#34;checked&#34; when the state is true.
  * 
  * ## String Parameter and State
  * 
@@ -119,7 +119,7 @@ import java.lang.invoke.*;
  * Radio menu items, in addition to being associated with the action, will
  * have a target value. Selecting that menu item will result in activation
  * of the action with the target value as the parameter. The menu item should
- * be rendered as "selected" when the state of the action is equal to the
+ * be rendered as &#34;selected&#34; when the state of the action is equal to the
  * target value of the menu item.
  */
 public class MenuModel extends org.gtk.gobject.Object {
@@ -137,14 +137,14 @@ public class MenuModel extends org.gtk.gobject.Object {
      * Queries the item at position @item_index in @model for the attribute
      * specified by @attribute.
      * 
-     * If @expected_type is non-%NULL then it specifies the expected type of
-     * the attribute.  If it is %NULL then any type will be accepted.
+     * If @expected_type is non-<code>null</code> then it specifies the expected type of
+     * the attribute.  If it is <code>null</code> then any type will be accepted.
      * 
      * If the attribute exists and matches @expected_type (or if the
      * expected type is unspecified) then the value is returned.
      * 
      * If the attribute does not exist, or does not match the expected type
-     * then %NULL is returned.
+     * then <code>null</code> is returned.
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = gtk_h.g_menu_model_get_item_attribute_value(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
@@ -156,7 +156,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * specified by @link.
      * 
      * If the link exists, the linked #GMenuModel is returned.  If the link
-     * does not exist, %NULL is returned.
+     * does not exist, <code>null</code> is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
         var RESULT = gtk_h.g_menu_model_get_item_link(handle(), itemIndex, Interop.allocateNativeString(link).handle());

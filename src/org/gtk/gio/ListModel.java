@@ -39,21 +39,21 @@ import java.lang.invoke.*;
  * g_list_model_get_item() returns an item at a (0-based) position. In
  * order to allow implementations to calculate the list length lazily,
  * you can also iterate over items: starting from 0, repeatedly call
- * g_list_model_get_item() until it returns %NULL.
+ * g_list_model_get_item() until it returns <code>NULL.
  * 
- * An implementation may create objects lazily, but must take care to
+ * An</code> implementation may create objects lazily, but must take care to
  * return the same object for a given position until all references to
  * it are gone.
  * 
  * On the other side, a consumer is expected only to hold references on
- * objects that are currently "user visible", in order to facilitate the
+ * objects that are currently &#34;user visible&#34;, in order to facilitate the
  * maximum level of laziness in the implementation of the list and to
  * reduce the required number of signal connections at a given time.
  * 
  * This interface is intended only to be used from a single thread.  The
  * thread in which it is appropriate to use it depends on the particular
  * implementation, but typically it will be from the thread that owns
- * the [thread-default main context][g-main-context-push-thread-default]
+ * the {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * in effect at the time that the model was created.
  */
 public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
@@ -61,10 +61,10 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Get the item at @position.
      * 
-     * If @position is greater than the number of items in @list, %NULL is
+     * If @position is greater than the number of items in @list, <code>null</code> is
      * returned.
      * 
-     * %NULL is never returned for an index that is smaller than the length
+     * <code>null</code> is never returned for an index that is smaller than the length
      * of the list.
      * 
      * See also: g_list_model_get_n_items()
@@ -94,6 +94,16 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
      * 
      * Depending on the model implementation, calling this function may be
      * less efficient than iterating the list with increasing values for
+     * @position until g_list_model_get_item() returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the number of items in @list.
+     * 
+     * Depending on the model implementation, calling this function may be
+     * less efficient than iterating the list with increasing values for
      * @position until g_list_model_get_item() returns %NULL.
      */
     public default int getNItems() {
@@ -104,10 +114,10 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Get the item at @position.
      * 
-     * If @position is greater than the number of items in @list, %NULL is
+     * If @position is greater than the number of items in @list, <code>null</code> is
      * returned.
      * 
-     * %NULL is never returned for an index that is smaller than the length
+     * <code>null</code> is never returned for an index that is smaller than the length
      * of the list.
      * 
      * This function is meant to be used by language bindings in place
@@ -155,8 +165,8 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
      * This signal is emitted whenever items were added to or removed
      * from @list. At @position, @removed items were removed and @added
      * items were added in their place.
-     * 
-     * Note: If `removed != added`, the positions of all later items
+     * <p>
+     * Note: If <code>removed != added</code>, the positions of all later items
      * in the model change.
      */
     public default SignalHandle onItemsChanged(ItemsChangedHandler handler) {

@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkColumnViewColumn` represents the columns being added to `GtkColumnView`.
- * 
- * The main ingredient for a `GtkColumnViewColumn` is the `GtkListItemFactory`
+ * <code>GtkColumnViewColumn</code> represents the columns being added to <code>GtkColumnView</code>.
+ * <p>
+ * The main ingredient for a <code>GtkColumnViewColumn</code> is the <code>GtkListItemFactory</code>
  * that tells the columnview how to create cells for this column from items in
  * the model.
  * 
  * Columns have a title, and can optionally have a header menu set
- * with [method@Gtk.ColumnViewColumn.set_header_menu].
+ * with {@link org.gtk.gtk.ColumnViewColumn#setHeaderMenu}.
  * 
  * A sorter can be associated with a column using
- * [method@Gtk.ColumnViewColumn.set_sorter], to let users influence sorting
+ * {@link org.gtk.gtk.ColumnViewColumn#setSorter}, to let users influence sorting
  * by clicking on the column header.
  */
 public class ColumnViewColumn extends org.gtk.gobject.Object {
@@ -38,26 +38,25 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkColumnViewColumn` that uses the given @factory for
+     * Creates a new <code>GtkColumnViewColumn</code> that uses the given @factory for
      * mapping items to widgets.
-     * 
-     * You most likely want to call [method@Gtk.ColumnView.append_column] next.
-     * 
+     * <p>
+     * You most likely want to call {@link org.gtk.gtk.ColumnView#appendColumn} next.
+     * <p>
      * The function takes ownership of the argument, so you can write code like:
-     * 
-     * ```c
-     * column = gtk_column_view_column_new (_("Name"),
-     *   gtk_builder_list_item_factory_new_from_resource ("/name.ui"));
-     * ```
+     * <p><pre>c
+     * column = gtk_column_view_column_new (_(&#34;Name&#34;),
+     *   gtk_builder_list_item_factory_new_from_resource (&#34;/name.ui&#34;));
+     * </pre>
      */
     public ColumnViewColumn(java.lang.String title, ListItemFactory factory) {
         super(constructNew(title, factory));
     }
     
     /**
-     * Gets the column view that's currently displaying this column.
+     * Gets the column view that&#39;s currently displaying this column.
      * 
-     * If @self has not been added to a column view yet, %NULL is returned.
+     * If @self has not been added to a column view yet, <code>null</code> is returned.
      */
     public ColumnView getColumnView() {
         var RESULT = gtk_h.gtk_column_view_column_get_column_view(handle());
@@ -73,7 +72,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the factory that's currently used to populate list items for
+     * Gets the factory that&#39;s currently used to populate list items for
      * this column.
      */
     public ListItemFactory getFactory() {
@@ -134,6 +133,16 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Sets the column to take available extra space.
      * 
      * The extra space is shared equally amongst all columns that
+     * have the expand set to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Sets the column to take available extra space.
+     * 
+     * The extra space is shared equally amongst all columns that
      * have the expand set to %TRUE.
      */
     public void setExpand(boolean expand) {
@@ -141,7 +150,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the `GtkListItemFactory` to use for populating list items for this
+     * Sets the <code>GtkListItemFactory</code> to use for populating list items for this
      * column.
      */
     public void setFactory(ListItemFactory factory) {
@@ -153,7 +162,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * otherwise unsets it.
      * 
      * Setting a fixed width overrides the automatically calculated
-     * width. Interactive resizing also sets the “fixed-width” property.
+     * width. Interactive resizing also sets the &#8220;fixed-width&#8221; property.
      */
     public void setFixedWidth(int fixedWidth) {
         gtk_h.gtk_column_view_column_set_fixed_width(handle(), fixedWidth);
@@ -177,14 +186,14 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     /**
      * Associates a sorter with the column.
      * 
-     * If @sorter is %NULL, the column will not let users change
+     * If @sorter is <code>NULL,</code> the column will not let users change
      * the sorting by clicking on its header.
      * 
      * This sorter can be made active by clicking on the column
-     * header, or by calling [method@Gtk.ColumnView.sort_by_column].
+     * header, or by calling {@link org.gtk.gtk.ColumnView#sortByColumn}.
      * 
-     * See [method@Gtk.ColumnView.get_sorter] for the necessary steps
-     * for setting up customizable sorting for [class@Gtk.ColumnView].
+     * See {@link org.gtk.gtk.ColumnView#getSorter} for the necessary steps
+     * for setting up customizable sorting for {@link org.gtk.gtk.ColumnView}.
      */
     public void setSorter(Sorter sorter) {
         gtk_h.gtk_column_view_column_set_sorter(handle(), sorter.handle());
@@ -192,8 +201,8 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     
     /**
      * Sets the title of this column.
-     * 
-     * The title is displayed in the header of a `GtkColumnView`
+     * <p>
+     * The title is displayed in the header of a <code>GtkColumnView</code>
      * for this column and is therefore user-facing text that should
      * be translated.
      */

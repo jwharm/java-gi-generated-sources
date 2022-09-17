@@ -8,40 +8,37 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkDragSource` is an event controller to initiate Drag-And-Drop operations.
- * 
- * `GtkDragSource` can be set up with the necessary
+ * <code>GtkDragSource</code> is an event controller to initiate Drag-And-Drop operations.
+ * <p><code>GtkDragSource</code> can be set up with the necessary
  * ingredients for a DND operation ahead of time. This includes
  * the source for the data that is being transferred, in the form
- * of a [class@Gdk.ContentProvider], the desired action, and the icon to
+ * of a {@link org.gtk.gdk.ContentProvider}, the desired action, and the icon to
  * use during the drag operation. After setting it up, the drag
  * source must be added to a widget as an event controller, using
- * [method@Gtk.Widget.add_controller].
- * 
- * ```c
+ * {@link org.gtk.gtk.Widget#addController}.
+ * <p><pre>c
  * static void
  * my_widget_init (MyWidget *self)
  * {
  *   GtkDragSource *drag_source = gtk_drag_source_new ();
- * 
- *   g_signal_connect (drag_source, "prepare", G_CALLBACK (on_drag_prepare), self);
- *   g_signal_connect (drag_source, "drag-begin", G_CALLBACK (on_drag_begin), self);
- * 
+ * <p>
+ *   g_signal_connect (drag_source, &#34;prepare&#34;, G_CALLBACK (on_drag_prepare), self);
+ *   g_signal_connect (drag_source, &#34;drag-begin&#34;, G_CALLBACK (on_drag_begin), self);
+ * <p>
  *   gtk_widget_add_controller (GTK_WIDGET (self), GTK_EVENT_CONTROLLER (drag_source));
  * }
- * ```
- * 
+ * </pre>
+ * <p>
  * Setting up the content provider and icon ahead of time only makes
  * sense when the data does not change. More commonly, you will want
- * to set them up just in time. To do so, `GtkDragSource` has
- * [signal@Gtk.DragSource::prepare] and [signal@Gtk.DragSource::drag-begin]
+ * to set them up just in time. To do so, <code>GtkDragSource</code> has
+ * {@link [signal@Gtk.DragSource::prepare] (ref=signal)} and {@link [signal@Gtk.DragSource::drag-begin] (ref=signal)}
  * signals.
- * 
+ * <p>
  * The ::prepare signal is emitted before a drag is started, and
  * can be used to set the content provider and actions that the
  * drag should be started with.
- * 
- * ```c
+ * <p><pre>c
  * static GdkContentProvider *
  * on_drag_prepare (GtkDragSource *source,
  *                  double         x,
@@ -53,18 +50,17 @@ import java.lang.invoke.*;
  *   // of these types automatically
  *   GFile *file = my_widget_get_file (self);
  *   GdkPixbuf *pixbuf = my_widget_get_pixbuf (self);
- * 
- *   return gdk_content_provider_new_union ((GdkContentProvider *[2]) {
+ * <p>
+ *   return gdk_content_provider_new_union ((GdkContentProvider *{@link [2]}) {
  *       gdk_content_provider_new_typed (G_TYPE_FILE, file),
  *       gdk_content_provider_new_typed (GDK_TYPE_PIXBUF, pixbuf),
  *     }, 2);
  * }
- * ```
- * 
- * The ::drag-begin signal is emitted after the `GdkDrag` object has
+ * </pre>
+ * <p>
+ * The ::drag-begin signal is emitted after the <code>GdkDrag</code> object has
  * been created, and can be used to set up the drag icon.
- * 
- * ```c
+ * <p><pre>c
  * static void
  * on_drag_begin (GtkDragSource *source,
  *                GdkDrag       *drag,
@@ -75,14 +71,14 @@ import java.lang.invoke.*;
  *   gtk_drag_source_set_icon (source, paintable, 0, 0);
  *   g_object_unref (paintable);
  * }
- * ```
- * 
- * During the DND operation, `GtkDragSource` emits signals that
+ * </pre>
+ * <p>
+ * During the DND operation, <code>GtkDragSource</code> emits signals that
  * can be used to obtain updates about the status of the operation,
  * but it is not normally necessary to connect to any signals,
  * except for one case: when the supported actions include
- * %GDK_ACTION_MOVE, you need to listen for the
- * [signal@Gtk.DragSource::drag-end] signal and delete the
+ * <code>GDK_ACTION_MOVE,</code> you need to listen for the
+ * {@link [signal@Gtk.DragSource::drag-end] (ref=signal)} signal and delete the
  * data after it has been transferred.
  */
 public class DragSource extends GestureSingle {
@@ -102,7 +98,7 @@ public class DragSource extends GestureSingle {
     }
     
     /**
-     * Creates a new `GtkDragSource` object.
+     * Creates a new <code>GtkDragSource</code> object.
      */
     public DragSource() {
         super(constructNew());
@@ -116,7 +112,7 @@ public class DragSource extends GestureSingle {
     }
     
     /**
-     * Gets the actions that are currently set on the `GtkDragSource`.
+     * Gets the actions that are currently set on the <code>GtkDragSource</code>.
      */
     public int getActions() {
         var RESULT = gtk_h.gtk_drag_source_get_actions(handle());
@@ -124,7 +120,7 @@ public class DragSource extends GestureSingle {
     }
     
     /**
-     * Gets the current content provider of a `GtkDragSource`.
+     * Gets the current content provider of a <code>GtkDragSource</code>.
      */
     public org.gtk.gdk.ContentProvider getContent() {
         var RESULT = gtk_h.gtk_drag_source_get_content(handle());
@@ -132,7 +128,7 @@ public class DragSource extends GestureSingle {
     }
     
     /**
-     * Returns the underlying `GdkDrag` object for an ongoing drag.
+     * Returns the underlying <code>GdkDrag</code> object for an ongoing drag.
      */
     public org.gtk.gdk.Drag getDrag() {
         var RESULT = gtk_h.gtk_drag_source_get_drag(handle());
@@ -140,31 +136,31 @@ public class DragSource extends GestureSingle {
     }
     
     /**
-     * Sets the actions on the `GtkDragSource`.
+     * Sets the actions on the <code>GtkDragSource</code>.
      * 
      * During a DND operation, the actions are offered to potential
-     * drop targets. If @actions include %GDK_ACTION_MOVE, you need
-     * to listen to the [signal@Gtk.DragSource::drag-end] signal and
-     * handle @delete_data being %TRUE.
+     * drop targets. If @actions include <code>GDK_ACTION_MOVE,</code> you need
+     * to listen to the {@link [signal@Gtk.DragSource::drag-end] (ref=signal)} signal and
+     * handle @delete_data being <code>TRUE.
      * 
-     * This function can be called before a drag is started,
-     * or in a handler for the [signal@Gtk.DragSource::prepare] signal.
+     * This</code> function can be called before a drag is started,
+     * or in a handler for the {@link [signal@Gtk.DragSource::prepare] (ref=signal)} signal.
      */
     public void setActions(int actions) {
         gtk_h.gtk_drag_source_set_actions(handle(), actions);
     }
     
     /**
-     * Sets a content provider on a `GtkDragSource`.
+     * Sets a content provider on a <code>GtkDragSource</code>.
      * 
      * When the data is requested in the cause of a DND operation,
      * it will be obtained from the content provider.
      * 
      * This function can be called before a drag is started,
-     * or in a handler for the [signal@Gtk.DragSource::prepare] signal.
+     * or in a handler for the {@link [signal@Gtk.DragSource::prepare] (ref=signal)} signal.
      * 
      * You may consider setting the content provider back to
-     * %NULL in a [signal@Gtk.DragSource::drag-end] signal handler.
+     * <code>null</code> in a {@link [signal@Gtk.DragSource::drag-end] (ref=signal)} signal handler.
      */
     public void setContent(org.gtk.gdk.ContentProvider content) {
         gtk_h.gtk_drag_source_set_content(handle(), content.handle());
@@ -176,11 +172,11 @@ public class DragSource extends GestureSingle {
      * The hotspot coordinates determine the point on the icon
      * that gets aligned with the hotspot of the cursor.
      * 
-     * If @paintable is %NULL, a default icon is used.
+     * If @paintable is <code>NULL,</code> a default icon is used.
      * 
      * This function can be called before a drag is started, or in
-     * a [signal@Gtk.DragSource::prepare] or
-     * [signal@Gtk.DragSource::drag-begin] signal handler.
+     * a {@link [signal@Gtk.DragSource::prepare] (ref=signal)} or
+     * {@link [signal@Gtk.DragSource::drag-begin] (ref=signal)} signal handler.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
         gtk_h.gtk_drag_source_set_icon(handle(), paintable.handle(), hotX, hotY);
@@ -195,7 +191,7 @@ public class DragSource extends GestureSingle {
      * Emitted on the drag source when a drag is started.
      * 
      * It can be used to e.g. set a custom drag icon with
-     * [method@Gtk.DragSource.set_icon].
+     * {@link org.gtk.gtk.DragSource#setIcon}.
      */
     public SignalHandle onDragBegin(DragBeginHandler handler) {
         try {
@@ -221,8 +217,8 @@ public class DragSource extends GestureSingle {
      * Emitted on the drag source when a drag has failed.
      * 
      * The signal handler may handle a failed drag operation based on
-     * the type of error. It should return %TRUE if the failure has been handled
-     * and the default "drag operation failed" animation should not be shown.
+     * the type of error. It should return <code>true</code> if the failure has been handled
+     * and the default &#34;drag operation failed&#34; animation should not be shown.
      */
     public SignalHandle onDragCancel(DragCancelHandler handler) {
         try {
@@ -248,8 +244,8 @@ public class DragSource extends GestureSingle {
      * Emitted on the drag source when a drag is finished.
      * 
      * A typical reason to connect to this signal is to undo
-     * things done in [signal@Gtk.DragSource::prepare] or
-     * [signal@Gtk.DragSource::drag-begin] handlers.
+     * things done in {@link [signal@Gtk.DragSource::prepare] (ref=signal)} or
+     * {@link [signal@Gtk.DragSource::drag-begin] (ref=signal)} handlers.
      */
     public SignalHandle onDragEnd(DragEndHandler handler) {
         try {
@@ -273,11 +269,11 @@ public class DragSource extends GestureSingle {
     
     /**
      * Emitted when a drag is about to be initiated.
-     * 
-     * It returns the `GdkContentProvider` to use for the drag that is about
+     * <p>
+     * It returns the <code>GdkContentProvider</code> to use for the drag that is about
      * to start. The default handler for this signal returns the value of
-     * the [property@Gtk.DragSource:content] property, so if you set up that
-     * property ahead of time, you don't need to connect to this signal.
+     * the {@link [property@Gtk.DragSource:content] (ref=property)} property, so if you set up that
+     * property ahead of time, you don&#39;t need to connect to this signal.
      */
     public SignalHandle onPrepare(PrepareHandler handler) {
         try {

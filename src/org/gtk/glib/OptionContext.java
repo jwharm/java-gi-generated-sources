@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GOptionContext` struct defines which options
+ * A <code>GOptionContext</code> struct defines which options
  * are accepted by the commandline option parser. The struct has only private
  * fields and should not be directly accessed.
  */
@@ -28,7 +28,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A convenience function which creates a main group if it doesn't
+     * A convenience function which creates a main group if it doesn&#39;t
      * exist, adds the @entries to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
@@ -56,12 +56,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns a formatted, translated help text for the given context.
-     * To obtain the text produced by `--help`, call
-     * `g_option_context_get_help (context, TRUE, NULL)`.
-     * To obtain the text produced by `--help-all`, call
-     * `g_option_context_get_help (context, FALSE, NULL)`.
-     * To obtain the help text for an option group, call
-     * `g_option_context_get_help (context, FALSE, group)`.
+     * To obtain the text produced by <code>--help</code>, call<code>g_option_context_get_help (context, TRUE, NULL)</code>.
+     * To obtain the text produced by <code>--help-all</code>, call<code>g_option_context_get_help (context, FALSE, NULL)</code>.
+     * To obtain the help text for an option group, call<code>g_option_context_get_help (context, FALSE, group)</code>.
      */
     public java.lang.String getHelp(boolean mainHelp, OptionGroup group) {
         var RESULT = gtk_h.g_option_context_get_help(handle(), mainHelp ? 1 : 0, group.handle());
@@ -69,7 +66,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether automatic `--help` generation
+     * Returns whether automatic <code>--help</code> generation
      * is turned on for @context. See g_option_context_set_help_enabled().
      */
     public boolean getHelpEnabled() {
@@ -140,7 +137,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string to be displayed in `--help` output after the list
+     * Adds a string to be displayed in <code>--help</code> output after the list
      * of options. This text often includes a bug reporting address.
      * 
      * Note that the summary is translated (see
@@ -151,9 +148,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Enables or disables automatic generation of `--help` output.
-     * By default, g_option_context_parse() recognizes `--help`, `-h`,
-     * `-?`, `--help-all` and `--help-groupname` and creates suitable
+     * Enables or disables automatic generation of <code>--help</code> output.
+     * By default, g_option_context_parse() recognizes <code>--help</code>, <code>-h</code>,<code>-?</code>, <code>--help-all</code> and <code>--help-groupname</code> and creates suitable
      * output to stdout.
      */
     public void setHelpEnabled(boolean helpEnabled) {
@@ -166,7 +162,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * g_option_context_parse() treats unknown options as error.
      * 
      * This setting does not affect non-option arguments (i.e. arguments
-     * which don't start with a dash). But note that GOption cannot reliably
+     * which don&#39;t start with a dash). But note that GOption cannot reliably
      * determine whether a non-option belongs to a preceding unknown option.
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
@@ -177,7 +173,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * Sets a #GOptionGroup as main group of the @context.
      * This has the same effect as calling g_option_context_add_group(),
      * the only difference is that the options in the main group are
-     * treated differently when generating `--help` output.
+     * treated differently when generating <code>--help</code> output.
      */
     public void setMainGroup(OptionGroup group) {
         gtk_h.g_option_context_set_main_group(handle(), group.handle());
@@ -195,18 +191,18 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * If strict POSIX mode is disabled then parsing is done in the GNU way
      * where option arguments can be freely mixed with non-options.
      * 
-     * As an example, consider "ls foo -l".  With GNU style parsing, this
-     * will list "foo" in long mode.  In strict POSIX style, this will list
-     * the files named "foo" and "-l".
+     * As an example, consider &#34;ls foo -l&#34;.  With GNU style parsing, this
+     * will list &#34;foo&#34; in long mode.  In strict POSIX style, this will list
+     * the files named &#34;foo&#34; and &#34;-l&#34;.
      * 
-     * It may be useful to force strict POSIX mode when creating "verb
-     * style" command line tools.  For example, the "gsettings" command line
-     * tool supports the global option "--schemadir" as well as many
-     * subcommands ("get", "set", etc.) which each have their own set of
+     * It may be useful to force strict POSIX mode when creating &#34;verb
+     * style&#34; command line tools.  For example, the &#34;gsettings&#34; command line
+     * tool supports the global option &#34;--schemadir&#34; as well as many
+     * subcommands (&#34;get&#34;, &#34;set&#34;, etc.) which each have their own set of
      * arguments.  Using strict POSIX mode will allow parsing the global
      * options up to the verb name while leaving the remaining options to be
      * parsed by the relevant subcommand (which can be determined by
-     * examining the verb name, which should be present in argv[1] after
+     * examining the verb name, which should be present in argv{@link [1]} after
      * parsing).
      */
     public void setStrictPosix(boolean strictPosix) {
@@ -214,7 +210,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string to be displayed in `--help` output before the list
+     * Adds a string to be displayed in <code>--help</code> output before the list
      * of options. This is typically a summary of the program functionality.
      * 
      * Note that the summary is translated (see
@@ -227,8 +223,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the function which is used to translate the contexts
-     * user-visible strings, for `--help` output. If @func is %NULL,
-     * strings are not translated.
+     * user-visible strings, for <code>--help</code> output. If @func is <code>NULL,
+     * strings</code> are not translated.
      * 
      * Note that option groups have their own translation functions,
      * this function only affects the @parameter_string (see g_option_context_new()),
@@ -265,15 +261,15 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new option context.
      * 
      * The @parameter_string can serve multiple purposes. It can be used
-     * to add descriptions for "rest" arguments, which are not parsed by
-     * the #GOptionContext, typically something like "FILES" or
-     * "FILE1 FILE2...". If you are using %G_OPTION_REMAINING for
-     * collecting "rest" arguments, GLib handles this automatically by
+     * to add descriptions for &#34;rest&#34; arguments, which are not parsed by
+     * the #GOptionContext, typically something like &#34;FILES&#34; or
+     * &#34;FILE1 FILE2...&#34;. If you are using <code>G_OPTION_REMAINING</code> for
+     * collecting &#34;rest&#34; arguments, GLib handles this automatically by
      * using the @arg_description of the corresponding #GOptionEntry in
      * the usage summary.
      * 
      * Another usage is to give a short summary of the program
-     * functionality, like " - frob the strings", which will be displayed
+     * functionality, like &#34; - frob the strings&#34;, which will be displayed
      * in the same line as the usage. For a longer description of the
      * program functionality that should be displayed as a paragraph
      * below the usage line, use g_option_context_set_summary().

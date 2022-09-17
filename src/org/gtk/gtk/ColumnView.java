@@ -8,71 +8,66 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkColumnView` presents a large dynamic list of items using multiple columns
+ * <code>GtkColumnView</code> presents a large dynamic list of items using multiple columns
  * with headers.
- * 
- * `GtkColumnView` uses the factories of its columns to generate a cell widget for
+ * <p><code>GtkColumnView</code> uses the factories of its columns to generate a cell widget for
  * each column, for each visible item and displays them together as the row for
  * this item.
- * 
- * The [property@Gtk.ColumnView:show-row-separators] and
- * [property@Gtk.ColumnView:show-column-separators] properties offer a simple way
+ * <p>
+ * The {@link [property@Gtk.ColumnView:show-row-separators] (ref=property)} and
+ * {@link [property@Gtk.ColumnView:show-column-separators] (ref=property)} properties offer a simple way
  * to display separators between the rows or columns.
- * 
- * `GtkColumnView` allows the user to select items according to the selection
+ * <p><code>GtkColumnView</code> allows the user to select items according to the selection
  * characteristics of the model. For models that allow multiple selected items,
  * it is possible to turn on *rubberband selection*, using
- * [property@Gtk.ColumnView:enable-rubberband].
- * 
+ * {@link [property@Gtk.ColumnView:enable-rubberband] (ref=property)}.
+ * <p>
  * The column view supports sorting that can be customized by the user by
- * clicking on column headers. To set this up, the `GtkSorter` returned by
- * [method@Gtk.ColumnView.get_sorter] must be attached to a sort model for the
+ * clicking on column headers. To set this up, the <code>GtkSorter</code> returned by
+ * {@link org.gtk.gtk.ColumnView#getSorter} must be attached to a sort model for the
  * data that the view is showing, and the columns must have sorters attached to
- * them by calling [method@Gtk.ColumnViewColumn.set_sorter]. The initial sort
- * order can be set with [method@Gtk.ColumnView.sort_by_column].
- * 
+ * them by calling {@link org.gtk.gtk.ColumnViewColumn#setSorter}. The initial sort
+ * order can be set with {@link org.gtk.gtk.ColumnView#sortByColumn}.
+ * <p>
  * The column view also supports interactive resizing and reordering of
  * columns, via Drag-and-Drop of the column headers. This can be enabled or
- * disabled with the [property@Gtk.ColumnView:reorderable] and
- * [property@Gtk.ColumnViewColumn:resizable] properties.
- * 
+ * disabled with the {@link [property@Gtk.ColumnView:reorderable] (ref=property)} and
+ * {@link [property@Gtk.ColumnViewColumn:resizable] (ref=property)} properties.
+ * <p>
  * To learn more about the list widget framework, see the
- * [overview](section-list-widget.html).
- * 
- * # CSS nodes
- * 
- * ```
- * columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
- * ├── header
- * │   ├── <column header>
- * ┊   ┊
- * │   ╰── <column header>
- * │
- * ├── listview
- * │
- * ┊
- * ╰── [rubberband]
- * ```
- * 
- * `GtkColumnView` uses a single CSS node named columnview. It may carry the
- * .column-separators style class, when [property@Gtk.ColumnView:show-column-separators]
+ * {@link [overview]}(section-list-widget.html).
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
+ * columnview{@link [.column-separators]}{@link [.rich-list]}{@link [.navigation-sidebar]}{@link [.data-table]}
+ * &#9500;&#9472;&#9472; header
+ * &#9474;   &#9500;&#9472;&#9472; &#60;column header&#62;
+ * &#9482;   &#9482;
+ * &#9474;   &#9584;&#9472;&#9472; &#60;column header&#62;
+ * &#9474;
+ * &#9500;&#9472;&#9472; listview
+ * &#9474;
+ * &#9482;
+ * &#9584;&#9472;&#9472; {@link [rubberband]}
+ * </pre>
+ * <p><code>GtkColumnView</code> uses a single CSS node named columnview. It may carry the
+ * .column-separators style class, when {@link [property@Gtk.ColumnView:show-column-separators] (ref=property)}
  * property is set. Header widgets appear below a node with name header.
- * The rows are contained in a `GtkListView` widget, so there is a listview
- * node with the same structure as for a standalone `GtkListView` widget.
- * If [property@Gtk.ColumnView:show-row-separators] is set, it will be passed
+ * The rows are contained in a <code>GtkListView</code> widget, so there is a listview
+ * node with the same structure as for a standalone <code>GtkListView</code> widget.
+ * If {@link [property@Gtk.ColumnView:show-row-separators] (ref=property)} is set, it will be passed
  * on to the list view, causing its CSS node to carry the .separators style class.
  * For rubberband selection, a node with name rubberband is used.
- * 
+ * <p>
  * The main columnview node may also carry style classes to select
- * the style of [list presentation](section-list-widget.html#list-styles):
+ * the style of {@link [list presentation]}(section-list-widget.html#list-styles):
  * .rich-list, .navigation-sidebar or .data-table.
- * 
- * # Accessibility
- * 
- * `GtkColumnView` uses the %GTK_ACCESSIBLE_ROLE_TREE_GRID role, header title
- * widgets are using the %GTK_ACCESSIBLE_ROLE_COLUMN_HEADER role. The row widgets
- * are using the %GTK_ACCESSIBLE_ROLE_ROW role, and individual cells are using
- * the %GTK_ACCESSIBLE_ROLE_GRID_CELL role
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkColumnView</code> uses the {@link org.gtk.gtk.AccessibleRole#TREE_GRID} role, header title
+ * widgets are using the {@link org.gtk.gtk.AccessibleRole#COLUMN_HEADER} role. The row widgets
+ * are using the {@link org.gtk.gtk.AccessibleRole#ROW} role, and individual cells are using
+ * the {@link org.gtk.gtk.AccessibleRole#GRID_CELL} role
  */
 public class ColumnView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
@@ -91,9 +86,9 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * Creates a new `GtkColumnView`.
+     * Creates a new <code>GtkColumnView</code>.
      * 
-     * You most likely want to call [method@Gtk.ColumnView.append_column]
+     * You most likely want to call {@link org.gtk.gtk.ColumnView#appendColumn}
      * to add columns next.
      */
     public ColumnView(SelectionModel model) {
@@ -128,7 +123,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the model that's currently used to read the items displayed.
+     * Gets the model that&#39;s currently used to read the items displayed.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_column_view_get_model(handle());
@@ -173,23 +168,22 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Returns a special sorter that reflects the users sorting
      * choices in the column view.
-     * 
+     * <p>
      * To allow users to customizable sorting by clicking on column
      * headers, this sorter needs to be set on the sort model underneath
      * the model that is displayed by the view.
-     * 
-     * See [method@Gtk.ColumnViewColumn.set_sorter] for setting up
+     * <p>
+     * See {@link org.gtk.gtk.ColumnViewColumn#setSorter} for setting up
      * per-column sorting.
-     * 
-     * Here is an example:
-     * ```c
+     * <p>
+     * Here is an example:<pre>c
      * gtk_column_view_column_set_sorter (column, sorter);
      * gtk_column_view_append_column (view, column);
      * sorter = g_object_ref (gtk_column_view_get_sorter (view)));
      * model = gtk_sort_list_model_new (store, sorter);
      * selection = gtk_no_selection_new (model);
      * gtk_column_view_set_model (view, selection);
-     * ```
+     * </pre>
      */
     public Sorter getSorter() {
         var RESULT = gtk_h.gtk_column_view_get_sorter(handle());
@@ -222,7 +216,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets the model to use.
      * 
-     * This must be a [iface@Gtk.SelectionModel].
+     * This must be a {@link [iface@Gtk.SelectionModel] (ref=iface)}.
      */
     public void setModel(SelectionModel model) {
         gtk_h.gtk_column_view_set_model(handle(), model.handle());
@@ -267,11 +261,11 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * by clicking on the list headers.
      * 
      * This call only has an effect if the sorter returned by
-     * [method@Gtk.ColumnView.get_sorter] is set on a sort model,
-     * and [method@Gtk.ColumnViewColumn.set_sorter] has been called
+     * {@link org.gtk.gtk.ColumnView#getSorter} is set on a sort model,
+     * and {@link org.gtk.gtk.ColumnViewColumn#setSorter} has been called
      * on @column to associate a sorter with the column.
      * 
-     * If @column is %NULL, the view will be unsorted.
+     * If @column is <code>NULL,</code> the view will be unsorted.
      */
     public void sortByColumn(ColumnViewColumn column, SortType direction) {
         gtk_h.gtk_column_view_sort_by_column(handle(), column.handle(), direction.getValue());
@@ -287,7 +281,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * the GtkListBase|list.activate-item action.
      * 
      * This allows for a convenient way to handle activation in a columnview.
-     * See [method@Gtk.ListItem.set_activatable] for details on how to use this
+     * See {@link org.gtk.gtk.ListItem#setActivatable} for details on how to use this
      * signal.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

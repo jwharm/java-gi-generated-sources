@@ -3,9 +3,9 @@ package org.gtk.glib;
 /**
  * A mixed enumerated type and flags field. You must specify one type
  * (string, strdup, boolean, tristate).  Additionally, you may  optionally
- * bitwise OR the type with the flag %G_MARKUP_COLLECT_OPTIONAL.
+ * bitwise OR the type with the flag <code>G_MARKUP_COLLECT_OPTIONAL.
  * 
- * It is likely that this enum will be extended in the future to
+ * It</code> is likely that this enum will be extended in the future to
  * support other types.
  */
 public class MarkupCollectType {
@@ -18,14 +18,15 @@ public class MarkupCollectType {
     
     /**
      * collect the string pointer directly from
-     *     the attribute_values[] array. Expects a parameter of type (const
-     *     char **). If %G_MARKUP_COLLECT_OPTIONAL is specified and the
-     *     attribute isn't present then the pointer will be set to %NULL
+     *     the attribute_values{@link []} array. Expects a parameter of type (const
+     *     char **). If {@link org.gtk.glib.MarkupCollectType#OPTIONAL} is specified and the
+     *     attribute isn&#39;t present then the pointer will be set to is specified and the
+     *     attribute isn&#39;t present then the pointer will be set to %NULL
      */
     public static final int STRING = 1;
     
     /**
-     * as with %G_MARKUP_COLLECT_STRING, but
+     * as with <code>G_MARKUP_COLLECT_STRING,</code> but
      *     expects a parameter of type (char **) and g_strdup()s the
      *     returned pointer. The pointer must be freed with g_free()
      */
@@ -33,17 +34,17 @@ public class MarkupCollectType {
     
     /**
      * expects a parameter of type (gboolean *)
-     *     and parses the attribute value as a boolean. Sets %FALSE if the
-     *     attribute isn't present. Valid boolean values consist of
-     *     (case-insensitive) "false", "f", "no", "n", "0" and "true", "t",
-     *     "yes", "y", "1"
+     *     and parses the attribute value as a boolean. Sets <code>false</code> if the
+     *     attribute isn&#39;t present. Valid boolean values consist of
+     *     (case-insensitive) &#34;false&#34;, &#34;f&#34;, &#34;no&#34;, &#34;n&#34;, &#34;0&#34; and &#34;true&#34;, &#34;t&#34;,
+     *     &#34;yes&#34;, &#34;y&#34;, &#34;1&#34;
      */
     public static final int BOOLEAN = 3;
     
     /**
-     * as with %G_MARKUP_COLLECT_BOOLEAN, but
+     * as with <code>G_MARKUP_COLLECT_BOOLEAN,</code> but
      *     in the case of a missing attribute a value is set that compares
-     *     equal to neither %FALSE nor %TRUE G_MARKUP_COLLECT_OPTIONAL is
+     *     equal to neither <code>false</code> nor <code>true</code> G_MARKUP_COLLECT_OPTIONAL is
      *     implied
      */
     public static final int TRISTATE = 4;

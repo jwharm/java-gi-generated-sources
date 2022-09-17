@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkLayoutChild` subclass for children in a `GtkGridLayout`.
+ * <code>GtkLayoutChild</code> subclass for children in a <code>GtkGridLayout</code>.
  */
 public class GridLayoutChild extends LayoutChild {
 

@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutsGroup` represents a group of related keyboard shortcuts
+ * A <code>GtkShortcutsGroup</code> represents a group of related keyboard shortcuts
  * or gestures.
  * 
  * The group has a title. It may optionally be associated with a view
  * of the application, which can be used to show only relevant shortcuts
  * depending on the application context.
  * 
- * This widget is only meant to be used with [class@Gtk.ShortcutsWindow].
+ * This widget is only meant to be used with {@link org.gtk.gtk.ShortcutsWindow}.
  */
 public class ShortcutsGroup extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
 

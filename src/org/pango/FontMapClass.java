@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoFontMapClass` structure holds the virtual functions for
- * a particular `PangoFontMap` implementation.
+ * The <code>PangoFontMapClass</code> structure holds the virtual functions for
+ * a particular <code>PangoFontMap</code> implementation.
  */
 public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
 

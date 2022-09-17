@@ -27,7 +27,7 @@ public class ContainerNode extends RenderNode {
     }
     
     /**
-     * Creates a new `GskRenderNode` instance for holding the given @children.
+     * Creates a new <code>GskRenderNode</code> instance for holding the given @children.
      * 
      * The new node will acquire a reference to each of the children.
      */

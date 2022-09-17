@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoGlyphVisAttr` structure communicates information between
+ * A <code>PangoGlyphVisAttr</code> structure communicates information between
  * the shaping and rendering phases.
  * 
  * Currently, it contains cluster start and color information.

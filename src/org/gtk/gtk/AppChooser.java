@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAppChooser` is an interface for widgets which allow the user to
+ * <code>GtkAppChooser</code> is an interface for widgets which allow the user to
  * choose an application.
- * 
+ * <p>
  * The main objects that implement this interface are
- * [class@Gtk.AppChooserWidget],
- * [class@Gtk.AppChooserDialog] and [class@Gtk.AppChooserButton].
- * 
- * Applications are represented by GIO `GAppInfo` objects here.
+ * {@link org.gtk.gtk.AppChooserWidget},
+ * {@link org.gtk.gtk.AppChooserDialog} and {@link org.gtk.gtk.AppChooserButton}.
+ * <p>
+ * Applications are represented by GIO <code>GAppInfo</code> objects here.
  * GIO has a concept of recommended and fallback applications for a
  * given content type. Recommended applications are those that claim
  * to handle the content type itself, while fallback also includes
  * applications that handle a more generic content type. GIO also
  * knows the default and last-used application for a given content
- * type. The `GtkAppChooserWidget` provides detailed control over
+ * type. The <code>GtkAppChooserWidget</code> provides detailed control over
  * whether the shown list of applications should include default,
  * recommended or fallback applications.
- * 
- * To obtain the application that has been selected in a `GtkAppChooser`,
- * use [method@Gtk.AppChooser.get_app_info].
+ * <p>
+ * To obtain the application that has been selected in a <code>GtkAppChooser</code>,
+ * use {@link org.gtk.gtk.AppChooser#getAppInfo}.
  */
 public interface AppChooser extends io.github.jwharm.javagi.NativeAddress {
 
@@ -39,7 +39,7 @@ public interface AppChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns the content type for which the `GtkAppChooser`
+     * Returns the content type for which the <code>GtkAppChooser</code>
      * shows applications.
      */
     public default java.lang.String getContentType() {

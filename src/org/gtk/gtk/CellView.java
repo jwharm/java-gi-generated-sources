@@ -9,16 +9,14 @@ import java.lang.invoke.*;
 
 /**
  * A widget displaying a single row of a GtkTreeModel
- * 
- * A `GtkCellView` displays a single row of a `GtkTreeModel` using a `GtkCellArea`
- * and `GtkCellAreaContext`. A `GtkCellAreaContext` can be provided to the
- * `GtkCellView` at construction time in order to keep the cellview in context
+ * <p>
+ * A <code>GtkCellView</code> displays a single row of a <code>GtkTreeModel</code> using a <code>GtkCellArea</code>
+ * and <code>GtkCellAreaContext</code>. A <code>GtkCellAreaContext</code> can be provided to the<code>GtkCellView</code> at construction time in order to keep the cellview in context
  * of a group of cell views, this ensures that the renderers displayed will
  * be properly aligned with each other (like the aligned cells in the menus
- * of `GtkComboBox`).
- * 
- * `GtkCellView` is `GtkOrientable` in order to decide in which orientation
- * the underlying `GtkCellAreaContext` should be allocated. Taking the `GtkComboBox`
+ * of <code>GtkComboBox</code>).
+ * <p><code>GtkCellView</code> is <code>GtkOrientable</code> in order to decide in which orientation
+ * the underlying <code>GtkCellAreaContext</code> should be allocated. Taking the <code>GtkComboBox</code>
  * menu as an example, cellviews should be oriented horizontally if the menus are
  * listed top-to-bottom and thus all share the same width but may have separate
  * individual heights (left-to-right menus should be allocated vertically since
@@ -45,7 +43,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Creates a new `GtkCellView` widget.
+     * Creates a new <code>GtkCellView</code> widget.
      */
     public CellView() {
         super(constructNew());
@@ -57,8 +55,8 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Creates a new `GtkCellView` widget with a specific `GtkCellArea`
-     * to layout cells and a specific `GtkCellAreaContext`.
+     * Creates a new <code>GtkCellView</code> widget with a specific <code>GtkCellArea</code>
+     * to layout cells and a specific <code>GtkCellAreaContext</code>.
      * 
      * Specifying the same context for a handful of cells lets
      * the underlying area synchronize the geometry for those cells,
@@ -75,9 +73,9 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Creates a new `GtkCellView` widget, adds a `GtkCellRendererText`
+     * Creates a new <code>GtkCellView</code> widget, adds a <code>GtkCellRendererText</code>
      * to it, and makes it show @markup. The text can be marked up with
-     * the [Pango text markup language](https://docs.gtk.org/Pango/pango_markup.html).
+     * the {@link [Pango text markup language]}(https://docs.gtk.org/Pango/pango_markup.html).
      */
     public static CellView newWithMarkup(java.lang.String markup) {
         return new CellView(constructNewWithMarkup(markup));
@@ -89,7 +87,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Creates a new `GtkCellView` widget, adds a `GtkCellRendererText`
+     * Creates a new <code>GtkCellView</code> widget, adds a <code>GtkCellRendererText</code>
      * to it, and makes it show @text.
      */
     public static CellView newWithText(java.lang.String text) {
@@ -102,7 +100,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Creates a new `GtkCellView` widget, adds a `GtkCellRendererPixbuf`
+     * Creates a new <code>GtkCellView</code> widget, adds a <code>GtkCellRendererPixbuf</code>
      * to it, and makes it show @texture.
      */
     public static CellView newWithTexture(org.gtk.gdk.Texture texture) {
@@ -110,9 +108,9 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns a `GtkTreePath` referring to the currently
+     * Returns a <code>GtkTreePath</code> referring to the currently
      * displayed row. If no row is currently displayed,
-     * %NULL is returned.
+     * <code>null</code> is returned.
      */
     public TreePath getDisplayedRow() {
         var RESULT = gtk_h.gtk_cell_view_get_displayed_row(handle());
@@ -130,7 +128,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Gets whether @cell_view is configured to request space
-     * to fit the entire `GtkTreeModel`.
+     * to fit the entire <code>GtkTreeModel</code>.
      */
     public boolean getFitModel() {
         var RESULT = gtk_h.gtk_cell_view_get_fit_model(handle());
@@ -138,7 +136,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns the model for @cell_view. If no model is used %NULL is
+     * Returns the model for @cell_view. If no model is used <code>null</code> is
      * returned.
      */
     public TreeModel getModel() {
@@ -148,11 +146,11 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Sets the row of the model that is currently displayed
-     * by the `GtkCellView`. If the path is unset, then the
-     * contents of the cellview “stick” at their last value;
+     * by the <code>GtkCellView</code>. If the path is unset, then the
+     * contents of the cellview &#8220;stick&#8221; at their last value;
      * this is not normally a desired result, but may be
      * a needed intermediate state if say, the model for
-     * the `GtkCellView` becomes temporarily empty.
+     * the <code>GtkCellView</code> becomes temporarily empty.
      */
     public void setDisplayedRow(TreePath path) {
         gtk_h.gtk_cell_view_set_displayed_row(handle(), path.handle());
@@ -160,7 +158,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Sets whether @cell_view should draw all of its
-     * cells in a sensitive state, this is used by `GtkComboBox` menus
+     * cells in a sensitive state, this is used by <code>GtkComboBox</code> menus
      * to ensure that rows with insensitive cells that contain
      * children appear sensitive in the parent menu item.
      */
@@ -169,10 +167,10 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Sets whether @cell_view should request space to fit the entire `GtkTreeModel`.
-     * 
-     * This is used by `GtkComboBox` to ensure that the cell view displayed on
-     * the combo box’s button always gets enough space and does not resize
+     * Sets whether @cell_view should request space to fit the entire <code>GtkTreeModel</code>.
+     * <p>
+     * This is used by <code>GtkComboBox</code> to ensure that the cell view displayed on
+     * the combo box&#8217;s button always gets enough space and does not resize
      * when selection changes.
      */
     public void setFitModel(boolean fitModel) {
@@ -182,7 +180,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the model for @cell_view.  If @cell_view already has a model
      * set, it will remove it before setting the new model.  If @model is
-     * %NULL, then it will unset the old model.
+     * <code>NULL,</code> then it will unset the old model.
      */
     public void setModel(TreeModel model) {
         gtk_h.gtk_cell_view_set_model(handle(), model.handle());

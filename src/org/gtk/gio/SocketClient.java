@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  * the underlying socket that is in use. For instance, for a TCP/IP connection
  * it will be a #GTcpConnection.
  * 
- * As #GSocketClient is a lightweight object, you don't need to cache it. You
+ * As #GSocketClient is a lightweight object, you don&#39;t need to cache it. You
  * can just create a new one any time you need one.
  */
 public class SocketClient extends org.gtk.gobject.Object {
@@ -52,7 +52,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * not try to find a #GProxy instance to handle handshaking. The
      * application must check for this case by calling
      * g_socket_connection_get_remote_address() on the returned
-     * #GSocketConnection, and seeing if it's a #GProxyAddress of the
+     * #GSocketConnection, and seeing if it&#39;s a #GProxyAddress of the
      * appropriate type, to determine whether or not it needs to handle
      * the proxy handshaking itself.
      * 
@@ -84,7 +84,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * The socket created will be the same family as the address that the
      * @connectable resolves to, unless family is set with g_socket_client_set_family()
      * or indirectly via g_socket_client_set_local_address(). The socket type
-     * defaults to %G_SOCKET_TYPE_STREAM but can be set with
+     * defaults to {@link org.gtk.gio.SocketType#STREAM} but can be set with
      * g_socket_client_set_socket_type().
      * 
      * If a local address is specified with g_socket_client_set_local_address() the
@@ -104,7 +104,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * You may wish to prefer the asynchronous version even in synchronous
      * command line programs because, since 2.60, it implements
-     * [RFC 8305](https://tools.ietf.org/html/rfc8305) "Happy Eyeballs"
+     * {@link [RFC 8305]}(https://tools.ietf.org/html/rfc8305) &#34;Happy Eyeballs&#34;
      * recommendations to work around long connection timeouts in networks
      * where IPv6 is broken by performing an IPv4 connection simultaneously
      * without waiting for IPv6 to time out, which is not supported by the
@@ -148,7 +148,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * @host_and_port may be in any of a number of recognized formats; an IPv6
      * address, an IPv4 address, or a domain name (in which case a DNS
-     * lookup is performed).  Quoting with [] is supported for all address
+     * lookup is performed).  Quoting with {@link []} is supported for all address
      * types.  A port override may be specified in the usual way with a
      * colon.  Ports may be given as decimal numbers or symbolic names (in
      * which case an /etc/services lookup is performed).
@@ -170,7 +170,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) %NULL is returned and @error (if non-%NULL) is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
      * accordingly.
      */
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -219,7 +219,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * Attempts to create a TCP connection to a service.
      * 
      * This call looks up the SRV record for @service at @domain for the
-     * "tcp" protocol.  It then attempts to connect, in turn, to each of
+     * &#34;tcp&#34; protocol.  It then attempts to connect, in turn, to each of
      * the hosts providing the service until either a connection succeeds
      * or there are no hosts remaining.
      * 
@@ -228,7 +228,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) %NULL is returned and @error (if non-%NULL) is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
      * accordingly.
      */
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -275,10 +275,10 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * Attempts to create a TCP connection with a network URI.
      * 
-     * @uri may be any valid URI containing an "authority" (hostname/port)
+     * @uri may be any valid URI containing an &#34;authority&#34; (hostname/port)
      * component. If a port is not specified in the URI, @default_port
-     * will be used. TLS will be negotiated if #GSocketClient:tls is %TRUE.
-     * (#GSocketClient does not know to automatically assume TLS for
+     * will be used. TLS will be negotiated if #GSocketClient:tls is <code>TRUE.
+     * (#GSocketClient</code> does not know to automatically assume TLS for
      * certain URI schemes.)
      * 
      * Using this rather than g_socket_client_connect() or
@@ -290,7 +290,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) %NULL is returned and @error (if non-%NULL) is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
      * accordingly.
      */
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -426,8 +426,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets the socket family of the socket client.
-     * If this is set to something other than %G_SOCKET_FAMILY_INVALID
-     * then the sockets created by this object will be of the specified
+     * If this is set to something other than <code>G_SOCKET_FAMILY_INVALID
+     * then</code> the sockets created by this object will be of the specified
      * family.
      * 
      * This might be useful for instance if you want to force the local
@@ -441,7 +441,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Sets the local address of the socket client.
      * The sockets created by this object will bound to the
-     * specified address (if not %NULL) before connecting.
+     * specified address (if not <code>NULL)</code> before connecting.
      * 
      * This is useful if you want to ensure that the local
      * side of the connection is on a specific port, or on
@@ -456,7 +456,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * The sockets created by this object will use of the specified
      * protocol.
      * 
-     * If @protocol is %G_SOCKET_PROTOCOL_DEFAULT that means to use the default
+     * If @protocol is {@link org.gtk.gio.SocketProtocol#DEFAULT} that means to use the default
      * protocol for the socket family and type.
      */
     public void setProtocol(SocketProtocol protocol) {
@@ -470,7 +470,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * Note that whether or not the proxy resolver is actually used
      * depends on the setting of #GSocketClient:enable-proxy, which is not
-     * changed by this function (but which is %TRUE by default)
+     * changed by this function (but which is <code>true</code> by default)
      */
     public void setProxyResolver(ProxyResolver proxyResolver) {
         gtk_h.g_socket_client_set_proxy_resolver(handle(), proxyResolver.handle());
@@ -481,8 +481,8 @@ public class SocketClient extends org.gtk.gobject.Object {
      * The sockets created by this object will be of the specified
      * type.
      * 
-     * It doesn't make sense to specify a type of %G_SOCKET_TYPE_DATAGRAM,
-     * as GSocketClient is used for connection oriented services.
+     * It doesn&#39;t make sense to specify a type of <code>G_SOCKET_TYPE_DATAGRAM,
+     * as</code> GSocketClient is used for connection oriented services.
      */
     public void setSocketType(SocketType type) {
         gtk_h.g_socket_client_set_socket_type(handle(), type.getValue());
@@ -490,6 +490,17 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets the I/O timeout for sockets created by @client. @timeout is a
+     * time in seconds, or 0 for no timeout (the default).
+     * 
+     * The timeout value affects the initial connection attempt as well,
+     * so setting this may cause calls to g_socket_client_connect(), etc,
+     * to fail with 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the I/O timeout for sockets created by @client. @timeout is a
      * time in seconds, or 0 for no timeout (the default).
      * 
      * The timeout value affects the initial connection attempt as well,
@@ -502,7 +513,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets whether @client creates TLS (aka SSL) connections. If @tls is
-     * %TRUE, @client will wrap its connections in a #GTlsClientConnection
+     * <code>TRUE,</code> @client will wrap its connections in a #GTlsClientConnection
      * and perform a TLS handshake when connecting.
      * 
      * Note that since #GSocketClient must return a #GSocketConnection,
@@ -515,8 +526,8 @@ public class SocketClient extends org.gtk.gobject.Object {
      * If you need to modify the behavior of the TLS handshake (eg, by
      * setting a client-side certificate to use, or connecting to the
      * #GTlsConnection::accept-certificate signal), you can connect to
-     * @client's #GSocketClient::event signal and wait for it to be
-     * emitted with %G_SOCKET_CLIENT_TLS_HANDSHAKING, which will give you
+     * @client&#39;s #GSocketClient::event signal and wait for it to be
+     * emitted with <code>G_SOCKET_CLIENT_TLS_HANDSHAKING,</code> which will give you
      * a chance to see the #GTlsClientConnection before the handshake
      * starts.
      */
@@ -530,52 +541,52 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @client's activity on @connectable changes state.
+     * Emitted when @client&#39;s activity on @connectable changes state.
      * Among other things, this can be used to provide progress
      * information about a network connection in the UI. The meanings of
      * the different @event values are as follows:
      * 
-     * - %G_SOCKET_CLIENT_RESOLVING: @client is about to look up @connectable
-     *   in DNS. @connection will be %NULL.
+     * - <code>G_SOCKET_CLIENT_RESOLVING:</code> @client is about to look up @connectable
+     *   in DNS. @connection will be <code>NULL.
      * 
-     * - %G_SOCKET_CLIENT_RESOLVED:  @client has successfully resolved
-     *   @connectable in DNS. @connection will be %NULL.
+     * -</code> <code>G_SOCKET_CLIENT_RESOLVED:</code>  @client has successfully resolved
+     *   @connectable in DNS. @connection will be <code>NULL.
      * 
-     * - %G_SOCKET_CLIENT_CONNECTING: @client is about to make a connection
+     * -</code> <code>G_SOCKET_CLIENT_CONNECTING:</code> @client is about to make a connection
      *   to a remote host; either a proxy server or the destination server
      *   itself. @connection is the #GSocketConnection, which is not yet
      *   connected.  Since GLib 2.40, you can access the remote
      *   address via g_socket_connection_get_remote_address().
      * 
-     * - %G_SOCKET_CLIENT_CONNECTED: @client has successfully connected
+     * - <code>G_SOCKET_CLIENT_CONNECTED:</code> @client has successfully connected
      *   to a remote host. @connection is the connected #GSocketConnection.
      * 
-     * - %G_SOCKET_CLIENT_PROXY_NEGOTIATING: @client is about to negotiate
+     * - <code>G_SOCKET_CLIENT_PROXY_NEGOTIATING:</code> @client is about to negotiate
      *   with a proxy to get it to connect to @connectable. @connection is
      *   the #GSocketConnection to the proxy server.
      * 
-     * - %G_SOCKET_CLIENT_PROXY_NEGOTIATED: @client has negotiated a
+     * - <code>G_SOCKET_CLIENT_PROXY_NEGOTIATED:</code> @client has negotiated a
      *   connection to @connectable through a proxy server. @connection is
      *   the stream returned from g_proxy_connect(), which may or may not
      *   be a #GSocketConnection.
      * 
-     * - %G_SOCKET_CLIENT_TLS_HANDSHAKING: @client is about to begin a TLS
+     * - <code>G_SOCKET_CLIENT_TLS_HANDSHAKING:</code> @client is about to begin a TLS
      *   handshake. @connection is a #GTlsClientConnection.
      * 
-     * - %G_SOCKET_CLIENT_TLS_HANDSHAKED: @client has successfully completed
+     * - <code>G_SOCKET_CLIENT_TLS_HANDSHAKED:</code> @client has successfully completed
      *   the TLS handshake. @connection is a #GTlsClientConnection.
      * 
-     * - %G_SOCKET_CLIENT_COMPLETE: @client has either successfully connected
+     * - <code>G_SOCKET_CLIENT_COMPLETE:</code> @client has either successfully connected
      *   to @connectable (in which case @connection is the #GSocketConnection
      *   that it will be returning to the caller) or has failed (in which
-     *   case @connection is %NULL and the client is about to return an error).
+     *   case @connection is <code>null</code> and the client is about to return an error).
      * 
-     * Each event except %G_SOCKET_CLIENT_COMPLETE may be emitted
+     * Each event except {@link org.gtk.gio.SocketClientEvent#COMPLETE} may be emitted
      * multiple times (or not at all) for a given connectable (in
      * particular, if @client ends up attempting to connect to more than
      * one address). However, if @client emits the #GSocketClient::event
      * signal at all for a given connectable, then it will always emit
-     * it with %G_SOCKET_CLIENT_COMPLETE when it is done.
+     * it with {@link org.gtk.gio.SocketClientEvent#COMPLETE} when it is done.
      * 
      * Note that there may be additional #GSocketClientEvent values in
      * the future; unrecognized @event values should be ignored.

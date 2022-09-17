@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * The #GHashTable struct is an opaque data structure to represent a
- * [Hash Table][glib-Hash-Tables]. It should only be accessed via the
+ * {@link [Hash Table]}{@link [glib-Hash-Tables]}. It should only be accessed via the
  * following functions.
  */
 public class HashTable extends io.github.jwharm.javagi.ResourceBase {
@@ -62,9 +62,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for key/value pairs in the #GHashTable
-     * until @predicate returns %TRUE. The function is passed the key
+     * until @predicate returns <code>TRUE.</code> The function is passed the key
      * and value of each pair, and the given @user_data parameter. The
-     * hash table may not be modified while iterating over it (you can't
+     * hash table may not be modified while iterating over it (you can&#39;t
      * add/remove items).
      * 
      * Note, that hash tables are really only optimized for forward
@@ -94,7 +94,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * Calls the given function for each of the key/value pairs in the
      * #GHashTable.  The function is passed the key and value of each
      * pair, and the given @user_data parameter.  The hash table may not
-     * be modified while iterating over it (you can't add/remove
+     * be modified while iterating over it (you can&#39;t add/remove
      * items). To remove all items matching a predicate, use
      * g_hash_table_foreach_remove().
      * 
@@ -120,7 +120,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each key/value pair in the
-     * #GHashTable. If the function returns %TRUE, then the key/value
+     * #GHashTable. If the function returns <code>TRUE,</code> then the key/value
      * pair is removed from the #GHashTable. If you supplied key or
      * value destroy functions when creating the #GHashTable, they are
      * used to free the memory allocated for the removed keys and values.
@@ -145,7 +145,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each key/value pair in the
-     * #GHashTable. If the function returns %TRUE, then the key/value
+     * #GHashTable. If the function returns <code>TRUE,</code> then the key/value
      * pair is removed from the #GHashTable, but no key or value
      * destroy functions are called.
      * 
@@ -215,7 +215,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a key in a #GHashTable. Note that this function cannot
      * distinguish between a key that is not present and one which is present
-     * and has the value %NULL. If you need this distinction, use
+     * and has the value <code>NULL.</code> If you need this distinction, use
      * g_hash_table_lookup_extended().
      */
     public static jdk.incubator.foreign.MemoryAddress lookup(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
@@ -225,12 +225,13 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a key in the #GHashTable, returning the original key and the
-     * associated value and a #gboolean which is %TRUE if the key was found. This
+     * associated value and a #gboolean which is <code>true</code> if the key was found. This
      * is useful if you need to free the memory allocated for the original key,
      * for example before calling g_hash_table_remove().
      * 
-     * You can actually pass %NULL for @lookup_key to test
-     * whether the %NULL key exists, provided the hash and equal functions
+     * You can actually pass <code>null</code> for @lookup_key to test
+     * whether the <code>null</code> key exists, provided the hash and equal functions
+     * of @hash_table are key exists, provided the hash and equal functions
      * of @hash_table are %NULL-safe.
      */
     public static boolean lookupExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
@@ -332,14 +333,15 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a key in the #GHashTable, stealing the original key and the
-     * associated value and returning %TRUE if the key was found. If the key was
-     * not found, %FALSE is returned.
+     * associated value and returning <code>true</code> if the key was found. If the key was
+     * not found, <code>false</code> is returned.
      * 
      * If found, the stolen key and value are removed from the hash table without
      * calling the key and value destroy functions, and ownership is transferred to
      * the caller of this method; as with g_hash_table_steal().
      * 
-     * You can pass %NULL for @lookup_key, provided the hash and equal functions
+     * You can pass <code>null</code> for @lookup_key, provided the hash and equal functions
+     * of @hash_table are for @lookup_key, provided the hash and equal functions
      * of @hash_table are %NULL-safe.
      */
     public static boolean stealExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress stolenKey, jdk.incubator.foreign.MemoryAddress stolenValue) {

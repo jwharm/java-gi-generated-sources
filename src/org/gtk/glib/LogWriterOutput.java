@@ -6,6 +6,17 @@ package org.gtk.glib;
  * handling it (and hence a fallback writer should be used).
  * 
  * If a #GLogWriterFunc ignores a log entry, it should return
+ * 
+ *           
+ *         
+ *       
+ *     
+ *     
+ *       Return values from #GLogWriterFuncs to indicate whether the given log entry
+ * was successfully handled by the writer, or whether there was an error in
+ * handling it (and hence a fallback writer should be used).
+ * 
+ * If a #GLogWriterFunc ignores a log entry, it should return
  * %G_LOG_WRITER_HANDLED.
  */
 public enum LogWriterOutput {

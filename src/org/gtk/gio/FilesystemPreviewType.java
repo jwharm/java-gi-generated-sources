@@ -3,6 +3,58 @@ package org.gtk.gio;
 /**
  * Indicates a hint from the file system whether files should be
  * previewed in a file manager. Returned as the value of the key
+ * 
+ *         
+ *           
+ *         
+ *       
+ *     
+ *     
+ *       
+ *       
+ *         
+ *       
+ *       
+ *         
+ *           
+ *           
+ *             
+ *           
+ *           
+ *             
+ *               
+ *             
+ *           
+ *         
+ *       
+ *       
+ *         
+ *           
+ *           
+ *             
+ *           
+ *         
+ *       
+ *       
+ *         
+ *           
+ *           
+ *             
+ *           
+ *         
+ *       
+ *       
+ *         
+ *           
+ *           
+ *             
+ *           
+ *         
+ *       
+ *     
+ *     
+ *       Indicates a hint from the file system whether files should be
+ * previewed in a file manager. Returned as the value of the key
  * %G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW.
  */
 public enum FilesystemPreviewType {
@@ -13,7 +65,7 @@ public enum FilesystemPreviewType {
     IF_ALWAYS,
     
     /**
-     * Preview files if user has requested preview of "local" files.
+     * Preview files if user has requested preview of &#34;local&#34; files.
      */
     IF_LOCAL,
     

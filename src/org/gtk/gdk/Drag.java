@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkDrag` object represents the source of an ongoing DND operation.
- * 
- * A `GdkDrag` is created when a drag is started, and stays alive for duration of
- * the DND operation. After a drag has been started with [func@Gdk.Drag.begin],
+ * The <code>GdkDrag</code> object represents the source of an ongoing DND operation.
+ * <p>
+ * A <code>GdkDrag</code> is created when a drag is started, and stays alive for duration of
+ * the DND operation. After a drag has been started with {@link Gdk#Drag},
  * the caller gets informed about the status of the ongoing drag operation
- * with signals on the `GdkDrag` object.
+ * with signals on the <code>GdkDrag</code> object.
  * 
  * GTK provides a higher level abstraction based on top of these functions,
  * and so they are not normally needed in GTK applications. See the
- * "Drag and Drop" section of the GTK documentation for more information.
+ * &#34;Drag and Drop&#34; section of the GTK documentation for more information.
  */
 public class Drag extends org.gtk.gobject.Object {
 
@@ -32,14 +32,14 @@ public class Drag extends org.gtk.gobject.Object {
     
     /**
      * Informs GDK that the drop ended.
-     * 
-     * Passing %FALSE for @success may trigger a drag cancellation
+     * <p>
+     * Passing <code>false</code> for @success may trigger a drag cancellation
      * animation.
-     * 
+     * <p>
      * This function is called by the drag source, and should be the
      * last call before dropping the reference to the @drag.
-     * 
-     * The `GdkDrag` will only take the first [method@Gdk.Drag.drop_done]
+     * <p>
+     * The <code>GdkDrag</code> will only take the first {@link org.gtk.gdk.Drag#dropDone}
      * call as effective, if this function is called multiple times,
      * all subsequent calls will be ignored.
      */
@@ -56,7 +56,7 @@ public class Drag extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkContentProvider` associated to the `GdkDrag` object.
+     * Returns the <code>GdkContentProvider</code> associated to the <code>GdkDrag</code> object.
      */
     public ContentProvider getContent() {
         var RESULT = gtk_h.gdk_drag_get_content(handle());
@@ -64,7 +64,7 @@ public class Drag extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkDevice` associated to the `GdkDrag` object.
+     * Returns the <code>GdkDevice</code> associated to the <code>GdkDrag</code> object.
      */
     public Device getDevice() {
         var RESULT = gtk_h.gdk_drag_get_device(handle());
@@ -72,7 +72,7 @@ public class Drag extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GdkDisplay` that the drag object was created for.
+     * Gets the <code>GdkDisplay</code> that the drag object was created for.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_drag_get_display(handle());
@@ -94,7 +94,7 @@ public class Drag extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the formats supported by this `GdkDrag` object.
+     * Retrieves the formats supported by this <code>GdkDrag</code> object.
      */
     public ContentFormats getFormats() {
         var RESULT = gtk_h.gdk_drag_get_formats(handle());
@@ -110,7 +110,7 @@ public class Drag extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkSurface` where the drag originates.
+     * Returns the <code>GdkSurface</code> where the drag originates.
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_drag_get_surface(handle());
@@ -132,15 +132,18 @@ public class Drag extends org.gtk.gobject.Object {
      * 
      * This function is called by the drag source. After this call, you
      * probably want to set up the drag icon using the surface returned
-     * by [method@Gdk.Drag.get_drag_surface].
+     * by {@link org.gtk.gdk.Drag#getDragSurface}.
      * 
-     * This function returns a reference to the [class@Gdk.Drag] object,
+     * This function returns a reference to the {@link org.gtk.gdk.Drag} object,
      * but GTK keeps its own reference as well, as long as the DND operation
      * is going on.
      * 
-     * Note: if @actions include %GDK_ACTION_MOVE, you need to listen for
-     * the [signal@Gdk.Drag::dnd-finished] signal and delete the data at
-     * the source if [method@Gdk.Drag.get_selected_action] returns
+     * Note: if @actions include <code>GDK_ACTION_MOVE,</code> you need to listen for
+     * the {@link [signal@Gdk.Drag::dnd-finished] (ref=signal)} signal and delete the data at
+     * the source if {@link org.gtk.gdk.Drag#getSelectedAction} returns
+     * you need to listen for
+     * the {@link [signal@Gdk.Drag::dnd-finished] (ref=signal)} signal and delete the data at
+     * the source if {@link org.gtk.gdk.Drag#getSelectedAction} returns
      * %GDK_ACTION_MOVE.
      */
     public static Drag begin(Surface surface, Device device, ContentProvider content, int actions, double dx, double dy) {

@@ -82,7 +82,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Initializes a #graphene_quaternion_t using the values of
-     * the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+     * the {@link [Euler angles]}(http://en.wikipedia.org/wiki/Euler_angles)
      * on each axis.
      * 
      * See also: graphene_quaternion_init_from_euler()
@@ -119,7 +119,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Initializes a #graphene_quaternion_t using the values of
-     * the [Euler angles](http://en.wikipedia.org/wiki/Euler_angles)
+     * the {@link [Euler angles]}(http://en.wikipedia.org/wiki/Euler_angles)
      * on each axis.
      * 
      * See also: graphene_quaternion_init_from_euler()
@@ -178,7 +178,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Interpolates between the two given quaternions using a spherical
-     * linear interpolation, or [SLERP](http://en.wikipedia.org/wiki/Slerp),
+     * linear interpolation, or {@link [SLERP]}(http://en.wikipedia.org/wiki/Slerp),
      * using the given interpolation @factor.
      */
     public void slerp(Quaternion b, float factor, Quaternion res) {

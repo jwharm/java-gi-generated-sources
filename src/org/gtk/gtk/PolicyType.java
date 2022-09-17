@@ -14,7 +14,7 @@ public enum PolicyType {
     
     /**
      * The scrollbar will appear and disappear as necessary.
-     *   For example, when all of a `GtkTreeView` can not be seen.
+     *   For example, when all of a <code>GtkTreeView</code> can not be seen.
      */
     AUTOMATIC,
     
@@ -25,7 +25,7 @@ public enum PolicyType {
     NEVER,
     
     /**
-     * Don't show a scrollbar, but don't force the
+     * Don&#39;t show a scrollbar, but don&#39;t force the
      *   size to follow the content. This can be used e.g. to make multiple
      *   scrolled windows share a scrollbar.
      */

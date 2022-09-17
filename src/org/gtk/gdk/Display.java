@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkDisplay` objects are the GDK representation of a workstation.
+ * <code>GdkDisplay</code> objects are the GDK representation of a workstation.
  * 
  * Their purpose are two-fold:
  * 
@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  * - To manage and provide information about output devices (monitors, projectors, etc)
  * 
  * Most of the input device handling has been factored out into separate
- * [class@Gdk.Seat] objects. Every display has a one or more seats, which
- * can be accessed with [method@Gdk.Display.get_default_seat] and
- * [method@Gdk.Display.list_seats].
+ * {@link org.gtk.gdk.Seat} objects. Every display has a one or more seats, which
+ * can be accessed with {@link org.gtk.gdk.Display#getDefaultSeat} and
+ * {@link org.gtk.gdk.Display#listSeats}.
  * 
- * Output devices are represented by [class@Gdk.Monitor] objects, which can
- * be accessed with [method@Gdk.Display.get_monitor_at_surface] and similar APIs.
+ * Output devices are represented by {@link org.gtk.gdk.Monitor} objects, which can
+ * be accessed with {@link org.gtk.gdk.Display#getMonitorAtSurface} and similar APIs.
  */
 public class Display extends org.gtk.gobject.Object {
 
@@ -51,15 +51,15 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GdkGLContext` for the `GdkDisplay`.
-     * 
+     * Creates a new <code>GdkGLContext</code> for the <code>GdkDisplay</code>.
+     * <p>
      * The context is disconnected from any particular surface or surface
      * and cannot be used to draw to any surface. It can only be used to
      * draw to non-surface framebuffers like textures.
-     * 
-     * If the creation of the `GdkGLContext` failed, @error will be set.
-     * Before using the returned `GdkGLContext`, you will need to
-     * call [method@Gdk.GLContext.make_current] or [method@Gdk.GLContext.realize].
+     * <p>
+     * If the creation of the <code>GdkGLContext</code> failed, @error will be set.
+     * Before using the returned <code>GdkGLContext</code>, you will need to
+     * call {@link org.gtk.gdk.GLContext#makeCurrent} or {@link org.gtk.gdk.GLContext#realize}.
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -71,7 +71,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns %TRUE if there is an ongoing grab on @device for @display.
+     * Returns <code>true</code> if there is an ongoing grab on @device for @display.
      */
     public boolean deviceIsGrabbed(Device device) {
         var RESULT = gtk_h.gdk_display_device_is_grabbed(handle(), device.handle());
@@ -95,7 +95,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns a `GdkAppLaunchContext` suitable for launching
+     * Returns a <code>GdkAppLaunchContext</code> suitable for launching
      * applications on the given display.
      */
     public AppLaunchContext getAppLaunchContext() {
@@ -112,7 +112,16 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the default `GdkSeat` for this display.
+     * Returns the default <code>GdkSeat</code> for this display.
+     * 
+     * Note that a display may not have a seat. In this case,
+     * this function will return 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the default <code>GdkSeat</code> for this display.
      * 
      * Note that a display may not have a seat. In this case,
      * this function will return %NULL.
@@ -177,8 +186,8 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the startup notification ID for a Wayland display, or %NULL
-     * if no ID has been defined.
+     * Gets the startup notification ID for a Wayland display, or <code>NULL
+     * if</code> no ID has been defined.
      */
     public java.lang.String getStartupNotificationId() {
         var RESULT = gtk_h.gdk_display_get_startup_notification_id(handle());
@@ -197,7 +206,23 @@ public class Display extends org.gtk.gobject.Object {
      * Returns whether surfaces can reasonably be expected to have
      * their alpha channel drawn correctly on the screen.
      * 
-     * Check [method@Gdk.Display.is_rgba] for whether the display
+     * Check {@link org.gtk.gdk.Display#isRgba} for whether the display
+     * supports an alpha channel.
+     * 
+     * On X11 this function returns whether a compositing manager is
+     * compositing on @display.
+     * 
+     * On modern displays, this value is always 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Returns whether surfaces can reasonably be expected to have
+     * their alpha channel drawn correctly on the screen.
+     * 
+     * Check {@link org.gtk.gdk.Display#isRgba} for whether the display
      * supports an alpha channel.
      * 
      * On X11 this function returns whether a compositing manager is
@@ -214,11 +239,18 @@ public class Display extends org.gtk.gobject.Object {
      * Returns whether surfaces on this @display are created with an
      * alpha channel.
      * 
-     * Even if a %TRUE is returned, it is possible that the
-     * surface’s alpha channel won’t be honored when displaying the
+     * Even if a <code>true</code> is returned, it is possible that the
+     * surface&#8217;s alpha channel won&#8217;t be honored when displaying the
      * surface on the screen: in particular, for X an appropriate
      * windowing manager and compositing manager must be running to
-     * provide appropriate display. Use [method@Gdk.Display.is_composited]
+     * provide appropriate display. Use {@link org.gtk.gdk.Display#isComposited}
+     * to check if that is the case.
+     * 
+     * On modern displays, this value is always is returned, it is possible that the
+     * surface&#8217;s alpha channel won&#8217;t be honored when displaying the
+     * surface on the screen: in particular, for X an appropriate
+     * windowing manager and compositing manager must be running to
+     * provide appropriate display. Use {@link org.gtk.gdk.Display#isComposited}
      * to check if that is the case.
      * 
      * On modern displays, this value is always %TRUE.
@@ -240,9 +272,9 @@ public class Display extends org.gtk.gobject.Object {
      * Indicates to the GUI environment that the application has
      * finished loading, using a given identifier.
      * 
-     * GTK will call this function automatically for [class@Gtk.Window]
+     * GTK will call this function automatically for {@link org.gtk.gtk.Window}
      * with custom startup-notification identifier unless
-     * [method@Gtk.Window.set_auto_startup_notification]
+     * {@link org.gtk.gtk.Window#setAutoStartupNotification}
      * is called to disable that feature.
      */
     public void notifyStartupComplete(java.lang.String startupId) {
@@ -253,9 +285,9 @@ public class Display extends org.gtk.gobject.Object {
      * Checks that OpenGL is available for @self and ensures that it is
      * properly initialized.
      * When this fails, an @error will be set describing the error and this
-     * function returns %FALSE.
-     * 
-     * Note that even if this function succeeds, creating a `GdkGLContext`
+     * function returns <code>FALSE.
+     * <p>
+     * Note</code> that even if this function succeeds, creating a <code>GdkGLContext</code>
      * may still fail.
      * 
      * This function is idempotent. Calling it multiple times will just
@@ -286,9 +318,14 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns %TRUE if the display supports input shapes.
+     * Returns <code>true</code> if the display supports input shapes.
      * 
-     * This means that [method@Gdk.Surface.set_input_region] can
+     * This means that {@link org.gtk.gdk.Surface#setInputRegion} can
+     * be used to modify the input shape of surfaces on @display.
+     * 
+     * On modern displays, this value is always if the display supports input shapes.
+     * 
+     * This means that {@link org.gtk.gdk.Surface#setInputRegion} can
      * be used to modify the input shape of surfaces on @display.
      * 
      * On modern displays, this value is always %TRUE.
@@ -303,8 +340,8 @@ public class Display extends org.gtk.gobject.Object {
      * requests have been handled.
      * 
      * This is often used for making sure that the display is synchronized
-     * with the current state of the program. Calling [method@Gdk.Display.sync]
-     * before [method@GdkX11.Display.error_trap_pop] makes sure that any errors
+     * with the current state of the program. Calling {@link org.gtk.gdk.Display#sync}
+     * before {@link gdkx11.Display#errorTrapPop} makes sure that any errors
      * generated from earlier requests are handled before the error trap is removed.
      * 
      * This is most useful for X11. On windowing systems where requests are
@@ -315,7 +352,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default `GdkDisplay`.
+     * Gets the default <code>GdkDisplay</code>.
      * 
      * This is a convenience function for:
      * 
@@ -328,8 +365,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Opens a display.
-     * 
-     * If opening the display fails, `NULL` is returned.
+     * <p>
+     * If opening the display fails, <code>NULL</code> is returned.
      */
     public static Display open(java.lang.String displayName) {
         var RESULT = gtk_h.gdk_display_open(Interop.allocateNativeString(displayName).handle());

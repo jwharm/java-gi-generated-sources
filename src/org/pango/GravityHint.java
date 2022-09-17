@@ -1,12 +1,12 @@
 package org.pango;
 
 /**
- * `PangoGravityHint` defines how horizontal scripts should behave in a
+ * <code>PangoGravityHint</code> defines how horizontal scripts should behave in a
  * vertical context.
  * 
  * That is, English excerpts in a vertical paragraph for example.
  * 
- * See also [enum@Pango.Gravity]
+ * See also {@link [enum@Pango.Gravity] (ref=enum)}
  */
 public enum GravityHint {
 

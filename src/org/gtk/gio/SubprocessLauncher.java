@@ -49,7 +49,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * g_subprocess_launcher_take_fd(), g_subprocess_launcher_take_stderr_fd(), etc.
      * 
      * After calling this method, any subsequent calls to g_subprocess_launcher_spawn() or g_subprocess_launcher_spawnv() will
-     * return %G_IO_ERROR_CLOSED. This method is idempotent if
+     * return <code>G_IO_ERROR_CLOSED.</code> This method is idempotent if
      * called more than once.
      * 
      * This function is called automatically when the #GSubprocessLauncher
@@ -76,14 +76,14 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * Sets up a child setup function.
      * 
      * The child setup function will be called after fork() but before
-     * exec() on the child's side.
+     * exec() on the child&#39;s side.
      * 
-     * @destroy_notify will not be automatically called on the child's side
+     * @destroy_notify will not be automatically called on the child&#39;s side
      * of the fork().  It will only be called when the last reference on the
      * #GSubprocessLauncher is dropped or when a new child setup function is
      * given.
      * 
-     * %NULL can be given as @child_setup to disable the functionality.
+     * <code>null</code> can be given as @child_setup to disable the functionality.
      * 
      * Child setup functions are only available on UNIX.
      */
@@ -115,17 +115,17 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     
     /**
      * Replace the entire environment of processes launched from this
-     * launcher with the given 'environ' variable.
+     * launcher with the given &#39;environ&#39; variable.
      * 
      * Typically you will build this variable by using g_listenv() to copy
-     * the process 'environ' and using the functions g_environ_setenv(),
+     * the process &#39;environ&#39; and using the functions g_environ_setenv(),
      * g_environ_unsetenv(), etc.
      * 
      * As an alternative, you can use g_subprocess_launcher_setenv(),
      * g_subprocess_launcher_unsetenv(), etc.
      * 
-     * Pass an empty array to set an empty environment. Pass %NULL to inherit the
-     * parent process’ environment. As of GLib 2.54, the parent process’ environment
+     * Pass an empty array to set an empty environment. Pass <code>null</code> to inherit the
+     * parent process&#8217; environment. As of GLib 2.54, the parent process&#8217; environment
      * will be copied when g_subprocess_launcher_set_environ() is called.
      * Previously, it was copied when the subprocess was executed. This means the
      * copied environment may now be modified (using g_subprocess_launcher_setenv(),
@@ -141,14 +141,14 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the flags on the launcher.
      * 
-     * The default flags are %G_SUBPROCESS_FLAGS_NONE.
+     * The default flags are <code>G_SUBPROCESS_FLAGS_NONE.
      * 
-     * You may not set flags that specify conflicting options for how to
+     * You</code> may not set flags that specify conflicting options for how to
      * handle a particular stdio stream (eg: specifying both
-     * %G_SUBPROCESS_FLAGS_STDIN_PIPE and
-     * %G_SUBPROCESS_FLAGS_STDIN_INHERIT).
+     * {@link org.gtk.gio.SubprocessFlags#STDIN_PIPE} and
+     * <code>G_SUBPROCESS_FLAGS_STDIN_INHERIT).
      * 
-     * You may also not set a flag that conflicts with a previous call to a
+     * You</code> may also not set a flag that conflicts with a previous call to a
      * function like g_subprocess_launcher_set_stdin_file_path() or
      * g_subprocess_launcher_take_stdout_fd().
      */
@@ -159,15 +159,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stderr for spawned processes.
      * 
-     * If @path is %NULL then any previously given path is unset.
+     * If @path is <code>null</code> then any previously given path is unset.
      * 
      * The file will be created or truncated when the process is spawned, as
-     * would be the case if using '2>' at the shell.
+     * would be the case if using &#39;2&#62;&#39; at the shell.
      * 
      * If you want to send both stdout and stderr to the same file then use
-     * %G_SUBPROCESS_FLAGS_STDERR_MERGE.
+     * <code>G_SUBPROCESS_FLAGS_STDERR_MERGE.
      * 
-     * You may not set a stderr file path if a stderr fd is already set or
+     * You</code> may not set a stderr file path if a stderr fd is already set or
      * if the launcher flags contain any flags directing stderr elsewhere.
      * 
      * This feature is only available on UNIX.
@@ -179,7 +179,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stdin for spawned processes.
      * 
-     * If @path is %NULL then any previously given path is unset.
+     * If @path is <code>null</code> then any previously given path is unset.
      * 
      * The file must exist or spawning the process will fail.
      * 
@@ -195,10 +195,10 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stdout for spawned processes.
      * 
-     * If @path is %NULL then any previously given path is unset.
+     * If @path is <code>null</code> then any previously given path is unset.
      * 
      * The file will be created or truncated when the process is spawned, as
-     * would be the case if using '>' at the shell.
+     * would be the case if using &#39;&#62;&#39; at the shell.
      * 
      * You may not set a stdout file path if a stdout fd is already set or
      * if the launcher flags contain any flags directing stdout elsewhere.
@@ -213,8 +213,8 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * Sets the environment variable @variable in the environment of
      * processes launched from this launcher.
      * 
-     * On UNIX, both the variable's name and value can be arbitrary byte
-     * strings, except that the variable's name cannot contain '='.
+     * On UNIX, both the variable&#39;s name and value can be arbitrary byte
+     * strings, except that the variable&#39;s name cannot contain &#39;=&#39;.
      * On Windows, they should be in UTF-8.
      */
     public void setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
@@ -237,14 +237,12 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * Transfer an arbitrary file descriptor from parent process to the
      * child.  This function takes ownership of the @source_fd; it will be closed
      * in the parent when @self is freed.
-     * 
+     * <p>
      * By default, all file descriptors from the parent will be closed.
-     * This function allows you to create (for example) a custom `pipe()` or
-     * `socketpair()` before launching the process, and choose the target
+     * This function allows you to create (for example) a custom <code>pipe()</code> or<code>socketpair()</code> before launching the process, and choose the target
      * descriptor in the child.
-     * 
-     * An example use case is GNUPG, which has a command line argument
-     * `--passphrase-fd` providing a file descriptor number where it expects
+     * <p>
+     * An example use case is GNUPG, which has a command line argument<code>--passphrase-fd</code> providing a file descriptor number where it expects
      * the passphrase to be written.
      */
     public void takeFd(int sourceFd, int targetFd) {
@@ -279,14 +277,14 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * If @fd is -1 then any previously given fd is unset.
      * 
      * Note that if your intention is to have the stdin of the calling
-     * process inherited by the child then %G_SUBPROCESS_FLAGS_STDIN_INHERIT
-     * is a better way to go about doing that.
+     * process inherited by the child then <code>G_SUBPROCESS_FLAGS_STDIN_INHERIT
+     * is</code> a better way to go about doing that.
      * 
      * The passed @fd is noted but will not be touched in the current
      * process.  It is therefore necessary that it be kept open by the
      * caller until the subprocess is spawned.  The file descriptor will
      * also not be explicitly closed on the child side, so it must be marked
-     * O_CLOEXEC if that's what you want.
+     * O_CLOEXEC if that&#39;s what you want.
      * 
      * You may not set a stdin fd if a stdin file path is already set or if
      * the launcher flags contain any flags directing stdin elsewhere.
@@ -309,7 +307,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * process.  It is therefore necessary that it be kept open by the
      * caller until the subprocess is spawned.  The file descriptor will
      * also not be explicitly closed on the child side, so it must be marked
-     * O_CLOEXEC if that's what you want.
+     * O_CLOEXEC if that&#39;s what you want.
      * 
      * You may not set a stdout fd if a stdout file path is already set or
      * if the launcher flags contain any flags directing stdout elsewhere.
@@ -324,8 +322,8 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * Removes the environment variable @variable from the environment of
      * processes launched from this launcher.
      * 
-     * On UNIX, the variable's name can be an arbitrary byte string not
-     * containing '='. On Windows, it should be in UTF-8.
+     * On UNIX, the variable&#39;s name can be an arbitrary byte string not
+     * containing &#39;=&#39;. On Windows, it should be in UTF-8.
      */
     public void unsetenv(java.lang.String variable) {
         gtk_h.g_subprocess_launcher_unsetenv(handle(), Interop.allocateNativeString(variable).handle());

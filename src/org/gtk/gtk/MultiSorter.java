@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkMultiSorter` combines multiple sorters by trying them
+ * <code>GtkMultiSorter</code> combines multiple sorters by trying them
  * in turn.
  * 
  * If the first sorter compares two items as equal,

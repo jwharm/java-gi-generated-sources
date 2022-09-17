@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * The #GSequence struct is an opaque data type representing a
- * [sequence][glib-Sequences] data type.
+ * {@link [sequence]}{@link [glib-Sequences]} data type.
  */
 public class Sequence extends io.github.jwharm.javagi.ResourceBase {
 
@@ -78,8 +78,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the positive length (>= 0) of @seq. Note that this method is
-     * O(h) where `h' is the height of the tree. It is thus more efficient
+     * Returns the positive length (&#62;= 0) of @seq. Note that this method is
+     * O(h) where <code>h&#39; is the height of the tree. It is thus more efficient
      * to use g_sequence_is_empty() when comparing the length to zero.
      */
     public int getLength() {
@@ -148,7 +148,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if the sequence contains zero items.
+     * Returns <code>true</code> if the sequence contains zero items.
      * 
      * This function is functionally identical to checking the result of
      * g_sequence_get_length() being equal to zero. However this function is
@@ -384,7 +384,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * allowed for @dest to point to a different sequence than the one pointed
      * into by @begin and @end.
      * 
-     * If @dest is %NULL, the range indicated by @begin and @end is
+     * If @dest is <code>NULL,</code> the range indicated by @begin and @end is
      * removed from the sequence. If @dest points to a place within
      * the (@begin, @end) range, the range does not move.
      */

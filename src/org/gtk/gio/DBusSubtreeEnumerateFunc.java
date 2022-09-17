@@ -2,14 +2,14 @@ package org.gtk.gio;
 
 /**
  * The type of the @enumerate function in #GDBusSubtreeVTable.
- * 
+ * <p>
  * This function is called when generating introspection data and also
  * when preparing to dispatch incoming messages in the event that the
- * %G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES flag is not
+ * {@link org.gtk.gio.DBusSubtreeFlags#DISPATCH_TO_UNENUMERATED_NODES} flag is not
  * specified (ie: to verify that the object path is valid).
- * 
+ * <p>
  * Hierarchies are not supported; the items that you return should not
- * contain the `/` character.
+ * contain the <code>/</code> character.
  * 
  * The return value will be freed with g_strfreev().
  */

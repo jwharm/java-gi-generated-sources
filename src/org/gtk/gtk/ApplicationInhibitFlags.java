@@ -1,9 +1,9 @@
 package org.gtk.gtk;
 
 /**
- * Types of user actions that may be blocked by `GtkApplication`.
+ * Types of user actions that may be blocked by <code>GtkApplication</code>.
  * 
- * See [method@Gtk.Application.inhibit].
+ * See {@link org.gtk.gtk.Application#inhibit}.
  */
 public class ApplicationInhibitFlags {
 

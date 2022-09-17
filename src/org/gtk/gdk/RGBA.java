@@ -8,11 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkRGBA` is used to represent a color, in a way that is compatible
- * with cairo’s notion of color.
- * 
- * `GdkRGBA` is a convenient way to pass colors around. It’s based on
- * cairo’s way to deal with colors and mirrors its behavior. All values
+ * A <code>GdkRGBA</code> is used to represent a color, in a way that is compatible
+ * with cairo&#8217;s notion of color.
+ * <p><code>GdkRGBA</code> is a convenient way to pass colors around. It&#8217;s based on
+ * cairo&#8217;s way to deal with colors and mirrors its behavior. All values
  * are in the range from 0.0 to 1.0 inclusive. So the color
  * (0.0, 0.0, 0.0, 0.0) represents transparent black and
  * (1.0, 1.0, 1.0, 1.0) is opaque white. Other values will
@@ -25,9 +24,9 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Makes a copy of a `GdkRGBA`.
+     * Makes a copy of a <code>GdkRGBA</code>.
      * 
-     * The result must be freed through [method@Gdk.RGBA.free].
+     * The result must be freed through {@link org.gtk.gdk.RGBA#free}.
      */
     public RGBA copy() {
         var RESULT = gtk_h.gdk_rgba_copy(handle());
@@ -35,7 +34,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares two `GdkRGBA` colors.
+     * Compares two <code>GdkRGBA</code> colors.
      */
     public boolean equal(RGBA p2) {
         var RESULT = gtk_h.gdk_rgba_equal(handle(), p2.handle());
@@ -43,7 +42,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a `GdkRGBA`.
+     * Frees a <code>GdkRGBA</code>.
      */
     public void free() {
         gtk_h.gdk_rgba_free(handle());
@@ -51,7 +50,7 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * A hash function suitable for using for a hash
-     * table that stores `GdkRGBA`s.
+     * table that stores <code>GdkRGBA</code>s.
      */
     public int hash() {
         var RESULT = gtk_h.gdk_rgba_hash(handle());
@@ -85,18 +84,18 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
      * The string can be either one of:
      * 
      * - A standard name (Taken from the Css specification).
-     * - A hexadecimal value in the form “\\#rgb”, “\\#rrggbb”,
-     *   “\\#rrrgggbbb” or ”\\#rrrrggggbbbb”
-     * - A hexadecimal value in the form “\\#rgba”, “\\#rrggbbaa”,
-     *   or ”\\#rrrrggggbbbbaaaa”
-     * - A RGB color in the form “rgb(r,g,b)” (In this case the color
+     * - A hexadecimal value in the form &#8220;\\#rgb&#8221;, &#8220;\\#rrggbb&#8221;,
+     *   &#8220;\\#rrrgggbbb&#8221; or &#8221;\\#rrrrggggbbbb&#8221;
+     * - A hexadecimal value in the form &#8220;\\#rgba&#8221;, &#8220;\\#rrggbbaa&#8221;,
+     *   or &#8221;\\#rrrrggggbbbbaaaa&#8221;
+     * - A RGB color in the form &#8220;rgb(r,g,b)&#8221; (In this case the color
      *   will have full opacity)
-     * - A RGBA color in the form “rgba(r,g,b,a)”
+     * - A RGBA color in the form &#8220;rgba(r,g,b,a)&#8221;
      * 
-     * Where “r”, “g”, “b” and “a” are respectively the red, green,
-     * blue and alpha color values. In the last two cases, “r”, “g”,
-     * and “b” are either integers in the range 0 to 255 or percentage
-     * values in the range 0% to 100%, and a is a floating point value
+     * Where &#8220;r&#8221;, &#8220;g&#8221;, &#8220;b&#8221; and &#8220;a&#8221; are respectively the red, green,
+     * blue and alpha color values. In the last two cases, &#8220;r&#8221;, &#8220;g&#8221;,
+     * and &#8220;b&#8221; are either integers in the range 0 to 255 or percentage
+     * values in the range 0<code></code> to 100<code>,</code> and a is a floating point value
      * in the range 0 to 1.
      */
     public boolean parse(java.lang.String spec) {
@@ -105,18 +104,17 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a textual specification of @rgba in the form
-     * `rgb(r,g,b)` or `rgba(r,g,b,a)`, where “r”, “g”, “b” and
-     * “a” represent the red, green, blue and alpha values
-     * respectively. “r”, “g”, and “b” are represented as integers
-     * in the range 0 to 255, and “a” is represented as a floating
+     * Returns a textual specification of @rgba in the form<code>rgb(r,g,b)</code> or <code>rgba(r,g,b,a)</code>, where &#8220;r&#8221;, &#8220;g&#8221;, &#8220;b&#8221; and
+     * &#8220;a&#8221; represent the red, green, blue and alpha values
+     * respectively. &#8220;r&#8221;, &#8220;g&#8221;, and &#8220;b&#8221; are represented as integers
+     * in the range 0 to 255, and &#8220;a&#8221; is represented as a floating
      * point value in the range 0 to 1.
      * 
      * These string forms are string forms that are supported by
-     * the CSS3 colors module, and can be parsed by [method@Gdk.RGBA.parse].
+     * the CSS3 colors module, and can be parsed by {@link org.gtk.gdk.RGBA#parse}.
      * 
      * Note that this string representation may lose some precision,
-     * since “r”, “g” and “b” are represented as 8-bit integers. If
+     * since &#8220;r&#8221;, &#8220;g&#8221; and &#8220;b&#8221; are represented as 8-bit integers. If
      * this is a concern, you should use a different representation.
      */
     public java.lang.String toString() {

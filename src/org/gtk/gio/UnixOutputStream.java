@@ -13,9 +13,9 @@ import java.lang.invoke.*;
  * descriptor refers to a socket or pipe, this will use poll() to do
  * asynchronous I/O. If it refers to a regular file, it will fall back
  * to doing asynchronous I/O in another thread.)
- * 
- * Note that `<gio/gunixoutputstream.h>` belongs to the UNIX-specific GIO
- * interfaces, thus you have to use the `gio-unix-2.0.pc` pkg-config file
+ * <p>
+ * Note that <code>&#60;gio/gunixoutputstream.h&#62;</code> belongs to the UNIX-specific GIO
+ * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config file
  * when using it.
  */
 public class UnixOutputStream extends OutputStream implements FileDescriptorBased, PollableOutputStream {
@@ -37,7 +37,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
     /**
      * Creates a new #GUnixOutputStream for the given @fd.
      * 
-     * If @close_fd, is %TRUE, the file descriptor will be closed when
+     * If @close_fd, is <code>TRUE,</code> the file descriptor will be closed when
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {

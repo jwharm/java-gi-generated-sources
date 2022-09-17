@@ -73,9 +73,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function is essentially the same as g_type_class_ref(),
-     * except that the classes reference count isn't incremented.
-     * As a consequence, this function may return %NULL if the class
-     * of the type passed in does not currently exist (hasn't been
+     * except that the classes reference count isn&#39;t incremented.
+     * As a consequence, this function may return <code>null</code> if the class
+     * of the type passed in does not currently exist (hasn&#39;t been
      * referenced before).
      */
     public static TypeClass peek(Type type) {
@@ -94,7 +94,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increments the reference count of the class structure belonging to
-     * @type. This function will demand-create the class if it doesn't
+     * @type. This function will demand-create the class if it doesn&#39;t
      * exist already.
      */
     public static TypeClass ref(Type type) {

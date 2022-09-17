@@ -21,7 +21,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Checks if @resolver can be used on this system. (This is used
      * internally; g_proxy_resolver_get_default() will only return a proxy
-     * resolver that returns %TRUE for this method.)
+     * resolver that returns <code>true</code> for this method.)
      */
     public default boolean isSupported() {
         var RESULT = gtk_h.g_proxy_resolver_is_supported(handle());

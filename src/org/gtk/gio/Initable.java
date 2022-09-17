@@ -24,13 +24,13 @@ import java.lang.invoke.*;
  * the interface method directly, instead it will be used automatically
  * in various ways. For C applications you generally just call
  * g_initable_new() directly, or indirectly via a foo_thing_new() wrapper.
- * This will call g_initable_init() under the cover, returning %NULL and
+ * This will call g_initable_init() under the cover, returning <code>null</code> and
  * setting a #GError on failure (at which point the instance is
  * unreferenced).
  * 
  * For bindings in languages where the native constructor supports
- * exceptions the binding could check for objects implementing %GInitable
- * during normal construction and automatically initialize them, throwing
+ * exceptions the binding could check for objects implementing <code>GInitable
+ * during</code> normal construction and automatically initialize them, throwing
  * an exception on failure.
  */
 public interface Initable extends io.github.jwharm.javagi.NativeAddress {
@@ -44,21 +44,21 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
      * The object must be initialized before any real use after initial
      * construction, either with this function or g_async_initable_init_async().
      * 
-     * Implementations may also support cancellation. If @cancellable is not %NULL,
-     * then initialization can be cancelled by triggering the cancellable object
+     * Implementations may also support cancellation. If @cancellable is not <code>NULL,
+     * then</code> initialization can be cancelled by triggering the cancellable object
      * from another thread. If the operation was cancelled, the error
-     * %G_IO_ERROR_CANCELLED will be returned. If @cancellable is not %NULL and
-     * the object doesn't support cancellable initialization the error
-     * %G_IO_ERROR_NOT_SUPPORTED will be returned.
+     * {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If @cancellable is not <code>null</code> and
+     * the object doesn&#39;t support cancellable initialization the error
+     * {@link org.gtk.gio.IOErrorEnum#NOT_SUPPORTED} will be returned.
      * 
      * If the object is not initialized, or initialization returns with an
      * error, then all operations on the object except g_object_ref() and
      * g_object_unref() are considered to be invalid, and have undefined
-     * behaviour. See the [introduction][ginitable] for more details.
+     * behaviour. See the {@link [introduction]}{@link [ginitable]} for more details.
      * 
      * Callers should not assume that a class which implements #GInitable can be
      * initialized multiple times, unless the class explicitly documents itself as
-     * supporting this. Generally, a class’ implementation of init() can assume
+     * supporting this. Generally, a class&#8217; implementation of init() can assume
      * (and assert) that it will only be called once. Previously, this documentation
      * recommended all #GInitable implementations should be idempotent; that
      * recommendation was relaxed in GLib 2.54.
@@ -87,7 +87,7 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Helper function for constructing #GInitable object. This is
      * similar to g_object_new_valist() but also initializes the object
-     * and returns %NULL, setting an error on failure.
+     * and returns <code>NULL,</code> setting an error on failure.
      */
     public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureSwipe` is a `GtkGesture` for swipe gestures.
+ * <code>GtkGestureSwipe</code> is a <code>GtkGesture</code> for swipe gestures.
  * 
  * After a press/move/.../move/release sequence happens, the
- * [signal@Gtk.GestureSwipe::swipe] signal will be emitted,
+ * {@link [signal@Gtk.GestureSwipe::swipe] (ref=signal)} signal will be emitted,
  * providing the velocity and directionality of the sequence
  * at the time it was lifted.
  * 
  * If the velocity is desired in intermediate points,
- * [method@Gtk.GestureSwipe.get_velocity] can be called in a
- * [signal@Gtk.Gesture::update] handler.
+ * {@link org.gtk.gtk.GestureSwipe#getVelocity} can be called in a
+ * {@link [signal@Gtk.Gesture::update] (ref=signal)} handler.
  * 
  * All velocities are reported in pixels/sec units.
  */
@@ -38,7 +38,7 @@ public class GestureSwipe extends GestureSingle {
     }
     
     /**
-     * Returns a newly created `GtkGesture` that recognizes swipes.
+     * Returns a newly created <code>GtkGesture</code> that recognizes swipes.
      */
     public GestureSwipe() {
         super(constructNew());

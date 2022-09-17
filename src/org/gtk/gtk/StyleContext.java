@@ -8,43 +8,41 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkStyleContext` stores styling information affecting a widget.
- * 
- * In order to construct the final style information, `GtkStyleContext`
- * queries information from all attached `GtkStyleProviders`. Style
+ * <code>GtkStyleContext</code> stores styling information affecting a widget.
+ * <p>
+ * In order to construct the final style information, <code>GtkStyleContext</code>
+ * queries information from all attached <code>GtkStyleProviders</code>. Style
  * providers can be either attached explicitly to the context through
- * [method@Gtk.StyleContext.add_provider], or to the display through
- * [func@Gtk.StyleContext.add_provider_for_display]. The resulting
- * style is a combination of all providers’ information in priority order.
- * 
- * For GTK widgets, any `GtkStyleContext` returned by
- * [method@Gtk.Widget.get_style_context] will already have a `GdkDisplay`
+ * {@link org.gtk.gtk.StyleContext#addProvider}, or to the display through
+ * {@link Gtk#StyleContext}. The resulting
+ * style is a combination of all providers&#8217; information in priority order.
+ * <p>
+ * For GTK widgets, any <code>GtkStyleContext</code> returned by
+ * {@link org.gtk.gtk.Widget#getStyleContext} will already have a <code>GdkDisplay</code>
  * and RTL/LTR information set. The style context will also be updated
  * automatically if any of these settings change on the widget.
- * 
- * # Style Classes
- * 
+ * <p>
+ * <h1>tyle Classes</h1>
+ * <p>
  * Widgets can add style classes to their context, which can be used to associate
  * different styles by class. The documentation for individual widgets lists
  * which style classes it uses itself, and which style classes may be added by
  * applications to affect their appearance.
- * 
- * # Custom styling in UI libraries and applications
- * 
+ * <p>
+ * <h1>ustom styling in UI libraries and applications</h1>
+ * <p>
  * If you are developing a library with custom widgets that render differently
- * than standard components, you may need to add a `GtkStyleProvider` yourself
- * with the %GTK_STYLE_PROVIDER_PRIORITY_FALLBACK priority, either a
- * `GtkCssProvider` or a custom object implementing the `GtkStyleProvider`
+ * than standard components, you may need to add a <code>GtkStyleProvider</code> yourself
+ * with the <code>GTK_STYLE_PROVIDER_PRIORITY_FALLBACK</code> priority, either a<code>GtkCssProvider</code> or a custom object implementing the <code>GtkStyleProvider</code>
  * interface. This way themes may still attempt to style your UI elements in
  * a different way if needed so.
- * 
+ * <p>
  * If you are using custom styling on an applications, you probably want then
- * to make your style information prevail to the theme’s, so you must use
- * a `GtkStyleProvider` with the %GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
- * priority, keep in mind that the user settings in
- * `XDG_CONFIG_HOME/gtk-4.0/gtk.css` will
+ * to make your style information prevail to the theme&#8217;s, so you must use
+ * a <code>GtkStyleProvider</code> with the <code>GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+ * priority,</code> keep in mind that the user settings in<code>XDG_CONFIG_HOME/gtk-4.0/gtk.css</code> will
  * still take precedence over your changes, as it uses the
- * %GTK_STYLE_PROVIDER_PRIORITY_USER priority.
+ * <code>GTK_STYLE_PROVIDER_PRIORITY_USER</code> priority.
  */
 public class StyleContext extends org.gtk.gobject.Object {
 
@@ -60,19 +58,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Adds a style class to @context, so later uses of the
      * style context will make use of this new class for styling.
-     * 
-     * In the CSS file format, a `GtkEntry` defining a “search”
+     * <p>
+     * In the CSS file format, a <code>GtkEntry</code> defining a &#8220;search&#8221;
      * class, would be matched by:
-     * 
-     * ```css
+     * <p><pre>css
      * entry.search { ... }
-     * ```
-     * 
-     * While any widget defining a “search” class would be
-     * matched by:
-     * ```css
+     * </pre>
+     * <p>
+     * While any widget defining a &#8220;search&#8221; class would be
+     * matched by:<pre>css
      * .search { ... }
-     * ```
+     * </pre>
      */
     public void addClass(java.lang.String className) {
         gtk_h.gtk_style_context_add_class(handle(), Interop.allocateNativeString(className).handle());
@@ -80,22 +76,22 @@ public class StyleContext extends org.gtk.gobject.Object {
     
     /**
      * Adds a style provider to @context, to be used in style construction.
-     * 
+     * <p>
      * Note that a style provider added by this function only affects
      * the style of the widget to which @context belongs. If you want
      * to affect the style of all widgets, use
-     * [func@Gtk.StyleContext.add_provider_for_display].
-     * 
-     * Note: If both priorities are the same, a `GtkStyleProvider`
+     * {@link Gtk#StyleContext}.
+     * <p>
+     * Note: If both priorities are the same, a <code>GtkStyleProvider</code>
      * added through this function takes precedence over another added
-     * through [func@Gtk.StyleContext.add_provider_for_display].
+     * through {@link Gtk#StyleContext}.
      */
     public void addProvider(StyleProvider provider, int priority) {
         gtk_h.gtk_style_context_add_provider(handle(), provider.handle(), priority);
     }
     
     /**
-     * Gets the border for a given state as a `GtkBorder`.
+     * Gets the border for a given state as a <code>GtkBorder</code>.
      */
     public void getBorder(Border border) {
         gtk_h.gtk_style_context_get_border(handle(), border.handle());
@@ -109,7 +105,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkDisplay` to which @context is attached.
+     * Returns the <code>GdkDisplay</code> to which @context is attached.
      */
     public org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_style_context_get_display(handle());
@@ -117,14 +113,14 @@ public class StyleContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the margin for a given state as a `GtkBorder`.
+     * Gets the margin for a given state as a <code>GtkBorder</code>.
      */
     public void getMargin(Border margin) {
         gtk_h.gtk_style_context_get_margin(handle(), margin.handle());
     }
     
     /**
-     * Gets the padding for a given state as a `GtkBorder`.
+     * Gets the padding for a given state as a <code>GtkBorder</code>.
      */
     public void getPadding(Border padding) {
         gtk_h.gtk_style_context_get_padding(handle(), padding.handle());
@@ -140,12 +136,12 @@ public class StyleContext extends org.gtk.gobject.Object {
     
     /**
      * Returns the state used for style matching.
-     * 
-     * This method should only be used to retrieve the `GtkStateFlags`
-     * to pass to `GtkStyleContext` methods, like
-     * [method@Gtk.StyleContext.get_padding].
-     * If you need to retrieve the current state of a `GtkWidget`, use
-     * [method@Gtk.Widget.get_state_flags].
+     * <p>
+     * This method should only be used to retrieve the <code>GtkStateFlags</code>
+     * to pass to <code>GtkStyleContext</code> methods, like
+     * {@link org.gtk.gtk.StyleContext#getPadding}.
+     * If you need to retrieve the current state of a <code>GtkWidget</code>, use
+     * {@link org.gtk.gtk.Widget#getStateFlags}.
      */
     public int getState() {
         var RESULT = gtk_h.gtk_style_context_get_state(handle());
@@ -153,7 +149,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns %TRUE if @context currently has defined the
+     * Returns <code>true</code> if @context currently has defined the
      * given class name.
      */
     public boolean hasClass(java.lang.String className) {
@@ -186,7 +182,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Restores @context state to a previous stage.
      * 
-     * See [method@Gtk.StyleContext.save].
+     * See {@link org.gtk.gtk.StyleContext#save}.
      */
     public void restore() {
         gtk_h.gtk_style_context_restore(handle());
@@ -196,12 +192,12 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Saves the @context state.
      * 
      * This allows temporary modifications done through
-     * [method@Gtk.StyleContext.add_class],
-     * [method@Gtk.StyleContext.remove_class],
-     * [method@Gtk.StyleContext.set_state] to be quickly
-     * reverted in one go through [method@Gtk.StyleContext.restore].
+     * {@link org.gtk.gtk.StyleContext#addClass},
+     * {@link org.gtk.gtk.StyleContext#removeClass},
+     * {@link org.gtk.gtk.StyleContext#setState} to be quickly
+     * reverted in one go through {@link org.gtk.gtk.StyleContext#restore}.
      * 
-     * The matching call to [method@Gtk.StyleContext.restore]
+     * The matching call to {@link org.gtk.gtk.StyleContext#restore}
      * must be done before GTK returns to the main loop.
      */
     public void save() {
@@ -210,12 +206,12 @@ public class StyleContext extends org.gtk.gobject.Object {
     
     /**
      * Attaches @context to the given display.
-     * 
-     * The display is used to add style information from “global”
-     * style providers, such as the display's `GtkSettings` instance.
-     * 
-     * If you are using a `GtkStyleContext` returned from
-     * [method@Gtk.Widget.get_style_context], you do not need to
+     * <p>
+     * The display is used to add style information from &#8220;global&#8221;
+     * style providers, such as the display&#39;s <code>GtkSettings</code> instance.
+     * <p>
+     * If you are using a <code>GtkStyleContext</code> returned from
+     * {@link org.gtk.gtk.Widget#getStyleContext}, you do not need to
      * call this yourself.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
@@ -255,13 +251,13 @@ public class StyleContext extends org.gtk.gobject.Object {
     
     /**
      * Adds a global style provider to @display, which will be used
-     * in style construction for all `GtkStyleContexts` under @display.
-     * 
-     * GTK uses this to make styling information from `GtkSettings`
+     * in style construction for all <code>GtkStyleContexts</code> under @display.
+     * <p>
+     * GTK uses this to make styling information from <code>GtkSettings</code>
      * available.
-     * 
-     * Note: If both priorities are the same, A `GtkStyleProvider`
-     * added through [method@Gtk.StyleContext.add_provider] takes
+     * <p>
+     * Note: If both priorities are the same, A <code>GtkStyleProvider</code>
+     * added through {@link org.gtk.gtk.StyleContext#addProvider} takes
      * precedence over another added through this function.
      */
     public static void addProviderForDisplay(org.gtk.gdk.Display display, StyleProvider provider, int priority) {

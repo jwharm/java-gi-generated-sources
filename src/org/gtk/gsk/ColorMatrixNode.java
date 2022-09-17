@@ -27,7 +27,7 @@ public class ColorMatrixNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will drawn the @child with
+     * Creates a <code>GskRenderNode</code> that will drawn the @child with
      * @color_matrix.
      * 
      * In particular, the node will transform the operation

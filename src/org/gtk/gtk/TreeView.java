@@ -9,91 +9,88 @@ import java.lang.invoke.*;
 
 /**
  * A widget for displaying both trees and lists
- * 
- * Widget that displays any object that implements the [iface@Gtk.TreeModel] interface.
- * 
- * Please refer to the [tree widget conceptual overview](section-tree-widget.html)
+ * <p>
+ * Widget that displays any object that implements the {@link [iface@Gtk.TreeModel] (ref=iface)} interface.
+ * <p>
+ * Please refer to the {@link [tree widget conceptual overview]}(section-tree-widget.html)
  * for an overview of all the objects and data types related to the tree
  * widget and how they work together.
- * 
- * ## Coordinate systems in GtkTreeView API
- * 
- * Several different coordinate systems are exposed in the `GtkTreeView` API.
+ * <p>
+ * <h2>Coordinate systems in GtkTreeView API</h2>
+ * <p>
+ * Several different coordinate systems are exposed in the <code>GtkTreeView</code> API.
  * These are:
- * 
- * ![](tree-view-coordinates.png)
- * 
- * - Widget coordinates: Coordinates relative to the widget (usually `widget->window`).
- * 
- * - Bin window coordinates: Coordinates relative to the window that GtkTreeView renders to.
- * 
- * - Tree coordinates: Coordinates relative to the entire scrollable area of GtkTreeView. These
+ * <p>
+ * !{@link []}(tree-view-coordinates.png)
+ * <p>
+ * <li>Widget coordinates: Coordinates relative to the widget (usually <code>widget-&#62;window</code>).
+ * <p>
+ * <li>Bin window coordinates: Coordinates relative to the window that GtkTreeView renders to.
+ * <p>
+ * <li>Tree coordinates: Coordinates relative to the entire scrollable area of GtkTreeView. These
  *   coordinates start at (0, 0) for row 0 of the tree.
- * 
+ * <p>
  * Several functions are available for converting between the different
  * coordinate systems.  The most common translations are between widget and bin
  * window coordinates and between bin window and tree coordinates. For the
- * former you can use [method@Gtk.TreeView.convert_widget_to_bin_window_coords]
- * (and vice versa), for the latter [method@Gtk.TreeView.convert_bin_window_to_tree_coords]
+ * former you can use {@link org.gtk.gtk.TreeView#convertWidgetToBinWindowCoords}
+ * (and vice versa), for the latter {@link org.gtk.gtk.TreeView#convertBinWindowToTreeCoords}
  * (and vice versa).
- * 
- * ## `GtkTreeView` as `GtkBuildable`
- * 
- * The `GtkTreeView` implementation of the `GtkBuildable` interface accepts
- * [class@Gtk.TreeViewColumn] objects as `<child>` elements and exposes the
- * internal [class@Gtk.TreeSelection] in UI definitions.
- * 
- * An example of a UI definition fragment with `GtkTreeView`:
- * 
- * ```xml
- * <object class="GtkTreeView" id="treeview">
- *   <property name="model">liststore1</property>
- *   <child>
- *     <object class="GtkTreeViewColumn" id="test-column">
- *       <property name="title">Test</property>
- *       <child>
- *         <object class="GtkCellRendererText" id="test-renderer"/>
- *         <attributes>
- *           <attribute name="text">1</attribute>
- *         </attributes>
- *       </child>
- *     </object>
- *   </child>
- *   <child internal-child="selection">
- *     <object class="GtkTreeSelection" id="selection">
- *       <signal name="changed" handler="on_treeview_selection_changed"/>
- *     </object>
- *   </child>
- * </object>
- * ```
- * 
- * ## CSS nodes
- * 
- * ```
+ * <p>
+ * <h2><code>GtkTreeView</code> as <code>GtkBuildable</code></h2>
+ * <p>
+ * The <code>GtkTreeView</code> implementation of the <code>GtkBuildable</code> interface accepts
+ * {@link org.gtk.gtk.TreeViewColumn} objects as <code>&#60;child&#62;</code> elements and exposes the
+ * internal {@link org.gtk.gtk.TreeSelection} in UI definitions.
+ * <p>
+ * An example of a UI definition fragment with <code>GtkTreeView</code>:
+ * <p><pre>xml
+ * &#60;object class=&#34;GtkTreeView&#34; id=&#34;treeview&#34;&#62;
+ *   &#60;property name=&#34;model&#34;&#62;liststore1&#60;/property&#62;
+ *   &#60;child&#62;
+ *     &#60;object class=&#34;GtkTreeViewColumn&#34; id=&#34;test-column&#34;&#62;
+ *       &#60;property name=&#34;title&#34;&#62;Test&#60;/property&#62;
+ *       &#60;child&#62;
+ *         &#60;object class=&#34;GtkCellRendererText&#34; id=&#34;test-renderer&#34;/&#62;
+ *         &#60;attributes&#62;
+ *           &#60;attribute name=&#34;text&#34;&#62;1&#60;/attribute&#62;
+ *         &#60;/attributes&#62;
+ *       &#60;/child&#62;
+ *     &#60;/object&#62;
+ *   &#60;/child&#62;
+ *   &#60;child internal-child=&#34;selection&#34;&#62;
+ *     &#60;object class=&#34;GtkTreeSelection&#34; id=&#34;selection&#34;&#62;
+ *       &#60;signal name=&#34;changed&#34; handler=&#34;on_treeview_selection_changed&#34;/&#62;
+ *     &#60;/object&#62;
+ *   &#60;/child&#62;
+ * &#60;/object&#62;
+ * </pre>
+ * <p>
+ * <h2>CSS nodes</h2>
+ * <p><pre>
  * treeview.view
- * ├── header
- * │   ├── button
- * │   │   ╰── [sort-indicator]
- * ┊   ┊
- * │   ╰── button
- * │       ╰── [sort-indicator]
- * │
- * ├── [rubberband]
- * ╰── [dndtarget]
- * ```
- * 
- * `GtkTreeView` has a main CSS node with name `treeview` and style class `.view`.
- * It has a subnode with name `header`, which is the parent for all the column
- * header widgets' CSS nodes.
- * 
- * Each column header consists of a `button`, which among other content, has a
- * child with name `sort-indicator`, which carries the `.ascending` or `.descending`
+ * &#9500;&#9472;&#9472; header
+ * &#9474;   &#9500;&#9472;&#9472; button
+ * &#9474;   &#9474;   &#9584;&#9472;&#9472; {@link [sort-indicator]}
+ * &#9482;   &#9482;
+ * &#9474;   &#9584;&#9472;&#9472; button
+ * &#9474;       &#9584;&#9472;&#9472; {@link [sort-indicator]}
+ * &#9474;
+ * &#9500;&#9472;&#9472; {@link [rubberband]}
+ * &#9584;&#9472;&#9472; {@link [dndtarget]}
+ * </pre>
+ * <p><code>GtkTreeView</code> has a main CSS node with name <code>treeview</code> and style class <code>.view</code>.
+ * It has a subnode with name <code>header</code>, which is the parent for all the column
+ * header widgets&#39; CSS nodes.
+ * <p>
+ * Each column header consists of a <code>button</code>, which among other content, has a
+ * child with name <code>sort-indicator</code>, which carries the <code>.ascending</code> or <code>.descending</code>
  * style classes when the column header should show a sort indicator. The CSS
- * is expected to provide a suitable image using the `-gtk-icon-source` property.
- * 
- * For rubberband selection, a subnode with name `rubberband` is used.
- * 
- * For the drop target location during DND, a subnode with name `dndtarget` is used.
+ * is expected to provide a suitable image using the <code>-gtk-icon-source</code> property.
+ * <p>
+ * For rubberband selection, a subnode with name <code>rubberband</code> is used.
+ * <p>
+ * For the drop target location during DND, a subnode with name <code>dndtarget</code> is used.
  */
 public class TreeView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
@@ -112,7 +109,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new `GtkTreeView` widget.
+     * Creates a new <code>GtkTreeView</code> widget.
      */
     public TreeView() {
         super(constructNew());
@@ -124,15 +121,15 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new `GtkTreeView` widget with the model initialized to @model.
+     * Creates a new <code>GtkTreeView</code> widget with the model initialized to @model.
      */
     public static TreeView newWithModel(TreeModel model) {
         return new TreeView(constructNewWithModel(model));
     }
     
     /**
-     * Appends @column to the list of columns. If @tree_view has “fixed_height”
-     * mode enabled, then @column must have its “sizing” property set to be
+     * Appends @column to the list of columns. If @tree_view has &#8220;fixed_height&#8221;
+     * mode enabled, then @column must have its &#8220;sizing&#8221; property set to be
      * GTK_TREE_VIEW_COLUMN_FIXED.
      */
     public int appendColumn(TreeViewColumn column) {
@@ -164,7 +161,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a `cairo_surface_t` representation of the row at @path.
+     * Creates a <code>cairo_surface_t</code> representation of the row at @path.
      * This image is used for a drag icon.
      */
     public org.gtk.gdk.Paintable createRowDragIcon(TreePath path) {
@@ -174,7 +171,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Turns @tree_view into a drop destination for automatic DND. Calling
-     * this method sets `GtkTreeView`:reorderable to %FALSE.
+     * this method sets <code>GtkTreeView</code>:reorderable to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Turns @tree_view into a drop destination for automatic DND. Calling
+     * this method sets <code>GtkTreeView</code>:reorderable to %FALSE.
      */
     public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_tree_view_enable_model_drag_dest(handle(), formats.handle(), actions);
@@ -182,7 +186,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Turns @tree_view into a drag source for automatic DND. Calling this
-     * method sets `GtkTreeView`:reorderable to %FALSE.
+     * method sets <code>GtkTreeView</code>:reorderable to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Turns @tree_view into a drag source for automatic DND. Calling this
+     * method sets <code>GtkTreeView</code>:reorderable to %FALSE.
      */
     public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_tree_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
@@ -222,8 +233,8 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Fills the bounding rectangle in bin_window coordinates for the cell at the
      * row specified by @path and the column specified by @column.  If @path is
-     * %NULL, or points to a node not found in the tree, the @y and @height fields of
-     * the rectangle will be filled with 0. If @column is %NULL, the @x and @width
+     * <code>NULL,</code> or points to a node not found in the tree, the @y and @height fields of
+     * the rectangle will be filled with 0. If @column is <code>NULL,</code> the @x and @width
      * fields will be filled with 0.  The returned rectangle is equivalent to the
      * @background_area passed to gtk_cell_renderer_render().  These background
      * areas tile to cover the entire bin window.  Contrast with the @cell_area,
@@ -237,8 +248,8 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Fills the bounding rectangle in bin_window coordinates for the cell at the
      * row specified by @path and the column specified by @column.  If @path is
-     * %NULL, or points to a path not currently displayed, the @y and @height fields
-     * of the rectangle will be filled with 0. If @column is %NULL, the @x and @width
+     * <code>NULL,</code> or points to a path not currently displayed, the @y and @height fields
+     * of the rectangle will be filled with 0. If @column is <code>NULL,</code> the @x and @width
      * fields will be filled with 0.  The sum of all cell rects does not cover the
      * entire tree; there are extra pixels in between rows, for example. The
      * returned rectangle is equivalent to the @cell_area passed to
@@ -250,7 +261,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the `GtkTreeViewColumn` at the given position in the #tree_view.
+     * Gets the <code>GtkTreeViewColumn</code> at the given position in the #tree_view.
      */
     public TreeViewColumn getColumn(int n) {
         var RESULT = gtk_h.gtk_tree_view_get_column(handle(), n);
@@ -258,7 +269,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns a `GList` of all the `GtkTreeViewColumn`s currently in @tree_view.
+     * Returns a <code>GList</code> of all the <code>GtkTreeViewColumn</code>s currently in @tree_view.
      * The returned list must be freed with g_list_free ().
      */
     public org.gtk.glib.List getColumns() {
@@ -268,10 +279,10 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Fills in @path and @focus_column with the current path and focus column.  If
-     * the cursor isn’t currently set, then *@path will be %NULL.  If no column
-     * currently has focus, then *@focus_column will be %NULL.
-     * 
-     * The returned `GtkTreePath` must be freed with gtk_tree_path_free() when
+     * the cursor isn&#8217;t currently set, then *@path will be <code>NULL.</code>  If no column
+     * currently has focus, then *@focus_column will be <code>NULL.
+     * <p>
+     * The</code> returned <code>GtkTreePath</code> must be freed with gtk_tree_path_free() when
      * you are done with it.
      */
     public void getCursor(TreePath[] path, TreeViewColumn[] focusColumn) {
@@ -297,7 +308,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Returns the column that is the current expander column,
-     * or %NULL if none has been set.
+     * or <code>null</code> if none has been set.
      * This column has the expander arrow drawn next to it.
      */
     public TreeViewColumn getExpanderColumn() {
@@ -330,7 +341,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns %TRUE if the headers on the @tree_view are visible.
+     * Returns <code>true</code> if the headers on the @tree_view are visible.
      */
     public boolean getHeadersVisible() {
         var RESULT = gtk_h.gtk_tree_view_get_headers_visible(handle());
@@ -363,7 +374,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the model the `GtkTreeView` is based on.  Returns %NULL if the
+     * Returns the model the <code>GtkTreeView</code> is based on.  Returns <code>null</code> if the
      * model is unset.
      */
     public TreeModel getModel() {
@@ -390,7 +401,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Returns whether rubber banding is turned on for @tree_view.  If the
-     * selection mode is %GTK_SELECTION_MULTIPLE, rubber banding will allow the
+     * selection mode is <code>GTK_SELECTION_MULTIPLE,</code> rubber banding will allow the
      * user to select multiple rows by dragging the mouse.
      */
     public boolean getRubberBanding() {
@@ -407,9 +418,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the `GtkEntry` which is currently in use as interactive search
-     * entry for @tree_view.  In case the built-in entry is being used, %NULL
-     * will be returned.
+     * Returns the <code>GtkEntry</code> which is currently in use as interactive search
+     * entry for @tree_view.  In case the built-in entry is being used, <code>NULL
+     * will</code> be returned.
      */
     public Editable getSearchEntry() {
         var RESULT = gtk_h.gtk_tree_view_get_search_entry(handle());
@@ -417,7 +428,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the `GtkTreeSelection` associated with @tree_view.
+     * Gets the <code>GtkTreeSelection</code> associated with @tree_view.
      */
     public TreeSelection getSelection() {
         var RESULT = gtk_h.gtk_tree_view_get_selection(handle());
@@ -433,8 +444,8 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the column of @tree_view’s model which is being used for
-     * displaying tooltips on @tree_view’s rows.
+     * Returns the column of @tree_view&#8217;s model which is being used for
+     * displaying tooltips on @tree_view&#8217;s rows.
      */
     public int getTooltipColumn() {
         var RESULT = gtk_h.gtk_tree_view_get_tooltip_column(handle());
@@ -443,16 +454,19 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * This function is supposed to be used in a ::query-tooltip
-     * signal handler for `GtkTreeView`. The @x, @y and @keyboard_tip values
+     * signal handler for <code>GtkTreeView</code>. The @x, @y and @keyboard_tip values
      * which are received in the signal handler, should be passed to this
      * function without modification.
      * 
      * The return value indicates whether there is a tree view row at the given
-     * coordinates (%TRUE) or not (%FALSE) for mouse tooltips. For keyboard
-     * tooltips the row returned will be the cursor row. When %TRUE, then any of
+     * coordinates (<code>TRUE)</code> or not (<code>FALSE)</code> for mouse tooltips. For keyboard
+     * tooltips the row returned will be the cursor row. When <code>TRUE,</code> then any of
      * @model, @path and @iter which have been provided will be set to point to
      * that row and the corresponding model. @x and @y will always be converted
-     * to be relative to @tree_view’s bin_window if @keyboard_tooltip is %FALSE.
+     * to be relative to @tree_view&#8217;s bin_window if @keyboard_tooltip is then any of
+     * @model, @path and @iter which have been provided will be set to point to
+     * that row and the corresponding model. @x and @y will always be converted
+     * to be relative to @tree_view&#8217;s bin_window if @keyboard_tooltip is %FALSE.
      */
     public boolean getTooltipContext(int x, int y, boolean keyboardTip, TreeModel[] model, TreePath[] path, TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_view_get_tooltip_context(handle(), x, y, keyboardTip ? 1 : 0, Interop.allocateNativeArray(model).handle(), Interop.allocateNativeArray(path).handle(), iter.handle());
@@ -484,7 +498,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * This inserts the @column into the @tree_view at @position.  If @position is
      * -1, then the column is inserted at the end. If @tree_view has
-     * “fixed_height” mode enabled, then @column must have its “sizing” property
+     * &#8220;fixed_height&#8221; mode enabled, then @column must have its &#8220;sizing&#8221; property
      * set to be GTK_TREE_VIEW_COLUMN_FIXED.
      */
     public int insertColumn(TreeViewColumn column, int position) {
@@ -493,12 +507,12 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Convenience function that inserts a new column into the `GtkTreeView`
-     * with the given cell renderer and a `GtkTreeCellDataFunc` to set cell renderer
+     * Convenience function that inserts a new column into the <code>GtkTreeView</code>
+     * with the given cell renderer and a <code>GtkTreeCellDataFunc</code> to set cell renderer
      * attributes (normally using data from the model). See also
      * gtk_tree_view_column_set_cell_data_func(), gtk_tree_view_column_pack_start().
-     * If @tree_view has “fixed_height” mode enabled, then the new column will have its
-     * “sizing” property set to be GTK_TREE_VIEW_COLUMN_FIXED.
+     * If @tree_view has &#8220;fixed_height&#8221; mode enabled, then the new column will have its
+     * &#8220;sizing&#8221; property set to be GTK_TREE_VIEW_COLUMN_FIXED.
      */
     public int insertColumnWithDataFunc(int position, java.lang.String title, CellRenderer cell, TreeCellDataFunc func) {
         try {
@@ -543,7 +557,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Moves @column to be after to @base_column.  If @base_column is %NULL, then
+     * Moves @column to be after to @base_column.  If @base_column is <code>NULL,</code> then
      * @column is placed in the first position.
      */
     public void moveColumnAfter(TreeViewColumn column, TreeViewColumn baseColumn) {
@@ -566,7 +580,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns %TRUE if the node pointed to by @path is expanded in @tree_view.
+     * Returns <code>true</code> if the node pointed to by @path is expanded in @tree_view.
      */
     public boolean rowExpanded(TreePath path) {
         var RESULT = gtk_h.gtk_tree_view_row_expanded(handle(), path.handle());
@@ -575,14 +589,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Moves the alignments of @tree_view to the position specified by @column and
-     * @path.  If @column is %NULL, then no horizontal scrolling occurs.  Likewise,
-     * if @path is %NULL no vertical scrolling occurs.  At a minimum, one of @column
-     * or @path need to be non-%NULL.  @row_align determines where the row is
+     * @path.  If @column is <code>NULL,</code> then no horizontal scrolling occurs.  Likewise,
+     * if @path is <code>null</code> no vertical scrolling occurs.  At a minimum, one of @column
+     * or @path need to be non-<code>NULL.</code>  @row_align determines where the row is
      * placed, and @col_align determines where @column is placed.  Both are expected
      * to be between 0.0 and 1.0. 0.0 means left/top alignment, 1.0 means
      * right/bottom alignment, 0.5 means center.
      * 
-     * If @use_align is %FALSE, then the alignment arguments are ignored, and the
+     * If @use_align is <code>FALSE,</code> then the alignment arguments are ignored, and the
      * tree does the minimum amount of work to scroll the cell onto the screen.
      * This means that the cell will be scrolled to the edge closest to its current
      * position.  If the cell is currently visible on the screen, nothing is done.
@@ -599,17 +613,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * Scrolls the tree view such that the top-left corner of the visible
      * area is @tree_x, @tree_y, where @tree_x and @tree_y are specified
      * in tree coordinates.  The @tree_view must be realized before
-     * this function is called.  If it isn't, you probably want to be
+     * this function is called.  If it isn&#39;t, you probably want to be
      * using gtk_tree_view_scroll_to_cell().
      * 
-     * If either @tree_x or @tree_y are -1, then that direction isn’t scrolled.
+     * If either @tree_x or @tree_y are -1, then that direction isn&#8217;t scrolled.
      */
     public void scrollToPoint(int treeX, int treeY) {
         gtk_h.gtk_tree_view_scroll_to_point(handle(), treeX, treeY);
     }
     
     /**
-     * Cause the `GtkTreeView`::row-activated signal to be emitted
+     * Cause the <code>GtkTreeView</code>::row-activated signal to be emitted
      * on a single click instead of a double click.
      */
     public void setActivateOnSingleClick(boolean single) {
@@ -620,10 +634,10 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * Sets a user function for determining where a column may be dropped when
      * dragged.  This function is called on every column pair in turn at the
      * beginning of a column drag to determine where a drop can take place.  The
-     * arguments passed to @func are: the @tree_view, the `GtkTreeViewColumn` being
-     * dragged, the two `GtkTreeViewColumn`s determining the drop spot, and
-     * @user_data.  If either of the `GtkTreeViewColumn` arguments for the drop spot
-     * are %NULL, then they indicate an edge.  If @func is set to be %NULL, then
+     * arguments passed to @func are: the @tree_view, the <code>GtkTreeViewColumn</code> being
+     * dragged, the two <code>GtkTreeViewColumn</code>s determining the drop spot, and
+     * @user_data.  If either of the <code>GtkTreeViewColumn</code> arguments for the drop spot
+     * are <code>NULL,</code> then they indicate an edge.  If @func is set to be <code>NULL,</code> then
      * @tree_view reverts to the default behavior of allowing all columns to be
      * dropped everywhere.
      */
@@ -644,10 +658,10 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the current keyboard focus to be at @path, and selects it.  This is
-     * useful when you want to focus the user’s attention on a particular row.  If
-     * @focus_column is not %NULL, then focus is given to the column specified by
+     * useful when you want to focus the user&#8217;s attention on a particular row.  If
+     * @focus_column is not <code>NULL,</code> then focus is given to the column specified by
      * it. Additionally, if @focus_column is specified, and @start_editing is
-     * %TRUE, then editing should be started in the specified cell.
+     * <code>TRUE,</code> then editing should be started in the specified cell.
      * This function is often followed by @gtk_widget_grab_focus (@tree_view)
      * in order to give keyboard focus to the widget.  Please note that editing
      * can only happen when the widget is realized.
@@ -661,12 +675,12 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the current keyboard focus to be at @path, and selects it.  This is
-     * useful when you want to focus the user’s attention on a particular row.  If
-     * @focus_column is not %NULL, then focus is given to the column specified by
-     * it. If @focus_column and @focus_cell are not %NULL, and @focus_column
+     * useful when you want to focus the user&#8217;s attention on a particular row.  If
+     * @focus_column is not <code>NULL,</code> then focus is given to the column specified by
+     * it. If @focus_column and @focus_cell are not <code>NULL,</code> and @focus_column
      * contains 2 or more editable or activatable cells, then focus is given to
      * the cell specified by @focus_cell. Additionally, if @focus_column is
-     * specified, and @start_editing is %TRUE, then editing should be started in
+     * specified, and @start_editing is <code>TRUE,</code> then editing should be started in
      * the specified cell.  This function is often followed by
      * @gtk_widget_grab_focus (@tree_view) in order to give keyboard focus to the
      * widget.  Please note that editing can only happen when the widget is
@@ -681,7 +695,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the row that is highlighted for feedback.
-     * If @path is %NULL, an existing highlight is removed.
+     * If @path is <code>NULL,</code> an existing highlight is removed.
      */
     public void setDragDestRow(TreePath path, TreeViewDropPosition pos) {
         gtk_h.gtk_tree_view_set_drag_dest_row(handle(), path.handle(), pos.getValue());
@@ -689,10 +703,10 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * If @enable_search is set, then the user can type in text to search through
-     * the tree interactively (this is sometimes called "typeahead find").
+     * the tree interactively (this is sometimes called &#34;typeahead find&#34;).
      * 
-     * Note that even if this is %FALSE, the user can still initiate a search
-     * using the “start-interactive-search” key binding.
+     * Note that even if this is <code>FALSE,</code> the user can still initiate a search
+     * using the &#8220;start-interactive-search&#8221; key binding.
      */
     public void setEnableSearch(boolean enableSearch) {
         gtk_h.gtk_tree_view_set_enable_search(handle(), enableSearch ? 1 : 0);
@@ -708,7 +722,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the column to draw the expander arrow at. It must be in @tree_view.
-     * If @column is %NULL, then the expander arrow is always at the first
+     * If @column is <code>NULL,</code> then the expander arrow is always at the first
      * visible column.
      * 
      * If you do not want expander arrow to appear in your tree, set the
@@ -720,7 +734,17 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Enables or disables the fixed height mode of @tree_view.
-     * Fixed height mode speeds up `GtkTreeView` by assuming that all
+     * Fixed height mode speeds up <code>GtkTreeView</code> by assuming that all
+     * rows have the same height.
+     * Only enable this option if all rows are the same height and all
+     * columns are of type 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Enables or disables the fixed height mode of @tree_view.
+     * Fixed height mode speeds up <code>GtkTreeView</code> by assuming that all
      * rows have the same height.
      * Only enable this option if all rows are the same height and all
      * columns are of type %GTK_TREE_VIEW_COLUMN_FIXED.
@@ -763,7 +787,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * Enables or disables the hover selection mode of @tree_view.
      * Hover selection makes the selected row follow the pointer.
      * Currently, this works only for the selection modes
-     * %GTK_SELECTION_SINGLE and %GTK_SELECTION_BROWSE.
+     * {@link org.gtk.gtk.SelectionMode#SINGLE} and and %GTK_SELECTION_BROWSE.
      */
     public void setHoverSelection(boolean hover) {
         gtk_h.gtk_tree_view_set_hover_selection(handle(), hover ? 1 : 0);
@@ -781,9 +805,9 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the model for a `GtkTreeView`.  If the @tree_view already has a model
-     * set, it will remove it before setting the new model.  If @model is %NULL,
-     * then it will unset the old model.
+     * Sets the model for a <code>GtkTreeView</code>.  If the @tree_view already has a model
+     * set, it will remove it before setting the new model.  If @model is <code>NULL,
+     * then</code> it will unset the old model.
      */
     public void setModel(TreeModel model) {
         gtk_h.gtk_tree_view_set_model(handle(), model.handle());
@@ -791,12 +815,11 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * This function is a convenience function to allow you to reorder
-     * models that support the `GtkTreeDragSourceIface` and the
-     * `GtkTreeDragDestIface`.  Both `GtkTreeStore` and `GtkListStore` support
-     * these.  If @reorderable is %TRUE, then the user can reorder the
+     * models that support the <code>GtkTreeDragSourceIface</code> and the<code>GtkTreeDragDestIface</code>.  Both <code>GtkTreeStore</code> and <code>GtkListStore</code> support
+     * these.  If @reorderable is <code>TRUE,</code> then the user can reorder the
      * model by dragging and dropping rows. The developer can listen to
-     * these changes by connecting to the model’s `GtkTreeModel::row-inserted`
-     * and `GtkTreeModel::row-deleted` signals. The reordering is implemented
+     * these changes by connecting to the model&#8217;s <code>GtkTreeModel::row-inserted</code>
+     * and <code>GtkTreeModel::row-deleted</code> signals. The reordering is implemented
      * by setting up the tree view as a drag source and destination.
      * Therefore, drag and drop can not be used in a reorderable view for any
      * other purpose.
@@ -812,7 +835,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the row separator function, which is used to determine
      * whether a row should be drawn as a separator. If the row separator
-     * function is %NULL, no separators are drawn. This is the default value.
+     * function is <code>NULL,</code> no separators are drawn. This is the default value.
      */
     public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {
         try {
@@ -831,7 +854,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Enables or disables rubber banding in @tree_view.  If the selection mode
-     * is %GTK_SELECTION_MULTIPLE, rubber banding will allow the user to select
+     * is <code>GTK_SELECTION_MULTIPLE,</code> rubber banding will allow the user to select
      * multiple rows by dragging the mouse.
      */
     public void setRubberBanding(boolean enable) {
@@ -842,7 +865,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * Sets @column as the column where the interactive search code should
      * search in for the current model.
      * 
-     * If the search column is set, users can use the “start-interactive-search”
+     * If the search column is set, users can use the &#8220;start-interactive-search&#8221;
      * key binding to bring up search popup. The enable-search property controls
      * whether simply typing text will also start an interactive search.
      * 
@@ -856,7 +879,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the entry which the interactive search code will use for this
      * @tree_view.  This is useful when you want to provide a search entry
-     * in our interface at all time at a fixed position.  Passing %NULL for
+     * in our interface at all time at a fixed position.  Passing <code>null</code> for
      * @entry will make the interactive search code use the built-in popup
      * entry again.
      */
@@ -866,8 +889,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the compare function for the interactive search capabilities; note
-     * that somewhat like strcmp() returning 0 for equality
-     * `GtkTreeView`SearchEqualFunc returns %FALSE on matches.
+     * that somewhat like strcmp() returning 0 for equality<code>GtkTreeView</code>SearchEqualFunc returns <code>false</code> on matches.
      */
     public void setSearchEqualFunc(TreeViewSearchEqualFunc searchEqualFunc) {
         try {
@@ -899,7 +921,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the tip area of @tooltip to the area @path, @column and @cell have
-     * in common.  For example if @path is %NULL and @column is set, the tip
+     * in common.  For example if @path is <code>null</code> and @column is set, the tip
      * area will be set to the full area covered by @column.  See also
      * gtk_tooltip_set_tip_area().
      * 
@@ -916,15 +938,15 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * If you only plan to have simple (text-only) tooltips on full rows, you
-     * can use this function to have `GtkTreeView` handle these automatically
-     * for you. @column should be set to the column in @tree_view’s model
+     * can use this function to have <code>GtkTreeView</code> handle these automatically
+     * for you. @column should be set to the column in @tree_view&#8217;s model
      * containing the tooltip texts, or -1 to disable this feature.
-     * 
-     * When enabled, `GtkWidget:has-tooltip` will be set to %TRUE and
-     * @tree_view will connect a `GtkWidget::query-tooltip` signal handler.
+     * <p>
+     * When enabled, <code>GtkWidget:has-tooltip</code> will be set to <code>true</code> and
+     * @tree_view will connect a <code>GtkWidget::query-tooltip</code> signal handler.
      * 
      * Note that the signal handler sets the text with gtk_tooltip_set_markup(),
-     * so &, <, etc have to be escaped in the text.
+     * so &#38;, &#60;, etc have to be escaped in the text.
      */
     public void setTooltipColumn(int column) {
         gtk_h.gtk_tree_view_set_tooltip_column(handle(), column);
@@ -941,8 +963,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Undoes the effect of
-     * gtk_tree_view_enable_model_drag_dest(). Calling this method sets
-     * `GtkTreeView`:reorderable to %FALSE.
+     * gtk_tree_view_enable_model_drag_dest(). Calling this method sets<code>GtkTreeView</code>:reorderable to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Undoes the effect of
+     * gtk_tree_view_enable_model_drag_dest(). Calling this method sets<code>GtkTreeView</code>:reorderable to %FALSE.
      */
     public void unsetRowsDragDest() {
         gtk_h.gtk_tree_view_unset_rows_drag_dest(handle());
@@ -950,8 +978,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Undoes the effect of
-     * gtk_tree_view_enable_model_drag_source(). Calling this method sets
-     * `GtkTreeView`:reorderable to %FALSE.
+     * gtk_tree_view_enable_model_drag_source(). Calling this method sets<code>GtkTreeView</code>:reorderable to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Undoes the effect of
+     * gtk_tree_view_enable_model_drag_source(). Calling this method sets<code>GtkTreeView</code>:reorderable to %FALSE.
      */
     public void unsetRowsDragSource() {
         gtk_h.gtk_tree_view_unset_rows_drag_source(handle());
@@ -1029,15 +1063,14 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * The `GtkTreeView`::move-cursor signal is a [keybinding
-     * signal][class@Gtk.SignalAction] which gets emitted when the user
+     * The <code>GtkTreeView</code>::move-cursor signal is a {@link [keybinding
+     * signal]}{@link org.gtk.gtk.SignalAction} which gets emitted when the user
      * presses one of the cursor keys.
-     * 
+     * <p>
      * Applications should not connect to it, but may emit it with
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically. In contrast to gtk_tree_view_set_cursor() and
-     * gtk_tree_view_set_cursor_on_cell() when moving horizontally
-     * `GtkTreeView`::move-cursor does not reset the current selection.
+     * gtk_tree_view_set_cursor_on_cell() when moving horizontally<code>GtkTreeView</code>::move-cursor does not reset the current selection.
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
@@ -1060,20 +1093,20 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * The "row-activated" signal is emitted when the method
-     * [`method@Gtk.TreeView.row_activated`] is called.
-     * 
+     * The &#34;row-activated&#34; signal is emitted when the method
+     * {@link [<code>method@Gtk.TreeView.row_activated</code>] (ref=<code>method)} is called.
+     * <p>
      * This signal is emitted when the user double-clicks a treeview row with the
-     * [property@Gtk.TreeView:activate-on-single-click] property set to %FALSE,
-     * or when the user single-clicks a row when that property set to %TRUE.
-     * 
-     * This signal is also emitted when a non-editable row is selected and one
-     * of the keys: <kbd>Space</kbd>, <kbd>Shift</kbd>+<kbd>Space</kbd>,
-     * <kbd>Return</kbd> or <kbd>Enter</kbd> is pressed.
-     * 
+     * {@link [property@Gtk.TreeView:activate-on-single-click] (ref=property)} property set to <code>FALSE,
+     * or</code> when the user single-clicks a row when that property set to <code>TRUE.
+     * <p>
+     * This</code> signal is also emitted when a non-editable row is selected and one
+     * of the keys: &#60;kbd&#62;Space&#60;/kbd&#62;, &#60;kbd&#62;Shift&#60;/kbd&#62;+&#60;kbd&#62;Space&#60;/kbd&#62;,
+     * &#60;kbd&#62;Return&#60;/kbd&#62; or &#60;kbd&#62;Enter&#60;/kbd&#62; is pressed.
+     * <p>
      * For selection handling refer to the
-     * [tree widget conceptual overview](section-tree-widget.html)
-     * as well as `GtkTreeSelection`.
+     * {@link [tree widget conceptual overview]}(section-tree-widget.html)
+     * as well as <code>GtkTreeSelection</code>.
      */
     public SignalHandle onRowActivated(RowActivatedHandler handler) {
         try {

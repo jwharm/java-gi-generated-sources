@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * Represents a scope for loading IO modules. A scope can be used for blocking
- * duplicate modules, or blocking a module you don't want to load.
+ * duplicate modules, or blocking a module you don&#39;t want to load.
  * 
  * The scope can be used with g_io_modules_load_all_in_directory_with_scope()
  * or g_io_modules_scan_all_in_directory_with_scope().
@@ -38,9 +38,9 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Create a new scope for loading of IO modules. A scope can be used for
-     * blocking duplicate modules, or blocking a module you don't want to load.
+     * blocking duplicate modules, or blocking a module you don&#39;t want to load.
      * 
-     * Specify the %G_IO_MODULE_SCOPE_BLOCK_DUPLICATES flag to block modules
+     * Specify the {@link org.gtk.gio.IOModuleScopeFlags#BLOCK_DUPLICATES} flag to block modules
      * which have the same base name as a module that has already been seen
      * in this scope.
      */

@@ -21,7 +21,7 @@ public class FileMonitorFlags {
      *   event instead (NB: not supported on all backends; the default
      *   behaviour -without specifying this flag- is to send single DELETED
      *   and CREATED events).  Deprecated since 2.46: use
-     *   %G_FILE_MONITOR_WATCH_MOVES instead.
+     *   {@link org.gtk.gio.FileMonitorFlags#WATCH_MOVES} instead.
      */
     public static final int SEND_MOVED = 2;
     
@@ -33,9 +33,9 @@ public class FileMonitorFlags {
     
     /**
      * Watch for rename operations on a
-     *   monitored directory.  This causes %G_FILE_MONITOR_EVENT_RENAMED,
-     *   %G_FILE_MONITOR_EVENT_MOVED_IN and %G_FILE_MONITOR_EVENT_MOVED_OUT
-     *   events to be emitted when possible.  Since: 2.46.
+     *   monitored directory.  This causes <code>G_FILE_MONITOR_EVENT_RENAMED,
+     * </code>  {@link org.gtk.gio.FileMonitorEvent#MOVED_IN} and <code>G_FILE_MONITOR_EVENT_MOVED_OUT
+     * </code>  events to be emitted when possible.  Since: 2.46.
      */
     public static final int WATCH_MOVES = 8;
     

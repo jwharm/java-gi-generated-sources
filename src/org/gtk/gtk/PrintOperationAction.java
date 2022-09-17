@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Determines what action the print operation should perform.
  * 
- * A parameter of this typs is passed to [method@Gtk.PrintOperation.run].
+ * A parameter of this typs is passed to {@link org.gtk.gtk.PrintOperation#run}.
  */
 public enum PrintOperationAction {
 

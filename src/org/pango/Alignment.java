@@ -1,14 +1,14 @@
 package org.pango;
 
 /**
- * `PangoAlignment` describes how to align the lines of a `PangoLayout`
+ * <code>PangoAlignment</code> describes how to align the lines of a <code>PangoLayout</code>
  * within the available space.
- * 
- * If the `PangoLayout` is set to justify using [method@Pango.Layout.set_justify],
+ * <p>
+ * If the <code>PangoLayout</code> is set to justify using {@link org.pango.Layout#setJustify},
  * this only affects partial lines.
- * 
- * See [method@Pango.Layout.set_auto_dir] for how text direction affects
- * the interpretation of `PangoAlignment` values.
+ * <p>
+ * See {@link org.pango.Layout#setAutoDir} for how text direction affects
+ * the interpretation of <code>PangoAlignment</code> values.
  */
 public enum Alignment {
 

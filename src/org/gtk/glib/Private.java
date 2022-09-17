@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  * pthread_setspecific()/pthread_getspecific() APIs on POSIX and to
  * TlsSetValue()/TlsGetValue() on Windows.
  * 
- * If you don't already know why you might want this functionality,
- * then you probably don't need it.
+ * If you don&#39;t already know why you might want this functionality,
+ * then you probably don&#39;t need it.
  * 
  * #GPrivate is a very limited resource (as far as 128 per program,
  * shared between all libraries). It is also not possible to destroy a
@@ -35,7 +35,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the current value of the thread local variable @key.
      * 
-     * If the value has not yet been set in this thread, %NULL is returned.
+     * If the value has not yet been set in this thread, <code>null</code> is returned.
      * Values are never copied between threads (when a new thread is
      * created, for example).
      */
@@ -49,7 +49,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * current thread.
      * 
      * This function differs from g_private_set() in the following way: if
-     * the previous value was non-%NULL then the #GDestroyNotify handler for
+     * the previous value was non-<code>null</code> then the #GDestroyNotify handler for
      * @key is run on it.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress value) {

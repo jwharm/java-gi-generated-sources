@@ -31,7 +31,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * Adds @prerequisite_type to the list of prerequisites of @interface_type.
      * This means that any type implementing @interface_type must also implement
      * @prerequisite_type. Prerequisites can be thought of as an alternative to
-     * interface derivation (which GType doesn't support). An interface can have
+     * interface derivation (which GType doesn&#39;t support). An interface can have
      * at most one instantiatable prerequisite type.
      */
     public static void addPrerequisite(Type interfaceType, Type prerequisiteType) {
@@ -40,8 +40,8 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the #GTypePlugin structure for the dynamic interface
-     * @interface_type which has been added to @instance_type, or %NULL
-     * if @interface_type has not been added to @instance_type or does
+     * @interface_type which has been added to @instance_type, or <code>NULL
+     * if</code> @interface_type has not been added to @instance_type or does
      * not have a #GTypePlugin structure. See g_type_add_interface_dynamic().
      */
     public static TypePlugin getPlugin(Type instanceType, Type interfaceType) {
@@ -52,7 +52,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the most specific instantiatable prerequisite of an
      * interface type. If the interface type has no instantiatable
-     * prerequisite, %G_TYPE_INVALID is returned.
+     * prerequisite, <code>G_TYPE_INVALID</code> is returned.
      * 
      * See g_type_interface_add_prerequisite() for more information
      * about prerequisites.

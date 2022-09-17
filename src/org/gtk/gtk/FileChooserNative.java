@@ -8,36 +8,34 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkFileChooserNative` is an abstraction of a dialog suitable
- * for use with “File Open” or “File Save as” commands.
- * 
- * By default, this just uses a `GtkFileChooserDialog` to implement
+ * <code>GtkFileChooserNative</code> is an abstraction of a dialog suitable
+ * for use with &#8220;File Open&#8221; or &#8220;File Save as&#8221; commands.
+ * <p>
+ * By default, this just uses a <code>GtkFileChooserDialog</code> to implement
  * the actual dialog. However, on some platforms, such as Windows and
  * macOS, the native platform file chooser is used instead. When the
  * application is running in a sandboxed environment without direct
- * filesystem access (such as Flatpak), `GtkFileChooserNative` may call
+ * filesystem access (such as Flatpak), <code>GtkFileChooserNative</code> may call
  * the proper APIs (portals) to let the user choose a file and make it
  * available to the application.
- * 
- * While the API of `GtkFileChooserNative` closely mirrors `GtkFileChooserDialog`,
- * the main difference is that there is no access to any `GtkWindow` or `GtkWidget`
+ * <p>
+ * While the API of <code>GtkFileChooserNative</code> closely mirrors <code>GtkFileChooserDialog</code>,
+ * the main difference is that there is no access to any <code>GtkWindow</code> or <code>GtkWidget</code>
  * for the dialog. This is required, as there may not be one in the case of a
  * platform native dialog.
- * 
+ * <p>
  * Showing, hiding and running the dialog is handled by the
- * [class@Gtk.NativeDialog] functions.
- * 
- * Note that unlike `GtkFileChooserDialog`, `GtkFileChooserNative` objects
+ * {@link org.gtk.gtk.NativeDialog} functions.
+ * <p>
+ * Note that unlike <code>GtkFileChooserDialog</code>, <code>GtkFileChooserNative</code> objects
  * are not toplevel widgets, and GTK does not keep them alive. It is your
  * responsibility to keep a reference until you are done with the
  * object.
- * 
- * ## Typical usage
- * 
- * In the simplest of cases, you can the following code to use
- * `GtkFileChooserNative` to select a file for opening:
- * 
- * ```c
+ * <p>
+ * <h2>Typical usage</h2>
+ * <p>
+ * In the simplest of cases, you can the following code to use<code>GtkFileChooserNative</code> to select a file for opening:
+ * <p><pre>c
  * static void
  * on_response (GtkNativeDialog *native,
  *              int              response)
@@ -46,32 +44,31 @@ import java.lang.invoke.*;
  *     {
  *       GtkFileChooser *chooser = GTK_FILE_CHOOSER (native);
  *       GFile *file = gtk_file_chooser_get_file (chooser);
- * 
+ * <p>
  *       open_file (file);
- * 
+ * <p>
  *       g_object_unref (file);
  *     }
- * 
+ * <p>
  *   g_object_unref (native);
  * }
- * 
+ * <p>
  *   // ...
  *   GtkFileChooserNative *native;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
- * 
- *   native = gtk_file_chooser_native_new ("Open File",
+ * <p>
+ *   native = gtk_file_chooser_native_new (&#34;Open File&#34;,
  *                                         parent_window,
  *                                         action,
- *                                         "_Open",
- *                                         "_Cancel");
- * 
- *   g_signal_connect (native, "response", G_CALLBACK (on_response), NULL);
+ *                                         &#34;_Open&#34;,
+ *                                         &#34;_Cancel&#34;);
+ * <p>
+ *   g_signal_connect (native, &#34;response&#34;, G_CALLBACK (on_response), NULL);
  *   gtk_native_dialog_show (GTK_NATIVE_DIALOG (native));
- * ```
- * 
- * To use a `GtkFileChooserNative` for saving, you can use this:
- * 
- * ```c
+ * </pre>
+ * <p>
+ * To use a <code>GtkFileChooserNative</code> for saving, you can use this:
+ * <p><pre>c
  * static void
  * on_response (GtkNativeDialog *native,
  *              int              response)
@@ -80,77 +77,76 @@ import java.lang.invoke.*;
  *     {
  *       GtkFileChooser *chooser = GTK_FILE_CHOOSER (native);
  *       GFile *file = gtk_file_chooser_get_file (chooser);
- * 
+ * <p>
  *       save_to_file (file);
- * 
+ * <p>
  *       g_object_unref (file);
  *     }
- * 
+ * <p>
  *   g_object_unref (native);
  * }
- * 
+ * <p>
  *   // ...
  *   GtkFileChooserNative *native;
  *   GtkFileChooser *chooser;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
- * 
- *   native = gtk_file_chooser_native_new ("Save File",
+ * <p>
+ *   native = gtk_file_chooser_native_new (&#34;Save File&#34;,
  *                                         parent_window,
  *                                         action,
- *                                         "_Save",
- *                                         "_Cancel");
+ *                                         &#34;_Save&#34;,
+ *                                         &#34;_Cancel&#34;);
  *   chooser = GTK_FILE_CHOOSER (native);
- * 
+ * <p>
  *   if (user_edited_a_new_document)
- *     gtk_file_chooser_set_current_name (chooser, _("Untitled document"));
+ *     gtk_file_chooser_set_current_name (chooser, _(&#34;Untitled document&#34;));
  *   else
  *     gtk_file_chooser_set_file (chooser, existing_file, NULL);
- * 
- *   g_signal_connect (native, "response", G_CALLBACK (on_response), NULL);
+ * <p>
+ *   g_signal_connect (native, &#34;response&#34;, G_CALLBACK (on_response), NULL);
  *   gtk_native_dialog_show (GTK_NATIVE_DIALOG (native));
- * ```
- * 
+ * </pre>
+ * <p>
  * For more information on how to best set up a file dialog,
- * see the [class@Gtk.FileChooserDialog] documentation.
- * 
- * ## Response Codes
- * 
- * `GtkFileChooserNative` inherits from [class@Gtk.NativeDialog],
- * which means it will return %GTK_RESPONSE_ACCEPT if the user accepted,
- * and %GTK_RESPONSE_CANCEL if he pressed cancel. It can also return
- * %GTK_RESPONSE_DELETE_EVENT if the window was unexpectedly closed.
- * 
- * ## Differences from `GtkFileChooserDialog`
- * 
- * There are a few things in the [iface@Gtk.FileChooser] interface that
- * are not possible to use with `GtkFileChooserNative`, as such use would
+ * see the {@link org.gtk.gtk.FileChooserDialog} documentation.
+ * <p>
+ * <h2>Response Codes</h2>
+ * <p><code>GtkFileChooserNative</code> inherits from {@link org.gtk.gtk.NativeDialog},
+ * which means it will return {@link org.gtk.gtk.ResponseType#ACCEPT} if the user accepted,
+ * and {@link org.gtk.gtk.ResponseType#CANCEL} if he pressed cancel. It can also return
+ * {@link org.gtk.gtk.ResponseType#DELETE_EVENT} if the window was unexpectedly closed.
+ * <p>
+ * <h2>Differences from</h2><code>GtkFileChooserDialog</code>
+ * <p>
+ * There are a few things in the {@link [iface@Gtk.FileChooser] (ref=iface)} interface that
+ * are not possible to use with <code>GtkFileChooserNative</code>, as such use would
  * prohibit the use of a native dialog.
- * 
+ * <p>
  * No operations that change the dialog work while the dialog is visible.
  * Set all the properties that are required before showing the dialog.
- * 
- * ## Win32 details
- * 
- * On windows the `IFileDialog` implementation (added in Windows Vista) is
- * used. It supports many of the features that `GtkFileChooser` has, but
+ * <p>
+ * <h2>Win32 details</h2>
+ * <p>
+ * On windows the <code>IFileDialog</code> implementation (added in Windows Vista) is
+ * used. It supports many of the features that <code>GtkFileChooser</code> has, but
  * there are some things it does not handle:
- * 
- * * Any [class@Gtk.FileFilter] added using a mimetype
- * 
- * If any of these features are used the regular `GtkFileChooserDialog`
+ * <p>
+ * * Any {@link org.gtk.gtk.FileFilter} added using a mimetype
+ * <p>
+ * If any of these features are used the regular <code>GtkFileChooserDialog</code>
  * will be used in place of the native one.
- * 
- * ## Portal details
- * 
- * When the `org.freedesktop.portal.FileChooser` portal is available on
+ * <p>
+ * <h2>Portal details</h2>
+ * <p>
+ * When the <code>org.freedesktop.portal.FileChooser</code> portal is available on
  * the session bus, it is used to bring up an out-of-process file chooser.
  * Depending on the kind of session the application is running in, this may
  * or may not be a GTK file chooser.
- * 
- * ## macOS details
- * 
- * On macOS the `NSSavePanel` and `NSOpenPanel` classes are used to provide
- * native file chooser dialogs. Some features provided by `GtkFileChooser`
+ * <p>
+ * <h2>macOS details</h2>
+ * <p>
+ * On macOS the <code>NSSavePanel</code> and <code>NSOpenPanel</code> classes are used to provide
+ * native file chooser dialogs. Some features provided by <code>GtkFileChooser</code>
  * are not supported:
  * 
  * * Shortcut folders.
@@ -172,7 +168,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
     }
     
     /**
-     * Creates a new `GtkFileChooserNative`.
+     * Creates a new <code>GtkFileChooserNative</code>.
      */
     public FileChooserNative(java.lang.String title, Window parent, FileChooserAction action, java.lang.String acceptLabel, java.lang.String cancelLabel) {
         super(constructNew(title, parent, action, acceptLabel, cancelLabel));
@@ -199,7 +195,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * 
      * If characters in @label are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label,
-     * use “__” (two underscores). The first underlined character represents
+     * use &#8220;__&#8221; (two underscores). The first underlined character represents
      * a keyboard accelerator called a mnemonic.
      * 
      * Pressing Alt and that key should activate the button.
@@ -213,7 +209,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * 
      * If characters in @label are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label,
-     * use “__” (two underscores). The first underlined character represents
+     * use &#8220;__&#8221; (two underscores). The first underlined character represents
      * a keyboard accelerator called a mnemonic.
      * 
      * Pressing Alt and that key should activate the button.

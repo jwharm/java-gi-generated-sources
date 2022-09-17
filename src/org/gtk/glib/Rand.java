@@ -29,6 +29,13 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the next random #gdouble from @rand_ equally distributed over
+     * the range 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the next random #gdouble from @rand_ equally distributed over
      * the range [0..1).
      */
     public double double_() {
@@ -38,6 +45,13 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the next random #gdouble from @rand_ equally distributed over
+     * the range 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the next random #gdouble from @rand_ equally distributed over
      * the range [@begin..@end).
      */
     public double doubleRange(double begin, double end) {
@@ -54,7 +68,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the next random #guint32 from @rand_ equally distributed over
-     * the range [0..2^32-1].
+     * the range {@link [0..2^32-1]}.
      */
     public int int_() {
         var RESULT = gtk_h.g_rand_int(handle());
@@ -63,7 +77,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the next random #gint32 from @rand_ equally distributed over
-     * the range [@begin..@end-1].
+     * the range {@link [@begin..@end-1] (ref=)}.
      */
     public int intRange(int begin, int end) {
         var RESULT = gtk_h.g_rand_int_range(handle(), begin, end);
@@ -79,7 +93,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new random number generator initialized with a seed taken
-     * either from `/dev/urandom` (if existing) or from the current time
+     * either from <code>/dev/urandom</code> (if existing) or from the current time
      * (as a fallback).
      * 
      * On Windows, the seed is taken from rand_s().

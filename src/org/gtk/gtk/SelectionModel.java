@@ -8,33 +8,33 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSelectionModel` is an interface that add support for selection to list models.
- * 
+ * <code>GtkSelectionModel</code> is an interface that add support for selection to list models.
+ * <p>
  * This support is then used by widgets using list models to add the ability
  * to select and unselect various items.
- * 
+ * <p>
  * GTK provides default implementations of the most common selection modes such
- * as [class@Gtk.SingleSelection], so you will only need to implement this
+ * as {@link org.gtk.gtk.SingleSelection}, so you will only need to implement this
  * interface if you want detailed control about how selections should be handled.
- * 
- * A `GtkSelectionModel` supports a single boolean per item indicating if an item is
- * selected or not. This can be queried via [method@Gtk.SelectionModel.is_selected].
+ * <p>
+ * A <code>GtkSelectionModel</code> supports a single boolean per item indicating if an item is
+ * selected or not. This can be queried via {@link org.gtk.gtk.SelectionModel#isSelected}.
  * When the selected state of one or more items changes, the model will emit the
- * [signal@Gtk.SelectionModel::selection-changed] signal by calling the
- * [method@Gtk.SelectionModel.selection_changed] function. The positions given
+ * {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)} signal by calling the
+ * {@link org.gtk.gtk.SelectionModel#selectionChanged} function. The positions given
  * in that signal may have their selection state changed, though that is not a
  * requirement. If new items added to the model via the
- * [signal@Gio.ListModel::items-changed] signal are selected or not is up to the
+ * {@link [signal@Gio.ListModel::items-changed] (ref=signal)} signal are selected or not is up to the
  * implementation.
- * 
- * Note that items added via [signal@Gio.ListModel::items-changed] may already
- * be selected and no [signal@Gtk.SelectionModel::selection-changed] will be
+ * <p>
+ * Note that items added via {@link [signal@Gio.ListModel::items-changed] (ref=signal)} may already
+ * be selected and no {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)} will be
  * emitted for them. So to track which items are selected, it is necessary to
  * listen to both signals.
- * 
+ * <p>
  * Additionally, the interface can expose functionality to select and unselect
- * items. If these functions are implemented, GTK's list widgets will allow users
- * to select and unselect items. However, `GtkSelectionModel`s are free to only
+ * items. If these functions are implemented, GTK&#39;s list widgets will allow users
+ * to select and unselect items. However, <code>GtkSelectionModel</code>s are free to only
  * implement them partially or not at all. In that case the widgets will not
  * support the unimplemented operations.
  * 
@@ -52,8 +52,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * Gets the set containing all currently selected items in the model.
      * 
      * This function may be slow, so if you are only interested in single item,
-     * consider using [method@Gtk.SelectionModel.is_selected] or if you are only
-     * interested in a few, consider [method@Gtk.SelectionModel.get_selection_in_range].
+     * consider using {@link org.gtk.gtk.SelectionModel#isSelected} or if you are only
+     * interested in a few, consider {@link org.gtk.gtk.SelectionModel#getSelectionInRange}.
      */
     public default Bitset getSelection() {
         var RESULT = gtk_h.gtk_selection_model_get_selection(handle());
@@ -64,9 +64,9 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * Gets the set of selected items in a range.
      * 
      * This function is an optimization for
-     * [method@Gtk.SelectionModel.get_selection] when you are only
-     * interested in part of the model's selected state. A common use
-     * case is in response to the [signal@Gtk.SelectionModel::selection-changed]
+     * {@link org.gtk.gtk.SelectionModel#getSelection} when you are only
+     * interested in part of the model&#39;s selected state. A common use
+     * case is in response to the {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)}
      * signal.
      */
     public default Bitset getSelectionInRange(int position, int nItems) {
@@ -107,10 +107,10 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Helper function for implementations of `GtkSelectionModel`.
+     * Helper function for implementations of <code>GtkSelectionModel</code>.
      * 
      * Call this when a the selection changes to emit the
-     * [signal@Gtk.SelectionModel::selection-changed] signal.
+     * {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)} signal.
      */
     public default void selectionChanged(int position, int nItems) {
         gtk_h.gtk_selection_model_selection_changed(handle(), position, nItems);
@@ -118,21 +118,20 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Make selection changes.
-     * 
+     * <p>
      * This is the most advanced selection updating method that allows
      * the most fine-grained control over selection changes. If you can,
      * you should try the simpler versions, as implementations are more
      * likely to implement support for those.
-     * 
+     * <p>
      * Requests that the selection state of all positions set in @mask
      * be updated to the respective value in the @selected bitmask.
-     * 
+     * <p>
      * In pseudocode, it would look something like this:
-     * 
-     * ```c
-     * for (i = 0; i < n_items; i++)
+     * <p><pre>c
+     * for (i = 0; i &#60; n_items; i++)
      *   {
-     *     // don't change values not in the mask
+     *     // don&#39;t change values not in the mask
      *     if (!gtk_bitset_contains (mask, i))
      *       continue;
      * 
@@ -145,7 +144,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * gtk_selection_model_selection_changed (model,
      *                                        first_changed_item,
      *                                        n_changed_items);
-     * ```
+     * </pre>
      * 
      * @mask and @selected must not be modified. They may refer to the
      * same bitset, which would mean that every item in the set should

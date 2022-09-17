@@ -8,12 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkMapListModel` maps the items in a list model to different items.
- * 
- * `GtkMapListModel` uses a [callback@Gtk.MapListModelMapFunc].
- * 
- * Example: Create a list of `GtkEventControllers`
- * ```c
+ * A <code>GtkMapListModel</code> maps the items in a list model to different items.
+ * <p><code>GtkMapListModel</code> uses a {@link [callback@Gtk.MapListModelMapFunc] (ref=callback)}.
+ * <p>
+ * Example: Create a list of <code>GtkEventControllers</code><pre>c
  * static gpointer
  * map_to_controllers (gpointer widget,
  *                     gpointer data)
@@ -22,18 +20,17 @@ import java.lang.invoke.*;
  *   g_object_unref (widget);
  *   return result;
  * }
- * 
+ * <p>
  * widgets = gtk_widget_observe_children (widget);
- * 
+ * <p>
  * controllers = gtk_map_list_model_new (widgets,
  *                                       map_to_controllers,
  *                                       NULL, NULL);
- * 
+ * <p>
  * model = gtk_flatten_list_model_new (GTK_TYPE_EVENT_CONTROLLER,
  *                                     controllers);
- * ```
- * 
- * `GtkMapListModel` will attempt to discard the mapped objects as soon as
+ * </pre>
+ * <p><code>GtkMapListModel</code> will attempt to discard the mapped objects as soon as
  * they are no longer needed and recreate them if necessary.
  */
 public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
@@ -64,14 +61,14 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Creates a new `GtkMapListModel` for the given arguments.
+     * Creates a new <code>GtkMapListModel</code> for the given arguments.
      */
     public MapListModel(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
         super(constructNew(model, mapFunc));
     }
     
     /**
-     * Gets the model that is currently being mapped or %NULL if none.
+     * Gets the model that is currently being mapped or <code>null</code> if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_map_list_model_get_model(handle());
@@ -88,12 +85,12 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     
     /**
      * Sets the function used to map items.
-     * 
+     * <p>
      * The function will be called whenever an item needs to be mapped
      * and must return the item to use for the given input item.
-     * 
-     * Note that `GtkMapListModel` may call this function multiple times
-     * on the same item, because it may delete items it doesn't need anymore.
+     * <p>
+     * Note that <code>GtkMapListModel</code> may call this function multiple times
+     * on the same item, because it may delete items it doesn&#39;t need anymore.
      * 
      * GTK makes no effort to ensure that @map_func conforms to the item type
      * of @self. It assumes that the caller knows what they are doing and the map

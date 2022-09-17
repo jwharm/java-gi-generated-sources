@@ -54,9 +54,9 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
      * 
      * Any operation that would result in a negative offset will fail.
      * 
-     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -78,11 +78,11 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the length of the stream to @offset. If the stream was previously
      * larger than @offset, the extra data is discarded. If the stream was
-     * previously shorter than @offset, it is extended with NUL ('\\0') bytes.
+     * previously shorter than @offset, it is extended with NUL (&#39;\\0&#39;) bytes.
      * 
-     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned. If an
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      */

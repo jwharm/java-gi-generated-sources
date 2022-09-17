@@ -9,7 +9,7 @@ package org.gtk.gio;
  * flag will be set, but it does not guarantee that all possible flags
  * will be set. Accordingly, you may not safely decide to ignore any
  * particular type of error. For example, it would be incorrect to mask
- * %G_TLS_CERTIFICATE_EXPIRED if you want to allow expired certificates,
+ * {@link org.gtk.gio.TlsCertificateFlags#EXPIRED} if you want to allow expired certificates,
  * because this could potentially be the only error flag set even if
  * other problems exist with the certificate.
  */
@@ -28,7 +28,7 @@ public class TlsCertificateFlags {
     public static final int BAD_IDENTITY = 2;
     
     /**
-     * The certificate's activation time
+     * The certificate&#39;s activation time
      *   is still in the future
      */
     public static final int NOT_ACTIVATED = 4;
@@ -40,12 +40,12 @@ public class TlsCertificateFlags {
     
     /**
      * The certificate has been revoked
-     *   according to the #GTlsConnection's certificate revocation list.
+     *   according to the #GTlsConnection&#39;s certificate revocation list.
      */
     public static final int REVOKED = 16;
     
     /**
-     * The certificate's algorithm is
+     * The certificate&#39;s algorithm is
      *   considered insecure.
      */
     public static final int INSECURE = 32;

@@ -8,15 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkShortcutTrigger` tracks how a `GtkShortcut` should be activated.
- * 
- * To find out if a `GtkShortcutTrigger` triggers, you can call
- * [method@Gtk.ShortcutTrigger.trigger] on a `GdkEvent`.
- * 
- * `GtkShortcutTriggers` contain functions that allow easy presentation
+ * <code>GtkShortcutTrigger</code> tracks how a <code>GtkShortcut</code> should be activated.
+ * <p>
+ * To find out if a <code>GtkShortcutTrigger</code> triggers, you can call
+ * {@link org.gtk.gtk.ShortcutTrigger#trigger} on a <code>GdkEvent</code>.
+ * <p><code>GtkShortcutTriggers</code> contain functions that allow easy presentation
  * to end users as well as being printed for debugging.
- * 
- * All `GtkShortcutTriggers` are immutable, you can only specify their
+ * <p>
+ * All <code>GtkShortcutTriggers</code> are immutable, you can only specify their
  * properties during construction. If you want to change a trigger, you
  * have to replace it with a new one.
  */
@@ -38,31 +37,30 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     
     /**
      * Tries to parse the given string into a trigger.
-     * 
+     * <p>
      * On success, the parsed trigger is returned.
-     * When parsing failed, %NULL is returned.
-     * 
+     * When parsing failed, <code>null</code> is returned.
+     * <p>
      * The accepted strings are:
-     * 
-     *   - `never`, for `GtkNeverTrigger`
-     *   - a string parsed by gtk_accelerator_parse(), for a `GtkKeyvalTrigger`, e.g. `<Control>C`
-     *   - underscore, followed by a single character, for `GtkMnemonicTrigger`, e.g. `_l`
-     *   - two valid trigger strings, separated by a `|` character, for a
-     *     `GtkAlternativeTrigger`: `<Control>q|<Control>w`
-     * 
-     * Note that you will have to escape the `<` and `>` characters when specifying
-     * triggers in XML files, such as GtkBuilder ui files. Use `&lt;` instead of
-     * `<` and `&gt;` instead of `>`.
+     * <p>
+     *   - <code>never</code>, for <code>GtkNeverTrigger</code>
+     *   - a string parsed by gtk_accelerator_parse(), for a <code>GtkKeyvalTrigger</code>, e.g. <code>&#60;Control&#62;C</code>
+     *   - underscore, followed by a single character, for <code>GtkMnemonicTrigger</code>, e.g. <code>_l</code>
+     *   - two valid trigger strings, separated by a <code>|</code> character, for a
+     *     <code>GtkAlternativeTrigger</code>: <code>&#60;Control&#62;q|&#60;Control&#62;w</code>
+     * <p>
+     * Note that you will have to escape the <code>&#60;</code> and <code>&#62;</code> characters when specifying
+     * triggers in XML files, such as GtkBuilder ui files. Use <code>&#38;lt;</code> instead of<code>&#60;</code> and <code>&#38;gt;</code> instead of <code>&#62;</code>.
      */
     public static ShortcutTrigger parseString(java.lang.String string) {
         return new ShortcutTrigger(constructParseString(string));
     }
     
     /**
-     * The types of @trigger1 and @trigger2 are `gconstpointer` only to allow
-     * use of this function as a `GCompareFunc`.
-     * 
-     * They must each be a `GtkShortcutTrigger`.
+     * The types of @trigger1 and @trigger2 are <code>gconstpointer</code> only to allow
+     * use of this function as a <code>GCompareFunc</code>.
+     * <p>
+     * They must each be a <code>GtkShortcutTrigger</code>.
      */
     public int compare(ShortcutTrigger trigger2) {
         var RESULT = gtk_h.gtk_shortcut_trigger_compare(handle(), trigger2.handle());
@@ -71,9 +69,9 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     
     /**
      * Checks if @trigger1 and @trigger2 trigger under the same conditions.
-     * 
-     * The types of @one and @two are `gconstpointer` only to allow use of this
-     * function with `GHashTable`. They must each be a `GtkShortcutTrigger`.
+     * <p>
+     * The types of @one and @two are <code>gconstpointer</code> only to allow use of this
+     * function with <code>GHashTable</code>. They must each be a <code>GtkShortcutTrigger</code>.
      */
     public boolean equal(ShortcutTrigger trigger2) {
         var RESULT = gtk_h.gtk_shortcut_trigger_equal(handle(), trigger2.handle());
@@ -81,15 +79,15 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     }
     
     /**
-     * Generates a hash value for a `GtkShortcutTrigger`.
-     * 
+     * Generates a hash value for a <code>GtkShortcutTrigger</code>.
+     * <p>
      * The output of this function is guaranteed to be the same for a given
      * value only per-process. It may change between different processor
      * architectures or even different versions of GTK. Do not use this
      * function as a basis for building protocols or file formats.
-     * 
-     * The types of @trigger is `gconstpointer` only to allow use of this
-     * function with `GHashTable`. They must each be a `GtkShortcutTrigger`.
+     * <p>
+     * The types of @trigger is <code>gconstpointer</code> only to allow use of this
+     * function with <code>GHashTable</code>. They must each be a <code>GtkShortcutTrigger</code>.
      */
     public int hash() {
         var RESULT = gtk_h.gtk_shortcut_trigger_hash(handle());
@@ -147,7 +145,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     /**
      * Prints the given trigger into a human-readable string.
      * 
-     * This is a small wrapper around [method@Gtk.ShortcutTrigger.print]
+     * This is a small wrapper around {@link org.gtk.gtk.ShortcutTrigger#print}
      * to help when debugging.
      */
     public java.lang.String toString() {

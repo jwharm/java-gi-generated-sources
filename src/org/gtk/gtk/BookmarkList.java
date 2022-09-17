@@ -8,13 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkBookmarkList` is a list model that wraps `GBookmarkFile`.
- * 
- * It presents a `GListModel` and fills it asynchronously with the
- * `GFileInfo`s returned from that function.
- * 
- * The `GFileInfo`s in the list have some attributes in the recent
- * namespace added: `recent::private` (boolean) and `recent:applications`
+ * <code>GtkBookmarkList</code> is a list model that wraps <code>GBookmarkFile</code>.
+ * <p>
+ * It presents a <code>GListModel</code> and fills it asynchronously with the<code>GFileInfo</code>s returned from that function.
+ * <p>
+ * The <code>GFileInfo</code>s in the list have some attributes in the recent
+ * namespace added: <code>recent::private</code> (boolean) and <code>recent:applications</code>
  * (stringv).
  */
 public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
@@ -34,7 +33,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Creates a new `GtkBookmarkList` with the given @attributes.
+     * Creates a new <code>GtkBookmarkList</code> with the given @attributes.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
         super(constructNew(filename, attributes));
@@ -66,7 +65,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Returns %TRUE if the files are currently being loaded.
+     * Returns <code>true</code> if the files are currently being loaded.
      * 
      * Files will be added to @self from time to time while loading is
      * going on. The order in which are added is undefined and may change
@@ -79,9 +78,9 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     
     /**
      * Sets the @attributes to be enumerated and starts the enumeration.
-     * 
-     * If @attributes is %NULL, no attributes will be queried, but a list
-     * of `GFileInfo`s will still be created.
+     * <p>
+     * If @attributes is <code>NULL,</code> no attributes will be queried, but a list
+     * of <code>GFileInfo</code>s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
         gtk_h.gtk_bookmark_list_set_attributes(handle(), Interop.allocateNativeString(attributes).handle());
@@ -89,6 +88,15 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     
     /**
      * Sets the IO priority to use while loading files.
+     * 
+     * The default IO priority is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Sets the IO priority to use while loading files.
      * 
      * The default IO priority is %G_PRIORITY_DEFAULT.
      */

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSliceListModel` is a list model that presents a slice of another model.
+ * <code>GtkSliceListModel</code> is a list model that presents a slice of another model.
  * 
  * This is useful when implementing paging by setting the size to the number
  * of elements per page and updating the offset whenever a different page is
@@ -41,7 +41,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     }
     
     /**
-     * Gets the model that is currently being used or %NULL if none.
+     * Gets the model that is currently being used or <code>null</code> if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_slice_list_model_get_model(handle());
@@ -67,7 +67,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     /**
      * Sets the model to show a slice of.
      * 
-     * The model's item type must conform to @self's item type.
+     * The model&#39;s item type must conform to @self&#39;s item type.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_slice_list_model_set_model(handle(), model.handle());
@@ -88,7 +88,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * than @size.
      * 
      * It can however have fewer items if the offset is too large
-     * or the model sliced from doesn't have enough items.
+     * or the model sliced from doesn&#39;t have enough items.
      */
     public void setSize(int size) {
         gtk_h.gtk_slice_list_model_set_size(handle(), size);

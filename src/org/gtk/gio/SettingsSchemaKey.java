@@ -32,9 +32,9 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Gets the description for @key.
      * 
      * If no description has been provided in the schema for @key, returns
-     * %NULL.
+     * <code>NULL.
      * 
-     * The description can be one sentence to several paragraphs in length.
+     * The</code> description can be one sentence to several paragraphs in length.
      * Paragraphs are delimited with a double newline.  Descriptions can be
      * translated and the value returned from this function is is the
      * current locale.
@@ -59,30 +59,29 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Queries the range of a key.
-     * 
+     * <p>
      * This function will return a #GVariant that fully describes the range
      * of values that are valid for @key.
-     * 
-     * The type of #GVariant returned is `(sv)`. The string describes
+     * <p>
+     * The type of #GVariant returned is <code>(sv)</code>. The string describes
      * the type of range restriction in effect. The type and meaning of
      * the value contained in the variant depends on the string.
-     * 
-     * If the string is `'type'` then the variant contains an empty array.
+     * <p>
+     * If the string is <code>&#39;type&#39;</code> then the variant contains an empty array.
      * The element type of that empty array is the expected type of value
      * and all values of that type are valid.
-     * 
-     * If the string is `'enum'` then the variant contains an array
+     * <p>
+     * If the string is <code>&#39;enum&#39;</code> then the variant contains an array
      * enumerating the possible values. Each item in the array is
      * a possible valid value and no other values are valid.
-     * 
-     * If the string is `'flags'` then the variant contains an array. Each
+     * <p>
+     * If the string is <code>&#39;flags&#39;</code> then the variant contains an array. Each
      * item in the array is a value that may appear zero or one times in an
      * array to be used as the value for this key. For example, if the
-     * variant contained the array `['x', 'y']` then the valid values for
-     * the key would be `[]`, `['x']`, `['y']`, `['x', 'y']` and
-     * `['y', 'x']`.
-     * 
-     * Finally, if the string is `'range'` then the variant contains a pair
+     * variant contained the array <code>{@link [&#39;x&#39;, &#39;y&#39;]}</code> then the valid values for
+     * the key would be <code>{@link []}</code>, <code>{@link [&#39;x&#39;]}</code>, <code>{@link [&#39;y&#39;]}</code>, <code>{@link [&#39;x&#39;, &#39;y&#39;]}</code> and<code>{@link [&#39;y&#39;, &#39;x&#39;]}</code>.
+     * <p>
+     * Finally, if the string is <code>&#39;range&#39;</code> then the variant contains a pair
      * of like-typed values -- the minimum and maximum permissible values
      * for this key.
      * 
@@ -104,9 +103,9 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Gets the summary for @key.
      * 
      * If no summary has been provided in the schema for @key, returns
-     * %NULL.
+     * <code>NULL.
      * 
-     * The summary is a short description of the purpose of the key; usually
+     * The</code> summary is a short description of the purpose of the key; usually
      * one short sentence.  Summaries can be translated and the value
      * returned from this function is is the current locale.
      * 
@@ -132,7 +131,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Checks if the given @value is within the
      * permitted range for @key.
      * 
-     * It is a programmer error if @value is not of the correct type — you
+     * It is a programmer error if @value is not of the correct type &#8212; you
      * must check for this first.
      */
     public boolean rangeCheck(org.gtk.glib.Variant value) {

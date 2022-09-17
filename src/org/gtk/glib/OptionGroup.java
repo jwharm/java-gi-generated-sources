@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GOptionGroup` struct defines the options in a single
+ * A <code>GOptionGroup</code> struct defines the options in a single
  * group. The struct has only private fields and should not be directly accessed.
- * 
+ * <p>
  * All options in a group share the same translation function. Libraries which
  * need to parse commandline options are expected to provide a function for
- * getting a `GOptionGroup` holding their options, which
+ * getting a <code>GOptionGroup</code> holding their options, which
  * the application can then add to its #GOptionContext.
  */
 public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
@@ -52,8 +52,8 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the function which is used to translate user-visible strings,
-     * for `--help` output. Different groups can use different
-     * #GTranslateFuncs. If @func is %NULL, strings are not translated.
+     * for <code>--help</code> output. Different groups can use different
+     * #GTranslateFuncs. If @func is <code>NULL,</code> strings are not translated.
      * 
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_group_set_translation_domain().

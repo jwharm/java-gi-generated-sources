@@ -2,11 +2,11 @@ package org.gtk.gtk;
 
 /**
  * Describes the way two values can be compared.
- * 
- * These values can be used with a [callback@GLib.CompareFunc]. However,
- * a `GCompareFunc` is allowed to return any integer values.
- * For converting such a value to a `GtkOrdering` value, use
- * [func@Gtk.Ordering.from_cmpfunc].
+ * <p>
+ * These values can be used with a {@link [callback@GLib.CompareFunc] (ref=callback)}. However,
+ * a <code>GCompareFunc</code> is allowed to return any integer values.
+ * For converting such a value to a <code>GtkOrdering</code> value, use
+ * {@link Gtk#Ordering}.
  */
 public enum Ordering {
 

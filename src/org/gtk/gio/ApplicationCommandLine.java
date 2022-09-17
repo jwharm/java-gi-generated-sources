@@ -11,40 +11,40 @@ import java.lang.invoke.*;
  * #GApplicationCommandLine represents a command-line invocation of
  * an application.  It is created by #GApplication and emitted
  * in the #GApplication::command-line signal and virtual function.
- * 
+ * <p>
  * The class contains the list of arguments that the program was invoked
  * with.  It is also possible to query if the commandline invocation was
  * local (ie: the current process is running in direct response to the
  * invocation) or remote (ie: some other process forwarded the
  * commandline to this process).
- * 
+ * <p>
  * The GApplicationCommandLine object can provide the @argc and @argv
  * parameters for use with the #GOptionContext command-line parsing API,
  * with the g_application_command_line_get_arguments() function. See
- * [gapplication-example-cmdline3.c][gapplication-example-cmdline3]
+ * {@link [gapplication-example-cmdline3.c]}{@link [gapplication-example-cmdline3]}
  * for an example.
- * 
+ * <p>
  * The exit status of the originally-invoked process may be set and
  * messages can be printed to stdout or stderr of that process.  The
  * lifecycle of the originally-invoked process is tied to the lifecycle
  * of this object (ie: the process exits when the last reference is
  * dropped).
- * 
+ * <p>
  * The main use for #GApplicationCommandLine (and the
- * #GApplication::command-line signal) is 'Emacs server' like use cases:
- * You can set the `EDITOR` environment variable to have e.g. git use
+ * <h1>pplication::command-line signal) is &#39;Emacs server&#39; like use cases:</h1>
+ * You can set the <code>EDITOR</code> environment variable to have e.g. git use
  * your favourite editor to edit commit messages, and if you already
  * have an instance of the editor running, the editing will happen
  * in the running instance, instead of opening a new one. An important
  * aspect of this use case is that the process that gets started by git
  * does not return until the editing is done.
- * 
+ * <p>
  * Normally, the commandline is completely handled in the
- * #GApplication::command-line handler. The launching instance exits
+ * <h1>pplication::command-line handler. The launching instance exits</h1>
  * once the signal handler in the primary instance has returned, and
  * the return value of the signal handler becomes the exit status
  * of the launching instance.
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static int
  * command_line (GApplication            *application,
  *               GApplicationCommandLine *cmdline)
@@ -52,27 +52,27 @@ import java.lang.invoke.*;
  *   gchar **argv;
  *   gint argc;
  *   gint i;
- * 
- *   argv = g_application_command_line_get_arguments (cmdline, &argc);
- * 
+ * <p>
+ *   argv = g_application_command_line_get_arguments (cmdline, &#38;argc);
+ * <p>
  *   g_application_command_line_print (cmdline,
- *                                     "This text is written back\\n"
- *                                     "to stdout of the caller\\n");
- * 
- *   for (i = 0; i < argc; i++)
- *     g_print ("argument %d: %s\\n", i, argv[i]);
- * 
+ *                                     &#34;This text is written back\\n&#34;
+ *                                     &#34;to stdout of the caller\\n&#34;);
+ * <p>
+ *   for (i = 0; i &#60; argc; i++)
+ *     g_print (&#34;argument <code>d:</code> <code>s\\n&#34;,</code> i, argv[i]});
+ * <p>
  *   g_strfreev (argv);
- * 
+ * <p>
  *   return 0;
  * }
  * ]|
  * The complete example can be found here:
- * [gapplication-example-cmdline.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline.c)
- * 
+ * {@link [gapplication-example-cmdline.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline.c)
+ * <p>
  * In more complicated cases, the handling of the commandline can be
  * split between the launcher and the primary instance.
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static gboolean
  *  test_local_cmdline (GApplication   *application,
  *                      gchar        ***arguments,
@@ -80,56 +80,56 @@ import java.lang.invoke.*;
  * {
  *   gint i, j;
  *   gchar **argv;
- * 
+ * <p>
  *   argv = *arguments;
- * 
- *   if (argv[0] == NULL)
+ * <p>
+ *   if (argv[0]} == NULL)
  *     {
  *       *exit_status = 0;
  *       return FALSE;
  *     }
- * 
+ * <p>
  *   i = 1;
- *   while (argv[i])
+ *   while (argv{@link [i]})
  *     {
- *       if (g_str_has_prefix (argv[i], "--local-"))
+ *       if (g_str_has_prefix (argv{@link [i]}, &#34;--local-&#34;))
  *         {
- *           g_print ("handling argument %s locally\\n", argv[i]);
- *           g_free (argv[i]);
- *           for (j = i; argv[j]; j++)
- *             argv[j] = argv[j + 1];
+ *           g_print (&#34;handling argument <code>s</code> locally\\n&#34;, argv{@link [i]});
+ *           g_free (argv{@link [i]});
+ *           for (j = i; argv{@link [j]}; j++)
+ *             argv{@link [j]} = argv{@link [j + 1]};
  *         }
  *       else
  *         {
- *           g_print ("not handling argument %s locally\\n", argv[i]);
+ *           g_print (&#34;not handling argument <code>s</code> locally\\n&#34;, argv{@link [i]});
  *           i++;
  *         }
  *     }
- * 
+ * <p>
  *   *exit_status = 0;
- * 
+ * <p>
  *   return FALSE;
  * }
- * 
+ * <p>
  * static void
  * test_application_class_init (TestApplicationClass *class)
  * {
- *   G_APPLICATION_CLASS (class)->local_command_line = test_local_cmdline;
- * 
+ *   G_APPLICATION_CLASS (class)-&#62;local_command_line = test_local_cmdline;
+ * <p>
  *   ...
  * }
  * ]|
  * In this example of split commandline handling, options that start
- * with `--local-` are handled locally, all other options are passed
+ * with <code>--local-</code> are handled locally, all other options are passed
  * to the #GApplication::command-line handler which runs in the primary
  * instance.
  * 
  * The complete example can be found here:
- * [gapplication-example-cmdline2.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline2.c)
+ * {@link [gapplication-example-cmdline2.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline2.c)
  * 
  * If handling the commandline requires a lot of work, it may
  * be better to defer it.
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static gboolean
  * my_cmdline_handler (gpointer data)
  * {
@@ -151,7 +151,7 @@ import java.lang.invoke.*;
  *   g_application_hold (application);
  * 
  *   g_object_set_data_full (G_OBJECT (cmdline),
- *                           "application", application,
+ *                           &#34;application&#34;, application,
  *                           (GDestroyNotify)g_application_release);
  * 
  *   g_object_ref (cmdline);
@@ -159,7 +159,7 @@ import java.lang.invoke.*;
  * 
  *   return 0;
  * }
- * ]|
+ * ]}|
  * In this example the commandline is not completely handled before
  * the #GApplication::command-line handler returns. Instead, we keep
  * a reference to the #GApplicationCommandLine object and handle it
@@ -167,7 +167,7 @@ import java.lang.invoke.*;
  * hold the application until you are done with the commandline.
  * 
  * The complete example can be found here:
- * [gapplication-example-cmdline3.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline3.c)
+ * {@link [gapplication-example-cmdline3.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline3.c)
  */
 public class ApplicationCommandLine extends org.gtk.gobject.Object {
 
@@ -198,9 +198,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * The string may contain non-utf8 data.
      * 
      * It is possible that the remote application did not send a working
-     * directory, so this may be %NULL.
+     * directory, so this may be <code>NULL.
      * 
-     * The return value should not be modified or freed and is valid for as
+     * The</code> return value should not be modified or freed and is valid for as
      * long as @cmdline exists.
      */
     public java.lang.String getCwd() {
@@ -234,7 +234,21 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * modified from your GApplication::handle-local-options handler.
      * 
      * If no options were sent then an empty dictionary is returned so that
-     * you don't need to check for %NULL.
+     * you don&#39;t need to check for 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the options there were passed to g_application_command_line().
+     * 
+     * If you did not override local_command_line() then these are the same
+     * options that were parsed according to the #GOptionEntrys added to the
+     * application with g_application_add_main_option_entries() and possibly
+     * modified from your GApplication::handle-local-options handler.
+     * 
+     * If no options were sent then an empty dictionary is returned so that
+     * you don&#39;t need to check for %NULL.
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
         var RESULT = gtk_h.g_application_command_line_get_options_dict(handle());
@@ -243,6 +257,19 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     
     /**
      * Gets the platform data associated with the invocation of @cmdline.
+     * 
+     * This is a #GVariant dictionary containing information about the
+     * context in which the invocation occurred.  It typically contains
+     * information like the current working directory and the startup
+     * notification ID.
+     * 
+     * For local invocation, it will be 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the platform data associated with the invocation of @cmdline.
      * 
      * This is a #GVariant dictionary containing information about the
      * context in which the invocation occurred.  It typically contains
@@ -261,9 +288,9 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * 
      * The #GInputStream can be used to read data passed to the standard
      * input of the invoking process.
-     * This doesn't work on all platforms.  Presently, it is only available
+     * This doesn&#39;t work on all platforms.  Presently, it is only available
      * on UNIX when using a D-Bus daemon capable of passing file descriptors.
-     * If stdin is not available then %NULL will be returned.  In the
+     * If stdin is not available then <code>null</code> will be returned.  In the
      * future, support may be expanded to other platforms.
      * 
      * You must only call this function once per commandline invocation.
@@ -279,7 +306,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * contain non-utf8 data.
      * 
      * The remote application usually does not send an environment.  Use
-     * %G_APPLICATION_SEND_ENVIRONMENT to affect that.  Even with this flag
+     * {@link org.gtk.gio.ApplicationFlags#SEND_ENVIRONMENT} to affect that.  Even with this flag
      * set it is possible that the environment is still not available (due
      * to invocation messages from other applications).
      * 
@@ -310,7 +337,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * is slightly more complicated.  If the commandline invocation results
      * in the mainloop running (ie: because the use-count of the application
      * increased to a non-zero value) then the application is considered to
-     * have been 'successful' in a certain sense, and the exit status is
+     * have been &#39;successful&#39; in a certain sense, and the exit status is
      * always zero.  If the application use count is zero, though, the exit
      * status of the local #GApplicationCommandLine is used.
      */

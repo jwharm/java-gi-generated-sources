@@ -8,32 +8,30 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkLinkButton` is a button with a hyperlink.
- * 
- * ![An example GtkLinkButton](link-button.png)
- * 
+ * A <code>GtkLinkButton</code> is a button with a hyperlink.
+ * <p>
+ * !{@link [An example GtkLinkButton]}(link-button.png)
+ * <p>
  * It is useful to show quick links to resources.
- * 
- * A link button is created by calling either [ctor@Gtk.LinkButton.new] or
- * [ctor@Gtk.LinkButton.new_with_label]. If using the former, the URI you
+ * <p>
+ * A link button is created by calling either {@link [ctor@Gtk.LinkButton.new] (ref=ctor)} or
+ * {@link [ctor@Gtk.LinkButton.new_with_label] (ref=ctor)}. If using the former, the URI you
  * pass to the constructor is used as a label for the widget.
- * 
- * The URI bound to a `GtkLinkButton` can be set specifically using
- * [method@Gtk.LinkButton.set_uri].
- * 
- * By default, `GtkLinkButton` calls [func@Gtk.show_uri] when the button
+ * <p>
+ * The URI bound to a <code>GtkLinkButton</code> can be set specifically using
+ * {@link org.gtk.gtk.LinkButton#setUri}.
+ * <p>
+ * By default, <code>GtkLinkButton</code> calls {@link Gtk#showUri} when the button
  * is clicked. This behaviour can be overridden by connecting to the
- * [signal@Gtk.LinkButton::activate-link] signal and returning %TRUE from
+ * {@link [signal@Gtk.LinkButton::activate-link] (ref=signal)} signal and returning <code>true</code> from
  * the signal handler.
- * 
- * # CSS nodes
- * 
- * `GtkLinkButton` has a single CSS node with name button. To differentiate
- * it from a plain `GtkButton`, it gets the .link style class.
- * 
- * # Accessibility
- * 
- * `GtkLinkButton` uses the %GTK_ACCESSIBLE_ROLE_LINK role.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkLinkButton</code> has a single CSS node with name button. To differentiate
+ * it from a plain <code>GtkButton</code>, it gets the .link style class.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkLinkButton</code> uses the {@link org.gtk.gtk.AccessibleRole#LINK} role.
  */
 public class LinkButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -52,7 +50,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Creates a new `GtkLinkButton` with the URI as its text.
+     * Creates a new <code>GtkLinkButton</code> with the URI as its text.
      */
     public LinkButton(java.lang.String uri) {
         super(constructNew(uri));
@@ -64,14 +62,14 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Creates a new `GtkLinkButton` containing a label.
+     * Creates a new <code>GtkLinkButton</code> containing a label.
      */
     public static LinkButton newWithLabel(java.lang.String uri, java.lang.String label) {
         return new LinkButton(constructNewWithLabel(uri, label));
     }
     
     /**
-     * Retrieves the URI of the `GtkLinkButton`.
+     * Retrieves the URI of the <code>GtkLinkButton</code>.
      */
     public java.lang.String getUri() {
         var RESULT = gtk_h.gtk_link_button_get_uri(handle());
@@ -79,12 +77,12 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Retrieves the “visited” state of the `GtkLinkButton`.
+     * Retrieves the &#8220;visited&#8221; state of the <code>GtkLinkButton</code>.
      * 
      * The button becomes visited when it is clicked. If the URI
-     * is changed on the button, the “visited” state is unset again.
+     * is changed on the button, the &#8220;visited&#8221; state is unset again.
      * 
-     * The state may also be changed using [method@Gtk.LinkButton.set_visited].
+     * The state may also be changed using {@link org.gtk.gtk.LinkButton#setVisited}.
      */
     public boolean getVisited() {
         var RESULT = gtk_h.gtk_link_button_get_visited(handle());
@@ -92,18 +90,18 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Sets @uri as the URI where the `GtkLinkButton` points.
+     * Sets @uri as the URI where the <code>GtkLinkButton</code> points.
      * 
-     * As a side-effect this unsets the “visited” state of the button.
+     * As a side-effect this unsets the &#8220;visited&#8221; state of the button.
      */
     public void setUri(java.lang.String uri) {
         gtk_h.gtk_link_button_set_uri(handle(), Interop.allocateNativeString(uri).handle());
     }
     
     /**
-     * Sets the “visited” state of the `GtkLinkButton`.
+     * Sets the &#8220;visited&#8221; state of the <code>GtkLinkButton</code>.
      * 
-     * See [method@Gtk.LinkButton.get_visited] for more details.
+     * See {@link org.gtk.gtk.LinkButton#getVisited} for more details.
      */
     public void setVisited(boolean visited) {
         gtk_h.gtk_link_button_set_visited(handle(), visited ? 1 : 0);
@@ -115,14 +113,14 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Emitted each time the `GtkLinkButton` is clicked.
+     * Emitted each time the <code>GtkLinkButton</code> is clicked.
      * 
-     * The default handler will call [func@Gtk.show_uri] with the URI
-     * stored inside the [property@Gtk.LinkButton:uri] property.
+     * The default handler will call {@link Gtk#showUri} with the URI
+     * stored inside the {@link [property@Gtk.LinkButton:uri] (ref=property)} property.
      * 
      * To override the default behavior, you can connect to the
      * ::activate-link signal and stop the propagation of the signal
-     * by returning %TRUE from your handler.
+     * by returning <code>true</code> from your handler.
      */
     public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {

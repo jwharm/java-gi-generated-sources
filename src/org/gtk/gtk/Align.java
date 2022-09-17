@@ -3,18 +3,20 @@ package org.gtk.gtk;
 /**
  * Controls how a widget deals with extra space in a single dimension.
  * 
- * Alignment only matters if the widget receives a “too large” allocation,
- * for example if you packed the widget with the [property@Gtk.Widget:hexpand]
- * property inside a [class@Box], then the widget might get extra space.
+ * Alignment only matters if the widget receives a &#8220;too large&#8221; allocation,
+ * for example if you packed the widget with the {@link [property@Gtk.Widget:hexpand] (ref=property)}
+ * property inside a {@link [class@Box]}, then the widget might get extra space.
  * If you have for example a 16x16 icon inside a 32x32 space, the icon
  * could be scaled and stretched, it could be centered, or it could be
  * positioned to one side of the space.
  * 
- * Note that in horizontal context %GTK_ALIGN_START and %GTK_ALIGN_END
- * are interpreted relative to text direction.
+ * Note that in horizontal context {@link org.gtk.gtk.Align#START} and <code>GTK_ALIGN_END
+ * are</code> interpreted relative to text direction.
  * 
- * %GTK_ALIGN_BASELINE support is optional for containers and widgets, and
- * it is only supported for vertical alignment.  When it's not supported by
+ * {@link org.gtk.gtk.Align#BASELINE} support is optional for containers and widgets, and
+ * it is only supported for vertical alignment.  When it&#39;s not supported by
+ * a child or a container it is treated as support is optional for containers and widgets, and
+ * it is only supported for vertical alignment.  When it&#39;s not supported by
  * a child or a container it is treated as %GTK_ALIGN_FILL.
  */
 public enum Align {
@@ -42,7 +44,7 @@ public enum Align {
     
     /**
      * align the widget according to the baseline.
-     *   See [class@Gtk.Widget].
+     *   See {@link org.gtk.gtk.Widget}.
      */
     BASELINE;
     

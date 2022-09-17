@@ -13,8 +13,8 @@ package org.gtk.gobject;
  * - Zero initialization of the remaining members not copied
  *   over from the parent class.
  * - Invocation of the GBaseInitFunc() initializers of all parent
- *   types and the class' type.
- * - Invocation of the class' GClassInitFunc() initializer.
+ *   types and the class&#39; type.
+ * - Invocation of the class&#39; GClassInitFunc() initializer.
  * 
  * Since derived classes are partially initialized through a memory copy
  * of the parent class, the general rule is that GBaseInitFunc() and
@@ -30,7 +30,7 @@ package org.gtk.gobject;
  * An example may help to correspond the intend of the different class
  * initializers:
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * typedef struct {
  *   GObjectClass parent_class;
  *   gint         static_integer;
@@ -39,17 +39,17 @@ package org.gtk.gobject;
  * static void
  * type_a_base_class_init (TypeAClass *class)
  * {
- *   class->dynamic_string = g_strdup ("some string");
+ *   class-&#62;dynamic_string = g_strdup (&#34;some string&#34;);
  * }
  * static void
  * type_a_base_class_finalize (TypeAClass *class)
  * {
- *   g_free (class->dynamic_string);
+ *   g_free (class-&#62;dynamic_string);
  * }
  * static void
  * type_a_class_init (TypeAClass *class)
  * {
- *   class->static_integer = 42;
+ *   class-&#62;static_integer = 42;
  * }
  * 
  * typedef struct {
@@ -60,19 +60,19 @@ package org.gtk.gobject;
  * static void
  * type_b_base_class_init (TypeBClass *class)
  * {
- *   class->dynamic_gstring = g_string_new ("some other string");
+ *   class-&#62;dynamic_gstring = g_string_new (&#34;some other string&#34;);
  * }
  * static void
  * type_b_base_class_finalize (TypeBClass *class)
  * {
- *   g_string_free (class->dynamic_gstring);
+ *   g_string_free (class-&#62;dynamic_gstring);
  * }
  * static void
  * type_b_class_init (TypeBClass *class)
  * {
- *   class->static_float = 3.14159265358979323846;
+ *   class-&#62;static_float = 3.14159265358979323846;
  * }
- * ]|
+ * ]}|
  * 
  * Initialization of TypeBClass will first cause initialization of
  * TypeAClass (derived classes reference their parent classes, see

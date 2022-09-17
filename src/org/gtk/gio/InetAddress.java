@@ -36,8 +36,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GInetAddress for the "any" address (unassigned/"don't
-     * care") for @family.
+     * Creates a #GInetAddress for the &#34;any&#34; address (unassigned/&#34;don&#39;t
+     * care&#34;) for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
         return new InetAddress(constructNewAny(family));
@@ -50,7 +50,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     
     /**
      * Creates a new #GInetAddress from the given @family and @bytes.
-     * @bytes should be 4 bytes for %G_SOCKET_FAMILY_IPV4 and 16 bytes for
+     * @bytes should be 4 bytes for {@link org.gtk.gio.SocketFamily#IPV4} and 16 bytes for
+     * and 16 bytes for
      * %G_SOCKET_FAMILY_IPV6.
      */
     public static InetAddress newFromBytes(byte[] bytes, SocketFamily family) {
@@ -90,7 +91,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets @address's family
+     * Gets @address&#39;s family
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_get_family(handle());
@@ -98,7 +99,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is the "any" address for its family.
+     * Tests whether @address is the &#34;any&#34; address for its family.
      */
     public boolean getIsAny() {
         var RESULT = gtk_h.g_inet_address_get_is_any(handle());

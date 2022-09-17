@@ -13,13 +13,13 @@ package org.gtk.gtk;
  * application is expected to validate the entry contents, even if
  * it specified a purpose.
  * 
- * The difference between %GTK_INPUT_PURPOSE_DIGITS and
- * %GTK_INPUT_PURPOSE_NUMBER is that the former accepts only digits
+ * The difference between {@link org.gtk.gtk.InputPurpose#DIGITS} and
+ * {@link org.gtk.gtk.InputPurpose#NUMBER} is that the former accepts only digits
  * while the latter also some punctuation (like commas or points, plus,
- * minus) and “e” or “E” as in 3.14E+000.
+ * minus) and &#8220;e&#8221; or &#8220;E&#8221; as in 3.14E+000.
  * 
  * This enumeration may be extended in the future; input methods should
- * interpret unknown values as “free form”.
+ * interpret unknown values as &#8220;free form&#8221;.
  */
 public enum InputPurpose {
 
@@ -64,12 +64,12 @@ public enum InputPurpose {
     NAME,
     
     /**
-     * Like %GTK_INPUT_PURPOSE_FREE_FORM, but characters are hidden
+     * Like <code>GTK_INPUT_PURPOSE_FREE_FORM,</code> but characters are hidden
      */
     PASSWORD,
     
     /**
-     * Like %GTK_INPUT_PURPOSE_DIGITS, but characters are hidden
+     * Like <code>GTK_INPUT_PURPOSE_DIGITS,</code> but characters are hidden
      */
     PIN,
     

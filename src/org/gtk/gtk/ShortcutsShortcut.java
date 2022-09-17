@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutsShortcut` represents a single keyboard shortcut or gesture
+ * A <code>GtkShortcutsShortcut</code> represents a single keyboard shortcut or gesture
  * with a short text.
- * 
- * This widget is only meant to be used with `GtkShortcutsWindow`.
+ * <p>
+ * This widget is only meant to be used with <code>GtkShortcutsWindow</code>.
  */
 public class ShortcutsShortcut extends Widget implements Accessible, Buildable, ConstraintTarget {
 

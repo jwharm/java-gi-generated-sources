@@ -8,42 +8,39 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkIMContextSimple` is an input method supporting table-based input methods.
- * 
- * ## Compose sequences
- * 
- * `GtkIMContextSimple` reads compose sequences from the first of the
+ * <code>GtkIMContextSimple</code> is an input method supporting table-based input methods.
+ * <p>
+ * <h2>Compose sequences</h2>
+ * <p><code>GtkIMContextSimple</code> reads compose sequences from the first of the
  * following files that is found: ~/.config/gtk-4.0/Compose, ~/.XCompose,
  * /usr/share/X11/locale/$locale/Compose (for locales that have a nontrivial
  * Compose file). The syntax of these files is described in the Compose(5)
  * manual page.
- * 
- * If none of these files is found, `GtkIMContextSimple` uses a built-in table
+ * <p>
+ * If none of these files is found, <code>GtkIMContextSimple</code> uses a built-in table
  * of compose sequences that is derived from the X11 Compose files.
- * 
+ * <p>
  * Note that compose sequences typically start with the Compose_key, which is
  * often not available as a dedicated key on keyboards. Keyboard layouts may
  * map this keysym to other keys, such as the right Control key.
- * 
- * ## Unicode characters
- * 
- * `GtkIMContextSimple` also supports numeric entry of Unicode characters
- * by typing <kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>u</kbd>, followed by a
+ * <p>
+ * <h2>Unicode characters</h2>
+ * <p><code>GtkIMContextSimple</code> also supports numeric entry of Unicode characters
+ * by typing &#60;kbd&#62;Ctrl&#60;/kbd&#62;-&#60;kbd&#62;Shift&#60;/kbd&#62;-&#60;kbd&#62;u&#60;/kbd&#62;, followed by a
  * hexadecimal Unicode codepoint.
- * 
+ * <p>
  * For example,
- * 
+ * <p>
  *     Ctrl-Shift-u 1 2 3 Enter
- * 
- * yields U+0123 LATIN SMALL LETTER G WITH CEDILLA, i.e. ģ.
- * 
- * ## Dead keys
- * 
- * `GtkIMContextSimple` supports dead keys. For example, typing
+ * <p>
+ * yields U+0123 LATIN SMALL LETTER G WITH CEDILLA, i.e. &#291;.
+ * <p>
+ * <h2>Dead keys</h2>
+ * <p><code>GtkIMContextSimple</code> supports dead keys. For example, typing
  * 
  *     dead_acute a
  * 
- *  yields U+00E! LATIN SMALL LETTER_A WITH ACUTE, i.e. á. Note that this
+ *  yields U+00E! LATIN SMALL LETTER_A WITH ACUTE, i.e. &#225;. Note that this
  *  depends on the keyboard layout including dead keys.
  */
 public class IMContextSimple extends IMContext {
@@ -63,7 +60,7 @@ public class IMContextSimple extends IMContext {
     }
     
     /**
-     * Creates a new `GtkIMContextSimple`.
+     * Creates a new <code>GtkIMContextSimple</code>.
      */
     public IMContextSimple() {
         super(constructNew());

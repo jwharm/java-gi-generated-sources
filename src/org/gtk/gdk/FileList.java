@@ -17,7 +17,7 @@ public class FileList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the list of files inside a `GdkFileList`.
+     * Retrieves the list of files inside a <code>GdkFileList</code>.
      * 
      * This function is meant for language bindings.
      */

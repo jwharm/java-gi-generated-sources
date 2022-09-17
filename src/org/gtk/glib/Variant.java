@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * 
  * A #GVariant may contain simple types, like an integer, or a boolean value;
  * or complex types, like an array of two strings, or a dictionary of key
- * value pairs. A #GVariant is also immutable: once it's been created neither
+ * value pairs. A #GVariant is also immutable: once it&#39;s been created neither
  * its type nor its content can be modified further.
  * 
  * GVariant is useful whenever data needs to be serialized, for example when
@@ -25,15 +25,15 @@ import java.lang.invoke.*;
  * For instance, if you want to create a #GVariant holding an integer value you
  * can use:
  * 
- * |[<!-- language="C" -->
- *   GVariant *v = g_variant_new ("u", 40);
- * ]|
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ *   GVariant *v = g_variant_new (&#34;u&#34;, 40);
+ * ]}|
  * 
- * The string "u" in the first argument tells #GVariant that the data passed to
+ * The string &#34;u&#34; in the first argument tells #GVariant that the data passed to
  * the constructor (40) is going to be an unsigned integer.
  * 
  * More advanced examples of #GVariant in use can be found in documentation for
- * [GVariant format strings][gvariant-format-strings-pointers].
+ * {@link [GVariant format strings]}{@link [gvariant-format-strings-pointers]}.
  * 
  * The range of possible values is determined by the type.
  * 
@@ -60,20 +60,20 @@ import java.lang.invoke.*;
  * 
  * #GVariant is largely compatible with D-Bus.  Almost all types of
  * #GVariant instances can be sent over D-Bus.  See #GVariantType for
- * exceptions.  (However, #GVariant's serialization format is not the same
+ * exceptions.  (However, #GVariant&#39;s serialization format is not the same
  * as the serialization format of a D-Bus message body: use #GDBusMessage,
  * in the gio library, for those.)
  * 
  * For space-efficiency, the #GVariant serialization format does not
- * automatically include the variant's length, type or endianness,
+ * automatically include the variant&#39;s length, type or endianness,
  * which must either be implied from context (such as knowledge that a
  * particular file format always contains a little-endian
- * %G_VARIANT_TYPE_VARIANT which occupies the whole length of the file)
+ * <code>G_VARIANT_TYPE_VARIANT</code> which occupies the whole length of the file)
  * or supplied out-of-band (for instance, a length, type and/or endianness
  * indicator could be placed at the beginning of a file, network message
  * or network stream).
  * 
- * A #GVariant's size is limited mainly by any lower level operating
+ * A #GVariant&#39;s size is limited mainly by any lower level operating
  * system constraints, such as the number of bits in #gsize.  For
  * example, it is reasonable to have a 2GB file mapped into memory
  * with #GMappedFile, and call g_variant_new_from_data() on it.
@@ -107,7 +107,7 @@ import java.lang.invoke.*;
  * 
  * The amount of memory required to store a boolean is 1 byte. 16,
  * 32 and 64 bit integers and double precision floating point numbers
- * use their "natural" size.  Strings (including object path and
+ * use their &#34;natural&#34; size.  Strings (including object path and
  * signature strings) are stored with a nul terminator, and as such
  * use the length of the string plus 1 byte.
  * 
@@ -137,22 +137,22 @@ import java.lang.invoke.*;
  * In the case that the dictionary is empty, 0 bytes are required for
  * the serialization.
  * 
- * If we add an item "width" that maps to the int32 value of 500 then
+ * If we add an item &#34;width&#34; that maps to the int32 value of 500 then
  * we will use 4 byte to store the int32 (so 6 for the variant
  * containing it) and 6 bytes for the string.  The variant must be
- * aligned to 8 after the 6 bytes of the string, so that's 2 extra
+ * aligned to 8 after the 6 bytes of the string, so that&#39;s 2 extra
  * bytes.  6 (string) + 2 (padding) + 6 (variant) is 14 bytes used
  * for the dictionary entry.  An additional 1 byte is added to the
  * array as a framing offset making a total of 15 bytes.
  * 
- * If we add another entry, "title" that maps to a nullable string
+ * If we add another entry, &#34;title&#34; that maps to a nullable string
  * that happens to have a value of null, then we use 0 bytes for the
  * null value (and 3 bytes for the variant to contain it along with
  * its type string) plus 6 bytes for the string.  Again, we need 2
  * padding bytes.  That makes a total of 6 + 2 + 3 = 11 bytes.
  * 
  * We now require extra padding between the two items in the array.
- * After the 14 bytes of the first item, that's 2 bytes required.
+ * After the 14 bytes of the first item, that&#39;s 2 bytes required.
  * We now require 2 framing offsets for an extra two
  * bytes. 14 + 2 + 11 + 2 = 29 bytes to encode the entire two-item
  * dictionary.
@@ -164,8 +164,8 @@ import java.lang.invoke.*;
  * type information structure is required for rapid deserialization.
  * 
  * Continuing with the above example, if a #GVariant exists with the
- * type "a{sv}" then a type information struct will exist for
- * "a{sv}", "{sv}", "s", and "v".  Multiple uses of the same type
+ * type &#34;a{sv}&#34; then a type information struct will exist for
+ * &#34;a{sv}&#34;, &#34;{sv}&#34;, &#34;s&#34;, and &#34;v&#34;.  Multiple uses of the same type
  * will share the same type information.  Additionally, all
  * single-digit types are stored in read-only static memory and do
  * not contribute to the writable memory footprint of a program using
@@ -179,7 +179,7 @@ import java.lang.invoke.*;
  * 
  * Array type info structures are 6 * sizeof (void *), plus the
  * memory required to store the type string itself.  This means that
- * on 32-bit systems, the cache entry for "a{sv}" would require 30
+ * on 32-bit systems, the cache entry for &#34;a{sv}&#34; would require 30
  * bytes of memory (plus malloc overhead).
  * 
  * Tuple type info structures are 6 * sizeof (void *), plus 4 *
@@ -188,9 +188,9 @@ import java.lang.invoke.*;
  * example, would have a type information structure that consumed
  * writable memory in the size of 14 * sizeof (void *) (plus type
  * string)  This means that on 32-bit systems, the cache entry for
- * "{sv}" would require 61 bytes of memory (plus malloc overhead).
+ * &#34;{sv}&#34; would require 61 bytes of memory (plus malloc overhead).
  * 
- * This means that in total, for our "a{sv}" example, 91 bytes of
+ * This means that in total, for our &#34;a{sv}&#34; example, 91 bytes of
  * type information would be allocated.
  * 
  * The type information cache, additionally, uses a #GHashTable to
@@ -214,12 +214,12 @@ import java.lang.invoke.*;
  * 
  * One buffer management structure is used for each chunk of
  * serialized data.  The size of the buffer management structure
- * is 4 * (void *).  On 32-bit systems, that's 16 bytes.
+ * is 4 * (void *).  On 32-bit systems, that&#39;s 16 bytes.
  * 
  * ## GVariant structure
  * 
  * The size of a #GVariant structure is 6 * (void *).  On 32-bit
- * systems, that's 24 bytes.
+ * systems, that&#39;s 24 bytes.
  * 
  * #GVariant structures only exist if they are explicitly created
  * with API calls.  For example, if a #GVariant is constructed out of
@@ -265,15 +265,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GVariant array from @children.
      * 
-     * @child_type must be non-%NULL if @n_children is zero.  Otherwise, the
+     * @child_type must be non-<code>null</code> if @n_children is zero.  Otherwise, the
      * child type is determined by inspecting the first element of the
-     * @children array.  If @child_type is non-%NULL then it must be a
+     * @children array.  If @child_type is non-<code>null</code> then it must be a
      * definite type.
      * 
      * The items of the array are taken from the @children array.  No entry
-     * in the @children array may be %NULL.
+     * in the @children array may be <code>NULL.
      * 
-     * All items in the array must have the same type, which must be the
+     * All</code> items in the array must have the same type, which must be the
      * same as @child_type, if given.
      * 
      * If the @children are floating references (see g_variant_ref_sink()), the
@@ -289,7 +289,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new boolean #GVariant instance -- either %TRUE or %FALSE.
+     * Creates a new boolean #GVariant instance -- either <code>true</code> or or %FALSE.
      */
     public static Variant newBoolean(boolean value) {
         return new Variant(constructNewBoolean(value));
@@ -333,6 +333,17 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Constructs an array of bytestring #GVariant from the given array of
      * strings.
      * 
+     * If @length is -1 then @strv is 
+     *             
+     *               
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Constructs an array of bytestring #GVariant from the given array of
+     * strings.
+     * 
      * If @length is -1 then @strv is %NULL-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
@@ -346,7 +357,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new dictionary entry #GVariant. @key and @value must be
-     * non-%NULL. @key must be a value of a basic type (ie: not a container).
+     * non-<code>NULL.</code> @key must be a value of a basic type (ie: not a container).
      * 
      * If the @key or @value are floating references (see g_variant_ref_sink()),
      * the new instance takes ownership of them as if via g_variant_ref_sink().
@@ -381,8 +392,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * @element_size must be the size of a single element in the array.
      * For example, if calling this function for an array of 32-bit integers,
-     * you might say sizeof(gint32). This value isn't used except for the purpose
-     * of a double-check that the form of the serialized data matches the caller's
+     * you might say sizeof(gint32). This value isn&#39;t used except for the purpose
+     * of a double-check that the form of the serialized data matches the caller&#39;s
      * expectation.
      * 
      * @n_elements must be the length of the @elements array.
@@ -429,13 +440,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * the result is undefined.
      * 
      * If @data is trusted to be serialized data in normal form then
-     * @trusted should be %TRUE.  This applies to serialized data created
+     * @trusted should be <code>TRUE.</code>  This applies to serialized data created
      * within this process or read from a trusted location on the disk (such
      * as a file installed in /usr/lib alongside your application).  You
-     * should set trusted to %FALSE if @data is read from the network, a
-     * file in the user's home directory, etc.
+     * should set trusted to <code>false</code> if @data is read from the network, a
+     * file in the user&#39;s home directory, etc.
      * 
-     * If @data was not stored in this machine's native endianness, any multi-byte
+     * If @data was not stored in this machine&#39;s native endianness, any multi-byte
      * numeric values in the returned variant will also be in non-native
      * endianness. g_variant_byteswap() can be used to recover the original values.
      * 
@@ -461,8 +472,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new handle #GVariant instance.
      * 
      * By convention, handles are indexes into an array of file descriptors
-     * that are sent alongside a D-Bus message.  If you're not interacting
-     * with D-Bus, you probably don't need them.
+     * that are sent alongside a D-Bus message.  If you&#39;re not interacting
+     * with D-Bus, you probably don&#39;t need them.
      */
     public static Variant newHandle(int value) {
         return new Variant(constructNewHandle(value));
@@ -510,12 +521,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Depending on if @child is %NULL, either wraps @child inside of a
+     * Depending on if @child is <code>NULL,</code> either wraps @child inside of a
      * maybe container or creates a Nothing instance for the given @type.
      * 
-     * At least one of @child_type and @child must be non-%NULL.
-     * If @child_type is non-%NULL then it must be a definite type.
-     * If they are both non-%NULL then @child_type must be the type
+     * At least one of @child_type and @child must be non-<code>NULL.
+     * If</code> @child_type is non-<code>null</code> then it must be a definite type.
+     * If they are both non-<code>null</code> then @child_type must be the type
      * of @child.
      * 
      * If @child is a floating reference (see g_variant_ref_sink()), the new
@@ -533,7 +544,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a D-Bus object path #GVariant with the contents of @string.
      * @string must be a valid D-Bus object path.  Use
-     * g_variant_is_object_path() if you're not sure.
+     * g_variant_is_object_path() if you&#39;re not sure.
      */
     public static Variant newObjectPath(java.lang.String objectPath) {
         return new Variant(constructNewObjectPath(objectPath));
@@ -546,6 +557,18 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Constructs an array of object paths #GVariant from the given array of
+     * strings.
+     * 
+     * Each string must be a valid #GVariant object path; see
+     * g_variant_is_object_path().
+     * 
+     * If @length is -1 then @strv is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Constructs an array of object paths #GVariant from the given array of
      * strings.
      * 
      * Each string must be a valid #GVariant object path; see
@@ -570,13 +593,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The return value will be floating if it was a newly created GVariant
      * instance.  In the case that @format simply specified the collection
-     * of a #GVariant pointer (eg: @format was "%*") then the collected
+     * of a #GVariant pointer (eg: @format was &#34;<code>*&#34;)</code> then the collected
      * #GVariant pointer will be returned unmodified, without adding any
      * additional references.
      * 
      * Note that the arguments in @app must be of the correct width for their types
      * specified in @format when collected into the #va_list. See
-     * the [GVariant varargs documentation][gvariant-varargs].
+     * the {@link [GVariant varargs documentation]}{@link [gvariant-varargs]}.
      * 
      * In order to behave correctly in all cases it is necessary for the
      * calling function to g_variant_ref_sink() the return result before
@@ -597,7 +620,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a D-Bus type signature #GVariant with the contents of
      * @string.  @string must be a valid D-Bus type signature.  Use
-     * g_variant_is_signature() if you're not sure.
+     * g_variant_is_signature() if you&#39;re not sure.
      */
     public static Variant newSignature(java.lang.String signature) {
         return new Variant(constructNewSignature(signature));
@@ -610,10 +633,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a string #GVariant with the contents of @string.
-     * 
-     * @string must be valid UTF-8, and must not be %NULL. To encode
-     * potentially-%NULL strings, use g_variant_new() with `ms` as the
-     * [format string][gvariant-format-strings-maybe-types].
+     * <p>
+     * @string must be valid UTF-8, and must not be <code>NULL.</code> To encode
+     * potentially-<code>null</code> strings, use g_variant_new() with <code>ms</code> as the
+     * {@link [format string]}{@link [gvariant-format-strings-maybe-types]}.
      */
     public static Variant newString(java.lang.String string) {
         return new Variant(constructNewString(string));
@@ -626,6 +649,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Constructs an array of strings #GVariant from the given array of
+     * strings.
+     * 
+     * If @length is -1 then @strv is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Constructs an array of strings #GVariant from the given array of
      * strings.
      * 
      * If @length is -1 then @strv is %NULL-terminated.
@@ -642,8 +674,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a string #GVariant with the contents of @string.
      * 
-     * @string must be valid UTF-8, and must not be %NULL. To encode
-     * potentially-%NULL strings, use this with g_variant_new_maybe().
+     * @string must be valid UTF-8, and must not be <code>NULL.</code> To encode
+     * potentially-<code>null</code> strings, use this with g_variant_new_maybe().
      * 
      * This function consumes @string.  g_free() will be called on @string
      * when it is no longer required.
@@ -664,9 +696,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new tuple #GVariant out of the items in @children.  The
      * type is determined from the types of @children.  No entry in the
-     * @children array may be %NULL.
+     * @children array may be <code>NULL.
      * 
-     * If @n_children is 0 then the unit tuple is constructed.
+     * If</code> @n_children is 0 then the unit tuple is constructed.
      * 
      * If the @children are floating references (see g_variant_ref_sink()), the
      * new instance takes ownership of them as if via g_variant_ref_sink().
@@ -725,8 +757,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * of possible uses.
      * 
      * @format_string must still point to a valid format string, but it only
-     * needs to be nul-terminated if @endptr is %NULL.  If @endptr is
-     * non-%NULL then it is updated to point to the first character past the
+     * needs to be nul-terminated if @endptr is <code>NULL.</code>  If @endptr is
+     * non-<code>null</code> then it is updated to point to the first character past the
      * end of the format string.
      * 
      * @app is a pointer to a #va_list.  The arguments, according to
@@ -735,16 +767,16 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * Note that the arguments in @app must be of the correct width for their
      * types specified in @format_string when collected into the #va_list.
-     * See the [GVariant varargs documentation][gvariant-varargs].
+     * See the {@link [GVariant varargs documentation]}{@link [gvariant-varargs]}.
      * 
      * These two generalisations allow mixing of multiple calls to
      * g_variant_new_va() and g_variant_get_va() within a single actual
      * varargs call by the user.
      * 
      * The return value will be floating if it was a newly created GVariant
-     * instance (for example, if the format string was "(ii)").  In the case
-     * that the format_string was '*', '?', 'r', or a format starting with
-     * '@' then the collected #GVariant pointer will be returned unmodified,
+     * instance (for example, if the format string was &#34;(ii)&#34;).  In the case
+     * that the format_string was &#39;*&#39;, &#39;?&#39;, &#39;r&#39;, or a format starting with
+     * &#39;@&#39; then the collected #GVariant pointer will be returned unmodified,
      * without adding any additional references.
      * 
      * In order to behave correctly in all cases it is necessary for the
@@ -797,12 +829,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * be valid from a type-compatibility standpoint.  @format_string is
      * assumed to be a valid format string (from a syntactic standpoint).
      * 
-     * If @copy_only is %TRUE then this function additionally checks that it
+     * If @copy_only is <code>true</code> then this function additionally checks that it
      * would be safe to call g_variant_unref() on @value immediately after
      * the call to g_variant_get() without invalidating the result.  This is
      * only possible if deep copies are made (ie: there are no pointers to
      * the data inside of the soon-to-be-freed #GVariant instance).  If this
-     * check fails then a g_critical() is printed and %FALSE is returned.
+     * check fails then a g_critical() is printed and <code>false</code> is returned.
      * 
      * This function is meant to be used by functions that wish to provide
      * varargs accessors to #GVariant values of uncertain values (eg:
@@ -829,7 +861,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * #GVariant.
      * 
      * Comparison is only defined for basic types (ie: booleans, numbers,
-     * strings).  For booleans, %FALSE is less than %TRUE.  Numbers are
+     * strings).  For booleans, <code>false</code> is less than <code>TRUE.</code>  Numbers are
      * ordered in the usual way.  Strings are in ASCII lexographical order.
      * 
      * It is a programmer error to attempt to compare container values or
@@ -862,6 +894,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the boolean value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the boolean value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_BOOLEAN.
      */
     public boolean getBoolean() {
@@ -871,6 +912,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the byte value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the byte value of @value.
      * 
      * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_BYTE.
@@ -890,7 +940,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * in the container.  See g_variant_n_children().
      * 
      * The returned value is never floating.  You should free it with
-     * g_variant_unref() when you're done with it.
+     * g_variant_unref() when you&#39;re done with it.
      * 
      * Note that values borrowed from the returned child are not guaranteed to
      * still be valid after the child is freed even if you still hold a reference
@@ -917,10 +967,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * valid for as long as @value exists.
      * 
      * If @value is a fixed-sized value that was deserialized from a
-     * corrupted serialized container then %NULL may be returned.  In this
+     * corrupted serialized container then <code>null</code> may be returned.  In this
      * case, the proper thing to do is typically to use the appropriate
      * number of nul bytes in place of @value.  If @value is not fixed-sized
-     * then %NULL is never returned.
+     * then <code>null</code> is never returned.
      * 
      * In the case that @value is already in serialized form, this function
      * is O(1).  If the value is not already in serialized form,
@@ -932,8 +982,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * machine might be different) the endianness of the machine that stored
      * it. As a result, file formats or network messages that incorporate
      * serialized #GVariants must include this information either
-     * implicitly (for instance "the file always contains a
-     * %G_VARIANT_TYPE_VARIANT and it is always in little-endian order") or
+     * implicitly (for instance &#34;the file always contains a
+     * <code>G_VARIANT_TYPE_VARIANT</code> and it is always in little-endian order&#34;) or
      * explicitly (by storing the type and/or endianness in addition to the
      * serialized data).
      */
@@ -957,6 +1007,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the double precision floating point value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the double precision floating point value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_DOUBLE.
      */
     public double getDouble() {
@@ -968,11 +1027,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the 32-bit signed integer value of @value.
      * 
      * It is an error to call this function with a @value of any type other
-     * than %G_VARIANT_TYPE_HANDLE.
+     * than <code>G_VARIANT_TYPE_HANDLE.
      * 
-     * By convention, handles are indexes into an array of file descriptors
-     * that are sent alongside a D-Bus message.  If you're not interacting
-     * with D-Bus, you probably don't need them.
+     * By</code> convention, handles are indexes into an array of file descriptors
+     * that are sent alongside a D-Bus message.  If you&#39;re not interacting
+     * with D-Bus, you probably don&#39;t need them.
      */
     public int getHandle() {
         var RESULT = gtk_h.g_variant_get_handle(handle());
@@ -981,6 +1040,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the 16-bit signed integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 16-bit signed integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_INT16.
@@ -994,6 +1062,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the 32-bit signed integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 32-bit signed integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_INT32.
      */
     public int getInt32() {
@@ -1005,6 +1082,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the 64-bit signed integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 64-bit signed integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_INT64.
      */
     public long getInt64() {
@@ -1014,6 +1100,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Given a maybe-typed #GVariant instance, extract its value.  If the
+     * value is Nothing, then this function returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Given a maybe-typed #GVariant instance, extract its value.  If the
      * value is Nothing, then this function returns %NULL.
      */
     public Variant getMaybe() {
@@ -1035,7 +1128,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * If @value is found not to be in normal form then a new trusted
      * #GVariant is created with the same value as @value.
      * 
-     * It makes sense to call this function if you've received #GVariant
+     * It makes sense to call this function if you&#39;ve received #GVariant
      * data from untrusted sources and you want to ensure your serialized
      * output is definitely in normal form.
      * 
@@ -1094,6 +1187,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the 16-bit unsigned integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 16-bit unsigned integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_UINT16.
      */
     public short getUint16() {
@@ -1105,6 +1207,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Returns the 32-bit unsigned integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 32-bit unsigned integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_UINT32.
      */
     public int getUint32() {
@@ -1114,6 +1225,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the 64-bit unsigned integer value of @value.
+     * 
+     * It is an error to call this function with a @value of any type
+     * other than 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the 64-bit unsigned integer value of @value.
      * 
      * It is an error to call this function with a @value of any type
      * other than %G_VARIANT_TYPE_UINT64.
@@ -1132,8 +1252,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * of possible uses.
      * 
      * @format_string must still point to a valid format string, but it only
-     * need to be nul-terminated if @endptr is %NULL.  If @endptr is
-     * non-%NULL then it is updated to point to the first character past the
+     * need to be nul-terminated if @endptr is <code>NULL.</code>  If @endptr is
+     * non-<code>null</code> then it is updated to point to the first character past the
      * end of the format string.
      * 
      * @app is a pointer to a #va_list.  The arguments, according to
@@ -1147,7 +1267,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * @format_string determines the C types that are used for unpacking
      * the values and also determines if the values are copied or borrowed,
      * see the section on
-     * [GVariant format strings][gvariant-format-strings-pointers].
+     * {@link [GVariant format strings]}{@link [gvariant-format-strings-pointers]}.
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
         gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app);
@@ -1212,9 +1332,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If @value is found to be in normal form then it will be marked as
      * being trusted.  If the value was already marked as being trusted then
-     * this function will immediately return %TRUE.
+     * this function will immediately return <code>TRUE.
      * 
-     * There may be implementation specific restrictions on deeply nested values.
+     * There</code> may be implementation specific restrictions on deeply nested values.
      * GVariant is guaranteed to handle nesting up to at least 64 levels.
      */
     public boolean isNormalForm() {
@@ -1255,14 +1375,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * In the event that @dictionary has the type a{sv}, the @expected_type
      * string specifies what type of value is expected to be inside of the
      * variant. If the value inside the variant has a different type then
-     * %NULL is returned. In the event that @dictionary has a value type other
+     * <code>null</code> is returned. In the event that @dictionary has a value type other
      * than v then @expected_type must directly match the value type and it is
      * used to unpack the value directly or an error occurs.
      * 
-     * In either case, if @key is not found in @dictionary, %NULL is returned.
+     * In either case, if @key is not found in @dictionary, <code>null</code> is returned.
      * 
      * If the key is found and the value has the correct type, it is
-     * returned.  If @expected_type was specified then any non-%NULL return
+     * returned.  If @expected_type was specified then any non-<code>null</code> return
      * value will have this type.
      * 
      * This function is currently implemented with a linear scan.  If you
@@ -1294,9 +1414,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Pretty-prints @value in the format understood by g_variant_parse().
      * 
-     * The format is described [here][gvariant-text].
+     * The format is described {@link [here]}{@link [gvariant-text]}.
      * 
-     * If @type_annotate is %TRUE, then type information is included in
+     * If @type_annotate is <code>TRUE,</code> then type information is included in
      * the output.
      */
     public java.lang.String print(boolean typeAnnotate) {
@@ -1307,7 +1427,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Behaves as g_variant_print(), but operates on a #GString.
      * 
-     * If @string is non-%NULL then it is appended to and returned.  Else,
+     * If @string is non-<code>null</code> then it is appended to and returned.  Else,
      * a new empty #GString is allocated and it is returned.
      */
     public String printString(String string, boolean typeAnnotate) {
@@ -1325,7 +1445,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * #GVariant uses a floating reference count system.  All functions with
-     * names starting with `g_variant_new_` return floating
+     * names starting with <code>g_variant_new_</code> return floating
      * references.
      * 
      * Calling g_variant_ref_sink() on a #GVariant with a floating reference
@@ -1333,8 +1453,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_ref_sink() on a non-floating #GVariant results in an
      * additional normal reference being added.
      * 
-     * In other words, if the @value is floating, then this call "assumes
-     * ownership" of the floating reference, converting it to a normal
+     * In other words, if the @value is floating, then this call &#34;assumes
+     * ownership&#34; of the floating reference, converting it to a normal
      * reference.  If the @value is not floating, then this call adds a
      * new normal reference increasing the reference count by one.
      * 
@@ -1389,7 +1509,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * typing if they are allowed to return a #GVariant with a floating
      * reference.
      * 
-     * Using this function on the return value of the user's callback allows
+     * Using this function on the return value of the user&#39;s callback allows
      * the user to do whichever is more convenient for them.  The caller
      * will always receives exactly one full reference to the value: either
      * the one that was returned in the first place, or a floating reference
@@ -1421,11 +1541,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Determines if a given string is a valid D-Bus object path.  You
      * should ensure that a string is a valid D-Bus object path before
      * passing it to g_variant_new_object_path().
-     * 
-     * A valid object path starts with `/` followed by zero or more
-     * sequences of characters separated by `/` characters.  Each sequence
-     * must contain only the characters `[A-Z][a-z][0-9]_`.  No sequence
-     * (including the one following the final `/` character) may be empty.
+     * <p>
+     * A valid object path starts with <code>/</code> followed by zero or more
+     * sequences of characters separated by <code>/</code> characters.  Each sequence
+     * must contain only the characters <code>{@link [A-Z]}{@link [a-z]}{@link [0-9]}_</code>.  No sequence
+     * (including the one following the final <code>/</code> character) may be empty.
      */
     public static boolean isObjectPath(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
@@ -1450,21 +1570,21 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * A single #GVariant is parsed from the content of @text.
      * 
-     * The format is described [here][gvariant-text].
+     * The format is described {@link [here]}{@link [gvariant-text]}.
      * 
      * The memory at @limit will never be accessed and the parser behaves as
      * if the character at @limit is the nul terminator.  This has the
      * effect of bounding @text.
      * 
-     * If @endptr is non-%NULL then @text is permitted to contain data
+     * If @endptr is non-<code>null</code> then @text is permitted to contain data
      * following the value that this function parses and @endptr will be
      * updated to point to the first character past the end of the text
-     * parsed by this function.  If @endptr is %NULL and there is extra data
+     * parsed by this function.  If @endptr is <code>null</code> and there is extra data
      * then an error is returned.
      * 
-     * If @type is non-%NULL then the value will be parsed to have that
+     * If @type is non-<code>null</code> then the value will be parsed to have that
      * type.  This may result in additional parse errors (in the case that
-     * the parsed value doesn't fit the type) but may also result in fewer
+     * the parsed value doesn&#39;t fit the type) but may also result in fewer
      * errors (in the case that the type would have been ambiguous, such as
      * with empty arrays).
      * 
@@ -1472,14 +1592,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * is returned. It is never floating, and must be freed with
      * g_variant_unref().
      * 
-     * In case of any error, %NULL will be returned.  If @error is non-%NULL
-     * then it will be set to reflect the error that occurred.
+     * In case of any error, <code>null</code> will be returned.  If @error is non-<code>NULL
+     * then</code> it will be set to reflect the error that occurred.
      * 
-     * Officially, the language understood by the parser is "any string
-     * produced by g_variant_print()".
+     * Officially, the language understood by the parser is &#34;any string
+     * produced by g_variant_print()&#34;.
      * 
      * There may be implementation specific restrictions on deeply nested values,
-     * which would result in a %G_VARIANT_PARSE_ERROR_RECURSION error. #GVariant is
+     * which would result in a {@link org.gtk.glib.VariantParseError#RECURSION} error. #GVariant is
      * guaranteed to handle nesting up to at least 64 levels.
      */
     public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
@@ -1500,17 +1620,17 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The message will typically look something like one of the following:
      * 
-     * |[
+     * |{@link [
      * unterminated string constant:
-     *   (1, 2, 3, 'abc
+     *   (1, 2, 3, &#39;abc
      *             ^^^^
-     * ]|
+     * ]}|
      * 
      * or
      * 
-     * |[
+     * |{@link [
      * unable to find a common type:
-     *   [1, 2, 3, 'str']
+     *   [1, 2, 3, &#39;str&#39;]}
      *    ^        ^^^^^
      * ]|
      * 

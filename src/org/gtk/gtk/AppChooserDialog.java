@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAppChooserDialog` shows a `GtkAppChooserWidget` inside a `GtkDialog`.
- * 
- * ![An example GtkAppChooserDialog](appchooserdialog.png)
- * 
- * Note that `GtkAppChooserDialog` does not have any interesting methods
- * of its own. Instead, you should get the embedded `GtkAppChooserWidget`
- * using [method@Gtk.AppChooserDialog.get_widget] and call its methods if
- * the generic [iface@Gtk.AppChooser] interface is not sufficient for
+ * <code>GtkAppChooserDialog</code> shows a <code>GtkAppChooserWidget</code> inside a <code>GtkDialog</code>.
+ * <p>
+ * !{@link [An example GtkAppChooserDialog]}(appchooserdialog.png)
+ * <p>
+ * Note that <code>GtkAppChooserDialog</code> does not have any interesting methods
+ * of its own. Instead, you should get the embedded <code>GtkAppChooserWidget</code>
+ * using {@link org.gtk.gtk.AppChooserDialog#getWidget} and call its methods if
+ * the generic {@link [iface@Gtk.AppChooser] (ref=iface)} interface is not sufficient for
  * your needs.
- * 
- * To set the heading that is shown above the `GtkAppChooserWidget`,
- * use [method@Gtk.AppChooserDialog.set_heading].
+ * <p>
+ * To set the heading that is shown above the <code>GtkAppChooserWidget</code>,
+ * use {@link org.gtk.gtk.AppChooserDialog#setHeading}.
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -38,7 +38,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new `GtkAppChooserDialog` for the provided `GFile`.
+     * Creates a new <code>GtkAppChooserDialog</code> for the provided <code>GFile</code>.
      * 
      * The dialog will show applications that can open the file.
      */
@@ -52,7 +52,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new `GtkAppChooserDialog` for the provided content type.
+     * Creates a new <code>GtkAppChooserDialog</code> for the provided content type.
      * 
      * The dialog will show applications that can open the content type.
      */
@@ -69,7 +69,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Returns the `GtkAppChooserWidget` of this dialog.
+     * Returns the <code>GtkAppChooserWidget</code> of this dialog.
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_app_chooser_dialog_get_widget(handle());

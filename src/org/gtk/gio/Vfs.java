@@ -72,13 +72,13 @@ public class Vfs extends org.gtk.gobject.Object {
      * 
      * When g_file_parse_name() is called with a parse name obtained from such file,
      * @parse_name_func will be called to allow the #GFile to be created again. In
-     * that case, it's responsibility of @parse_name_func to make sure the parse
+     * that case, it&#39;s responsibility of @parse_name_func to make sure the parse
      * name matches what the custom #GFile implementation returned when
      * g_file_get_parse_name() was previously called. The implementation of
      * @parse_name_func should not be blocking, and must not call
      * g_vfs_register_uri_scheme() or g_vfs_unregister_uri_scheme().
      * 
-     * It's an error to call this function twice with the same scheme. To unregister
+     * It&#39;s an error to call this function twice with the same scheme. To unregister
      * a custom URI scheme, use g_vfs_unregister_uri_scheme().
      */
     public boolean registerUriScheme(java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {

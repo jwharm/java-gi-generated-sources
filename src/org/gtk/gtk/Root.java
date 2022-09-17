@@ -8,24 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkRoot` is the interface implemented by all widgets that can act as a toplevel
+ * <code>GtkRoot</code> is the interface implemented by all widgets that can act as a toplevel
  * widget.
- * 
+ * <p>
  * The root widget takes care of providing the connection to the windowing system
  * and manages layout, drawing and event delivery for its widget hierarchy.
- * 
- * The obvious example of a `GtkRoot` is `GtkWindow`.
- * 
- * To get the display to which a `GtkRoot` belongs, use
- * [method@Gtk.Root.get_display].
- * 
- * `GtkRoot` also maintains the location of keyboard focus inside its widget
- * hierarchy, with [method@Gtk.Root.set_focus] and [method@Gtk.Root.get_focus].
+ * <p>
+ * The obvious example of a <code>GtkRoot</code> is <code>GtkWindow</code>.
+ * <p>
+ * To get the display to which a <code>GtkRoot</code> belongs, use
+ * {@link org.gtk.gtk.Root#getDisplay}.
+ * <p><code>GtkRoot</code> also maintains the location of keyboard focus inside its widget
+ * hierarchy, with {@link org.gtk.gtk.Root#setFocus} and {@link org.gtk.gtk.Root#getFocus}.
  */
 public interface Root extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Returns the display that this `GtkRoot` is on.
+     * Returns the display that this <code>GtkRoot</code> is on.
      */
     public default org.gtk.gdk.Display getDisplay() {
         var RESULT = gtk_h.gtk_root_get_display(handle());
@@ -34,10 +33,9 @@ public interface Root extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Retrieves the current focused widget within the root.
-     * 
+     * <p>
      * Note that this is the widget that would have the focus
-     * if the root is active; if the root is not focused then
-     * `gtk_widget_has_focus (widget)` will be %FALSE for the
+     * if the root is active; if the root is not focused then<code>gtk_widget_has_focus (widget)</code> will be <code>false</code> for the
      * widget.
      */
     public default Widget getFocus() {
@@ -49,10 +47,10 @@ public interface Root extends io.github.jwharm.javagi.NativeAddress {
      * If @focus is not the current focus widget, and is focusable, sets
      * it as the focus widget for the root.
      * 
-     * If @focus is %NULL, unsets the focus widget for the root.
+     * If @focus is <code>NULL,</code> unsets the focus widget for the root.
      * 
      * To set the focus to a particular widget in the root, it is usually
-     * more convenient to use [method@Gtk.Widget.grab_focus] instead of
+     * more convenient to use {@link org.gtk.gtk.Widget#grabFocus} instead of
      * this function.
      */
     public default void setFocus(Widget focus) {

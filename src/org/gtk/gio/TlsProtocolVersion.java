@@ -6,9 +6,9 @@ package org.gtk.gio;
  * to ensure newer known protocol versions compare greater than older
  * known versions. Any known DTLS protocol version will compare greater
  * than any SSL or TLS protocol version. The protocol version may be
- * %G_TLS_PROTOCOL_VERSION_UNKNOWN if the TLS backend supports a newer
+ * {@link org.gtk.gio.TlsProtocolVersion#UNKNOWN} if the TLS backend supports a newer
  * protocol version that GLib does not yet know about. This means that
- * it's possible for an unknown DTLS protocol version to compare less
+ * it&#39;s possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
  */
 public enum TlsProtocolVersion {
@@ -34,12 +34,12 @@ public enum TlsProtocolVersion {
     TLS_1_1,
     
     /**
-     * TLS 1.2, defined by [RFC 5246](https://datatracker.ietf.org/doc/html/rfc5246)
+     * TLS 1.2, defined by {@link [RFC 5246]}(https://datatracker.ietf.org/doc/html/rfc5246)
      */
     TLS_1_2,
     
     /**
-     * TLS 1.3, defined by [RFC 8446](https://datatracker.ietf.org/doc/html/rfc8446)
+     * TLS 1.3, defined by {@link [RFC 8446]}(https://datatracker.ietf.org/doc/html/rfc8446)
      */
     TLS_1_3,
     
@@ -49,7 +49,7 @@ public enum TlsProtocolVersion {
     DTLS_1_0,
     
     /**
-     * DTLS 1.2, defined by [RFC 6347](https://datatracker.ietf.org/doc/html/rfc6347)
+     * DTLS 1.2, defined by {@link [RFC 6347]}(https://datatracker.ietf.org/doc/html/rfc6347)
      */
     DTLS_1_2;
     

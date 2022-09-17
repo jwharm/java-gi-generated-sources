@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * implements methods for getting information that all files should
  * contain, and allows for manipulation of extended attributes.
  * 
- * See [GFileAttribute][gio-GFileAttribute] for more information on how
+ * See {@link [GFileAttribute]}{@link [gio-GFileAttribute]} for more information on how
  * GIO handles file attributes.
  * 
  * To obtain a #GFileInfo for a #GFile, use g_file_query_info() (or its
@@ -69,7 +69,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * First clears all of the [GFileAttribute][gio-GFileAttribute] of @dest_info,
+     * First clears all of the {@link [GFileAttribute]}{@link [gio-GFileAttribute]} of @dest_info,
      * and then copies all of the file attributes from @src_info to @dest_info.
      */
     public void copyInto(FileInfo destInfo) {
@@ -88,8 +88,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the access time of the current @info and returns it as a
      * #GDateTime.
      * 
-     * This requires the %G_FILE_ATTRIBUTE_TIME_ACCESS attribute. If
-     * %G_FILE_ATTRIBUTE_TIME_ACCESS_USEC is provided, the resulting #GDateTime
+     * This requires the <code>G_FILE_ATTRIBUTE_TIME_ACCESS</code> attribute. If
+     * <code>G_FILE_ATTRIBUTE_TIME_ACCESS_USEC</code> is provided, the resulting #GDateTime
      * will have microsecond precision.
      */
     public org.gtk.glib.DateTime getAccessDateTime() {
@@ -109,7 +109,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a boolean attribute. If the attribute does not
-     * contain a boolean value, %FALSE will be returned.
+     * contain a boolean value, <code>false</code> will be returned.
      */
     public boolean getAttributeBoolean(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_boolean(handle(), Interop.allocateNativeString(attribute).handle());
@@ -118,7 +118,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a byte string attribute. If the attribute does
-     * not contain a byte string, %NULL will be returned.
+     * not contain a byte string, <code>null</code> will be returned.
      */
     public java.lang.String getAttributeByteString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_byte_string(handle(), Interop.allocateNativeString(attribute).handle());
@@ -147,7 +147,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a #GObject attribute. If the attribute does
-     * not contain a #GObject, %NULL will be returned.
+     * not contain a #GObject, <code>null</code> will be returned.
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_object(handle(), Interop.allocateNativeString(attribute).handle());
@@ -164,7 +164,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a string attribute. If the attribute does
-     * not contain a string, %NULL will be returned.
+     * not contain a string, <code>null</code> will be returned.
      */
     public java.lang.String getAttributeString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_string(handle(), Interop.allocateNativeString(attribute).handle());
@@ -200,7 +200,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the file's content type.
+     * Gets the file&#39;s content type.
      */
     public java.lang.String getContentType() {
         var RESULT = gtk_h.g_file_info_get_content_type(handle());
@@ -211,8 +211,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the creation time of the current @info and returns it as a
      * #GDateTime.
      * 
-     * This requires the %G_FILE_ATTRIBUTE_TIME_CREATED attribute. If
-     * %G_FILE_ATTRIBUTE_TIME_CREATED_USEC is provided, the resulting #GDateTime
+     * This requires the <code>G_FILE_ATTRIBUTE_TIME_CREATED</code> attribute. If
+     * <code>G_FILE_ATTRIBUTE_TIME_CREATED_USEC</code> is provided, the resulting #GDateTime
      * will have microsecond precision.
      */
     public org.gtk.glib.DateTime getCreationDateTime() {
@@ -223,7 +223,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     /**
      * Returns the #GDateTime representing the deletion date of the file, as
      * available in G_FILE_ATTRIBUTE_TRASH_DELETION_DATE. If the
-     * G_FILE_ATTRIBUTE_TRASH_DELETION_DATE attribute is unset, %NULL is returned.
+     * G_FILE_ATTRIBUTE_TRASH_DELETION_DATE attribute is unset, <code>null</code> is returned.
      */
     public org.gtk.glib.DateTime getDeletionDate() {
         var RESULT = gtk_h.g_file_info_get_deletion_date(handle());
@@ -247,7 +247,14 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the [entity tag][gfile-etag] for a given
+     * Gets the {@link [entity tag]}{@link [gfile-etag]} for a given
+     * #GFileInfo. See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the {@link [entity tag]}{@link [gfile-etag]} for a given
      * #GFileInfo. See %G_FILE_ATTRIBUTE_ETAG_VALUE.
      */
     public java.lang.String getEtag() {
@@ -256,8 +263,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets a file's type (whether it is a regular file, symlink, etc).
-     * This is different from the file's content type, see g_file_info_get_content_type().
+     * Gets a file&#39;s type (whether it is a regular file, symlink, etc).
+     * This is different from the file&#39;s content type, see g_file_info_get_content_type().
      */
     public FileType getFileType() {
         var RESULT = gtk_h.g_file_info_get_file_type(handle());
@@ -300,8 +307,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Gets the modification time of the current @info and returns it as a
      * #GDateTime.
      * 
-     * This requires the %G_FILE_ATTRIBUTE_TIME_MODIFIED attribute. If
-     * %G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC is provided, the resulting #GDateTime
+     * This requires the <code>G_FILE_ATTRIBUTE_TIME_MODIFIED</code> attribute. If
+     * <code>G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC</code> is provided, the resulting #GDateTime
      * will have microsecond precision.
      */
     public org.gtk.glib.DateTime getModificationDateTime() {
@@ -318,8 +325,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the file's size (in bytes). The size is retrieved through the value of
-     * the %G_FILE_ATTRIBUTE_STANDARD_SIZE attribute and is converted
+     * Gets the file&#39;s size (in bytes). The size is retrieved through the value of
+     * the <code>G_FILE_ATTRIBUTE_STANDARD_SIZE</code> attribute and is converted
      * from #guint64 to #goffset before returning the result.
      */
     public long getSize() {
@@ -329,6 +336,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of the sort_order attribute from the #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the value of the sort_order attribute from the #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER.
      */
     public int getSortOrder() {
@@ -377,8 +391,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the %G_FILE_ATTRIBUTE_TIME_ACCESS and
-     * %G_FILE_ATTRIBUTE_TIME_ACCESS_USEC attributes in the file info to the
+     * Sets the <code>G_FILE_ATTRIBUTE_TIME_ACCESS</code> and
+     * <code>G_FILE_ATTRIBUTE_TIME_ACCESS_USEC</code> attributes in the file info to the
      * given date/time value.
      */
     public void setAccessDateTime(org.gtk.glib.DateTime atime) {
@@ -387,7 +401,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the @attribute to contain the given value, if possible. To unset the
-     * attribute, use %G_FILE_ATTRIBUTE_TYPE_INVALID for @type.
+     * attribute, use {@link org.gtk.gio.FileAttributeType#INVALID} for @type.
      */
     public void setAttribute(java.lang.String attribute, FileAttributeType type, jdk.incubator.foreign.MemoryAddress valueP) {
         gtk_h.g_file_info_set_attribute(handle(), Interop.allocateNativeString(attribute).handle(), type.getValue(), valueP);
@@ -445,8 +459,8 @@ public class FileInfo extends org.gtk.gobject.Object {
      * needed by external code that implement g_file_set_attributes_from_info()
      * or similar functions.
      * 
-     * The attribute must exist in @info for this to work. Otherwise %FALSE
-     * is returned and @info is unchanged.
+     * The attribute must exist in @info for this to work. Otherwise <code>FALSE
+     * is</code> returned and @info is unchanged.
      */
     public boolean setAttributeStatus(java.lang.String attribute, FileAttributeStatus status) {
         var RESULT = gtk_h.g_file_info_set_attribute_status(handle(), Interop.allocateNativeString(attribute).handle(), status.getValue());
@@ -489,6 +503,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the content type attribute for a given #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the content type attribute for a given #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE.
      */
     public void setContentType(java.lang.String contentType) {
@@ -496,8 +517,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the %G_FILE_ATTRIBUTE_TIME_CREATED and
-     * %G_FILE_ATTRIBUTE_TIME_CREATED_USEC attributes in the file info to the
+     * Sets the <code>G_FILE_ATTRIBUTE_TIME_CREATED</code> and
+     * <code>G_FILE_ATTRIBUTE_TIME_CREATED_USEC</code> attributes in the file info to the
      * given date/time value.
      */
     public void setCreationDateTime(org.gtk.glib.DateTime creationTime) {
@@ -506,6 +527,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the display name for the current #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the display name for the current #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME.
      */
     public void setDisplayName(java.lang.String displayName) {
@@ -514,6 +542,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the edit name for the current file.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the edit name for the current file.
      * See %G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME.
      */
     public void setEditName(java.lang.String editName) {
@@ -522,6 +557,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the file type in a #GFileInfo to @type.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the file type in a #GFileInfo to @type.
      * See %G_FILE_ATTRIBUTE_STANDARD_TYPE.
      */
     public void setFileType(FileType type) {
@@ -530,6 +572,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon for a given #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the icon for a given #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_ICON.
      */
     public void setIcon(Icon icon) {
@@ -537,7 +586,14 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the "is_hidden" attribute in a #GFileInfo according to @is_hidden.
+     * Sets the &#34;is_hidden&#34; attribute in a #GFileInfo according to @is_hidden.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the &#34;is_hidden&#34; attribute in a #GFileInfo according to @is_hidden.
      * See %G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN.
      */
     public void setIsHidden(boolean isHidden) {
@@ -545,7 +601,14 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the "is_symlink" attribute in a #GFileInfo according to @is_symlink.
+     * Sets the &#34;is_symlink&#34; attribute in a #GFileInfo according to @is_symlink.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the &#34;is_symlink&#34; attribute in a #GFileInfo according to @is_symlink.
      * See %G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK.
      */
     public void setIsSymlink(boolean isSymlink) {
@@ -553,8 +616,8 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the %G_FILE_ATTRIBUTE_TIME_MODIFIED and
-     * %G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC attributes in the file info to the
+     * Sets the <code>G_FILE_ATTRIBUTE_TIME_MODIFIED</code> and
+     * <code>G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC</code> attributes in the file info to the
      * given date/time value.
      */
     public void setModificationDateTime(org.gtk.glib.DateTime mtime) {
@@ -563,6 +626,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the name attribute for the current #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the name attribute for the current #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_NAME.
      */
     public void setName(java.lang.String name) {
@@ -570,7 +640,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the %G_FILE_ATTRIBUTE_STANDARD_SIZE attribute in the file info
+     * Sets the <code>G_FILE_ATTRIBUTE_STANDARD_SIZE</code> attribute in the file info
      * to the given size.
      */
     public void setSize(long size) {
@@ -579,6 +649,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the sort order attribute in the file info structure. See
+     * 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the sort order attribute in the file info structure. See
      * %G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER.
      */
     public void setSortOrder(int sortOrder) {
@@ -587,6 +664,13 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Sets the symbolic icon for a given #GFileInfo.
+     * See 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the symbolic icon for a given #GFileInfo.
      * See %G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON.
      */
     public void setSymbolicIcon(Icon icon) {
@@ -594,7 +678,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the %G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET attribute in the file info
+     * Sets the <code>G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET</code> attribute in the file info
      * to the given symlink target.
      */
     public void setSymlinkTarget(java.lang.String symlinkTarget) {

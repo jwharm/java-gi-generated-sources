@@ -8,11 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkOrientable` interface is implemented by all widgets that can be
+ * The <code>GtkOrientable</code> interface is implemented by all widgets that can be
  * oriented horizontally or vertically.
- * 
- * `GtkOrientable` is more flexible in that it allows the orientation to be
- * changed at runtime, allowing the widgets to “flip”.
+ * <p><code>GtkOrientable</code> is more flexible in that it allows the orientation to be
+ * changed at runtime, allowing the widgets to &#8220;flip&#8221;.
  */
 public interface Orientable extends io.github.jwharm.javagi.NativeAddress {
 

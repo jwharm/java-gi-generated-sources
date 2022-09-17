@@ -8,23 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEditable` is an interface for text editing widgets.
- * 
- * Typical examples of editable widgets are [class@Gtk.Entry] and
- * [class@Gtk.SpinButton]. It contains functions for generically manipulating
+ * <code>GtkEditable</code> is an interface for text editing widgets.
+ * <p>
+ * Typical examples of editable widgets are {@link org.gtk.gtk.Entry} and
+ * {@link org.gtk.gtk.SpinButton}. It contains functions for generically manipulating
  * an editable widget, a large number of action signals used for key bindings,
  * and several signals that an application can connect to modify the behavior
  * of a widget.
- * 
+ * <p>
  * As an example of the latter usage, by connecting the following handler to
- * [signal@Gtk.Editable::insert-text], an application can convert all entry
+ * {@link [signal@Gtk.Editable::insert-text] (ref=signal)}, an application can convert all entry
  * into a widget into uppercase.
- * 
- * ## Forcing entry to uppercase.
- * 
- * ```c
- * #include <ctype.h>
- * 
+ * <p>
+ * <h2>Forcing entry to uppercase.</h2>
+ * <p><pre>c
+ * <h1>clude &#60;ctype.h&#62;</h1>
+ * <p>
  * void
  * insert_text_handler (GtkEditable *editable,
  *                      const char  *text,
@@ -33,30 +32,29 @@ import java.lang.invoke.*;
  *                      gpointer     data)
  * {
  *   char *result = g_utf8_strup (text, length);
- * 
+ * <p>
  *   g_signal_handlers_block_by_func (editable,
  *                                (gpointer) insert_text_handler, data);
  *   gtk_editable_insert_text (editable, result, length, position);
  *   g_signal_handlers_unblock_by_func (editable,
  *                                      (gpointer) insert_text_handler, data);
- * 
- *   g_signal_stop_emission_by_name (editable, "insert_text");
- * 
+ * <p>
+ *   g_signal_stop_emission_by_name (editable, &#34;insert_text&#34;);
+ * <p>
  *   g_free (result);
  * }
- * ```
- * 
- * ## Implementing GtkEditable
- * 
- * The most likely scenario for implementing `GtkEditable` on your own widget
- * is that you will embed a `GtkText` inside a complex widget, and want to
- * delegate the editable functionality to that text widget. `GtkEditable`
+ * </pre>
+ * <p>
+ * <h2>Implementing GtkEditable</h2>
+ * <p>
+ * The most likely scenario for implementing <code>GtkEditable</code> on your own widget
+ * is that you will embed a <code>GtkText</code> inside a complex widget, and want to
+ * delegate the editable functionality to that text widget. <code>GtkEditable</code>
  * provides some utility functions to make this easy.
- * 
- * In your class_init function, call [func@Gtk.Editable.install_properties],
+ * <p>
+ * In your class_init function, call {@link Gtk#Editable},
  * passing the first available property ID:
- * 
- * ```c
+ * <p><pre>c
  * static void
  * my_class_init (MyClass *class)
  * {
@@ -65,84 +63,80 @@ import java.lang.invoke.*;
  *   gtk_editable_install_properties (object_clas, NUM_PROPERTIES);
  *   ...
  * }
- * ```
- * 
- * In your interface_init function for the `GtkEditable` interface, provide
+ * </pre>
+ * <p>
+ * In your interface_init function for the <code>GtkEditable</code> interface, provide
  * an implementation for the get_delegate vfunc that returns your text widget:
- * 
- * ```c
+ * <p><pre>c
  * GtkEditable *
  * get_editable_delegate (GtkEditable *editable)
  * {
- *   return GTK_EDITABLE (MY_WIDGET (editable)->text_widget);
+ *   return GTK_EDITABLE (MY_WIDGET (editable)-&#62;text_widget);
  * }
- * 
+ * <p>
  * static void
  * my_editable_init (GtkEditableInterface *iface)
  * {
- *   iface->get_delegate = get_editable_delegate;
+ *   iface-&#62;get_delegate = get_editable_delegate;
  * }
- * ```
- * 
- * You don't need to provide any other vfuncs. The default implementations
+ * </pre>
+ * <p>
+ * You don&#39;t need to provide any other vfuncs. The default implementations
  * work by forwarding to the delegate that the GtkEditableInterface.get_delegate()
  * vfunc returns.
- * 
+ * <p>
  * In your instance_init function, create your text widget, and then call
- * [method@Gtk.Editable.init_delegate]:
- * 
- * ```c
+ * {@link org.gtk.gtk.Editable#initDelegate}:
+ * <p><pre>c
  * static void
  * my_widget_init (MyWidget *self)
  * {
  *   ...
- *   self->text_widget = gtk_text_new ();
+ *   self-&#62;text_widget = gtk_text_new ();
  *   gtk_editable_init_delegate (GTK_EDITABLE (self));
  *   ...
  * }
- * ```
- * 
- * In your dispose function, call [method@Gtk.Editable.finish_delegate] before
+ * </pre>
+ * <p>
+ * In your dispose function, call {@link org.gtk.gtk.Editable#finishDelegate} before
  * destroying your text widget:
- * 
- * ```c
+ * <p><pre>c
  * static void
  * my_widget_dispose (GObject *object)
  * {
  *   ...
  *   gtk_editable_finish_delegate (GTK_EDITABLE (self));
- *   g_clear_pointer (&self->text_widget, gtk_widget_unparent);
+ *   g_clear_pointer (&#38;self-&#62;text_widget, gtk_widget_unparent);
  *   ...
  * }
- * ```
- * 
- * Finally, use [func@Gtk.Editable.delegate_set_property] in your `set_property`
- * function (and similar for `get_property`), to set the editable properties:
- * 
- * ```c
+ * </pre>
+ * <p>
+ * Finally, use {@link Gtk#Editable} in your <code>set_property</code>
+ * function (and similar for <code>get_property</code>), to set the editable properties:
+ * <p><pre>c
  *   ...
  *   if (gtk_editable_delegate_set_property (object, prop_id, value, pspec))
  *     return;
- * 
+ * <p>
  *   switch (prop_id)
  *   ...
- * ```
- * 
- * It is important to note that if you create a `GtkEditable` that uses
- * a delegate, the low level [signal@Gtk.Editable::insert-text] and
- * [signal@Gtk.Editable::delete-text] signals will be propagated from the
- * "wrapper" editable to the delegate, but they will not be propagated from
- * the delegate to the "wrapper" editable, as they would cause an infinite
- * recursion. If you wish to connect to the [signal@Gtk.Editable::insert-text]
- * and [signal@Gtk.Editable::delete-text] signals, you will need to connect
- * to them on the delegate obtained via [method@Gtk.Editable.get_delegate].
+ * </pre>
+ * <p>
+ * It is important to note that if you create a <code>GtkEditable</code> that uses
+ * a delegate, the low level {@link [signal@Gtk.Editable::insert-text] (ref=signal)} and
+ * {@link [signal@Gtk.Editable::delete-text] (ref=signal)} signals will be propagated from the
+ * &#34;wrapper&#34; editable to the delegate, but they will not be propagated from
+ * the delegate to the &#34;wrapper&#34; editable, as they would cause an infinite
+ * recursion. If you wish to connect to the {@link [signal@Gtk.Editable::insert-text] (ref=signal)}
+ * and {@link [signal@Gtk.Editable::delete-text] (ref=signal)} signals, you will need to connect
+ * to them on the delegate obtained via {@link org.gtk.gtk.Editable#getDelegate}.
  */
 public interface Editable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Deletes the currently selected text of the editable.
      * 
-     * This call doesn’t do anything if there is no selected text.
+     * This call doesn&#8217;t do anything if there is no selected text.
      */
     public default void deleteSelection() {
         gtk_h.gtk_editable_delete_selection(handle());
@@ -163,7 +157,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Undoes the setup done by [method@Gtk.Editable.init_delegate].
+     * Undoes the setup done by {@link org.gtk.gtk.Editable#initDelegate}.
      * 
      * This is a helper function that should be called from dispose,
      * before removing the delegate object.
@@ -196,10 +190,10 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the `GtkEditable` that @editable is delegating its
+     * Gets the <code>GtkEditable</code> that @editable is delegating its
      * implementation to.
      * 
-     * Typically, the delegate is a [class@Gtk.Text] widget.
+     * Typically, the delegate is a {@link org.gtk.gtk.Text} widget.
      */
     public default Editable getDelegate() {
         var RESULT = gtk_h.gtk_editable_get_delegate(handle());
@@ -261,10 +255,10 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets up a delegate for `GtkEditable`.
-     * 
-     * This is assuming that the get_delegate vfunc in the `GtkEditable`
-     * interface has been set up for the @editable's type.
+     * Sets up a delegate for <code>GtkEditable</code>.
+     * <p>
+     * This is assuming that the get_delegate vfunc in the <code>GtkEditable</code>
+     * interface has been set up for the @editable&#39;s type.
      * 
      * This is a helper function that should be called in instance init,
      * after creating the delegate object.
@@ -310,7 +304,19 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * 
      * This results in an additional copy of text changes and are not
      * stored in secure memory. As such, undo is forcefully disabled
-     * when [property@Gtk.Text:visibility] is set to %FALSE.
+     * when {@link [property@Gtk.Text:visibility] (ref=property)} is set to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         If enabled, changes to @editable will be saved for undo/redo
+     * actions.
+     * 
+     * This results in an additional copy of text changes and are not
+     * stored in secure memory. As such, undo is forcefully disabled
+     * when {@link [property@Gtk.Text:visibility] (ref=property)} is set to %FALSE.
      */
     public default void setEnableUndo(boolean enableUndo) {
         gtk_h.gtk_editable_set_enable_undo(handle(), enableUndo ? 1 : 0);
@@ -358,10 +364,10 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a property of the `GtkEditable` delegate for @object.
-     * 
-     * This is helper function that should be called in the `get_property`
-     * function of your `GtkEditable` implementation, before handling your
+     * Gets a property of the <code>GtkEditable</code> delegate for @object.
+     * <p>
+     * This is helper function that should be called in the <code>get_property</code>
+     * function of your <code>GtkEditable</code> implementation, before handling your
      * own properties.
      */
     public static boolean delegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
@@ -370,10 +376,10 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets a property on the `GtkEditable` delegate for @object.
-     * 
-     * This is a helper function that should be called in the `set_property`
-     * function of your `GtkEditable` implementation, before handling your
+     * Sets a property on the <code>GtkEditable</code> delegate for @object.
+     * <p>
+     * This is a helper function that should be called in the <code>set_property</code>
+     * function of your <code>GtkEditable</code> implementation, before handling your
      * own properties.
      */
     public static boolean delegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
@@ -382,20 +388,20 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Overrides the `GtkEditable` properties for @class.
+     * Overrides the <code>GtkEditable</code> properties for @class.
      * 
      * This is a helper function that should be called in class_init,
      * after installing your own properties.
      * 
-     * Note that your class must have "text", "cursor-position",
-     * "selection-bound", "editable", "width-chars", "max-width-chars",
-     * "xalign" and "enable-undo" properties for this function to work.
+     * Note that your class must have &#34;text&#34;, &#34;cursor-position&#34;,
+     * &#34;selection-bound&#34;, &#34;editable&#34;, &#34;width-chars&#34;, &#34;max-width-chars&#34;,
+     * &#34;xalign&#34; and &#34;enable-undo&#34; properties for this function to work.
      * 
      * To handle the properties in your set_property and get_property
-     * functions, you can either use [func@Gtk.Editable.delegate_set_property]
-     * and [func@Gtk.Editable.delegate_get_property] (if you are using
+     * functions, you can either use {@link Gtk#Editable}
+     * and {@link Gtk#Editable} (if you are using
      * a delegate), or remember the @first_prop offset and add it to the
-     * values in the [enum@Gtk.EditableProperties] enumeration to get the
+     * values in the {@link [enum@Gtk.EditableProperties] (ref=enum)} enumeration to get the
      * property IDs for these properties.
      */
     public static int installProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
@@ -447,7 +453,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * range of deleted text, or prevent it from being deleted entirely.
      * 
      * The @start_pos and @end_pos parameters are interpreted as for
-     * [method@Gtk.Editable.delete_text].
+     * {@link org.gtk.gtk.Editable#deleteText}.
      */
     public default SignalHandle onDeleteText(DeleteTextHandler handler) {
         try {

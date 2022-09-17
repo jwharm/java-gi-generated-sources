@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An opaque context struct for `GtkBuildableParser`.
+ * An opaque context struct for <code>GtkBuildableParser</code>.
  */
 public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase {
 
@@ -50,9 +50,9 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     
     /**
      * Temporarily redirects markup data to a sub-parser.
-     * 
+     * <p>
      * This function may only be called from the start_element handler of
-     * a `GtkBuildableParser`. It must be matched with a corresponding call to
+     * a <code>GtkBuildableParser</code>. It must be matched with a corresponding call to
      * gtk_buildable_parse_context_pop() in the matching end_element handler
      * (except in the case that the parser aborts due to an error).
      * 
@@ -64,8 +64,8 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * 
      * The end tag matching the start tag for which this call was made is
      * handled by the previous parser (which is given its own user_data)
-     * which is why gtk_buildable_parse_context_pop() is provided to allow "one
-     * last access" to the @user_data provided to this function. In the
+     * which is why gtk_buildable_parse_context_pop() is provided to allow &#34;one
+     * last access&#34; to the @user_data provided to this function. In the
      * case of error, the @user_data provided here is passed directly to
      * the error callback of the subparser and gtk_buildable_parse_context_pop()
      * should not be called. In either case, if @user_data was allocated

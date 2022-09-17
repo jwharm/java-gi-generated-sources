@@ -1,8 +1,8 @@
 package org.gtk.glib;
 
 /**
- * Enumeration representing a month; values are %G_DATE_JANUARY,
- * %G_DATE_FEBRUARY, etc. %G_DATE_BAD_MONTH is the invalid value.
+ * Enumeration representing a month; values are <code>G_DATE_JANUARY,
+ * %G_DATE_FEBRUARY,</code> etc. {@link org.gtk.glib.DateMonth#BAD_MONTH} is the invalid value.
  */
 public enum DateMonth {
 

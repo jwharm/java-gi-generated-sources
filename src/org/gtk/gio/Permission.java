@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GPermission represents the status of the caller's permission to
+ * A #GPermission represents the status of the caller&#39;s permission to
  * perform a certain action.
  * 
  * You can query if the action is currently allowed and if it is
@@ -20,8 +20,8 @@ import java.lang.invoke.*;
  * 
  * As an example, a #GPermission might represent the ability for the
  * user to write to a #GSettings object.  This #GPermission object could
- * then be used to decide if it is appropriate to show a "Click here to
- * unlock" button in a dialog and to provide the mechanism to invoke
+ * then be used to decide if it is appropriate to show a &#34;Click here to
+ * unlock&#34; button in a dialog and to provide the mechanism to invoke
  * when that button is clicked.
  */
 public class Permission extends org.gtk.gobject.Object {
@@ -45,8 +45,8 @@ public class Permission extends org.gtk.gobject.Object {
      * You should check with g_permission_get_can_acquire() before calling
      * this function.
      * 
-     * If the permission is acquired then %TRUE is returned.  Otherwise,
-     * %FALSE is returned and @error is set appropriately.
+     * If the permission is acquired then <code>true</code> is returned.  Otherwise,
+     * <code>false</code> is returned and @error is set appropriately.
      * 
      * This call is blocking, likely for a very long time (in the case that
      * user interaction is required).  See g_permission_acquire_async() for
@@ -98,7 +98,7 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'allowed' property.  This property is %TRUE if
+     * Gets the value of the &#39;allowed&#39; property.  This property is <code>true</code> if
      * the caller currently has permission to perform the action that
      * @permission represents the permission to perform.
      */
@@ -108,8 +108,8 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'can-acquire' property.  This property is %TRUE
-     * if it is generally possible to acquire the permission by calling
+     * Gets the value of the &#39;can-acquire&#39; property.  This property is <code>TRUE
+     * if</code> it is generally possible to acquire the permission by calling
      * g_permission_acquire().
      */
     public boolean getCanAcquire() {
@@ -118,8 +118,8 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'can-release' property.  This property is %TRUE
-     * if it is generally possible to release the permission by calling
+     * Gets the value of the &#39;can-release&#39; property.  This property is <code>TRUE
+     * if</code> it is generally possible to release the permission by calling
      * g_permission_release().
      */
     public boolean getCanRelease() {
@@ -148,8 +148,8 @@ public class Permission extends org.gtk.gobject.Object {
      * You should check with g_permission_get_can_release() before calling
      * this function.
      * 
-     * If the permission is released then %TRUE is returned.  Otherwise,
-     * %FALSE is returned and @error is set appropriately.
+     * If the permission is released then <code>true</code> is returned.  Otherwise,
+     * <code>false</code> is returned and @error is set appropriately.
      * 
      * This call is blocking, likely for a very long time (in the case that
      * user interaction is required).  See g_permission_release_async() for

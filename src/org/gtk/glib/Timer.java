@@ -41,7 +41,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * This function is useless; it's fine to call g_timer_start() on an
+     * This function is useless; it&#39;s fine to call g_timer_start() on an
      * already-started timer to reset the start time, so g_timer_reset()
      * serves no purpose.
      */

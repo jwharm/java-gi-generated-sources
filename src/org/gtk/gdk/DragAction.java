@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Used in `GdkDrop` and `GdkDrag` to indicate the actions that the
+ * Used in <code>GdkDrop</code> and <code>GdkDrag</code> to indicate the actions that the
  * destination can and should do with the dropped data.
  */
 public class DragAction {

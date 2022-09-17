@@ -9,10 +9,10 @@ import java.lang.invoke.*;
 
 /**
  * #GFileDescriptorBased is implemented by streams (implementations of
- * #GInputStream or #GOutputStream) that are based on file descriptors.
- * 
- * Note that `<gio/gfiledescriptorbased.h>` belongs to the UNIX-specific
- * GIO interfaces, thus you have to use the `gio-unix-2.0.pc` pkg-config
+ * <h1>nputStream or #GOutputStream) that are based on file descriptors.</h1>
+ * <p>
+ * Note that <code>&#60;gio/gfiledescriptorbased.h&#62;</code> belongs to the UNIX-specific
+ * GIO interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
  * file when using it.
  */
 public interface FileDescriptorBased extends io.github.jwharm.javagi.NativeAddress {

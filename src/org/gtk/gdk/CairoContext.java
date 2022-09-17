@@ -8,11 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkCairoContext` is an object representing the platform-specific
+ * <code>GdkCairoContext</code> is an object representing the platform-specific
  * draw context.
- * 
- * `GdkCairoContext`s are created for a surface using
- * [method@Gdk.Surface.create_cairo_context], and the context
+ * <p><code>GdkCairoContext</code>s are created for a surface using
+ * {@link org.gtk.gdk.Surface#createCairoContext}, and the context
  * can then be used to draw on that surface.
  */
 public class CairoContext extends DrawContext {
@@ -27,14 +26,14 @@ public class CairoContext extends DrawContext {
     }
     
     /**
-     * Retrieves a Cairo context to be used to draw on the `GdkSurface`
+     * Retrieves a Cairo context to be used to draw on the <code>GdkSurface</code>
      * of @context.
      * 
-     * A call to [method@Gdk.DrawContext.begin_frame] with this
-     * @context must have been done or this function will return %NULL.
+     * A call to {@link org.gtk.gdk.DrawContext#beginFrame} with this
+     * @context must have been done or this function will return <code>NULL.
      * 
-     * The returned context is guaranteed to be valid until
-     * [method@Gdk.DrawContext.end_frame] is called.
+     * The</code> returned context is guaranteed to be valid until
+     * {@link org.gtk.gdk.DrawContext#endFrame} is called.
      */
     public org.cairographics.Context cairoCreate() {
         var RESULT = gtk_h.gdk_cairo_context_cairo_create(handle());

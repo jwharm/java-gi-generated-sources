@@ -8,53 +8,50 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkAboutDialog` offers a simple way to display information about
+ * The <code>GtkAboutDialog</code> offers a simple way to display information about
  * a program.
- * 
- * The shown information includes the programs' logo, name, copyright,
+ * <p>
+ * The shown information includes the programs&#39; logo, name, copyright,
  * website and license. It is also possible to give credits to the authors,
  * documenters, translators and artists who have worked on the program.
- * 
- * An about dialog is typically opened when the user selects the `About`
- * option from the `Help` menu. All parts of the dialog are optional.
- * 
- * ![An example GtkAboutDialog](aboutdialog.png)
- * 
- * About dialogs often contain links and email addresses. `GtkAboutDialog`
- * displays these as clickable links. By default, it calls [func@Gtk.show_uri]
+ * <p>
+ * An about dialog is typically opened when the user selects the <code>About</code>
+ * option from the <code>Help</code> menu. All parts of the dialog are optional.
+ * <p>
+ * !{@link [An example GtkAboutDialog]}(aboutdialog.png)
+ * <p>
+ * About dialogs often contain links and email addresses. <code>GtkAboutDialog</code>
+ * displays these as clickable links. By default, it calls {@link Gtk#showUri}
  * when a user clicks one. The behaviour can be overridden with the
- * [signal@Gtk.AboutDialog::activate-link] signal.
- * 
- * To specify a person with an email address, use a string like
- * `Edgar Allan Poe <edgar@poe.com>`. To specify a website with a title,
- * use a string like `GTK team https://www.gtk.org`.
- * 
- * To make constructing a `GtkAboutDialog` as convenient as possible, you can
- * use the function [func@Gtk.show_about_dialog] which constructs and shows
+ * {@link [signal@Gtk.AboutDialog::activate-link] (ref=signal)} signal.
+ * <p>
+ * To specify a person with an email address, use a string like<code>Edgar Allan Poe &#60;edgar@poe.com&#62;</code>. To specify a website with a title,
+ * use a string like <code>GTK team https://www.gtk.org</code>.
+ * <p>
+ * To make constructing a <code>GtkAboutDialog</code> as convenient as possible, you can
+ * use the function {@link Gtk#showAboutDialog} which constructs and shows
  * a dialog and keeps it around so that it can be shown again.
- * 
- * Note that GTK sets a default title of `_("About %s")` on the dialog
- * window (where `%s` is replaced by the name of the application, but in
+ * <p>
+ * Note that GTK sets a default title of <code>_(&#34;About <code>s&#34;)</code></code> on the dialog
+ * window (where <code><code>s</code></code> is replaced by the name of the application, but in
  * order to ensure proper translation of the title, applications should
- * set the title property explicitly when constructing a `GtkAboutDialog`,
+ * set the title property explicitly when constructing a <code>GtkAboutDialog</code>,
  * as shown in the following example:
- * 
- * ```c
- * GFile *logo_file = g_file_new_for_path ("./logo.png");
+ * <p><pre>c
+ * GFile *logo_file = g_file_new_for_path (&#34;./logo.png&#34;);
  * GdkTexture *example_logo = gdk_texture_new_from_file (logo_file, NULL);
  * g_object_unref (logo_file);
- * 
+ * <p>
  * gtk_show_about_dialog (NULL,
- *                        "program-name", "ExampleCode",
- *                        "logo", example_logo,
- *                        "title", _("About ExampleCode"),
+ *                        &#34;program-name&#34;, &#34;ExampleCode&#34;,
+ *                        &#34;logo&#34;, example_logo,
+ *                        &#34;title&#34;, _(&#34;About ExampleCode&#34;),
  *                        NULL);
- * ```
- * 
- * ## CSS nodes
- * 
- * `GtkAboutDialog` has a single CSS node with the name `window` and style
- * class `.aboutdialog`.
+ * </pre>
+ * <p>
+ * <h2>CSS nodes</h2>
+ * <p><code>GtkAboutDialog</code> has a single CSS node with the name <code>window</code> and style
+ * class <code>.aboutdialog</code>.
  */
 public class AboutDialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -73,14 +70,14 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     }
     
     /**
-     * Creates a new `GtkAboutDialog`.
+     * Creates a new <code>GtkAboutDialog</code>.
      */
     public AboutDialog() {
         super(constructNew());
     }
     
     /**
-     * Creates a new section in the "Credits" page.
+     * Creates a new section in the &#34;Credits&#34; page.
      */
     public void addCreditSection(java.lang.String sectionName, java.lang.String[] people) {
         gtk_h.gtk_about_dialog_add_credit_section(handle(), Interop.allocateNativeString(sectionName).handle(), Interop.allocateNativeArray(people).handle());
@@ -194,7 +191,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     
     /**
      * Sets the names of the artists to be displayed
-     * in the "Credits" page.
+     * in the &#34;Credits&#34; page.
      */
     public void setArtists(java.lang.String[] artists) {
         gtk_h.gtk_about_dialog_set_artists(handle(), Interop.allocateNativeArray(artists).handle());
@@ -202,7 +199,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     
     /**
      * Sets the names of the authors which are displayed
-     * in the "Credits" page of the about dialog.
+     * in the &#34;Credits&#34; page of the about dialog.
      */
     public void setAuthors(java.lang.String[] authors) {
         gtk_h.gtk_about_dialog_set_authors(handle(), Interop.allocateNativeArray(authors).handle());
@@ -228,7 +225,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     
     /**
      * Sets the names of the documenters which are displayed
-     * in the "Credits" page.
+     * in the &#34;Credits&#34; page.
      */
     public void setDocumenters(java.lang.String[] documenters) {
         gtk_h.gtk_about_dialog_set_documenters(handle(), Interop.allocateNativeArray(documenters).handle());
@@ -237,8 +234,8 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     /**
      * Sets the license information to be displayed in the
      * about dialog.
-     * 
-     * If `license` is `NULL`, the license page is hidden.
+     * <p>
+     * If <code>license</code> is <code>NULL</code>, the license page is hidden.
      */
     public void setLicense(java.lang.String license) {
         gtk_h.gtk_about_dialog_set_license(handle(), Interop.allocateNativeString(license).handle());
@@ -249,7 +246,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * list of known licenses.
      * 
      * This function overrides the license set using
-     * [method@Gtk.AboutDialog.set_license].
+     * {@link org.gtk.gtk.AboutDialog#setLicense}.
      */
     public void setLicenseType(License licenseType) {
         gtk_h.gtk_about_dialog_set_license_type(handle(), licenseType.getValue());
@@ -271,9 +268,9 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     
     /**
      * Sets the name to display in the about dialog.
-     * 
-     * If `name` is not set, the string returned
-     * by `g_get_application_name()` is used.
+     * <p>
+     * If <code>name</code> is not set, the string returned
+     * by <code>g_get_application_name()</code> is used.
      */
     public void setProgramName(java.lang.String name) {
         gtk_h.gtk_about_dialog_set_program_name(handle(), Interop.allocateNativeString(name).handle());
@@ -282,11 +279,11 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     /**
      * Sets the system information to be displayed in the about
      * dialog.
-     * 
-     * If `system_information` is `NULL`, the system information
+     * <p>
+     * If <code>system_information</code> is <code>NULL</code>, the system information
      * page is hidden.
      * 
-     * See [property@Gtk.AboutDialog:system-information].
+     * See {@link [property@Gtk.AboutDialog:system-information] (ref=property)}.
      */
     public void setSystemInformation(java.lang.String systemInformation) {
         gtk_h.gtk_about_dialog_set_system_information(handle(), Interop.allocateNativeString(systemInformation).handle());
@@ -295,21 +292,20 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
     /**
      * Sets the translator credits string which is displayed in
      * the credits page.
-     * 
+     * <p>
      * The intended use for this string is to display the translator
      * of the language which is currently used in the user interface.
-     * Using `gettext()`, a simple way to achieve that is to mark the
+     * Using <code>gettext()</code>, a simple way to achieve that is to mark the
      * string for translation:
-     * 
-     * ```c
+     * <p><pre>c
      * GtkWidget *about = gtk_about_dialog_new ();
      *  gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about),
-     *                                           _("translator-credits"));
-     * ```
-     * 
-     * It is a good idea to use the customary `msgid` “translator-credits”
+     *                                           _(&#34;translator-credits&#34;));
+     * </pre>
+     * <p>
+     * It is a good idea to use the customary <code>msgid</code> &#8220;translator-credits&#8221;
      * for this purpose, since translators will already know the purpose of
-     * that `msgid`, and since `GtkAboutDialog` will detect if “translator-credits”
+     * that <code>msgid</code>, and since <code>GtkAboutDialog</code> will detect if &#8220;translator-credits&#8221;
      * is untranslated and omit translator credits.
      */
     public void setTranslatorCredits(java.lang.String translatorCredits) {
@@ -354,7 +350,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Emitted every time a URL is activated.
      * 
      * Applications may connect to it to override the default behaviour,
-     * which is to call [func@Gtk.show_uri].
+     * which is to call {@link Gtk#showUri}.
      */
     public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {

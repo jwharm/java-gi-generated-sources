@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A type for objects that have an initially floating reference.
- * 
- * All the fields in the `GInitiallyUnowned` structure are private to the
+ * <p>
+ * All the fields in the <code>GInitiallyUnowned</code> structure are private to the
  * implementation and should never be accessed directly.
  */
 public class InitiallyUnowned extends Object {

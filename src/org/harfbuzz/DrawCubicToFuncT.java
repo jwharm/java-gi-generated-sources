@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_draw_funcs_t to perform a "cubic-to" draw
+ * A virtual method for the #hb_draw_funcs_t to perform a &#34;cubic-to&#34; draw
  * operation.
  */
 @FunctionalInterface

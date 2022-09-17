@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GObject` property value in a `GtkExpression`.
+ * A <code>GObject</code> property value in a <code>GtkExpression</code>.
  */
 public class PropertyExpression extends Expression {
 
@@ -28,15 +28,14 @@ public class PropertyExpression extends Expression {
     
     /**
      * Creates an expression that looks up a property.
-     * 
-     * The object to use is found by evaluating the `expression`,
-     * or using the `this` argument when `expression` is `NULL`.
-     * 
-     * If the resulting object conforms to `this_type`, its property named
-     * `property_name` will be queried. Otherwise, this expression's
+     * <p>
+     * The object to use is found by evaluating the <code>expression</code>,
+     * or using the <code>this</code> argument when <code>expression</code> is <code>NULL</code>.
+     * <p>
+     * If the resulting object conforms to <code>this_type</code>, its property named<code>property_name</code> will be queried. Otherwise, this expression&#39;s
      * evaluation will fail.
-     * 
-     * The given `this_type` must have a property with `property_name`.
+     * <p>
+     * The given <code>this_type</code> must have a property with <code>property_name</code>.
      */
     public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
         super(constructNew(thisType, expression, propertyName));
@@ -49,13 +48,13 @@ public class PropertyExpression extends Expression {
     
     /**
      * Creates an expression that looks up a property.
-     * 
-     * The object to use is found by evaluating the `expression`,
-     * or using the `this` argument when `expression` is `NULL`.
-     * 
-     * If the resulting object conforms to `this_type`, its
-     * property specified by `pspec` will be queried.
-     * Otherwise, this expression's evaluation will fail.
+     * <p>
+     * The object to use is found by evaluating the <code>expression</code>,
+     * or using the <code>this</code> argument when <code>expression</code> is <code>NULL</code>.
+     * <p>
+     * If the resulting object conforms to <code>this_type</code>, its
+     * property specified by <code>pspec</code> will be queried.
+     * Otherwise, this expression&#39;s evaluation will fail.
      */
     public static PropertyExpression newForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
         return new PropertyExpression(constructNewForPspec(expression, pspec));
@@ -71,7 +70,7 @@ public class PropertyExpression extends Expression {
     }
     
     /**
-     * Gets the `GParamSpec` specifying the property of
+     * Gets the <code>GParamSpec</code> specifying the property of
      * a property expression.
      */
     public org.gtk.gobject.ParamSpec getPspec() {

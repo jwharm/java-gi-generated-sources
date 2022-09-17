@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkFontChooser` is an interface that can be implemented by widgets
+ * <code>GtkFontChooser</code> is an interface that can be implemented by widgets
  * for choosing fonts.
  * 
  * In GTK, the main objects that implement this interface are
- * [class@Gtk.FontChooserWidget], [class@Gtk.FontChooserDialog] and
- * [class@Gtk.FontButton].
+ * {@link org.gtk.gtk.FontChooserWidget}, {@link org.gtk.gtk.FontChooserDialog} and
+ * {@link org.gtk.gtk.FontButton}.
  */
 public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
 
@@ -21,12 +21,12 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the currently-selected font name.
      * 
      * Note that this can be a different string than what you set with
-     * [method@Gtk.FontChooser.set_font], as the font chooser widget may
+     * {@link org.gtk.gtk.FontChooser#setFont}, as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, “Helvetica Italic Bold 12” could be
-     * normalized to “Helvetica Bold Italic 12”.
+     * structure. For example, &#8220;Helvetica Italic Bold 12&#8221; could be
+     * normalized to &#8220;Helvetica Bold Italic 12&#8221;.
      * 
-     * Use [method@Pango.FontDescription.equal] if you want to compare two
+     * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
      */
     public default java.lang.String getFont() {
@@ -38,12 +38,12 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the currently-selected font.
      * 
      * Note that this can be a different string than what you set with
-     * [method@Gtk.FontChooser.set_font], as the font chooser widget may
+     * {@link org.gtk.gtk.FontChooser#setFont}, as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, “Helvetica Italic Bold 12” could be
-     * normalized to “Helvetica Bold Italic 12”.
+     * structure. For example, &#8220;Helvetica Italic Bold 12&#8221; could be
+     * normalized to &#8220;Helvetica Bold Italic 12&#8221;.
      * 
-     * Use [method@Pango.FontDescription.equal] if you want to compare two
+     * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
      */
     public default org.pango.FontDescription getFontDesc() {
@@ -52,7 +52,16 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the `PangoFontFace` representing the selected font group
+     * Gets the <code>PangoFontFace</code> representing the selected font group
+     * details (i.e. family, slant, weight, width, etc).
+     * 
+     * If the selected font is not installed, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the <code>PangoFontFace</code> representing the selected font group
      * details (i.e. family, slant, weight, width, etc).
      * 
      * If the selected font is not installed, returns %NULL.
@@ -63,7 +72,17 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the `PangoFontFamily` representing the selected font family.
+     * Gets the <code>PangoFontFamily</code> representing the selected font family.
+     * 
+     * Font families are a collection of font faces.
+     * 
+     * If the selected font is not installed, returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the <code>PangoFontFamily</code> representing the selected font family.
      * 
      * Font families are a collection of font faces.
      * 
@@ -84,7 +103,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the custom font map of this font chooser widget,
-     * or %NULL if it does not have one.
+     * or <code>null</code> if it does not have one.
      */
     public default org.pango.FontMap getFontMap() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_map(handle());
@@ -166,11 +185,10 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets a custom font map to use for this font chooser widget.
-     * 
+     * <p>
      * A custom font map can be used to present application-specific
      * fonts instead of or in addition to the normal system fonts.
-     * 
-     * ```c
+     * <p><pre>c
      * FcConfig *config;
      * PangoFontMap *fontmap;
      * 
@@ -181,15 +199,14 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * pango_fc_font_map_set_config (PANGO_FC_FONT_MAP (fontmap), config);
      * 
      * gtk_font_chooser_set_font_map (font_chooser, fontmap);
-     * ```
-     * 
+     * </pre>
+     * <p>
      * Note that other GTK widgets will only be able to use the
      * application-specific font if it is present in the font map they use:
-     * 
-     * ```c
+     * <p><pre>c
      * context = gtk_widget_get_pango_context (label);
      * pango_context_set_font_map (context, fontmap);
-     * ```
+     * </pre>
      */
     public default void setFontMap(org.pango.FontMap fontmap) {
         gtk_h.gtk_font_chooser_set_font_map(handle(), fontmap.handle());

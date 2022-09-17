@@ -9,7 +9,7 @@ import jdk.incubator.foreign.MemoryAddress;
  * access.
  * 
  * Take for example the following function:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   int
  *   give_me_next_number (void)
  *   {
@@ -21,11 +21,11 @@ import jdk.incubator.foreign.MemoryAddress;
  * 
  *     return current_number;
  *   }
- * ]|
- * It is easy to see that this won't work in a multi-threaded
+ * ]}|
+ * It is easy to see that this won&#39;t work in a multi-threaded
  * application. There current_number must be protected against shared
  * access. A #GMutex can be used as a solution to this problem:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   int
  *   give_me_next_number (void)
  *   {
@@ -33,13 +33,13 @@ import jdk.incubator.foreign.MemoryAddress;
  *     static int current_number = 0;
  *     int ret_val;
  * 
- *     g_mutex_lock (&mutex);
+ *     g_mutex_lock (&#38;mutex);
  *     ret_val = current_number = calc_next_number (current_number);
- *     g_mutex_unlock (&mutex);
+ *     g_mutex_unlock (&#38;mutex);
  * 
  *     return ret_val;
  *   }
- * ]|
+ * ]}|
  * Notice that the #GMutex is not initialised to any particular value.
  * Its placement in static storage ensures that it will be initialised
  * to all-zeros, which is appropriate.

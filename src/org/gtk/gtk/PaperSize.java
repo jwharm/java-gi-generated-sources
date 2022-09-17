@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkPaperSize` handles paper sizes.
- * 
+ * <code>GtkPaperSize</code> handles paper sizes.
+ * <p>
  * It uses the standard called
- * [PWG 5101.1-2002 PWG: Standard for Media Standardized Names](http://www.pwg.org/standards.html)
+ * {@link [PWG 5101.1-2002 PWG: Standard for Media Standardized Names]}(http://www.pwg.org/standards.html)
  * to name the paper sizes (and to get the data for the page sizes).
- * In addition to standard paper sizes, `GtkPaperSize` allows to
+ * In addition to standard paper sizes, <code>GtkPaperSize</code> allows to
  * construct custom paper sizes with arbitrary dimensions.
- * 
- * The `GtkPaperSize` object stores not only the dimensions (width
+ * <p>
+ * The <code>GtkPaperSize</code> object stores not only the dimensions (width
  * and height) of a paper size and its name, it also provides
  * default print margins.
  */
@@ -32,12 +32,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkPaperSize` object by parsing a
-     * [PWG 5101.1-2002](ftp://ftp.pwg.org/pub/pwg/candidates/cs-pwgmsn10-20020226-5101.1.pdf)
+     * Creates a new <code>GtkPaperSize</code> object by parsing a
+     * {@link [PWG 5101.1-2002]}(ftp://ftp.pwg.org/pub/pwg/candidates/cs-pwgmsn10-20020226-5101.1.pdf)
      * paper name.
      * 
-     * If @name is %NULL, the default paper size is returned,
-     * see [func@Gtk.PaperSize.get_default].
+     * If @name is <code>NULL,</code> the default paper size is returned,
+     * see {@link Gtk#PaperSize}.
      */
     public PaperSize(java.lang.String name) {
         super(constructNew(name));
@@ -49,7 +49,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkPaperSize` object with the
+     * Creates a new <code>GtkPaperSize</code> object with the
      * given parameters.
      */
     public static PaperSize newCustom(java.lang.String name, java.lang.String displayName, double width, double height, Unit unit) {
@@ -62,10 +62,10 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Deserialize a paper size from a `GVariant`.
-     * 
-     * The `GVariant must be in the format produced by
-     * [method@Gtk.PaperSize.to_gvariant].
+     * Deserialize a paper size from a <code>GVariant</code>.
+     * <p>
+     * The <code>GVariant must be in the format produced by
+     * {@link org.gtk.gtk.PaperSize#toGvariant}.
      */
     public static PaperSize newFromGvariant(org.gtk.glib.Variant variant) {
         return new PaperSize(constructNewFromGvariant(variant));
@@ -77,12 +77,12 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkPaperSize` object by using
+     * Creates a new <code>GtkPaperSize</code> object by using
      * IPP information.
-     * 
+     * <p>
      * If @ipp_name is not a recognized paper name,
      * @width and @height are used to
-     * construct a custom `GtkPaperSize` object.
+     * construct a custom <code>GtkPaperSize</code> object.
      */
     public static PaperSize newFromIpp(java.lang.String ippName, double width, double height) {
         return new PaperSize(constructNewFromIpp(ippName, width, height));
@@ -111,19 +111,19 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkPaperSize` object by using
+     * Creates a new <code>GtkPaperSize</code> object by using
      * PPD information.
-     * 
+     * <p>
      * If @ppd_name is not a recognized PPD paper name,
      * @ppd_display_name, @width and @height are used to
-     * construct a custom `GtkPaperSize` object.
+     * construct a custom <code>GtkPaperSize</code> object.
      */
     public static PaperSize newFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
         return new PaperSize(constructNewFromPpd(ppdName, ppdDisplayName, width, height));
     }
     
     /**
-     * Copies an existing `GtkPaperSize`.
+     * Copies an existing <code>GtkPaperSize</code>.
      */
     public PaperSize copy() {
         var RESULT = gtk_h.gtk_paper_size_copy(handle());
@@ -131,14 +131,14 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free the given `GtkPaperSize` object.
+     * Free the given <code>GtkPaperSize</code> object.
      */
     public void free() {
         gtk_h.gtk_paper_size_free(handle());
     }
     
     /**
-     * Gets the default bottom margin for the `GtkPaperSize`.
+     * Gets the default bottom margin for the <code>GtkPaperSize</code>.
      */
     public double getDefaultBottomMargin(Unit unit) {
         var RESULT = gtk_h.gtk_paper_size_get_default_bottom_margin(handle(), unit.getValue());
@@ -146,7 +146,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the default left margin for the `GtkPaperSize`.
+     * Gets the default left margin for the <code>GtkPaperSize</code>.
      */
     public double getDefaultLeftMargin(Unit unit) {
         var RESULT = gtk_h.gtk_paper_size_get_default_left_margin(handle(), unit.getValue());
@@ -154,7 +154,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the default right margin for the `GtkPaperSize`.
+     * Gets the default right margin for the <code>GtkPaperSize</code>.
      */
     public double getDefaultRightMargin(Unit unit) {
         var RESULT = gtk_h.gtk_paper_size_get_default_right_margin(handle(), unit.getValue());
@@ -162,7 +162,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the default top margin for the `GtkPaperSize`.
+     * Gets the default top margin for the <code>GtkPaperSize</code>.
      */
     public double getDefaultTopMargin(Unit unit) {
         var RESULT = gtk_h.gtk_paper_size_get_default_top_margin(handle(), unit.getValue());
@@ -170,7 +170,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the human-readable name of the `GtkPaperSize`.
+     * Gets the human-readable name of the <code>GtkPaperSize</code>.
      */
     public java.lang.String getDisplayName() {
         var RESULT = gtk_h.gtk_paper_size_get_display_name(handle());
@@ -178,7 +178,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the paper height of the `GtkPaperSize`, in
+     * Gets the paper height of the <code>GtkPaperSize</code>, in
      * units of @unit.
      */
     public double getHeight(Unit unit) {
@@ -187,7 +187,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the name of the `GtkPaperSize`.
+     * Gets the name of the <code>GtkPaperSize</code>.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_paper_size_get_name(handle());
@@ -195,7 +195,14 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the PPD name of the `GtkPaperSize`, which
+     * Gets the PPD name of the <code>GtkPaperSize</code>, which
+     * may be 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the PPD name of the <code>GtkPaperSize</code>, which
      * may be %NULL.
      */
     public java.lang.String getPpdName() {
@@ -204,7 +211,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the paper width of the `GtkPaperSize`, in
+     * Gets the paper width of the <code>GtkPaperSize</code>, in
      * units of @unit.
      */
     public double getWidth(Unit unit) {
@@ -213,7 +220,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @size is not a standard paper size.
+     * Returns <code>true</code> if @size is not a standard paper size.
      */
     public boolean isCustom() {
         var RESULT = gtk_h.gtk_paper_size_is_custom(handle());
@@ -221,7 +228,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares two `GtkPaperSize` objects.
+     * Compares two <code>GtkPaperSize</code> objects.
      */
     public boolean isEqual(PaperSize size2) {
         var RESULT = gtk_h.gtk_paper_size_is_equal(handle(), size2.handle());
@@ -229,7 +236,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @size is an IPP standard paper size.
+     * Returns <code>true</code> if @size is an IPP standard paper size.
      */
     public boolean isIpp() {
         var RESULT = gtk_h.gtk_paper_size_is_ipp(handle());
@@ -244,7 +251,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Serialize a paper size to an `a{sv}` variant.
+     * Serialize a paper size to an <code>a{sv}</code> variant.
      */
     public org.gtk.glib.Variant toGvariant() {
         var RESULT = gtk_h.gtk_paper_size_to_gvariant(handle());

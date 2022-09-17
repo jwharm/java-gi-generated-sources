@@ -2,11 +2,11 @@ package org.gtk.gio;
 
 /**
  * Function signature for a function used to determine the #GType to
- * use for an interface proxy (if @interface_name is not %NULL) or
- * object proxy (if @interface_name is %NULL).
+ * use for an interface proxy (if @interface_name is not <code>NULL)</code> or
+ * object proxy (if @interface_name is <code>NULL).
  * 
- * This function is called in the
- * [thread-default main loop][g-main-context-push-thread-default]
+ * This</code> function is called in the
+ * {@link [thread-default main loop]}{@link [g-main-context-push-thread-default]}
  * that @manager was constructed in.
  */
 @FunctionalInterface

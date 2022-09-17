@@ -27,7 +27,7 @@ public class ShadowNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will draw a @child with the given
+     * Creates a <code>GskRenderNode</code> that will draw a @child with the given
      * @shadows below it.
      */
     public ShadowNode(RenderNode child, Shadow[] shadows, long nShadows) {
@@ -35,7 +35,7 @@ public class ShadowNode extends RenderNode {
     }
     
     /**
-     * Retrieves the child `GskRenderNode` of the shadow @node.
+     * Retrieves the child <code>GskRenderNode</code> of the shadow @node.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_shadow_node_get_child(handle());

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The result of a print operation.
  * 
- * A value of this type is returned by [method@Gtk.PrintOperation.run].
+ * A value of this type is returned by {@link org.gtk.gtk.PrintOperation#run}.
  */
 public enum PrintOperationResult {
 

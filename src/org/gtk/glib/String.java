@@ -38,7 +38,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Because a length is provided, @init need not be nul-terminated,
      * and can contain embedded nul bytes.
      * 
-     * Since this function does not stop at nul bytes, it is the caller's
+     * Since this function does not stop at nul bytes, it is the caller&#39;s
      * responsibility to ensure that @init has at least @len addressable
      * bytes.
      */
@@ -54,7 +54,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GString, with enough space for @dfl_size
      * bytes. This is useful if you are going to add a lot of
-     * text to the string and don't want it to be reallocated
+     * text to the string and don&#39;t want it to be reallocated
      * too often.
      */
     public static String sizedNew(long dflSize) {
@@ -83,7 +83,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Appends @len bytes of @val to @string.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller's responsibility to
+     * not be nul-terminated. It is the caller&#39;s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -151,7 +151,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares two strings for equality, returning %TRUE if they are equal.
+     * Compares two strings for equality, returning <code>true</code> if they are equal.
      * For use with #GHashTable.
      */
     public boolean equal(String v2) {
@@ -170,8 +170,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Frees the memory allocated for the #GString.
-     * If @free_segment is %TRUE it also frees the character data.  If
-     * it's %FALSE, the caller gains ownership of the buffer and must
+     * If @free_segment is <code>true</code> it also frees the character data.  If
+     * it&#39;s <code>FALSE,</code> the caller gains ownership of the buffer and must
      * free it after use with g_free().
      */
     public java.lang.String free(boolean freeSegment) {
@@ -185,9 +185,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * therefore invalid to use @string after invoking this function.
      * 
      * Note that while #GString ensures that its buffer always has a
-     * trailing nul character (not reflected in its "len"), the returned
+     * trailing nul character (not reflected in its &#34;len&#34;), the returned
      * #GBytes does not include this extra nul; i.e. it has length exactly
-     * equal to the "len" member.
+     * equal to the &#34;len&#34; member.
      */
     public Bytes freeToBytes() {
         var RESULT = gtk_h.g_string_free_to_bytes(handle());
@@ -223,7 +223,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Inserts @len bytes of @val into @string at @pos.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller's responsibility to
+     * not be nul-terminated. It is the caller&#39;s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -284,7 +284,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Prepends @len bytes of @val to @string.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller's responsibility to
+     * not be nul-terminated. It is the caller&#39;s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -308,7 +308,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Replaces the string @find with the string @replace in a #GString up to
      * @limit times. If the number of instances of @find in the #GString is
-     * less than @limit, all instances are replaced. If @limit is `0`,
+     * less than @limit, all instances are replaced. If @limit is <code>0</code>,
      * all instances of @find are replaced.
      * 
      * If @find is the empty string, since versions 2.69.1 and 2.68.4 the
@@ -326,7 +326,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * the current length, the string will be truncated. If the
      * length is greater than the current length, the contents
      * of the newly added area are undefined. (However, as
-     * always, string->str[string->len] will be a nul byte.)
+     * always, string-&#62;str{@link [string-&#62;len]} will be a nul byte.)
      */
     public String setSize(long len) {
         var RESULT = gtk_h.g_string_set_size(handle(), len);

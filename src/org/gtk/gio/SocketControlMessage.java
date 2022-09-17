@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A #GSocketControlMessage is a special-purpose utility message that
  * can be sent to or received from a #GSocket. These types of
- * messages are often called "ancillary data".
+ * messages are often called &#34;ancillary data&#34;.
  * 
  * The message can represent some sort of special instruction to or
  * information from the socket or can represent a special kind of
@@ -41,7 +41,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the "level" (i.e. the originating protocol) of the control message.
+     * Returns the &#34;level&#34; (i.e. the originating protocol) of the control message.
      * This is often SOL_SOCKET.
      */
     public int getLevel() {
@@ -85,8 +85,8 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * of #GSocketControlMessage if they can understand this kind
      * of message and if so deserialize it into a #GSocketControlMessage.
      * 
-     * If there is no implementation for this kind of control message, %NULL
-     * will be returned.
+     * If there is no implementation for this kind of control message, <code>NULL
+     * will</code> be returned.
      */
     public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
         var RESULT = gtk_h.g_socket_control_message_deserialize(level, type, size, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle());

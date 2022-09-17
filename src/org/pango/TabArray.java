@@ -8,9 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoTabArray` contains an array of tab stops.
- * 
- * `PangoTabArray` can be used to set tab stops in a `PangoLayout`.
+ * A <code>PangoTabArray</code> contains an array of tab stops.
+ * <p><code>PangoTabArray</code> can be used to set tab stops in a <code>PangoLayout</code>.
  * Each tab stop has an alignment, a position, and optionally
  * a character to use as decimal point.
  */
@@ -28,15 +27,15 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates an array of @initial_size tab stops.
      * 
-     * Tab stops are specified in pixel units if @positions_in_pixels is %TRUE,
-     * otherwise in Pango units. All stops are initially at position 0.
+     * Tab stops are specified in pixel units if @positions_in_pixels is <code>TRUE,
+     * otherwise</code> in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
         super(constructNew(initialSize, positionsInPixels));
     }
     
     /**
-     * Copies a `PangoTabArray`.
+     * Copies a <code>PangoTabArray</code>.
      */
     public TabArray copy() {
         var RESULT = gtk_h.pango_tab_array_copy(handle());
@@ -53,7 +52,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the Unicode character to use as decimal point.
      * 
-     * This is only relevant for tabs with %PANGO_TAB_DECIMAL alignment,
+     * This is only relevant for tabs with {@link org.pango.TabAlign#DECIMAL} alignment,
      * which align content at the first occurrence of the decimal point
      * character.
      * 
@@ -66,8 +65,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if the tab positions are in pixels,
-     * %FALSE if they are in Pango units.
+     * Returns <code>true</code> if the tab positions are in pixels,
+     * <code>false</code> if they are in Pango units.
      */
     public boolean getPositionsInPixels() {
         var RESULT = gtk_h.pango_tab_array_get_positions_in_pixels(handle());
@@ -95,7 +94,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the Unicode character to use as decimal point.
      * 
-     * This is only relevant for tabs with %PANGO_TAB_DECIMAL alignment,
+     * This is only relevant for tabs with {@link org.pango.TabAlign#DECIMAL} alignment,
      * which align content at the first occurrence of the decimal point
      * character.
      * 
@@ -129,7 +128,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Serializes a `PangoTabArray` to a string.
+     * Serializes a <code>PangoTabArray</code> to a string.
      * 
      * No guarantees are made about the format of the string,
      * it may change between Pango versions.
@@ -144,9 +143,9 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Deserializes a `PangoTabArray` from a string.
+     * Deserializes a <code>PangoTabArray</code> from a string.
      * 
-     * This is the counterpart to [method@Pango.TabArray.to_string].
+     * This is the counterpart to {@link org.pango.TabArray#toString}.
      * See that functions for details about the format.
      */
     public static TabArray fromString(java.lang.String text) {

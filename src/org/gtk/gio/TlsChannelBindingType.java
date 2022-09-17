@@ -3,19 +3,19 @@ package org.gtk.gio;
 /**
  * The type of TLS channel binding data to retrieve from #GTlsConnection
  * or #GDtlsConnection, as documented by RFC 5929. The
- * [`tls-unique-for-telnet`](https://tools.ietf.org/html/rfc5929#section-5)
+ * {@link [<code>tls-unique-for-telnet</code>]}(https://tools.ietf.org/html/rfc5929#section-5)
  * binding type is not currently implemented.
  */
 public enum TlsChannelBindingType {
 
     /**
-     * [`tls-unique`](https://tools.ietf.org/html/rfc5929#section-3) binding
+     * {@link [<code>tls-unique</code>]}(https://tools.ietf.org/html/rfc5929#section-3) binding
      *    type
      */
     UNIQUE,
     
     /**
-     * [`tls-server-end-point`](https://tools.ietf.org/html/rfc5929#section-4)
+     * {@link [<code>tls-server-end-point</code>]}(https://tools.ietf.org/html/rfc5929#section-4)
      *    binding type
      */
     SERVER_END_POINT;

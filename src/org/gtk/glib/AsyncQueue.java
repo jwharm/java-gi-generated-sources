@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * An opaque data structure which represents an asynchronous queue.
- * 
- * It should only be accessed through the `g_async_queue_*` functions.
+ * <p>
+ * It should only be accessed through the <code>g_async_queue_*</code> functions.
  */
 public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
 
@@ -43,7 +43,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * in the queue and n threads waiting. This can happen due to locking
      * of the queue or due to scheduling.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public int lengthUnlocked() {
         var RESULT = gtk_h.g_async_queue_length_unlocked(handle());
@@ -51,7 +51,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Acquires the @queue's lock. If another thread is already
+     * Acquires the @queue&#39;s lock. If another thread is already
      * holding the lock, this call will block until the lock
      * becomes available.
      * 
@@ -78,7 +78,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the @queue. If @queue is empty, this function
      * blocks until data becomes available.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public jdk.incubator.foreign.MemoryAddress popUnlocked() {
         var RESULT = gtk_h.g_async_queue_pop_unlocked(handle());
@@ -86,15 +86,21 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the @data into the @queue. @data must not be %NULL.
+     * Pushes the @data into the @queue. @data must not be 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Pushes the @data into the @queue. @data must not be %NULL.
      */
     public void push(jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_async_queue_push(handle(), data);
     }
     
     /**
-     * Pushes the @item into the @queue. @item must not be %NULL.
-     * In contrast to g_async_queue_push(), this function
+     * Pushes the @item into the @queue. @item must not be <code>NULL.
+     * In</code> contrast to g_async_queue_push(), this function
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
      */
@@ -103,12 +109,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the @item into the @queue. @item must not be %NULL.
-     * In contrast to g_async_queue_push_unlocked(), this function
+     * Pushes the @item into the @queue. @item must not be <code>NULL.
+     * In</code> contrast to g_async_queue_push_unlocked(), this function
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public void pushFrontUnlocked(jdk.incubator.foreign.MemoryAddress item) {
         gtk_h.g_async_queue_push_front_unlocked(handle(), item);
@@ -154,7 +160,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * This function requires that the @queue is sorted before pushing on
      * new elements, see g_async_queue_sort().
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      * 
      * For an example of @func see g_async_queue_sort().
      */
@@ -174,9 +180,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the @data into the @queue. @data must not be %NULL.
+     * Pushes the @data into the @queue. @data must not be <code>NULL.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This</code> function must be called while holding the @queue&#39;s lock.
      */
     public void pushUnlocked(jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_async_queue_push_unlocked(handle(), data);
@@ -202,7 +208,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Remove an item from the queue.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public boolean removeUnlocked(jdk.incubator.foreign.MemoryAddress item) {
         var RESULT = gtk_h.g_async_queue_remove_unlocked(handle(), item);
@@ -223,15 +229,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If you were sorting a list of priority numbers to make sure the
      * lowest priority would be at the top of the queue, you could use:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  gint32 id1;
      *  gint32 id2;
      * 
      *  id1 = GPOINTER_TO_INT (element1);
      *  id2 = GPOINTER_TO_INT (element2);
      * 
-     *  return (id1 > id2 ? +1 : id1 == id2 ? 0 : -1);
-     * ]|
+     *  return (id1 &#62; id2 ? +1 : id1 == id2 ? 0 : -1);
+     * ]}|
      */
     public void sort(CompareDataFunc func) {
         try {
@@ -256,7 +262,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * if the first element should be lower in the @queue than the second
      * element.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public void sortUnlocked(CompareDataFunc func) {
         try {
@@ -276,7 +282,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the @queue. If the queue is empty, blocks for
      * @timeout microseconds, or until data becomes available.
      * 
-     * If no data is received before the timeout, %NULL is returned.
+     * If no data is received before the timeout, <code>null</code> is returned.
      */
     public jdk.incubator.foreign.MemoryAddress timeoutPop(long timeout) {
         var RESULT = gtk_h.g_async_queue_timeout_pop(handle(), timeout);
@@ -287,9 +293,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the @queue. If the queue is empty, blocks for
      * @timeout microseconds, or until data becomes available.
      * 
-     * If no data is received before the timeout, %NULL is returned.
+     * If no data is received before the timeout, <code>null</code> is returned.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public jdk.incubator.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
         var RESULT = gtk_h.g_async_queue_timeout_pop_unlocked(handle(), timeout);
@@ -298,7 +304,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to pop data from the @queue. If no data is available,
-     * %NULL is returned.
+     * <code>null</code> is returned.
      */
     public jdk.incubator.foreign.MemoryAddress tryPop() {
         var RESULT = gtk_h.g_async_queue_try_pop(handle());
@@ -307,9 +313,9 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to pop data from the @queue. If no data is available,
-     * %NULL is returned.
+     * <code>null</code> is returned.
      * 
-     * This function must be called while holding the @queue's lock.
+     * This function must be called while holding the @queue&#39;s lock.
      */
     public jdk.incubator.foreign.MemoryAddress tryPopUnlocked() {
         var RESULT = gtk_h.g_async_queue_try_pop_unlocked(handle());
@@ -317,7 +323,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Releases the queue's lock.
+     * Releases the queue&#39;s lock.
      * 
      * Calling this function when you have not acquired
      * the with g_async_queue_lock() leads to undefined

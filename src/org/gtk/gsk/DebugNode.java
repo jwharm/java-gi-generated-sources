@@ -28,7 +28,7 @@ public class DebugNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will add debug information about
+     * Creates a <code>GskRenderNode</code> that will add debug information about
      * the given @child.
      * 
      * Adding this node has no visual effect.

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoAnalysis` structure stores information about
+ * The <code>PangoAnalysis</code> structure stores information about
  * the properties of a segment of text.
  */
 public class Analysis extends io.github.jwharm.javagi.ResourceBase {

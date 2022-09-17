@@ -26,7 +26,7 @@ public class SocketMsgFlags {
     public static final int PEEK = 2;
     
     /**
-     * Don't use a gateway to send out the packet,
+     * Don&#39;t use a gateway to send out the packet,
      *     only send to hosts on directly connected networks.
      */
     public static final int DONTROUTE = 4;

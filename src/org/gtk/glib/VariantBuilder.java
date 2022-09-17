@@ -65,7 +65,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * It typically only makes sense to do this on a stack-allocated
      * #GVariantBuilder if you want to abort building the value part-way
      * through.  This function need not be called if you call
-     * g_variant_builder_end() and it also doesn't need to be called on
+     * g_variant_builder_end() and it also doesn&#39;t need to be called on
      * builders allocated with g_variant_builder_new() (see
      * g_variant_builder_unref() for that).
      * 
@@ -117,9 +117,9 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initialises a #GVariantBuilder structure.
      * 
-     * @type must be non-%NULL.  It specifies the type of container to
+     * @type must be non-<code>NULL.</code>  It specifies the type of container to
      * construct.  It can be an indefinite type such as
-     * %G_VARIANT_TYPE_ARRAY or a definite type such as "as" or "(ii)".
+     * <code>G_VARIANT_TYPE_ARRAY</code> or a definite type such as &#34;as&#34; or &#34;(ii)&#34;.
      * Maybe, array, tuple, dictionary entry and variant-typed values may be
      * constructed.
      * 
@@ -160,7 +160,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * a value of an incorrect type).
      * 
      * Example of building a nested variant:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * GVariantBuilder builder;
      * guint32 some_number = get_number ();
      * g_autoptr (GHashTable) some_dict = get_dict ();
@@ -169,23 +169,23 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * const GVariant *value;
      * g_autoptr (GVariant) output = NULL;
      * 
-     * g_variant_builder_init (&builder, G_VARIANT_TYPE ("(ua{sv})"));
-     * g_variant_builder_add (&builder, "u", some_number);
-     * g_variant_builder_open (&builder, G_VARIANT_TYPE ("a{sv}"));
+     * g_variant_builder_init (&#38;builder, G_VARIANT_TYPE (&#34;(ua{sv})&#34;));
+     * g_variant_builder_add (&#38;builder, &#34;u&#34;, some_number);
+     * g_variant_builder_open (&#38;builder, G_VARIANT_TYPE (&#34;a{sv}&#34;));
      * 
-     * g_hash_table_iter_init (&iter, some_dict);
-     * while (g_hash_table_iter_next (&iter, (gpointer *) &key, (gpointer *) &value))
+     * g_hash_table_iter_init (&#38;iter, some_dict);
+     * while (g_hash_table_iter_next (&#38;iter, (gpointer *) &#38;key, (gpointer *) &#38;value))
      *   {
-     *     g_variant_builder_open (&builder, G_VARIANT_TYPE ("{sv}"));
-     *     g_variant_builder_add (&builder, "s", key);
-     *     g_variant_builder_add (&builder, "v", value);
-     *     g_variant_builder_close (&builder);
+     *     g_variant_builder_open (&#38;builder, G_VARIANT_TYPE (&#34;{sv}&#34;));
+     *     g_variant_builder_add (&#38;builder, &#34;s&#34;, key);
+     *     g_variant_builder_add (&#38;builder, &#34;v&#34;, value);
+     *     g_variant_builder_close (&#38;builder);
      *   }
      * 
-     * g_variant_builder_close (&builder);
+     * g_variant_builder_close (&#38;builder);
      * 
-     * output = g_variant_builder_end (&builder);
-     * ]|
+     * output = g_variant_builder_end (&#38;builder);
+     * ]}|
      */
     public void open(VariantType type) {
         gtk_h.g_variant_builder_open(handle(), type.handle());
@@ -194,7 +194,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count on @builder.
      * 
-     * Don't call this on stack-allocated #GVariantBuilder instances or bad
+     * Don&#39;t call this on stack-allocated #GVariantBuilder instances or bad
      * things will happen.
      */
     public VariantBuilder ref() {
@@ -208,7 +208,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * In the event that there are no more references, releases all memory
      * associated with the #GVariantBuilder.
      * 
-     * Don't call this on stack-allocated #GVariantBuilder instances or bad
+     * Don&#39;t call this on stack-allocated #GVariantBuilder instances or bad
      * things will happen.
      */
     public void unref() {

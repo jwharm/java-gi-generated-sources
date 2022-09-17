@@ -17,7 +17,7 @@ public enum EmblemOrigin {
     DEVICE,
     
     /**
-     * Emblem depicts live metadata, such as "readonly"
+     * Emblem depicts live metadata, such as &#34;readonly&#34;
      */
     LIVEMETADATA,
     

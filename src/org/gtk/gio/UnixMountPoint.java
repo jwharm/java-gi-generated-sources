@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Defines a Unix mount point (e.g. <filename>/dev</filename>).
+ * Defines a Unix mount point (e.g. &#60;filename&#62;/dev&#60;/filename&#62;).
  * This corresponds roughly to a fstab entry.
  */
 public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {

@@ -8,8 +8,8 @@ package org.gtk.gdkpixbuf;
  * 
  * The image loader should set up an internal state object, and return it
  * from this function; the state object will then be updated from the
- * [callback@GdkPixbuf.PixbufModuleIncrementLoadFunc] callback, and will be freed
- * by [callback@GdkPixbuf.PixbufModuleStopLoadFunc] callback.
+ * {@link [callback@GdkPixbuf.PixbufModuleIncrementLoadFunc] (ref=callback)} callback, and will be freed
+ * by {@link [callback@GdkPixbuf.PixbufModuleStopLoadFunc] (ref=callback)} callback.
  */
 @FunctionalInterface
 public interface PixbufModuleBeginLoadFunc {

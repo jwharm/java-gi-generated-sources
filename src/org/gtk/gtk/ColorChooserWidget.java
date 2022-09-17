@@ -8,30 +8,29 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkColorChooserWidget` widget lets the user select a color.
- * 
+ * The <code>GtkColorChooserWidget</code> widget lets the user select a color.
+ * <p>
  * By default, the chooser presents a predefined palette of colors,
  * plus a small number of settable custom colors. It is also possible
  * to select a different color with the single-color editor.
- * 
+ * <p>
  * To enter the single-color editing mode, use the context menu of any
- * color of the palette, or use the '+' button to add a new custom color.
- * 
+ * color of the palette, or use the &#39;+&#39; button to add a new custom color.
+ * <p>
  * The chooser automatically remembers the last selection, as well
  * as custom colors.
- * 
- * To create a `GtkColorChooserWidget`, use [ctor@Gtk.ColorChooserWidget.new].
- * 
+ * <p>
+ * To create a <code>GtkColorChooserWidget</code>, use {@link [ctor@Gtk.ColorChooserWidget.new] (ref=ctor)}.
+ * <p>
  * To change the initially selected color, use
- * [method@Gtk.ColorChooser.set_rgba]. To get the selected color use
- * [method@Gtk.ColorChooser.get_rgba].
- * 
- * The `GtkColorChooserWidget` is used in the [class@Gtk.ColorChooserDialog]
+ * {@link org.gtk.gtk.ColorChooser#setRgba}. To get the selected color use
+ * {@link org.gtk.gtk.ColorChooser#getRgba}.
+ * <p>
+ * The <code>GtkColorChooserWidget</code> is used in the {@link org.gtk.gtk.ColorChooserDialog}
  * to provide a dialog for selecting colors.
- * 
- * # CSS names
- * 
- * `GtkColorChooserWidget` has a single CSS node with name colorchooser.
+ * <p>
+ * <h1>SS names</h1>
+ * <p><code>GtkColorChooserWidget</code> has a single CSS node with name colorchooser.
  */
 public class ColorChooserWidget extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
 
@@ -50,7 +49,7 @@ public class ColorChooserWidget extends Widget implements Accessible, Buildable,
     }
     
     /**
-     * Creates a new `GtkColorChooserWidget`.
+     * Creates a new <code>GtkColorChooserWidget</code>.
      */
     public ColorChooserWidget() {
         super(constructNew());

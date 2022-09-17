@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkBoxLayout` is a layout manager that arranges children in a single
+ * <code>GtkBoxLayout</code> is a layout manager that arranges children in a single
  * row or column.
- * 
+ * <p>
  * Whether it is a row or column depends on the value of its
- * [property@Gtk.Orientable:orientation] property. Within the other dimension
- * all children all allocated the same size. The `GtkBoxLayout` will respect
- * the [property@Gtk.Widget:halign] and [property@Gtk.Widget:valign]
+ * {@link [property@Gtk.Orientable:orientation] (ref=property)} property. Within the other dimension
+ * all children all allocated the same size. The <code>GtkBoxLayout</code> will respect
+ * the {@link [property@Gtk.Widget:halign] (ref=property)} and {@link [property@Gtk.Widget:valign] (ref=property)}
  * properties of each child widget.
  * 
  * If you want all children to be assigned the same size, you can use
- * the [property@Gtk.BoxLayout:homogeneous] property.
+ * the {@link [property@Gtk.BoxLayout:homogeneous] (ref=property)} property.
  * 
  * If you want to specify the amount of space placed between each child,
- * you can use the [property@Gtk.BoxLayout:spacing] property.
+ * you can use the {@link [property@Gtk.BoxLayout:spacing] (ref=property)} property.
  */
 public class BoxLayout extends LayoutManager implements Orientable {
 
@@ -40,7 +40,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
     }
     
     /**
-     * Creates a new `GtkBoxLayout`.
+     * Creates a new <code>GtkBoxLayout</code>.
      */
     public BoxLayout(Orientation orientation) {
         super(constructNew(orientation));

@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEventControllerFocus` is an event controller to keep track of
+ * <code>GtkEventControllerFocus</code> is an event controller to keep track of
  * keyboard focus.
  * 
- * The event controller offers [signal@Gtk.EventControllerFocus::enter]
- * and [signal@Gtk.EventControllerFocus::leave] signals, as well as
- * [property@Gtk.EventControllerFocus:is-focus] and
- * [property@Gtk.EventControllerFocus:contains-focus] properties
+ * The event controller offers {@link [signal@Gtk.EventControllerFocus::enter] (ref=signal)}
+ * and {@link [signal@Gtk.EventControllerFocus::leave] (ref=signal)} signals, as well as
+ * {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)} and
+ * {@link [property@Gtk.EventControllerFocus:contains-focus] (ref=property)} properties
  * which are updated to reflect focus changes inside the widget hierarchy
  * that is rooted at the controllers widget.
  */
@@ -42,7 +42,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns %TRUE if focus is within @self or one of its children.
+     * Returns <code>true</code> if focus is within @self or one of its children.
      */
     public boolean containsFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_contains_focus(handle());
@@ -50,7 +50,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns %TRUE if focus is within @self, but not one of its children.
+     * Returns <code>true</code> if focus is within @self, but not one of its children.
      */
     public boolean isFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_is_focus(handle());
@@ -71,7 +71,7 @@ public class EventControllerFocus extends EventController {
      * certain cases (such as when the focus moves from a descendent
      * of the widget to the widget itself). If you are interested
      * in these cases, you can monitor the
-     * [property@Gtk.EventControllerFocus:is-focus]
+     * {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)}
      * property for changes.
      */
     public SignalHandle onEnter(EnterHandler handler) {
@@ -102,7 +102,7 @@ public class EventControllerFocus extends EventController {
      * even though the focus moves away from the widget, in
      * certain cases (such as when the focus moves from the widget
      * to a descendent). If you are interested in these cases, you
-     * can monitor the [property@Gtk.EventControllerFocus:is-focus]
+     * can monitor the {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)}
      * property for changes.
      */
     public SignalHandle onLeave(LeaveHandler handler) {

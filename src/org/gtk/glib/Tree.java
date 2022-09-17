@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * The GTree struct is an opaque data structure representing a
- * [balanced binary tree][glib-Balanced-Binary-Trees]. It should be
+ * {@link [balanced binary tree]}{@link [glib-Balanced-Binary-Trees]}. It should be
  * accessed only by using the following functions.
  */
 public class Tree extends io.github.jwharm.javagi.ResourceBase {
@@ -84,7 +84,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The function is passed the key and value of each pair, and the given
      * @data parameter. The tree is traversed in sorted order.
      * 
-     * The tree may not be modified while iterating over it (you can't
+     * The tree may not be modified while iterating over it (you can&#39;t
      * add/remove items). To remove all items matching a predicate, you need
      * to add each item to a list in your #GTraverseFunc as you walk over
      * the tree, then walk the list and remove each item.
@@ -108,7 +108,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The function is passed the pointer to the particular node, and the given
      * @data parameter. The tree traversal happens in-order.
      * 
-     * The tree may not be modified while iterating over it (you can't
+     * The tree may not be modified while iterating over it (you can&#39;t
      * add/remove items). To remove all items matching a predicate, you need
      * to add each item to a list in your #GTraverseFunc as you walk over
      * the tree, then walk the list and remove each item.
@@ -158,7 +158,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * you supplied a @key_destroy_func when creating the #GTree, the passed
      * key is freed using that function.
      * 
-     * The tree is automatically 'balanced' as new key/value pairs are added,
+     * The tree is automatically &#39;balanced&#39; as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
      * The cost of maintaining a balanced tree while inserting new key/value
      * result in a O(n log(n)) operation where most of the other operations
@@ -202,7 +202,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the lower bound node corresponding to the given key,
-     * or %NULL if the tree is empty or all the nodes in the tree
+     * or <code>null</code> if the tree is empty or all the nodes in the tree
      * have keys that are strictly lower than the searched key.
      * 
      * The lower bound is the first node that has its key greater
@@ -222,8 +222,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the first in-order node of the tree, or %NULL
-     * for an empty tree.
+     * Returns the first in-order node of the tree, or <code>NULL
+     * for</code> an empty tree.
      */
     public TreeNode nodeFirst() {
         var RESULT = gtk_h.g_tree_node_first(handle());
@@ -231,8 +231,8 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the last in-order node of the tree, or %NULL
-     * for an empty tree.
+     * Returns the last in-order node of the tree, or <code>NULL
+     * for</code> an empty tree.
      */
     public TreeNode nodeLast() {
         var RESULT = gtk_h.g_tree_node_last(handle());
@@ -268,7 +268,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Removes all nodes from a #GTree and destroys their keys and values,
-     * then resets the #GTree’s root to %NULL.
+     * then resets the #GTree&#8217;s root to 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Removes all nodes from a #GTree and destroys their keys and values,
+     * then resets the #GTree&#8217;s root to %NULL.
      */
     public void removeAll() {
         gtk_h.g_tree_remove_all(handle());
@@ -290,7 +297,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * supplied a @key_destroy_func when creating the #GTree, the old key is
      * freed using that function.
      * 
-     * The tree is automatically 'balanced' as new key/value pairs are added,
+     * The tree is automatically &#39;balanced&#39; as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
      */
     public TreeNode replaceNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
@@ -375,7 +382,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the upper bound node corresponding to the given key,
-     * or %NULL if the tree is empty or all the nodes in the tree
+     * or <code>null</code> if the tree is empty or all the nodes in the tree
      * have keys that are lower than or equal to the searched key.
      * 
      * The upper bound is the first node that has its key strictly greater

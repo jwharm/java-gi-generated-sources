@@ -27,7 +27,7 @@ public class RoundedClipNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will clip the @child to the area
+     * Creates a <code>GskRenderNode</code> that will clip the @child to the area
      * given by @clip.
      */
     public RoundedClipNode(RenderNode child, RoundedRect clip) {

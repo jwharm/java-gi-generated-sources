@@ -8,41 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAssistant` is used to represent a complex as a series of steps.
- * 
- * ![An example GtkAssistant](assistant.png)
- * 
- * Each step consists of one or more pages. `GtkAssistant` guides the user
+ * <code>GtkAssistant</code> is used to represent a complex as a series of steps.
+ * <p>
+ * !{@link [An example GtkAssistant]}(assistant.png)
+ * <p>
+ * Each step consists of one or more pages. <code>GtkAssistant</code> guides the user
  * through the pages, and controls the page flow to collect the data needed
  * for the operation.
- * 
- * `GtkAssistant` handles which buttons to show and to make sensitive based
- * on page sequence knowledge and the [enum@Gtk.AssistantPageType] of each
+ * <p><code>GtkAssistant</code> handles which buttons to show and to make sensitive based
+ * on page sequence knowledge and the {@link [enum@Gtk.AssistantPageType] (ref=enum)} of each
  * page in addition to state information like the *completed* and *committed*
  * page statuses.
- * 
- * If you have a case that doesn’t quite fit in `GtkAssistant`s way of
- * handling buttons, you can use the %GTK_ASSISTANT_PAGE_CUSTOM page
+ * <p>
+ * If you have a case that doesn&#8217;t quite fit in <code>GtkAssistant</code>s way of
+ * handling buttons, you can use the {@link org.gtk.gtk.AssistantPageType#CUSTOM} page
  * type and handle buttons yourself.
- * 
- * `GtkAssistant` maintains a `GtkAssistantPage` object for each added
+ * <p><code>GtkAssistant</code> maintains a <code>GtkAssistantPage</code> object for each added
  * child, which holds additional per-child properties. You
- * obtain the `GtkAssistantPage` for a child with [method@Gtk.Assistant.get_page].
- * 
- * # GtkAssistant as GtkBuildable
- * 
- * The `GtkAssistant` implementation of the `GtkBuildable` interface
+ * obtain the <code>GtkAssistantPage</code> for a child with {@link org.gtk.gtk.Assistant#getPage}.
+ * <p>
+ * <h1>tkAssistant as GtkBuildable</h1>
+ * <p>
+ * The <code>GtkAssistant</code> implementation of the <code>GtkBuildable</code> interface
  * exposes the @action_area as internal children with the name
- * “action_area”.
- * 
- * To add pages to an assistant in `GtkBuilder`, simply add it as a
- * child to the `GtkAssistant` object. If you need to set per-object
- * properties, create a `GtkAssistantPage` object explicitly, and
+ * &#8220;action_area&#8221;.
+ * <p>
+ * To add pages to an assistant in <code>GtkBuilder</code>, simply add it as a
+ * child to the <code>GtkAssistant</code> object. If you need to set per-object
+ * properties, create a <code>GtkAssistantPage</code> object explicitly, and
  * set the child widget as a property on it.
- * 
- * # CSS nodes
- * 
- * `GtkAssistant` has a single CSS node with the name window and style
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkAssistant</code> has a single CSS node with the name window and style
  * class .assistant.
  */
 public class Assistant extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
@@ -62,14 +59,14 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Creates a new `GtkAssistant`.
+     * Creates a new <code>GtkAssistant</code>.
      */
     public Assistant() {
         super(constructNew());
     }
     
     /**
-     * Adds a widget to the action area of a `GtkAssistant`.
+     * Adds a widget to the action area of a <code>GtkAssistant</code>.
      */
     public void addActionWidget(Widget child) {
         gtk_h.gtk_assistant_add_action_widget(handle(), child.handle());
@@ -124,7 +121,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Returns the `GtkAssistantPage` object for @child.
+     * Returns the <code>GtkAssistantPage</code> object for @child.
      */
     public AssistantPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_assistant_get_page(handle(), child.handle());
@@ -178,7 +175,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * there is no next page.
      * 
      * This function is for use when creating pages of the
-     * %GTK_ASSISTANT_PAGE_CUSTOM type.
+     * {@link org.gtk.gtk.AssistantPageType#CUSTOM} type.
      */
     public void nextPage() {
         gtk_h.gtk_assistant_next_page(handle());
@@ -199,21 +196,21 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * no previous page is available.
      * 
      * This function is for use when creating pages of the
-     * %GTK_ASSISTANT_PAGE_CUSTOM type.
+     * {@link org.gtk.gtk.AssistantPageType#CUSTOM} type.
      */
     public void previousPage() {
         gtk_h.gtk_assistant_previous_page(handle());
     }
     
     /**
-     * Removes a widget from the action area of a `GtkAssistant`.
+     * Removes a widget from the action area of a <code>GtkAssistant</code>.
      */
     public void removeActionWidget(Widget child) {
         gtk_h.gtk_assistant_remove_action_widget(handle(), child.handle());
     }
     
     /**
-     * Removes the @page_num’s page from @assistant.
+     * Removes the @page_num&#8217;s page from @assistant.
      */
     public void removePage(int pageNum) {
         gtk_h.gtk_assistant_remove_page(handle(), pageNum);
@@ -235,7 +232,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * 
      * This function will be used to determine what will be
      * the next page when the user presses the forward button.
-     * Setting @page_func to %NULL will make the assistant to
+     * Setting @page_func to <code>null</code> will make the assistant to
      * use the default forward function, which just goes to the
      * next visible page.
      */
@@ -305,15 +302,15 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     
     /**
      * Emitted when the apply button is clicked.
-     * 
-     * The default behavior of the `GtkAssistant` is to switch to the page
+     * <p>
+     * The default behavior of the <code>GtkAssistant</code> is to switch to the page
      * after the current page, unless the current page is the last one.
      * 
      * A handler for the ::apply signal should carry out the actions for
      * which the wizard has collected data. If the action takes a long time
      * to complete, you might consider putting a page of type
-     * %GTK_ASSISTANT_PAGE_PROGRESS after the confirmation page and handle
-     * this operation within the [signal@Gtk.Assistant::prepare] signal of
+     * {@link org.gtk.gtk.AssistantPageType#PROGRESS} after the confirmation page and handle
+     * this operation within the {@link [signal@Gtk.Assistant::prepare] (ref=signal)} signal of
      * the progress page.
      */
     public SignalHandle onApply(ApplyHandler handler) {
@@ -362,7 +359,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Emitted either when the close button of a summary page is clicked,
      * or when the apply button in the last page in the flow (of type
-     * %GTK_ASSISTANT_PAGE_CONFIRM) is clicked.
+     * <code>GTK_ASSISTANT_PAGE_CONFIRM)</code> is clicked.
      */
     public SignalHandle onClose(CloseHandler handler) {
         try {
@@ -408,7 +405,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Emitted when a new page is set as the assistant's current page,
+     * Emitted when a new page is set as the assistant&#39;s current page,
      * before making the new page visible.
      * 
      * A handler for this signal can do any preparations which are

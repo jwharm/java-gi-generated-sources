@@ -13,7 +13,7 @@ import java.lang.invoke.*;
 public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the #GType of @backend's #GTlsCertificate implementation.
+     * Gets the #GType of @backend&#39;s #GTlsCertificate implementation.
      */
     public default org.gtk.gobject.Type getCertificateType() {
         var RESULT = gtk_h.g_tls_backend_get_certificate_type(handle());
@@ -21,7 +21,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GType of @backend's #GTlsClientConnection implementation.
+     * Gets the #GType of @backend&#39;s #GTlsClientConnection implementation.
      */
     public default org.gtk.gobject.Type getClientConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_client_connection_type(handle());
@@ -37,7 +37,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GType of @backend’s #GDtlsClientConnection implementation.
+     * Gets the #GType of @backend&#8217;s #GDtlsClientConnection implementation.
      */
     public default org.gtk.gobject.Type getDtlsClientConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_dtls_client_connection_type(handle());
@@ -45,7 +45,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GType of @backend’s #GDtlsServerConnection implementation.
+     * Gets the #GType of @backend&#8217;s #GDtlsServerConnection implementation.
      */
     public default org.gtk.gobject.Type getDtlsServerConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_dtls_server_connection_type(handle());
@@ -53,7 +53,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GType of @backend's #GTlsFileDatabase implementation.
+     * Gets the #GType of @backend&#39;s #GTlsFileDatabase implementation.
      */
     public default org.gtk.gobject.Type getFileDatabaseType() {
         var RESULT = gtk_h.g_tls_backend_get_file_database_type(handle());
@@ -61,7 +61,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GType of @backend's #GTlsServerConnection implementation.
+     * Gets the #GType of @backend&#39;s #GTlsServerConnection implementation.
      */
     public default org.gtk.gobject.Type getServerConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_server_connection_type(handle());
@@ -75,7 +75,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
      * the database set in this call.  Existing databases and connections are not
      * modified.
      * 
-     * Setting a %NULL default database will reset to using the system default
+     * Setting a <code>null</code> default database will reset to using the system default
      * database as if g_tls_backend_set_default_database() had never been called.
      */
     public default void setDefaultDatabase(TlsDatabase database) {
@@ -92,8 +92,8 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if TLS is supported; if this returns %FALSE for the default
-     * #GTlsBackend, it means no "real" TLS backend is available.
+     * Checks if TLS is supported; if this returns <code>false</code> for the default
+     * #GTlsBackend, it means no &#34;real&#34; TLS backend is available.
      */
     public default boolean supportsTls() {
         var RESULT = gtk_h.g_tls_backend_supports_tls(handle());

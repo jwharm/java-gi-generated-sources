@@ -25,8 +25,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the next in-order node of the tree, or %NULL
-     * if the passed node was already the last one.
+     * Returns the next in-order node of the tree, or <code>NULL
+     * if</code> the passed node was already the last one.
      */
     public TreeNode next() {
         var RESULT = gtk_h.g_tree_node_next(handle());
@@ -34,8 +34,8 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the previous in-order node of the tree, or %NULL
-     * if the passed node was already the first one.
+     * Returns the previous in-order node of the tree, or <code>NULL
+     * if</code> the passed node was already the first one.
      */
     public TreeNode previous() {
         var RESULT = gtk_h.g_tree_node_previous(handle());

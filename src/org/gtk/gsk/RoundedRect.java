@@ -9,18 +9,18 @@ import java.lang.invoke.*;
 
 /**
  * A rectangular region with rounded corners.
- * 
+ * <p>
  * Application code should normalize rectangles using
- * [method@Gsk.RoundedRect.normalize]; this function will ensure that
+ * {@link org.gtk.gsk.RoundedRect#normalize}; this function will ensure that
  * the bounds of the rectangle are normalized and ensure that the corner
  * values are positive and the corners do not overlap.
- * 
- * All functions taking a `GskRoundedRect` as an argument will internally
- * operate on a normalized copy; all functions returning a `GskRoundedRect`
+ * <p>
+ * All functions taking a <code>GskRoundedRect</code> as an argument will internally
+ * operate on a normalized copy; all functions returning a <code>GskRoundedRect</code>
  * will always return a normalized one.
  * 
  * The algorithm used for normalizing corner sizes is described in
- * [the CSS specification](https://drafts.csswg.org/css-backgrounds-3/#border-radius).
+ * {@link [the CSS specification]}(https://drafts.csswg.org/css-backgrounds-3/#border-radius).
  */
 public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
 
@@ -45,9 +45,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given `GskRoundedRect` with the given values.
-     * 
-     * This function will implicitly normalize the `GskRoundedRect`
+     * Initializes the given <code>GskRoundedRect</code> with the given values.
+     * <p>
+     * This function will implicitly normalize the <code>GskRoundedRect</code>
      * before returning.
      */
     public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
@@ -57,8 +57,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Initializes @self using the given @src rectangle.
-     * 
-     * This function will not normalize the `GskRoundedRect`,
+     * <p>
+     * This function will not normalize the <code>GskRoundedRect</code>,
      * so make sure the source is normalized.
      */
     public RoundedRect initCopy(RoundedRect src) {
@@ -87,8 +87,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * Checks if all corners of @self are right angles and the
      * rectangle covers all of its bounds.
      * 
-     * This information can be used to decide if [ctor@Gsk.ClipNode.new]
-     * or [ctor@Gsk.RoundedClipNode.new] should be called.
+     * This information can be used to decide if {@link [ctor@Gsk.ClipNode.new] (ref=ctor)}
+     * or {@link [ctor@Gsk.RoundedClipNode.new] (ref=ctor)} should be called.
      */
     public boolean isRectilinear() {
         var RESULT = gtk_h.gsk_rounded_rect_is_rectilinear(handle());
@@ -108,7 +108,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Offsets the bound's origin by @dx and @dy.
+     * Offsets the bound&#39;s origin by @dx and @dy.
      * 
      * The size and corners of the rectangle are unchanged.
      */

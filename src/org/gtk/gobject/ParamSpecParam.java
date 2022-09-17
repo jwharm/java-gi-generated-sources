@@ -8,7 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for %G_TYPE_PARAM
+ * A #GParamSpec derived structure that contains the meta data for 
+ *       
+ *         
+ *       
+ *       
+ *         
+ *       
+ *     
+ *     
+ *       A #GParamSpec derived structure that contains the meta data for %G_TYPE_PARAM
  * properties.
  */
 public class ParamSpecParam extends ParamSpec {

@@ -27,7 +27,7 @@ public class ColorNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will render the color specified by @rgba into
+     * Creates a <code>GskRenderNode</code> that will render the color specified by @rgba into
      * the area given by @bounds.
      */
     public ColorNode(org.gtk.gdk.RGBA rgba, org.gtk.graphene.Rect bounds) {

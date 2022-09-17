@@ -8,15 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkRange` is the common base class for widgets which visualize an
+ * <code>GtkRange</code> is the common base class for widgets which visualize an
  * adjustment.
- * 
- * Widgets that are derived from `GtkRange` include
- * [class@Gtk.Scale] and [class@Gtk.Scrollbar].
- * 
- * Apart from signals for monitoring the parameters of the adjustment,
- * `GtkRange` provides properties and methods for setting a
- * “fill level” on range widgets. See [method@Gtk.Range.set_fill_level].
+ * <p>
+ * Widgets that are derived from <code>GtkRange</code> include
+ * {@link org.gtk.gtk.Scale} and {@link org.gtk.gtk.Scrollbar}.
+ * <p>
+ * Apart from signals for monitoring the parameters of the adjustment,<code>GtkRange</code> provides properties and methods for setting a
+ * &#8220;fill level&#8221; on range widgets. See {@link org.gtk.gtk.Range#setFillLevel}.
  */
 public class Range extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -30,7 +29,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Get the adjustment which is the “model” object for `GtkRange`.
+     * Get the adjustment which is the &#8220;model&#8221; object for <code>GtkRange</code>.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_range_get_adjustment(handle());
@@ -46,9 +45,9 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Gets whether the `GtkRange` respects text direction.
+     * Gets whether the <code>GtkRange</code> respects text direction.
      * 
-     * See [method@Gtk.Range.set_flippable].
+     * See {@link org.gtk.gtk.Range#setFlippable}.
      */
     public boolean getFlippable() {
         var RESULT = gtk_h.gtk_range_get_flippable(handle());
@@ -58,7 +57,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets whether the range is inverted.
      * 
-     * See [method@Gtk.Range.set_inverted].
+     * See {@link org.gtk.gtk.Range#setInverted}.
      */
     public boolean getInverted() {
         var RESULT = gtk_h.gtk_range_get_inverted(handle());
@@ -66,10 +65,10 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * This function returns the area that contains the range’s trough,
-     * in coordinates relative to @range's origin.
-     * 
-     * This function is useful mainly for `GtkRange` subclasses.
+     * This function returns the area that contains the range&#8217;s trough,
+     * in coordinates relative to @range&#39;s origin.
+     * <p>
+     * This function is useful mainly for <code>GtkRange</code> subclasses.
      */
     public void getRangeRect(org.gtk.gdk.Rectangle rangeRect) {
         gtk_h.gtk_range_get_range_rect(handle(), rangeRect.handle());
@@ -87,7 +86,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the number of digits to round the value to when
      * it changes.
      * 
-     * See [signal@Gtk.Range::change-value].
+     * See {@link [signal@Gtk.Range::change-value] (ref=signal)}.
      */
     public int getRoundDigits() {
         var RESULT = gtk_h.gtk_range_get_round_digits(handle());
@@ -103,9 +102,9 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * This function is useful mainly for `GtkRange` subclasses.
+     * This function is useful mainly for <code>GtkRange</code> subclasses.
      * 
-     * See [method@Gtk.Range.set_slider_size_fixed].
+     * See {@link org.gtk.gtk.Range#setSliderSizeFixed}.
      */
     public boolean getSliderSizeFixed() {
         var RESULT = gtk_h.gtk_range_get_slider_size_fixed(handle());
@@ -121,13 +120,13 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the adjustment to be used as the “model” object for the `GtkRange`
-     * 
+     * Sets the adjustment to be used as the &#8220;model&#8221; object for the <code>GtkRange</code>
+     * <p>
      * The adjustment indicates the current range value, the minimum and
      * maximum range values, the step/page increments used for keybindings
      * and scrolling, and the page size.
-     * 
-     * The page size is normally 0 for `GtkScale` and nonzero for `GtkScrollbar`,
+     * <p>
+     * The page size is normally 0 for <code>GtkScale</code> and nonzero for <code>GtkScrollbar</code>,
      * and indicates the size of the visible area of the widget being scrolled.
      * The page size affects the size of the scrollbar slider.
      */
@@ -138,20 +137,20 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Set the new position of the fill level indicator.
      * 
-     * The “fill level” is probably best described by its most prominent
+     * The &#8220;fill level&#8221; is probably best described by its most prominent
      * use case, which is an indicator for the amount of pre-buffering in
      * a streaming media player. In that use case, the value of the range
      * would indicate the current play position, and the fill level would
      * be the position up to which the file/stream has been downloaded.
      * 
-     * This amount of prebuffering can be displayed on the range’s trough
+     * This amount of prebuffering can be displayed on the range&#8217;s trough
      * and is themeable separately from the trough. To enable fill level
-     * display, use [method@Gtk.Range.set_show_fill_level]. The range defaults
+     * display, use {@link org.gtk.gtk.Range#setShowFillLevel}. The range defaults
      * to not showing the fill level.
      * 
-     * Additionally, it’s possible to restrict the range’s slider position
+     * Additionally, it&#8217;s possible to restrict the range&#8217;s slider position
      * to values which are smaller than the fill level. This is controlled
-     * by [method@Gtk.Range.set_restrict_to_fill_level] and is by default
+     * by {@link org.gtk.gtk.Range#setRestrictToFillLevel} and is by default
      * enabled.
      */
     public void setFillLevel(double fillLevel) {
@@ -159,12 +158,12 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether the `GtkRange` respects text direction.
+     * Sets whether the <code>GtkRange</code> respects text direction.
      * 
      * If a range is flippable, it will switch its direction
-     * if it is horizontal and its direction is %GTK_TEXT_DIR_RTL.
+     * if it is horizontal and its direction is <code>GTK_TEXT_DIR_RTL.
      * 
-     * See [method@Gtk.Widget.get_direction].
+     * See</code> {@link org.gtk.gtk.Widget#getDirection}.
      */
     public void setFlippable(boolean flippable) {
         gtk_h.gtk_range_set_flippable(handle(), flippable ? 1 : 0);
@@ -172,9 +171,9 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     
     /**
      * Sets the step and page sizes for the range.
-     * 
-     * The step size is used when the user clicks the `GtkScrollbar`
-     * arrows or moves a `GtkScale` via arrow keys. The page size
+     * <p>
+     * The step size is used when the user clicks the <code>GtkScrollbar</code>
+     * arrows or moves a <code>GtkScale</code> via arrow keys. The page size
      * is used for example when moving via Page Up or Page Down keys.
      */
     public void setIncrements(double step, double page) {
@@ -194,7 +193,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the allowable values in the `GtkRange`.
+     * Sets the allowable values in the <code>GtkRange</code>.
      * 
      * The range value is clamped to be between @min and @max.
      * (If the range has a non-zero page size, it is clamped
@@ -207,7 +206,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the slider is restricted to the fill level.
      * 
-     * See [method@Gtk.Range.set_fill_level] for a general description
+     * See {@link org.gtk.gtk.Range#setFillLevel} for a general description
      * of the fill level concept.
      */
     public void setRestrictToFillLevel(boolean restrictToFillLevel) {
@@ -218,7 +217,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the number of digits to round the value to when
      * it changes.
      * 
-     * See [signal@Gtk.Range::change-value].
+     * See {@link [signal@Gtk.Range::change-value] (ref=signal)}.
      */
     public void setRoundDigits(int roundDigits) {
         gtk_h.gtk_range_set_round_digits(handle(), roundDigits);
@@ -227,7 +226,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether a graphical fill level is show on the trough.
      * 
-     * See [method@Gtk.Range.set_fill_level] for a general description
+     * See {@link org.gtk.gtk.Range#setFillLevel} for a general description
      * of the fill level concept.
      */
     public void setShowFillLevel(boolean showFillLevel) {
@@ -235,10 +234,10 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether the range’s slider has a fixed size, or a size that
-     * depends on its adjustment’s page size.
-     * 
-     * This function is useful mainly for `GtkRange` subclasses.
+     * Sets whether the range&#8217;s slider has a fixed size, or a size that
+     * depends on its adjustment&#8217;s page size.
+     * <p>
+     * This function is useful mainly for <code>GtkRange</code> subclasses.
      */
     public void setSliderSizeFixed(boolean sizeFixed) {
         gtk_h.gtk_range_set_slider_size_fixed(handle(), sizeFixed ? 1 : 0);
@@ -249,7 +248,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * If the value is outside the minimum or maximum range values,
      * it will be clamped to fit inside them. The range emits the
-     * [signal@Gtk.Range::value-changed] signal if the value changes.
+     * {@link [signal@Gtk.Range::value-changed] (ref=signal)} signal if the value changes.
      */
     public void setValue(double value) {
         gtk_h.gtk_range_set_value(handle(), value);
@@ -289,14 +288,14 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * It allows an application to determine the type of scroll event
      * that occurred and the resultant new value. The application can
-     * handle the event itself and return %TRUE to prevent further
-     * processing. Or, by returning %FALSE, it can pass the event to
+     * handle the event itself and return <code>true</code> to prevent further
+     * processing. Or, by returning <code>FALSE,</code> it can pass the event to
      * other handlers until the default GTK handler is reached.
      * 
      * The value parameter is unrounded. An application that overrides
      * the ::change-value signal is responsible for clamping the value
      * to the desired number of decimal digits; the default GTK
-     * handler clamps the value based on [property@Gtk.Range:round-digits].
+     * handler clamps the value based on {@link [property@Gtk.Range:round-digits] (ref=property)}.
      */
     public SignalHandle onChangeValue(ChangeValueHandler handler) {
         try {

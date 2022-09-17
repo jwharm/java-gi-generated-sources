@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureZoom` is a `GtkGesture` for 2-finger pinch/zoom gestures.
+ * <code>GtkGestureZoom</code> is a <code>GtkGesture</code> for 2-finger pinch/zoom gestures.
  * 
  * Whenever the distance between both tracked sequences changes, the
- * [signal@Gtk.GestureZoom::scale-changed] signal is emitted to report
+ * {@link [signal@Gtk.GestureZoom::scale-changed] (ref=signal)} signal is emitted to report
  * the scale factor.
  */
 public class GestureZoom extends Gesture {
@@ -31,7 +31,7 @@ public class GestureZoom extends Gesture {
     }
     
     /**
-     * Returns a newly created `GtkGesture` that recognizes
+     * Returns a newly created <code>GtkGesture</code> that recognizes
      * pinch/zoom gestures.
      */
     public GestureZoom() {

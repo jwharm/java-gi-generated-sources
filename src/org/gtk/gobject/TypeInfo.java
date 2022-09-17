@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * This structure is used to provide the type system with the information
- * required to initialize and destruct (finalize) a type's class and
+ * required to initialize and destruct (finalize) a type&#39;s class and
  * its instances.
  * 
  * The initialized structure is passed to the g_type_register_static() function

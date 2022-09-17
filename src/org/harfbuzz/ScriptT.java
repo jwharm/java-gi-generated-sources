@@ -1,825 +1,825 @@
 package org.harfbuzz;
 
 /**
- * Data type for scripts. Each #hb_script_t's value is an #hb_tag_t corresponding
- * to the four-letter values defined by [ISO 15924](https://unicode.org/iso15924/).
+ * Data type for scripts. Each #hb_script_t&#39;s value is an #hb_tag_t corresponding
+ * to the four-letter values defined by {@link [ISO 15924]}(https://unicode.org/iso15924/).
  * 
  * See also the Script (sc) property of the Unicode Character Database.
  */
 public enum ScriptT {
 
     /**
-     * `Zyyy`
+     * <code>Zyyy</code>
      */
     COMMON,
     
     /**
-     * `Zinh`
+     * <code>Zinh</code>
      */
     INHERITED,
     
     /**
-     * `Zzzz`
+     * <code>Zzzz</code>
      */
     UNKNOWN,
     
     /**
-     * `Arab`
+     * <code>Arab</code>
      */
     ARABIC,
     
     /**
-     * `Armn`
+     * <code>Armn</code>
      */
     ARMENIAN,
     
     /**
-     * `Beng`
+     * <code>Beng</code>
      */
     BENGALI,
     
     /**
-     * `Cyrl`
+     * <code>Cyrl</code>
      */
     CYRILLIC,
     
     /**
-     * `Deva`
+     * <code>Deva</code>
      */
     DEVANAGARI,
     
     /**
-     * `Geor`
+     * <code>Geor</code>
      */
     GEORGIAN,
     
     /**
-     * `Grek`
+     * <code>Grek</code>
      */
     GREEK,
     
     /**
-     * `Gujr`
+     * <code>Gujr</code>
      */
     GUJARATI,
     
     /**
-     * `Guru`
+     * <code>Guru</code>
      */
     GURMUKHI,
     
     /**
-     * `Hang`
+     * <code>Hang</code>
      */
     HANGUL,
     
     /**
-     * `Hani`
+     * <code>Hani</code>
      */
     HAN,
     
     /**
-     * `Hebr`
+     * <code>Hebr</code>
      */
     HEBREW,
     
     /**
-     * `Hira`
+     * <code>Hira</code>
      */
     HIRAGANA,
     
     /**
-     * `Knda`
+     * <code>Knda</code>
      */
     KANNADA,
     
     /**
-     * `Kana`
+     * <code>Kana</code>
      */
     KATAKANA,
     
     /**
-     * `Laoo`
+     * <code>Laoo</code>
      */
     LAO,
     
     /**
-     * `Latn`
+     * <code>Latn</code>
      */
     LATIN,
     
     /**
-     * `Mlym`
+     * <code>Mlym</code>
      */
     MALAYALAM,
     
     /**
-     * `Orya`
+     * <code>Orya</code>
      */
     ORIYA,
     
     /**
-     * `Taml`
+     * <code>Taml</code>
      */
     TAMIL,
     
     /**
-     * `Telu`
+     * <code>Telu</code>
      */
     TELUGU,
     
     /**
-     * `Thai`
+     * <code>Thai</code>
      */
     THAI,
     
     /**
-     * `Tibt`
+     * <code>Tibt</code>
      */
     TIBETAN,
     
     /**
-     * `Bopo`
+     * <code>Bopo</code>
      */
     BOPOMOFO,
     
     /**
-     * `Brai`
+     * <code>Brai</code>
      */
     BRAILLE,
     
     /**
-     * `Cans`
+     * <code>Cans</code>
      */
     CANADIAN_SYLLABICS,
     
     /**
-     * `Cher`
+     * <code>Cher</code>
      */
     CHEROKEE,
     
     /**
-     * `Ethi`
+     * <code>Ethi</code>
      */
     ETHIOPIC,
     
     /**
-     * `Khmr`
+     * <code>Khmr</code>
      */
     KHMER,
     
     /**
-     * `Mong`
+     * <code>Mong</code>
      */
     MONGOLIAN,
     
     /**
-     * `Mymr`
+     * <code>Mymr</code>
      */
     MYANMAR,
     
     /**
-     * `Ogam`
+     * <code>Ogam</code>
      */
     OGHAM,
     
     /**
-     * `Runr`
+     * <code>Runr</code>
      */
     RUNIC,
     
     /**
-     * `Sinh`
+     * <code>Sinh</code>
      */
     SINHALA,
     
     /**
-     * `Syrc`
+     * <code>Syrc</code>
      */
     SYRIAC,
     
     /**
-     * `Thaa`
+     * <code>Thaa</code>
      */
     THAANA,
     
     /**
-     * `Yiii`
+     * <code>Yiii</code>
      */
     YI,
     
     /**
-     * `Dsrt`
+     * <code>Dsrt</code>
      */
     DESERET,
     
     /**
-     * `Goth`
+     * <code>Goth</code>
      */
     GOTHIC,
     
     /**
-     * `Ital`
+     * <code>Ital</code>
      */
     OLD_ITALIC,
     
     /**
-     * `Buhd`
+     * <code>Buhd</code>
      */
     BUHID,
     
     /**
-     * `Hano`
+     * <code>Hano</code>
      */
     HANUNOO,
     
     /**
-     * `Tglg`
+     * <code>Tglg</code>
      */
     TAGALOG,
     
     /**
-     * `Tagb`
+     * <code>Tagb</code>
      */
     TAGBANWA,
     
     /**
-     * `Cprt`
+     * <code>Cprt</code>
      */
     CYPRIOT,
     
     /**
-     * `Limb`
+     * <code>Limb</code>
      */
     LIMBU,
     
     /**
-     * `Linb`
+     * <code>Linb</code>
      */
     LINEAR_B,
     
     /**
-     * `Osma`
+     * <code>Osma</code>
      */
     OSMANYA,
     
     /**
-     * `Shaw`
+     * <code>Shaw</code>
      */
     SHAVIAN,
     
     /**
-     * `Tale`
+     * <code>Tale</code>
      */
     TAI_LE,
     
     /**
-     * `Ugar`
+     * <code>Ugar</code>
      */
     UGARITIC,
     
     /**
-     * `Bugi`
+     * <code>Bugi</code>
      */
     BUGINESE,
     
     /**
-     * `Copt`
+     * <code>Copt</code>
      */
     COPTIC,
     
     /**
-     * `Glag`
+     * <code>Glag</code>
      */
     GLAGOLITIC,
     
     /**
-     * `Khar`
+     * <code>Khar</code>
      */
     KHAROSHTHI,
     
     /**
-     * `Talu`
+     * <code>Talu</code>
      */
     NEW_TAI_LUE,
     
     /**
-     * `Xpeo`
+     * <code>Xpeo</code>
      */
     OLD_PERSIAN,
     
     /**
-     * `Sylo`
+     * <code>Sylo</code>
      */
     SYLOTI_NAGRI,
     
     /**
-     * `Tfng`
+     * <code>Tfng</code>
      */
     TIFINAGH,
     
     /**
-     * `Bali`
+     * <code>Bali</code>
      */
     BALINESE,
     
     /**
-     * `Xsux`
+     * <code>Xsux</code>
      */
     CUNEIFORM,
     
     /**
-     * `Nkoo`
+     * <code>Nkoo</code>
      */
     NKO,
     
     /**
-     * `Phag`
+     * <code>Phag</code>
      */
     PHAGS_PA,
     
     /**
-     * `Phnx`
+     * <code>Phnx</code>
      */
     PHOENICIAN,
     
     /**
-     * `Cari`
+     * <code>Cari</code>
      */
     CARIAN,
     
     /**
-     * `Cham`
+     * <code>Cham</code>
      */
     CHAM,
     
     /**
-     * `Kali`
+     * <code>Kali</code>
      */
     KAYAH_LI,
     
     /**
-     * `Lepc`
+     * <code>Lepc</code>
      */
     LEPCHA,
     
     /**
-     * `Lyci`
+     * <code>Lyci</code>
      */
     LYCIAN,
     
     /**
-     * `Lydi`
+     * <code>Lydi</code>
      */
     LYDIAN,
     
     /**
-     * `Olck`
+     * <code>Olck</code>
      */
     OL_CHIKI,
     
     /**
-     * `Rjng`
+     * <code>Rjng</code>
      */
     REJANG,
     
     /**
-     * `Saur`
+     * <code>Saur</code>
      */
     SAURASHTRA,
     
     /**
-     * `Sund`
+     * <code>Sund</code>
      */
     SUNDANESE,
     
     /**
-     * `Vaii`
+     * <code>Vaii</code>
      */
     VAI,
     
     /**
-     * `Avst`
+     * <code>Avst</code>
      */
     AVESTAN,
     
     /**
-     * `Bamu`
+     * <code>Bamu</code>
      */
     BAMUM,
     
     /**
-     * `Egyp`
+     * <code>Egyp</code>
      */
     EGYPTIAN_HIEROGLYPHS,
     
     /**
-     * `Armi`
+     * <code>Armi</code>
      */
     IMPERIAL_ARAMAIC,
     
     /**
-     * `Phli`
+     * <code>Phli</code>
      */
     INSCRIPTIONAL_PAHLAVI,
     
     /**
-     * `Prti`
+     * <code>Prti</code>
      */
     INSCRIPTIONAL_PARTHIAN,
     
     /**
-     * `Java`
+     * <code>Java</code>
      */
     JAVANESE,
     
     /**
-     * `Kthi`
+     * <code>Kthi</code>
      */
     KAITHI,
     
     /**
-     * `Lisu`
+     * <code>Lisu</code>
      */
     LISU,
     
     /**
-     * `Mtei`
+     * <code>Mtei</code>
      */
     MEETEI_MAYEK,
     
     /**
-     * `Sarb`
+     * <code>Sarb</code>
      */
     OLD_SOUTH_ARABIAN,
     
     /**
-     * `Orkh`
+     * <code>Orkh</code>
      */
     OLD_TURKIC,
     
     /**
-     * `Samr`
+     * <code>Samr</code>
      */
     SAMARITAN,
     
     /**
-     * `Lana`
+     * <code>Lana</code>
      */
     TAI_THAM,
     
     /**
-     * `Tavt`
+     * <code>Tavt</code>
      */
     TAI_VIET,
     
     /**
-     * `Batk`
+     * <code>Batk</code>
      */
     BATAK,
     
     /**
-     * `Brah`
+     * <code>Brah</code>
      */
     BRAHMI,
     
     /**
-     * `Mand`
+     * <code>Mand</code>
      */
     MANDAIC,
     
     /**
-     * `Cakm`
+     * <code>Cakm</code>
      */
     CHAKMA,
     
     /**
-     * `Merc`
+     * <code>Merc</code>
      */
     MEROITIC_CURSIVE,
     
     /**
-     * `Mero`
+     * <code>Mero</code>
      */
     MEROITIC_HIEROGLYPHS,
     
     /**
-     * `Plrd`
+     * <code>Plrd</code>
      */
     MIAO,
     
     /**
-     * `Shrd`
+     * <code>Shrd</code>
      */
     SHARADA,
     
     /**
-     * `Sora`
+     * <code>Sora</code>
      */
     SORA_SOMPENG,
     
     /**
-     * `Takr`
+     * <code>Takr</code>
      */
     TAKRI,
     
     /**
-     * `Bass`, Since: 0.9.30
+     * <code>Bass</code>, Since: 0.9.30
      */
     BASSA_VAH,
     
     /**
-     * `Aghb`, Since: 0.9.30
+     * <code>Aghb</code>, Since: 0.9.30
      */
     CAUCASIAN_ALBANIAN,
     
     /**
-     * `Dupl`, Since: 0.9.30
+     * <code>Dupl</code>, Since: 0.9.30
      */
     DUPLOYAN,
     
     /**
-     * `Elba`, Since: 0.9.30
+     * <code>Elba</code>, Since: 0.9.30
      */
     ELBASAN,
     
     /**
-     * `Gran`, Since: 0.9.30
+     * <code>Gran</code>, Since: 0.9.30
      */
     GRANTHA,
     
     /**
-     * `Khoj`, Since: 0.9.30
+     * <code>Khoj</code>, Since: 0.9.30
      */
     KHOJKI,
     
     /**
-     * `Sind`, Since: 0.9.30
+     * <code>Sind</code>, Since: 0.9.30
      */
     KHUDAWADI,
     
     /**
-     * `Lina`, Since: 0.9.30
+     * <code>Lina</code>, Since: 0.9.30
      */
     LINEAR_A,
     
     /**
-     * `Mahj`, Since: 0.9.30
+     * <code>Mahj</code>, Since: 0.9.30
      */
     MAHAJANI,
     
     /**
-     * `Mani`, Since: 0.9.30
+     * <code>Mani</code>, Since: 0.9.30
      */
     MANICHAEAN,
     
     /**
-     * `Mend`, Since: 0.9.30
+     * <code>Mend</code>, Since: 0.9.30
      */
     MENDE_KIKAKUI,
     
     /**
-     * `Modi`, Since: 0.9.30
+     * <code>Modi</code>, Since: 0.9.30
      */
     MODI,
     
     /**
-     * `Mroo`, Since: 0.9.30
+     * <code>Mroo</code>, Since: 0.9.30
      */
     MRO,
     
     /**
-     * `Nbat`, Since: 0.9.30
+     * <code>Nbat</code>, Since: 0.9.30
      */
     NABATAEAN,
     
     /**
-     * `Narb`, Since: 0.9.30
+     * <code>Narb</code>, Since: 0.9.30
      */
     OLD_NORTH_ARABIAN,
     
     /**
-     * `Perm`, Since: 0.9.30
+     * <code>Perm</code>, Since: 0.9.30
      */
     OLD_PERMIC,
     
     /**
-     * `Hmng`, Since: 0.9.30
+     * <code>Hmng</code>, Since: 0.9.30
      */
     PAHAWH_HMONG,
     
     /**
-     * `Palm`, Since: 0.9.30
+     * <code>Palm</code>, Since: 0.9.30
      */
     PALMYRENE,
     
     /**
-     * `Pauc`, Since: 0.9.30
+     * <code>Pauc</code>, Since: 0.9.30
      */
     PAU_CIN_HAU,
     
     /**
-     * `Phlp`, Since: 0.9.30
+     * <code>Phlp</code>, Since: 0.9.30
      */
     PSALTER_PAHLAVI,
     
     /**
-     * `Sidd`, Since: 0.9.30
+     * <code>Sidd</code>, Since: 0.9.30
      */
     SIDDHAM,
     
     /**
-     * `Tirh`, Since: 0.9.30
+     * <code>Tirh</code>, Since: 0.9.30
      */
     TIRHUTA,
     
     /**
-     * `Wara`, Since: 0.9.30
+     * <code>Wara</code>, Since: 0.9.30
      */
     WARANG_CITI,
     
     /**
-     * `Ahom`, Since: 0.9.30
+     * <code>Ahom</code>, Since: 0.9.30
      */
     AHOM,
     
     /**
-     * `Hluw`, Since: 0.9.30
+     * <code>Hluw</code>, Since: 0.9.30
      */
     ANATOLIAN_HIEROGLYPHS,
     
     /**
-     * `Hatr`, Since: 0.9.30
+     * <code>Hatr</code>, Since: 0.9.30
      */
     HATRAN,
     
     /**
-     * `Mult`, Since: 0.9.30
+     * <code>Mult</code>, Since: 0.9.30
      */
     MULTANI,
     
     /**
-     * `Hung`, Since: 0.9.30
+     * <code>Hung</code>, Since: 0.9.30
      */
     OLD_HUNGARIAN,
     
     /**
-     * `Sgnw`, Since: 0.9.30
+     * <code>Sgnw</code>, Since: 0.9.30
      */
     SIGNWRITING,
     
     /**
-     * `Adlm`, Since: 1.3.0
+     * <code>Adlm</code>, Since: 1.3.0
      */
     ADLAM,
     
     /**
-     * `Bhks`, Since: 1.3.0
+     * <code>Bhks</code>, Since: 1.3.0
      */
     BHAIKSUKI,
     
     /**
-     * `Marc`, Since: 1.3.0
+     * <code>Marc</code>, Since: 1.3.0
      */
     MARCHEN,
     
     /**
-     * `Osge`, Since: 1.3.0
+     * <code>Osge</code>, Since: 1.3.0
      */
     OSAGE,
     
     /**
-     * `Tang`, Since: 1.3.0
+     * <code>Tang</code>, Since: 1.3.0
      */
     TANGUT,
     
     /**
-     * `Newa`, Since: 1.3.0
+     * <code>Newa</code>, Since: 1.3.0
      */
     NEWA,
     
     /**
-     * `Gonm`, Since: 1.6.0
+     * <code>Gonm</code>, Since: 1.6.0
      */
     MASARAM_GONDI,
     
     /**
-     * `Nshu`, Since: 1.6.0
+     * <code>Nshu</code>, Since: 1.6.0
      */
     NUSHU,
     
     /**
-     * `Soyo`, Since: 1.6.0
+     * <code>Soyo</code>, Since: 1.6.0
      */
     SOYOMBO,
     
     /**
-     * `Zanb`, Since: 1.6.0
+     * <code>Zanb</code>, Since: 1.6.0
      */
     ZANABAZAR_SQUARE,
     
     /**
-     * `Dogr`, Since: 1.8.0
+     * <code>Dogr</code>, Since: 1.8.0
      */
     DOGRA,
     
     /**
-     * `Gong`, Since: 1.8.0
+     * <code>Gong</code>, Since: 1.8.0
      */
     GUNJALA_GONDI,
     
     /**
-     * `Rohg`, Since: 1.8.0
+     * <code>Rohg</code>, Since: 1.8.0
      */
     HANIFI_ROHINGYA,
     
     /**
-     * `Maka`, Since: 1.8.0
+     * <code>Maka</code>, Since: 1.8.0
      */
     MAKASAR,
     
     /**
-     * `Medf`, Since: 1.8.0
+     * <code>Medf</code>, Since: 1.8.0
      */
     MEDEFAIDRIN,
     
     /**
-     * `Sogo`, Since: 1.8.0
+     * <code>Sogo</code>, Since: 1.8.0
      */
     OLD_SOGDIAN,
     
     /**
-     * `Sogd`, Since: 1.8.0
+     * <code>Sogd</code>, Since: 1.8.0
      */
     SOGDIAN,
     
     /**
-     * `Elym`, Since: 2.4.0
+     * <code>Elym</code>, Since: 2.4.0
      */
     ELYMAIC,
     
     /**
-     * `Nand`, Since: 2.4.0
+     * <code>Nand</code>, Since: 2.4.0
      */
     NANDINAGARI,
     
     /**
-     * `Hmnp`, Since: 2.4.0
+     * <code>Hmnp</code>, Since: 2.4.0
      */
     NYIAKENG_PUACHUE_HMONG,
     
     /**
-     * `Wcho`, Since: 2.4.0
+     * <code>Wcho</code>, Since: 2.4.0
      */
     WANCHO,
     
     /**
-     * `Chrs`, Since: 2.6.7
+     * <code>Chrs</code>, Since: 2.6.7
      */
     CHORASMIAN,
     
     /**
-     * `Diak`, Since: 2.6.7
+     * <code>Diak</code>, Since: 2.6.7
      */
     DIVES_AKURU,
     
     /**
-     * `Kits`, Since: 2.6.7
+     * <code>Kits</code>, Since: 2.6.7
      */
     KHITAN_SMALL_SCRIPT,
     
     /**
-     * `Yezi`, Since: 2.6.7
+     * <code>Yezi</code>, Since: 2.6.7
      */
     YEZIDI,
     
     /**
-     * `Cpmn`, Since: 3.0.0
+     * <code>Cpmn</code>, Since: 3.0.0
      */
     CYPRO_MINOAN,
     
     /**
-     * `Ougr`, Since: 3.0.0
+     * <code>Ougr</code>, Since: 3.0.0
      */
     OLD_UYGHUR,
     
     /**
-     * `Tnsa`, Since: 3.0.0
+     * <code>Tnsa</code>, Since: 3.0.0
      */
     TANGSA,
     
     /**
-     * `Toto`, Since: 3.0.0
+     * <code>Toto</code>, Since: 3.0.0
      */
     TOTO,
     
     /**
-     * `Vith`, Since: 3.0.0
+     * <code>Vith</code>, Since: 3.0.0
      */
     VITHKUQI,
     
     /**
-     * `Zmth`, Since: 3.4.0
+     * <code>Zmth</code>, Since: 3.4.0
      */
     MATH,
     

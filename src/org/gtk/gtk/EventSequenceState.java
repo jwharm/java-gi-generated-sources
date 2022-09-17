@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes the state of a [struct@Gdk.EventSequence] in a [class@Gesture].
+ * Describes the state of a {@link [struct@Gdk.EventSequence] (ref=struct)} in a {@link [class@Gesture]}.
  */
 public enum EventSequenceState {
 

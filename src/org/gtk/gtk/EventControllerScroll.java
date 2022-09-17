@@ -8,38 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEventControllerScroll` is an event controller that handles scroll
+ * <code>GtkEventControllerScroll</code> is an event controller that handles scroll
  * events.
- * 
+ * <p>
  * It is capable of handling both discrete and continuous scroll
  * events from mice or touchpads, abstracting them both with the
- * [signal@Gtk.EventControllerScroll::scroll] signal. Deltas in
+ * {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)} signal. Deltas in
  * the discrete case are multiples of 1.
- * 
- * In the case of continuous scroll events, `GtkEventControllerScroll`
- * encloses all [signal@Gtk.EventControllerScroll::scroll] emissions
- * between two [signal@Gtk.EventControllerScroll::scroll-begin] and
- * [signal@Gtk.EventControllerScroll::scroll-end] signals.
+ * <p>
+ * In the case of continuous scroll events, <code>GtkEventControllerScroll</code>
+ * encloses all {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)} emissions
+ * between two {@link [signal@Gtk.EventControllerScroll::scroll-begin] (ref=signal)} and
+ * {@link [signal@Gtk.EventControllerScroll::scroll-end] (ref=signal)} signals.
  * 
  * The behavior of the event controller can be modified by the flags
  * given at creation time, or modified at a later point through
- * [method@Gtk.EventControllerScroll.set_flags] (e.g. because the scrolling
+ * {@link org.gtk.gtk.EventControllerScroll#setFlags} (e.g. because the scrolling
  * conditions of the widget changed).
  * 
  * The controller can be set up to emit motion for either/both vertical
- * and horizontal scroll events through %GTK_EVENT_CONTROLLER_SCROLL_VERTICAL,
- * %GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL and %GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES.
- * If any axis is disabled, the respective [signal@Gtk.EventControllerScroll::scroll]
+ * and horizontal scroll events through <code>GTK_EVENT_CONTROLLER_SCROLL_VERTICAL,
+ * %GTK_EVENT_CONTROLLER_SCROLL_HORIZONTAL</code> and <code>GTK_EVENT_CONTROLLER_SCROLL_BOTH_AXES.
+ * If</code> any axis is disabled, the respective {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)}
  * delta will be 0. Vertical scroll events will be translated to horizontal
  * motion for the devices incapable of horizontal scrolling.
  * 
  * The event controller can also be forced to emit discrete events on all
- * devices through %GTK_EVENT_CONTROLLER_SCROLL_DISCRETE. This can be used
+ * devices through <code>GTK_EVENT_CONTROLLER_SCROLL_DISCRETE.</code> This can be used
  * to implement discrete actions triggered through scroll events (e.g.
  * switching across combobox options).
  * 
- * The %GTK_EVENT_CONTROLLER_SCROLL_KINETIC flag toggles the emission of the
- * [signal@Gtk.EventControllerScroll::decelerate] signal, emitted at the end
+ * The {@link org.gtk.gtk.EventControllerScrollFlags#KINETIC} flag toggles the emission of the
+ * {@link [signal@Gtk.EventControllerScroll::decelerate] (ref=signal)} signal, emitted at the end
  * of scrolling with two X/Y velocity arguments that are consistent with the
  * motion that was received.
  */
@@ -88,7 +88,7 @@ public class EventControllerScroll extends EventController {
     
     /**
      * Emitted after scroll is finished if the
-     * %GTK_EVENT_CONTROLLER_SCROLL_KINETIC flag is set.
+     * {@link org.gtk.gtk.EventControllerScrollFlags#KINETIC} flag is set.
      * 
      * @vel_x and @vel_y express the initial velocity that was
      * imprinted by the scroll events. @vel_x and @vel_y are expressed in

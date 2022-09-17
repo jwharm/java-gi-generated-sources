@@ -9,32 +9,31 @@ import java.lang.invoke.*;
 
 /**
  * A tree-like data structure that can be used with the GtkTreeView
- * 
- * The `GtkTreeStore` object is a list model for use with a `GtkTreeView`
- * widget.  It implements the `GtkTreeModel` interface, and consequently,
- * can use all of the methods available there.  It also implements the
- * `GtkTreeSortable` interface so it can be sorted by the view.  Finally,
+ * <p>
+ * The <code>GtkTreeStore</code> object is a list model for use with a <code>GtkTreeView</code>
+ * widget.  It implements the <code>GtkTreeModel</code> interface, and consequently,
+ * can use all of the methods available there.  It also implements the<code>GtkTreeSortable</code> interface so it can be sorted by the view.  Finally,
  * it also implements the tree
- * [drag and drop][gtk3-GtkTreeView-drag-and-drop]
+ * {@link [drag and drop]}{@link [gtk3-GtkTreeView-drag-and-drop]}
  * interfaces.
- * 
- * # GtkTreeStore as GtkBuildable
- * 
- * The GtkTreeStore implementation of the `GtkBuildable` interface allows
- * to specify the model columns with a <columns> element that may contain
- * multiple <column> elements, each specifying one model column. The “type”
+ * <p>
+ * <h1>tkTreeStore as GtkBuildable</h1>
+ * <p>
+ * The GtkTreeStore implementation of the <code>GtkBuildable</code> interface allows
+ * to specify the model columns with a &#60;columns&#62; element that may contain
+ * multiple &#60;column&#62; elements, each specifying one model column. The &#8220;type&#8221;
  * attribute specifies the data type for the column.
  * 
  * An example of a UI Definition fragment for a tree store:
- * |[
- * <object class="GtkTreeStore">
- *   <columns>
- *     <column type="gchararray"/>
- *     <column type="gchararray"/>
- *     <column type="gint"/>
- *   </columns>
- * </object>
- * ]|
+ * |{@link [
+ * &#60;object class=&#34;GtkTreeStore&#34;&#62;
+ *   &#60;columns&#62;
+ *     &#60;column type=&#34;gchararray&#34;/&#62;
+ *     &#60;column type=&#34;gchararray&#34;/&#62;
+ *     &#60;column type=&#34;gint&#34;/&#62;
+ *   &#60;/columns&#62;
+ * &#60;/object&#62;
+ * ]}|
  */
 public class TreeStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
@@ -60,7 +59,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Appends a new row to @tree_store.  If @parent is non-%NULL, then it will append the
+     * Appends a new row to @tree_store.  If @parent is non-<code>NULL,</code> then it will append the
      * new row after the last child of @parent, otherwise it will append a row to
      * the top level.  @iter will be changed to point to this new row.  The row will
      * be empty after this function is called.  To fill in values, you need to call
@@ -78,7 +77,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Creates a new row at @position.  If parent is non-%NULL, then the row will be
+     * Creates a new row at @position.  If parent is non-<code>NULL,</code> then the row will be
      * made a child of @parent.  Otherwise, the row will be created at the toplevel.
      * If @position is -1 or is larger than the number of rows at that level, then
      * the new row will be inserted to the end of the list.  @iter will be changed
@@ -91,8 +90,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row after @sibling.  If @sibling is %NULL, then the row will be
-     * prepended to @parent ’s children.  If @parent and @sibling are %NULL, then
+     * Inserts a new row after @sibling.  If @sibling is <code>NULL,</code> then the row will be
+     * prepended to @parent &#8217;s children.  If @parent and @sibling are <code>NULL,</code> then
      * the row will be prepended to the toplevel.  If both @sibling and @parent are
      * set, then @parent must be the parent of @sibling.  When @sibling is set,
      * @parent is optional.
@@ -106,8 +105,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row before @sibling.  If @sibling is %NULL, then the row will
-     * be appended to @parent ’s children.  If @parent and @sibling are %NULL, then
+     * Inserts a new row before @sibling.  If @sibling is <code>NULL,</code> then the row will
+     * be appended to @parent &#8217;s children.  If @parent and @sibling are <code>NULL,</code> then
      * the row will be appended to the toplevel.  If both @sibling and @parent are
      * set, then @parent must be the parent of @sibling.  When @sibling is set,
      * @parent is optional.
@@ -130,7 +129,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Returns %TRUE if @iter is an ancestor of @descendant.  That is, @iter is the
+     * Returns <code>true</code> if @iter is an ancestor of @descendant.  That is, @iter is the
      * parent (or grandparent or great-grandparent) of @descendant.
      */
     public boolean isAncestor(TreeIter iter, TreeIter descendant) {
@@ -148,7 +147,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Checks if the given iter is a valid iter for this `GtkTreeStore`.
+     * Checks if the given iter is a valid iter for this <code>GtkTreeStore</code>.
      * 
      * This function is slow. Only use it for debugging and/or testing
      * purposes.
@@ -161,7 +160,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves @iter in @tree_store to the position after @position. @iter and
      * @position should be in the same level. Note that this function only
-     * works with unsorted stores. If @position is %NULL, @iter will be moved
+     * works with unsorted stores. If @position is <code>NULL,</code> @iter will be moved
      * to the start of the level.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
@@ -171,7 +170,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves @iter in @tree_store to the position before @position. @iter and
      * @position should be in the same level. Note that this function only
-     * works with unsorted stores. If @position is %NULL, @iter will be
+     * works with unsorted stores. If @position is <code>NULL,</code> @iter will be
      * moved to the end of the level.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {
@@ -179,7 +178,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Prepends a new row to @tree_store.  If @parent is non-%NULL, then it will prepend
+     * Prepends a new row to @tree_store.  If @parent is non-<code>NULL,</code> then it will prepend
      * the new row before the first child of @parent, otherwise it will prepend a row
      * to the top level.  @iter will be changed to point to this new row.  The row
      * will be empty after this function is called.  To fill in values, you need to
@@ -209,10 +208,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * This function is meant primarily for `GObjects` that inherit from
-     * `GtkTreeStore`, and should only be used when constructing a new
-     * `GtkTreeStore`.  It will not function after a row has been added,
-     * or a method on the `GtkTreeModel` interface is called.
+     * This function is meant primarily for <code>GObjects</code> that inherit from<code>GtkTreeStore</code>, and should only be used when constructing a new<code>GtkTreeStore</code>.  It will not function after a row has been added,
+     * or a method on the <code>GtkTreeModel</code> interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
         gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types).handle());

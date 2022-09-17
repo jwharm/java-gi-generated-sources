@@ -2,10 +2,10 @@ package org.gtk.gtk;
 
 /**
  * Flags to use with gtk_set_debug_flags().
- * 
+ * <p>
  * Settings these flags causes GTK to print out different
  * types of debugging information. Some of these flags are
- * only available when GTK has been configured with `-Ddebug=true`.
+ * only available when GTK has been configured with <code>-Ddebug=true</code>.
  */
 public class DebugFlags {
 

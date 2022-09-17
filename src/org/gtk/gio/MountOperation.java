@@ -15,19 +15,19 @@ import java.lang.invoke.*;
  * preventing unmount or eject operations from completing.
  * 
  * Note that #GMountOperation is used for more than just #GMount
- * objects – for example it is also used in g_drive_start() and
+ * objects &#8211; for example it is also used in g_drive_start() and
  * g_drive_stop().
  * 
  * Users should instantiate a subclass of this that implements all the
  * various callbacks to show the required dialogs, such as
  * #GtkMountOperation. If no user interaction is desired (for example
- * when automounting filesystems at login time), usually %NULL can be
+ * when automounting filesystems at login time), usually <code>null</code> can be
  * passed, see each method taking a #GMountOperation for details.
  * 
- * The term ‘TCRYPT’ is used to mean ‘compatible with TrueCrypt and VeraCrypt’.
- * [TrueCrypt](https://en.wikipedia.org/wiki/TrueCrypt) is a discontinued system for
+ * The term &#8216;TCRYPT&#8217; is used to mean &#8216;compatible with TrueCrypt and VeraCrypt&#8217;.
+ * {@link [TrueCrypt]}(https://en.wikipedia.org/wiki/TrueCrypt) is a discontinued system for
  * encrypting file containers, partitions or whole disks, typically used with Windows.
- * [VeraCrypt](https://www.veracrypt.fr/) is a maintained fork of TrueCrypt with various
+ * {@link [VeraCrypt]}(https://www.veracrypt.fr/) is a maintained fork of TrueCrypt with various
  * improvements and auditing fixes.
  */
 public class MountOperation extends org.gtk.gobject.Object {
@@ -136,7 +136,13 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation to use an anonymous user if @anonymous is %TRUE.
+     * Sets the mount operation to use an anonymous user if @anonymous is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the mount operation to use an anonymous user if @anonymous is %TRUE.
      */
     public void setAnonymous(boolean anonymous) {
         gtk_h.g_mount_operation_set_anonymous(handle(), anonymous ? 1 : 0);
@@ -150,28 +156,40 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation's domain.
+     * Sets the mount operation&#39;s domain.
      */
     public void setDomain(java.lang.String domain) {
         gtk_h.g_mount_operation_set_domain(handle(), Interop.allocateNativeString(domain).handle());
     }
     
     /**
-     * Sets the mount operation to use a hidden volume if @hidden_volume is %TRUE.
+     * Sets the mount operation to use a hidden volume if @hidden_volume is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the mount operation to use a hidden volume if @hidden_volume is %TRUE.
      */
     public void setIsTcryptHiddenVolume(boolean hiddenVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_hidden_volume(handle(), hiddenVolume ? 1 : 0);
     }
     
     /**
-     * Sets the mount operation to use a system volume if @system_volume is %TRUE.
+     * Sets the mount operation to use a system volume if @system_volume is 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the mount operation to use a system volume if @system_volume is %TRUE.
      */
     public void setIsTcryptSystemVolume(boolean systemVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_system_volume(handle(), systemVolume ? 1 : 0);
     }
     
     /**
-     * Sets the mount operation's password to @password.
+     * Sets the mount operation&#39;s password to @password.
      */
     public void setPassword(java.lang.String password) {
         gtk_h.g_mount_operation_set_password(handle(), Interop.allocateNativeString(password).handle());
@@ -185,7 +203,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation's PIM to @pim.
+     * Sets the mount operation&#39;s PIM to @pim.
      */
     public void setPim(int pim) {
         gtk_h.g_mount_operation_set_pim(handle(), pim);

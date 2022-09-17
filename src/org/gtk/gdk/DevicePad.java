@@ -8,23 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkDevicePad` is an interface implemented by devices of type
- * %GDK_SOURCE_TABLET_PAD
- * 
- * It allows querying the features provided by the pad device.
- * 
+ * <code>GdkDevicePad</code> is an interface implemented by devices of type
+ * <code>GDK_SOURCE_TABLET_PAD
+ * <p>
+ * It</code> allows querying the features provided by the pad device.
+ * <p>
  * Tablet pads may contain one or more groups, each containing a subset
- * of the buttons/rings/strips available. [method@Gdk.DevicePad.get_n_groups]
- * can be used to obtain the number of groups, [method@Gdk.DevicePad.get_n_features]
- * and [method@Gdk.DevicePad.get_feature_group] can be combined to find out
+ * of the buttons/rings/strips available. {@link org.gtk.gdk.DevicePad#getNGroups}
+ * can be used to obtain the number of groups, {@link org.gtk.gdk.DevicePad#getNFeatures}
+ * and {@link org.gtk.gdk.DevicePad#getFeatureGroup} can be combined to find out
  * the number of buttons/rings/strips the device has, and how are they grouped.
- * 
+ * <p>
  * Each of those groups have different modes, which may be used to map each
  * individual pad feature to multiple actions. Only one mode is effective
  * (current) for each given group, different groups may have different
  * current modes. The number of available modes in a group can be found
- * out through [method@Gdk.DevicePad.get_group_n_modes], and the current mode
- * for a given group will be notified through events of type `GDK_PAD_GROUP_MODE`.
+ * out through {@link org.gtk.gdk.DevicePad#getGroupNModes}, and the current mode
+ * for a given group will be notified through events of type <code>GDK_PAD_GROUP_MODE</code>.
  */
 public interface DevicePad extends io.github.jwharm.javagi.NativeAddress {
 

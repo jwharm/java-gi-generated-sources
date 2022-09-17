@@ -1,14 +1,14 @@
 package org.gtk.gtk;
 
 /**
- * Describes the image data representation used by a [class@Gtk.Image].
+ * Describes the image data representation used by a {@link org.gtk.gtk.Image}.
  * 
  * If you want to get the image from the widget, you can only get the
  * currently-stored representation; for instance, if the gtk_image_get_storage_type()
- * returns %GTK_IMAGE_PAINTABLE, then you can call gtk_image_get_paintable().
+ * returns <code>GTK_IMAGE_PAINTABLE,</code> then you can call gtk_image_get_paintable().
  * 
- * For empty images, you can request any storage type (call any of the "get"
- * functions), but they will all return %NULL values.
+ * For empty images, you can request any storage type (call any of the &#34;get&#34;
+ * functions), but they will all return <code>null</code> values.
  */
 public enum ImageType {
 
@@ -23,12 +23,12 @@ public enum ImageType {
     ICON_NAME,
     
     /**
-     * the widget contains a `GIcon`
+     * the widget contains a <code>GIcon</code>
      */
     GICON,
     
     /**
-     * the widget contains a `GdkPaintable`
+     * the widget contains a <code>GdkPaintable</code>
      */
     PAINTABLE;
     

@@ -28,14 +28,13 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Adds all pointers of @array to the end of the array @array_to_extend.
      * The array will grow in size automatically if needed. @array_to_extend is
      * modified in-place.
-     * 
+     * <p>
      * @func, as a #GCopyFunc, takes two arguments, the data to be copied
-     * and a @user_data pointer. On common processor architectures, it's safe to
-     * pass %NULL as @user_data if the copy function takes only one argument. You
-     * may get compiler warnings from this though if compiling with GCC’s
-     * `-Wcast-function-type` warning.
+     * and a @user_data pointer. On common processor architectures, it&#39;s safe to
+     * pass <code>null</code> as @user_data if the copy function takes only one argument. You
+     * may get compiler warnings from this though if compiling with GCC&#8217;s<code>-Wcast-function-type</code> warning.
      * 
-     * If @func is %NULL, then only the pointers (and not what they are
+     * If @func is <code>NULL,</code> then only the pointers (and not what they are
      * pointing to) are copied to the new #GPtrArray.
      */
     public static void extend(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array, CopyFunc func) {
@@ -84,15 +83,15 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the #GPtrArray. If @free_seg is %TRUE
-     * it frees the memory block holding the elements as well. Pass %FALSE
-     * if you want to free the #GPtrArray wrapper but preserve the
+     * Frees the memory allocated for the #GPtrArray. If @free_seg is <code>TRUE
+     * it</code> frees the memory block holding the elements as well. Pass <code>FALSE
+     * if</code> you want to free the #GPtrArray wrapper but preserve the
      * underlying array for use elsewhere. If the reference count of @array
      * is greater than one, the #GPtrArray wrapper is preserved but the
      * size of @array will be set to zero.
      * 
      * If array contents point to dynamically-allocated memory, they should
-     * be freed separately if @free_seg is %TRUE and no #GDestroyNotify
+     * be freed separately if @free_seg is <code>true</code> and no #GDestroyNotify
      * function has been set for @array.
      * 
      * This function is not thread-safe. If using a #GPtrArray from multiple
@@ -115,10 +114,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the first occurrence of the given pointer from the pointer
      * array. The following elements are moved down one place. If @array
-     * has a non-%NULL #GDestroyNotify function it is called for the
+     * has a non-<code>null</code> #GDestroyNotify function it is called for the
      * removed element.
      * 
-     * It returns %TRUE if the pointer was removed, or %FALSE if the
+     * It returns <code>true</code> if the pointer was removed, or <code>false</code> if the
      * pointer was not found.
      */
     public static boolean remove(jdk.incubator.foreign.MemoryAddress[] array, jdk.incubator.foreign.MemoryAddress data) {
@@ -130,10 +129,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Removes the first occurrence of the given pointer from the pointer
      * array. The last element in the array is used to fill in the space,
      * so this function does not preserve the order of the array. But it
-     * is faster than g_ptr_array_remove(). If @array has a non-%NULL
-     * #GDestroyNotify function it is called for the removed element.
+     * is faster than g_ptr_array_remove(). If @array has a non-<code>NULL
+     * #GDestroyNotify</code> function it is called for the removed element.
      * 
-     * It returns %TRUE if the pointer was removed, or %FALSE if the
+     * It returns <code>true</code> if the pointer was removed, or <code>false</code> if the
      * pointer was not found.
      */
     public static boolean removeFast(jdk.incubator.foreign.MemoryAddress[] array, jdk.incubator.foreign.MemoryAddress data) {
@@ -144,7 +143,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the pointer at the given index from the pointer array.
      * The following elements are moved down one place. If @array has
-     * a non-%NULL #GDestroyNotify function it is called for the removed
+     * a non-<code>null</code> #GDestroyNotify function it is called for the removed
      * element. If so, the return value from this function will potentially point
      * to freed memory (depending on the #GDestroyNotify implementation).
      */
@@ -157,8 +156,8 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Removes the pointer at the given index from the pointer array.
      * The last element in the array is used to fill in the space, so
      * this function does not preserve the order of the array. But it
-     * is faster than g_ptr_array_remove_index(). If @array has a non-%NULL
-     * #GDestroyNotify function it is called for the removed element. If so, the
+     * is faster than g_ptr_array_remove_index(). If @array has a non-<code>NULL
+     * #GDestroyNotify</code> function it is called for the removed element. If so, the
      * return value from this function will potentially point to freed memory
      * (depending on the #GDestroyNotify implementation).
      */
@@ -169,8 +168,8 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the size of the array. When making the array larger,
-     * newly-added elements will be set to %NULL. When making it smaller,
-     * if @array has a non-%NULL #GDestroyNotify function then it will be
+     * newly-added elements will be set to <code>NULL.</code> When making it smaller,
+     * if @array has a non-<code>null</code> #GDestroyNotify function then it will be
      * called for the removed elements.
      */
     public static void setSize(jdk.incubator.foreign.MemoryAddress[] array, int length) {
@@ -182,10 +181,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * user data argument.
      * 
      * Note that the comparison function for g_ptr_array_sort_with_data()
-     * doesn't take the pointers from the array as arguments, it takes
+     * doesn&#39;t take the pointers from the array as arguments, it takes
      * pointers to the pointers in the array. Here is a full example of use:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * typedef enum { SORT_NAME, SORT_SIZE } SortMode;
      * 
      * typedef struct
@@ -205,10 +204,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      *   switch (sort_mode)
      *     {
      *     case SORT_NAME:
-     *       order = g_ascii_strcasecmp (entry1->name, entry2->name);
+     *       order = g_ascii_strcasecmp (entry1-&#62;name, entry2-&#62;name);
      *       break;
      *     case SORT_SIZE:
-     *       order = entry1->size - entry2->size;
+     *       order = entry1-&#62;size - entry2-&#62;size;
      *       break;
      *     default:
      *       order = 0;
@@ -228,7 +227,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * g_ptr_array_sort_with_data (file_list,
      *                             sort_filelist,
      *                             GINT_TO_POINTER (sort_mode));
-     * ]|
+     * ]}|
      * 
      * This is guaranteed to be a stable sort since version 2.32.
      */
@@ -273,7 +272,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Atomically decrements the reference count of @array by one. If the
      * reference count drops to 0, the effect is the same as calling
-     * g_ptr_array_free() with @free_segment set to %TRUE. This function
+     * g_ptr_array_free() with @free_segment set to <code>TRUE.</code> This function
      * is thread-safe and may be called from any thread.
      */
     public static void unref(jdk.incubator.foreign.MemoryAddress[] array) {

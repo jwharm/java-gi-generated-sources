@@ -27,7 +27,7 @@ public class BorderNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will stroke a border rectangle inside the
+     * Creates a <code>GskRenderNode</code> that will stroke a border rectangle inside the
      * given @outline.
      * 
      * The 4 sides of the border can have different widths and colors.

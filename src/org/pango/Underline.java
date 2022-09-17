@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * The `PangoUnderline` enumeration is used to specify whether text
+ * The <code>PangoUnderline</code> enumeration is used to specify whether text
  * should be underlined, and if so, the type of underlining.
  */
 public enum Underline {
@@ -26,7 +26,7 @@ public enum Underline {
      *   position beneath the ink extents of the text being
      *   underlined. This should be used only for underlining
      *   single characters, such as for keyboard accelerators.
-     *   %PANGO_UNDERLINE_SINGLE should be used for extended
+     *   {@link org.pango.Underline#SINGLE} should be used for extended
      *   portions of text.
      */
     LOW,
@@ -34,7 +34,7 @@ public enum Underline {
     /**
      * an underline indicating an error should
      *   be drawn below. The exact style of rendering is up to the
-     *   `PangoRenderer` in use, but typical styles include wavy
+     *   <code>PangoRenderer</code> in use, but typical styles include wavy
      *   or dotted lines.
      *   This underline is typically used to indicate an error such
      *   as a possible mispelling; in some cases a contrasting color

@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkMediaControls` is a widget to show controls for a video.
- * 
- * ![An example GtkMediaControls](media-controls.png)
- * 
- * Usually, `GtkMediaControls` is used as part of [class@Gtk.Video].
+ * <code>GtkMediaControls</code> is a widget to show controls for a video.
+ * <p>
+ * !{@link [An example GtkMediaControls]}(media-controls.png)
+ * <p>
+ * Usually, <code>GtkMediaControls</code> is used as part of {@link org.gtk.gtk.Video}.
  */
 public class MediaControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -31,14 +31,14 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new `GtkMediaControls` managing the @stream passed to it.
+     * Creates a new <code>GtkMediaControls</code> managing the @stream passed to it.
      */
     public MediaControls(MediaStream stream) {
         super(constructNew(stream));
     }
     
     /**
-     * Gets the media stream managed by @controls or %NULL if none.
+     * Gets the media stream managed by @controls or <code>null</code> if none.
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_media_controls_get_media_stream(handle());

@@ -11,43 +11,43 @@ import java.lang.invoke.*;
  * The #GVolume interface represents user-visible objects that can be
  * mounted. Note, when porting from GnomeVFS, #GVolume is the moral
  * equivalent of #GnomeVFSDrive.
- * 
+ * <p>
  * Mounting a #GVolume instance is an asynchronous operation. For more
  * information about asynchronous operations, see #GAsyncResult and
- * #GTask. To mount a #GVolume, first call g_volume_mount() with (at
+ * <h1>ask. To mount a #GVolume, first call g_volume_mount() with (at</h1>
  * least) the #GVolume instance, optionally a #GMountOperation object
  * and a #GAsyncReadyCallback.
- * 
- * Typically, one will only want to pass %NULL for the
- * #GMountOperation if automounting all volumes when a desktop session
- * starts since it's not desirable to put up a lot of dialogs asking
+ * <p>
+ * Typically, one will only want to pass <code>null</code> for the
+ * <h1>ountOperation if automounting all volumes when a desktop session</h1>
+ * starts since it&#39;s not desirable to put up a lot of dialogs asking
  * for credentials.
- * 
+ * <p>
  * The callback will be fired when the operation has resolved (either
  * with success or failure), and a #GAsyncResult instance will be
  * passed to the callback.  That callback should then call
  * g_volume_mount_finish() with the #GVolume instance and the
- * #GAsyncResult data to see if the operation was completed
+ * <h1>syncResult data to see if the operation was completed</h1>
  * successfully.  If an @error is present when g_volume_mount_finish()
  * is called, then it will be filled with any error information.
- * 
- * ## Volume Identifiers # {#volume-identifier}
- * 
+ * <p>
+ * <h2>Volume Identifiers # {#volume-identifier}</h2>
+ * <p>
  * It is sometimes necessary to directly access the underlying
  * operating system object behind a volume (e.g. for passing a volume
  * to an application via the commandline). For this purpose, GIO
- * allows to obtain an 'identifier' for the volume. There can be
+ * allows to obtain an &#39;identifier&#39; for the volume. There can be
  * different kinds of identifiers, such as Hal UDIs, filesystem labels,
- * traditional Unix devices (e.g. `/dev/sda2`), UUIDs. GIO uses predefined
+ * traditional Unix devices (e.g. <code>/dev/sda2</code>), UUIDs. GIO uses predefined
  * strings as names for the different kinds of identifiers:
- * %G_VOLUME_IDENTIFIER_KIND_UUID, %G_VOLUME_IDENTIFIER_KIND_LABEL, etc.
+ * <code>G_VOLUME_IDENTIFIER_KIND_UUID,</code> <code>G_VOLUME_IDENTIFIER_KIND_LABEL,</code> etc.
  * Use g_volume_get_identifier() to obtain an identifier for a volume.
  * 
  * 
- * Note that %G_VOLUME_IDENTIFIER_KIND_HAL_UDI will only be available
+ * Note that <code>G_VOLUME_IDENTIFIER_KIND_HAL_UDI</code> will only be available
  * when the gvfs hal volume monitor is in use. Other volume monitors
- * will generally be able to provide the %G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE
- * identifier, which can be used to obtain a hal device by means of
+ * will generally be able to provide the <code>G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE
+ * identifier,</code> which can be used to obtain a hal device by means of
  * libhal_manager_find_device_string_match().
  */
 public interface Volume extends io.github.jwharm.javagi.NativeAddress {
@@ -89,7 +89,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a volume. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -102,13 +102,13 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the activation root for a #GVolume if it is known ahead of
-     * mount time. Returns %NULL otherwise. If not %NULL and if @volume
+     * mount time. Returns <code>null</code> otherwise. If not <code>null</code> and if @volume
      * is mounted, then the result of g_mount_get_root() on the
      * #GMount object obtained from g_volume_get_mount() will always
      * either be equal or a prefix of what this function returns. In
      * other words, in code
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   GMount *mount;
      *   GFile *mount_root
      *   GFile *volume_activation_root;
@@ -116,15 +116,15 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
      *   mount = g_volume_get_mount (volume); // mounted, so never NULL
      *   mount_root = g_mount_get_root (mount);
      *   volume_activation_root = g_volume_get_activation_root (volume); // assume not NULL
-     * ]|
+     * ]}|
      * then the expression
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   (g_file_has_prefix (volume_activation_root, mount_root) ||
      *    g_file_equal (volume_activation_root, mount_root))
-     * ]|
-     * will always be %TRUE.
+     * ]}|
+     * will always be <code>TRUE.
      * 
-     * Activation roots are typically used in #GVolumeMonitor
+     * Activation</code> roots are typically used in #GVolumeMonitor
      * implementations to find the underlying mount to shadow, see
      * g_mount_is_shadowed() for more details.
      */
@@ -151,7 +151,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the identifier of the given kind for @volume.
-     * See the [introduction][volume-identifier] for more
+     * See the {@link [introduction]}{@link [volume-identifier]} for more
      * information about volume identifiers.
      */
     public default java.lang.String getIdentifier(java.lang.String kind) {
@@ -194,7 +194,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the UUID for the @volume. The reference is typically based on
      * the file system UUID for the volume in question and should be
-     * considered an opaque string. Returns %NULL if there is no UUID
+     * considered an opaque string. Returns <code>null</code> if there is no UUID
      * available.
      */
     public default java.lang.String getUuid() {
@@ -223,11 +223,11 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes mounting a volume. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      * 
      * If the mount operation succeeded, g_volume_get_mount() on @volume
      * is guaranteed to return the mount right after calling this
-     * function; there's no need to listen for the 'mount-added' signal on
+     * function; there&#39;s no need to listen for the &#39;mount-added&#39; signal on
      * #GVolumeMonitor.
      */
     public default boolean mountFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {

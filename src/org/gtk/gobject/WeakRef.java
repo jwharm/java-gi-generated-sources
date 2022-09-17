@@ -9,13 +9,13 @@ import java.lang.invoke.*;
 
 /**
  * A structure containing a weak reference to a #GObject.
+ * <p>
+ * A <code>GWeakRef</code> can either be empty (i.e. point to <code>NULL),</code> or point to an
+ * object for as long as at least one &#34;strong&#34; reference to that object
+ * exists. Before the object&#39;s #GObjectClass.dispose method is called,
+ * every #GWeakRef associated with becomes empty (i.e. points to <code>NULL).
  * 
- * A `GWeakRef` can either be empty (i.e. point to %NULL), or point to an
- * object for as long as at least one "strong" reference to that object
- * exists. Before the object's #GObjectClass.dispose method is called,
- * every #GWeakRef associated with becomes empty (i.e. points to %NULL).
- * 
- * Like #GValue, #GWeakRef can be statically allocated, stack- or
+ * Like</code> #GValue, #GWeakRef can be statically allocated, stack- or
  * heap-allocated, or embedded in larger structures.
  * 
  * Unlike g_object_weak_ref() and g_object_add_weak_pointer(), this weak
@@ -23,9 +23,9 @@ import java.lang.invoke.*;
  * atomic with respect to invalidation of weak pointers to destroyed
  * objects.
  * 
- * If the object's #GObjectClass.dispose method results in additional
- * references to the object being held (‘re-referencing’), any #GWeakRefs taken
- * before it was disposed will continue to point to %NULL.  Any #GWeakRefs taken
+ * If the object&#39;s #GObjectClass.dispose method results in additional
+ * references to the object being held (&#8216;re-referencing&#8217;), any #GWeakRefs taken
+ * before it was disposed will continue to point to <code>NULL.</code>  Any #GWeakRefs taken
  * during disposal and after re-referencing, or after disposal has returned due
  * to the re-referencing, will continue to point to the object until its refcount
  * goes back to zero, at which point they too will be invalidated.
@@ -83,9 +83,9 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Change the object to which @weak_ref points, or set it to
-     * %NULL.
+     * <code>NULL.
      * 
-     * You must own a strong reference on @object while calling this
+     * You</code> must own a strong reference on @object while calling this
      * function.
      */
     public void set(Object object) {

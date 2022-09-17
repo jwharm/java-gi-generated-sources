@@ -2,9 +2,9 @@ package org.gtk.gtk;
 
 /**
  * The type of function that is used for deciding what fonts get
- * shown in a `GtkFontChooser`.
+ * shown in a <code>GtkFontChooser</code>.
  * 
- * See [method@Gtk.FontChooser.set_filter_func].
+ * See {@link org.gtk.gtk.FontChooser#setFilterFunc}.
  */
 @FunctionalInterface
 public interface FontFilterFunc {

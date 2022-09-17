@@ -38,9 +38,9 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     /**
      * Creates a new #GSocketConnectable for connecting to the given
      * @hostname and @port.
-     * 
+     * <p>
      * Note that depending on the configuration of the machine, a
-     * @hostname of `localhost` may refer to the IPv4 loopback address
+     * @hostname of <code>localhost</code> may refer to the IPv4 loopback address
      * only, or to both IPv4 and IPv6; use
      * g_network_address_new_loopback() to create a #GNetworkAddress that
      * is guaranteed to resolve to both addresses.
@@ -59,13 +59,13 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * over a loopback connection to the given @port. This is intended for
      * use in connecting to local services which may be running on IPv4 or
      * IPv6.
-     * 
+     * <p>
      * The connectable will return IPv4 and IPv6 loopback addresses,
-     * regardless of how the host resolves `localhost`. By contrast,
+     * regardless of how the host resolves <code>localhost</code>. By contrast,
      * g_network_address_new() will often only return an IPv4 address when
-     * resolving `localhost`, and an IPv6 address for `localhost6`.
-     * 
-     * g_network_address_get_hostname() will always return `localhost` for
+     * resolving <code>localhost</code>, and an IPv6 address for <code>localhost6</code>.
+     * <p>
+     * g_network_address_get_hostname() will always return <code>localhost</code> for
      * a #GNetworkAddress created with this constructor.
      */
     public static NetworkAddress newLoopback(short port) {
@@ -73,7 +73,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @addr's hostname. This might be either UTF-8 or ASCII-encoded,
+     * Gets @addr&#39;s hostname. This might be either UTF-8 or ASCII-encoded,
      * depending on what @addr was created with.
      */
     public java.lang.String getHostname() {
@@ -82,7 +82,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @addr's port number
+     * Gets @addr&#39;s port number
      */
     public short getPort() {
         var RESULT = gtk_h.g_network_address_get_port(handle());
@@ -90,7 +90,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @addr's scheme
+     * Gets @addr&#39;s scheme
      */
     public java.lang.String getScheme() {
         var RESULT = gtk_h.g_network_address_get_scheme(handle());
@@ -99,12 +99,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     /**
      * Creates a new #GSocketConnectable for connecting to the given
-     * @hostname and @port. May fail and return %NULL in case
+     * @hostname and @port. May fail and return <code>null</code> in case
      * parsing @host_and_port fails.
      * 
      * @host_and_port may be in any of a number of recognised formats; an IPv6
      * address, an IPv4 address, or a domain name (in which case a DNS
-     * lookup is performed). Quoting with [] is supported for all address
+     * lookup is performed). Quoting with {@link []} is supported for all address
      * types. A port override may be specified in the usual way with a
      * colon.
      * 
@@ -131,7 +131,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     /**
      * Creates a new #GSocketConnectable for connecting to the given
-     * @uri. May fail and return %NULL in case parsing @uri fails.
+     * @uri. May fail and return <code>null</code> in case parsing @uri fails.
      * 
      * Using this rather than g_network_address_new() or
      * g_network_address_parse() allows #GSocketClient to determine

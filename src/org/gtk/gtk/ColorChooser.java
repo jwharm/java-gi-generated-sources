@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkColorChooser` is an interface that is implemented by widgets
+ * <code>GtkColorChooser</code> is an interface that is implemented by widgets
  * for choosing colors.
  * 
  * Depending on the situation, colors may be allowed to have alpha (translucency).
  * 
  * In GTK, the main widgets that implement this interface are
- * [class@Gtk.ColorChooserWidget], [class@Gtk.ColorChooserDialog] and
- * [class@Gtk.ColorButton].
+ * {@link org.gtk.gtk.ColorChooserWidget}, {@link org.gtk.gtk.ColorChooserDialog} and
+ * {@link org.gtk.gtk.ColorButton}.
  */
 public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
 
@@ -23,10 +23,10 @@ public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
      * Adds a palette to the color chooser.
      * 
      * If @orientation is horizontal, the colors are grouped in rows,
-     * with @colors_per_line colors in each row. If @horizontal is %FALSE,
-     * the colors are grouped in columns instead.
+     * with @colors_per_line colors in each row. If @horizontal is <code>FALSE,
+     * the</code> colors are grouped in columns instead.
      * 
-     * The default color palette of [class@Gtk.ColorChooserWidget] has
+     * The default color palette of {@link org.gtk.gtk.ColorChooserWidget} has
      * 45 colors, organized in columns of 5 colors (this includes some
      * grays).
      * 
@@ -36,7 +36,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
      * Calling this function for the first time has the side effect
      * of removing the default color palette from the color chooser.
      * 
-     * If @colors is %NULL, removes all previously added palettes.
+     * If @colors is <code>NULL,</code> removes all previously added palettes.
      */
     public default void addPalette(Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
         gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors).handle());

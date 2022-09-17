@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Called for flow boxes that are bound to a `GListModel`.
+ * Called for flow boxes that are bound to a <code>GListModel</code>.
  * 
  * This function is called for each item that gets added to the model.
  */

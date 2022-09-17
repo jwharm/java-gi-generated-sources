@@ -8,22 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkViewport` implements scrollability for widgets that lack their
+ * <code>GtkViewport</code> implements scrollability for widgets that lack their
  * own scrolling capabilities.
- * 
- * Use `GtkViewport` to scroll child widgets such as `GtkGrid`,
- * `GtkBox`, and so on.
- * 
- * The `GtkViewport` will start scrolling content only if allocated
- * less than the child widget’s minimum size in a given orientation.
- * 
- * # CSS nodes
- * 
- * `GtkViewport` has a single CSS node with name `viewport`.
- * 
- * # Accessibility
- * 
- * `GtkViewport` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * <p>
+ * Use <code>GtkViewport</code> to scroll child widgets such as <code>GtkGrid</code>,<code>GtkBox</code>, and so on.
+ * <p>
+ * The <code>GtkViewport</code> will start scrolling content only if allocated
+ * less than the child widget&#8217;s minimum size in a given orientation.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkViewport</code> has a single CSS node with name <code>viewport</code>.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkViewport</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
@@ -42,7 +39,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new `GtkViewport`.
+     * Creates a new <code>GtkViewport</code>.
      * 
      * The new viewport uses the given adjustments, or default
      * adjustments if none are given.

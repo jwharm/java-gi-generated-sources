@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEventControllerKey` is an event controller that provides access
+ * <code>GtkEventControllerKey</code> is an event controller that provides access
  * to key events.
  */
 public class EventControllerKey extends EventController {
@@ -38,9 +38,9 @@ public class EventControllerKey extends EventController {
      * Forwards the current event of this @controller to a @widget.
      * 
      * This function can only be used in handlers for the
-     * [signal@Gtk.EventControllerKey::key-pressed],
-     * [signal@Gtk.EventControllerKey::key-released]
-     * or [signal@Gtk.EventControllerKey::modifiers] signals.
+     * {@link [signal@Gtk.EventControllerKey::key-pressed] (ref=signal)},
+     * {@link [signal@Gtk.EventControllerKey::key-released] (ref=signal)}
+     * or {@link [signal@Gtk.EventControllerKey::modifiers] (ref=signal)} signals.
      */
     public boolean forward(Widget widget) {
         var RESULT = gtk_h.gtk_event_controller_key_forward(handle(), widget.handle());
@@ -50,7 +50,7 @@ public class EventControllerKey extends EventController {
     /**
      * Gets the key group of the current event of this @controller.
      * 
-     * See [method@Gdk.KeyEvent.get_layout].
+     * See {@link org.gtk.gdk.KeyEvent#getLayout}.
      */
     public int getGroup() {
         var RESULT = gtk_h.gtk_event_controller_key_get_group(handle());
@@ -81,8 +81,8 @@ public class EventControllerKey extends EventController {
      * Emitted whenever the input method context filters away
      * a keypress and prevents the @controller receiving it.
      * 
-     * See [method@Gtk.EventControllerKey.set_im_context] and
-     * [method@Gtk.IMContext.filter_keypress].
+     * See {@link org.gtk.gtk.EventControllerKey#setImContext} and
+     * {@link org.gtk.gtk.IMContext#filterKeypress}.
      */
     public SignalHandle onImUpdate(ImUpdateHandler handler) {
         try {

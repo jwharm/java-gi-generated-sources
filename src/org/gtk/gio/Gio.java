@@ -239,7 +239,27 @@ public final class Gio {
      * Checks if @action_name is valid.
      * 
      * @action_name is valid if it consists only of alphanumeric characters,
-     * plus '-' and '.'.  The empty string is not a valid action name.
+     * plus &#39;-&#39; and &#39;.&#39;.  The empty string is not a valid action name.
+     * 
+     * It is an error to call this function with a non-utf8 @action_name.
+     * @action_name must not be 
+     *         
+     *       
+     *       
+     *         
+     *       
+     *     
+     *     
+     *       
+     *       
+     *         
+     *       
+     *     
+     *     
+     *       Checks if @action_name is valid.
+     * 
+     * @action_name is valid if it consists only of alphanumeric characters,
+     * plus &#39;-&#39; and &#39;.&#39;.  The empty string is not a valid action name.
      * 
      * It is an error to call this function with a non-utf8 @action_name.
      * @action_name must not be %NULL.
@@ -257,23 +277,23 @@ public final class Gio {
      * 
      * The first format is used to represent an action name with no target
      * value and consists of just an action name containing no whitespace
-     * nor the characters ':', '(' or ')'.  For example: "app.action".
+     * nor the characters &#39;:&#39;, &#39;(&#39; or &#39;)&#39;.  For example: &#34;app.action&#34;.
      * 
      * The second format is used to represent an action with a target value
-     * that is a non-empty string consisting only of alphanumerics, plus '-'
-     * and '.'.  In that case, the action name and target value are
-     * separated by a double colon ("::").  For example:
-     * "app.action::target".
+     * that is a non-empty string consisting only of alphanumerics, plus &#39;-&#39;
+     * and &#39;.&#39;.  In that case, the action name and target value are
+     * separated by a double colon (&#34;::&#34;).  For example:
+     * &#34;app.action::target&#34;.
      * 
      * The third format is used to represent an action with any type of
      * target value, including strings.  The target value follows the action
-     * name, surrounded in parens.  For example: "app.action(42)".  The
+     * name, surrounded in parens.  For example: &#34;app.action(42)&#34;.  The
      * target value is parsed using g_variant_parse().  If a tuple-typed
      * value is desired, it must be specified in the same way, resulting in
-     * two sets of parens, for example: "app.action((1,2,3))".  A string
-     * target can be specified this way as well: "app.action('target')".
+     * two sets of parens, for example: &#34;app.action((1,2,3))&#34;.  A string
+     * target can be specified this way as well: &#34;app.action(&#39;target&#39;)&#34;.
      * For strings, this third format must be used if * target value is
-     * empty or contains characters other than alphanumerics, '-' and '.'.
+     * empty or contains characters other than alphanumerics, &#39;-&#39; and &#39;.&#39;.
      */
     public static boolean actionParseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -305,7 +325,7 @@ public final class Gio {
      * Creates a new #GAppInfo from the given information.
      * 
      * Note that for @commandline, the quoting rules of the Exec key of the
-     * [freedesktop.org Desktop Entry Specification](http://freedesktop.org/Standards/desktop-entry-spec)
+     * {@link [freedesktop.org Desktop Entry Specification]}(http://freedesktop.org/Standards/desktop-entry-spec)
      * are applied. For example, if the @commandline contains
      * percent-encoded URIs, the percent-character must be doubled in order to prevent it from
      * being swallowed by Exec key unquoting. See the specification for exact quoting rules.
@@ -322,12 +342,11 @@ public final class Gio {
     /**
      * Gets a list of all of the applications currently registered
      * on this system.
-     * 
-     * For desktop files, this includes applications that have
-     * `NoDisplay=true` set or are excluded from display by means
-     * of `OnlyShowIn` or `NotShowIn`. See g_app_info_should_show().
+     * <p>
+     * For desktop files, this includes applications that have<code>NoDisplay=true</code> set or are excluded from display by means
+     * of <code>OnlyShowIn</code> or <code>NotShowIn</code>. See g_app_info_should_show().
      * The returned list does not include applications which have
-     * the `Hidden` key set.
+     * the <code>Hidden</code> key set.
      */
     public static org.gtk.glib.List appInfoGetAll() {
         var RESULT = gtk_h.g_app_info_get_all();
@@ -356,8 +375,8 @@ public final class Gio {
     /**
      * Gets the default application for handling URIs with
      * the given URI scheme. A URI scheme is the initial part
-     * of the URI, up to but not including the ':', e.g. "http",
-     * "ftp" or "sip".
+     * of the URI, up to but not including the &#39;:&#39;, e.g. &#34;http&#34;,
+     * &#34;ftp&#34; or &#34;sip&#34;.
      */
     public static AppInfo appInfoGetDefaultForUriScheme(java.lang.String uriScheme) {
         var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
@@ -393,7 +412,7 @@ public final class Gio {
      * is done on the uri to detect the type of the file if
      * required.
      * 
-     * The D-Bus–activated applications don't have to be started if your application
+     * The D-Bus&#8211;activated applications don&#39;t have to be started if your application
      * terminates too soon after this function. To prevent this, use
      * g_app_info_launch_default_for_uri_async() instead.
      */
@@ -414,7 +433,7 @@ public final class Gio {
      * sandboxed and the portal may present an application chooser
      * dialog to the user.
      * 
-     * This is also useful if you want to be sure that the D-Bus–activated
+     * This is also useful if you want to be sure that the D-Bus&#8211;activated
      * applications are really started before termination and if you are interested
      * in receiving error information from their activation.
      */
@@ -490,6 +509,23 @@ public final class Gio {
      * G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION flags.
      * 
      * Note that the returned #GDBusConnection object will (usually) have
+     * the #GDBusConnection:exit-on-close property set to 
+     *           
+     *         
+     *       
+     *     
+     *     
+     *       Finishes an operation started with g_bus_get().
+     * 
+     * The returned object is a singleton, that is, shared with other
+     * callers of g_bus_get() and g_bus_get_sync() for @bus_type. In the
+     * event that you need a private message bus connection, use
+     * g_dbus_address_get_for_bus_sync() and
+     * g_dbus_connection_new_for_address() with
+     * G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT and
+     * G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION flags.
+     * 
+     * Note that the returned #GDBusConnection object will (usually) have
      * the #GDBusConnection:exit-on-close property set to %TRUE.
      */
     public static DBusConnection busGetFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
@@ -503,6 +539,29 @@ public final class Gio {
     
     /**
      * Synchronously connects to the message bus specified by @bus_type.
+     * Note that the returned object may shared with other callers,
+     * e.g. if two separate parts of a process calls this function with
+     * the same @bus_type, they will share the same object.
+     * 
+     * This is a synchronous failable function. See g_bus_get() and
+     * g_bus_get_finish() for the asynchronous version.
+     * 
+     * The returned object is a singleton, that is, shared with other
+     * callers of g_bus_get() and g_bus_get_sync() for @bus_type. In the
+     * event that you need a private message bus connection, use
+     * g_dbus_address_get_for_bus_sync() and
+     * g_dbus_connection_new_for_address() with
+     * G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT and
+     * G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION flags.
+     * 
+     * Note that the returned #GDBusConnection object will (usually) have
+     * the #GDBusConnection:exit-on-close property set to 
+     *           
+     *         
+     *       
+     *     
+     *     
+     *       Synchronously connects to the message bus specified by @bus_type.
      * Note that the returned object may shared with other callers,
      * e.g. if two separate parts of a process calls this function with
      * the same @bus_type, they will share the same object.
@@ -534,17 +593,17 @@ public final class Gio {
      * Starts acquiring @name on the bus specified by @bus_type and calls
      * @name_acquired_handler and @name_lost_handler when the name is
      * acquired respectively lost. Callbacks will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this function from.
      * 
      * You are guaranteed that one of the @name_acquired_handler and @name_lost_handler
      * callbacks will be invoked after calling this function - there are three
      * possible cases:
      * 
-     * - @name_lost_handler with a %NULL connection (if a connection to the bus
-     *   can't be made).
+     * - @name_lost_handler with a <code>null</code> connection (if a connection to the bus
+     *   can&#39;t be made).
      * 
-     * - @bus_acquired_handler then @name_lost_handler (if the name can't be
+     * - @bus_acquired_handler then @name_lost_handler (if the name can&#39;t be
      *   obtained)
      * 
      * - @bus_acquired_handler then @name_acquired_handler (if the name was
@@ -577,7 +636,7 @@ public final class Gio {
      * before @name is requested from the bus.
      * 
      * This behavior makes it very simple to write applications that wants
-     * to [own names][gdbus-owning-names] and export objects.
+     * to {@link [own names]}{@link [gdbus-owning-names]} and export objects.
      * Simply register objects to be exported in @bus_acquired_handler and
      * unregister the objects (if any) in @name_lost_handler.
      */
@@ -658,7 +717,7 @@ public final class Gio {
      * this function has returned. You should continue to iterate the #GMainContext
      * until the #GDestroyNotify function passed to g_bus_own_name() is called, in
      * order to avoid memory leaks through callbacks queued on the #GMainContext
-     * after it’s stopped being iterated.
+     * after it&#8217;s stopped being iterated.
      */
     public static void busUnownName(int ownerId) {
         gtk_h.g_bus_unown_name(ownerId);
@@ -672,7 +731,7 @@ public final class Gio {
      * this function has returned. You should continue to iterate the #GMainContext
      * until the #GDestroyNotify function passed to g_bus_watch_name() is called, in
      * order to avoid memory leaks through callbacks queued on the #GMainContext
-     * after it’s stopped being iterated.
+     * after it&#8217;s stopped being iterated.
      */
     public static void busUnwatchName(int watcherId) {
         gtk_h.g_bus_unwatch_name(watcherId);
@@ -683,7 +742,7 @@ public final class Gio {
      * @name_appeared_handler and @name_vanished_handler when the name is
      * known to have an owner respectively known to lose its
      * owner. Callbacks will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this function from.
      * 
      * You are guaranteed that one of the handlers will be invoked after
@@ -704,7 +763,7 @@ public final class Gio {
      * will be @name_vanished_handler. The reverse is also true.
      * 
      * This behavior makes it very simple to write applications that want
-     * to take action when a certain [name exists][gdbus-watching-names].
+     * to take action when a certain {@link [name exists]}{@link [gdbus-watching-names]}.
      * Basically, the application should create object proxies in
      * @name_appeared_handler and destroy them again (if any) in
      * @name_vanished_handler.
@@ -810,7 +869,7 @@ public final class Gio {
      * Gets the generic icon name for a content type.
      * 
      * See the
-     * [shared-mime-info](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
+     * {@link [shared-mime-info]}(http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
      * specification for more on the generic icon name.
      */
     public static java.lang.String contentTypeGetGenericIconName(java.lang.String type) {
@@ -860,9 +919,9 @@ public final class Gio {
     }
     
     /**
-     * Checks if the content type is the generic "unknown" type.
-     * On UNIX this is the "application/octet-stream" mimetype,
-     * while on win32 it is "*" and on OSX it is a dynamic type
+     * Checks if the content type is the generic &#34;unknown&#34; type.
+     * On UNIX this is the &#34;application/octet-stream&#34; mimetype,
+     * while on win32 it is &#34;*&#34; and on OSX it is a dynamic type
      * or octet-stream.
      */
     public static boolean contentTypeIsUnknown(java.lang.String type) {
@@ -872,28 +931,28 @@ public final class Gio {
     
     /**
      * Set the list of directories used by GIO to load the MIME database.
-     * If @dirs is %NULL, the directories used are the default:
-     * 
-     *  - the `mime` subdirectory of the directory in `$XDG_DATA_HOME`
-     *  - the `mime` subdirectory of every directory in `$XDG_DATA_DIRS`
+     * If @dirs is <code>NULL,</code> the directories used are the default:
+     * <p>
+     *  - the <code>mime</code> subdirectory of the directory in <code>$XDG_DATA_HOME</code>
+     *  - the <code>mime</code> subdirectory of every directory in <code>$XDG_DATA_DIRS</code>
      * 
      * This function is intended to be used when writing tests that depend on
      * information stored in the MIME database, in order to control the data.
      * 
-     * Typically, in case your tests use %G_TEST_OPTION_ISOLATE_DIRS, but they
-     * depend on the system’s MIME database, you should call this function
-     * with @dirs set to %NULL before calling g_test_init(), for instance:
+     * Typically, in case your tests use <code>G_TEST_OPTION_ISOLATE_DIRS,</code> but they
+     * depend on the system&#8217;s MIME database, you should call this function
+     * with @dirs set to <code>null</code> before calling g_test_init(), for instance:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   // Load MIME data from the system
      *   g_content_type_set_mime_dirs (NULL);
      *   // Isolate the environment
-     *   g_test_init (&argc, &argv, G_TEST_OPTION_ISOLATE_DIRS, NULL);
+     *   g_test_init (&#38;argc, &#38;argv, G_TEST_OPTION_ISOLATE_DIRS, NULL);
      * 
-     *   …
+     *   &#8230;
      * 
      *   return g_test_run ();
-     * ]|
+     * ]}|
      */
     public static void contentTypeSetMimeDirs(java.lang.String[] dirs) {
         gtk_h.g_content_type_set_mime_dirs(Interop.allocateNativeArray(dirs).handle());
@@ -901,8 +960,7 @@ public final class Gio {
     
     /**
      * Gets a list of strings containing all the registered content types
-     * known to the system. The list and its data should be freed using
-     * `g_list_free_full (list, g_free)`.
+     * known to the system. The list and its data should be freed using<code>g_list_free_full (list, g_free)</code>.
      */
     public static org.gtk.glib.List contentTypesGetRegistered() {
         var RESULT = gtk_h.g_content_types_get_registered();
@@ -912,11 +970,10 @@ public final class Gio {
     /**
      * Escape @string so it can appear in a D-Bus address as the value
      * part of a key-value pair.
-     * 
-     * For instance, if @string is `/run/bus-for-:0`,
-     * this function would return `/run/bus-for-%3A0`,
-     * which could be used in a D-Bus address like
-     * `unix:nonce-tcp:host=127.0.0.1,port=42,noncefile=/run/bus-for-%3A0`.
+     * <p>
+     * For instance, if @string is <code>/run/bus-for-:0</code>,
+     * this function would return <code>/run/bus-for-<code>3A0</code>,
+     * which</code> could be used in a D-Bus address like<code>unix:nonce-tcp:host=127.0.0.1,port=42,noncefile=/run/bus-for-could be used in a D-Bus address like<code>unix:nonce-tcp:host=127.0.0.1,port=42,noncefile=/run/bus-for-%3A0</code>.
      */
     public static java.lang.String dbusAddressEscapeValue(java.lang.String string) {
         var RESULT = gtk_h.g_dbus_address_escape_value(Interop.allocateNativeString(string).handle());
@@ -929,7 +986,7 @@ public final class Gio {
      * platform specific mechanisms.
      * 
      * The returned address will be in the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      */
     public static java.lang.String dbusAddressGetForBusSync(BusType busType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -944,7 +1001,7 @@ public final class Gio {
      * Asynchronously connects to an endpoint specified by @address and
      * sets up the connection so it is in a state to run the client-side
      * of the D-Bus authentication conversation. @address must be in the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      * 
      * When the operation is finished, @callback will be invoked. You can
      * then call g_dbus_address_get_stream_finish() to get the result of
@@ -970,8 +1027,8 @@ public final class Gio {
     /**
      * Finishes an operation started with g_dbus_address_get_stream().
      * 
-     * A server is not required to set a GUID, so @out_guid may be set to %NULL
-     * even on success.
+     * A server is not required to set a GUID, so @out_guid may be set to <code>NULL
+     * even</code> on success.
      */
     public static IOStream dbusAddressGetStreamFinish(AsyncResult res, java.lang.String[] outGuid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -986,10 +1043,10 @@ public final class Gio {
      * Synchronously connects to an endpoint specified by @address and
      * sets up the connection so it is in a state to run the client-side
      * of the D-Bus authentication conversation. @address must be in the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      * 
-     * A server is not required to set a GUID, so @out_guid may be set to %NULL
-     * even on success.
+     * A server is not required to set a GUID, so @out_guid may be set to <code>NULL
+     * even</code> on success.
      * 
      * This is a synchronous failable function. See
      * g_dbus_address_get_stream() for the asynchronous version.
@@ -1017,9 +1074,8 @@ public final class Gio {
      * Creates a D-Bus error name to use for @error. If @error matches
      * a registered error (cf. g_dbus_error_register_error()), the corresponding
      * D-Bus error name will be returned.
-     * 
-     * Otherwise the a name of the form
-     * `org.gtk.GDBus.UnmappedGError.Quark._ESCAPED_QUARK_NAME.Code_ERROR_CODE`
+     * <p>
+     * Otherwise the a name of the form<code>org.gtk.GDBus.UnmappedGError.Quark._ESCAPED_QUARK_NAME.Code_ERROR_CODE</code>
      * will be used. This allows other GDBus applications to map the error
      * on the wire back to a #GError using g_dbus_error_new_for_dbus_error().
      * 
@@ -1068,14 +1124,14 @@ public final class Gio {
      * create the #GError. Also, @dbus_error_name is added to the error message
      * such that it can be recovered with g_dbus_error_get_remote_error().
      * 
-     * Otherwise, a #GError with the error code %G_IO_ERROR_DBUS_ERROR
-     * in the %G_IO_ERROR error domain is returned. Also, @dbus_error_name is
+     * Otherwise, a #GError with the error code <code>G_IO_ERROR_DBUS_ERROR
+     * in</code> the <code>G_IO_ERROR</code> error domain is returned. Also, @dbus_error_name is
      * added to the error message such that it can be recovered with
      * g_dbus_error_get_remote_error().
      * 
      * In all three cases, @dbus_error_name can always be recovered from the
      * returned #GError using the g_dbus_error_get_remote_error() function
-     * (unless g_dbus_error_strip_remote_error() hasn't been used on the returned error).
+     * (unless g_dbus_error_strip_remote_error() hasn&#39;t been used on the returned error).
      * 
      * This function is typically only used in object mappings to prepare
      * #GError instances for applications. Regular applications should not use
@@ -1136,11 +1192,10 @@ public final class Gio {
      * Escapes @bytes for use in a D-Bus object path component.
      * @bytes is an array of zero or more nonzero bytes in an
      * unspecified encoding, followed by a single zero byte.
-     * 
+     * <p>
      * The escaping method consists of replacing all non-alphanumeric
      * characters (see g_ascii_isalnum()) with their hexadecimal value
-     * preceded by an underscore (`_`). For example:
-     * `foo.bar.baz` will become `foo_2ebar_2ebaz`.
+     * preceded by an underscore (<code>_</code>). For example:<code>foo.bar.baz</code> will become <code>foo_2ebar_2ebaz</code>.
      * 
      * This method is appropriate to use when the input is nearly
      * a valid object path component but is not when your input
@@ -1160,13 +1215,13 @@ public final class Gio {
      * e.g. g_dbus_connection_new().
      * 
      * See the
-     * [D-Bus specification](https://dbus.freedesktop.org/doc/dbus-specification.html#uuids)
+     * {@link [D-Bus specification]}(https://dbus.freedesktop.org/doc/dbus-specification.html#uuids)
      * regarding what strings are valid D-Bus GUIDs. The specification refers to
-     * these as ‘UUIDs’ whereas GLib (for historical reasons) refers to them as
-     * ‘GUIDs’. The terms are interchangeable.
+     * these as &#8216;UUIDs&#8217; whereas GLib (for historical reasons) refers to them as
+     * &#8216;GUIDs&#8217;. The terms are interchangeable.
      * 
      * Note that D-Bus GUIDs do not follow
-     * [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122).
+     * {@link [RFC 4122]}(https://datatracker.ietf.org/doc/html/rfc4122).
      */
     public static java.lang.String dbusGenerateGuid() {
         var RESULT = gtk_h.g_dbus_generate_guid();
@@ -1176,29 +1231,29 @@ public final class Gio {
     /**
      * Converts a #GValue to a #GVariant of the type indicated by the @type
      * parameter.
-     * 
+     * <p>
      * The conversion is using the following rules:
+     * <p>
+     * <li><code>G_TYPE_STRING</code>: &#39;s&#39;, &#39;o&#39;, &#39;g&#39; or &#39;ay&#39;
+     * <li><code>G_TYPE_STRV</code>: &#39;as&#39;, &#39;ao&#39; or &#39;aay&#39;
+     * <li><code>G_TYPE_BOOLEAN</code>: &#39;b&#39;
+     * <li><code>G_TYPE_UCHAR</code>: &#39;y&#39;
+     * <li><code>G_TYPE_INT</code>: &#39;i&#39;, &#39;n&#39;
+     * <li><code>G_TYPE_UINT</code>: &#39;u&#39;, &#39;q&#39;
+     * <li><code>G_TYPE_INT64</code>: &#39;x&#39;
+     * <li><code>G_TYPE_UINT64</code>: &#39;t&#39;
+     * <li><code>G_TYPE_DOUBLE</code>: &#39;d&#39;
+     * <li><code>G_TYPE_VARIANT</code>: Any #GVariantType
      * 
-     * - `G_TYPE_STRING`: 's', 'o', 'g' or 'ay'
-     * - `G_TYPE_STRV`: 'as', 'ao' or 'aay'
-     * - `G_TYPE_BOOLEAN`: 'b'
-     * - `G_TYPE_UCHAR`: 'y'
-     * - `G_TYPE_INT`: 'i', 'n'
-     * - `G_TYPE_UINT`: 'u', 'q'
-     * - `G_TYPE_INT64`: 'x'
-     * - `G_TYPE_UINT64`: 't'
-     * - `G_TYPE_DOUBLE`: 'd'
-     * - `G_TYPE_VARIANT`: Any #GVariantType
-     * 
-     * This can fail if e.g. @gvalue is of type %G_TYPE_STRING and @type
-     * is 'i', i.e. %G_VARIANT_TYPE_INT32. It will also fail for any #GType
-     * (including e.g. %G_TYPE_OBJECT and %G_TYPE_BOXED derived-types) not
+     * This can fail if e.g. @gvalue is of type <code>G_TYPE_STRING</code> and @type
+     * is &#39;i&#39;, i.e. <code>G_VARIANT_TYPE_INT32.</code> It will also fail for any #GType
+     * (including e.g. <code>G_TYPE_OBJECT</code> and <code>G_TYPE_BOXED</code> derived-types) not
      * in the table above.
      * 
-     * Note that if @gvalue is of type %G_TYPE_VARIANT and its value is
-     * %NULL, the empty #GVariant instance (never %NULL) for @type is
+     * Note that if @gvalue is of type <code>G_TYPE_VARIANT</code> and its value is
+     * <code>NULL,</code> the empty #GVariant instance (never <code>NULL)</code> for @type is
      * returned (e.g. 0 for scalar types, the empty string for string types,
-     * '/' for object path types, the empty array for any array type and so on).
+     * &#39;/&#39; for object path types, the empty array for any array type and so on).
      * 
      * See the g_dbus_gvariant_to_gvalue() function for how to convert a
      * #GVariant to a #GValue.
@@ -1227,9 +1282,9 @@ public final class Gio {
     
     /**
      * Checks if @string is a
-     * [D-Bus address](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      * 
-     * This doesn't check if @string is actually supported by #GDBusServer
+     * This doesn&#39;t check if @string is actually supported by #GDBusServer
      * or #GDBusConnection - use g_dbus_is_supported_address() to do more
      * checks.
      */
@@ -1289,7 +1344,7 @@ public final class Gio {
      * Like g_dbus_is_address() but also checks if the library supports the
      * transports in @string and that key/value pairs for each transport
      * are valid. See the specification of the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      */
     public static boolean dbusIsSupportedAddress(java.lang.String string) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1335,6 +1390,22 @@ public final class Gio {
     
     /**
      * Creates a #GFile with the given argument from the command line.
+     * The value of @arg can be either a URI, an absolute path or a
+     * relative path resolved relative to the current working directory.
+     * This operation never fails, but the returned object might not
+     * support any I/O operation if @arg points to a malformed path.
+     * 
+     * Note that on Windows, this function expects its argument to be in
+     * UTF-8 -- not the system code page.  This means that you
+     * should not use this function with string from argv as it is passed
+     * to main().  g_win32_get_command_line() will return a UTF-8 version of
+     * the commandline.  #GApplication also uses UTF-8 but
+     * g_application_command_line_create_file_for_arg() may be more useful
+     * for you there.  It is also always possible to use this function with
+     * #GOptionContext arguments of type 
+     *     
+     *     
+     *       Creates a #GFile with the given argument from the command line.
      * The value of @arg can be either a URI, an absolute path or a
      * relative path resolved relative to the current working directory.
      * This operation never fails, but the returned object might not
@@ -1399,10 +1470,10 @@ public final class Gio {
      * #GFileIOStream pointing to it.
      * 
      * @tmpl should be a string in the GLib file name encoding
-     * containing a sequence of six 'X' characters, and containing no
-     * directory components. If it is %NULL, a default template is used.
+     * containing a sequence of six &#39;X&#39; characters, and containing no
+     * directory components. If it is <code>NULL,</code> a default template is used.
      * 
-     * Unlike the other #GFile constructors, this will return %NULL if
+     * Unlike the other #GFile constructors, this will return <code>null</code> if
      * a temporary file could not be created.
      */
     public static File fileNewTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {
@@ -1460,11 +1531,11 @@ public final class Gio {
     
     /**
      * Converts errno.h error codes into GIO error codes. The fallback
-     * value %G_IO_ERROR_FAILED is returned for error codes not currently
+     * value {@link org.gtk.gio.IOErrorEnum#FAILED} is returned for error codes not currently
      * handled (but note that future GLib releases may return a more
      * specific value instead).
      * 
-     * As %errno is global and may be modified by intermediate function
+     * As <code>errno</code> is global and may be modified by intermediate function
      * calls, you should save its value as soon as the call which sets it
      */
     public static IOErrorEnum ioErrorFromErrno(int errNo) {
@@ -1511,7 +1582,7 @@ public final class Gio {
     /**
      * Loads all the modules in the specified directory.
      * 
-     * If don't require all modules to be initialized (and thus registering
+     * If don&#39;t require all modules to be initialized (and thus registering
      * all gtypes) then you can use g_io_modules_scan_all_in_directory()
      * which allows delayed/lazy loading of modules.
      */
@@ -1523,7 +1594,7 @@ public final class Gio {
     /**
      * Loads all the modules in the specified directory.
      * 
-     * If don't require all modules to be initialized (and thus registering
+     * If don&#39;t require all modules to be initialized (and thus registering
      * all gtypes) then you can use g_io_modules_scan_all_in_directory()
      * which allows delayed/lazy loading of modules.
      */
@@ -1568,53 +1639,53 @@ public final class Gio {
     
     /**
      * Creates a keyfile-backed #GSettingsBackend.
-     * 
+     * <p>
      * The filename of the keyfile to use is given by @filename.
-     * 
+     * <p>
      * All settings read to or written from the backend must fall under the
      * path given in @root_path (which must start and end with a slash and
-     * not contain two consecutive slashes).  @root_path may be "/".
-     * 
-     * If @root_group is non-%NULL then it specifies the name of the keyfile
+     * not contain two consecutive slashes).  @root_path may be &#34;/&#34;.
+     * <p>
+     * If @root_group is non-<code>null</code> then it specifies the name of the keyfile
      * group used for keys that are written directly below @root_path.  For
-     * example, if @root_path is "/apps/example/" and @root_group is
-     * "toplevel", then settings the key "/apps/example/enabled" to a value
-     * of %TRUE will cause the following to appear in the keyfile:
-     * 
-     * |[
-     *   [toplevel]
+     * example, if @root_path is &#34;/apps/example/&#34; and @root_group is
+     * &#34;toplevel&#34;, then settings the key &#34;/apps/example/enabled&#34; to a value
+     * of <code>true</code> will cause the following to appear in the keyfile:
+     * <p>
+     * |{@link [
+     *   [toplevel]}
      *   enabled=true
      * ]|
-     * 
-     * If @root_group is %NULL then it is not permitted to store keys
+     * <p>
+     * If @root_group is <code>null</code> then it is not permitted to store keys
      * directly below the @root_path.
-     * 
+     * <p>
      * For keys not stored directly below @root_path (ie: in a sub-path),
      * the name of the subpath (with the final slash stripped) is used as
      * the name of the keyfile group.  To continue the example, if
-     * "/apps/example/profiles/default/font-size" were set to
+     * &#34;/apps/example/profiles/default/font-size&#34; were set to
      * 12 then the following would appear in the keyfile:
-     * 
-     * |[
-     *   [profiles/default]
+     * <p>
+     * |{@link [
+     *   [profiles/default]}
      *   font-size=12
      * ]|
-     * 
+     * <p>
      * The backend will refuse writes (and return writability as being
-     * %FALSE) for keys outside of @root_path and, in the event that
-     * @root_group is %NULL, also for keys directly under @root_path.
+     * <code>FALSE)</code> for keys outside of @root_path and, in the event that
+     * @root_group is <code>NULL,</code> also for keys directly under @root_path.
      * Writes will also be refused if the backend detects that it has the
      * inability to rewrite the keyfile (ie: the containing directory is not
      * writable).
-     * 
+     * <p>
      * There is no checking done for your key namespace clashing with the
-     * syntax of the key file format.  For example, if you have '[' or ']'
-     * characters in your path names or '=' in your key names you may be in
+     * syntax of the key file format.  For example, if you have &#39;{@link [&#39; or &#39;]}&#39;
+     * characters in your path names or &#39;=&#39; in your key names you may be in
      * trouble.
-     * 
-     * The backend reads default values from a keyfile called `defaults` in
+     * <p>
+     * The backend reads default values from a keyfile called <code>defaults</code> in
      * the directory specified by the #GKeyfileSettingsBackend:defaults-dir property,
-     * and a list of locked keys from a text file with the name `locks` in
+     * and a list of locked keys from a text file with the name <code>locks</code> in
      * the same location.
      */
     public static SettingsBackend keyfileSettingsBackendNew(java.lang.String filename, java.lang.String rootPath, java.lang.String rootGroup) {
@@ -1687,6 +1758,15 @@ public final class Gio {
      * Utility method for #GPollableInputStream and #GPollableOutputStream
      * implementations. Creates a new #GSource, as with
      * g_pollable_source_new(), but also attaching @child_source (with a
+     * dummy callback), and @cancellable, if they are non-
+     *           
+     *         
+     *       
+     *     
+     *     
+     *       Utility method for #GPollableInputStream and #GPollableOutputStream
+     * implementations. Creates a new #GSource, as with
+     * g_pollable_source_new(), but also attaching @child_source (with a
      * dummy callback), and @cancellable, if they are non-%NULL.
      */
     public static org.gtk.glib.Source pollableSourceNewFull(org.gtk.gobject.Object pollableStream, org.gtk.glib.Source childSource, Cancellable cancellable) {
@@ -1696,14 +1776,14 @@ public final class Gio {
     
     /**
      * Tries to read from @stream, as with g_input_stream_read() (if
-     * @blocking is %TRUE) or g_pollable_input_stream_read_nonblocking()
-     * (if @blocking is %FALSE). This can be used to more easily share
+     * @blocking is <code>TRUE)</code> or g_pollable_input_stream_read_nonblocking()
+     * (if @blocking is <code>FALSE).</code> This can be used to more easily share
      * code between blocking and non-blocking implementations of a method.
      * 
-     * If @blocking is %FALSE, then @stream must be a
+     * If @blocking is <code>FALSE,</code> then @stream must be a
      * #GPollableInputStream for which g_pollable_input_stream_can_poll()
-     * returns %TRUE, or else the behavior is undefined. If @blocking is
-     * %TRUE, then @stream does not need to be a #GPollableInputStream.
+     * returns <code>TRUE,</code> or else the behavior is undefined. If @blocking is
+     * <code>TRUE,</code> then @stream does not need to be a #GPollableInputStream.
      */
     public static long pollableStreamRead(InputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1716,14 +1796,14 @@ public final class Gio {
     
     /**
      * Tries to write to @stream, as with g_output_stream_write() (if
-     * @blocking is %TRUE) or g_pollable_output_stream_write_nonblocking()
-     * (if @blocking is %FALSE). This can be used to more easily share
+     * @blocking is <code>TRUE)</code> or g_pollable_output_stream_write_nonblocking()
+     * (if @blocking is <code>FALSE).</code> This can be used to more easily share
      * code between blocking and non-blocking implementations of a method.
      * 
-     * If @blocking is %FALSE, then @stream must be a
+     * If @blocking is <code>FALSE,</code> then @stream must be a
      * #GPollableOutputStream for which
-     * g_pollable_output_stream_can_poll() returns %TRUE or else the
-     * behavior is undefined. If @blocking is %TRUE, then @stream does not
+     * g_pollable_output_stream_can_poll() returns <code>true</code> or else the
+     * behavior is undefined. If @blocking is <code>TRUE,</code> then @stream does not
      * need to be a #GPollableOutputStream.
      */
     public static long pollableStreamWrite(OutputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -1744,7 +1824,7 @@ public final class Gio {
     }
     
     /**
-     * Find the `gio-proxy` extension point for a proxy implementation that supports
+     * Find the <code>gio-proxy</code> extension point for a proxy implementation that supports
      * the specified protocol.
      */
     public static Proxy proxyGetDefaultForProtocol(java.lang.String protocol) {
@@ -1784,7 +1864,7 @@ public final class Gio {
      * to register it with g_resources_register().
      * 
      * If @filename is empty or the data in it is corrupt,
-     * %G_RESOURCE_ERROR_INTERNAL will be returned. If @filename doesn’t exist, or
+     * {@link org.gtk.gio.ResourceError#INTERNAL} will be returned. If @filename doesn&#8217;t exist, or
      * there is an error in reading it, an error from g_mapped_file_new() will be
      * returned.
      */
@@ -1856,16 +1936,16 @@ public final class Gio {
     
     /**
      * Gets the default system schema source.
-     * 
+     * <p>
      * This function is not required for normal uses of #GSettings but it
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
-     * 
-     * If no schemas are installed, %NULL will be returned.
-     * 
+     * <p>
+     * If no schemas are installed, <code>null</code> will be returned.
+     * <p>
      * The returned source may actually consist of multiple schema sources
      * from different directories, depending on which directories were given
-     * in `XDG_DATA_DIRS` and `GSETTINGS_SCHEMA_DIR`. For this reason, all
+     * in <code>XDG_DATA_DIRS</code> and <code>GSETTINGS_SCHEMA_DIR</code>. For this reason, all
      * lookups performed against the default source should probably be done
      * recursively.
      */
@@ -1972,9 +2052,9 @@ public final class Gio {
      * used in implementation of the OS. This is primarily used for hiding
      * mounted volumes that are intended as APIs for programs to read, and system
      * administrators at a shell; rather than something that should, for example,
-     * appear in a GUI. For example, the Linux `/proc` filesystem.
+     * appear in a GUI. For example, the Linux <code>/proc</code> filesystem.
      * 
-     * The list of device paths considered ‘system’ ones may change over time.
+     * The list of device paths considered &#8216;system&#8217; ones may change over time.
      */
     public static boolean unixIsSystemDevicePath(java.lang.String devicePath) {
         var RESULT = gtk_h.g_unix_is_system_device_path(Interop.allocateNativeString(devicePath).handle());
@@ -1986,9 +2066,9 @@ public final class Gio {
      * used in implementation of the OS. This is primarily used for hiding
      * mounted volumes that are intended as APIs for programs to read, and system
      * administrators at a shell; rather than something that should, for example,
-     * appear in a GUI. For example, the Linux `/proc` filesystem.
+     * appear in a GUI. For example, the Linux <code>/proc</code> filesystem.
      * 
-     * The list of file system types considered ‘system’ ones may change over time.
+     * The list of file system types considered &#8216;system&#8217; ones may change over time.
      */
     public static boolean unixIsSystemFsType(java.lang.String fsType) {
         var RESULT = gtk_h.g_unix_is_system_fs_type(Interop.allocateNativeString(fsType).handle());
@@ -2043,8 +2123,7 @@ public final class Gio {
     }
     
     /**
-     * Gets a comma-separated list of mount options for the unix mount. For example,
-     * `rw,relatime,seclabel,data=ordered`.
+     * Gets a comma-separated list of mount options for the unix mount. For example,<code>rw,relatime,seclabel,data=ordered</code>.
      * 
      * This is similar to g_unix_mount_point_get_options(), but it takes
      * a #GUnixMountEntry as an argument.
@@ -2058,9 +2137,9 @@ public final class Gio {
      * Gets the root of the mount within the filesystem. This is useful e.g. for
      * mounts created by bind operation, or btrfs subvolumes.
      * 
-     * For example, the root path is equal to "/" for mount created by
-     * "mount /dev/sda1 /mnt/foo" and "/bar" for
-     * "mount --bind /mnt/foo/bar /mnt/bar".
+     * For example, the root path is equal to &#34;/&#34; for mount created by
+     * &#34;mount /dev/sda1 /mnt/foo&#34; and &#34;/bar&#34; for
+     * &#34;mount --bind /mnt/foo/bar /mnt/bar&#34;.
      */
     public static java.lang.String unixMountGetRootPath(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_get_root_path(mountEntry.handle());
@@ -2119,9 +2198,9 @@ public final class Gio {
     /**
      * Checks if a Unix mount is a system mount. This is the Boolean OR of
      * g_unix_is_system_fs_type(), g_unix_is_system_device_path() and
-     * g_unix_is_mount_path_system_internal() on @mount_entry’s properties.
+     * g_unix_is_mount_path_system_internal() on @mount_entry&#8217;s properties.
      * 
-     * The definition of what a ‘system’ mount entry is may change over time as new
+     * The definition of what a &#8216;system&#8217; mount entry is may change over time as new
      * file system types and device paths are ignored.
      */
     public static boolean unixMountIsSystemInternal(UnixMountEntry mountEntry) {

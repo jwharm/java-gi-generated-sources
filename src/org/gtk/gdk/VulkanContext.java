@@ -8,15 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkVulkanContext` is an object representing the platform-specific
+ * <code>GdkVulkanContext</code> is an object representing the platform-specific
  * Vulkan draw context.
- * 
- * `GdkVulkanContext`s are created for a surface using
- * [method@Gdk.Surface.create_vulkan_context], and the context will match
+ * <p><code>GdkVulkanContext</code>s are created for a surface using
+ * {@link org.gtk.gdk.Surface#createVulkanContext}, and the context will match
  * the characteristics of the surface.
- * 
- * Support for `GdkVulkanContext` is platform-specific and context creation
- * can fail, returning %NULL context.
+ * <p>
+ * Support for <code>GdkVulkanContext</code> is platform-specific and context creation
+ * can fail, returning <code>null</code> context.
  */
 public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
 

@@ -11,39 +11,40 @@ import java.lang.invoke.*;
  * The #GCredentials type is a reference-counted wrapper for native
  * credentials. This information is typically used for identifying,
  * authenticating and authorizing other processes.
- * 
+ * <p>
  * Some operating systems supports looking up the credentials of the
  * remote peer of a communication endpoint - see e.g.
  * g_socket_get_credentials().
- * 
+ * <p>
  * Some operating systems supports securely sending and receiving
  * credentials over a Unix Domain Socket, see
- * #GUnixCredentialsMessage, g_unix_connection_send_credentials() and
+ * <h1>nixCredentialsMessage, g_unix_connection_send_credentials() and</h1>
  * g_unix_connection_receive_credentials() for details.
- * 
- * On Linux, the native credential type is a `struct ucred` - see the
+ * <p>
+ * On Linux, the native credential type is a <code>struct ucred</code> - see the
  * unix(7) man page for details. This corresponds to
- * %G_CREDENTIALS_TYPE_LINUX_UCRED.
+ * <code>G_CREDENTIALS_TYPE_LINUX_UCRED.
+ * <p>
+ * On</code> Apple operating systems (including iOS, tvOS, and macOS),
+ * the native credential type is a <code>struct xucred</code>.
+ * This corresponds to <code>G_CREDENTIALS_TYPE_APPLE_XUCRED.
+ * <p>
+ * On</code> FreeBSD, Debian GNU/kFreeBSD, and GNU/Hurd, the native
+ * credential type is a <code>struct cmsgcred</code>. This corresponds
+ * to <code>G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED.
+ * <p>
+ * On</code> NetBSD, the native credential type is a <code>struct unpcbid</code>.
+ * This corresponds to <code>G_CREDENTIALS_TYPE_NETBSD_UNPCBID.
+ * <p>
+ * On</code> OpenBSD, the native credential type is a <code>struct sockpeercred</code>.
+ * This corresponds to <code>G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED.
+ * <p>
+ * On</code> Solaris (including OpenSolaris and its derivatives), the native
+ * credential type is a <code>ucred_t</code>. This corresponds to
+ * <code>G_CREDENTIALS_TYPE_SOLARIS_UCRED.
  * 
- * On Apple operating systems (including iOS, tvOS, and macOS),
- * the native credential type is a `struct xucred`.
- * This corresponds to %G_CREDENTIALS_TYPE_APPLE_XUCRED.
- * 
- * On FreeBSD, Debian GNU/kFreeBSD, and GNU/Hurd, the native
- * credential type is a `struct cmsgcred`. This corresponds
- * to %G_CREDENTIALS_TYPE_FREEBSD_CMSGCRED.
- * 
- * On NetBSD, the native credential type is a `struct unpcbid`.
- * This corresponds to %G_CREDENTIALS_TYPE_NETBSD_UNPCBID.
- * 
- * On OpenBSD, the native credential type is a `struct sockpeercred`.
- * This corresponds to %G_CREDENTIALS_TYPE_OPENBSD_SOCKPEERCRED.
- * 
- * On Solaris (including OpenSolaris and its derivatives), the native
- * credential type is a `ucred_t`. This corresponds to
- * %G_CREDENTIALS_TYPE_SOLARIS_UCRED.
- * 
- * Since GLib 2.72, on Windows, the native credentials may contain the PID of a
+ * Since</code> GLib 2.72, on Windows, the native credentials may contain the PID of a
+ * process. This corresponds to GLib 2.72, on Windows, the native credentials may contain the PID of a
  * process. This corresponds to %G_CREDENTIALS_TYPE_WIN32_PID.
  */
 public class Credentials extends org.gtk.gobject.Object {
@@ -76,7 +77,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * 
      * It is a programming error (which will cause a warning to be
      * logged) to use this method if there is no #GCredentials support for
-     * the OS or if @native_type isn't supported by the OS.
+     * the OS or if @native_type isn&#39;t supported by the OS.
      */
     public jdk.incubator.foreign.MemoryAddress getNative(CredentialsType nativeType) {
         var RESULT = gtk_h.g_credentials_get_native(handle(), nativeType.getValue());
@@ -138,7 +139,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * 
      * It is a programming error (which will cause a warning to be
      * logged) to use this method if there is no #GCredentials support for
-     * the OS or if @native_type isn't supported by the OS.
+     * the OS or if @native_type isn&#39;t supported by the OS.
      */
     public void setNative(CredentialsType nativeType, jdk.incubator.foreign.MemoryAddress native_) {
         gtk_h.g_credentials_set_native(handle(), nativeType.getValue(), native_);
@@ -151,7 +152,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * This operation can fail if #GCredentials is not supported on the
      * OS or if the native credentials type does not contain information
      * about the UNIX user. It can also fail if the OS does not allow the
-     * use of "spoofed" credentials.
+     * use of &#34;spoofed&#34; credentials.
      */
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

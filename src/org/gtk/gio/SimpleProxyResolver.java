@@ -30,10 +30,10 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
     
     /**
      * Sets the default proxy on @resolver, to be used for any URIs that
-     * don't match #GSimpleProxyResolver:ignore-hosts or a proxy set
+     * don&#39;t match #GSimpleProxyResolver:ignore-hosts or a proxy set
      * via g_simple_proxy_resolver_set_uri_proxy().
      * 
-     * If @default_proxy starts with "socks://",
+     * If @default_proxy starts with &#34;socks://&#34;,
      * #GSimpleProxyResolver will treat it as referring to all three of
      * the socks5, socks4a, and socks4 proxy types.
      */
@@ -53,11 +53,11 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
     
     /**
      * Adds a URI-scheme-specific proxy to @resolver; URIs whose scheme
-     * matches @uri_scheme (and which don't match
+     * matches @uri_scheme (and which don&#39;t match
      * #GSimpleProxyResolver:ignore-hosts) will be proxied via @proxy.
      * 
      * As with #GSimpleProxyResolver:default-proxy, if @proxy starts with
-     * "socks://", #GSimpleProxyResolver will treat it
+     * &#34;socks://&#34;, #GSimpleProxyResolver will treat it
      * as referring to all three of the socks5, socks4a, and socks4 proxy
      * types.
      */

@@ -45,7 +45,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     }
     
     /**
-     * Gets the size of @address's native struct sockaddr.
+     * Gets the size of @address&#39;s native struct sockaddr.
      * You can use this to allocate memory to pass to
      * g_socket_address_to_native().
      */
@@ -58,9 +58,9 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      * Converts a #GSocketAddress to a native struct sockaddr, which can
      * be passed to low-level functions like connect() or bind().
      * 
-     * If not enough space is available, a %G_IO_ERROR_NO_SPACE error
+     * If not enough space is available, a {@link org.gtk.gio.IOErrorEnum#NO_SPACE} error
      * is returned. If the address type is not known on the system
-     * then a %G_IO_ERROR_NOT_SUPPORTED error is returned.
+     * then a {@link org.gtk.gio.IOErrorEnum#NOT_SUPPORTED} error is returned.
      */
     public boolean toNative(jdk.incubator.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

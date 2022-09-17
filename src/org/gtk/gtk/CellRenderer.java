@@ -9,41 +9,37 @@ import java.lang.invoke.*;
 
 /**
  * An object for rendering a single cell
- * 
- * The `GtkCellRenderer` is a base class of a set of objects used for
- * rendering a cell to a `cairo_t`.  These objects are used primarily by
- * the `GtkTreeView` widget, though they aren’t tied to them in any
- * specific way.  It is worth noting that `GtkCellRenderer` is not a
- * `GtkWidget` and cannot be treated as such.
- * 
- * The primary use of a `GtkCellRenderer` is for drawing a certain graphical
- * elements on a `cairo_t`. Typically, one cell renderer is used to
- * draw many cells on the screen.  To this extent, it isn’t expected that a
+ * <p>
+ * The <code>GtkCellRenderer</code> is a base class of a set of objects used for
+ * rendering a cell to a <code>cairo_t</code>.  These objects are used primarily by
+ * the <code>GtkTreeView</code> widget, though they aren&#8217;t tied to them in any
+ * specific way.  It is worth noting that <code>GtkCellRenderer</code> is not a<code>GtkWidget</code> and cannot be treated as such.
+ * <p>
+ * The primary use of a <code>GtkCellRenderer</code> is for drawing a certain graphical
+ * elements on a <code>cairo_t</code>. Typically, one cell renderer is used to
+ * draw many cells on the screen.  To this extent, it isn&#8217;t expected that a
  * CellRenderer keep any permanent state around.  Instead, any state is set
- * just prior to use using `GObject`s property system.  Then, the
+ * just prior to use using <code>GObject</code>s property system.  Then, the
  * cell is measured using gtk_cell_renderer_get_preferred_size(). Finally, the cell
  * is rendered in the correct location using gtk_cell_renderer_snapshot().
- * 
- * There are a number of rules that must be followed when writing a new
- * `GtkCellRenderer`.  First and foremost, it’s important that a certain set
+ * <p>
+ * There are a number of rules that must be followed when writing a new<code>GtkCellRenderer</code>.  First and foremost, it&#8217;s important that a certain set
  * of properties will always yield a cell renderer of the same size,
- * barring a style change. The `GtkCellRenderer` also has a number of
+ * barring a style change. The <code>GtkCellRenderer</code> also has a number of
  * generic properties that are expected to be honored by all children.
- * 
+ * <p>
  * Beyond merely rendering a cell, cell renderers can optionally
  * provide active user interface elements. A cell renderer can be
- * “activatable” like `GtkCellRenderer`Toggle,
+ * &#8220;activatable&#8221; like <code>GtkCellRenderer</code>Toggle,
  * which toggles when it gets activated by a mouse click, or it can be
- * “editable” like `GtkCellRenderer`Text, which
- * allows the user to edit the text using a widget implementing the
- * `GtkCellEditable` interface, e.g. `GtkEntry`.
+ * &#8220;editable&#8221; like <code>GtkCellRenderer</code>Text, which
+ * allows the user to edit the text using a widget implementing the<code>GtkCellEditable</code> interface, e.g. <code>GtkEntry</code>.
  * To make a cell renderer activatable or editable, you have to
- * implement the `GtkCellRenderer`Class.activate or
- * `GtkCellRenderer`Class.start_editing virtual functions, respectively.
- * 
- * Many properties of `GtkCellRenderer` and its subclasses have a
- * corresponding “set” property, e.g. “cell-background-set” corresponds
- * to “cell-background”. These “set” properties reflect whether a property
+ * implement the <code>GtkCellRenderer</code>Class.activate or<code>GtkCellRenderer</code>Class.start_editing virtual functions, respectively.
+ * <p>
+ * Many properties of <code>GtkCellRenderer</code> and its subclasses have a
+ * corresponding &#8220;set&#8221; property, e.g. &#8220;cell-background-set&#8221; corresponds
+ * to &#8220;cell-background&#8221;. These &#8220;set&#8221; properties reflect whether a property
  * has been set or not. You should not set them independently.
  */
 public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
@@ -59,7 +55,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Passes an activate event to the cell renderer for possible processing.
-     * Some cell renderers may use events; for example, `GtkCellRendererToggle`
+     * Some cell renderers may use events; for example, <code>GtkCellRendererToggle</code>
      * toggles when it gets a mouse click.
      */
     public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
@@ -76,7 +72,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Checks whether the given `GtkCellRenderer` is expanded.
+     * Checks whether the given <code>GtkCellRenderer</code> is expanded.
      */
     public boolean getIsExpanded() {
         var RESULT = gtk_h.gtk_cell_renderer_get_is_expanded(handle());
@@ -84,7 +80,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Checks whether the given `GtkCellRenderer` is an expander.
+     * Checks whether the given <code>GtkCellRenderer</code> is an expander.
      */
     public boolean getIsExpander() {
         var RESULT = gtk_h.gtk_cell_renderer_get_is_expander(handle());
@@ -93,7 +89,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Retrieves the minimum and natural size of a cell taking
-     * into account the widget’s preference for height-for-width management.
+     * into account the widget&#8217;s preference for height-for-width management.
      */
     public void getPreferredSize(Widget widget, Requisition minimumSize, Requisition naturalSize) {
         gtk_h.gtk_cell_renderer_get_preferred_size(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
@@ -109,7 +105,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Returns the cell renderer’s sensitivity.
+     * Returns the cell renderer&#8217;s sensitivity.
      */
     public boolean getSensitive() {
         var RESULT = gtk_h.gtk_cell_renderer_get_sensitive(handle());
@@ -117,9 +113,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Translates the cell renderer state to `GtkStateFlags`,
+     * Translates the cell renderer state to <code>GtkStateFlags</code>,
      * based on the cell renderer and widget sensitivity, and
-     * the given `GtkCellRenderer`State.
+     * the given <code>GtkCellRenderer</code>State.
      */
     public int getState(Widget widget, int cellState) {
         var RESULT = gtk_h.gtk_cell_renderer_get_state(handle(), widget.handle(), cellState);
@@ -127,7 +123,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Returns the cell renderer’s visibility.
+     * Returns the cell renderer&#8217;s visibility.
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_cell_renderer_get_visible(handle());
@@ -143,7 +139,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Sets the renderer’s alignment within its available space.
+     * Sets the renderer&#8217;s alignment within its available space.
      */
     public void setAlignment(float xalign, float yalign) {
         gtk_h.gtk_cell_renderer_set_alignment(handle(), xalign, yalign);
@@ -157,44 +153,44 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Sets whether the given `GtkCellRenderer` is expanded.
+     * Sets whether the given <code>GtkCellRenderer</code> is expanded.
      */
     public void setIsExpanded(boolean isExpanded) {
         gtk_h.gtk_cell_renderer_set_is_expanded(handle(), isExpanded ? 1 : 0);
     }
     
     /**
-     * Sets whether the given `GtkCellRenderer` is an expander.
+     * Sets whether the given <code>GtkCellRenderer</code> is an expander.
      */
     public void setIsExpander(boolean isExpander) {
         gtk_h.gtk_cell_renderer_set_is_expander(handle(), isExpander ? 1 : 0);
     }
     
     /**
-     * Sets the renderer’s padding.
+     * Sets the renderer&#8217;s padding.
      */
     public void setPadding(int xpad, int ypad) {
         gtk_h.gtk_cell_renderer_set_padding(handle(), xpad, ypad);
     }
     
     /**
-     * Sets the cell renderer’s sensitivity.
+     * Sets the cell renderer&#8217;s sensitivity.
      */
     public void setSensitive(boolean sensitive) {
         gtk_h.gtk_cell_renderer_set_sensitive(handle(), sensitive ? 1 : 0);
     }
     
     /**
-     * Sets the cell renderer’s visibility.
+     * Sets the cell renderer&#8217;s visibility.
      */
     public void setVisible(boolean visible) {
         gtk_h.gtk_cell_renderer_set_visible(handle(), visible ? 1 : 0);
     }
     
     /**
-     * Invokes the virtual render function of the `GtkCellRenderer`. The three
+     * Invokes the virtual render function of the <code>GtkCellRenderer</code>. The three
      * passed-in rectangles are areas in @cr. Most renderers will draw within
-     * @cell_area; the xalign, yalign, xpad, and ypad fields of the `GtkCellRenderer`
+     * @cell_area; the xalign, yalign, xpad, and ypad fields of the <code>GtkCellRenderer</code>
      * should be honored with respect to @cell_area. @background_area includes the
      * blank space around the cell, and also the area containing the tree expander;
      * so the @background_area rectangles for all cells tile to cover the entire
@@ -205,8 +201,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Starts editing the contents of this @cell, through a new `GtkCellEditable`
-     * widget created by the `GtkCellRenderer`Class.start_editing virtual function.
+     * Starts editing the contents of this @cell, through a new <code>GtkCellEditable</code>
+     * widget created by the <code>GtkCellRenderer</code>Class.start_editing virtual function.
      */
     public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
         var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags);
@@ -215,12 +211,10 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Informs the cell renderer that the editing is stopped.
-     * If @canceled is %TRUE, the cell renderer will emit the
-     * `GtkCellRenderer`::editing-canceled signal.
-     * 
+     * If @canceled is <code>TRUE,</code> the cell renderer will emit the<code>GtkCellRenderer</code>::editing-canceled signal.
+     * <p>
      * This function should be called by cell renderer implementations
-     * in response to the `GtkCellEditable::editing-done` signal of
-     * `GtkCellEditable`.
+     * in response to the <code>GtkCellEditable::editing-done</code> signal of<code>GtkCellEditable</code>.
      */
     public void stopEditing(boolean canceled) {
         gtk_h.gtk_cell_renderer_stop_editing(handle(), canceled ? 1 : 0);
@@ -261,17 +255,17 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     /**
      * This signal gets emitted when a cell starts to be edited.
      * The intended use of this signal is to do special setup
-     * on @editable, e.g. adding a `GtkEntryCompletion` or setting
-     * up additional columns in a `GtkComboBox`.
+     * on @editable, e.g. adding a <code>GtkEntryCompletion</code> or setting
+     * up additional columns in a <code>GtkComboBox</code>.
      * 
      * See gtk_cell_editable_start_editing() for information on the lifecycle of
-     * the @editable and a way to do setup that doesn’t depend on the @renderer.
+     * the @editable and a way to do setup that doesn&#8217;t depend on the @renderer.
      * 
-     * Note that GTK doesn't guarantee that cell renderers will
+     * Note that GTK doesn&#39;t guarantee that cell renderers will
      * continue to use the same kind of widget for editing in future
      * releases, therefore you should check the type of @editable
      * before doing any specific setup, as in the following example:
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void
      * text_editing_started (GtkCellRenderer *cell,
      *                       GtkCellEditable *editable,
@@ -287,7 +281,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      *       gtk_entry_set_completion (entry, completion);
      *     }
      * }
-     * ]|
+     * ]}|
      */
     public SignalHandle onEditingStarted(EditingStartedHandler handler) {
         try {

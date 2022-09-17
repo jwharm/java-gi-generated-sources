@@ -53,7 +53,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @srv's protocol name (eg, "tcp").
+     * Gets @srv&#39;s protocol name (eg, &#34;tcp&#34;).
      */
     public java.lang.String getProtocol() {
         var RESULT = gtk_h.g_network_service_get_protocol(handle());
@@ -70,7 +70,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @srv's service name (eg, "ldap").
+     * Gets @srv&#39;s service name (eg, &#34;ldap&#34;).
      */
     public java.lang.String getService() {
         var RESULT = gtk_h.g_network_service_get_service(handle());
@@ -78,7 +78,7 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Set's the URI scheme used to resolve proxies. By default, the service name
+     * Set&#39;s the URI scheme used to resolve proxies. By default, the service name
      * is used as scheme.
      */
     public void setScheme(java.lang.String scheme) {

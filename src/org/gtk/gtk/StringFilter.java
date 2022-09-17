@@ -8,19 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkStringFilter` determines whether to include items by comparing
+ * <code>GtkStringFilter</code> determines whether to include items by comparing
  * strings to a fixed search term.
- * 
- * The strings are obtained from the items by evaluating a `GtkExpression`
- * set with [method@Gtk.StringFilter.set_expression], and they are
- * compared against a search term set with [method@Gtk.StringFilter.set_search].
- * 
- * `GtkStringFilter` has several different modes of comparison - it
+ * <p>
+ * The strings are obtained from the items by evaluating a <code>GtkExpression</code>
+ * set with {@link org.gtk.gtk.StringFilter#setExpression}, and they are
+ * compared against a search term set with {@link org.gtk.gtk.StringFilter#setSearch}.
+ * <p><code>GtkStringFilter</code> has several different modes of comparison - it
  * can match the whole string, just a prefix, or any substring. Use
- * [method@Gtk.StringFilter.set_match_mode] choose a mode.
+ * {@link org.gtk.gtk.StringFilter#setMatchMode} choose a mode.
  * 
  * It is also possible to make case-insensitive comparisons, with
- * [method@Gtk.StringFilter.set_ignore_case].
+ * {@link org.gtk.gtk.StringFilter#setIgnoreCase}.
  */
 public class StringFilter extends Filter {
 
@@ -83,6 +82,16 @@ public class StringFilter extends Filter {
     
     /**
      * Sets the expression that the string filter uses to
+     * obtain strings from items.
+     * 
+     * The expression must have a value type of 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Sets the expression that the string filter uses to
      * obtain strings from items.
      * 
      * The expression must have a value type of %G_TYPE_STRING.

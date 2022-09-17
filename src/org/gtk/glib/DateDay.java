@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * Integer representing a day of the month; between 1 and 31.
  * 
- * The %G_DATE_BAD_DAY value represents an invalid day of the month.
+ * The <code>G_DATE_BAD_DAY</code> value represents an invalid day of the month.
  */
 public class DateDay {
 

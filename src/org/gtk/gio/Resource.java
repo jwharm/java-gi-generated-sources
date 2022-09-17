@@ -10,138 +10,124 @@ import java.lang.invoke.*;
 /**
  * Applications and libraries often contain binary or textual data that is
  * really part of the application, rather than user data. For instance
- * #GtkBuilder .ui files, splashscreen images, GMenu markup XML, CSS files,
- * icons, etc. These are often shipped as files in `$datadir/appname`, or
+ * <h1>kBuilder .ui files, splashscreen images, GMenu markup XML, CSS files,</h1>
+ * icons, etc. These are often shipped as files in <code>$datadir/appname</code>, or
  * manually included as literal strings in the code.
- * 
- * The #GResource API and the [glib-compile-resources][glib-compile-resources] program
+ * <p>
+ * The #GResource API and the {@link [glib-compile-resources]}{@link [glib-compile-resources]} program
  * provide a convenient and efficient alternative to this which has some nice properties. You
  * maintain the files as normal files, so its easy to edit them, but during the build the files
  * are combined into a binary bundle that is linked into the executable. This means that loading
  * the resource files are efficient (as they are already in memory, shared with other instances) and
  * simple (no need to check for things like I/O errors or locate the files in the filesystem). It
  * also makes it easier to create relocatable applications.
- * 
+ * <p>
  * Resource files can also be marked as compressed. Such files will be included in the resource bundle
  * in a compressed form, but will be automatically uncompressed when the resource is used. This
  * is very useful e.g. for larger text files that are parsed once (or rarely) and then thrown away.
- * 
- * Resource files can also be marked to be preprocessed, by setting the value of the
- * `preprocess` attribute to a comma-separated list of preprocessing options.
+ * <p>
+ * Resource files can also be marked to be preprocessed, by setting the value of the<code>preprocess</code> attribute to a comma-separated list of preprocessing options.
  * The only options currently supported are:
- * 
- * `xml-stripblanks` which will use the xmllint command
+ * <p><code>xml-stripblanks</code> which will use the xmllint command
  * to strip ignorable whitespace from the XML file. For this to work,
- * the `XMLLINT` environment variable must be set to the full path to
- * the xmllint executable, or xmllint must be in the `PATH`; otherwise
+ * the <code>XMLLINT</code> environment variable must be set to the full path to
+ * the xmllint executable, or xmllint must be in the <code>PATH</code>; otherwise
  * the preprocessing step is skipped.
- * 
- * `to-pixdata` (deprecated since gdk-pixbuf 2.32) which will use the
- * `gdk-pixbuf-pixdata` command to convert images to the #GdkPixdata format,
+ * <p><code>to-pixdata</code> (deprecated since gdk-pixbuf 2.32) which will use the<code>gdk-pixbuf-pixdata</code> command to convert images to the #GdkPixdata format,
  * which allows you to create pixbufs directly using the data inside the
- * resource file, rather than an (uncompressed) copy of it. For this, the
- * `gdk-pixbuf-pixdata` program must be in the `PATH`, or the
- * `GDK_PIXBUF_PIXDATA` environment variable must be set to the full path to the
- * `gdk-pixbuf-pixdata` executable; otherwise the resource compiler will abort.
- * `to-pixdata` has been deprecated since gdk-pixbuf 2.32, as #GResource
+ * resource file, rather than an (uncompressed) copy of it. For this, the<code>gdk-pixbuf-pixdata</code> program must be in the <code>PATH</code>, or the<code>GDK_PIXBUF_PIXDATA</code> environment variable must be set to the full path to the<code>gdk-pixbuf-pixdata</code> executable; otherwise the resource compiler will abort.<code>to-pixdata</code> has been deprecated since gdk-pixbuf 2.32, as #GResource
  * supports embedding modern image formats just as well. Instead of using it,
  * embed a PNG or SVG file in your #GResource.
- * 
- * `json-stripblanks` which will use the `json-glib-format` command to strip
- * ignorable whitespace from the JSON file. For this to work, the
- * `JSON_GLIB_FORMAT` environment variable must be set to the full path to the
- * `json-glib-format` executable, or it must be in the `PATH`;
+ * <p><code>json-stripblanks</code> which will use the <code>json-glib-format</code> command to strip
+ * ignorable whitespace from the JSON file. For this to work, the<code>JSON_GLIB_FORMAT</code> environment variable must be set to the full path to the<code>json-glib-format</code> executable, or it must be in the <code>PATH</code>;
  * otherwise the preprocessing step is skipped. In addition, at least version
- * 1.6 of `json-glib-format` is required.
- * 
+ * 1.6 of <code>json-glib-format</code> is required.
+ * <p>
  * Resource files will be exported in the GResource namespace using the
- * combination of the given `prefix` and the filename from the `file` element.
- * The `alias` attribute can be used to alter the filename to expose them at a
+ * combination of the given <code>prefix</code> and the filename from the <code>file</code> element.
+ * The <code>alias</code> attribute can be used to alter the filename to expose them at a
  * different location in the resource namespace. Typically, this is used to
  * include files from a different source directory without exposing the source
  * directory in the resource namespace, as in the example below.
- * 
- * Resource bundles are created by the [glib-compile-resources][glib-compile-resources] program
+ * <p>
+ * Resource bundles are created by the {@link [glib-compile-resources]}{@link [glib-compile-resources]} program
  * which takes an XML file that describes the bundle, and a set of files that the XML references. These
  * are combined into a binary resource bundle.
- * 
+ * <p>
  * An example resource description:
- * |[
- * <?xml version="1.0" encoding="UTF-8"?>
- * <gresources>
- *   <gresource prefix="/org/gtk/Example">
- *     <file>data/splashscreen.png</file>
- *     <file compressed="true">dialog.ui</file>
- *     <file preprocess="xml-stripblanks">menumarkup.xml</file>
- *     <file alias="example.css">data/example.css</file>
- *   </gresource>
- * </gresources>
- * ]|
- * 
+ * |{@link [
+ * &#60;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&#62;
+ * &#60;gresources&#62;
+ *   &#60;gresource prefix=&#34;/org/gtk/Example&#34;&#62;
+ *     &#60;file&#62;data/splashscreen.png&#60;/file&#62;
+ *     &#60;file compressed=&#34;true&#34;&#62;dialog.ui&#60;/file&#62;
+ *     &#60;file preprocess=&#34;xml-stripblanks&#34;&#62;menumarkup.xml&#60;/file&#62;
+ *     &#60;file alias=&#34;example.css&#34;&#62;data/example.css&#60;/file&#62;
+ *   &#60;/gresource&#62;
+ * &#60;/gresources&#62;
+ * ]}|
+ * <p>
  * This will create a resource bundle with the following files:
- * |[
+ * |{@link [
  * /org/gtk/Example/data/splashscreen.png
  * /org/gtk/Example/dialog.ui
  * /org/gtk/Example/menumarkup.xml
  * /org/gtk/Example/example.css
- * ]|
- * 
+ * ]}|
+ * <p>
  * Note that all resources in the process share the same namespace, so use Java-style
  * path prefixes (like in the above example) to avoid conflicts.
- * 
- * You can then use [glib-compile-resources][glib-compile-resources] to compile the XML to a
+ * <p>
+ * You can then use {@link [glib-compile-resources]}{@link [glib-compile-resources]} to compile the XML to a
  * binary bundle that you can load with g_resource_load(). However, its more common to use the --generate-source and
  * --generate-header arguments to create a source file and header to link directly into your application.
- * This will generate `get_resource()`, `register_resource()` and
- * `unregister_resource()` functions, prefixed by the `--c-name` argument passed
- * to [glib-compile-resources][glib-compile-resources]. `get_resource()` returns
+ * This will generate <code>get_resource()</code>, <code>register_resource()</code> and<code>unregister_resource()</code> functions, prefixed by the <code>--c-name</code> argument passed
+ * to {@link [glib-compile-resources]}{@link [glib-compile-resources]}. <code>get_resource()</code> returns
  * the generated #GResource object. The register and unregister functions
  * register the resource so its files can be accessed using
  * g_resources_lookup_data().
- * 
+ * <p>
  * Once a #GResource has been created and registered all the data in it can be accessed globally in the process by
  * using API calls like g_resources_open_stream() to stream the data or g_resources_lookup_data() to get a direct pointer
- * to the data. You can also use URIs like "resource:///org/gtk/Example/data/splashscreen.png" with #GFile to access
+ * to the data. You can also use URIs like &#34;resource:///org/gtk/Example/data/splashscreen.png&#34; with #GFile to access
  * the resource data.
- * 
+ * <p>
  * Some higher-level APIs, such as #GtkApplication, will automatically load
  * resources from certain well-known paths in the resource namespace as a
  * convenience. See the documentation for those APIs for details.
- * 
+ * <p>
  * There are two forms of the generated source, the default version uses the compiler support for constructor
  * and destructor functions (where available) to automatically create and register the #GResource on startup
- * or library load time. If you pass `--manual-register`, two functions to register/unregister the resource are created
+ * or library load time. If you pass <code>--manual-register</code>, two functions to register/unregister the resource are created
  * instead. This requires an explicit initialization call in your application/library, but it works on all platforms,
  * even on the minor ones where constructors are not supported. (Constructor support is available for at least Win32, Mac OS and Linux.)
- * 
+ * <p>
  * Note that resource data can point directly into the data segment of e.g. a library, so if you are unloading libraries
  * during runtime you need to be very careful with keeping around pointers to data from a resource, as this goes away
  * when the library is unloaded. However, in practice this is not generally a problem, since most resource accesses
  * are for your own resources, and resource data is often used once, during parsing, and then released.
- * 
+ * <p>
  * When debugging a program or testing a change to an installed version, it is often useful to be able to
  * replace resources in the program or library, without recompiling, for debugging or quick hacking and testing
- * purposes. Since GLib 2.50, it is possible to use the `G_RESOURCE_OVERLAYS` environment variable to selectively overlay
- * resources with replacements from the filesystem.  It is a %G_SEARCHPATH_SEPARATOR-separated list of substitutions to perform
+ * purposes. Since GLib 2.50, it is possible to use the <code>G_RESOURCE_OVERLAYS</code> environment variable to selectively overlay
+ * resources with replacements from the filesystem.  It is a <code>G_SEARCHPATH_SEPARATOR-separated</code> list of substitutions to perform
  * during resource lookups. It is ignored when running in a setuid process.
- * 
+ * <p>
  * A substitution has the form
- * 
- * |[
+ * <p>
+ * |{@link [
  *    /org/gtk/libgtk=/home/desrt/gtk-overlay
- * ]|
- * 
- * The part before the `=` is the resource subpath for which the overlay applies.  The part after is a
+ * ]}|
+ * <p>
+ * The part before the <code>=</code> is the resource subpath for which the overlay applies.  The part after is a
  * filesystem path which contains files and subdirectories as you would like to be loaded as resources with the
  * equivalent names.
- * 
- * In the example above, if an application tried to load a resource with the resource path
- * `/org/gtk/libgtk/ui/gtkdialog.ui` then GResource would check the filesystem path
- * `/home/desrt/gtk-overlay/ui/gtkdialog.ui`.  If a file was found there, it would be used instead.  This is an
+ * <p>
+ * In the example above, if an application tried to load a resource with the resource path<code>/org/gtk/libgtk/ui/gtkdialog.ui</code> then GResource would check the filesystem path<code>/home/desrt/gtk-overlay/ui/gtkdialog.ui</code>.  If a file was found there, it would be used instead.  This is an
  * overlay, not an outright replacement, which means that if a file is not found at that path, the built-in
  * version will be used instead.  Whiteouts are not currently supported.
  * 
- * Substitutions must start with a slash, and must not contain a trailing slash before the '='.  The path after
+ * Substitutions must start with a slash, and must not contain a trailing slash before the &#39;=&#39;.  The path after
  * the slash should ideally be absolute, but this is not strictly required.  It is possible to overlay the
  * location of a single resource with an individual file.
  */
@@ -172,7 +158,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise this function will internally create a copy of the memory since
      * GLib 2.56, or in older versions fail and exit the process.
      * 
-     * If @data is empty or corrupt, %G_RESOURCE_ERROR_INTERNAL will be returned.
+     * If @data is empty or corrupt, {@link org.gtk.gio.ResourceError#INTERNAL} will be returned.
      */
     public static Resource newFromData(org.gtk.glib.Bytes data) throws GErrorException {
         return new Resource(constructNewFromData(data));
@@ -261,7 +247,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * to register it with g_resources_register().
      * 
      * If @filename is empty or the data in it is corrupt,
-     * %G_RESOURCE_ERROR_INTERNAL will be returned. If @filename doesn’t exist, or
+     * {@link org.gtk.gio.ResourceError#INTERNAL} will be returned. If @filename doesn&#8217;t exist, or
      * there is an error in reading it, an error from g_mapped_file_new() will be
      * returned.
      */

@@ -8,19 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkTreeListRowSorter` is a special-purpose sorter that will apply a given
+ * <code>GtkTreeListRowSorter</code> is a special-purpose sorter that will apply a given
  * sorter to the levels in a tree.
- * 
+ * <p>
  * Here is an example for setting up a column view with a tree model and
- * a `GtkTreeListSorter`:
- * 
- * ```c
+ * a <code>GtkTreeListSorter</code>:
+ * <p><pre>c
  * column_sorter = gtk_column_view_get_sorter (view);
  * sorter = gtk_tree_list_row_sorter_new (g_object_ref (column_sorter));
  * sort_model = gtk_sort_list_model_new (tree_model, sorter);
  * selection = gtk_single_selection_new (sort_model);
  * gtk_column_view_set_model (view, G_LIST_MODEL (selection));
- * ```
+ * </pre>
  */
 public class TreeListRowSorter extends Sorter {
 
@@ -40,10 +39,10 @@ public class TreeListRowSorter extends Sorter {
     
     /**
      * Create a special-purpose sorter that applies the sorting
-     * of @sorter to the levels of a `GtkTreeListModel`.
+     * of @sorter to the levels of a <code>GtkTreeListModel</code>.
      * 
-     * Note that this sorter relies on [property@Gtk.TreeListModel:passthrough]
-     * being %FALSE as it can only sort [class@Gtk.TreeListRow]s.
+     * Note that this sorter relies on {@link [property@Gtk.TreeListModel:passthrough] (ref=property)}
+     * being <code>false</code> as it can only sort {@link org.gtk.gtk.TreeListRow}s.
      */
     public TreeListRowSorter(Sorter sorter) {
         super(constructNew(sorter));
@@ -60,7 +59,7 @@ public class TreeListRowSorter extends Sorter {
     /**
      * Sets the sorter to use for items with the same parent.
      * 
-     * This sorter will be passed the [property@Gtk.TreeListRow:item] of
+     * This sorter will be passed the {@link [property@Gtk.TreeListRow:item] (ref=property)} of
      * the tree list rows passed to @self.
      */
     public void setSorter(Sorter sorter) {

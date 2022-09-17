@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A 3D volume delimited by 2D clip planes.
- * 
- * The contents of the `graphene_frustum_t` are private, and should not be
+ * <p>
+ * The contents of the <code>graphene_frustum_t</code> are private, and should not be
  * modified directly.
  */
 public class Frustum extends io.github.jwharm.javagi.ResourceBase {

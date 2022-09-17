@@ -8,34 +8,31 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkEditableLabel` is a label that allows users to
- * edit the text by switching to an “edit mode”.
- * 
- * ![An example GtkEditableLabel](editable-label.png)
- * 
- * `GtkEditableLabel` does not have API of its own, but it
- * implements the [iface@Gtk.Editable] interface.
- * 
+ * A <code>GtkEditableLabel</code> is a label that allows users to
+ * edit the text by switching to an &#8220;edit mode&#8221;.
+ * <p>
+ * !{@link [An example GtkEditableLabel]}(editable-label.png)
+ * <p><code>GtkEditableLabel</code> does not have API of its own, but it
+ * implements the {@link [iface@Gtk.Editable] (ref=iface)} interface.
+ * <p>
  * The default bindings for activating the edit mode is
  * to click or press the Enter key. The default bindings
  * for leaving the edit mode are the Enter key (to save
  * the results) or the Escape key (to cancel the editing).
- * 
- * # CSS nodes
- * 
- * ```
- * editablelabel[.editing]
- * ╰── stack
- *     ├── label
- *     ╰── text
- * ```
- * 
- * `GtkEditableLabel` has a main node with the name editablelabel.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
+ * editablelabel{@link [.editing]}
+ * &#9584;&#9472;&#9472; stack
+ *     &#9500;&#9472;&#9472; label
+ *     &#9584;&#9472;&#9472; text
+ * </pre>
+ * <p><code>GtkEditableLabel</code> has a main node with the name editablelabel.
  * When the entry is in editing mode, it gets the .editing style
  * class.
  * 
  * For all the subnodes added to the text node in various situations,
- * see [class@Gtk.Text].
+ * see {@link org.gtk.gtk.Text}.
  */
 public class EditableLabel extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -54,14 +51,14 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new `GtkEditableLabel` widget.
+     * Creates a new <code>GtkEditableLabel</code> widget.
      */
     public EditableLabel(java.lang.String str) {
         super(constructNew(str));
     }
     
     /**
-     * Returns whether the label is currently in “editing mode”.
+     * Returns whether the label is currently in &#8220;editing mode&#8221;.
      */
     public boolean getEditing() {
         var RESULT = gtk_h.gtk_editable_label_get_editing(handle());
@@ -69,19 +66,19 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Switches the label into “editing mode”.
+     * Switches the label into &#8220;editing mode&#8221;.
      */
     public void startEditing() {
         gtk_h.gtk_editable_label_start_editing(handle());
     }
     
     /**
-     * Switches the label out of “editing mode”.
+     * Switches the label out of &#8220;editing mode&#8221;.
      * 
-     * If @commit is %TRUE, the resulting text is kept as the
-     * [property@Gtk.Editable:text] property value, otherwise the
+     * If @commit is <code>TRUE,</code> the resulting text is kept as the
+     * {@link [property@Gtk.Editable:text] (ref=property)} property value, otherwise the
      * resulting text is discarded and the label will keep its
-     * previous [property@Gtk.Editable:text] property value.
+     * previous {@link [property@Gtk.Editable:text] (ref=property)} property value.
      */
     public void stopEditing(boolean commit) {
         gtk_h.gtk_editable_label_stop_editing(handle(), commit ? 1 : 0);

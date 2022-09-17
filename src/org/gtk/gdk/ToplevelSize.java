@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkToplevelSize` struct contains information that is useful
+ * The <code>GdkToplevelSize</code> struct contains information that is useful
  * to compute the size of a toplevel.
  */
 public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
@@ -19,14 +19,14 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the minimum size of the toplevel.
-     * 
+     * <p>
      * The minimum size corresponds to the limitations the toplevel can be shrunk
-     * to, without resulting in incorrect painting. A user of a `GdkToplevel` should
+     * to, without resulting in incorrect painting. A user of a <code>GdkToplevel</code> should
      * calculate these given both the existing size, and the bounds retrieved from
-     * the `GdkToplevelSize` object.
+     * the <code>GdkToplevelSize</code> object.
      * 
      * The minimum size should be within the bounds (see
-     * [method@Gdk.ToplevelSize.get_bounds]).
+     * {@link org.gtk.gdk.ToplevelSize#getBounds}).
      */
     public void setMinSize(int minWidth, int minHeight) {
         gtk_h.gdk_toplevel_size_set_min_size(handle(), minWidth, minHeight);
@@ -47,7 +47,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * Sets the size the toplevel prefers to be resized to.
      * 
      * The size should be within the bounds (see
-     * [method@Gdk.ToplevelSize.get_bounds]). The set size should
+     * {@link org.gtk.gdk.ToplevelSize#getBounds}). The set size should
      * be considered as a hint, and should not be assumed to be
      * respected by the windowing system, or backend.
      */

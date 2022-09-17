@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutAction` that calls gtk_widget_mnemonic_activate().
+ * A <code>GtkShortcutAction</code> that calls gtk_widget_mnemonic_activate().
  */
 public class MnemonicAction extends ShortcutAction {
 

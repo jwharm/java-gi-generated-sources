@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * to try out each socket address in turn until one succeeds, as shown
  * in the sample code below.
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * MyConnectionType *
  * connect_to_host (const char    *hostname,
  *                  guint16        port,
@@ -32,11 +32,11 @@ import java.lang.invoke.*;
  *   g_object_unref (addr);
  * 
  *   // Try each sockaddr until we succeed. Record the first connection error,
- *   // but not any further ones (since they'll probably be basically the same
+ *   // but not any further ones (since they&#39;ll probably be basically the same
  *   // as the first).
- *   while (!conn && (sockaddr = g_socket_address_enumerator_next (enumerator, cancellable, error))
+ *   while (!conn &#38;&#38; (sockaddr = g_socket_address_enumerator_next (enumerator, cancellable, error))
  *     {
- *       conn = connect_to_sockaddr (sockaddr, conn_error ? NULL : &conn_error);
+ *       conn = connect_to_sockaddr (sockaddr, conn_error ? NULL : &#38;conn_error);
  *       g_object_unref (sockaddr);
  *     }
  *   g_object_unref (enumerator);
@@ -45,7 +45,7 @@ import java.lang.invoke.*;
  *     {
  *       if (conn_error)
  *         {
- *           // We couldn't connect to the first address, but we succeeded
+ *           // We couldn&#39;t connect to the first address, but we succeeded
  *           // in connecting to a later address.
  *           g_error_free (conn_error);
  *         }
@@ -64,7 +64,7 @@ import java.lang.invoke.*;
  *       return NULL;
  *     }
  * }
- * ]|
+ * ]}|
  */
 public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress {
 
@@ -97,7 +97,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress
      * user.
      * 
      * If the #GSocketConnectable implementation does not support string formatting,
-     * the implementation’s type name will be returned as a fallback.
+     * the implementation&#8217;s type name will be returned as a fallback.
      */
     public default java.lang.String toString_() {
         var RESULT = gtk_h.g_socket_connectable_to_string(handle());

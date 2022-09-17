@@ -27,7 +27,7 @@ public class RepeatingRadialGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that draws a repeating radial gradient.
+     * Creates a <code>GskRenderNode</code> that draws a repeating radial gradient.
      * 
      * The radial gradient starts around @center. The size of the gradient
      * is dictated by @hradius in horizontal orientation and by @vradius

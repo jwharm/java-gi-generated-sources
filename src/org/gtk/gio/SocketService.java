@@ -29,7 +29,7 @@ import java.lang.invoke.*;
  * blocking code then see #GThreadedSocketService.
  * 
  * The socket service runs on the main loop of the
- * [thread-default context][g-main-context-push-thread-default-context]
+ * {@link [thread-default context]}{@link [g-main-context-push-thread-default-context]}
  * of the thread it is created in, and is not
  * threadsafe in general. However, the calls to start and stop the
  * service are thread-safe so these can be used from threads that

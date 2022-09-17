@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * would show in a sidebar.
  * 
  * #GVolumeMonitor is not
- * [thread-default-context aware][g-main-context-push-thread-default],
+ * {@link [thread-default-context aware]}{@link [g-main-context-push-thread-default]},
  * and so should not be used other than from the main thread, with no
  * thread-default-context active.
  * 

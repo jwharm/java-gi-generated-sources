@@ -32,17 +32,17 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * 
      * Note that the GL texture must not be modified until @destroy is called,
      * which will happen when the GdkTexture object is finalized, or due to
-     * an explicit call of [method@Gdk.GLTexture.release].
+     * an explicit call of {@link org.gtk.gdk.GLTexture#release}.
      */
     public GLTexture(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, jdk.incubator.foreign.MemoryAddress data) {
         super(constructNew(context, id, width, height, destroy, data));
     }
     
     /**
-     * Releases the GL resources held by a `GdkGLTexture`.
+     * Releases the GL resources held by a <code>GdkGLTexture</code>.
      * 
      * The texture contents are still available via the
-     * [method@Gdk.Texture.download] function, after this
+     * {@link org.gtk.gdk.Texture#download} function, after this
      * function has been called.
      */
     public void release() {

@@ -8,9 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Contains information found when looking up an icon in `GtkIconTheme`.
- * 
- * `GtkIconPaintable` implements `GdkPaintable`.
+ * Contains information found when looking up an icon in <code>GtkIconTheme</code>.
+ * <p><code>GtkIconPaintable</code> implements <code>GdkPaintable</code>.
  */
 public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, SymbolicPaintable {
 
@@ -29,18 +28,18 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     }
     
     /**
-     * Creates a `GtkIconPaintable` for a file with a given size and scale.
-     * 
-     * The icon can then be rendered by using it as a `GdkPaintable`.
+     * Creates a <code>GtkIconPaintable</code> for a file with a given size and scale.
+     * <p>
+     * The icon can then be rendered by using it as a <code>GdkPaintable</code>.
      */
     public static IconPaintable newForFile(org.gtk.gio.File file, int size, int scale) {
         return new IconPaintable(constructNewForFile(file, size, scale));
     }
     
     /**
-     * Gets the `GFile` that was used to load the icon.
+     * Gets the <code>GFile</code> that was used to load the icon.
      * 
-     * Returns %NULL if the icon was not loaded from a file.
+     * Returns <code>null</code> if the icon was not loaded from a file.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_icon_paintable_get_file(handle());
@@ -53,7 +52,22 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * When an icon looked up in the icon theme was not available, the
      * icon theme may use fallback icons - either those specified to
      * gtk_icon_theme_lookup_icon() or the always-available
-     * "image-missing". The icon chosen is returned by this function.
+     * &#34;image-missing&#34;. The icon chosen is returned by this function.
+     * 
+     * If the icon was created without an icon theme, this function
+     * returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         Get the icon name being used for this icon.
+     * 
+     * When an icon looked up in the icon theme was not available, the
+     * icon theme may use fallback icons - either those specified to
+     * gtk_icon_theme_lookup_icon() or the always-available
+     * &#34;image-missing&#34;. The icon chosen is returned by this function.
      * 
      * If the icon was created without an icon theme, this function
      * returns %NULL.
@@ -65,12 +79,12 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     
     /**
      * Checks if the icon is symbolic or not.
-     * 
+     * <p>
      * This currently uses only the file name and not the file contents
      * for determining this. This behaviour may change in the future.
-     * 
-     * Note that to render a symbolic `GtkIconPaintable` properly (with
-     * recoloring), you have to set its icon name on a `GtkImage`.
+     * <p>
+     * Note that to render a symbolic <code>GtkIconPaintable</code> properly (with
+     * recoloring), you have to set its icon name on a <code>GtkImage</code>.
      */
     public boolean isSymbolic() {
         var RESULT = gtk_h.gtk_icon_paintable_is_symbolic(handle());

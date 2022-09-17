@@ -1,36 +1,36 @@
 package org.gtk.gtk;
 
 /**
- * Values that can be passed to the [vfunc@Gtk.Widget.system_setting_changed]
+ * Values that can be passed to the {@link org.gtk.gtk.Widget#systemSettingChanged}
  * vfunc.
  * 
  * The values indicate which system setting has changed.
  * Widgets may need to drop caches, or react otherwise.
  * 
- * Most of the values correspond to [class@Settings] properties.
+ * Most of the values correspond to {@link [class@Settings]} properties.
  * 
  * More values may be added over time.
  */
 public enum SystemSetting {
 
     /**
-     * the [property@Gtk.Settings:gtk-xft-dpi] setting has changed
+     * the {@link [property@Gtk.Settings:gtk-xft-dpi] (ref=property)} setting has changed
      */
     DPI,
     
     /**
-     * The [property@Gtk.Settings:gtk-font-name] setting has changed
+     * The {@link [property@Gtk.Settings:gtk-font-name] (ref=property)} setting has changed
      */
     FONT_NAME,
     
     /**
      * The font configuration has changed in a way that
      *   requires text to be redrawn. This can be any of the
-     *   [property@Gtk.Settings:gtk-xft-antialias],
-     *   [property@Gtk.Settings:gtk-xft-hinting],
-     *   [property@Gtk.Settings:gtk-xft-hintstyle],
-     *   [property@Gtk.Settings:gtk-xft-rgba] or
-     *   [property@Gtk.Settings:gtk-fontconfig-timestamp] settings
+     *   {@link [property@Gtk.Settings:gtk-xft-antialias] (ref=property)},
+     *   {@link [property@Gtk.Settings:gtk-xft-hinting] (ref=property)},
+     *   {@link [property@Gtk.Settings:gtk-xft-hintstyle] (ref=property)},
+     *   {@link [property@Gtk.Settings:gtk-xft-rgba] (ref=property)} or
+     *   {@link [property@Gtk.Settings:gtk-fontconfig-timestamp] (ref=property)} settings
      */
     FONT_CONFIG,
     

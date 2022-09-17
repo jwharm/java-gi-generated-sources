@@ -40,7 +40,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * 
      * If this method call is a property Get, Set or GetAll call that has
      * been redirected to the method call handler then
-     * "org.freedesktop.DBus.Properties" will be returned.  See
+     * &#34;org.freedesktop.DBus.Properties&#34; will be returned.  See
      * #GDBusInterfaceVTable for more information.
      */
     public java.lang.String getInterfaceName() {
@@ -54,7 +54,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * descriptor passing, that cannot be properly expressed in the
      * #GVariant API.
      * 
-     * See this [server][gdbus-server] and [client][gdbus-unix-fd-client]
+     * See this {@link [server]}{@link [gdbus-server]} and {@link [client]}{@link [gdbus-unix-fd-client]}
      * for an example of how to use this low-level API to send and receive
      * UNIX file descriptors.
      */
@@ -67,7 +67,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets information about the method call, if any.
      * 
      * If this method invocation is a property Get, Set or GetAll call that
-     * has been redirected to the method call handler then %NULL will be
+     * has been redirected to the method call handler then <code>null</code> will be
      * returned.  See g_dbus_method_invocation_get_property_info() and
      * #GDBusInterfaceVTable for more information.
      */
@@ -112,7 +112,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * 
      * See #GDBusInterfaceVTable for more information.
      * 
-     * If the call was GetAll, %NULL will be returned.
+     * If the call was GetAll, <code>null</code> will be returned.
      */
     public DBusPropertyInfo getPropertyInfo() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_property_info(handle());
@@ -188,23 +188,36 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * It is an error if @parameters is not of the right format: it must be a tuple
      * containing the out-parameters of the D-Bus method. Even if the method has a
      * single out-parameter, it must be contained in a tuple. If the method has no
-     * out-parameters, @parameters may be %NULL or an empty tuple.
+     * out-parameters, @parameters may be <code>null</code> or an empty tuple.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * GDBusMethodInvocation *invocation = some_invocation;
      * g_autofree gchar *result_string = NULL;
      * g_autoptr (GError) error = NULL;
      * 
-     * result_string = calculate_result (&error);
+     * result_string = calculate_result (&#38;error);
      * 
      * if (error != NULL)
      *   g_dbus_method_invocation_return_gerror (invocation, error);
      * else
      *   g_dbus_method_invocation_return_value (invocation,
-     *                                          g_variant_new ("(s)", result_string));
+     *                                          g_variant_new (&#34;(s)&#34;, result_string));
      * 
      * // Do not free @invocation here; returning a value does that
-     * ]|
+     * ] (ref=&#60;!-- language=&#34;C&#34; --&#62;
+     * GDBusMethodInvocation *invocation = some_invocation;
+     * g_autofree gchar *result_string = NULL;
+     * g_autoptr (GError) error = NULL;
+     * 
+     * result_string = calculate_result (&#38;error);
+     * 
+     * if (error != NULL)
+     *   g_dbus_method_invocation_return_gerror (invocation, error);
+     * else
+     *   g_dbus_method_invocation_return_value (invocation,
+     *                                          g_variant_new (&#34;(s)&#34;, result_string));
+     * 
+     * // Do not free )}|
      * 
      * This method will take ownership of @invocation. See
      * #GDBusInterfaceVTable for more information about the ownership of

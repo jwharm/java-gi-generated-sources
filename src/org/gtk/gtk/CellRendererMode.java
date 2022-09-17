@@ -7,8 +7,8 @@ public enum CellRendererMode {
 
     /**
      * The cell is just for display
-     *  and cannot be interacted with.  Note that this doesn’t mean that eg. the
-     *  row being drawn can’t be selected -- just that a particular element of
+     *  and cannot be interacted with.  Note that this doesn&#8217;t mean that eg. the
+     *  row being drawn can&#8217;t be selected -- just that a particular element of
      *  it cannot be individually modified.
      */
     INERT,

@@ -9,13 +9,13 @@ import java.lang.invoke.*;
 
 /**
  * Renders text in a cell
- * 
- * A `GtkCellRendererText` renders a given text in its cell, using the font, color and
+ * <p>
+ * A <code>GtkCellRendererText</code> renders a given text in its cell, using the font, color and
  * style information provided by its properties. The text will be ellipsized if it is
- * too long and the `GtkCellRendererText:ellipsize` property allows it.
- * 
- * If the `GtkCellRenderer:mode` is %GTK_CELL_RENDERER_MODE_EDITABLE,
- * the `GtkCellRendererText` allows to edit its text using an entry.
+ * too long and the <code>GtkCellRendererText:ellipsize</code> property allows it.
+ * <p>
+ * If the <code>GtkCellRenderer:mode</code> is <code>GTK_CELL_RENDERER_MODE_EDITABLE,
+ * the</code> <code>GtkCellRendererText</code> allows to edit its text using an entry.
  */
 public class CellRendererText extends CellRenderer {
 
@@ -34,21 +34,21 @@ public class CellRendererText extends CellRenderer {
     }
     
     /**
-     * Creates a new `GtkCellRendererText`. Adjust how text is drawn using
+     * Creates a new <code>GtkCellRendererText</code>. Adjust how text is drawn using
      * object properties. Object properties can be
-     * set globally (with g_object_set()). Also, with `GtkTreeViewColumn`,
-     * you can bind a property to a value in a `GtkTreeModel`. For example,
-     * you can bind the “text” property on the cell renderer to a string
+     * set globally (with g_object_set()). Also, with <code>GtkTreeViewColumn</code>,
+     * you can bind a property to a value in a <code>GtkTreeModel</code>. For example,
+     * you can bind the &#8220;text&#8221; property on the cell renderer to a string
      * value in the model, thus rendering a different string in each row
-     * of the `GtkTreeView`.
+     * of the <code>GtkTreeView</code>.
      */
     public CellRendererText() {
         super(constructNew());
     }
     
     /**
-     * Sets the height of a renderer to explicitly be determined by the “font” and
-     * “y_pad” property set on it.  Further changes in these properties do not
+     * Sets the height of a renderer to explicitly be determined by the &#8220;font&#8221; and
+     * &#8220;y_pad&#8221; property set on it.  Further changes in these properties do not
      * affect the height, so they must be accompanied by a subsequent call to this
      * function.  Using this function is inflexible, and should really only be used
      * if calculating the size of a cell is too slow (ie, a massive number of cells

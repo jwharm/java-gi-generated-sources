@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAssistantPage` is an auxiliary object used by `GtkAssistant.
+ * <code>GtkAssistantPage</code> is an auxiliary object used by <code>GtkAssistant.
  */
 public class AssistantPage extends org.gtk.gobject.Object {
 

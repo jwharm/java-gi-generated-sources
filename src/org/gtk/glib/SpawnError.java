@@ -21,93 +21,93 @@ public enum SpawnError {
     CHDIR,
     
     /**
-     * execv() returned `EACCES`
+     * execv() returned <code>EACCES</code>
      */
     ACCES,
     
     /**
-     * execv() returned `EPERM`
+     * execv() returned <code>EPERM</code>
      */
     PERM,
     
     /**
-     * execv() returned `E2BIG`
+     * execv() returned <code>E2BIG</code>
      */
     TOO_BIG,
     
     /**
-     * deprecated alias for %G_SPAWN_ERROR_TOO_BIG (deprecated since GLib 2.32)
+     * deprecated alias for {@link org.gtk.glib.SpawnError#TOO_BIG} (deprecated since GLib 2.32)
      */
     _2BIG,
     
     /**
-     * execv() returned `ENOEXEC`
+     * execv() returned <code>ENOEXEC</code>
      */
     NOEXEC,
     
     /**
-     * execv() returned `ENAMETOOLONG`
+     * execv() returned <code>ENAMETOOLONG</code>
      */
     NAMETOOLONG,
     
     /**
-     * execv() returned `ENOENT`
+     * execv() returned <code>ENOENT</code>
      */
     NOENT,
     
     /**
-     * execv() returned `ENOMEM`
+     * execv() returned <code>ENOMEM</code>
      */
     NOMEM,
     
     /**
-     * execv() returned `ENOTDIR`
+     * execv() returned <code>ENOTDIR</code>
      */
     NOTDIR,
     
     /**
-     * execv() returned `ELOOP`
+     * execv() returned <code>ELOOP</code>
      */
     LOOP,
     
     /**
-     * execv() returned `ETXTBUSY`
+     * execv() returned <code>ETXTBUSY</code>
      */
     TXTBUSY,
     
     /**
-     * execv() returned `EIO`
+     * execv() returned <code>EIO</code>
      */
     IO,
     
     /**
-     * execv() returned `ENFILE`
+     * execv() returned <code>ENFILE</code>
      */
     NFILE,
     
     /**
-     * execv() returned `EMFILE`
+     * execv() returned <code>EMFILE</code>
      */
     MFILE,
     
     /**
-     * execv() returned `EINVAL`
+     * execv() returned <code>EINVAL</code>
      */
     INVAL,
     
     /**
-     * execv() returned `EISDIR`
+     * execv() returned <code>EISDIR</code>
      */
     ISDIR,
     
     /**
-     * execv() returned `ELIBBAD`
+     * execv() returned <code>ELIBBAD</code>
      */
     LIBBAD,
     
     /**
      * Some other fatal failure,
-     *   `error->message` should explain.
+     *   <code>error-&#62;message</code> should explain.
      */
     FAILED;
     

@@ -13,10 +13,10 @@ import java.lang.invoke.*;
  * multiple threads to coordinate access to a shared resource.
  * 
  * The difference to a mutex is that a reader-writer lock discriminates
- * between read-only ('reader') and full ('writer') access. While only
- * one thread at a time is allowed write access (by holding the 'writer'
+ * between read-only (&#39;reader&#39;) and full (&#39;writer&#39;) access. While only
+ * one thread at a time is allowed write access (by holding the &#39;writer&#39;
  * lock via g_rw_lock_writer_lock()), multiple threads can gain
- * simultaneous read-only access (by holding the 'reader' lock via
+ * simultaneous read-only access (by holding the &#39;reader&#39; lock via
  * g_rw_lock_reader_lock()).
  * 
  * It is unspecified whether readers or writers have priority in acquiring the
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * it.
  * 
  * Here is an example for an array with access functions:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   GRWLock lock;
  *   GPtrArray *array;
  * 
@@ -36,10 +36,10 @@ import java.lang.invoke.*;
  *     if (!array)
  *       return NULL;
  * 
- *     g_rw_lock_reader_lock (&lock);
- *     if (index < array->len)
+ *     g_rw_lock_reader_lock (&#38;lock);
+ *     if (index &#60; array-&#62;len)
  *       retval = g_ptr_array_index (array, index);
- *     g_rw_lock_reader_unlock (&lock);
+ *     g_rw_lock_reader_unlock (&#38;lock);
  * 
  *     return retval;
  *   }
@@ -47,18 +47,18 @@ import java.lang.invoke.*;
  *   void
  *   my_array_set (guint index, gpointer data)
  *   {
- *     g_rw_lock_writer_lock (&lock);
+ *     g_rw_lock_writer_lock (&#38;lock);
  * 
  *     if (!array)
  *       array = g_ptr_array_new ();
  * 
- *     if (index >= array->len)
+ *     if (index &#62;= array-&#62;len)
  *       g_ptr_array_set_size (array, index+1);
  *     g_ptr_array_index (array, index) = data;
  * 
- *     g_rw_lock_writer_unlock (&lock);
+ *     g_rw_lock_writer_unlock (&#38;lock);
  *   }
- *  ]|
+ *  ]}|
  * This example shows an array which can be accessed by many readers
  * (the my_array_get() function) simultaneously, whereas the writers
  * (the my_array_set() function) will only be allowed one at a time
@@ -101,7 +101,7 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * necessary to initialise a reader-writer lock that has been statically
      * allocated.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   typedef struct {
      *     GRWLock l;
      *     ...
@@ -110,8 +110,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Blob *b;
      * 
      * b = g_new (Blob, 1);
-     * g_rw_lock_init (&b->l);
-     * ]|
+     * g_rw_lock_init (&#38;b-&#62;l);
+     * ]}|
      * 
      * To undo the effect of g_rw_lock_init() when a lock is no longer
      * needed, use g_rw_lock_clear().
@@ -145,7 +145,9 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Tries to obtain a read lock on @rw_lock and returns %TRUE if
+     * Tries to obtain a read lock on @rw_lock and returns <code>true</code> if
+     * the read lock was successfully obtained. Otherwise it
+     * returns if
      * the read lock was successfully obtained. Otherwise it
      * returns %FALSE.
      */
@@ -179,8 +181,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tries to obtain a write lock on @rw_lock. If another thread
      * currently holds a read or write lock on @rw_lock, it immediately
-     * returns %FALSE.
-     * Otherwise it locks @rw_lock and returns %TRUE.
+     * returns <code>FALSE.
+     * Otherwise</code> it locks @rw_lock and returns it locks @rw_lock and returns %TRUE.
      */
     public boolean writerTrylock() {
         var RESULT = gtk_h.g_rw_lock_writer_trylock(handle());

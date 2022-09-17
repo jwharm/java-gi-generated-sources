@@ -8,15 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkStyleProvider` is an interface for style information used by
- * `GtkStyleContext`.
- * 
- * See [method@Gtk.StyleContext.add_provider] and
- * [func@Gtk.StyleContext.add_provider_for_display] for
- * adding `GtkStyleProviders`.
- * 
- * GTK uses the `GtkStyleProvider` implementation for CSS in
- * [class@Gtk.CssProvider].
+ * <code>GtkStyleProvider</code> is an interface for style information used by<code>GtkStyleContext</code>.
+ * <p>
+ * See {@link org.gtk.gtk.StyleContext#addProvider} and
+ * {@link Gtk#StyleContext} for
+ * adding <code>GtkStyleProviders</code>.
+ * <p>
+ * GTK uses the <code>GtkStyleProvider</code> implementation for CSS in
+ * {@link org.gtk.gtk.CssProvider}.
  */
 public interface StyleProvider extends io.github.jwharm.javagi.NativeAddress {
 

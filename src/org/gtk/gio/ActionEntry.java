@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * 
  * The order of the items in the structure are intended to reflect
  * frequency of use.  It is permissible to use an incomplete initialiser
- * in order to leave some of the later values as %NULL.  All values
+ * in order to leave some of the later values as <code>NULL.</code>  All values
  * after @name are optional.  Additional optional fields may be added in
  * the future.
  * 

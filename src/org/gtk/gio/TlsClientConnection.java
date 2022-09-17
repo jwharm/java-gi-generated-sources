@@ -26,7 +26,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * actually do anything. Because session resumption is normally used
      * only for performance benefit, the TLS backend might not implement
      * this function. Even if implemented, it may not actually succeed in
-     * allowing @conn to resume @source's TLS session, because the server
+     * allowing @conn to resume @source&#39;s TLS session, because the server
      * may not have sent a session resumption token to @source, or it may
      * refuse to accept the token from @conn. There is no way to know
      * whether a call to this function is actually successful.
@@ -51,9 +51,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
      * during the TLS handshake if the server requests a certificate.
-     * Otherwise, it will be %NULL.
+     * Otherwise, it will be <code>NULL.
      * 
-     * Each item in the list is a #GByteArray which contains the complete
+     * Each</code> item in the list is a #GByteArray which contains the complete
      * subject DN of the certificate authority.
      */
     public default org.gtk.glib.List getAcceptedCas() {
@@ -62,7 +62,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Gets @conn's expected server identity
+     * Gets @conn&#39;s expected server identity
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = gtk_h.g_tls_client_connection_get_server_identity(handle());
@@ -70,10 +70,10 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Sets @conn's expected server identity, which is used both to tell
+     * Sets @conn&#39;s expected server identity, which is used both to tell
      * servers on virtual hosts which certificate to present, and also
      * to let @conn know what name to look for in the certificate when
-     * performing %G_TLS_CERTIFICATE_BAD_IDENTITY validation, if enabled.
+     * performing {@link org.gtk.gio.TlsCertificateFlags#BAD_IDENTITY} validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
         gtk_h.g_tls_client_connection_set_server_identity(handle(), identity.handle());

@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkBuilderScope` is an interface to provide language binding support
- * to `GtkBuilder`.
- * 
- * The goal of `GtkBuilderScope` is to look up programming-language-specific
- * values for strings that are given in a `GtkBuilder` UI file.
- * 
+ * <code>GtkBuilderScope</code> is an interface to provide language binding support
+ * to <code>GtkBuilder</code>.
+ * <p>
+ * The goal of <code>GtkBuilderScope</code> is to look up programming-language-specific
+ * values for strings that are given in a <code>GtkBuilder</code> UI file.
+ * <p>
  * The primary intended audience is bindings that want to provide deeper
- * integration of `GtkBuilder` into the language.
- * 
- * A `GtkBuilderScope` instance may be used with multiple `GtkBuilder` objects,
+ * integration of <code>GtkBuilder</code> into the language.
+ * <p>
+ * A <code>GtkBuilderScope</code> instance may be used with multiple <code>GtkBuilder</code> objects,
  * even at once.
- * 
- * By default, GTK will use its own implementation of `GtkBuilderScope`
- * for the C language which can be created via [ctor@Gtk.BuilderCScope.new].
+ * <p>
+ * By default, GTK will use its own implementation of <code>GtkBuilderScope</code>
+ * for the C language which can be created via {@link [ctor@Gtk.BuilderCScope.new] (ref=ctor)}.
  */
 public interface BuilderScope extends io.github.jwharm.javagi.NativeAddress {
 

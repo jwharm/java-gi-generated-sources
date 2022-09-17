@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkStackPage` is an auxiliary class used by `GtkStack`.
+ * <code>GtkStackPage</code> is an auxiliary class used by <code>GtkStack</code>.
  */
 public class StackPage extends org.gtk.gobject.Object implements Accessible {
 
@@ -46,7 +46,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns whether the page is marked as “needs attention”.
+     * Returns whether the page is marked as &#8220;needs attention&#8221;.
      */
     public boolean getNeedsAttention() {
         var RESULT = gtk_h.gtk_stack_page_get_needs_attention(handle());
@@ -70,9 +70,9 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns whether @page is visible in its `GtkStack`.
+     * Returns whether @page is visible in its <code>GtkStack</code>.
      * 
-     * This is independent from the [property@Gtk.Widget:visible]
+     * This is independent from the {@link [property@Gtk.Widget:visible] (ref=property)}
      * property of its widget.
      */
     public boolean getVisible() {
@@ -95,7 +95,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Sets whether the page is marked as “needs attention”.
+     * Sets whether the page is marked as &#8220;needs attention&#8221;.
      */
     public void setNeedsAttention(boolean setting) {
         gtk_h.gtk_stack_page_set_needs_attention(handle(), setting ? 1 : 0);
@@ -116,7 +116,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Sets whether @page is visible in its `GtkStack`.
+     * Sets whether @page is visible in its <code>GtkStack</code>.
      */
     public void setVisible(boolean visible) {
         gtk_h.gtk_stack_page_set_visible(handle(), visible ? 1 : 0);

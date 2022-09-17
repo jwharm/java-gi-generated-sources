@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Error enumeration for `GdkVulkanContext`.
+ * Error enumeration for <code>GdkVulkanContext</code>.
  */
 public enum VulkanError {
 

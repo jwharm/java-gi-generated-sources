@@ -1,24 +1,28 @@
 package org.gtk.gtk;
 
 /**
- * Describes the type of order that a `GtkSorter` may produce.
+ * Describes the type of order that a <code>GtkSorter</code> may produce.
  */
 public enum SorterOrder {
 
     /**
-     * A partial order. Any `GtkOrdering` is possible.
+     * A partial order. Any <code>GtkOrdering</code> is possible.
      */
     PARTIAL,
     
     /**
      * No order, all elements are considered equal.
+     *   gtk_sorter_compare() will only return 
+     *       
+     *       
+     *         No order, all elements are considered equal.
      *   gtk_sorter_compare() will only return %GTK_ORDERING_EQUAL.
      */
     NONE,
     
     /**
      * A total order. gtk_sorter_compare() will only
-     *   return %GTK_ORDERING_EQUAL if an item is compared with itself. Two
+     *   return {@link org.gtk.gtk.Ordering#EQUAL} if an item is compared with itself. Two
      *   different items will never cause this value to be returned.
      */
     TOTAL;

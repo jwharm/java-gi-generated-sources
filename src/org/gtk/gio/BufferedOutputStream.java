@@ -11,16 +11,16 @@ import java.lang.invoke.*;
  * Buffered output stream implements #GFilterOutputStream and provides
  * for buffered writes.
  * 
- * By default, #GBufferedOutputStream's buffer size is set at 4 kilobytes.
+ * By default, #GBufferedOutputStream&#39;s buffer size is set at 4 kilobytes.
  * 
  * To create a buffered output stream, use g_buffered_output_stream_new(),
- * or g_buffered_output_stream_new_sized() to specify the buffer's size
+ * or g_buffered_output_stream_new_sized() to specify the buffer&#39;s size
  * at construction.
  * 
  * To get the size of a buffer within a buffered input stream, use
  * g_buffered_output_stream_get_buffer_size(). To change the size of a
- * buffered output stream's buffer, use
- * g_buffered_output_stream_set_buffer_size(). Note that the buffer's
+ * buffered output stream&#39;s buffer, use
+ * g_buffered_output_stream_set_buffer_size(). Note that the buffer&#39;s
  * size cannot be reduced below the size of the data within the buffer.
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
@@ -75,7 +75,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     }
     
     /**
-     * Sets whether or not the @stream's buffer should automatically grow.
+     * Sets whether or not the @stream&#39;s buffer should automatically grow.
      * If @auto_grow is true, then each write will just make the buffer
      * larger, and you must manually flush the buffer to actually write out
      * the data to the underlying stream.

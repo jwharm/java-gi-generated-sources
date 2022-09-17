@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * #GOutputVectors and the operation will use all the buffers as if they
  * were one buffer.
  * 
- * If @address is %NULL then the message is sent to the default receiver
+ * If @address is <code>null</code> then the message is sent to the default receiver
  * (as previously set by g_socket_connect()).
  */
 public class OutputMessage extends io.github.jwharm.javagi.ResourceBase {

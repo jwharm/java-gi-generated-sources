@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoGlyphUnit` type is used to store dimensions within
+ * The <code>PangoGlyphUnit</code> type is used to store dimensions within
  * Pango.
  * 
  * Dimensions are stored in 1/PANGO_SCALE of a device unit.

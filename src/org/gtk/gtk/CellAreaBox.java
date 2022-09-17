@@ -9,23 +9,23 @@ import java.lang.invoke.*;
 
 /**
  * A cell area that renders GtkCellRenderers into a row or a column
- * 
- * The `GtkCellAreaBox` renders cell renderers into a row or a column
- * depending on its `GtkOrientation`.
- * 
+ * <p>
+ * The <code>GtkCellAreaBox</code> renders cell renderers into a row or a column
+ * depending on its <code>GtkOrientation</code>.
+ * <p>
  * GtkCellAreaBox uses a notion of packing. Packing
  * refers to adding cell renderers with reference to a particular position
- * in a `GtkCellAreaBox`. There are two reference positions: the
+ * in a <code>GtkCellAreaBox</code>. There are two reference positions: the
  * start and the end of the box.
- * When the `GtkCellAreaBox` is oriented in the %GTK_ORIENTATION_VERTICAL
- * orientation, the start is defined as the top of the box and the end is
- * defined as the bottom. In the %GTK_ORIENTATION_HORIZONTAL orientation
+ * When the <code>GtkCellAreaBox</code> is oriented in the <code>GTK_ORIENTATION_VERTICAL
+ * orientation,</code> the start is defined as the top of the box and the end is
+ * defined as the bottom. In the {@link org.gtk.gtk.Orientation#HORIZONTAL} orientation
  * start is defined as the left side and the end is defined as the right
  * side.
- * 
- * Alignments of `GtkCellRenderer`s rendered in adjacent rows can be
- * configured by configuring the `GtkCellAreaBox` align child cell property
- * with gtk_cell_area_cell_set_property() or by specifying the "align"
+ * <p>
+ * Alignments of <code>GtkCellRenderer</code>s rendered in adjacent rows can be
+ * configured by configuring the <code>GtkCellAreaBox</code> align child cell property
+ * with gtk_cell_area_cell_set_property() or by specifying the &#34;align&#34;
  * argument to gtk_cell_area_box_pack_start() and gtk_cell_area_box_pack_end().
  */
 public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orientable {
@@ -45,7 +45,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
     }
     
     /**
-     * Creates a new `GtkCellAreaBox`.
+     * Creates a new <code>GtkCellAreaBox</code>.
      */
     public CellAreaBox() {
         super(constructNew());
@@ -61,9 +61,8 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
     
     /**
      * Adds @renderer to @box, packed with reference to the end of @box.
-     * 
-     * The @renderer is packed after (away from end of) any other
-     * `GtkCellRenderer` packed with reference to the end of @box.
+     * <p>
+     * The @renderer is packed after (away from end of) any other<code>GtkCellRenderer</code> packed with reference to the end of @box.
      */
     public void packEnd(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
         gtk_h.gtk_cell_area_box_pack_end(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
@@ -71,8 +70,8 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
     
     /**
      * Adds @renderer to @box, packed with reference to the start of @box.
-     * 
-     * The @renderer is packed after any other `GtkCellRenderer` packed
+     * <p>
+     * The @renderer is packed after any other <code>GtkCellRenderer</code> packed
      * with reference to the start of @box.
      */
     public void packStart(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {

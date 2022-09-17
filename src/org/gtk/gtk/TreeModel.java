@@ -9,177 +9,173 @@ import java.lang.invoke.*;
 
 /**
  * The tree interface used by GtkTreeView
- * 
- * The `GtkTreeModel` interface defines a generic tree interface for
- * use by the `GtkTreeView` widget. It is an abstract interface, and
+ * <p>
+ * The <code>GtkTreeModel</code> interface defines a generic tree interface for
+ * use by the <code>GtkTreeView</code> widget. It is an abstract interface, and
  * is designed to be usable with any appropriate data structure. The
  * programmer just has to implement this interface on their own data
- * type for it to be viewable by a `GtkTreeView` widget.
- * 
+ * type for it to be viewable by a <code>GtkTreeView</code> widget.
+ * <p>
  * The model is represented as a hierarchical tree of strongly-typed,
  * columned data. In other words, the model can be seen as a tree where
  * every node has different values depending on which column is being
  * queried. The type of data found in a column is determined by using
- * the GType system (ie. %G_TYPE_INT, %GTK_TYPE_BUTTON, %G_TYPE_POINTER,
- * etc). The types are homogeneous per column across all nodes. It is
+ * the GType system (ie. <code>G_TYPE_INT,</code> <code>GTK_TYPE_BUTTON,</code> <code>G_TYPE_POINTER,
+ * etc).</code> The types are homogeneous per column across all nodes. It is
  * important to note that this interface only provides a way of examining
  * a model and observing changes. The implementation of each individual
  * model decides how and if changes are made.
- * 
+ * <p>
  * In order to make life simpler for programmers who do not need to
  * write their own specialized model, two generic models are provided
- * — the `GtkTreeStore` and the `GtkListStore`. To use these, the
+ * &#8212; the <code>GtkTreeStore</code> and the <code>GtkListStore</code>. To use these, the
  * developer simply pushes data into these models as necessary. These
  * models provide the data structure as well as all appropriate tree
  * interfaces. As a result, implementing drag and drop, sorting, and
  * storing data is trivial. For the vast majority of trees and lists,
  * these two models are sufficient.
- * 
+ * <p>
  * Models are accessed on a node/column level of granularity. One can
  * query for the value of a model at a certain node and a certain
  * column on that node. There are two structures used to reference a
- * particular node in a model. They are the [struct@Gtk.TreePath] and
- * the [struct@Gtk.TreeIter] (“iter” is short for iterator). Most of the
- * interface consists of operations on a [struct@Gtk.TreeIter].
- * 
+ * particular node in a model. They are the {@link [struct@Gtk.TreePath] (ref=struct)} and
+ * the {@link [struct@Gtk.TreeIter] (ref=struct)} (&#8220;iter&#8221; is short for iterator). Most of the
+ * interface consists of operations on a {@link [struct@Gtk.TreeIter] (ref=struct)}.
+ * <p>
  * A path is essentially a potential node. It is a location on a model
  * that may or may not actually correspond to a node on a specific
- * model. A [struct@Gtk.TreePath] can be converted into either an
+ * model. A {@link [struct@Gtk.TreePath] (ref=struct)} can be converted into either an
  * array of unsigned integers or a string. The string form is a list
  * of numbers separated by a colon. Each number refers to the offset
- * at that level. Thus, the path `0` refers to the root
- * node and the path `2:4` refers to the fifth child of
+ * at that level. Thus, the path <code>0</code> refers to the root
+ * node and the path <code>2:4</code> refers to the fifth child of
  * the third node.
- * 
- * By contrast, a [struct@Gtk.TreeIter] is a reference to a specific node on
+ * <p>
+ * By contrast, a {@link [struct@Gtk.TreeIter] (ref=struct)} is a reference to a specific node on
  * a specific model. It is a generic struct with an integer and three
  * generic pointers. These are filled in by the model in a model-specific
  * way. One can convert a path to an iterator by calling
  * gtk_tree_model_get_iter(). These iterators are the primary way
- * of accessing a model and are similar to the iterators used by
- * `GtkTextBuffer`. They are generally statically allocated on the
+ * of accessing a model and are similar to the iterators used by<code>GtkTextBuffer</code>. They are generally statically allocated on the
  * stack and only used for a short time. The model interface defines
  * a set of operations using them for navigating the model.
- * 
+ * <p>
  * It is expected that models fill in the iterator with private data.
- * For example, the `GtkListStore` model, which is internally a simple
- * linked list, stores a list node in one of the pointers. The
- * `GtkTreeModel`Sort stores an array and an offset in two of the
+ * For example, the <code>GtkListStore</code> model, which is internally a simple
+ * linked list, stores a list node in one of the pointers. The<code>GtkTreeModel</code>Sort stores an array and an offset in two of the
  * pointers. Additionally, there is an integer field. This field is
  * generally filled with a unique stamp per model. This stamp is for
  * catching errors resulting from using invalid iterators with a model.
- * 
+ * <p>
  * The lifecycle of an iterator can be a little confusing at first.
  * Iterators are expected to always be valid for as long as the model
- * is unchanged (and doesn’t emit a signal). The model is considered
+ * is unchanged (and doesn&#8217;t emit a signal). The model is considered
  * to own all outstanding iterators and nothing needs to be done to
- * free them from the user’s point of view. Additionally, some models
+ * free them from the user&#8217;s point of view. Additionally, some models
  * guarantee that an iterator is valid for as long as the node it refers
- * to is valid (most notably the `GtkTreeStore` and `GtkListStore`).
+ * to is valid (most notably the <code>GtkTreeStore</code> and <code>GtkListStore</code>).
  * Although generally uninteresting, as one always has to allow for
  * the case where iterators do not persist beyond a signal, some very
  * important performance enhancements were made in the sort model.
- * As a result, the %GTK_TREE_MODEL_ITERS_PERSIST flag was added to
+ * As a result, the {@link org.gtk.gtk.TreeModelFlags#ITERS_PERSIST} flag was added to
  * indicate this behavior.
- * 
+ * <p>
  * To help show some common operation of a model, some examples are
  * provided. The first example shows three ways of getting the iter at
- * the location `3:2:5`. While the first method shown is
+ * the location <code>3:2:5</code>. While the first method shown is
  * easier, the second is much more common, as you often get paths from
  * callbacks.
- * 
- * ## Acquiring a `GtkTreeIter`
- * 
- * ```c
+ * <p>
+ * <h2>Acquiring a <code>GtkTreeIter</code></h2>
+ * <p><pre>c
  * // Three ways of getting the iter pointing to the location
  * GtkTreePath *path;
  * GtkTreeIter iter;
  * GtkTreeIter parent_iter;
- * 
+ * <p>
  * // get the iterator from a string
  * gtk_tree_model_get_iter_from_string (model,
- *                                      &iter,
- *                                      "3:2:5");
- * 
+ *                                      &#38;iter,
+ *                                      &#34;3:2:5&#34;);
+ * <p>
  * // get the iterator from a path
- * path = gtk_tree_path_new_from_string ("3:2:5");
- * gtk_tree_model_get_iter (model, &iter, path);
+ * path = gtk_tree_path_new_from_string (&#34;3:2:5&#34;);
+ * gtk_tree_model_get_iter (model, &#38;iter, path);
  * gtk_tree_path_free (path);
- * 
+ * <p>
  * // walk the tree to find the iterator
- * gtk_tree_model_iter_nth_child (model, &iter,
+ * gtk_tree_model_iter_nth_child (model, &#38;iter,
  *                                NULL, 3);
  * parent_iter = iter;
- * gtk_tree_model_iter_nth_child (model, &iter,
- *                                &parent_iter, 2);
+ * gtk_tree_model_iter_nth_child (model, &#38;iter,
+ *                                &#38;parent_iter, 2);
  * parent_iter = iter;
- * gtk_tree_model_iter_nth_child (model, &iter,
- *                                &parent_iter, 5);
- * ```
- * 
+ * gtk_tree_model_iter_nth_child (model, &#38;iter,
+ *                                &#38;parent_iter, 5);
+ * </pre>
+ * <p>
  * This second example shows a quick way of iterating through a list
  * and getting a string and an integer from each row. The
  * populate_model() function used below is not
- * shown, as it is specific to the `GtkListStore`. For information on
- * how to write such a function, see the `GtkListStore` documentation.
- * 
- * ## Reading data from a `GtkTreeModel`
- * 
- * ```c
+ * shown, as it is specific to the <code>GtkListStore</code>. For information on
+ * how to write such a function, see the <code>GtkListStore</code> documentation.
+ * <p>
+ * <h2>Reading data from a <code>GtkTreeModel</code></h2>
+ * <p><pre>c
  * enum
  * {
  *   STRING_COLUMN,
  *   INT_COLUMN,
  *   N_COLUMNS
  * };
- * 
+ * <p>
  * ...
- * 
+ * <p>
  * GtkTreeModel *list_store;
  * GtkTreeIter iter;
  * gboolean valid;
  * int row_count = 0;
- * 
+ * <p>
  * // make a new list_store
  * list_store = gtk_list_store_new (N_COLUMNS,
  *                                  G_TYPE_STRING,
  *                                  G_TYPE_INT);
- * 
+ * <p>
  * // Fill the list store with data
  * populate_model (list_store);
- * 
+ * <p>
  * // Get the first iter in the list, check it is valid and walk
  * // through the list, reading each row.
- * 
+ * <p>
  * valid = gtk_tree_model_get_iter_first (list_store,
- *                                        &iter);
+ *                                        &#38;iter);
  * while (valid)
  *  {
  *    char *str_data;
  *    int    int_data;
- * 
- *    // Make sure you terminate calls to gtk_tree_model_get() with a “-1” value
- *    gtk_tree_model_get (list_store, &iter,
- *                        STRING_COLUMN, &str_data,
- *                        INT_COLUMN, &int_data,
+ * <p>
+ *    // Make sure you terminate calls to gtk_tree_model_get() with a &#8220;-1&#8221; value
+ *    gtk_tree_model_get (list_store, &#38;iter,
+ *                        STRING_COLUMN, &#38;str_data,
+ *                        INT_COLUMN, &#38;int_data,
  *                        -1);
- * 
+ * <p>
  *    // Do something with the data
- *    g_print ("Row %d: (%s,%d)\\n",
- *             row_count, str_data, int_data);
+ *    g_print (&#34;Row <code>d:</code> (<code>s,%d)\\n&#34;,
+ * </code>            row_count, str_data, int_data);
  *    g_free (str_data);
- * 
+ * <p>
  *    valid = gtk_tree_model_iter_next (list_store,
- *                                      &iter);
+ *                                      &#38;iter);
  *    row_count++;
  *  }
- * ```
- * 
- * The `GtkTreeModel` interface contains two methods for reference
+ * </pre>
+ * <p>
+ * The <code>GtkTreeModel</code> interface contains two methods for reference
  * counting: gtk_tree_model_ref_node() and gtk_tree_model_unref_node().
  * These two methods are optional to implement. The reference counting
  * is meant as a way for views to let models know when nodes are being
- * displayed. `GtkTreeView` will take a reference on a node when it is
+ * displayed. <code>GtkTreeView</code> will take a reference on a node when it is
  * visible, which means the node is either in the toplevel or expanded.
  * Being displayed does not mean that the node is currently directly
  * visible to the user in the viewport. Based on this reference counting
@@ -208,7 +204,7 @@ import java.lang.invoke.*;
 public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a new `GtkTreeModel`, with @child_model as the child_model
+     * Creates a new <code>GtkTreeModel</code>, with @child_model as the child_model
      * and @root as the virtual root.
      */
     public default TreeModel filterNew(TreePath root) {
@@ -219,7 +215,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Calls @func on each node in model in a depth-first fashion.
      * 
-     * If @func returns %TRUE, then the tree ceases to be walked,
+     * If @func returns <code>TRUE,</code> then the tree ceases to be walked,
      * and gtk_tree_model_foreach() returns.
      */
     public default void foreach(TreeModelForeachFunc func) {
@@ -246,8 +242,8 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns a set of flags supported by this interface.
-     * 
-     * The flags are a bitwise combination of `GtkTreeModel`Flags.
+     * <p>
+     * The flags are a bitwise combination of <code>GtkTreeModel</code>Flags.
      * The flags supported should not change during the lifetime
      * of the @tree_model.
      */
@@ -260,7 +256,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets @iter to a valid iterator pointing to @path.
      * 
      * If @path does not exist, @iter is set to an invalid
-     * iterator and %FALSE is returned.
+     * iterator and <code>false</code> is returned.
      */
     public default boolean getIter(TreeIter iter, TreePath path) {
         var RESULT = gtk_h.gtk_tree_model_get_iter(handle(), iter.handle(), path.handle());
@@ -269,9 +265,9 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Initializes @iter with the first iterator in the tree
-     * (the one at the path "0").
+     * (the one at the path &#34;0&#34;).
      * 
-     * Returns %FALSE if the tree is empty, %TRUE otherwise.
+     * Returns <code>false</code> if the tree is empty, <code>true</code> otherwise.
      */
     public default boolean getIterFirst(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_first(handle(), iter.handle());
@@ -282,7 +278,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets @iter to a valid iterator pointing to @path_string, if it
      * exists.
      * 
-     * Otherwise, @iter is left invalid and %FALSE is returned.
+     * Otherwise, @iter is left invalid and <code>false</code> is returned.
      */
     public default boolean getIterFromString(TreeIter iter, java.lang.String pathString) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_from_string(handle(), iter.handle(), Interop.allocateNativeString(pathString).handle());
@@ -298,7 +294,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns a newly-created `GtkTreePath` referenced by @iter.
+     * Returns a newly-created <code>GtkTreePath</code> referenced by @iter.
      * 
      * This path should be freed with gtk_tree_path_free().
      */
@@ -310,8 +306,8 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Generates a string representation of the iter.
      * 
-     * This string is a “:” separated list of numbers.
-     * For example, “4:10:0:3” would be an acceptable
+     * This string is a &#8220;:&#8221; separated list of numbers.
+     * For example, &#8220;4:10:0:3&#8221; would be an acceptable
      * return value for this string.
      */
     public default java.lang.String getStringFromIter(TreeIter iter) {
@@ -322,7 +318,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the value of one or more cells in the row referenced by @iter.
      * 
-     * See [method@Gtk.TreeModel.get], this version takes a va_list
+     * See {@link org.gtk.gtk.TreeModel#get}, this version takes a va_list
      * for language bindings to use.
      */
     public default void getValist(TreeIter iter, VaList varArgs) {
@@ -341,13 +337,12 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets @iter to point to the first child of @parent.
-     * 
-     * If @parent has no children, %FALSE is returned and @iter is
+     * <p>
+     * If @parent has no children, <code>false</code> is returned and @iter is
      * set to be invalid. @parent will remain a valid node after this
      * function has been called.
-     * 
-     * If @parent is %NULL returns the first node, equivalent to
-     * `gtk_tree_model_get_iter_first (tree_model, iter);`
+     * <p>
+     * If @parent is <code>null</code> returns the first node, equivalent to<code>gtk_tree_model_get_iter_first (tree_model, iter);</code>
      */
     public default boolean iterChildren(TreeIter iter, TreeIter parent) {
         var RESULT = gtk_h.gtk_tree_model_iter_children(handle(), iter.handle(), parent.handle());
@@ -355,7 +350,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns %TRUE if @iter has children, %FALSE otherwise.
+     * Returns <code>true</code> if @iter has children, <code>false</code> otherwise.
      */
     public default boolean iterHasChild(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_iter_has_child(handle(), iter.handle());
@@ -365,7 +360,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Returns the number of children that @iter has.
      * 
-     * As a special case, if @iter is %NULL, then the number
+     * As a special case, if @iter is <code>NULL,</code> then the number
      * of toplevel nodes is returned.
      */
     public default int iterNChildren(TreeIter iter) {
@@ -376,7 +371,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets @iter to point to the node following it at the current level.
      * 
-     * If there is no next @iter, %FALSE is returned and @iter is set
+     * If there is no next @iter, <code>false</code> is returned and @iter is set
      * to be invalid.
      */
     public default boolean iterNext(TreeIter iter) {
@@ -388,9 +383,9 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets @iter to be the child of @parent, using the given index.
      * 
      * The first index is 0. If @n is too big, or @parent has no children,
-     * @iter is set to an invalid iterator and %FALSE is returned. @parent
+     * @iter is set to an invalid iterator and <code>false</code> is returned. @parent
      * will remain a valid node after this function has been called. As a
-     * special case, if @parent is %NULL, then the @n-th root node
+     * special case, if @parent is <code>NULL,</code> then the @n-th root node
      * is set.
      */
     public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
@@ -401,8 +396,8 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets @iter to be the parent of @child.
      * 
-     * If @child is at the toplevel, and doesn’t have a parent, then
-     * @iter is set to an invalid iterator and %FALSE is returned.
+     * If @child is at the toplevel, and doesn&#8217;t have a parent, then
+     * @iter is set to an invalid iterator and <code>false</code> is returned.
      * @child will remain a valid node after this function has been
      * called.
      * 
@@ -417,7 +412,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets @iter to point to the previous node at the current level.
      * 
-     * If there is no previous @iter, %FALSE is returned and @iter is
+     * If there is no previous @iter, <code>false</code> is returned and @iter is
      * set to be invalid.
      */
     public default boolean iterPrevious(TreeIter iter) {
@@ -451,7 +446,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emits the ::row-changed signal on @tree_model.
      * 
-     * See [signal@Gtk.TreeModel::row-changed].
+     * See {@link [signal@Gtk.TreeModel::row-changed] (ref=signal)}.
      */
     public default void rowChanged(TreePath path, TreeIter iter) {
         gtk_h.gtk_tree_model_row_changed(handle(), path.handle(), iter.handle());
@@ -460,7 +455,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emits the ::row-deleted signal on @tree_model.
      * 
-     * See [signal@Gtk.TreeModel::row-deleted].
+     * See {@link [signal@Gtk.TreeModel::row-deleted] (ref=signal)}.
      * 
      * This should be called by models after a row has been removed.
      * The location pointed to by @path should be the location that
@@ -476,7 +471,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emits the ::row-has-child-toggled signal on @tree_model.
      * 
-     * See [signal@Gtk.TreeModel::row-has-child-toggled].
+     * See {@link [signal@Gtk.TreeModel::row-has-child-toggled] (ref=signal)}.
      * 
      * This should be called by models after the child
      * state of a node changes.
@@ -488,7 +483,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emits the ::row-inserted signal on @tree_model.
      * 
-     * See [signal@Gtk.TreeModel::row-inserted].
+     * See {@link [signal@Gtk.TreeModel::row-inserted] (ref=signal)}.
      */
     public default void rowInserted(TreePath path, TreeIter iter) {
         gtk_h.gtk_tree_model_row_inserted(handle(), path.handle(), iter.handle());
@@ -497,7 +492,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emits the ::rows-reordered signal on @tree_model.
      * 
-     * See [signal@Gtk.TreeModel::rows-reordered].
+     * See {@link [signal@Gtk.TreeModel::rows-reordered] (ref=signal)}.
      * 
      * This should be called by models when their rows have been
      * reordered.
@@ -631,8 +626,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * This signal is emitted when the children of a node in the
-     * `GtkTreeModel` have been reordered.
+     * This signal is emitted when the children of a node in the<code>GtkTreeModel</code> have been reordered.
      * 
      * Note that this signal is not emitted
      * when rows are reordered by DND, since this is implemented

@@ -27,7 +27,7 @@ public class RadialGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that draws a radial gradient.
+     * Creates a <code>GskRenderNode</code> that draws a radial gradient.
      * 
      * The radial gradient
      * starts around @center. The size of the gradient is dictated by @hradius

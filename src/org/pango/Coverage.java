@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoCoverage` structure is a map from Unicode characters
- * to [enum@Pango.CoverageLevel] values.
- * 
+ * A <code>PangoCoverage</code> structure is a map from Unicode characters
+ * to {@link [enum@Pango.CoverageLevel] (ref=enum)} values.
+ * <p>
  * It is often necessary in Pango to determine if a particular
  * font can represent a particular character, and also how well
- * it can represent that character. The `PangoCoverage` is a data
+ * it can represent that character. The <code>PangoCoverage</code> is a data
  * structure that is used to represent that information. It is an
  * opaque structure with no public fields.
  */
@@ -34,14 +34,14 @@ public class Coverage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new `PangoCoverage`
+     * Create a new <code>PangoCoverage</code>
      */
     public Coverage() {
         super(constructNew());
     }
     
     /**
-     * Copy an existing `PangoCoverage`.
+     * Copy an existing <code>PangoCoverage</code>.
      */
     public Coverage copy() {
         var RESULT = gtk_h.pango_coverage_copy(handle());

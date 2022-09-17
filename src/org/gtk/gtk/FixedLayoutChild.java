@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkLayoutChild` subclass for children in a `GtkFixedLayout`.
+ * <code>GtkLayoutChild</code> subclass for children in a <code>GtkFixedLayout</code>.
  */
 public class FixedLayoutChild extends LayoutChild {
 
@@ -30,7 +30,7 @@ public class FixedLayoutChild extends LayoutChild {
     }
     
     /**
-     * Sets the transformation of the child of a `GtkFixedLayout`.
+     * Sets the transformation of the child of a <code>GtkFixedLayout</code>.
      */
     public void setTransform(org.gtk.gsk.Transform transform) {
         gtk_h.gtk_fixed_layout_child_set_transform(handle(), transform.handle());

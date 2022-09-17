@@ -1,14 +1,13 @@
 package org.harfbuzz;
 
 /**
- * Flags from comparing two #hb_buffer_t's.
- * 
+ * Flags from comparing two #hb_buffer_t&#39;s.
+ * <p>
  * Buffer with different #hb_buffer_content_type_t cannot be meaningfully
  * compared in any further detail.
- * 
+ * <p>
  * For buffers with differing length, the per-glyph comparison is not
- * attempted, though we do still scan reference buffer for dotted circle and
- * `.notdef` glyphs.
+ * attempted, though we do still scan reference buffer for dotted circle and<code>.notdef</code> glyphs.
  * 
  * If the buffers have the same length, we compare them glyph-by-glyph and
  * report which aspect(s) of the glyph info/position are different.
@@ -32,7 +31,7 @@ public class BufferDiffFlagsT {
     public static final int LENGTH_MISMATCH = 2;
     
     /**
-     * `.notdef` glyph is present in the
+     * <code>.notdef</code> glyph is present in the
      *     reference buffer.
      */
     public static final int NOTDEF_PRESENT = 4;

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Flags affecting how a search is done.
  * 
- * If neither %GTK_TEXT_SEARCH_VISIBLE_ONLY nor %GTK_TEXT_SEARCH_TEXT_ONLY are
+ * If neither {@link org.gtk.gtk.TextSearchFlags#VISIBLE_ONLY} nor {@link org.gtk.gtk.TextSearchFlags#TEXT_ONLY} are
  * enabled, the match must be exact; the special 0xFFFC character will match
  * embedded paintables or child widgets.
  */

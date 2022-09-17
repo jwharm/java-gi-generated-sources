@@ -1,12 +1,12 @@
 package org.gtk.gio;
 
 /**
- * Error codes for the %G_DBUS_ERROR error domain.
+ * Error codes for the <code>G_DBUS_ERROR</code> error domain.
  */
 public enum DBusError {
 
     /**
-     * A generic error; "something went wrong" - see the error message for
+     * A generic error; &#34;something went wrong&#34; - see the error message for
      * more.
      */
     FAILED,
@@ -17,13 +17,13 @@ public enum DBusError {
     NO_MEMORY,
     
     /**
-     * The bus doesn't know how to launch a service to supply the bus name
+     * The bus doesn&#39;t know how to launch a service to supply the bus name
      * you wanted.
      */
     SERVICE_UNKNOWN,
     
     /**
-     * The bus name you referenced doesn't exist (i.e. no application owns
+     * The bus name you referenced doesn&#39;t exist (i.e. no application owns
      * it).
      */
     NAME_HAS_NO_OWNER,
@@ -44,7 +44,7 @@ public enum DBusError {
     BAD_ADDRESS,
     
     /**
-     * Requested operation isn't supported (like ENOSYS on UNIX).
+     * Requested operation isn&#39;t supported (like ENOSYS on UNIX).
      */
     NOT_SUPPORTED,
     
@@ -54,12 +54,12 @@ public enum DBusError {
     LIMITS_EXCEEDED,
     
     /**
-     * Security restrictions don't allow doing what you're trying to do.
+     * Security restrictions don&#39;t allow doing what you&#39;re trying to do.
      */
     ACCESS_DENIED,
     
     /**
-     * Authentication didn't work.
+     * Authentication didn&#39;t work.
      */
     AUTH_FAILED,
     
@@ -71,9 +71,9 @@ public enum DBusError {
     
     /**
      * Certain timeout errors, possibly ETIMEDOUT on a socket.  Note that
-     * %G_DBUS_ERROR_NO_REPLY is used for message reply timeouts. Warning:
-     * this is confusingly-named given that %G_DBUS_ERROR_TIMED_OUT also
-     * exists. We can't fix it for compatibility reasons so just be
+     * {@link org.gtk.gio.DBusError#NO_REPLY} is used for message reply timeouts. Warning:
+     * this is confusingly-named given that {@link org.gtk.gio.DBusError#TIMED_OUT} also
+     * exists. We can&#39;t fix it for compatibility reasons so just be
      * careful.
      */
     TIMEOUT,
@@ -84,12 +84,12 @@ public enum DBusError {
     NO_NETWORK,
     
     /**
-     * Can't bind a socket since its address is in use (i.e. EADDRINUSE).
+     * Can&#39;t bind a socket since its address is in use (i.e. EADDRINUSE).
      */
     ADDRESS_IN_USE,
     
     /**
-     * The connection is disconnected and you're trying to use it.
+     * The connection is disconnected and you&#39;re trying to use it.
      */
     DISCONNECTED,
     
@@ -104,29 +104,29 @@ public enum DBusError {
     FILE_NOT_FOUND,
     
     /**
-     * Existing file and the operation you're using does not silently overwrite.
+     * Existing file and the operation you&#39;re using does not silently overwrite.
      */
     FILE_EXISTS,
     
     /**
-     * Method name you invoked isn't known by the object you invoked it on.
+     * Method name you invoked isn&#39;t known by the object you invoked it on.
      */
     UNKNOWN_METHOD,
     
     /**
      * Certain timeout errors, e.g. while starting a service. Warning: this is
-     * confusingly-named given that %G_DBUS_ERROR_TIMEOUT also exists. We
-     * can't fix it for compatibility reasons so just be careful.
+     * confusingly-named given that {@link org.gtk.gio.DBusError#TIMEOUT} also exists. We
+     * can&#39;t fix it for compatibility reasons so just be careful.
      */
     TIMED_OUT,
     
     /**
-     * Tried to remove or modify a match rule that didn't exist.
+     * Tried to remove or modify a match rule that didn&#39;t exist.
      */
     MATCH_RULE_NOT_FOUND,
     
     /**
-     * The match rule isn't syntactically valid.
+     * The match rule isn&#39;t syntactically valid.
      */
     MATCH_RULE_INVALID,
     
@@ -186,12 +186,12 @@ public enum DBusError {
     SPAWN_FILE_INVALID,
     
     /**
-     * Tried to get a UNIX process ID and it wasn't available.
+     * Tried to get a UNIX process ID and it wasn&#39;t available.
      */
     SPAWN_NO_MEMORY,
     
     /**
-     * Tried to get a UNIX process ID and it wasn't available.
+     * Tried to get a UNIX process ID and it wasn&#39;t available.
      */
     UNIX_PROCESS_ID_UNKNOWN,
     
@@ -206,32 +206,32 @@ public enum DBusError {
     INVALID_FILE_CONTENT,
     
     /**
-     * Asked for SELinux security context and it wasn't available.
+     * Asked for SELinux security context and it wasn&#39;t available.
      */
     SELINUX_SECURITY_CONTEXT_UNKNOWN,
     
     /**
-     * Asked for ADT audit data and it wasn't available.
+     * Asked for ADT audit data and it wasn&#39;t available.
      */
     ADT_AUDIT_DATA_UNKNOWN,
     
     /**
-     * There's already an object with the requested object path.
+     * There&#39;s already an object with the requested object path.
      */
     OBJECT_PATH_IN_USE,
     
     /**
-     * Object you invoked a method on isn't known. Since 2.42
+     * Object you invoked a method on isn&#39;t known. Since 2.42
      */
     UNKNOWN_OBJECT,
     
     /**
-     * Interface you invoked a method on isn't known by the object. Since 2.42
+     * Interface you invoked a method on isn&#39;t known by the object. Since 2.42
      */
     UNKNOWN_INTERFACE,
     
     /**
-     * Property you tried to access isn't known by the object. Since 2.42
+     * Property you tried to access isn&#39;t known by the object. Since 2.42
      */
     UNKNOWN_PROPERTY,
     

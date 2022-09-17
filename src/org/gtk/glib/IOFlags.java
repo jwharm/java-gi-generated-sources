@@ -8,14 +8,14 @@ package org.gtk.glib;
 public class IOFlags {
 
     /**
-     * turns on append mode, corresponds to %O_APPEND
-     *     (see the documentation of the UNIX open() syscall)
+     * turns on append mode, corresponds to <code>O_APPEND
+     * </code>    (see the documentation of the UNIX open() syscall)
      */
     public static final int APPEND = 1;
     
     /**
      * turns on nonblocking mode, corresponds to
-     *     %O_NONBLOCK/%O_NDELAY (see the documentation of the UNIX open()
+     *     <code>O_NONBLOCK/%O_NDELAY</code> (see the documentation of the UNIX open()
      *     syscall)
      */
     public static final int NONBLOCK = 2;

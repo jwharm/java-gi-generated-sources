@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GSource` struct is an opaque data type
+ * The <code>GSource</code> struct is an opaque data type
  * representing an event source.
  */
 public class Source extends io.github.jwharm.javagi.ResourceBase {
@@ -25,8 +25,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GSource structure. The size is specified to
      * allow creating structures derived from #GSource that contain
-     * additional data. The size passed in must be at least
-     * `sizeof (GSource)`.
+     * additional data. The size passed in must be at least<code>sizeof (GSource)</code>.
      * 
      * The source will not initially be associated with any #GMainContext
      * and must be added to one with g_source_attach() before it will be
@@ -37,7 +36,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds @child_source to @source as a "polled" source; when @source is
+     * Adds @child_source to @source as a &#34;polled&#34; source; when @source is
      * added to a #GMainContext, @child_source will be automatically added
      * with the same priority, when @child_source is triggered, it will
      * cause @source to dispatch (in addition to calling its own
@@ -45,9 +44,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * @child_source as well. (@source will also still be dispatched if
      * its own prepare/check functions indicate that it is ready.)
      * 
-     * If you don't need @child_source to do anything on its own when it
+     * If you don&#39;t need @child_source to do anything on its own when it
      * triggers, you can call g_source_set_dummy_callback() on it to set a
-     * callback that does nothing (except return %TRUE if appropriate).
+     * callback that does nothing (except return <code>true</code> if appropriate).
      * 
      * @source will hold a reference on @child_source while @child_source
      * is attached to it.
@@ -62,8 +61,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a file descriptor to the set of file descriptors polled for
      * this source. This is usually combined with g_source_new() to add an
-     * event source. The event source's check function will typically test
-     * the @revents field in the #GPollFD struct and return %TRUE if events need
+     * event source. The event source&#39;s check function will typically test
+     * the @revents field in the #GPollFD struct and return <code>true</code> if events need
      * to be processed.
      * 
      * This API is only intended to be used by implementations of #GSource.
@@ -123,7 +122,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If the source is currently attached to a #GMainContext, destroying it
      * will effectively unset the callback similar to calling g_source_set_callback().
-     * This can mean, that the data's #GDestroyNotify gets called right away.
+     * This can mean, that the data&#39;s #GDestroyNotify gets called right away.
      */
     public void destroy() {
         gtk_h.g_source_destroy(handle());
@@ -187,7 +186,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the "ready time" of @source, as set by
+     * Gets the &#34;ready time&#34; of @source, as set by
      * g_source_set_ready_time().
      * 
      * Any time before the current monotonic time (including 0) is an
@@ -219,16 +218,16 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * from within idle handlers, but may have freed the object
      * before the dispatch of your idle handler.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static gboolean
      * idle_callback (gpointer data)
      * {
      *   SomeWidget *self = data;
      *    
-     *   g_mutex_lock (&self->idle_id_mutex);
+     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
      *   // do stuff with self
-     *   self->idle_id = 0;
-     *   g_mutex_unlock (&self->idle_id_mutex);
+     *   self-&#62;idle_id = 0;
+     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
      *    
      *   return G_SOURCE_REMOVE;
      * }
@@ -236,15 +235,15 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * static void
      * some_widget_do_stuff_later (SomeWidget *self)
      * {
-     *   g_mutex_lock (&self->idle_id_mutex);
-     *   self->idle_id = g_idle_add (idle_callback, self);
-     *   g_mutex_unlock (&self->idle_id_mutex);
+     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
+     *   self-&#62;idle_id = g_idle_add (idle_callback, self);
+     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
      * }
      *  
      * static void
      * some_widget_init (SomeWidget *self)
      * {
-     *   g_mutex_init (&self->idle_id_mutex);
+     *   g_mutex_init (&#38;self-&#62;idle_id_mutex);
      * 
      *   // ...
      * }
@@ -254,14 +253,14 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   SomeWidget *self = SOME_WIDGET (object);
      *    
-     *   if (self->idle_id)
-     *     g_source_remove (self->idle_id);
+     *   if (self-&#62;idle_id)
+     *     g_source_remove (self-&#62;idle_id);
      *    
-     *   g_mutex_clear (&self->idle_id_mutex);
+     *   g_mutex_clear (&#38;self-&#62;idle_id_mutex);
      * 
-     *   G_OBJECT_CLASS (parent_class)->finalize (object);
+     *   G_OBJECT_CLASS (parent_class)-&#62;finalize (object);
      * }
-     * ]|
+     * ]}|
      * 
      * This will fail in a multi-threaded application if the
      * widget is destroyed before the idle handler fires due
@@ -269,22 +268,22 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * this particular problem, is to check to if the source
      * has already been destroy within the callback.
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static gboolean
      * idle_callback (gpointer data)
      * {
      *   SomeWidget *self = data;
      *   
-     *   g_mutex_lock (&self->idle_id_mutex);
+     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
      *   if (!g_source_is_destroyed (g_main_current_source ()))
      *     {
      *       // do stuff with self
      *     }
-     *   g_mutex_unlock (&self->idle_id_mutex);
+     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
      *   
      *   return FALSE;
      * }
-     * ]|
+     * ]}|
      * 
      * Calls to this function from a thread other than the one acquired by the
      * #GMainContext the #GSource is attached to are typically redundant, as the
@@ -302,7 +301,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * 
      * @tag is the tag returned from g_source_add_unix_fd().
      * 
-     * If you want to remove a fd, don't set its event mask to zero.
+     * If you want to remove a fd, don&#39;t set its event mask to zero.
      * Instead, call g_source_remove_unix_fd().
      * 
      * This API is only intended to be used by implementations of #GSource.
@@ -378,17 +377,17 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the callback function for a source. The callback for a source is
-     * called from the source's dispatch function.
+     * called from the source&#39;s dispatch function.
      * 
      * The exact type of @func depends on the type of source; ie. you
      * should not count on @func being called with @data as its first
      * parameter. Cast @func with G_SOURCE_FUNC() to avoid warnings about
      * incompatible function types.
      * 
-     * See [memory management of sources][mainloop-memory-management] for details
+     * See {@link [memory management of sources]}{@link [mainloop-memory-management]} for details
      * on how to handle memory management of @data.
      * 
-     * Typically, you won't use this function. Instead use functions specific
+     * Typically, you won&#39;t use this function. Instead use functions specific
      * to the type of source you are using, such as g_idle_add() or g_timeout_add().
      * 
      * It is safe to call this function multiple times on a source which has already
@@ -415,11 +414,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the callback function storing the data as a refcounted callback
-     * "object". This is used internally. Note that calling
+     * &#34;object&#34;. This is used internally. Note that calling
      * g_source_set_callback_indirect() assumes
      * an initial reference count on @callback_data, and thus
-     * @callback_funcs->unref will eventually be called once more
-     * than @callback_funcs->ref.
+     * @callback_funcs-&#62;unref will eventually be called once more
+     * than @callback_funcs-&#62;ref.
      * 
      * It is safe to call this function multiple times on a source which has already
      * been attached to a context. The changes will take effect for the next time
@@ -431,7 +430,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets whether a source can be called recursively. If @can_recurse is
-     * %TRUE, then while the source is being dispatched then this source
+     * <code>TRUE,</code> then while the source is being dispatched then this source
      * will be processed normally. Otherwise, all processing of this
      * source is blocked until the dispatch function returns.
      */
@@ -452,12 +451,12 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * The name defaults to #NULL.
      * 
      * The source name should describe in a human-readable way
-     * what the source does. For example, "X11 event queue"
-     * or "GTK+ repaint idle handler" or whatever it is.
+     * what the source does. For example, &#34;X11 event queue&#34;
+     * or &#34;GTK+ repaint idle handler&#34; or whatever it is.
      * 
      * It is permitted to call this function multiple times, but is not
      * recommended due to the potential performance impact.  For example,
-     * one could change the name in the "check" function of a #GSourceFuncs
+     * one could change the name in the &#34;check&#34; function of a #GSourceFuncs
      * to include details like the event type in the source name.
      * 
      * Use caution if changing the name while another thread may be

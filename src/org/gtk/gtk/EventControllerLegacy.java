@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEventControllerLegacy` is an event controller that provides raw
+ * <code>GtkEventControllerLegacy</code> is an event controller that provides raw
  * access to the event stream.
  * 
  * It should only be used as a last resort if none of the other event

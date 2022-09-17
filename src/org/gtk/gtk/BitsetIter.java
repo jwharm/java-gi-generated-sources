@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * An opaque, stack-allocated struct for iterating
- * over the elements of a `GtkBitset`.
- * 
- * Before a `GtkBitsetIter` can be used, it needs to be initialized with
- * [func@Gtk.BitsetIter.init_first], [func@Gtk.BitsetIter.init_last]
- * or [func@Gtk.BitsetIter.init_at].
+ * over the elements of a <code>GtkBitset</code>.
+ * <p>
+ * Before a <code>GtkBitsetIter</code> can be used, it needs to be initialized with
+ * {@link Gtk#BitsetIter}, {@link Gtk#BitsetIter}
+ * or {@link Gtk#BitsetIter}.
  */
 public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -24,8 +24,8 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current value that @iter points to.
      * 
-     * If @iter is not valid and [method@Gtk.BitsetIter.is_valid]
-     * returns %FALSE, this function returns 0.
+     * If @iter is not valid and {@link org.gtk.gtk.BitsetIter#isValid}
+     * returns <code>FALSE,</code> this function returns 0.
      */
     public int getValue() {
         var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());

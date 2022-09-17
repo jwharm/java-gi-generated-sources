@@ -8,61 +8,58 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkPrintUnixDialog` implements a print dialog for platforms
- * which don’t provide a native print dialog, like Unix.
- * 
- * ![An example GtkPrintUnixDialog](printdialog.png)
- * 
+ * <code>GtkPrintUnixDialog</code> implements a print dialog for platforms
+ * which don&#8217;t provide a native print dialog, like Unix.
+ * <p>
+ * !{@link [An example GtkPrintUnixDialog]}(printdialog.png)
+ * <p>
  * It can be used very much like any other GTK dialog, at the cost of
  * the portability offered by the high-level printing API with
- * [class@Gtk.PrintOperation].
- * 
- * In order to print something with `GtkPrintUnixDialog`, you need to
- * use [method@Gtk.PrintUnixDialog.get_selected_printer] to obtain a
- * [class@Gtk.Printer] object and use it to construct a [class@Gtk.PrintJob]
- * using [ctor@Gtk.PrintJob.new].
- * 
- * `GtkPrintUnixDialog` uses the following response values:
- * 
- * - %GTK_RESPONSE_OK: for the “Print” button
- * - %GTK_RESPONSE_APPLY: for the “Preview” button
- * - %GTK_RESPONSE_CANCEL: for the “Cancel” button
- * 
- * # GtkPrintUnixDialog as GtkBuildable
- * 
- * The `GtkPrintUnixDialog` implementation of the `GtkBuildable` interface
- * exposes its @notebook internal children with the name “notebook”.
- * 
- * An example of a `GtkPrintUnixDialog` UI definition fragment:
- * 
- * ```xml
- * <object class="GtkPrintUnixDialog" id="dialog1">
- *   <child internal-child="notebook">
- *     <object class="GtkNotebook" id="notebook">
- *       <child>
- *         <object type="GtkNotebookPage">
- *           <property name="tab_expand">False</property>
- *           <property name="tab_fill">False</property>
- *           <property name="tab">
- *             <object class="GtkLabel" id="tablabel">
- *               <property name="label">Tab label</property>
- *             </object>
- *           </property>
- *           <property name="child">
- *             <object class="GtkLabel" id="tabcontent">
- *               <property name="label">Content on notebook tab</property>
- *             </object>
- *           </property>
- *         </object>
- *       </child>
- *     </object>
- *   </child>
- * </object>
- * ```
- * 
- * # CSS nodes
- * 
- * `GtkPrintUnixDialog` has a single CSS node with name window. The style classes
+ * {@link org.gtk.gtk.PrintOperation}.
+ * <p>
+ * In order to print something with <code>GtkPrintUnixDialog</code>, you need to
+ * use {@link org.gtk.gtk.PrintUnixDialog#getSelectedPrinter} to obtain a
+ * {@link org.gtk.gtk.Printer} object and use it to construct a {@link org.gtk.gtk.PrintJob}
+ * using {@link [ctor@Gtk.PrintJob.new] (ref=ctor)}.
+ * <p><code>GtkPrintUnixDialog</code> uses the following response values:
+ * <p>
+ * <li><code>GTK_RESPONSE_OK:</code> for the &#8220;Print&#8221; button
+ * <li><code>GTK_RESPONSE_APPLY:</code> for the &#8220;Preview&#8221; button
+ * <li><code>GTK_RESPONSE_CANCEL:</code> for the &#8220;Cancel&#8221; button
+ * <p>
+ * <h1>tkPrintUnixDialog as GtkBuildable</h1>
+ * <p>
+ * The <code>GtkPrintUnixDialog</code> implementation of the <code>GtkBuildable</code> interface
+ * exposes its @notebook internal children with the name &#8220;notebook&#8221;.
+ * <p>
+ * An example of a <code>GtkPrintUnixDialog</code> UI definition fragment:
+ * <p><pre>xml
+ * &#60;object class=&#34;GtkPrintUnixDialog&#34; id=&#34;dialog1&#34;&#62;
+ *   &#60;child internal-child=&#34;notebook&#34;&#62;
+ *     &#60;object class=&#34;GtkNotebook&#34; id=&#34;notebook&#34;&#62;
+ *       &#60;child&#62;
+ *         &#60;object type=&#34;GtkNotebookPage&#34;&#62;
+ *           &#60;property name=&#34;tab_expand&#34;&#62;False&#60;/property&#62;
+ *           &#60;property name=&#34;tab_fill&#34;&#62;False&#60;/property&#62;
+ *           &#60;property name=&#34;tab&#34;&#62;
+ *             &#60;object class=&#34;GtkLabel&#34; id=&#34;tablabel&#34;&#62;
+ *               &#60;property name=&#34;label&#34;&#62;Tab label&#60;/property&#62;
+ *             &#60;/object&#62;
+ *           &#60;/property&#62;
+ *           &#60;property name=&#34;child&#34;&#62;
+ *             &#60;object class=&#34;GtkLabel&#34; id=&#34;tabcontent&#34;&#62;
+ *               &#60;property name=&#34;label&#34;&#62;Content on notebook tab&#60;/property&#62;
+ *             &#60;/object&#62;
+ *           &#60;/property&#62;
+ *         &#60;/object&#62;
+ *       &#60;/child&#62;
+ *     &#60;/object&#62;
+ *   &#60;/child&#62;
+ * &#60;/object&#62;
+ * </pre>
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkPrintUnixDialog</code> has a single CSS node with name window. The style classes
  * dialog and print are added.
  */
 public class PrintUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
@@ -82,7 +79,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Creates a new `GtkPrintUnixDialog`.
+     * Creates a new <code>GtkPrintUnixDialog</code>.
      */
     public PrintUnixDialog(java.lang.String title, Window parent) {
         super(constructNew(title, parent));
@@ -96,7 +93,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Gets the current page of the `GtkPrintUnixDialog`.
+     * Gets the current page of the <code>GtkPrintUnixDialog</code>.
      */
     public int getCurrentPage() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_current_page(handle());
@@ -120,7 +117,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Gets the capabilities that have been set on this `GtkPrintUnixDialog`.
+     * Gets the capabilities that have been set on this <code>GtkPrintUnixDialog</code>.
      */
     public int getManualCapabilities() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_manual_capabilities(handle());
@@ -128,7 +125,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Gets the page setup that is used by the `GtkPrintUnixDialog`.
+     * Gets the page setup that is used by the <code>GtkPrintUnixDialog</code>.
      */
     public PageSetup getPageSetup() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_page_setup(handle());
@@ -152,11 +149,11 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Gets a new `GtkPrintSettings` object that represents the
+     * Gets a new <code>GtkPrintSettings</code> object that represents the
      * current values in the print dialog.
      * 
      * Note that this creates a new object, and you need to unref
-     * it if don’t want to keep it.
+     * it if don&#8217;t want to keep it.
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_settings(handle());
@@ -200,7 +197,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * supports.
      * 
      * For instance, if you can handle scaling the output then you pass
-     * %GTK_PRINT_CAPABILITY_SCALE. If you don’t pass that, then the dialog
+     * <code>GTK_PRINT_CAPABILITY_SCALE.</code> If you don&#8217;t pass that, then the dialog
      * will only let you select the scale if the printing system automatically
      * handles scaling.
      */
@@ -209,14 +206,14 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     }
     
     /**
-     * Sets the page setup of the `GtkPrintUnixDialog`.
+     * Sets the page setup of the <code>GtkPrintUnixDialog</code>.
      */
     public void setPageSetup(PageSetup pageSetup) {
         gtk_h.gtk_print_unix_dialog_set_page_setup(handle(), pageSetup.handle());
     }
     
     /**
-     * Sets the `GtkPrintSettings` for the `GtkPrintUnixDialog`.
+     * Sets the <code>GtkPrintSettings</code> for the <code>GtkPrintUnixDialog</code>.
      * 
      * Typically, this is used to restore saved print settings
      * from a previous print operation before the print dialog

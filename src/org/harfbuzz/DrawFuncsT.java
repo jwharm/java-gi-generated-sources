@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * #hb_draw_move_to_func_t, #hb_draw_line_to_func_t and
  * #hb_draw_cubic_to_func_t calls are necessary to be defined but we translate
  * #hb_draw_quadratic_to_func_t calls to #hb_draw_cubic_to_func_t if the
- * callback isn't defined.
+ * callback isn&#39;t defined.
  */
 public class DrawFuncsT extends io.github.jwharm.javagi.ResourceBase {
 

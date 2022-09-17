@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Error codes for `GtkRecentManager` operations
+ * Error codes for <code>GtkRecentManager</code> operations
  */
 public enum RecentManagerError {
 

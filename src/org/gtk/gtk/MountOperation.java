@@ -8,18 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkMountOperation` is an implementation of `GMountOperation`.
- * 
+ * <code>GtkMountOperation</code> is an implementation of <code>GMountOperation</code>.
+ * <p>
  * The functions and objects described here make working with GTK and
  * GIO more convenient.
- * 
- * `GtkMountOperation` is needed when mounting volumes:
- * It is an implementation of `GMountOperation` that can be used with
+ * <p><code>GtkMountOperation</code> is needed when mounting volumes:
+ * It is an implementation of <code>GMountOperation</code> that can be used with
  * GIO functions for mounting volumes such as
  * g_file_mount_enclosing_volume(), g_file_mount_mountable(),
  * g_volume_mount(), g_mount_unmount_with_operation() and others.
- * 
- * When necessary, `GtkMountOperation` shows dialogs to let the user
+ * <p>
+ * When necessary, <code>GtkMountOperation</code> shows dialogs to let the user
  * enter passwords, ask questions or show processes blocking unmount.
  */
 public class MountOperation extends org.gtk.gio.MountOperation {
@@ -39,14 +38,14 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     }
     
     /**
-     * Creates a new `GtkMountOperation`.
+     * Creates a new <code>GtkMountOperation</code>.
      */
     public MountOperation(Window parent) {
         super(constructNew(parent));
     }
     
     /**
-     * Gets the display on which windows of the `GtkMountOperation`
+     * Gets the display on which windows of the <code>GtkMountOperation</code>
      * will be shown.
      */
     public org.gtk.gdk.Display getDisplay() {
@@ -55,7 +54,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     }
     
     /**
-     * Gets the transient parent used by the `GtkMountOperation`.
+     * Gets the transient parent used by the <code>GtkMountOperation</code>.
      */
     public Window getParent() {
         var RESULT = gtk_h.gtk_mount_operation_get_parent(handle());
@@ -63,7 +62,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     }
     
     /**
-     * Returns whether the `GtkMountOperation` is currently displaying
+     * Returns whether the <code>GtkMountOperation</code> is currently displaying
      * a window.
      */
     public boolean isShowing() {
@@ -72,15 +71,14 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     }
     
     /**
-     * Sets the display to show windows of the `GtkMountOperation` on.
+     * Sets the display to show windows of the <code>GtkMountOperation</code> on.
      */
     public void setDisplay(org.gtk.gdk.Display display) {
         gtk_h.gtk_mount_operation_set_display(handle(), display.handle());
     }
     
     /**
-     * Sets the transient parent for windows shown by the
-     * `GtkMountOperation`.
+     * Sets the transient parent for windows shown by the<code>GtkMountOperation</code>.
      */
     public void setParent(Window parent) {
         gtk_h.gtk_mount_operation_set_parent(handle(), parent.handle());

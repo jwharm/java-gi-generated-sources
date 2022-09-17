@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A physical tool associated to a `GdkDevice`.
+ * A physical tool associated to a <code>GdkDevice</code>.
  */
 public class DeviceTool extends org.gtk.gobject.Object {
 
@@ -30,17 +30,16 @@ public class DeviceTool extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the hardware ID of this tool, or 0 if it's not known.
-     * 
+     * Gets the hardware ID of this tool, or 0 if it&#39;s not known.
+     * <p>
      * When non-zero, the identificator is unique for the given tool model,
      * meaning that two identical tools will share the same @hardware_id,
      * but will have different serial numbers (see
-     * [method@Gdk.DeviceTool.get_serial]).
-     * 
+     * {@link org.gtk.gdk.DeviceTool#getSerial}).
+     * <p>
      * This is a more concrete (and device specific) method to identify
-     * a `GdkDeviceTool` than [method@Gdk.DeviceTool.get_tool_type],
-     * as a tablet may support multiple devices with the same
-     * `GdkDeviceToolType`, but different hardware identificators.
+     * a <code>GdkDeviceTool</code> than {@link org.gtk.gdk.DeviceTool#getToolType},
+     * as a tablet may support multiple devices with the same<code>GdkDeviceToolType</code>, but different hardware identificators.
      */
     public long getHardwareId() {
         var RESULT = gtk_h.gdk_device_tool_get_hardware_id(handle());
@@ -59,7 +58,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the `GdkDeviceToolType` of the tool.
+     * Gets the <code>GdkDeviceToolType</code> of the tool.
      */
     public DeviceToolType getToolType() {
         var RESULT = gtk_h.gdk_device_tool_get_tool_type(handle());

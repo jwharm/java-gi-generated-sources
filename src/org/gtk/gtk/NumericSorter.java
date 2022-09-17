@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkNumericSorter` is a `GtkSorter` that compares numbers.
+ * <code>GtkNumericSorter</code> is a <code>GtkSorter</code> that compares numbers.
  * 
  * To obtain the numbers to compare, this sorter evaluates a
- * [class@Gtk.Expression].
+ * {@link org.gtk.gtk.Expression}.
  */
 public class NumericSorter extends Sorter {
 
@@ -33,7 +33,7 @@ public class NumericSorter extends Sorter {
      * Creates a new numeric sorter using the given @expression.
      * 
      * Smaller numbers will be sorted first. You can call
-     * [method@Gtk.NumericSorter.set_sort_order] to change this.
+     * {@link org.gtk.gtk.NumericSorter#setSortOrder} to change this.
      */
     public NumericSorter(Expression expression) {
         super(constructNew(expression));
@@ -62,7 +62,7 @@ public class NumericSorter extends Sorter {
      * compare items as invalid.
      * 
      * The expression must have a return type that can be compared
-     * numerically, such as %G_TYPE_INT or %G_TYPE_DOUBLE.
+     * numerically, such as <code>G_TYPE_INT</code> or or %G_TYPE_DOUBLE.
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_numeric_sorter_set_expression(handle(), expression.handle());

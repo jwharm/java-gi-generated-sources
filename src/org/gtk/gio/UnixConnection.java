@@ -10,15 +10,15 @@ import java.lang.invoke.*;
 /**
  * This is the subclass of #GSocketConnection that is created
  * for UNIX domain sockets.
- * 
+ * <p>
  * It contains functions to do some of the UNIX socket specific
  * functionality like passing file descriptors.
- * 
+ * <p>
  * Since GLib 2.72, #GUnixConnection is available on all platforms. It requires
- * underlying system support (such as Windows 10 with `AF_UNIX`) at run time.
- * 
- * Before GLib 2.72, `<gio/gunixconnection.h>` belonged to the UNIX-specific GIO
- * interfaces, thus you had to use the `gio-unix-2.0.pc` pkg-config file when
+ * underlying system support (such as Windows 10 with <code>AF_UNIX</code>) at run time.
+ * <p>
+ * Before GLib 2.72, <code>&#60;gio/gunixconnection.h&#62;</code> belonged to the UNIX-specific GIO
+ * interfaces, thus you had to use the <code>gio-unix-2.0.pc</code> pkg-config file when
  * using it. This is no longer necessary since GLib 2.72.
  */
 public class UnixConnection extends SocketConnection {

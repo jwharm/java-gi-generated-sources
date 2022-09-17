@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkRecentInfo` contains the metadata associated with an item in the
+ * <code>GtkRecentInfo</code> contains the metadata associated with an item in the
  * recently used files list.
  */
 public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
@@ -18,10 +18,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a `GAppInfo` for the specified `GtkRecentInfo`
+     * Creates a <code>GAppInfo</code> for the specified <code>GtkRecentInfo</code>
      * 
      * In case of error, @error will be set either with a
-     * %GTK_RECENT_MANAGER_ERROR or a %G_IO_ERROR
+     * <code>GTK_RECENT_MANAGER_ERROR</code> or a or a %G_IO_ERROR
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -105,10 +105,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the value of the “private” flag.
+     * Gets the value of the &#8220;private&#8221; flag.
      * 
      * Resources in the recently used list that have this flag
-     * set to %TRUE should only be displayed by the applications
+     * set to <code>true</code> should only be displayed by the applications
      * that have registered them.
      */
     public boolean getPrivateHint() {
@@ -121,7 +121,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * name of the item in a menu or list.
      * 
      * For example, calling this function on an item that refers
-     * to “file:///foo/bar.txt” will yield “bar.txt”.
+     * to &#8220;file:///foo/bar.txt&#8221; will yield &#8220;bar.txt&#8221;.
      */
     public java.lang.String getShortName() {
         var RESULT = gtk_h.gtk_recent_info_get_short_name(handle());
@@ -137,11 +137,11 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets a displayable version of the resource’s URI.
+     * Gets a displayable version of the resource&#8217;s URI.
      * 
      * If the resource is local, it returns a local path; if the
      * resource is not local, it returns the UTF-8 encoded content
-     * of [method@Gtk.RecentInfo.get_uri].
+     * of {@link org.gtk.gtk.RecentInfo#getUri}.
      */
     public java.lang.String getUriDisplay() {
         var RESULT = gtk_h.gtk_recent_info_get_uri_display(handle());
@@ -193,7 +193,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether two `GtkRecentInfo` point to the same resource.
+     * Checks whether two <code>GtkRecentInfo</code> point to the same resource.
      */
     public boolean match(RecentInfo infoB) {
         var RESULT = gtk_h.gtk_recent_info_match(handle(), infoB.handle());

@@ -8,15 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoMatrix` specifies a transformation between user-space
+ * A <code>PangoMatrix</code> specifies a transformation between user-space
  * and device coordinates.
- * 
+ * <p>
  * The transformation is given by
- * 
- * ```
- * x_device = x_user * matrix->xx + y_user * matrix->xy + matrix->x0;
- * y_device = x_user * matrix->yx + y_user * matrix->yy + matrix->y0;
- * ```
+ * <p><pre>
+ * x_device = x_user * matrix-&#62;xx + y_user * matrix-&#62;xy + matrix-&#62;x0;
+ * y_device = x_user * matrix-&#62;yx + y_user * matrix-&#62;yy + matrix-&#62;y0;
+ * </pre>
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
 
@@ -34,7 +33,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a `PangoMatrix`.
+     * Copies a <code>PangoMatrix</code>.
      */
     public Matrix copy() {
         var RESULT = gtk_h.pango_matrix_copy(handle());
@@ -42,7 +41,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free a `PangoMatrix`.
+     * Free a <code>PangoMatrix</code>.
      */
     public void free() {
         gtk_h.pango_matrix_free(handle());
@@ -53,7 +52,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * 
      * That is, the scale factor in the direction perpendicular to the
      * vector that the X coordinate is mapped to.  If the scale in the X
-     * coordinate is needed as well, use [method@Pango.Matrix.get_font_scale_factors].
+     * coordinate is needed as well, use {@link org.pango.Matrix#getFontScaleFactors}.
      */
     public double getFontScaleFactor() {
         var RESULT = gtk_h.pango_matrix_get_font_scale_factor(handle());
@@ -65,10 +64,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * 
      * For a simple shear matrix in the form:
      * 
-     *     1 λ
+     *     1 &#955;
      *     0 1
      * 
-     * this is simply λ.
+     * this is simply &#955;.
      */
     public double getSlantRatio() {
         var RESULT = gtk_h.pango_matrix_get_slant_ratio(handle());
@@ -102,9 +101,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @PangoLayout to an image buffer, and want to know how large the image
      * should be and how much you should shift the layout when rendering.
      * 
-     * For better accuracy, you should use [method@Pango.Matrix.transform_rectangle]
+     * For better accuracy, you should use {@link org.pango.Matrix#transformRectangle}
      * on original rectangle in Pango units and convert to pixels afterward
-     * using [func@extents_to_pixels]'s first argument.
+     * using {@link [func@extents_to_pixels]}&#39;s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
         gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.handle());
@@ -119,7 +118,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * should be and how much you should shift the layout when rendering.
      * 
      * If you have a rectangle in device units (pixels), use
-     * [method@Pango.Matrix.transform_pixel_rectangle].
+     * {@link org.pango.Matrix#transformPixelRectangle}.
      * 
      * If you have the rectangle in Pango units and want to convert to
      * transformed pixel bounding box, it is more accurate to transform it first

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * An error code used with %G_TLS_CHANNEL_BINDING_ERROR in a #GError to
+ * An error code used with <code>G_TLS_CHANNEL_BINDING_ERROR</code> in a #GError to
  * indicate a TLS channel binding retrieval error.
  */
 public enum TlsChannelBindingError {
@@ -31,7 +31,7 @@ public enum TlsChannelBindingError {
     /**
      * Binding type is not supported
      *    on the current connection. This error could be triggered when requesting
-     *    `tls-server-end-point` binding data for a certificate which has no hash
+     *    <code>tls-server-end-point</code> binding data for a certificate which has no hash
      *    function or uses multiple hash functions.
      */
     NOT_SUPPORTED,

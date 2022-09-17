@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkIMMulticontext` is an input method context supporting multiple,
+ * <code>GtkIMMulticontext</code> is an input method context supporting multiple,
  * switchable input methods.
- * 
- * Text widgets such as `GtkText` or `GtkTextView` use a `GtkIMMultiContext`
- * to implement their `im-module` property for switching between different
+ * <p>
+ * Text widgets such as <code>GtkText</code> or <code>GtkTextView</code> use a <code>GtkIMMultiContext</code>
+ * to implement their <code>im-module</code> property for switching between different
  * input methods.
  */
 public class IMMulticontext extends IMContext {
@@ -32,7 +32,7 @@ public class IMMulticontext extends IMContext {
     }
     
     /**
-     * Creates a new `GtkIMMulticontext`.
+     * Creates a new <code>GtkIMMulticontext</code>.
      */
     public IMMulticontext() {
         super(constructNew());
@@ -52,8 +52,8 @@ public class IMMulticontext extends IMContext {
      * This causes the currently active delegate of @context to be
      * replaced by the delegate corresponding to the new context id.
      * 
-     * Setting this to a non-%NULL value overrides the system-wide
-     * IM module setting. See the [property@Gtk.Settings:gtk-im-module]
+     * Setting this to a non-<code>null</code> value overrides the system-wide
+     * IM module setting. See the {@link [property@Gtk.Settings:gtk-im-module] (ref=property)}
      * property.
      */
     public void setContextId(java.lang.String contextId) {

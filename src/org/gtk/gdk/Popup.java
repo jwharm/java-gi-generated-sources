@@ -8,12 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkPopup` is a surface that is attached to another surface.
- * 
- * The `GdkPopup` is positioned relative to its parent surface.
- * 
- * `GdkPopup`s are typically used to implement menus and similar popups.
- * They can be modal, which is indicated by the [property@GdkPopup:autohide]
+ * A <code>GdkPopup</code> is a surface that is attached to another surface.
+ * <p>
+ * The <code>GdkPopup</code> is positioned relative to its parent surface.
+ * <p><code>GdkPopup</code>s are typically used to implement menus and similar popups.
+ * They can be modal, which is indicated by the {@link [property@GdkPopup:autohide] (ref=property)}
  * property.
  */
 public interface Popup extends io.github.jwharm.javagi.NativeAddress {
@@ -53,8 +52,8 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the current popup rectangle anchor.
      * 
-     * The value returned may change after calling [method@Gdk.Popup.present],
-     * or after the [signal@Gdk.Surface::layout] signal is emitted.
+     * The value returned may change after calling {@link org.gtk.gdk.Popup#present},
+     * or after the {@link [signal@Gdk.Surface::layout] (ref=signal)} signal is emitted.
      */
     public default Gravity getRectAnchor() {
         var RESULT = gtk_h.gdk_popup_get_rect_anchor(handle());
@@ -64,8 +63,8 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the current popup surface anchor.
      * 
-     * The value returned may change after calling [method@Gdk.Popup.present],
-     * or after the [signal@Gdk.Surface::layout] signal is emitted.
+     * The value returned may change after calling {@link org.gtk.gdk.Popup#present},
+     * or after the {@link [signal@Gdk.Surface::layout] (ref=signal)} signal is emitted.
      */
     public default Gravity getSurfaceAnchor() {
         var RESULT = gtk_h.gdk_popup_get_surface_anchor(handle());
@@ -73,21 +72,21 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Present @popup after having processed the `GdkPopupLayout` rules.
+     * Present @popup after having processed the <code>GdkPopupLayout</code> rules.
      * 
      * If the popup was previously now showing, it will be showed,
      * otherwise it will change position according to @layout.
      * 
      * After calling this function, the result should be handled in response
-     * to the [signal@GdkSurface::layout] signal being emitted. The resulting
-     * popup position can be queried using [method@Gdk.Popup.get_position_x],
-     * [method@Gdk.Popup.get_position_y], and the resulting size will be sent as
-     * parameters in the layout signal. Use [method@Gdk.Popup.get_rect_anchor]
-     * and [method@Gdk.Popup.get_surface_anchor] to get the resulting anchors.
+     * to the {@link [signal@GdkSurface::layout] (ref=signal)} signal being emitted. The resulting
+     * popup position can be queried using {@link org.gtk.gdk.Popup#getPositionX},
+     * {@link org.gtk.gdk.Popup#getPositionY}, and the resulting size will be sent as
+     * parameters in the layout signal. Use {@link org.gtk.gdk.Popup#getRectAnchor}
+     * and {@link org.gtk.gdk.Popup#getSurfaceAnchor} to get the resulting anchors.
      * 
      * Presenting may fail, for example if the @popup is set to autohide
      * and is immediately hidden upon being presented. If presenting failed,
-     * the [signal@Gdk.Surface::layout] signal will not me emitted.
+     * the {@link [signal@Gdk.Surface::layout] (ref=signal)} signal will not me emitted.
      */
     public default boolean present(int width, int height, PopupLayout layout) {
         var RESULT = gtk_h.gdk_popup_present(handle(), width, height, layout.handle());

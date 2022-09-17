@@ -21,13 +21,13 @@ public class FileMeasureFlags {
      * Tally usage based on apparent file
      *   sizes.  Normally, the block-size is used, if available, as this is a
      *   more accurate representation of disk space used.
-     *   Compare with `du --apparent-size`.
+     *   Compare with <code>du --apparent-size</code>.
      */
     public static final int APPARENT_SIZE = 4;
     
     /**
      * Do not cross mount point boundaries.
-     *   Compare with `du -x`.
+     *   Compare with <code>du -x</code>.
      */
     public static final int NO_XDEV = 8;
     

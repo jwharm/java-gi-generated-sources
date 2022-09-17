@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkTextChildAnchor` is a spot in a `GtkTextBuffer` where child widgets can
- * be “anchored”.
+ * A <code>GtkTextChildAnchor</code> is a spot in a <code>GtkTextBuffer</code> where child widgets can
+ * be &#8220;anchored&#8221;.
  * 
  * The anchor can have multiple widgets anchored, to allow for multiple views.
  */
@@ -30,12 +30,12 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkTextChildAnchor`.
-     * 
-     * Usually you would then insert it into a `GtkTextBuffer` with
-     * [method@Gtk.TextBuffer.insert_child_anchor]. To perform the
+     * Creates a new <code>GtkTextChildAnchor</code>.
+     * <p>
+     * Usually you would then insert it into a <code>GtkTextBuffer</code> with
+     * {@link org.gtk.gtk.TextBuffer#insertChildAnchor}. To perform the
      * creation and insertion in one step, use the convenience
-     * function [method@Gtk.TextBuffer.create_child_anchor].
+     * function {@link org.gtk.gtk.TextBuffer#createChildAnchor}.
      */
     public TextChildAnchor() {
         super(constructNew());
@@ -47,10 +47,10 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new `GtkTextChildAnchor` with the given replacement character.
-     * 
-     * Usually you would then insert it into a `GtkTextBuffer` with
-     * [method@Gtk.TextBuffer.insert_child_anchor].
+     * Creates a new <code>GtkTextChildAnchor</code> with the given replacement character.
+     * <p>
+     * Usually you would then insert it into a <code>GtkTextBuffer</code> with
+     * {@link org.gtk.gtk.TextBuffer#insertChildAnchor}.
      */
     public static TextChildAnchor newWithReplacement(java.lang.String character) {
         return new TextChildAnchor(constructNewWithReplacement(character));
@@ -63,7 +63,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Keep in mind that the child anchor will be unreferenced
      * when removed from the buffer, so you need to hold your own
      * reference (with g_object_ref()) if you plan to use this
-     * function — otherwise all deleted child anchors will also
+     * function &#8212; otherwise all deleted child anchors will also
      * be finalized.
      */
     public boolean getDeleted() {

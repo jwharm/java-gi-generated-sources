@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoFontMetrics` structure holds the overall metric information
+ * A <code>PangoFontMetrics</code> structure holds the overall metric information
  * for a font.
- * 
- * The information in a `PangoFontMetrics` structure may be restricted
+ * <p>
+ * The information in a <code>PangoFontMetrics</code> structure may be restricted
  * to a script. The fields of this structure are private to implementations
  * of a font backend. See the documentation of the corresponding getters
  * for documentation of their meaning.
  * 
  * For an overview of the most important metrics, see:
  * 
- * <picture>
- *   <source srcset="fontmetrics-dark.png" media="(prefers-color-scheme: dark)">
- *   <img alt="Font metrics" src="fontmetrics-light.png">
- * </picture>
+ * &#60;picture&#62;
+ *   &#60;source srcset=&#34;fontmetrics-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
+ *   &#60;img alt=&#34;Font metrics&#34; src=&#34;fontmetrics-light.png&#34;&#62;
+ * &#60;/picture&#62;
  */
 public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
 

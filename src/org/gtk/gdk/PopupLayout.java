@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkPopupLayout` struct contains information that is
- * necessary position a [iface@Gdk.Popup] relative to its parent.
+ * The <code>GdkPopupLayout</code> struct contains information that is
+ * necessary position a {@link [iface@Gdk.Popup] (ref=iface)} relative to its parent.
  * 
  * The positioning requires a negotiation with the windowing system,
  * since it depends on external constraints, such as the position of
@@ -19,26 +19,26 @@ import java.lang.invoke.*;
  * and the anchor on both that rectangle and the popup. The anchors
  * specify a side or corner to place next to each other.
  * 
- * ![Popup anchors](popup-anchors.png)
+ * !{@link [Popup anchors]}(popup-anchors.png)
  * 
  * For cases where placing the anchors next to each other would make
  * the popup extend offscreen, the layout includes some hints for how
  * to resolve this problem. The hints may suggest to flip the anchor
- * position to the other side, or to 'slide' the popup along a side,
+ * position to the other side, or to &#39;slide&#39; the popup along a side,
  * or to resize it.
  * 
- * ![Flipping popups](popup-flip.png)
+ * !{@link [Flipping popups]}(popup-flip.png)
  * 
- * ![Sliding popups](popup-slide.png)
+ * !{@link [Sliding popups]}(popup-slide.png)
  * 
  * These hints may be combined.
  * 
  * Ultimatively, it is up to the windowing system to determine the position
  * and size of the popup. You can learn about the result by calling
- * [method@Gdk.Popup.get_position_x], [method@Gdk.Popup.get_position_y],
- * [method@Gdk.Popup.get_rect_anchor] and [method@Gdk.Popup.get_surface_anchor]
+ * {@link org.gtk.gdk.Popup#getPositionX}, {@link org.gtk.gdk.Popup#getPositionY},
+ * {@link org.gtk.gdk.Popup#getRectAnchor} and {@link org.gtk.gdk.Popup#getSurfaceAnchor}
  * after the popup has been presented. This can be used to adjust the rendering.
- * For example, [class@Gtk.Popover] changes its arrow position accordingly.
+ * For example, {@link org.gtk.gtk.Popover} changes its arrow position accordingly.
  * But you have to be careful avoid changing the size of the popover, or it
  * has to be presented again.
  */
@@ -56,15 +56,15 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Create a popup layout description.
      * 
-     * Used together with [method@Gdk.Popup.present] to describe how a popup
+     * Used together with {@link org.gtk.gdk.Popup#present} to describe how a popup
      * surface should be placed and behave on-screen.
      * 
-     * @anchor_rect is relative to the top-left corner of the surface's parent.
+     * @anchor_rect is relative to the top-left corner of the surface&#39;s parent.
      * @rect_anchor and @surface_anchor determine anchor points on @anchor_rect
      * and surface to pin together.
      * 
-     * The position of @anchor_rect's anchor point can optionally be offset using
-     * [method@Gdk.PopupLayout.set_offset], which is equivalent to offsetting the
+     * The position of @anchor_rect&#39;s anchor point can optionally be offset using
+     * {@link org.gtk.gdk.PopupLayout#setOffset}, which is equivalent to offsetting the
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
@@ -88,7 +88,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the `GdkAnchorHints`.
+     * Get the <code>GdkAnchorHints</code>.
      */
     public int getAnchorHints() {
         var RESULT = gtk_h.gdk_popup_layout_get_anchor_hints(handle());
@@ -132,8 +132,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The set @anchor_hints determines how @surface will be moved
      * if the anchor points cause it to move off-screen. For example,
-     * %GDK_ANCHOR_FLIP_X will replace %GDK_GRAVITY_NORTH_WEST with
-     * %GDK_GRAVITY_NORTH_EAST and vice versa if @surface extends
+     * {@link org.gtk.gdk.AnchorHints#FLIP_X} will replace {@link org.gtk.gdk.Gravity#NORTH_WEST} with
+     * {@link org.gtk.gdk.Gravity#NORTH_EAST} and vice versa if @surface extends
      * beyond the left or right edges of the monitor.
      */
     public void setAnchorHints(int anchorHints) {

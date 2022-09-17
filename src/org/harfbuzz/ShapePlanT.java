@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * Data type for holding a shaping plan.
  * 
  * Shape plans contain information about how HarfBuzz will shape a
- * particular text segment, based on the segment's properties and the
+ * particular text segment, based on the segment&#39;s properties and the
  * capabilities in the font face in use.
  * 
  * Shape plans can be queried about how shaping will perform, given a set

@@ -38,15 +38,14 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     
     /**
      * Required API for GIO modules to implement.
-     * 
+     * <p>
      * This function is run after the module has been loaded into GIO,
      * to initialize the module. Typically, this function will call
      * g_io_extension_point_implement().
-     * 
-     * Since 2.56, this function should be named `g_io_<modulename>_load`, where
-     * `modulename` is the plugin’s filename with the `lib` or `libgio` prefix and
-     * everything after the first dot removed, and with `-` replaced with `_`
-     * throughout. For example, `libgiognutls-helper.so` becomes `gnutls_helper`.
+     * <p>
+     * Since 2.56, this function should be named <code>g_io_&#60;modulename&#62;_load</code>, where<code>modulename</code> is the plugin&#8217;s filename with the <code>lib</code> or <code>libgio</code> prefix and
+     * everything after the first dot removed, and with <code>-</code> replaced with <code>_</code>
+     * throughout. For example, <code>libgiognutls-helper.so</code> becomes <code>gnutls_helper</code>.
      * Using the new symbol names avoids name clashes when building modules
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
@@ -57,14 +56,13 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
     
     /**
      * Required API for GIO modules to implement.
-     * 
+     * <p>
      * This function is run when the module is being unloaded from GIO,
      * to finalize the module.
-     * 
-     * Since 2.56, this function should be named `g_io_<modulename>_unload`, where
-     * `modulename` is the plugin’s filename with the `lib` or `libgio` prefix and
-     * everything after the first dot removed, and with `-` replaced with `_`
-     * throughout. For example, `libgiognutls-helper.so` becomes `gnutls_helper`.
+     * <p>
+     * Since 2.56, this function should be named <code>g_io_&#60;modulename&#62;_unload</code>, where<code>modulename</code> is the plugin&#8217;s filename with the <code>lib</code> or <code>libgio</code> prefix and
+     * everything after the first dot removed, and with <code>-</code> replaced with <code>_</code>
+     * throughout. For example, <code>libgiognutls-helper.so</code> becomes <code>gnutls_helper</code>.
      * Using the new symbol names avoids name clashes when building modules
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.

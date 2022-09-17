@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The possible accessible relations of a [iface@Accessible].
+ * The possible accessible relations of a {@link [iface@Accessible] (ref=iface)}.
  * 
  * Accessible relations can be references to other widgets,
  * integers or strings.
@@ -22,7 +22,7 @@ public enum AccessibleRelation {
     COL_COUNT,
     
     /**
-     * Defines an element's column index or
+     * Defines an element&#39;s column index or
      *    position with respect to the total number of columns within a table,
      *    grid, or treegrid. Value type: integer
      */
@@ -30,7 +30,7 @@ public enum AccessibleRelation {
     
     /**
      * Defines a human readable text
-     *   alternative of %GTK_ACCESSIBLE_RELATION_COL_INDEX. Value type: string
+     *   alternative of <code>GTK_ACCESSIBLE_RELATION_COL_INDEX.</code> Value type: string
      */
     COL_INDEX_TEXT,
     
@@ -66,7 +66,7 @@ public enum AccessibleRelation {
     
     /**
      * Identifies the next element (or elements)
-     *    in an alternate reading order of content which, at the user's discretion,
+     *    in an alternate reading order of content which, at the user&#39;s discretion,
      *    allows assistive technology to override the general default of reading in
      *    document source order. Value type: reference
      */
@@ -87,7 +87,7 @@ public enum AccessibleRelation {
     OWNS,
     
     /**
-     * Defines an element's number or position
+     * Defines an element&#39;s number or position
      *    in the current set of listitems or treeitems. Value type: integer
      */
     POS_IN_SET,
@@ -99,7 +99,7 @@ public enum AccessibleRelation {
     ROW_COUNT,
     
     /**
-     * Defines an element's row index or position
+     * Defines an element&#39;s row index or position
      *    with respect to the total number of rows within a table, grid, or treegrid.
      *    Value type: integer
      */

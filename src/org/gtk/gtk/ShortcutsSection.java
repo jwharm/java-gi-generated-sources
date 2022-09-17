@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutsSection` collects all the keyboard shortcuts and gestures
+ * A <code>GtkShortcutsSection</code> collects all the keyboard shortcuts and gestures
  * for a major application mode.
  * 
  * If your application needs multiple sections, you should give each
- * section a unique [property@Gtk.ShortcutsSection:section-name] and
- * a [property@Gtk.ShortcutsSection:title] that can be shown in the
- * section selector of the [class@Gtk.ShortcutsWindow].
+ * section a unique {@link [property@Gtk.ShortcutsSection:section-name] (ref=property)} and
+ * a {@link [property@Gtk.ShortcutsSection:title] (ref=property)} that can be shown in the
+ * section selector of the {@link org.gtk.gtk.ShortcutsWindow}.
  * 
- * The [property@Gtk.ShortcutsSection:max-height] property can be used
+ * The {@link [property@Gtk.ShortcutsSection:max-height] (ref=property)} property can be used
  * to influence how the groups in the section are distributed over pages
  * and columns.
  * 
- * This widget is only meant to be used with [class@Gtk.ShortcutsWindow].
+ * This widget is only meant to be used with {@link org.gtk.gtk.ShortcutsWindow}.
  */
 public class ShortcutsSection extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
 

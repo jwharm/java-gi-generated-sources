@@ -127,7 +127,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     /**
      * Changes @store by removing @n_removals items and adding @n_additions
      * items to it. @additions must contain @n_additions items of type
-     * #GListStore:item-type.  %NULL is not permitted.
+     * #GListStore:item-type.  <code>null</code> is not permitted.
      * 
      * This function is more efficient than g_list_store_insert() and
      * g_list_store_remove(), because it only emits

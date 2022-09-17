@@ -5,20 +5,20 @@ package org.gtk.gio;
  * 
  * Note that this domain may be extended in future GLib releases. In
  * general, new error codes either only apply to new APIs, or else
- * replace %G_IO_ERROR_FAILED in cases that were not explicitly
+ * replace {@link org.gtk.gio.IOErrorEnum#FAILED} in cases that were not explicitly
  * distinguished before. You should therefore avoid writing code like
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
  *   {
  *     // Assume that this is EPRINTERONFIRE
  *     ...
  *   }
- * ]|
+ * ]}|
  * but should instead treat all unrecognized error codes the same as
- * %G_IO_ERROR_FAILED.
+ * <code>G_IO_ERROR_FAILED.
  * 
- * See also #GPollableReturn for a cheaper way of returning
- * %G_IO_ERROR_WOULD_BLOCK to callers without allocating a #GError.
+ * See</code> also #GPollableReturn for a cheaper way of returning
+ * {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} to callers without allocating a #GError.
  */
 public enum IOErrorEnum {
 
@@ -49,7 +49,7 @@ public enum IOErrorEnum {
     NOT_DIRECTORY,
     
     /**
-     * File is a directory that isn't empty.
+     * File is a directory that isn&#39;t empty.
      */
     NOT_EMPTY,
     
@@ -104,7 +104,7 @@ public enum IOErrorEnum {
     NOT_SUPPORTED,
     
     /**
-     * File isn't mounted.
+     * File isn&#39;t mounted.
      */
     NOT_MOUNTED,
     
@@ -134,12 +134,12 @@ public enum IOErrorEnum {
     READ_ONLY,
     
     /**
-     * Backup couldn't be created.
+     * Backup couldn&#39;t be created.
      */
     CANT_CREATE_BACKUP,
     
     /**
-     * File's Entity Tag was incorrect.
+     * File&#39;s Entity Tag was incorrect.
      */
     WRONG_ETAG,
     
@@ -164,7 +164,7 @@ public enum IOErrorEnum {
     WOULD_BLOCK,
     
     /**
-     * Host couldn't be found (remote operations).
+     * Host couldn&#39;t be found (remote operations).
      */
     HOST_NOT_FOUND,
     
@@ -181,7 +181,7 @@ public enum IOErrorEnum {
     
     /**
      * The current process has too many files
-     *     open and can't open any more. Duplicate descriptors do count toward
+     *     open and can&#39;t open any more. Duplicate descriptors do count toward
      *     this limit. Since 2.20
      */
     TOO_MANY_OPEN_FILES,
@@ -208,7 +208,7 @@ public enum IOErrorEnum {
     
     /**
      * A remote object generated an error that
-     *     doesn't correspond to a locally registered #GError error
+     *     doesn&#39;t correspond to a locally registered #GError error
      *     domain. Use g_dbus_error_get_remote_error() to extract the D-Bus
      *     error name and g_dbus_error_strip_remote_error() to fix up the
      *     message so it matches what was received on the wire. Since 2.26.
@@ -258,9 +258,9 @@ public enum IOErrorEnum {
     
     /**
      * Connection closed by peer. Note that this
-     *     is the same code as %G_IO_ERROR_BROKEN_PIPE; before 2.44 some
-     *     "connection closed" errors returned %G_IO_ERROR_BROKEN_PIPE, but others
-     *     returned %G_IO_ERROR_FAILED. Now they should all return the same
+     *     is the same code as <code>G_IO_ERROR_BROKEN_PIPE;</code> before 2.44 some
+     *     &#34;connection closed&#34; errors returned <code>G_IO_ERROR_BROKEN_PIPE,</code> but others
+     *     returned <code>G_IO_ERROR_FAILED.</code> Now they should all return the same
      *     value, which has this more logical name. Since 2.44.
      */
     CONNECTION_CLOSED,

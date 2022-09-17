@@ -38,7 +38,7 @@ public class TcpWrapperConnection extends TcpConnection {
     }
     
     /**
-     * Gets @conn's base #GIOStream
+     * Gets @conn&#39;s base #GIOStream
      */
     public IOStream getBaseIoStream() {
         var RESULT = gtk_h.g_tcp_wrapper_connection_get_base_io_stream(handle());

@@ -6,12 +6,12 @@ package org.gtk.gdk;
  * These hints determine how the surface should be positioned in the case that
  * the surface would fall off-screen if placed in its ideal position.
  * 
- * For example, %GDK_ANCHOR_FLIP_X will replace %GDK_GRAVITY_NORTH_WEST with
- * %GDK_GRAVITY_NORTH_EAST and vice versa if the surface extends beyond the left
+ * For example, {@link org.gtk.gdk.AnchorHints#FLIP_X} will replace {@link org.gtk.gdk.Gravity#NORTH_WEST} with
+ * {@link org.gtk.gdk.Gravity#NORTH_EAST} and vice versa if the surface extends beyond the left
  * or right edges of the monitor.
  * 
- * If %GDK_ANCHOR_SLIDE_X is set, the surface can be shifted horizontally to fit
- * on-screen. If %GDK_ANCHOR_RESIZE_X is set, the surface can be shrunken
+ * If {@link org.gtk.gdk.AnchorHints#SLIDE_X} is set, the surface can be shifted horizontally to fit
+ * on-screen. If {@link org.gtk.gdk.AnchorHints#RESIZE_X} is set, the surface can be shrunken
  * horizontally to fit.
  * 
  * In general, when multiple flags are set, flipping should take precedence over

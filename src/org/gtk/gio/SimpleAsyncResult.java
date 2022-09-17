@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * 
  * Most of the time, an application will not need to know of the details
  * of this API; it is handled transparently, and any necessary operations
- * are handled by #GAsyncResult's interface. However, if implementing a
+ * are handled by #GAsyncResult&#39;s interface. However, if implementing a
  * new GIO module, for writing language bindings, or for complex
  * applications that need better control of how asynchronous operations
  * are completed, it is important to understand this functionality.
@@ -37,7 +37,7 @@ import java.lang.invoke.*;
  * If the result needs to be created for a #GError, use
  * g_simple_async_result_new_from_error() or
  * g_simple_async_result_new_take_error(). If a #GError is not available
- * (e.g. the asynchronous operation's doesn't take a #GError argument),
+ * (e.g. the asynchronous operation&#39;s doesn&#39;t take a #GError argument),
  * but the result still needs to be created for an error condition, use
  * g_simple_async_result_new_error() (or g_simple_async_result_set_error_va()
  * if your application or binding requires passing a variable argument list
@@ -46,16 +46,16 @@ import java.lang.invoke.*;
  * 
  * An asynchronous operation can be made to ignore a cancellation event by
  * calling g_simple_async_result_set_handle_cancellation() with a
- * #GSimpleAsyncResult for the operation and %FALSE. This is useful for
+ * #GSimpleAsyncResult for the operation and <code>FALSE.</code> This is useful for
  * operations that are dangerous to cancel, such as close (which would
  * cause a leak if cancelled before being run).
  * 
- * GSimpleAsyncResult can integrate into GLib's event loop, #GMainLoop,
+ * GSimpleAsyncResult can integrate into GLib&#39;s event loop, #GMainLoop,
  * or it can use #GThreads.
  * g_simple_async_result_complete() will finish an I/O task directly
  * from the point where it is called. g_simple_async_result_complete_in_idle()
  * will finish it from an idle handler in the
- * [thread-default main context][g-main-context-push-thread-default]
+ * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * where the #GSimpleAsyncResult was created.
  * g_simple_async_result_run_in_thread() will run the job in a
  * separate thread and then use
@@ -65,21 +65,21 @@ import java.lang.invoke.*;
  * g_simple_async_result_set_op_res_gpointer(),
  * g_simple_async_result_set_op_res_gboolean(), and
  * g_simple_async_result_set_op_res_gssize()
- * are provided, setting the operation's result to a gpointer, gboolean, or
+ * are provided, setting the operation&#39;s result to a gpointer, gboolean, or
  * gssize, respectively.
  * 
  * Likewise, to get the result of an asynchronous function,
  * g_simple_async_result_get_op_res_gpointer(),
  * g_simple_async_result_get_op_res_gboolean(), and
  * g_simple_async_result_get_op_res_gssize() are
- * provided, getting the operation's result as a gpointer, gboolean, and
+ * provided, getting the operation&#39;s result as a gpointer, gboolean, and
  * gssize, respectively.
  * 
  * For the details of the requirements implementations must respect, see
  * #GAsyncResult.  A typical implementation of an asynchronous operation
  * using GSimpleAsyncResult looks something like this:
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * static void
  * baked_cb (Cake    *cake,
  *           gpointer user_data)
@@ -92,7 +92,7 @@ import java.lang.invoke.*;
  *     g_simple_async_result_set_error (result,
  *                                      BAKER_ERRORS,
  *                                      BAKER_ERROR_NO_FLOUR,
- *                                      "Go to the supermarket");
+ *                                      &#34;Go to the supermarket&#34;);
  *   else
  *     g_simple_async_result_set_op_res_gpointer (result,
  *                                                g_object_ref (cake),
@@ -100,9 +100,9 @@ import java.lang.invoke.*;
  * 
  * 
  *   // In this example, we assume that baked_cb is called as a callback from
- *   // the mainloop, so it's safe to complete the operation synchronously here.
+ *   // the mainloop, so it&#39;s safe to complete the operation synchronously here.
  *   // If, however, _baker_prepare_cake () might call its callback without
- *   // first returning to the mainloop — inadvisable, but some APIs do so —
+ *   // first returning to the mainloop &#8212; inadvisable, but some APIs do so &#8212;
  *   // we would need to use g_simple_async_result_complete_in_idle().
  *   g_simple_async_result_complete (result);
  *   g_object_unref (result);
@@ -117,14 +117,14 @@ import java.lang.invoke.*;
  *   GSimpleAsyncResult *simple;
  *   Cake               *cake;
  * 
- *   if (radius < 3)
+ *   if (radius &#60; 3)
  *     {
  *       g_simple_async_report_error_in_idle (G_OBJECT (self),
  *                                            callback,
  *                                            user_data,
  *                                            BAKER_ERRORS,
  *                                            BAKER_ERROR_TOO_SMALL,
- *                                            "%ucm radius cakes are silly",
+ *                                            &#34;<code>ucm</code> radius cakes are silly&#34;,
  *                                            radius);
  *       return;
  *     }
@@ -172,7 +172,7 @@ import java.lang.invoke.*;
  *   cake = CAKE (g_simple_async_result_get_op_res_gpointer (simple));
  *   return g_object_ref (cake);
  * }
- * ]|
+ * ]}|
  */
 public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncResult {
 
@@ -224,7 +224,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
     
     /**
      * Creates a #GSimpleAsyncResult from an error condition, and takes over the
-     * caller's ownership of @error, so the caller does not need to free it anymore.
+     * caller&#39;s ownership of @error, so the caller does not need to free it anymore.
      */
     public static SimpleAsyncResult newTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
         return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error));

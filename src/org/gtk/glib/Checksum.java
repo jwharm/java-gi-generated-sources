@@ -26,7 +26,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new #GChecksum, using the checksum algorithm @checksum_type.
-     * If the @checksum_type is not known, %NULL is returned.
+     * If the @checksum_type is not known, <code>null</code> is returned.
      * A #GChecksum can be used to compute the checksum, or digest, of an
      * arbitrary binary blob, using different hashing algorithms.
      * 
@@ -36,7 +36,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
      * hexadecimal string; or g_checksum_get_digest(), which will return a
      * vector of raw bytes. Once either g_checksum_get_string() or
      * g_checksum_get_digest() have been called on a #GChecksum, the checksum
-     * will be closed and it won't be possible to call g_checksum_update()
+     * will be closed and it won&#39;t be possible to call g_checksum_update()
      * on it anymore.
      */
     public Checksum(ChecksumType checksumType) {

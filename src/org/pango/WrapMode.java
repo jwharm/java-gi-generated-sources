@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * `PangoWrapMode` describes how to wrap the lines of a `PangoLayout`
+ * <code>PangoWrapMode</code> describes how to wrap the lines of a <code>PangoLayout</code>
  * to the desired width.
  * 
  * For @PANGO_WRAP_WORD, Pango uses break opportunities that are determined

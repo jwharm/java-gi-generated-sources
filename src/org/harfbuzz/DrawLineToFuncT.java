@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_draw_funcs_t to perform a "line-to" draw
+ * A virtual method for the #hb_draw_funcs_t to perform a &#34;line-to&#34; draw
  * operation.
  */
 @FunctionalInterface

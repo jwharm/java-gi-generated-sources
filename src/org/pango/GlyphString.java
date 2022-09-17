@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoGlyphString` is used to store strings of glyphs with geometry
+ * A <code>PangoGlyphString</code> is used to store strings of glyphs with geometry
  * and visual attribute information.
  * 
  * The storage for the glyph information is owned by the structure
@@ -26,7 +26,7 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Create a new `PangoGlyphString`.
+     * Create a new <code>PangoGlyphString</code>.
      */
     public GlyphString() {
         super(constructNew());
@@ -43,12 +43,12 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Compute the logical and ink extents of a glyph string.
      * 
-     * See the documentation for [method@Pango.Font.get_glyph_extents] for details
+     * See the documentation for {@link org.pango.Font#getGlyphExtents} for details
      * about the interpretation of the rectangles.
      * 
      * Examples of logical (red) and ink (green) rects:
      * 
-     * ![](rects1.png) ![](rects2.png)
+     * !{@link []}(rects1.png) !{@link []}(rects2.png)
      */
     public void extents(Font font, Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_glyph_string_extents(handle(), font.handle(), inkRect.handle(), logicalRect.handle());
@@ -73,13 +73,13 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Given a `PangoGlyphString` and corresponding text, determine the width
+     * Given a <code>PangoGlyphString</code> and corresponding text, determine the width
      * corresponding to each character.
      * 
      * When multiple characters compose a single cluster, the width of the
      * entire cluster is divided equally among the characters.
      * 
-     * See also [method@Pango.GlyphItem.get_logical_widths].
+     * See also {@link org.pango.GlyphItem#getLogicalWidths}.
      */
     public void getLogicalWidths(java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
         gtk_h.pango_glyph_string_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), length, embeddingLevel, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
@@ -88,8 +88,8 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the logical width of the glyph string.
      * 
-     * This can also be computed using [method@Pango.GlyphString.extents].
-     * However, since this only computes the width, it's much faster. This
+     * This can also be computed using {@link org.pango.GlyphString#extents}.
+     * However, since this only computes the width, it&#39;s much faster. This
      * is in fact only a convenience function that computes the sum of
      * @geometry.width for each glyph in the @glyphs.
      */

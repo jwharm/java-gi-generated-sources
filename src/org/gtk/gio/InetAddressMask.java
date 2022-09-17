@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * #GInetAddressMask represents a range of IPv4 or IPv6 addresses
  * described by a base address and a length indicating how many bits
  * of the base address are relevant for matching purposes. These are
- * often given in string form. Eg, "10.0.0.0/8", or "fe80::/10".
+ * often given in string form. Eg, &#34;10.0.0.0/8&#34;, or &#34;fe80::/10&#34;.
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
@@ -53,7 +53,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     /**
      * Parses @mask_string as an IP address and (optional) length, and
      * creates a new #GInetAddressMask. The length, if present, is
-     * delimited by a "/". If it is not present, then the length is
+     * delimited by a &#34;/&#34;. If it is not present, then the length is
      * assumed to be the full length of the address.
      */
     public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
@@ -69,7 +69,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask's base address
+     * Gets @mask&#39;s base address
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
@@ -77,7 +77,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets the #GSocketFamily of @mask's address
+     * Gets the #GSocketFamily of @mask&#39;s address
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
@@ -85,7 +85,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask's length
+     * Gets @mask&#39;s length
      */
     public int getLength() {
         var RESULT = gtk_h.g_inet_address_mask_get_length(handle());

@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkDropControllerMotion` is an event controller tracking
+ * <code>GtkDropControllerMotion</code> is an event controller tracking
  * the pointer during Drag-and-Drop operations.
  * 
- * It is modeled after [class@Gtk.EventControllerMotion] so if you
+ * It is modeled after {@link org.gtk.gtk.EventControllerMotion} so if you
  * have used that, this should feel really familiar.
  * 
- * This controller is not able to accept drops, use [class@Gtk.DropTarget]
+ * This controller is not able to accept drops, use {@link org.gtk.gtk.DropTarget}
  * for that purpose.
  */
 public class DropControllerMotion extends EventController {
@@ -51,7 +51,7 @@ public class DropControllerMotion extends EventController {
     }
     
     /**
-     * Returns the `GdkDrop` of a current Drag-and-Drop operation
+     * Returns the <code>GdkDrop</code> of a current Drag-and-Drop operation
      * over the widget of @self.
      */
     public org.gtk.gdk.Drop getDrop() {

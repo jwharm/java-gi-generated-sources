@@ -12,42 +12,42 @@ package org.gtk.glib;
 public enum UserDirectory {
 
     /**
-     * the user's Desktop directory
+     * the user&#39;s Desktop directory
      */
     DIRECTORY_DESKTOP,
     
     /**
-     * the user's Documents directory
+     * the user&#39;s Documents directory
      */
     DIRECTORY_DOCUMENTS,
     
     /**
-     * the user's Downloads directory
+     * the user&#39;s Downloads directory
      */
     DIRECTORY_DOWNLOAD,
     
     /**
-     * the user's Music directory
+     * the user&#39;s Music directory
      */
     DIRECTORY_MUSIC,
     
     /**
-     * the user's Pictures directory
+     * the user&#39;s Pictures directory
      */
     DIRECTORY_PICTURES,
     
     /**
-     * the user's shared directory
+     * the user&#39;s shared directory
      */
     DIRECTORY_PUBLIC_SHARE,
     
     /**
-     * the user's Templates directory
+     * the user&#39;s Templates directory
      */
     DIRECTORY_TEMPLATES,
     
     /**
-     * the user's Movies directory
+     * the user&#39;s Movies directory
      */
     DIRECTORY_VIDEOS,
     

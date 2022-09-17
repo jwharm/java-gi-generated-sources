@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkContentFormatsBuilder` is an auxiliary struct used to create
- * new `GdkContentFormats`, and should not be kept around.
+ * A <code>GdkContentFormatsBuilder</code> is an auxiliary struct used to create
+ * new <code>GdkContentFormats</code>, and should not be kept around.
  */
 public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
@@ -23,9 +23,9 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Create a new `GdkContentFormatsBuilder` object.
-     * 
-     * The resulting builder would create an empty `GdkContentFormats`.
+     * Create a new <code>GdkContentFormatsBuilder</code> object.
+     * <p>
+     * The resulting builder would create an empty <code>GdkContentFormats</code>.
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
@@ -55,7 +55,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Creates a new `GdkContentFormats` from the current state of the
+     * Creates a new <code>GdkContentFormats</code> from the current state of the
      * given @builder, and frees the @builder instance.
      */
     public ContentFormats freeToFormats() {
@@ -65,9 +65,8 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     
     /**
      * Acquires a reference on the given @builder.
-     * 
-     * This function is intended primarily for bindings.
-     * `GdkContentFormatsBuilder` objects should not be kept around.
+     * <p>
+     * This function is intended primarily for bindings.<code>GdkContentFormatsBuilder</code> objects should not be kept around.
      */
     public ContentFormatsBuilder ref() {
         var RESULT = gtk_h.gdk_content_formats_builder_ref(handle());
@@ -75,13 +74,13 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Creates a new `GdkContentFormats` from the given @builder.
-     * 
-     * The given `GdkContentFormatsBuilder` is reset once this function returns;
+     * Creates a new <code>GdkContentFormats</code> from the given @builder.
+     * <p>
+     * The given <code>GdkContentFormatsBuilder</code> is reset once this function returns;
      * you cannot call this function multiple times on the same @builder instance.
      * 
      * This function is intended primarily for bindings. C code should use
-     * [method@Gdk.ContentFormatsBuilder.free_to_formats].
+     * {@link org.gtk.gdk.ContentFormatsBuilder#freeToFormats}.
      */
     public ContentFormats toFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());

@@ -2,12 +2,11 @@ package org.gtk.gtk;
 
 /**
  * Baseline position in a row of widgets.
- * 
+ * <p>
  * Whenever a container has some form of natural row it may align
  * children in that row along a common typographical baseline. If
  * the amount of vertical space in the row is taller than the total
- * requested height of the baseline-aligned children then it can use a
- * `GtkBaselinePosition` to select where to put the baseline inside the
+ * requested height of the baseline-aligned children then it can use a<code>GtkBaselinePosition</code> to select where to put the baseline inside the
  * extra available space.
  */
 public enum BaselinePosition {

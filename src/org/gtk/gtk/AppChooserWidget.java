@@ -8,29 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAppChooserWidget` is a widget for selecting applications.
- * 
- * It is the main building block for [class@Gtk.AppChooserDialog].
+ * <code>GtkAppChooserWidget</code> is a widget for selecting applications.
+ * <p>
+ * It is the main building block for {@link org.gtk.gtk.AppChooserDialog}.
  * Most applications only need to use the latter; but you can use
  * this widget as part of a larger widget if you have special needs.
- * 
- * `GtkAppChooserWidget` offers detailed control over what applications
+ * <p><code>GtkAppChooserWidget</code> offers detailed control over what applications
  * are shown, using the
- * [property@Gtk.AppChooserWidget:show-default],
- * [property@Gtk.AppChooserWidget:show-recommended],
- * [property@Gtk.AppChooserWidget:show-fallback],
- * [property@Gtk.AppChooserWidget:show-other] and
- * [property@Gtk.AppChooserWidget:show-all] properties. See the
- * [iface@Gtk.AppChooser] documentation for more information about these
+ * {@link [property@Gtk.AppChooserWidget:show-default] (ref=property)},
+ * {@link [property@Gtk.AppChooserWidget:show-recommended] (ref=property)},
+ * {@link [property@Gtk.AppChooserWidget:show-fallback] (ref=property)},
+ * {@link [property@Gtk.AppChooserWidget:show-other] (ref=property)} and
+ * {@link [property@Gtk.AppChooserWidget:show-all] (ref=property)} properties. See the
+ * {@link [iface@Gtk.AppChooser] (ref=iface)} documentation for more information about these
  * groups of applications.
- * 
+ * <p>
  * To keep track of the selected application, use the
- * [signal@Gtk.AppChooserWidget::application-selected] and
- * [signal@Gtk.AppChooserWidget::application-activated] signals.
- * 
- * # CSS nodes
- * 
- * `GtkAppChooserWidget` has a single CSS node with name appchooser.
+ * {@link [signal@Gtk.AppChooserWidget::application-selected] (ref=signal)} and
+ * {@link [signal@Gtk.AppChooserWidget::application-activated] (ref=signal)} signals.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkAppChooserWidget</code> has a single CSS node with name appchooser.
  */
 public class AppChooserWidget extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
@@ -49,7 +47,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new `GtkAppChooserWidget` for applications
+     * Creates a new <code>GtkAppChooserWidget</code> for applications
      * that can handle content of the given type.
      */
     public AppChooserWidget(java.lang.String contentType) {
@@ -164,7 +162,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Emitted when an application item is activated from the widget's list.
+     * Emitted when an application item is activated from the widget&#39;s list.
      * 
      * This usually happens when the user double clicks an item, or an item
      * is selected and the user presses one of the keys Space, Shift+Space,
@@ -191,7 +189,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Emitted when an application item is selected from the widget's list.
+     * Emitted when an application item is selected from the widget&#39;s list.
      */
     public SignalHandle onApplicationSelected(ApplicationSelectedHandler handler) {
         try {

@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * The location and size of a rectangle region.
  * 
  * The width and height of a #graphene_rect_t can be negative; for instance,
- * a #graphene_rect_t with an origin of [ 0, 0 ] and a size of [ 10, 10 ] is
- * equivalent to a #graphene_rect_t with an origin of [ 10, 10 ] and a size
- * of [ -10, -10 ].
+ * a #graphene_rect_t with an origin of {@link [ 0, 0 ]} and a size of {@link [ 10, 10 ]} is
+ * equivalent to a #graphene_rect_t with an origin of {@link [ 10, 10 ]} and a size
+ * of {@link [ -10, -10 ]}.
  * 
  * Application code can normalize rectangles using graphene_rect_normalize();
  * this function will ensure that the width and height of a rectangle are
@@ -175,13 +175,13 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Changes the given rectangle to be smaller, or larger depending on the
      * given inset parameters.
-     * 
+     * <p>
      * To create an inset rectangle, use positive @d_x or @d_y values; to
      * create a larger, encompassing rectangle, use negative @d_x or @d_y
      * values.
-     * 
+     * <p>
      * The origin of the rectangle is offset by @d_x and @d_y, while the size
-     * is adjusted by `(2 * @d_x, 2 * @d_y)`. If @d_x and @d_y are positive
+     * is adjusted by <code>(2 * @d_x, 2 * @d_y)</code>. If @d_x and @d_y are positive
      * values, the size of the rectangle is decreased; if @d_x and @d_y are
      * negative values, the size of the rectangle is increased.
      * 
@@ -196,13 +196,13 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Changes the given rectangle to be smaller, or larger depending on the
      * given inset parameters.
-     * 
+     * <p>
      * To create an inset rectangle, use positive @d_x or @d_y values; to
      * create a larger, encompassing rectangle, use negative @d_x or @d_y
      * values.
-     * 
+     * <p>
      * The origin of the rectangle is offset by @d_x and @d_y, while the size
-     * is adjusted by `(2 * @d_x, 2 * @d_y)`. If @d_x and @d_y are positive
+     * is adjusted by <code>(2 * @d_x, 2 * @d_y)</code>. If @d_x and @d_y are positive
      * values, the size of the rectangle is decreased; if @d_x and @d_y are
      * negative values, the size of the rectangle is increased.
      * 
@@ -224,7 +224,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the intersection of the two given rectangles.
      * 
-     * ![](rectangle-intersection.png)
+     * !{@link []}(rectangle-intersection.png)
      * 
      * The intersection in the image above is the blue outline.
      * 
@@ -283,15 +283,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * integer value and and recompute the size so that the
      * rectangle is large enough to contain all the conrners
      * of the original rectangle.
-     * 
-     * This function is the equivalent of calling `floor` on
+     * <p>
+     * This function is the equivalent of calling <code>floor</code> on
      * the coordinates of the origin, and recomputing the size
-     * calling `ceil` on the bottom-right coordinates.
+     * calling <code>ceil</code> on the bottom-right coordinates.
      * 
      * If you want to be sure that the rounded rectangle
      * completely covers the area that was covered by the
-     * original rectangle — i.e. you want to cover the area
-     * including all its corners — this function will make sure
+     * original rectangle &#8212; i.e. you want to cover the area
+     * including all its corners &#8212; this function will make sure
      * that the size is recomputed taking into account the ceiling
      * of the coordinates of the bottom-right corner.
      * If the difference between the original coordinates and the
@@ -316,7 +316,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the union of the two given rectangles.
      * 
-     * ![](rectangle-union.png)
+     * !{@link []}(rectangle-union.png)
      * 
      * The union in the image above is the blue outline.
      */

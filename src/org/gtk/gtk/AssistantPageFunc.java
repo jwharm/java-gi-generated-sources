@@ -1,12 +1,12 @@
 package org.gtk.gtk;
 
 /**
- * Type of callback used to calculate the next page in a `GtkAssistant`.
+ * Type of callback used to calculate the next page in a <code>GtkAssistant</code>.
  * 
- * It’s called both for computing the next page when the user presses the
- * “forward” button and for handling the behavior of the “last” button.
+ * It&#8217;s called both for computing the next page when the user presses the
+ * &#8220;forward&#8221; button and for handling the behavior of the &#8220;last&#8221; button.
  * 
- * See [method@Gtk.Assistant.set_forward_page_func].
+ * See {@link org.gtk.gtk.Assistant#setForwardPageFunc}.
  */
 @FunctionalInterface
 public interface AssistantPageFunc {

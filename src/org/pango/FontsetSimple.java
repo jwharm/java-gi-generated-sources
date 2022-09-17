@@ -8,10 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `PangoFontsetSimple` is a implementation of the abstract
- * `PangoFontset` base class as an array of fonts.
- * 
- * When creating a `PangoFontsetSimple`, you have to provide
+ * <code>PangoFontsetSimple</code> is a implementation of the abstract<code>PangoFontset</code> base class as an array of fonts.
+ * <p>
+ * When creating a <code>PangoFontsetSimple</code>, you have to provide
  * the array of fonts that make up the fontset.
  */
 public class FontsetSimple extends Fontset {
@@ -31,7 +30,7 @@ public class FontsetSimple extends Fontset {
     }
     
     /**
-     * Creates a new `PangoFontsetSimple` for the given language.
+     * Creates a new <code>PangoFontsetSimple</code> for the given language.
      */
     public FontsetSimple(Language language) {
         super(constructNew(language));

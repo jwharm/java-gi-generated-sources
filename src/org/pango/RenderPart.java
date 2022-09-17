@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * `PangoRenderPart` defines different items to render for such
+ * <code>PangoRenderPart</code> defines different items to render for such
  * purposes as setting colors.
  */
 public enum RenderPart {

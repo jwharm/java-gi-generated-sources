@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkMultiFilter` is the base class for filters that combine multiple filters.
+ * <code>GtkMultiFilter</code> is the base class for filters that combine multiple filters.
  */
 public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Buildable {
 

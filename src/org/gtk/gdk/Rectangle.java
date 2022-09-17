@@ -8,17 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkRectangle` data type for representing rectangles.
- * 
- * `GdkRectangle` is identical to `cairo_rectangle_t`. Together with Cairo’s
- * `cairo_region_t` data type, these are the central types for representing
+ * A <code>GdkRectangle</code> data type for representing rectangles.
+ * <p><code>GdkRectangle</code> is identical to <code>cairo_rectangle_t</code>. Together with Cairo&#8217;s<code>cairo_region_t</code> data type, these are the central types for representing
  * sets of pixels.
- * 
+ * <p>
  * The intersection of two rectangles can be computed with
- * [method@Gdk.Rectangle.intersect]; to find the union of two rectangles use
- * [method@Gdk.Rectangle.union].
- * 
- * The `cairo_region_t` type provided by Cairo is usually used for managing
+ * {@link org.gtk.gdk.Rectangle#intersect}; to find the union of two rectangles use
+ * {@link org.gtk.gdk.Rectangle#union}.
+ * <p>
+ * The <code>cairo_region_t</code> type provided by Cairo is usually used for managing
  * non-rectangular clipping of graphical operations.
  * 
  * The Graphene library has a number of other data types for regions and
@@ -31,7 +29,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @rect contains the point described by @x and @y.
+     * Returns <code>true</code> if @rect contains the point described by @x and @y.
      */
     public boolean containsPoint(int x, int y) {
         var RESULT = gtk_h.gdk_rectangle_contains_point(handle(), x, y);
@@ -50,10 +48,10 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * Calculates the intersection of two rectangles.
      * 
      * It is allowed for @dest to be the same as either @src1 or @src2.
-     * If the rectangles do not intersect, @dest’s width and height is set
+     * If the rectangles do not intersect, @dest&#8217;s width and height is set
      * to 0 and its x and y values are undefined. If you are only interested
      * in whether the rectangles intersect, but not in the intersecting area
-     * itself, pass %NULL for @dest.
+     * itself, pass <code>null</code> for @dest.
      */
     public boolean intersect(Rectangle src2, Rectangle dest) {
         var RESULT = gtk_h.gdk_rectangle_intersect(handle(), src2.handle(), dest.handle());
@@ -67,7 +65,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * includes both @src1 and @src2 within it. It is allowed for @dest to be
      * the same as either @src1 or @src2.
      * 
-     * Note that this function does not ignore 'empty' rectangles (ie. with
+     * Note that this function does not ignore &#39;empty&#39; rectangles (ie. with
      * zero width or height).
      */
     public void union(Rectangle src2, Rectangle dest) {

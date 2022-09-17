@@ -39,7 +39,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     /**
      * Gets the display string for the @context. This is used to ensure new
      * applications are started on the same display as the launching
-     * application, by setting the `DISPLAY` environment variable.
+     * application, by setting the <code>DISPLAY</code> environment variable.
      */
     public java.lang.String getDisplay(AppInfo info, org.gtk.glib.List files) {
         var RESULT = gtk_h.g_app_launch_context_get_display(handle(), info.handle(), files.handle());
@@ -47,11 +47,10 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Initiates startup notification for the application and returns the
-     * `DESKTOP_STARTUP_ID` for the launched operation, if supported.
+     * Initiates startup notification for the application and returns the<code>DESKTOP_STARTUP_ID</code> for the launched operation, if supported.
      * 
      * Startup notification IDs are defined in the
-     * [FreeDesktop.Org Startup Notifications standard](http://standards.freedesktop.org/startup-notification-spec/startup-notification-latest.txt).
+     * {@link [FreeDesktop.Org Startup Notifications standard]}(http://standards.freedesktop.org/startup-notification-spec/startup-notification-latest.txt).
      */
     public java.lang.String getStartupNotifyId(AppInfo info, org.gtk.glib.List files) {
         var RESULT = gtk_h.g_app_launch_context_get_startup_notify_id(handle(), info.handle(), files.handle());
@@ -67,7 +66,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Arranges for @variable to be set to @value in the child's
+     * Arranges for @variable to be set to @value in the child&#39;s
      * environment when @context is used to launch an application.
      */
     public void setenv(java.lang.String variable, java.lang.String value) {
@@ -75,7 +74,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Arranges for @variable to be unset in the child's environment
+     * Arranges for @variable to be unset in the child&#39;s environment
      * when @context is used to launch an application.
      */
     public void unsetenv(java.lang.String variable) {
@@ -115,14 +114,14 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     /**
      * The #GAppLaunchContext::launch-started signal is emitted when a #GAppInfo is
      * about to be launched. If non-null the @platform_data is an
-     * GVariant dictionary mapping strings to variants (ie `a{sv}`), which
+     * GVariant dictionary mapping strings to variants (ie <code>a{sv}</code>), which
      * contains additional, platform-specific data about this launch. On
-     * UNIX, at least the `startup-notification-id` keys will be
+     * UNIX, at least the <code>startup-notification-id</code> keys will be
      * present.
-     * 
-     * The value of the `startup-notification-id` key (type `s`) is a startup
-     * notification ID corresponding to the format from the [startup-notification
-     * specification](https://specifications.freedesktop.org/startup-notification-spec/startup-notification-0.1.txt).
+     * <p>
+     * The value of the <code>startup-notification-id</code> key (type <code>s</code>) is a startup
+     * notification ID corresponding to the format from the {@link [startup-notification
+     * specification]}(https://specifications.freedesktop.org/startup-notification-spec/startup-notification-0.1.txt).
      * It allows tracking the progress of the launchee through startup.
      * 
      * It is guaranteed that this signal is followed by either a #GAppLaunchContext::launched or
@@ -151,12 +150,11 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     /**
      * The #GAppLaunchContext::launched signal is emitted when a #GAppInfo is successfully
      * launched. The @platform_data is an GVariant dictionary mapping
-     * strings to variants (ie `a{sv}`), which contains additional,
-     * platform-specific data about this launch. On UNIX, at least the
-     * `pid` and `startup-notification-id` keys will be present.
-     * 
-     * Since 2.72 the `pid` may be 0 if the process id wasn't known (for
-     * example if the process was launched via D-Bus). The `pid` may not be
+     * strings to variants (ie <code>a{sv}</code>), which contains additional,
+     * platform-specific data about this launch. On UNIX, at least the<code>pid</code> and <code>startup-notification-id</code> keys will be present.
+     * <p>
+     * Since 2.72 the <code>pid</code> may be 0 if the process id wasn&#39;t known (for
+     * example if the process was launched via D-Bus). The <code>pid</code> may not be
      * set at all in subsequent releases.
      */
     public SignalHandle onLaunched(LaunchedHandler handler) {

@@ -57,7 +57,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * to the #GIOChannel data structure is dropped.
      * 
      * If you want to read raw binary data without interpretation, then
-     * call the g_io_channel_set_encoding() function with %NULL for the
+     * call the g_io_channel_set_encoding() function with <code>null</code> for the
      * encoding argument.
      * 
      * This function is available in GLib on Windows, too, but you should
@@ -86,7 +86,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function returns a #GIOCondition depending on whether there
      * is data to be read/space to write data in the internal buffers in
-     * the #GIOChannel. Only the flags %G_IO_IN and %G_IO_OUT may be set.
+     * the #GIOChannel. Only the flags {@link org.gtk.glib.IOCondition#IN} and {@link org.gtk.glib.IOCondition#OUT} may be set.
      */
     public int getBufferCondition() {
         var RESULT = gtk_h.g_io_channel_get_buffer_condition(handle());
@@ -112,8 +112,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns whether the file/socket/whatever associated with @channel
      * will be closed when @channel receives its final unref and is
-     * destroyed. The default value of this is %TRUE for channels created
-     * by g_io_channel_new_file (), and %FALSE for all other channels.
+     * destroyed. The default value of this is <code>true</code> for channels created
+     * by g_io_channel_new_file (), and <code>false</code> for all other channels.
      */
     public boolean getCloseOnUnref() {
         var RESULT = gtk_h.g_io_channel_get_close_on_unref(handle());
@@ -122,8 +122,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the encoding for the input/output of the channel.
-     * The internal encoding is always UTF-8. The encoding %NULL
-     * makes the channel safe for binary data.
+     * The internal encoding is always UTF-8. The encoding <code>NULL
+     * makes</code> the channel safe for binary data.
      */
     public java.lang.String getEncoding() {
         var RESULT = gtk_h.g_io_channel_get_encoding(handle());
@@ -132,10 +132,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the current flags for a #GIOChannel, including read-only
-     * flags such as %G_IO_FLAG_IS_READABLE.
+     * flags such as <code>G_IO_FLAG_IS_READABLE.
      * 
-     * The values of the flags %G_IO_FLAG_IS_READABLE and %G_IO_FLAG_IS_WRITABLE
-     * are cached for internal use by the channel when it is created.
+     * The</code> values of the flags {@link org.gtk.glib.IOFlags#IS_READABLE} and <code>G_IO_FLAG_IS_WRITABLE
+     * are</code> cached for internal use by the channel when it is created.
      * If they should change at some later point (e.g. partial shutdown
      * of a socket with the UNIX shutdown() function), the user
      * should immediately call g_io_channel_get_flags() to update
@@ -185,17 +185,17 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * The buffering state can only be set if the channel's encoding
-     * is %NULL. For any other encoding, the channel must be buffered.
+     * The buffering state can only be set if the channel&#39;s encoding
+     * is <code>NULL.</code> For any other encoding, the channel must be buffered.
      * 
-     * A buffered channel can only be set unbuffered if the channel's
+     * A buffered channel can only be set unbuffered if the channel&#39;s
      * internal buffers have been flushed. Newly created channels or
-     * channels which have returned %G_IO_STATUS_EOF
-     * not require such a flush. For write-only channels, a call to
+     * channels which have returned <code>G_IO_STATUS_EOF
+     * not</code> require such a flush. For write-only channels, a call to
      * g_io_channel_flush () is sufficient. For all other channels,
      * the buffers may be flushed by a call to g_io_channel_seek_position ().
-     * This includes the possibility of seeking with seek type %G_SEEK_CUR
-     * and an offset of zero. Note that this means that socket-based
+     * This includes the possibility of seeking with seek type <code>G_SEEK_CUR
+     * and</code> an offset of zero. Note that this means that socket-based
      * channels cannot be set unbuffered once they have had data
      * read from them.
      * 
@@ -211,10 +211,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Whether to close the channel on the final unref of the #GIOChannel
-     * data structure. The default value of this is %TRUE for channels
-     * created by g_io_channel_new_file (), and %FALSE for all other channels.
+     * data structure. The default value of this is <code>true</code> for channels
+     * created by g_io_channel_new_file (), and <code>false</code> for all other channels.
      * 
-     * Setting this flag to %TRUE for a channel you have already closed
+     * Setting this flag to <code>true</code> for a channel you have already closed
      * can cause problems when the final reference to the #GIOChannel is dropped.
      */
     public void setCloseOnUnref(boolean doClose) {
@@ -226,7 +226,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * The internal encoding is always UTF-8. The default encoding
      * for the external file is UTF-8.
      * 
-     * The encoding %NULL is safe to use with binary data.
+     * The encoding <code>null</code> is safe to use with binary data.
      * 
      * The encoding can only be set if one of the following conditions
      * is true:
@@ -239,23 +239,23 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      *   by a call to g_io_channel_seek_position(). (This flushes all the
      *   internal buffers.)
      * 
-     * - The current encoding is %NULL or UTF-8.
+     * - The current encoding is <code>null</code> or UTF-8.
      * 
-     * - One of the (new API) read functions has just returned %G_IO_STATUS_EOF
-     *   (or, in the case of g_io_channel_read_to_end(), %G_IO_STATUS_NORMAL).
+     * - One of the (new API) read functions has just returned <code>G_IO_STATUS_EOF
+     * </code>  (or, in the case of g_io_channel_read_to_end(), <code>G_IO_STATUS_NORMAL).
      * 
-     * -  One of the functions g_io_channel_read_chars() or
-     *    g_io_channel_read_unichar() has returned %G_IO_STATUS_AGAIN or
-     *    %G_IO_STATUS_ERROR. This may be useful in the case of
-     *    %G_CONVERT_ERROR_ILLEGAL_SEQUENCE.
-     *    Returning one of these statuses from g_io_channel_read_line(),
+     * -</code>  One of the functions g_io_channel_read_chars() or
+     *    g_io_channel_read_unichar() has returned {@link org.gtk.glib.IOStatus#AGAIN} or
+     *    <code>G_IO_STATUS_ERROR.</code> This may be useful in the case of
+     *    <code>G_CONVERT_ERROR_ILLEGAL_SEQUENCE.
+     * </code>   Returning one of these statuses from g_io_channel_read_line(),
      *    g_io_channel_read_line_string(), or g_io_channel_read_to_end()
      *    does not guarantee that the encoding can be changed.
      * 
      * Channels which do not meet one of the above conditions cannot call
-     * g_io_channel_seek_position() with an offset of %G_SEEK_CUR, and, if
-     * they are "seekable", cannot call g_io_channel_write_chars() after
-     * calling one of the API "read" functions.
+     * g_io_channel_seek_position() with an offset of <code>G_SEEK_CUR,</code> and, if
+     * they are &#34;seekable&#34;, cannot call g_io_channel_write_chars() after
+     * calling one of the API &#34;read&#34; functions.
      */
     public IOStatus setEncoding(java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -267,7 +267,13 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the (writeable) flags in @channel to (@flags & %G_IO_FLAG_SET_MASK).
+     * Sets the (writeable) flags in @channel to (@flags &#38; 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the (writeable) flags in @channel to (@flags &#38; %G_IO_FLAG_SET_MASK).
      */
     public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -288,7 +294,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Close an IO channel. Any pending data to be written will be
-     * flushed if @flush is %TRUE. The channel will not be freed until the
+     * flushed if @flush is <code>TRUE.</code> The channel will not be freed until the
      * last reference is dropped using g_io_channel_unref().
      */
     public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
@@ -320,7 +326,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Writes a Unicode character to @channel.
-     * This function cannot be called on a channel with %NULL encoding.
+     * This function cannot be called on a channel with <code>null</code> encoding.
      */
     public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -332,7 +338,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts an `errno` error number to a #GIOChannelError.
+     * Converts an <code>errno</code> error number to a #GIOChannelError.
      */
     public static IOChannelError errorFromErrno(int en) {
         var RESULT = gtk_h.g_io_channel_error_from_errno(en);

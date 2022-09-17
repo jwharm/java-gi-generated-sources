@@ -8,38 +8,34 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkPasswordEntry` is an entry that has been tailored for entering secrets.
- * 
- * ![An example GtkPasswordEntry](password-entry.png)
- * 
+ * <code>GtkPasswordEntry</code> is an entry that has been tailored for entering secrets.
+ * <p>
+ * !{@link [An example GtkPasswordEntry]}(password-entry.png)
+ * <p>
  * It does not show its contents in clear text, does not allow to copy it
  * to the clipboard, and it shows a warning when Caps Lock is engaged. If
- * the underlying platform allows it, `GtkPasswordEntry` will also place
+ * the underlying platform allows it, <code>GtkPasswordEntry</code> will also place
  * the text in a non-pageable memory area, to avoid it being written out
  * to disk by the operating system.
- * 
+ * <p>
  * Optionally, it can offer a way to reveal the contents in clear text.
- * 
- * `GtkPasswordEntry` provides only minimal API and should be used with
- * the [iface@Gtk.Editable] API.
- * 
- * # CSS Nodes
- * 
- * ```
+ * <p><code>GtkPasswordEntry</code> provides only minimal API and should be used with
+ * the {@link [iface@Gtk.Editable] (ref=iface)} API.
+ * <p>
+ * <h1>SS Nodes</h1>
+ * <p><pre>
  * entry.password
- * ╰── text
- *     ├── image.caps-lock-indicator
- *     ┊
- * ```
- * 
- * `GtkPasswordEntry` has a single CSS node with name entry that carries
+ * &#9584;&#9472;&#9472; text
+ *     &#9500;&#9472;&#9472; image.caps-lock-indicator
+ *     &#9482;
+ * </pre>
+ * <p><code>GtkPasswordEntry</code> has a single CSS node with name entry that carries
  * a .passwordstyle class. The text Css node below it has a child with
  * name image and style class .caps-lock-indicator for the Caps Lock
  * icon, and possibly other children.
- * 
- * # Accessibility
- * 
- * `GtkPasswordEntry` uses the %GTK_ACCESSIBLE_ROLE_TEXT_BOX role.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkPasswordEntry</code> uses the {@link org.gtk.gtk.AccessibleRole#TEXT_BOX} role.
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -58,7 +54,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a `GtkPasswordEntry`.
+     * Creates a <code>GtkPasswordEntry</code>.
      */
     public PasswordEntry() {
         super(constructNew());
@@ -93,7 +89,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * Sets whether the entry should have a clickable icon
      * to reveal the contents.
      * 
-     * Setting this to %FALSE also hides the text again.
+     * Setting this to <code>false</code> also hides the text again.
      */
     public void setShowPeekIcon(boolean showPeekIcon) {
         gtk_h.gtk_password_entry_set_show_peek_icon(handle(), showPeekIcon ? 1 : 0);

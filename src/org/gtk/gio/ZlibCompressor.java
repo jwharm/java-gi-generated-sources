@@ -43,9 +43,9 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     }
     
     /**
-     * Sets @file_info in @compressor. If non-%NULL, and @compressor's
-     * #GZlibCompressor:format property is %G_ZLIB_COMPRESSOR_FORMAT_GZIP,
-     * it will be used to set the file name and modification time in
+     * Sets @file_info in @compressor. If non-<code>NULL,</code> and @compressor&#39;s
+     * #GZlibCompressor:format property is <code>G_ZLIB_COMPRESSOR_FORMAT_GZIP,
+     * it</code> will be used to set the file name and modification time in
      * the GZIP header of the compressed data.
      * 
      * Note: it is an error to call this function while a compression is in

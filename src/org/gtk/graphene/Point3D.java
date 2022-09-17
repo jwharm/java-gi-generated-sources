@@ -131,7 +131,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
      * given viewport and clipping planes.
      * 
      * The coordinates of the resulting #graphene_point3d_t will be
-     * in the [ -1, 1 ] range.
+     * in the {@link [ -1, 1 ]} range.
      */
     public void normalizeViewport(Rect viewport, float zNear, float zFar, Point3D res) {
         gtk_h.graphene_point3d_normalize_viewport(handle(), viewport.handle(), zNear, zFar, res.handle());

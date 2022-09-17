@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * To get informed about changes to the file or directory you are
  * monitoring, connect to the #GFileMonitor::changed signal. The
  * signal will be emitted in the
- * [thread-default main context][g-main-context-push-thread-default]
+ * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * of the thread that the monitor was created in
  * (though if the global default main context is blocked, this may
  * cause notifications to be blocked even if the thread-default
@@ -48,7 +48,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * implementations only.
      * 
      * Implementations are responsible to call this method from the
-     * [thread-default main context][g-main-context-push-thread-default] of the
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]} of the
      * thread that the monitor was created in.
      */
     public void emitEvent(File child, File otherFile, FileMonitorEvent eventType) {
@@ -79,29 +79,29 @@ public class FileMonitor extends org.gtk.gobject.Object {
     /**
      * Emitted when @file has been changed.
      * 
-     * If using %G_FILE_MONITOR_WATCH_MOVES on a directory monitor, and
+     * If using {@link org.gtk.gio.FileMonitorFlags#WATCH_MOVES} on a directory monitor, and
      * the information is available (and if supported by the backend),
-     * @event_type may be %G_FILE_MONITOR_EVENT_RENAMED,
-     * %G_FILE_MONITOR_EVENT_MOVED_IN or %G_FILE_MONITOR_EVENT_MOVED_OUT.
+     * @event_type may be <code>G_FILE_MONITOR_EVENT_RENAMED,
+     * %G_FILE_MONITOR_EVENT_MOVED_IN</code> or <code>G_FILE_MONITOR_EVENT_MOVED_OUT.
      * 
-     * In all cases @file will be a child of the monitored directory.  For
+     * In</code> all cases @file will be a child of the monitored directory.  For
      * renames, @file will be the old name and @other_file is the new
-     * name.  For "moved in" events, @file is the name of the file that
+     * name.  For &#34;moved in&#34; events, @file is the name of the file that
      * appeared and @other_file is the old name that it was moved from (in
-     * another directory).  For "moved out" events, @file is the name of
+     * another directory).  For &#34;moved out&#34; events, @file is the name of
      * the file that used to be in this directory and @other_file is the
      * name of the file at its new location.
      * 
-     * It makes sense to treat %G_FILE_MONITOR_EVENT_MOVED_IN as
-     * equivalent to %G_FILE_MONITOR_EVENT_CREATED and
-     * %G_FILE_MONITOR_EVENT_MOVED_OUT as equivalent to
-     * %G_FILE_MONITOR_EVENT_DELETED, with extra information.
-     * %G_FILE_MONITOR_EVENT_RENAMED is equivalent to a delete/create
+     * It makes sense to treat {@link org.gtk.gio.FileMonitorEvent#MOVED_IN} as
+     * equivalent to {@link org.gtk.gio.FileMonitorEvent#CREATED} and
+     * {@link org.gtk.gio.FileMonitorEvent#MOVED_OUT} as equivalent to
+     * <code>G_FILE_MONITOR_EVENT_DELETED,</code> with extra information.
+     * {@link org.gtk.gio.FileMonitorEvent#RENAMED} is equivalent to a delete/create
      * pair.  This is exactly how the events will be reported in the case
-     * that the %G_FILE_MONITOR_WATCH_MOVES flag is not in use.
+     * that the {@link org.gtk.gio.FileMonitorFlags#WATCH_MOVES} flag is not in use.
      * 
-     * If using the deprecated flag %G_FILE_MONITOR_SEND_MOVED flag and @event_type is
-     * %G_FILE_MONITOR_EVENT_MOVED, @file will be set to a #GFile containing the
+     * If using the deprecated flag {@link org.gtk.gio.FileMonitorFlags#SEND_MOVED} flag and @event_type is
+     * <code>G_FILE_MONITOR_EVENT_MOVED,</code> @file will be set to a #GFile containing the
      * old path, and @other_file will be set to a #GFile containing the new path.
      * 
      * In all the other cases, @other_file will be set to #NULL.

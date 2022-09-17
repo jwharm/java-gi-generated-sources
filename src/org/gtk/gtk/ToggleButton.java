@@ -8,46 +8,44 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkToggleButton` is a button which remains “pressed-in” when
+ * A <code>GtkToggleButton</code> is a button which remains &#8220;pressed-in&#8221; when
  * clicked.
- * 
+ * <p>
  * Clicking again will cause the toggle button to return to its normal state.
- * 
- * A toggle button is created by calling either [ctor@Gtk.ToggleButton.new] or
- * [ctor@Gtk.ToggleButton.new_with_label]. If using the former, it is advisable
- * to pack a widget, (such as a `GtkLabel` and/or a `GtkImage`), into the toggle
- * button’s container. (See [class@Gtk.Button] for more information).
- * 
- * The state of a `GtkToggleButton` can be set specifically using
- * [method@Gtk.ToggleButton.set_active], and retrieved using
- * [method@Gtk.ToggleButton.get_active].
- * 
+ * <p>
+ * A toggle button is created by calling either {@link [ctor@Gtk.ToggleButton.new] (ref=ctor)} or
+ * {@link [ctor@Gtk.ToggleButton.new_with_label] (ref=ctor)}. If using the former, it is advisable
+ * to pack a widget, (such as a <code>GtkLabel</code> and/or a <code>GtkImage</code>), into the toggle
+ * button&#8217;s container. (See {@link org.gtk.gtk.Button} for more information).
+ * <p>
+ * The state of a <code>GtkToggleButton</code> can be set specifically using
+ * {@link org.gtk.gtk.ToggleButton#setActive}, and retrieved using
+ * {@link org.gtk.gtk.ToggleButton#getActive}.
+ * <p>
  * To simply switch the state of a toggle button, use
- * [method@Gtk.ToggleButton.toggled].
- * 
- * ## Grouping
- * 
+ * {@link org.gtk.gtk.ToggleButton#toggled}.
+ * <p>
+ * <h2>Grouping</h2>
+ * <p>
  * Toggle buttons can be grouped together, to form mutually exclusive
  * groups - only one of the buttons can be toggled at a time, and toggling
  * another one will switch the currently toggled one off.
- * 
- * To add a `GtkToggleButton` to a group, use [method@Gtk.ToggleButton.set_group].
- * 
- * ## CSS nodes
- * 
- * `GtkToggleButton` has a single CSS node with name button. To differentiate
- * it from a plain `GtkButton`, it gets the `.toggle` style class.
- * 
- * ## Creating two `GtkToggleButton` widgets.
- * 
- * ```c
+ * <p>
+ * To add a <code>GtkToggleButton</code> to a group, use {@link org.gtk.gtk.ToggleButton#setGroup}.
+ * <p>
+ * <h2>CSS nodes</h2>
+ * <p><code>GtkToggleButton</code> has a single CSS node with name button. To differentiate
+ * it from a plain <code>GtkButton</code>, it gets the <code>.toggle</code> style class.
+ * <p>
+ * <h2>Creating two <code>GtkToggleButton</code> widgets.</h2>
+ * <p><pre>c
  * static void
  * output_state (GtkToggleButton *source,
  *               gpointer         user_data)
  * {
- *   g_print ("Toggle button "%s" is active: %s",
- *            gtk_button_get_label (GTK_BUTTON (source)),
- *            gtk_toggle_button_get_active (source) ? "Yes" : "No");
+ *   g_print (&#34;Toggle button &#34;<code>s&#34;</code> is active: <code>s&#34;,
+ * </code>           gtk_button_get_label (GTK_BUTTON (source)),
+ *            gtk_toggle_button_get_active (source) ? &#34;Yes&#34; : &#34;No&#34;);
  * }
  * 
  * static void
@@ -60,17 +58,17 @@ import java.lang.invoke.*;
  *   window = gtk_window_new ();
  *   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
  * 
- *   text = "Hi, I’m toggle button one";
+ *   text = &#34;Hi, I&#8217;m toggle button one&#34;;
  *   toggle1 = gtk_toggle_button_new_with_label (text);
  * 
- *   g_signal_connect (toggle1, "toggled",
+ *   g_signal_connect (toggle1, &#34;toggled&#34;,
  *                     G_CALLBACK (output_state),
  *                     NULL);
  *   gtk_box_append (GTK_BOX (box), toggle1);
  * 
- *   text = "Hi, I’m toggle button two";
+ *   text = &#34;Hi, I&#8217;m toggle button two&#34;;
  *   toggle2 = gtk_toggle_button_new_with_label (text);
- *   g_signal_connect (toggle2, "toggled",
+ *   g_signal_connect (toggle2, &#34;toggled&#34;,
  *                     G_CALLBACK (output_state),
  *                     NULL);
  *   gtk_box_append (GTK_BOX (box), toggle2);
@@ -78,7 +76,7 @@ import java.lang.invoke.*;
  *   gtk_window_set_child (GTK_WINDOW (window), box);
  *   gtk_widget_show (window);
  * }
- * ```
+ * </pre>
  */
 public class ToggleButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -99,7 +97,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     /**
      * Creates a new toggle button.
      * 
-     * A widget should be packed into the button, as in [ctor@Gtk.Button.new].
+     * A widget should be packed into the button, as in {@link [ctor@Gtk.Button.new] (ref=ctor)}.
      */
     public ToggleButton() {
         super(constructNew());
@@ -123,9 +121,9 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     }
     
     /**
-     * Creates a new `GtkToggleButton` containing a label.
+     * Creates a new <code>GtkToggleButton</code> containing a label.
      * 
-     * The label will be created using [ctor@Gtk.Label.new_with_mnemonic],
+     * The label will be created using {@link [ctor@Gtk.Label.new_with_mnemonic] (ref=ctor)},
      * so underscores in @label indicate the mnemonic for the button.
      */
     public static ToggleButton newWithMnemonic(java.lang.String label) {
@@ -133,10 +131,10 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     }
     
     /**
-     * Queries a `GtkToggleButton` and returns its current state.
+     * Queries a <code>GtkToggleButton</code> and returns its current state.
      * 
-     * Returns %TRUE if the toggle button is pressed in and %FALSE
-     * if it is raised.
+     * Returns <code>true</code> if the toggle button is pressed in and <code>FALSE
+     * if</code> it is raised.
      */
     public boolean getActive() {
         var RESULT = gtk_h.gtk_toggle_button_get_active(handle());
@@ -145,12 +143,12 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     
     /**
      * Sets the status of the toggle button.
-     * 
-     * Set to %TRUE if you want the `GtkToggleButton` to be “pressed in”,
-     * and %FALSE to raise it.
+     * <p>
+     * Set to <code>true</code> if you want the <code>GtkToggleButton</code> to be &#8220;pressed in&#8221;,
+     * and <code>false</code> to raise it.
      * 
      * If the status of the button changes, this action causes the
-     * [signal@GtkToggleButton::toggled] signal to be emitted.
+     * {@link [signal@GtkToggleButton::toggled] (ref=signal)} signal to be emitted.
      */
     public void setActive(boolean isActive) {
         gtk_h.gtk_toggle_button_set_active(handle(), isActive ? 1 : 0);
@@ -164,8 +162,8 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * 
      * Setting up groups in a cycle leads to undefined behavior.
      * 
-     * Note that the same effect can be achieved via the [iface@Gtk.Actionable]
-     * API, by using the same action with parameter type and state type 's'
+     * Note that the same effect can be achieved via the {@link [iface@Gtk.Actionable] (ref=iface)}
+     * API, by using the same action with parameter type and state type &#39;s&#39;
      * for all buttons in the group, and giving each button its own target
      * value.
      */
@@ -174,7 +172,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     }
     
     /**
-     * Emits the ::toggled signal on the `GtkToggleButton`.
+     * Emits the ::toggled signal on the <code>GtkToggleButton</code>.
      * 
      * There is no good reason for an application ever to call this function.
      */
@@ -188,7 +186,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     }
     
     /**
-     * Emitted whenever the `GtkToggleButton`'s state is changed.
+     * Emitted whenever the <code>GtkToggleButton</code>&#39;s state is changed.
      */
     public SignalHandle onToggled(ToggledHandler handler) {
         try {

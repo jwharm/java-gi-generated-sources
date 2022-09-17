@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkToplevel` is a freestanding toplevel surface.
- * 
- * The `GdkToplevel` interface provides useful APIs for interacting with
+ * A <code>GdkToplevel</code> is a freestanding toplevel surface.
+ * <p>
+ * The <code>GdkToplevel</code> interface provides useful APIs for interacting with
  * the windowing system, such as controlling maximization and size of the
  * surface, setting icons and transient parents for dialogs.
  */
@@ -28,7 +28,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Begins an interactive resize operation.
      * 
-     * You might use this function to implement a “window resize grip.”
+     * You might use this function to implement a &#8220;window resize grip.&#8221;
      */
     public default void beginResize(SurfaceEdge edge, Device device, int button, double x, double y, int timestamp) {
         gtk_h.gdk_toplevel_begin_resize(handle(), edge.getValue(), device.handle(), button, x, y, timestamp);
@@ -37,8 +37,8 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets keyboard focus to @surface.
      * 
-     * In most cases, [method@Gtk.Window.present_with_time] should be
-     * used on a [class@Gtk.Window], rather than calling this function.
+     * In most cases, {@link org.gtk.gtk.Window#presentWithTime} should be
+     * used on a {@link org.gtk.gtk.Window}, rather than calling this function.
      */
     public default void focus(int timestamp) {
         gtk_h.gdk_toplevel_focus(handle(), timestamp);
@@ -46,7 +46,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the bitwise or of the currently active surface state flags,
-     * from the `GdkToplevelState` enumeration.
+     * from the <code>GdkToplevelState</code> enumeration.
      */
     public default int getState() {
         var RESULT = gtk_h.gdk_toplevel_get_state(handle());
@@ -61,7 +61,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * of triggering system actions.
      * 
      * If granted, the rerouting remains active until the default shortcuts
-     * processing is restored with [method@Gdk.Toplevel.restore_system_shortcuts],
+     * processing is restored with {@link org.gtk.gdk.Toplevel#restoreSystemShortcuts},
      * or the request is revoked by the desktop environment, windowing system
      * or the user.
      * 
@@ -74,7 +74,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * or deny the request or even choose to ignore the request entirely.
      * 
      * The caller can be notified whenever the request is granted or revoked
-     * by listening to the [property@Gdk.Toplevel:shortcuts-inhibited] property.
+     * by listening to the {@link [property@Gdk.Toplevel:shortcuts-inhibited] (ref=property)} property.
      */
     public default void inhibitSystemShortcuts(Event event) {
         gtk_h.gdk_toplevel_inhibit_system_shortcuts(handle(), event.handle());
@@ -101,12 +101,12 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Present @toplevel after having processed the `GdkToplevelLayout` rules.
+     * Present @toplevel after having processed the <code>GdkToplevelLayout</code> rules.
      * 
      * If the toplevel was previously not showing, it will be showed,
      * otherwise it will change layout according to @layout.
      * 
-     * GDK may emit the [signal@Gdk.Toplevel::compute-size] signal to let
+     * GDK may emit the {@link [signal@Gdk.Toplevel::compute-size] (ref=signal)} signal to let
      * the user of this toplevel compute the preferred size of the toplevel
      * surface.
      * 
@@ -121,7 +121,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Restore default system keyboard shortcuts which were previously
      * inhibited.
      * 
-     * This undoes the effect of [method@Gdk.Toplevel.inhibit_system_shortcuts].
+     * This undoes the effect of {@link org.gtk.gdk.Toplevel#inhibitSystemShortcuts}.
      */
     public default void restoreSystemShortcuts() {
         gtk_h.gdk_toplevel_restore_system_shortcuts(handle());
@@ -130,7 +130,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the toplevel to be decorated.
      * 
-     * Setting @decorated to %FALSE hints the desktop environment
+     * Setting @decorated to <code>false</code> hints the desktop environment
      * that the surface has its own, client-side decorations and
      * does not need to have window decorations added.
      */
@@ -141,7 +141,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the toplevel to be deletable.
      * 
-     * Setting @deletable to %TRUE hints the desktop environment
+     * Setting @deletable to <code>true</code> hints the desktop environment
      * that it should offer the user a way to close the surface.
      */
     public default void setDeletable(boolean deletable) {
@@ -157,7 +157,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * can scale the icon but setting several size icons can give better
      * image quality.
      * 
-     * Note that some platforms don't support surface icons.
+     * Note that some platforms don&#39;t support surface icons.
      */
     public default void setIconList(org.gtk.glib.List surfaces) {
         gtk_h.gdk_toplevel_set_icon_list(handle(), surfaces.handle());
@@ -172,7 +172,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * to handle modal surfaces in a special way.
      * 
      * You should only use this on surfaces for which you have
-     * previously called [method@Gdk.Toplevel.set_transient_for].
+     * previously called {@link org.gtk.gdk.Toplevel#setTransientFor}.
      */
     public default void setModal(boolean modal) {
         gtk_h.gdk_toplevel_set_modal(handle(), modal ? 1 : 0);
@@ -182,7 +182,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Sets the startup notification ID.
      * 
      * When using GTK, typically you should use
-     * [method@Gtk.Window.set_startup_id] instead of this
+     * {@link org.gtk.gtk.Window#setStartupId} instead of this
      * low-level function.
      */
     public default void setStartupId(java.lang.String startupId) {
@@ -207,8 +207,8 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * allows the window manager to do things like center @surface
      * on @parent and keep @surface above @parent.
      * 
-     * See [method@Gtk.Window.set_transient_for] if you’re using
-     * [class@Gtk.Window] or [class@Gtk.Dialog].
+     * See {@link org.gtk.gtk.Window#setTransientFor} if you&#8217;re using
+     * {@link org.gtk.gtk.Window} or {@link org.gtk.gtk.Dialog}.
      */
     public default void setTransientFor(Surface parent) {
         gtk_h.gdk_toplevel_set_transient_for(handle(), parent.handle());
@@ -250,14 +250,14 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Emitted when the size for the surface needs to be computed, when
      * it is present.
      * 
-     * It will normally be emitted during or after [method@Gdk.Toplevel.present],
+     * It will normally be emitted during or after {@link org.gtk.gdk.Toplevel#present},
      * depending on the configuration received by the windowing system.
      * It may also be emitted at any other point in time, in response
      * to the windowing system spontaneously changing the configuration.
      * 
      * It is the responsibility of the toplevel user to handle this signal
      * and compute the desired size of the toplevel, given the information
-     * passed via the [struct@Gdk.ToplevelSize] object. Failing to do so
+     * passed via the {@link [struct@Gdk.ToplevelSize] (ref=struct)} object. Failing to do so
      * will result in an arbitrary size being used as a result.
      */
     public default SignalHandle onComputeSize(ComputeSizeHandler handler) {

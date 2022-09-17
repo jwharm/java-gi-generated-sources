@@ -8,19 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkSpinner` widget displays an icon-size spinning animation.
- * 
- * It is often used as an alternative to a [class@Gtk.ProgressBar]
+ * A <code>GtkSpinner</code> widget displays an icon-size spinning animation.
+ * <p>
+ * It is often used as an alternative to a {@link org.gtk.gtk.ProgressBar}
  * for displaying indefinite activity, instead of actual progress.
- * 
- * ![An example GtkSpinner](spinner.png)
- * 
- * To start the animation, use [method@Gtk.Spinner.start], to stop it
- * use [method@Gtk.Spinner.stop].
- * 
- * # CSS nodes
- * 
- * `GtkSpinner` has a single CSS node with the name spinner.
+ * <p>
+ * !{@link [An example GtkSpinner]}(spinner.png)
+ * <p>
+ * To start the animation, use {@link org.gtk.gtk.Spinner#start}, to stop it
+ * use {@link org.gtk.gtk.Spinner#stop}.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkSpinner</code> has a single CSS node with the name spinner.
  * When the animation is active, the :checked pseudoclass is
  * added to this node.
  */

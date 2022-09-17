@@ -43,10 +43,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Appends an XML representation of @info (and its children) to @string_builder.
-     * 
+     * <p>
      * This function is typically used for generating introspection XML
-     * documents at run-time for handling the
-     * `org.freedesktop.DBus.Introspectable.Introspect`
+     * documents at run-time for handling the<code>org.freedesktop.DBus.Introspectable.Introspect</code>
      * method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {

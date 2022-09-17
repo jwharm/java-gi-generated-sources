@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkDevice` object represents an input device, such
+ * The <code>GdkDevice</code> object represents an input device, such
  * as a keyboard, a mouse, or a touchpad.
  * 
- * See the [class@Gdk.Seat] documentation for more information
+ * See the {@link org.gtk.gdk.Seat} documentation for more information
  * about the various kinds of devices, and their relationships.
  */
 public class Device extends org.gtk.gobject.Object {
@@ -49,7 +49,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      * 
      * The direction of a layout is the direction of the majority
-     * of its symbols. See [func@Pango.unichar_direction].
+     * of its symbols. See {@link Pango#unicharDirection}.
      */
     public org.pango.Direction getDirection() {
         var RESULT = gtk_h.gdk_device_get_direction(handle());
@@ -57,7 +57,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkDisplay` to which @device pertains.
+     * Returns the <code>GdkDisplay</code> to which @device pertains.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_device_get_display(handle());
@@ -68,7 +68,7 @@ public class Device extends org.gtk.gobject.Object {
      * Determines whether the pointer follows device motion.
      * 
      * This is not meaningful for keyboard devices, which
-     * don't have a pointer.
+     * don&#39;t have a pointer.
      */
     public boolean getHasCursor() {
         var RESULT = gtk_h.gdk_device_get_has_cursor(handle());
@@ -115,7 +115,7 @@ public class Device extends org.gtk.gobject.Object {
      * Returns the product ID of this device.
      * 
      * This ID is retrieved from the device, and does not change.
-     * See [method@Gdk.Device.get_vendor_id] for more information.
+     * See {@link org.gtk.gdk.Device#getVendorId} for more information.
      */
     public java.lang.String getProductId() {
         var RESULT = gtk_h.gdk_device_get_product_id(handle());
@@ -133,7 +133,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkSeat` the device belongs to.
+     * Returns the <code>GdkSeat</code> the device belongs to.
      */
     public Seat getSeat() {
         var RESULT = gtk_h.gdk_device_get_seat(handle());
@@ -163,14 +163,13 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Returns the vendor ID of this device.
-     * 
+     * <p>
      * This ID is retrieved from the device, and does not change.
-     * 
-     * This function, together with [method@Gdk.Device.get_product_id],
-     * can be used to eg. compose `GSettings` paths to store settings
+     * <p>
+     * This function, together with {@link org.gtk.gdk.Device#getProductId},
+     * can be used to eg. compose <code>GSettings</code> paths to store settings
      * for this device.
-     * 
-     * ```c
+     * <p><pre>c
      *  static GSettings *
      *  get_device_settings (GdkDevice *device)
      *  {
@@ -182,13 +181,13 @@ public class Device extends org.gtk.gobject.Object {
      *    vendor = gdk_device_get_vendor_id (device);
      *    product = gdk_device_get_product_id (device);
      * 
-     *    path = g_strdup_printf ("/org/example/app/devices/%s:%s/", vendor, product);
+     *    path = g_strdup_printf (&#34;/org/example/app/devices/<code>s:%s/&#34;,</code> vendor, product);
      *    settings = g_settings_new_with_path (DEVICE_SCHEMA, path);
      *    g_free (path);
      * 
      *    return settings;
      *  }
-     * ```
+     * </pre>
      */
     public java.lang.String getVendorId() {
         var RESULT = gtk_h.gdk_device_get_vendor_id(handle());

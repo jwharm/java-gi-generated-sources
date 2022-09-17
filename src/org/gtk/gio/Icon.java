@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * serializing an icon to and from strings.
  * 
  * #GIcon does not provide the actual pixmap for the icon as this is out
- * of GIO's scope, however implementations of #GIcon may contain the name
+ * of GIO&#39;s scope, however implementations of #GIcon may contain the name
  * of an icon (see #GThemedIcon), or the path to an icon (see #GLoadableIcon).
  * 
  * To obtain a hash of a #GIcon, see g_icon_hash().
@@ -64,18 +64,18 @@ public interface Icon extends io.github.jwharm.javagi.NativeAddress {
      * serialization such as when passing @icon to a different process or
      * saving it to persistent storage. Use g_icon_new_for_string() to
      * get @icon back from the returned string.
-     * 
+     * <p>
      * The encoding of the returned string is proprietary to #GIcon except
      * in the following two cases
-     * 
-     * - If @icon is a #GFileIcon, the returned string is a native path
-     *   (such as `/path/to/my icon.png`) without escaping
+     * <p>
+     * <li>If @icon is a #GFileIcon, the returned string is a native path
+     *   (such as <code>/path/to/my icon.png</code>) without escaping
      *   if the #GFile for @icon is a native file.  If the file is not
      *   native, the returned string is the result of g_file_get_uri()
-     *   (such as `sftp://path/to/my%20icon.png`).
-     * 
-     * - If @icon is a #GThemedIcon with exactly one name and no fallbacks,
-     *   the encoding is simply the name (such as `network-server`).
+     *   (such as <code>sftp://path/to/my<code>20icon.png</code>).
+     * <p>
+     * <li>If</code> @icon is a #GThemedIcon with exactly one name and no fallbacks,
+     *   the encoding is simply the name (such as <code>network-server</code>).
      */
     public default java.lang.String toString_() {
         var RESULT = gtk_h.g_icon_to_string(handle());

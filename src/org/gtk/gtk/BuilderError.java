@@ -1,38 +1,37 @@
 package org.gtk.gtk;
 
 /**
- * Error codes that identify various errors that can occur while using
- * `GtkBuilder`.
+ * Error codes that identify various errors that can occur while using<code>GtkBuilder</code>.
  */
 public enum BuilderError {
 
     /**
-     * A type-func attribute didn’t name
-     *  a function that returns a `GType`.
+     * A type-func attribute didn&#8217;t name
+     *  a function that returns a <code>GType</code>.
      */
     INVALID_TYPE_FUNCTION,
     
     /**
-     * The input contained a tag that `GtkBuilder`
-     *  can’t handle.
+     * The input contained a tag that <code>GtkBuilder</code>
+     *  can&#8217;t handle.
      */
     UNHANDLED_TAG,
     
     /**
      * An attribute that is required by
-     *  `GtkBuilder` was missing.
+     *  <code>GtkBuilder</code> was missing.
      */
     MISSING_ATTRIBUTE,
     
     /**
-     * `GtkBuilder` found an attribute that
-     *  it doesn’t understand.
+     * <code>GtkBuilder</code> found an attribute that
+     *  it doesn&#8217;t understand.
      */
     INVALID_ATTRIBUTE,
     
     /**
-     * `GtkBuilder` found a tag that
-     *  it doesn’t understand.
+     * <code>GtkBuilder</code> found a tag that
+     *  it doesn&#8217;t understand.
      */
     INVALID_TAG,
     
@@ -43,7 +42,7 @@ public enum BuilderError {
     MISSING_PROPERTY_VALUE,
     
     /**
-     * `GtkBuilder` couldn’t parse
+     * <code>GtkBuilder</code> couldn&#8217;t parse
      *  some attribute value.
      */
     INVALID_VALUE,
@@ -66,7 +65,7 @@ public enum BuilderError {
     OBJECT_TYPE_REFUSED,
     
     /**
-     * The wrong type was specified in a composite class’s template XML
+     * The wrong type was specified in a composite class&#8217;s template XML
      */
     TEMPLATE_MISMATCH,
     
@@ -88,7 +87,7 @@ public enum BuilderError {
     /**
      * A function could not be found. This often happens
      *   when symbols are set to be kept private. Compiling code with -rdynamic or using the
-     *   `gmodule-export-2.0` pkgconfig module can fix this problem.
+     *   <code>gmodule-export-2.0</code> pkgconfig module can fix this problem.
      */
     INVALID_FUNCTION;
     

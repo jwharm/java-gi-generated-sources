@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkAdjustment` is a model for a numeric value.
- * 
- * The `GtkAdjustment has an associated lower and upper bound.
+ * <code>GtkAdjustment</code> is a model for a numeric value.
+ * <p>
+ * The <code>GtkAdjustment has an associated lower and upper bound.
  * It also contains step and page increments, and a page size.
  * 
  * Adjustments are used within several GTK widgets, including
- * [class@Gtk.SpinButton], [class@Gtk.Viewport], [class@Gtk.Scrollbar]
- * and [class@Gtk.Scale].
+ * {@link org.gtk.gtk.SpinButton}, {@link org.gtk.gtk.Viewport}, {@link org.gtk.gtk.Scrollbar}
+ * and {@link org.gtk.gtk.Scale}.
  * 
- * The `GtkAdjustment` object does not update the value itself. Instead
- * it is left up to the owner of the `GtkAdjustment` to control the value.
+ * The </code>GtkAdjustment<code> object does not update the value itself. Instead
+ * it is left up to the owner of the </code>GtkAdjustment<code> to control the value.
  */
 public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
 
@@ -37,7 +37,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Creates a new `GtkAdjustment`.
+     * Creates a new <code>GtkAdjustment</code>.
      */
     public Adjustment(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         super(constructNew(value, lower, upper, stepIncrement, pageIncrement, pageSize));
@@ -46,12 +46,12 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Updates the value property to ensure that the range
      * between @lower and @upper is in the current page.
-     * 
-     * The current page goes from `value` to `value` + `page-size`.
+     * <p>
+     * The current page goes from <code>value</code> to <code>value</code> + <code>page-size</code>.
      * If the range is larger than the page size, then only the
      * start of it will be in the current page.
      * 
-     * A [signal@Gtk.Adjustment::value-changed] signal will be emitted
+     * A {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)} signal will be emitted
      * if the value is changed.
      */
     public void clampPage(double lower, double upper) {
@@ -62,10 +62,10 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Sets all properties of the adjustment at once.
      * 
      * Use this function to avoid multiple emissions of the
-     * [signal@Gtk.Adjustment::changed] signal. See
-     * [method@Gtk.Adjustment.set_lower] for an alternative
+     * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signal. See
+     * {@link org.gtk.gtk.Adjustment#setLower} for an alternative
      * way of compressing multiple emissions of
-     * [signal@Gtk.Adjustment::changed] into one.
+     * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} into one.
      */
     public void configure(double value, double lower, double upper, double stepIncrement, double pageIncrement, double pageSize) {
         gtk_h.gtk_adjustment_configure(handle(), value, lower, upper, stepIncrement, pageIncrement, pageSize);
@@ -131,16 +131,16 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Sets the minimum value of the adjustment.
      * 
      * When setting multiple adjustment properties via their individual
-     * setters, multiple [signal@Gtk.Adjustment::changed] signals will
+     * setters, multiple {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signals will
      * be emitted. However, since the emission of the
-     * [signal@Gtk.Adjustment::changed] signal is tied to the emission
-     * of the ::notify signals of the changed properties, it’s possible
-     * to compress the [signal@Gtk.Adjustment::changed] signals into one
+     * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signal is tied to the emission
+     * of the ::notify signals of the changed properties, it&#8217;s possible
+     * to compress the {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signals into one
      * by calling g_object_freeze_notify() and g_object_thaw_notify()
      * around the calls to the individual setters.
      * 
      * Alternatively, using a single g_object_set() for all the properties
-     * to change, or using [method@Gtk.Adjustment.configure] has the same effect.
+     * to change, or using {@link org.gtk.gtk.Adjustment#configure} has the same effect.
      */
     public void setLower(double lower) {
         gtk_h.gtk_adjustment_set_lower(handle(), lower);
@@ -149,8 +149,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the page increment of the adjustment.
      * 
-     * See [method@Gtk.Adjustment.set_lower] about how to compress
-     * multiple emissions of the [signal@Gtk.Adjustment::changed]
+     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
     public void setPageIncrement(double pageIncrement) {
@@ -160,8 +160,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the page size of the adjustment.
      * 
-     * See [method@Gtk.Adjustment.set_lower] about how to compress
-     * multiple emissions of the [signal@Gtk.Adjustment::changed]
+     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
     public void setPageSize(double pageSize) {
@@ -171,8 +171,8 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the step increment of the adjustment.
      * 
-     * See [method@Gtk.Adjustment.set_lower] about how to compress
-     * multiple emissions of the [signal@Gtk.Adjustment::changed]
+     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
     public void setStepIncrement(double stepIncrement) {
@@ -181,12 +181,12 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Sets the maximum value of the adjustment.
-     * 
-     * Note that values will be restricted by `upper - page-size`
+     * <p>
+     * Note that values will be restricted by <code>upper - page-size</code>
      * if the page-size property is nonzero.
      * 
-     * See [method@Gtk.Adjustment.set_lower] about how to compress
-     * multiple emissions of the [signal@Gtk.Adjustment::changed]
+     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
     public void setUpper(double upper) {
@@ -194,15 +194,15 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Sets the `GtkAdjustment` value.
-     * 
-     * The value is clamped to lie between [property@Gtk.Adjustment:lower]
-     * and [property@Gtk.Adjustment:upper].
-     * 
-     * Note that for adjustments which are used in a `GtkScrollbar`,
+     * Sets the <code>GtkAdjustment</code> value.
+     * <p>
+     * The value is clamped to lie between {@link [property@Gtk.Adjustment:lower] (ref=property)}
+     * and {@link [property@Gtk.Adjustment:upper] (ref=property)}.
+     * <p>
+     * Note that for adjustments which are used in a <code>GtkScrollbar</code>,
      * the effective range of allowed values goes from
-     * [property@Gtk.Adjustment:lower] to
-     * [property@Gtk.Adjustment:upper] - [property@Gtk.Adjustment:page-size].
+     * {@link [property@Gtk.Adjustment:lower] (ref=property)} to
+     * {@link [property@Gtk.Adjustment:upper] (ref=property)} - {@link [property@Gtk.Adjustment:page-size] (ref=property)}.
      */
     public void setValue(double value) {
         gtk_h.gtk_adjustment_set_value(handle(), value);
@@ -214,11 +214,11 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
-     * Emitted when one or more of the `GtkAdjustment` properties have been
+     * Emitted when one or more of the <code>GtkAdjustment</code> properties have been
      * changed.
      * 
-     * Note that the [property@Gtk.Adjustment:value] property is
-     * covered by the [signal@Gtk.Adjustment::value-changed] signal.
+     * Note that the {@link [property@Gtk.Adjustment:value] (ref=property)} property is
+     * covered by the {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)} signal.
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {

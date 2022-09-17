@@ -8,35 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GdkCursor` is used to create and destroy cursors.
+ * <code>GdkCursor</code> is used to create and destroy cursors.
  * 
  * Cursors are immutable objects, so once you created them, there is no way
  * to modify them later. You should create a new cursor when you want to change
  * something about it.
  * 
  * Cursors by themselves are not very interesting: they must be bound to a
- * window for users to see them. This is done with [method@Gdk.Surface.set_cursor]
- * or [method@Gdk.Surface.set_device_cursor]. Applications will typically
- * use higher-level GTK functions such as [method@Gtk.Widget.set_cursor] instead.
+ * window for users to see them. This is done with {@link org.gtk.gdk.Surface#setCursor}
+ * or {@link org.gtk.gdk.Surface#setDeviceCursor}. Applications will typically
+ * use higher-level GTK functions such as {@link org.gtk.gtk.Widget#setCursor} instead.
  * 
- * Cursors are not bound to a given [class@Gdk.Display], so they can be shared.
+ * Cursors are not bound to a given {@link org.gtk.gdk.Display}, so they can be shared.
  * However, the appearance of cursors may vary when used on different
  * platforms.
  * 
  * ## Named and texture cursors
  * 
- * There are multiple ways to create cursors. The platform's own cursors
- * can be created with [ctor@Gdk.Cursor.new_from_name]. That function lists
+ * There are multiple ways to create cursors. The platform&#39;s own cursors
+ * can be created with {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)}. That function lists
  * the commonly available names that are shared with the CSS specification.
  * Other names may be available, depending on the platform in use. On some
  * platforms, what images are used for named cursors may be influenced by
  * the cursor theme.
  * 
- * Another option to create a cursor is to use [ctor@Gdk.Cursor.new_from_texture]
+ * Another option to create a cursor is to use {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
  * and provide an image to use for the cursor.
  * 
  * To ease work with unsupported cursors, a fallback cursor can be provided.
- * If a [class@Gdk.Surface] cannot use a cursor because of the reasons mentioned
+ * If a {@link org.gtk.gdk.Surface} cannot use a cursor because of the reasons mentioned
  * above, it will try the fallback cursor. Fallback cursors can themselves have
  * fallback cursors again, so it is possible to provide a chain of progressively
  * easier to support cursors. If none of the provided cursors can be supported,
@@ -67,15 +67,15 @@ public class Cursor extends org.gtk.gobject.Object {
      * 
      * | | | | |
      * | --- | --- | ---- | --- |
-     * | "none" | ![](default_cursor.png) "default" | ![](help_cursor.png) "help" | ![](pointer_cursor.png) "pointer" |
-     * | ![](context_menu_cursor.png) "context-menu" | ![](progress_cursor.png) "progress" | ![](wait_cursor.png) "wait" | ![](cell_cursor.png) "cell" |
-     * | ![](crosshair_cursor.png) "crosshair" | ![](text_cursor.png) "text" | ![](vertical_text_cursor.png) "vertical-text" | ![](alias_cursor.png) "alias" |
-     * | ![](copy_cursor.png) "copy" | ![](no_drop_cursor.png) "no-drop" | ![](move_cursor.png) "move" | ![](not_allowed_cursor.png) "not-allowed" |
-     * | ![](grab_cursor.png) "grab" | ![](grabbing_cursor.png) "grabbing" | ![](all_scroll_cursor.png) "all-scroll" | ![](col_resize_cursor.png) "col-resize" |
-     * | ![](row_resize_cursor.png) "row-resize" | ![](n_resize_cursor.png) "n-resize" | ![](e_resize_cursor.png) "e-resize" | ![](s_resize_cursor.png) "s-resize" |
-     * | ![](w_resize_cursor.png) "w-resize" | ![](ne_resize_cursor.png) "ne-resize" | ![](nw_resize_cursor.png) "nw-resize" | ![](sw_resize_cursor.png) "sw-resize" |
-     * | ![](se_resize_cursor.png) "se-resize" | ![](ew_resize_cursor.png) "ew-resize" | ![](ns_resize_cursor.png) "ns-resize" | ![](nesw_resize_cursor.png) "nesw-resize" |
-     * | ![](nwse_resize_cursor.png) "nwse-resize" | ![](zoom_in_cursor.png) "zoom-in" | ![](zoom_out_cursor.png) "zoom-out" | |
+     * | &#34;none&#34; | !{@link []}(default_cursor.png) &#34;default&#34; | !{@link []}(help_cursor.png) &#34;help&#34; | !{@link []}(pointer_cursor.png) &#34;pointer&#34; |
+     * | !{@link []}(context_menu_cursor.png) &#34;context-menu&#34; | !{@link []}(progress_cursor.png) &#34;progress&#34; | !{@link []}(wait_cursor.png) &#34;wait&#34; | !{@link []}(cell_cursor.png) &#34;cell&#34; |
+     * | !{@link []}(crosshair_cursor.png) &#34;crosshair&#34; | !{@link []}(text_cursor.png) &#34;text&#34; | !{@link []}(vertical_text_cursor.png) &#34;vertical-text&#34; | !{@link []}(alias_cursor.png) &#34;alias&#34; |
+     * | !{@link []}(copy_cursor.png) &#34;copy&#34; | !{@link []}(no_drop_cursor.png) &#34;no-drop&#34; | !{@link []}(move_cursor.png) &#34;move&#34; | !{@link []}(not_allowed_cursor.png) &#34;not-allowed&#34; |
+     * | !{@link []}(grab_cursor.png) &#34;grab&#34; | !{@link []}(grabbing_cursor.png) &#34;grabbing&#34; | !{@link []}(all_scroll_cursor.png) &#34;all-scroll&#34; | !{@link []}(col_resize_cursor.png) &#34;col-resize&#34; |
+     * | !{@link []}(row_resize_cursor.png) &#34;row-resize&#34; | !{@link []}(n_resize_cursor.png) &#34;n-resize&#34; | !{@link []}(e_resize_cursor.png) &#34;e-resize&#34; | !{@link []}(s_resize_cursor.png) &#34;s-resize&#34; |
+     * | !{@link []}(w_resize_cursor.png) &#34;w-resize&#34; | !{@link []}(ne_resize_cursor.png) &#34;ne-resize&#34; | !{@link []}(nw_resize_cursor.png) &#34;nw-resize&#34; | !{@link []}(sw_resize_cursor.png) &#34;sw-resize&#34; |
+     * | !{@link []}(se_resize_cursor.png) &#34;se-resize&#34; | !{@link []}(ew_resize_cursor.png) &#34;ew-resize&#34; | !{@link []}(ns_resize_cursor.png) &#34;ns-resize&#34; | !{@link []}(nesw_resize_cursor.png) &#34;nesw-resize&#34; |
+     * | !{@link []}(nwse_resize_cursor.png) &#34;nwse-resize&#34; | !{@link []}(zoom_in_cursor.png) &#34;zoom-in&#34; | !{@link []}(zoom_out_cursor.png) &#34;zoom-out&#34; | |
      */
     public static Cursor newFromName(java.lang.String name, Cursor fallback) {
         return new Cursor(constructNewFromName(name, fallback));
@@ -87,7 +87,7 @@ public class Cursor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new cursor from a `GdkTexture`.
+     * Creates a new cursor from a <code>GdkTexture</code>.
      */
     public static Cursor newFromTexture(Texture texture, int hotspotX, int hotspotY, Cursor fallback) {
         return new Cursor(constructNewFromTexture(texture, hotspotX, hotspotY, fallback));
@@ -95,11 +95,10 @@ public class Cursor extends org.gtk.gobject.Object {
     
     /**
      * Returns the fallback for this @cursor.
-     * 
-     * The fallback will be used if this cursor is not available on a given
-     * `GdkDisplay`. For named cursors, this can happen when using nonstandard
+     * <p>
+     * The fallback will be used if this cursor is not available on a given<code>GdkDisplay</code>. For named cursors, this can happen when using nonstandard
      * names or when using an incomplete cursor theme. For textured cursors,
-     * this can happen when the texture is too large or when the `GdkDisplay`
+     * this can happen when the texture is too large or when the <code>GdkDisplay</code>
      * it is used on does not support textured cursors.
      */
     public Cursor getFallback() {
@@ -114,7 +113,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * 
      * Note that named cursors may have a nonzero hotspot, but this function
      * will only return the hotspot position for cursors created with
-     * [ctor@Gdk.Cursor.new_from_texture].
+     * {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}.
      */
     public int getHotspotX() {
         var RESULT = gtk_h.gdk_cursor_get_hotspot_x(handle());
@@ -128,7 +127,7 @@ public class Cursor extends org.gtk.gobject.Object {
      * 
      * Note that named cursors may have a nonzero hotspot, but this function
      * will only return the hotspot position for cursors created with
-     * [ctor@Gdk.Cursor.new_from_texture].
+     * {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}.
      */
     public int getHotspotY() {
         var RESULT = gtk_h.gdk_cursor_get_hotspot_y(handle());
@@ -138,7 +137,7 @@ public class Cursor extends org.gtk.gobject.Object {
     /**
      * Returns the name of the cursor.
      * 
-     * If the cursor is not a named cursor, %NULL will be returned.
+     * If the cursor is not a named cursor, <code>null</code> will be returned.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gdk_cursor_get_name(handle());
@@ -148,7 +147,7 @@ public class Cursor extends org.gtk.gobject.Object {
     /**
      * Returns the texture for the cursor.
      * 
-     * If the cursor is a named cursor, %NULL will be returned.
+     * If the cursor is a named cursor, <code>null</code> will be returned.
      */
     public Texture getTexture() {
         var RESULT = gtk_h.gdk_cursor_get_texture(handle());

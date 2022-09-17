@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The widget attributes that can be used when creating a [class@Constraint].
+ * The widget attributes that can be used when creating a {@link [class@Constraint]}.
  */
 public enum ConstraintAttribute {
 
@@ -35,15 +35,15 @@ public enum ConstraintAttribute {
     
     /**
      * The leading edge of a widget, depending
-     *   on text direction; equivalent to %GTK_CONSTRAINT_ATTRIBUTE_LEFT for LTR
-     *   languages, and %GTK_CONSTRAINT_ATTRIBUTE_RIGHT for RTL ones
+     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute#LEFT} for LTR
+     *   languages, and {@link org.gtk.gtk.ConstraintAttribute#RIGHT} for RTL ones
      */
     START,
     
     /**
      * The trailing edge of a widget, depending
-     *   on text direction; equivalent to %GTK_CONSTRAINT_ATTRIBUTE_RIGHT for LTR
-     *   languages, and %GTK_CONSTRAINT_ATTRIBUTE_LEFT for RTL ones
+     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute#RIGHT} for LTR
+     *   languages, and {@link org.gtk.gtk.ConstraintAttribute#LEFT} for RTL ones
      */
     END,
     

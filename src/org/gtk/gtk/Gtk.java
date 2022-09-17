@@ -136,6 +136,14 @@ public final class Gtk {
      * 
      * The modifier mask determines which modifiers are considered significant
      * for keyboard accelerators. This includes all keyboard modifiers except
+     * for 
+     *       
+     *     
+     *     
+     *       Gets the modifier mask.
+     * 
+     * The modifier mask determines which modifiers are considered significant
+     * for keyboard accelerators. This includes all keyboard modifiers except
      * for %GDK_LOCK_MASK.
      */
     public static int acceleratorGetDefaultModMask() {
@@ -158,9 +166,9 @@ public final class Gtk {
      * 
      * The string may be translated.
      * 
-     * This function is similar to [func@Gtk.accelerator_get_label],
+     * This function is similar to {@link Gtk#acceleratorGetLabel},
      * but handling keycodes. This is only useful for system-level
-     * components, applications should use [func@Gtk.accelerator_get_label]
+     * components, applications should use {@link Gtk#acceleratorGetLabel}
      * instead.
      */
     public static java.lang.String acceleratorGetLabelWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
@@ -171,12 +179,12 @@ public final class Gtk {
     /**
      * Converts an accelerator keyval and modifier mask into a string
      * parseable by gtk_accelerator_parse().
-     * 
-     * For example, if you pass in %GDK_KEY_q and %GDK_CONTROL_MASK,
-     * this function returns `<Control>q`.
+     * <p>
+     * For example, if you pass in <code>GDK_KEY_q</code> and <code>GDK_CONTROL_MASK,
+     * this</code> function returns <code>&#60;Control&#62;q</code>.
      * 
      * If you need to display accelerators in the user interface,
-     * see [func@Gtk.accelerator_get_label].
+     * see {@link Gtk#acceleratorGetLabel}.
      */
     public static java.lang.String acceleratorName(int acceleratorKey, int acceleratorMods) {
         var RESULT = gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods);
@@ -187,9 +195,9 @@ public final class Gtk {
      * Converts an accelerator keyval and modifier mask
      * into a string parseable by gtk_accelerator_parse_with_keycode().
      * 
-     * This is similar to [func@Gtk.accelerator_name] but handling keycodes.
+     * This is similar to {@link Gtk#acceleratorName} but handling keycodes.
      * This is only useful for system-level components, applications
-     * should use [func@Gtk.accelerator_name] instead.
+     * should use {@link Gtk#acceleratorName} instead.
      */
     public static java.lang.String acceleratorNameWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
         var RESULT = gtk_h.gtk_accelerator_name_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods);
@@ -200,9 +208,9 @@ public final class Gtk {
      * Determines whether a given keyval and modifier mask constitute
      * a valid keyboard accelerator.
      * 
-     * For example, the %GDK_KEY_a keyval plus %GDK_CONTROL_MASK mark is valid,
-     * and matches the “Ctrl+a” accelerator. But, you can't, for instance, use
-     * the %GDK_KEY_Control_L keyval as an accelerator.
+     * For example, the <code>GDK_KEY_a</code> keyval plus {@link org.gtk.gdk.ModifierType#CONTROL_MASK} mark is valid,
+     * and matches the &#8220;Ctrl+a&#8221; accelerator. But, you can&#39;t, for instance, use
+     * the <code>GDK_KEY_Control_L</code> keyval as an accelerator.
      */
     public static boolean acceleratorValid(int keyval, int modifiers) {
         var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers);
@@ -230,8 +238,8 @@ public final class Gtk {
      * Checks that the GTK library in use is compatible with the
      * given version.
      * 
-     * Generally you would pass in the constants %GTK_MAJOR_VERSION,
-     * %GTK_MINOR_VERSION, %GTK_MICRO_VERSION as the three arguments
+     * Generally you would pass in the constants <code>GTK_MAJOR_VERSION,
+     * %GTK_MINOR_VERSION,</code> <code>GTK_MICRO_VERSION</code> as the three arguments
      * to this function; that produces a check that the library in
      * use is compatible with the version of GTK the application or
      * module was compiled against.
@@ -244,9 +252,9 @@ public final class Gtk {
      * (same major version.)
      * 
      * This function is primarily for GTK modules; the module
-     * can call this function to check that it wasn’t loaded
+     * can call this function to check that it wasn&#8217;t loaded
      * into an incompatible version of GTK. However, such a
-     * check isn’t completely reliable, since the module may be
+     * check isn&#8217;t completely reliable, since the module may be
      * linked against an old version of GTK and calling the
      * old version of gtk_check_version(), but still get loaded
      * into an application using a newer version of GTK.
@@ -272,11 +280,10 @@ public final class Gtk {
     }
     
     /**
-     * Prevents [id@gtk_init] and [id@gtk_init_check] from automatically calling
-     * `setlocale (LC_ALL, "")`.
+     * Prevents {@link Gtk#init} and {@link Gtk#initCheck} from automatically calling<code>setlocale (LC_ALL, &#34;&#34;)</code>.
      * 
      * You would want to use this function if you wanted to set the locale for
-     * your program to something other than the user’s locale, or if
+     * your program to something other than the user&#8217;s locale, or if
      * you wanted to set different values for different locale categories.
      * 
      * Most programs should not need to call this function.
@@ -288,9 +295,8 @@ public final class Gtk {
     /**
      * Distributes @extra_space to child @sizes by bringing smaller
      * children up to natural size first.
-     * 
-     * The remaining space will be added to the @minimum_size member of the
-     * `GtkRequestedSize` struct. If all sizes reach their natural size then
+     * <p>
+     * The remaining space will be added to the @minimum_size member of the<code>GtkRequestedSize</code> struct. If all sizes reach their natural size then
      * the remaining space is returned.
      */
     public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, RequestedSize[] sizes) {
@@ -299,10 +305,10 @@ public final class Gtk {
     }
     
     /**
-     * Gets a property of the `GtkEditable` delegate for @object.
-     * 
-     * This is helper function that should be called in the `get_property`
-     * function of your `GtkEditable` implementation, before handling your
+     * Gets a property of the <code>GtkEditable</code> delegate for @object.
+     * <p>
+     * This is helper function that should be called in the <code>get_property</code>
+     * function of your <code>GtkEditable</code> implementation, before handling your
      * own properties.
      */
     public static boolean editableDelegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
@@ -311,10 +317,10 @@ public final class Gtk {
     }
     
     /**
-     * Sets a property on the `GtkEditable` delegate for @object.
-     * 
-     * This is a helper function that should be called in the `set_property`
-     * function of your `GtkEditable` implementation, before handling your
+     * Sets a property on the <code>GtkEditable</code> delegate for @object.
+     * <p>
+     * This is a helper function that should be called in the <code>set_property</code>
+     * function of your <code>GtkEditable</code> implementation, before handling your
      * own properties.
      */
     public static boolean editableDelegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
@@ -323,20 +329,20 @@ public final class Gtk {
     }
     
     /**
-     * Overrides the `GtkEditable` properties for @class.
+     * Overrides the <code>GtkEditable</code> properties for @class.
      * 
      * This is a helper function that should be called in class_init,
      * after installing your own properties.
      * 
-     * Note that your class must have "text", "cursor-position",
-     * "selection-bound", "editable", "width-chars", "max-width-chars",
-     * "xalign" and "enable-undo" properties for this function to work.
+     * Note that your class must have &#34;text&#34;, &#34;cursor-position&#34;,
+     * &#34;selection-bound&#34;, &#34;editable&#34;, &#34;width-chars&#34;, &#34;max-width-chars&#34;,
+     * &#34;xalign&#34; and &#34;enable-undo&#34; properties for this function to work.
      * 
      * To handle the properties in your set_property and get_property
-     * functions, you can either use [func@Gtk.Editable.delegate_set_property]
-     * and [func@Gtk.Editable.delegate_get_property] (if you are using
+     * functions, you can either use {@link Gtk#Editable}
+     * and {@link Gtk#Editable} (if you are using
      * a delegate), or remember the @first_prop offset and add it to the
-     * values in the [enum@Gtk.EditableProperties] enumeration to get the
+     * values in the {@link [enum@Gtk.EditableProperties] (ref=enum)} enumeration to get the
      * property IDs for these properties.
      */
     public static int editableInstallProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
@@ -345,9 +351,9 @@ public final class Gtk {
     }
     
     /**
-     * Calls a function for all `GtkPrinter`s.
+     * Calls a function for all <code>GtkPrinter</code>s.
      * 
-     * If @func returns %TRUE, the enumeration is stopped.
+     * If @func returns <code>TRUE,</code> the enumeration is stopped.
      */
     public static void enumeratePrinters(PrinterFunc func, boolean wait) {
         try {
@@ -365,7 +371,7 @@ public final class Gtk {
     }
     
     /**
-     * Registers an error quark for `GtkFileChooser` errors.
+     * Registers an error quark for <code>GtkFileChooser</code> errors.
      */
     public static org.gtk.glib.Quark fileChooserErrorQuark() {
         var RESULT = gtk_h.gtk_file_chooser_error_quark();
@@ -373,9 +379,9 @@ public final class Gtk {
     }
     
     /**
-     * Returns the binary age as passed to `libtool`.
-     * 
-     * If `libtool` means nothing to you, don't worry about it.
+     * Returns the binary age as passed to <code>libtool</code>.
+     * <p>
+     * If <code>libtool</code> means nothing to you, don&#39;t worry about it.
      */
     public static int getBinaryAge() {
         var RESULT = gtk_h.gtk_get_binary_age();
@@ -394,7 +400,7 @@ public final class Gtk {
     }
     
     /**
-     * Returns the `PangoLanguage` for the default language
+     * Returns the <code>PangoLanguage</code> for the default language
      * currently in effect.
      * 
      * Note that this can change over the life of an
@@ -405,7 +411,7 @@ public final class Gtk {
      * the right-to-left or left-to-right text direction.
      * 
      * This function is equivalent to
-     * [func@Pango.Language.get_default].
+     * {@link Pango#Language}.
      * See that function for details.
      */
     public static org.pango.Language getDefaultLanguage() {
@@ -414,9 +420,9 @@ public final class Gtk {
     }
     
     /**
-     * Returns the interface age as passed to `libtool`.
-     * 
-     * If `libtool` means nothing to you, don't worry about it.
+     * Returns the interface age as passed to <code>libtool</code>.
+     * <p>
+     * If <code>libtool</code> means nothing to you, don&#39;t worry about it.
      */
     public static int getInterfaceAge() {
         var RESULT = gtk_h.gtk_get_interface_age();
@@ -428,8 +434,8 @@ public final class Gtk {
      * reading direction for text and UI.
      * 
      * This function depends on the current locale being set with
-     * setlocale() and will default to setting the %GTK_TEXT_DIR_LTR
-     * direction otherwise. %GTK_TEXT_DIR_NONE will never be returned.
+     * setlocale() and will default to setting the <code>GTK_TEXT_DIR_LTR
+     * direction</code> otherwise. {@link org.gtk.gtk.TextDirection#NONE} will never be returned.
      * 
      * GTK sets the default text direction according to the locale
      * during gtk_init(), and you should normally use
@@ -440,8 +446,8 @@ public final class Gtk {
      * changed after GTK has already been initialized. In this case,
      * you can use it to update the default text direction as follows:
      * 
-     * |[<!-- language="C" -->
-     * #include <locale.h>
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * #include &#60;locale.h&#62;
      * 
      * static void
      * update_locale (const char *new_locale)
@@ -450,7 +456,7 @@ public final class Gtk {
      *   GtkTextDirection direction = gtk_get_locale_direction ();
      *   gtk_widget_set_default_direction (direction);
      * }
-     * ]|
+     * ]}|
      */
     public static TextDirection getLocaleDirection() {
         var RESULT = gtk_h.gtk_get_locale_direction();
@@ -463,8 +469,8 @@ public final class Gtk {
      * For example, in GTK version 3.1.5 this is 3.
      * 
      * This function is in the library, so it represents the GTK library
-     * your code is running against. Contrast with the %GTK_MAJOR_VERSION
-     * macro, which represents the major version of the GTK headers you
+     * your code is running against. Contrast with the <code>GTK_MAJOR_VERSION
+     * macro,</code> which represents the major version of the GTK headers you
      * have included when compiling your code.
      */
     public static int getMajorVersion() {
@@ -479,7 +485,7 @@ public final class Gtk {
      * 
      * This function is in the library, so it represents the GTK library
      * your code is are running against. Contrast with the
-     * %GTK_MICRO_VERSION macro, which represents the micro version of the
+     * <code>GTK_MICRO_VERSION</code> macro, which represents the micro version of the
      * GTK headers you have included when compiling your code.
      */
     public static int getMicroVersion() {
@@ -494,7 +500,7 @@ public final class Gtk {
      * 
      * This function is in the library, so it represents the GTK library
      * your code is are running against. Contrast with the
-     * %GTK_MINOR_VERSION macro, which represents the minor version of the
+     * <code>GTK_MINOR_VERSION</code> macro, which represents the minor version of the
      * GTK headers you have included when compiling your code.
      */
     public static int getMinorVersion() {
@@ -511,17 +517,17 @@ public final class Gtk {
      * Call this function before using any other GTK functions in your GUI
      * applications.  It will initialize everything needed to operate the
      * toolkit.
-     * 
-     * If you are using `GtkApplication`, you don't have to call gtk_init()
-     * or gtk_init_check(); the `GApplication::startup` handler
+     * <p>
+     * If you are using <code>GtkApplication</code>, you don&#39;t have to call gtk_init()
+     * or gtk_init_check(); the <code>GApplication::startup</code> handler
      * does it for you.
-     * 
+     * <p>
      * This function will terminate your program if it was unable to
      * initialize the windowing system for some reason. If you want
      * your program to fall back to a textual interface you want to
      * call gtk_init_check() instead.
-     * 
-     * GTK calls `signal (SIGPIPE, SIG_IGN)`
+     * <p>
+     * GTK calls <code>signal (SIGPIPE, SIG_IGN)</code>
      * during initialization, to ignore SIGPIPE signals, since these are
      * almost never wanted in graphical applications. If you do need to
      * handle SIGPIPE for some reason, reset the handler after gtk_init(),
@@ -535,7 +541,7 @@ public final class Gtk {
     /**
      * This function does the same work as gtk_init() with only a single
      * change: It does not terminate the program if the windowing system
-     * can’t be initialized. Instead it returns %FALSE on failure.
+     * can&#8217;t be initialized. Instead it returns <code>false</code> on failure.
      * 
      * This way the application can fall back to some other means of
      * communication with the user - for example a curses or command line
@@ -556,7 +562,7 @@ public final class Gtk {
     }
     
     /**
-     * Finds the `GtkNative` associated with the surface.
+     * Finds the <code>GtkNative</code> associated with the surface.
      */
     public static Native nativeGetForSurface(org.gtk.gdk.Surface surface) {
         var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());
@@ -564,8 +570,7 @@ public final class Gtk {
     }
     
     /**
-     * Converts the result of a `GCompareFunc` like strcmp() to a
-     * `GtkOrdering` value.
+     * Converts the result of a <code>GCompareFunc</code> like strcmp() to a<code>GtkOrdering</code> value.
      */
     public static Ordering orderingFromCmpfunc(int cmpfuncResult) {
         var RESULT = gtk_h.gtk_ordering_from_cmpfunc(cmpfuncResult);
@@ -590,9 +595,9 @@ public final class Gtk {
     }
     
     /**
-     * Creates a new `GParamSpec` instance for a property holding a `GtkExpression`.
-     * 
-     * See `g_param_spec_internal()` for details on the property strings.
+     * Creates a new <code>GParamSpec</code> instance for a property holding a <code>GtkExpression</code>.
+     * <p>
+     * See <code>g_param_spec_internal()</code> for details on the property strings.
      */
     public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
         var RESULT = gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
@@ -600,7 +605,7 @@ public final class Gtk {
     }
     
     /**
-     * Registers an error quark for `GtkPrintOperation` if necessary.
+     * Registers an error quark for <code>GtkPrintOperation</code> if necessary.
      */
     public static org.gtk.glib.Quark printErrorQuark() {
         var RESULT = gtk_h.gtk_print_error_quark();
@@ -609,7 +614,7 @@ public final class Gtk {
     
     /**
      * Runs a page setup dialog, letting the user modify the values from
-     * @page_setup. If the user cancels the dialog, the returned `GtkPageSetup`
+     * @page_setup. If the user cancels the dialog, the returned <code>GtkPageSetup</code>
      * is identical to the passed in @page_setup, otherwise it contains the
      * modifications done in the dialog.
      * 
@@ -649,8 +654,8 @@ public final class Gtk {
     }
     
     /**
-     * Renders an activity indicator (such as in `GtkSpinner`).
-     * The state %GTK_STATE_FLAG_CHECKED determines whether there is
+     * Renders an activity indicator (such as in <code>GtkSpinner</code>).
+     * The state {@link org.gtk.gtk.StateFlags#CHECKED} determines whether there is
      * activity going on.
      */
     public static void renderActivity(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
@@ -660,9 +665,9 @@ public final class Gtk {
     /**
      * Renders an arrow pointing to @angle.
      * 
-     * Typical arrow rendering at 0, 1⁄2 π;, π; and 3⁄2 π:
+     * Typical arrow rendering at 0, 1&#8260;2 &#960;;, &#960;; and 3&#8260;2 &#960;:
      * 
-     * ![](arrows.png)
+     * !{@link []}(arrows.png)
      */
     public static void renderArrow(StyleContext context, org.cairographics.Context cr, double angle, double x, double y, double size) {
         gtk_h.gtk_render_arrow(context.handle(), cr.handle(), angle, x, y, size);
@@ -670,39 +675,38 @@ public final class Gtk {
     
     /**
      * Renders the background of an element.
+     * <p>
+     * Typical background rendering, showing the effect of<code>background-image</code>, <code>border-width</code> and <code>border-radius</code>:
      * 
-     * Typical background rendering, showing the effect of
-     * `background-image`, `border-width` and `border-radius`:
-     * 
-     * ![](background.png)
+     * !{@link []}(background.png)
      */
     public static void renderBackground(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_background(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
-     * Renders a checkmark (as in a `GtkCheckButton`).
+     * Renders a checkmark (as in a <code>GtkCheckButton</code>).
      * 
-     * The %GTK_STATE_FLAG_CHECKED state determines whether the check is
-     * on or off, and %GTK_STATE_FLAG_INCONSISTENT determines whether it
+     * The {@link org.gtk.gtk.StateFlags#CHECKED} state determines whether the check is
+     * on or off, and {@link org.gtk.gtk.StateFlags#INCONSISTENT} determines whether it
      * should be marked as undefined.
      * 
      * Typical checkmark rendering:
      * 
-     * ![](checks.png)
+     * !{@link []}(checks.png)
      */
     public static void renderCheck(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_check(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
-     * Renders an expander (as used in `GtkTreeView` and `GtkExpander`) in the area
-     * defined by @x, @y, @width, @height. The state %GTK_STATE_FLAG_CHECKED
-     * determines whether the expander is collapsed or expanded.
+     * Renders an expander (as used in <code>GtkTreeView</code> and <code>GtkExpander</code>) in the area
+     * defined by @x, @y, @width, @height. The state <code>GTK_STATE_FLAG_CHECKED
+     * determines</code> whether the expander is collapsed or expanded.
      * 
      * Typical expander rendering:
      * 
-     * ![](expanders.png)
+     * !{@link []}(expanders.png)
      */
     public static void renderExpander(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_expander(context.handle(), cr.handle(), x, y, width, height);
@@ -713,7 +717,7 @@ public final class Gtk {
      * 
      * Typical focus rendering:
      * 
-     * ![](focus.png)
+     * !{@link []}(focus.png)
      */
     public static void renderFocus(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_focus(context.handle(), cr.handle(), x, y, width, height);
@@ -721,23 +725,22 @@ public final class Gtk {
     
     /**
      * Renders a frame around the rectangle defined by @x, @y, @width, @height.
+     * <p>
+     * Examples of frame rendering, showing the effect of <code>border-image</code>,<code>border-color</code>, <code>border-width</code>, <code>border-radius</code> and junctions:
      * 
-     * Examples of frame rendering, showing the effect of `border-image`,
-     * `border-color`, `border-width`, `border-radius` and junctions:
-     * 
-     * ![](frames.png)
+     * !{@link []}(frames.png)
      */
     public static void renderFrame(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_frame(context.handle(), cr.handle(), x, y, width, height);
     }
     
     /**
-     * Renders a handle (as in `GtkPaned` and `GtkWindow`’s resize grip),
+     * Renders a handle (as in <code>GtkPaned</code> and <code>GtkWindow</code>&#8217;s resize grip),
      * in the rectangle determined by @x, @y, @width, @height.
      * 
      * Handles rendered for the paned and grip classes:
      * 
-     * ![](handles.png)
+     * !{@link []}(handles.png)
      */
     public static void renderHandle(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_handle(context.handle(), cr.handle(), x, y, width, height);
@@ -769,13 +772,13 @@ public final class Gtk {
     }
     
     /**
-     * Renders an option mark (as in a radio button), the %GTK_STATE_FLAG_CHECKED
-     * state will determine whether the option is on or off, and
-     * %GTK_STATE_FLAG_INCONSISTENT whether it should be marked as undefined.
+     * Renders an option mark (as in a radio button), the <code>GTK_STATE_FLAG_CHECKED
+     * state</code> will determine whether the option is on or off, and
+     * {@link org.gtk.gtk.StateFlags#INCONSISTENT} whether it should be marked as undefined.
      * 
      * Typical option mark rendering:
      * 
-     * ![](options.png)
+     * !{@link []}(options.png)
      */
     public static void renderOption(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_option(context.handle(), cr.handle(), x, y, width, height);
@@ -838,7 +841,7 @@ public final class Gtk {
     }
     
     /**
-     * Checks whether the `GtkAccessible` has @property set.
+     * Checks whether the <code>GtkAccessible</code> has @property set.
      */
     public static boolean testAccessibleHasProperty(Accessible accessible, AccessibleProperty property) {
         var RESULT = gtk_h.gtk_test_accessible_has_property(accessible.handle(), property.getValue());
@@ -846,7 +849,7 @@ public final class Gtk {
     }
     
     /**
-     * Checks whether the `GtkAccessible` has @relation set.
+     * Checks whether the <code>GtkAccessible</code> has @relation set.
      */
     public static boolean testAccessibleHasRelation(Accessible accessible, AccessibleRelation relation) {
         var RESULT = gtk_h.gtk_test_accessible_has_relation(accessible.handle(), relation.getValue());
@@ -854,7 +857,7 @@ public final class Gtk {
     }
     
     /**
-     * Checks whether the `GtkAccessible:accessible-role` of the accessible
+     * Checks whether the <code>GtkAccessible:accessible-role</code> of the accessible
      * is @role.
      */
     public static boolean testAccessibleHasRole(Accessible accessible, AccessibleRole role) {
@@ -863,7 +866,7 @@ public final class Gtk {
     }
     
     /**
-     * Checks whether the `GtkAccessible` has @state set.
+     * Checks whether the <code>GtkAccessible</code> has @state set.
      */
     public static boolean testAccessibleHasState(Accessible accessible, AccessibleState state) {
         var RESULT = gtk_h.gtk_test_accessible_has_state(accessible.handle(), state.getValue());
@@ -881,7 +884,7 @@ public final class Gtk {
     }
     
     /**
-     * Enters the main loop and waits for @widget to be “drawn”.
+     * Enters the main loop and waits for @widget to be &#8220;drawn&#8221;.
      * 
      * In this context that means it waits for the frame clock of
      * @widget to have run a full styling, layout and drawing cycle.
@@ -904,9 +907,9 @@ public final class Gtk {
     
     /**
      * Obtains a @tree_model and @path from value of target type
-     * %GTK_TYPE_TREE_ROW_DATA.
+     * <code>GTK_TYPE_TREE_ROW_DATA.
      * 
-     * The returned path must be freed with gtk_tree_path_free().
+     * The</code> returned path must be freed with gtk_tree_path_free().
      */
     public static boolean treeGetRowDragData(org.gtk.gobject.Value value, TreeModel[] treeModel, TreePath[] path) {
         var RESULT = gtk_h.gtk_tree_get_row_drag_data(value.handle(), Interop.allocateNativeArray(treeModel).handle(), Interop.allocateNativeArray(path).handle());
@@ -941,7 +944,7 @@ public final class Gtk {
     }
     
     /**
-     * Retrieves the `GtkExpression` stored inside the given `value`, and acquires
+     * Retrieves the <code>GtkExpression</code> stored inside the given <code>value</code>, and acquires
      * a reference to it.
      */
     public static Expression valueDupExpression(org.gtk.gobject.Value value) {
@@ -950,7 +953,7 @@ public final class Gtk {
     }
     
     /**
-     * Retrieves the `GtkExpression` stored inside the given `value`.
+     * Retrieves the <code>GtkExpression</code> stored inside the given <code>value</code>.
      */
     public static Expression valueGetExpression(org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gtk_value_get_expression(value.handle());
@@ -958,18 +961,18 @@ public final class Gtk {
     }
     
     /**
-     * Stores the given `GtkExpression` inside `value`.
-     * 
-     * The `GValue` will acquire a reference to the `expression`.
+     * Stores the given <code>GtkExpression</code> inside <code>value</code>.
+     * <p>
+     * The <code>GValue</code> will acquire a reference to the <code>expression</code>.
      */
     public static void valueSetExpression(org.gtk.gobject.Value value, Expression expression) {
         gtk_h.gtk_value_set_expression(value.handle(), expression.handle());
     }
     
     /**
-     * Stores the given `GtkExpression` inside `value`.
-     * 
-     * This function transfers the ownership of the `expression` to the `GValue`.
+     * Stores the given <code>GtkExpression</code> inside <code>value</code>.
+     * <p>
+     * This function transfers the ownership of the <code>expression</code> to the <code>GValue</code>.
      */
     public static void valueTakeExpression(org.gtk.gobject.Value value, Expression expression) {
         gtk_h.gtk_value_take_expression(value.handle(), expression.getReference().unowned().handle());

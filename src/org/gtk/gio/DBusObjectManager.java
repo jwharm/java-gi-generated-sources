@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * The #GDBusObjectManager type is the base type for service- and
  * client-side implementations of the standardized
- * [org.freedesktop.DBus.ObjectManager](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+ * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
  * interface.
  * 
  * See #GDBusObjectManagerClient for the client-side implementation

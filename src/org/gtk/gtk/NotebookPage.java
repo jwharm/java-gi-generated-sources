@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkNotebookPage` is an auxiliary object used by `GtkNotebook`.
+ * <code>GtkNotebookPage</code> is an auxiliary object used by <code>GtkNotebook</code>.
  */
 public class NotebookPage extends org.gtk.gobject.Object {
 

@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * #GDrive - this represent a piece of hardware connected to the machine.
- * It's generally only created for removable hardware or hardware with
+ * It&#39;s generally only created for removable hardware or hardware with
  * removable media.
  * 
  * #GDrive is a container class for #GVolume objects that stem from
@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * whether media is available, determining whether media change is
  * automatically detected and ejecting the media.
  * 
- * If the #GDrive reports that media isn't automatically detected, one
+ * If the #GDrive reports that media isn&#39;t automatically detected, one
  * can poll for media; typically one should not do this periodically
  * as a poll for media operation is potentially expensive and may
  * spin up the drive creating noise.
@@ -98,7 +98,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a drive. If any errors occurred during the operation,
-     * @error will be set to contain the errors and %FALSE will be returned.
+     * @error will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -119,6 +119,14 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the identifier of the given kind for @drive. The only
+     * identifier currently available is
+     * 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Gets the identifier of the given kind for @drive. The only
      * identifier currently available is
      * %G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE.
      */
@@ -318,7 +326,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emitted when the drive's state has changed.
+     * Emitted when the drive&#39;s state has changed.
      */
     public default SignalHandle onChanged(ChangedHandler handler) {
         try {

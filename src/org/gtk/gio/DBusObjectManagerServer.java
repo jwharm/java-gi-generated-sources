@@ -10,21 +10,21 @@ import java.lang.invoke.*;
 /**
  * #GDBusObjectManagerServer is used to export #GDBusObject instances using
  * the standardized
- * [org.freedesktop.DBus.ObjectManager](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+ * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
  * interface. For example, remote D-Bus clients can get all objects
  * and properties in a single call. Additionally, any change in the
  * object hierarchy is broadcast using signals. This means that D-Bus
  * clients can keep caches up to date by only listening to D-Bus
  * signals.
- * 
+ * <p>
  * The recommended path to export an object manager at is the path form of the
  * well-known name of a D-Bus service, or below. For example, if a D-Bus service
- * is available at the well-known name `net.example.ExampleService1`, the object
- * manager should typically be exported at `/net/example/ExampleService1`, or
+ * is available at the well-known name <code>net.example.ExampleService1</code>, the object
+ * manager should typically be exported at <code>/net/example/ExampleService1</code>, or
  * below (to allow for multiple object managers in a service).
- * 
+ * <p>
  * It is supported, but not recommended, to export an object manager at the root
- * path, `/`.
+ * path, <code>/</code>.
  * 
  * See #GDBusObjectManagerClient for the client-side code that is
  * intended to be used with #GDBusObjectManagerServer or any D-Bus
@@ -50,10 +50,10 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     /**
      * Creates a new #GDBusObjectManagerServer object.
      * 
-     * The returned server isn't yet exported on any connection. To do so,
+     * The returned server isn&#39;t yet exported on any connection. To do so,
      * use g_dbus_object_manager_server_set_connection(). Normally you
      * want to export all of your objects before doing so to avoid
-     * [InterfacesAdded](http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+     * {@link [InterfacesAdded]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
@@ -78,7 +78,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     
     /**
      * Like g_dbus_object_manager_server_export() but appends a string of
-     * the form _N (with N being a natural number) to @object's object path
+     * the form _N (with N being a natural number) to @object&#39;s object path
      * if an object with the given path already exists. As such, the
      * #GDBusObjectProxy:g-object-path property of @object may be modified.
      */
@@ -104,7 +104,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     
     /**
      * Exports all objects managed by @manager on @connection. If
-     * @connection is %NULL, stops exporting objects.
+     * @connection is <code>NULL,</code> stops exporting objects.
      */
     public void setConnection(DBusConnection connection) {
         gtk_h.g_dbus_object_manager_server_set_connection(handle(), connection.handle());

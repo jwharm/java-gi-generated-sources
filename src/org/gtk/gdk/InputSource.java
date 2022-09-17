@@ -39,7 +39,7 @@ public enum InputSource {
     TRACKPOINT,
     
     /**
-     * the device is a "pad", a collection of buttons,
+     * the device is a &#34;pad&#34;, a collection of buttons,
      *   rings and strips found in drawing tablets
      */
     TABLET_PAD;

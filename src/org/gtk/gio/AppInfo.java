@@ -10,20 +10,19 @@ import java.lang.invoke.*;
 /**
  * #GAppInfo and #GAppLaunchContext are used for describing and launching
  * applications installed on the system.
- * 
+ * <p>
  * As of GLib 2.20, URIs will always be converted to POSIX paths
  * (using g_file_get_path()) when using g_app_info_launch() even if
  * the application requested an URI and not a POSIX path. For example
- * for a desktop-file based application with Exec key `totem
- * %U` and a single URI, `sftp://foo/file.avi`, then
- * `/home/user/.gvfs/sftp on foo/file.avi` will be passed. This will
+ * for a desktop-file based application with Exec key <code>totem
+ * <code>U</code></code> and a single URI, <code>sftp://foo/file.avi</code>, then<code>/home/user/.gvfs/sftp on foo/file.avi</code> will be passed. This will
  * only work if a set of suitable GIO extensions (such as gvfs 2.26
  * compiled with FUSE support), is available and operational; if this
  * is not the case, the URI will be passed unmodified to the application.
- * Some URIs, such as `mailto:`, of course cannot be mapped to a POSIX
- * path (in gvfs there's no FUSE mount for it); such URIs will be
+ * Some URIs, such as <code>mailto:</code>, of course cannot be mapped to a POSIX
+ * path (in gvfs there&#39;s no FUSE mount for it); such URIs will be
  * passed unmodified to the application.
- * 
+ * <p>
  * Specifically for gvfs 2.26 and later, the POSIX URI will be mapped
  * back to the GIO URI in the #GFile constructors (since gvfs
  * implements the #GVfs extension point). As such, if the application
@@ -32,27 +31,26 @@ import java.lang.invoke.*;
  * that the URI passed to e.g. g_file_new_for_commandline_arg() is
  * equal to the result of g_file_get_uri(). The following snippet
  * illustrates this:
- * 
- * |[
+ * <p>
+ * |{@link [
  * GFile *f;
  * char *uri;
- * 
+ * <p>
  * file = g_file_new_for_commandline_arg (uri_from_commandline);
- * 
+ * <p>
  * uri = g_file_get_uri (file);
  * strcmp (uri, uri_from_commandline) == 0;
  * g_free (uri);
- * 
- * if (g_file_has_uri_scheme (file, "cdda"))
+ * <p>
+ * if (g_file_has_uri_scheme (file, &#34;cdda&#34;))
  *   {
  *     // do something special with uri
  *   }
  * g_object_unref (file);
- * ]|
- * 
- * This code will work when both `cdda://sr0/Track 1.wav` and
- * `/home/user/.gvfs/cdda on sr0/Track 1.wav` is passed to the
- * application. It should be noted that it's generally not safe
+ * ]}|
+ * <p>
+ * This code will work when both <code>cdda://sr0/Track 1.wav</code> and<code>/home/user/.gvfs/cdda on sr0/Track 1.wav</code> is passed to the
+ * application. It should be noted that it&#39;s generally not safe
  * for applications to rely on the format of a particular URIs.
  * Different launcher applications (e.g. file managers) may have
  * different ideas of what a given URI means.
@@ -148,7 +146,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the executable's name for the installed application.
+     * Gets the executable&#39;s name for the installed application.
      */
     public default java.lang.String getExecutable() {
         var RESULT = gtk_h.g_app_info_get_executable(handle());
@@ -169,7 +167,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * platform dependent. For instance, on Unix this is the
      * desktop file id from the xdg menu specification.
      * 
-     * Note that the returned ID may be %NULL, depending on how
+     * Note that the returned ID may be <code>NULL,</code> depending on how
      * the @appinfo has been constructed.
      */
     public default java.lang.String getId() {
@@ -190,28 +188,26 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * as arguments, using the optional @context to get information
      * about the details of the launcher (like what screen it is on).
      * On error, @error will be set accordingly.
-     * 
-     * To launch the application without arguments pass a %NULL @files list.
-     * 
+     * <p>
+     * To launch the application without arguments pass a <code>null</code> @files list.
+     * <p>
      * Note that even if the launch is successful the application launched
      * can fail to start if it runs into problems during startup. There is
      * no way to detect this.
-     * 
+     * <p>
      * Some URIs can be changed when passed through a GFile (for instance
      * unsupported URIs with strange formats like mailto:), so if you have
      * a textual URI you want to pass in as argument, consider using
      * g_app_info_launch_uris() instead.
-     * 
+     * <p>
      * The launched application inherits the environment of the launching
      * process, but it can be modified with g_app_launch_context_setenv()
      * and g_app_launch_context_unsetenv().
-     * 
-     * On UNIX, this function sets the `GIO_LAUNCHED_DESKTOP_FILE`
-     * environment variable with the path of the launched desktop file and
-     * `GIO_LAUNCHED_DESKTOP_FILE_PID` to the process id of the launched
-     * process. This can be used to ignore `GIO_LAUNCHED_DESKTOP_FILE`,
-     * should it be inherited by further processes. The `DISPLAY` and
-     * `DESKTOP_STARTUP_ID` environment variables are also set, based
+     * <p>
+     * On UNIX, this function sets the <code>GIO_LAUNCHED_DESKTOP_FILE</code>
+     * environment variable with the path of the launched desktop file and<code>GIO_LAUNCHED_DESKTOP_FILE_PID</code> to the process id of the launched
+     * process. This can be used to ignore <code>GIO_LAUNCHED_DESKTOP_FILE</code>,
+     * should it be inherited by further processes. The <code>DISPLAY</code> and<code>DESKTOP_STARTUP_ID</code> environment variables are also set, based
      * on information provided in @context.
      */
     public default boolean launch(org.gtk.glib.List files, AppLaunchContext context) throws io.github.jwharm.javagi.GErrorException {
@@ -229,7 +225,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * about the details of the launcher (like what screen it is on).
      * On error, @error will be set accordingly.
      * 
-     * To launch the application without arguments pass a %NULL @uris list.
+     * To launch the application without arguments pass a <code>null</code> @uris list.
      * 
      * Note that even if the launch is successful the application launched
      * can fail to start if it runs into problems during startup. There is
@@ -248,7 +244,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * Async version of g_app_info_launch_uris().
      * 
      * The @callback is invoked immediately after the application launch, but it
-     * waits for activation in case of D-Bus–activated applications and also provides
+     * waits for activation in case of D-Bus&#8211;activated applications and also provides
      * extended error information for sandboxed applications, see notes for
      * g_app_info_launch_default_for_uri_async().
      */
@@ -358,7 +354,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * Creates a new #GAppInfo from the given information.
      * 
      * Note that for @commandline, the quoting rules of the Exec key of the
-     * [freedesktop.org Desktop Entry Specification](http://freedesktop.org/Standards/desktop-entry-spec)
+     * {@link [freedesktop.org Desktop Entry Specification]}(http://freedesktop.org/Standards/desktop-entry-spec)
      * are applied. For example, if the @commandline contains
      * percent-encoded URIs, the percent-character must be doubled in order to prevent it from
      * being swallowed by Exec key unquoting. See the specification for exact quoting rules.
@@ -375,12 +371,11 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets a list of all of the applications currently registered
      * on this system.
-     * 
-     * For desktop files, this includes applications that have
-     * `NoDisplay=true` set or are excluded from display by means
-     * of `OnlyShowIn` or `NotShowIn`. See g_app_info_should_show().
+     * <p>
+     * For desktop files, this includes applications that have<code>NoDisplay=true</code> set or are excluded from display by means
+     * of <code>OnlyShowIn</code> or <code>NotShowIn</code>. See g_app_info_should_show().
      * The returned list does not include applications which have
-     * the `Hidden` key set.
+     * the <code>Hidden</code> key set.
      */
     public static org.gtk.glib.List getAll() {
         var RESULT = gtk_h.g_app_info_get_all();
@@ -409,8 +404,8 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the default application for handling URIs with
      * the given URI scheme. A URI scheme is the initial part
-     * of the URI, up to but not including the ':', e.g. "http",
-     * "ftp" or "sip".
+     * of the URI, up to but not including the &#39;:&#39;, e.g. &#34;http&#34;,
+     * &#34;ftp&#34; or &#34;sip&#34;.
      */
     public static AppInfo getDefaultForUriScheme(java.lang.String uriScheme) {
         var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
@@ -446,7 +441,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * is done on the uri to detect the type of the file if
      * required.
      * 
-     * The D-Bus–activated applications don't have to be started if your application
+     * The D-Bus&#8211;activated applications don&#39;t have to be started if your application
      * terminates too soon after this function. To prevent this, use
      * g_app_info_launch_default_for_uri_async() instead.
      */
@@ -467,7 +462,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * sandboxed and the portal may present an application chooser
      * dialog to the user.
      * 
-     * This is also useful if you want to be sure that the D-Bus–activated
+     * This is also useful if you want to be sure that the D-Bus&#8211;activated
      * applications are really started before termination and if you are interested
      * in receiving error information from their activation.
      */

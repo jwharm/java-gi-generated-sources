@@ -14,20 +14,20 @@ public enum SorterChange {
     
     /**
      * The sort order was inverted. Comparisons
-     *   that returned %GTK_ORDERING_SMALLER now return %GTK_ORDERING_LARGER
-     *   and vice versa. Other comparisons return the same values as before.
+     *   that returned {@link org.gtk.gtk.Ordering#SMALLER} now return <code>GTK_ORDERING_LARGER
+     * </code>  and vice versa. Other comparisons return the same values as before.
      */
     INVERTED,
     
     /**
      * The sorter is less strict: Comparisons
-     *   may now return %GTK_ORDERING_EQUAL that did not do so before.
+     *   may now return {@link org.gtk.gtk.Ordering#EQUAL} that did not do so before.
      */
     LESS_STRICT,
     
     /**
      * The sorter is more strict: Comparisons
-     *   that did return %GTK_ORDERING_EQUAL may not do so anymore.
+     *   that did return {@link org.gtk.gtk.Ordering#EQUAL} may not do so anymore.
      */
     MORE_STRICT;
     

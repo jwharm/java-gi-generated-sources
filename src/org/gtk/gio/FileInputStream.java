@@ -34,6 +34,47 @@ public class FileInputStream extends InputStream implements Seekable {
      * while querying the stream. For the asynchronous (non-blocking) version
      * of this function, see g_file_input_stream_query_info_async(). While the
      * stream is blocked, the stream will set the pending flag internally, and
+     * any other operations on the stream will fail with 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         
+     *           
+     *         
+     *         
+     *           
+     *             
+     *           
+     *           
+     *             
+     *           
+     *           
+     *             
+     *           
+     *           
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         
+     *         
+     *           
+     *         
+     *         
+     *           
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Queries a file input stream the given @attributes. This function blocks
+     * while querying the stream. For the asynchronous (non-blocking) version
+     * of this function, see g_file_input_stream_query_info_async(). While the
+     * stream is blocked, the stream will set the pending flag internally, and
      * any other operations on the stream will fail with %G_IO_ERROR_PENDING.
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -54,9 +95,9 @@ public class FileInputStream extends InputStream implements Seekable {
      * For the synchronous version of this function,
      * see g_file_input_stream_query_info().
      * 
-     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be set
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be set
      */
     public void queryInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {

@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * An opaque data structure that represents a keyed data list.
  * 
- * See also: [Keyed data lists][glib-Keyed-Data-Lists].
+ * See also: {@link [Keyed data lists]}{@link [glib-Keyed-Data-Lists]}.
  */
 public class Data extends io.github.jwharm.javagi.ResourceBase {
 

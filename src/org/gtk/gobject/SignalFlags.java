@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The signal flags are used to specify a signal's behaviour.
+ * The signal flags are used to specify a signal&#39;s behaviour.
  */
 public class SignalFlags {
 
@@ -28,7 +28,7 @@ public class SignalFlags {
     public static final int NO_RECURSE = 8;
     
     /**
-     * This signal supports "::detail" appendices to the signal name
+     * This signal supports &#34;::detail&#34; appendices to the signal name
      *  upon handler connections and emissions.
      */
     public static final int DETAILED = 16;

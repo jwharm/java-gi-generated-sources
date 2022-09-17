@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkCenterLayout` is a layout manager that manages up to three children.
+ * <code>GtkCenterLayout</code> is a layout manager that manages up to three children.
  * 
  * The start widget is allocated at the start of the layout (left in
  * left-to-right locales and right in right-to-left ones), and the end
  * widget at the end.
  * 
- * The center widget is centered regarding the full width of the layout's.
+ * The center widget is centered regarding the full width of the layout&#39;s.
  */
 public class CenterLayout extends LayoutManager {
 
@@ -33,7 +33,7 @@ public class CenterLayout extends LayoutManager {
     }
     
     /**
-     * Creates a new `GtkCenterLayout`.
+     * Creates a new <code>GtkCenterLayout</code>.
      */
     public CenterLayout() {
         super(constructNew());
@@ -89,6 +89,14 @@ public class CenterLayout extends LayoutManager {
     /**
      * Sets the new center widget of @self.
      * 
+     * To remove the existing center widget, pass 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the new center widget of @self.
+     * 
      * To remove the existing center widget, pass %NULL.
      */
     public void setCenterWidget(Widget widget) {
@@ -97,6 +105,14 @@ public class CenterLayout extends LayoutManager {
     
     /**
      * Sets the new end widget of @self.
+     * 
+     * To remove the existing center widget, pass 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the new end widget of @self.
      * 
      * To remove the existing center widget, pass %NULL.
      */
@@ -113,6 +129,14 @@ public class CenterLayout extends LayoutManager {
     
     /**
      * Sets the new start widget of @self.
+     * 
+     * To remove the existing start widget, pass 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the new start widget of @self.
      * 
      * To remove the existing start widget, pass %NULL.
      */

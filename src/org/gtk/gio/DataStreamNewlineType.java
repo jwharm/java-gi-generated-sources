@@ -6,17 +6,17 @@ package org.gtk.gio;
 public enum DataStreamNewlineType {
 
     /**
-     * Selects "LF" line endings, common on most modern UNIX platforms.
+     * Selects &#34;LF&#34; line endings, common on most modern UNIX platforms.
      */
     LF,
     
     /**
-     * Selects "CR" line endings.
+     * Selects &#34;CR&#34; line endings.
      */
     CR,
     
     /**
-     * Selects "CR, LF" line ending, common on Microsoft Windows.
+     * Selects &#34;CR, LF&#34; line ending, common on Microsoft Windows.
      */
     CR_LF,
     

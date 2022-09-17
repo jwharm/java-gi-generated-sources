@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GskRenderNode` is the basic block in a scene graph to be
- * rendered using [class@Gsk.Renderer].
+ * <code>GskRenderNode</code> is the basic block in a scene graph to be
+ * rendered using {@link org.gtk.gsk.Renderer}.
  * 
  * Each node has a parent, except the top-level node; each node may have
  * children nodes.
@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  * the rectangle set when creating it.
  * 
  * Render nodes are meant to be transient; once they have been associated
- * to a [class@Gsk.Renderer] it's safe to release any reference you have on
- * them. All [class@Gsk.RenderNode]s are immutable, you can only specify their
+ * to a {@link org.gtk.gsk.Renderer} it&#39;s safe to release any reference you have on
+ * them. All {@link org.gtk.gsk.RenderNode}s are immutable, you can only specify their
  * properties during construction.
  */
 public class RenderNode extends org.gtk.gobject.Object {
@@ -35,10 +35,10 @@ public class RenderNode extends org.gtk.gobject.Object {
     
     /**
      * Draw the contents of @node to the given cairo context.
-     * 
-     * Typically, you'll use this function to implement fallback rendering
-     * of `GskRenderNode`s on an intermediate Cairo context, instead of using
-     * the drawing context associated to a [class@Gdk.Surface]'s rendering buffer.
+     * <p>
+     * Typically, you&#39;ll use this function to implement fallback rendering
+     * of <code>GskRenderNode</code>s on an intermediate Cairo context, instead of using
+     * the drawing context associated to a {@link org.gtk.gdk.Surface}&#39;s rendering buffer.
      * 
      * For advanced nodes that cannot be supported using Cairo, in particular
      * for nodes doing 3D operations, this function may fail.
@@ -65,7 +65,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * Acquires a reference on the given `GskRenderNode`.
+     * Acquires a reference on the given <code>GskRenderNode</code>.
      */
     public RenderNode ref() {
         var RESULT = gtk_h.gsk_render_node_ref(handle());
@@ -89,7 +89,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * Releases a reference on the given `GskRenderNode`.
+     * Releases a reference on the given <code>GskRenderNode</code>.
      * 
      * If the reference was the last, the resources associated to the @node are
      * freed.
@@ -99,8 +99,8 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * This function is equivalent to calling [method@Gsk.RenderNode.serialize]
-     * followed by [func@GLib.file_set_contents].
+     * This function is equivalent to calling {@link org.gtk.gsk.RenderNode#serialize}
+     * followed by {@link GLib#fileSetContents}.
      * 
      * See those two functions for details on the arguments.
      * 
@@ -117,7 +117,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * Loads data previously created via [method@Gsk.RenderNode.serialize].
+     * Loads data previously created via {@link org.gtk.gsk.RenderNode#serialize}.
      * 
      * For a discussion of the supported format, see that function.
      */

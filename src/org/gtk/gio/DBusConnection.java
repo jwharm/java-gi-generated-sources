@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * g_bus_watch_name() or g_dbus_proxy_new_for_bus() APIs.
  * 
  * As an exception to the usual GLib rule that a particular object must not
- * be used by two threads at the same time, #GDBusConnection's methods may be
+ * be used by two threads at the same time, #GDBusConnection&#39;s methods may be
  * called from any thread. This is so that g_bus_get() and g_bus_get_sync()
  * can safely return the same #GDBusConnection when called from any thread.
  * 
@@ -41,22 +41,22 @@ import java.lang.invoke.*;
  * ## An example D-Bus server # {#gdbus-server}
  * 
  * Here is an example for a D-Bus server:
- * [gdbus-example-server.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-server.c)
+ * {@link [gdbus-example-server.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-server.c)
  * 
  * ## An example for exporting a subtree # {#gdbus-subtree-server}
  * 
  * Here is an example for exporting a subtree:
- * [gdbus-example-subtree.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-subtree.c)
+ * {@link [gdbus-example-subtree.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-subtree.c)
  * 
  * ## An example for file descriptor passing # {#gdbus-unix-fd-client}
  * 
  * Here is an example for passing UNIX file descriptors:
- * [gdbus-unix-fd-client.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-unix-fd-client.c)
+ * {@link [gdbus-unix-fd-client.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-unix-fd-client.c)
  * 
  * ## An example for exporting a GObject # {#gdbus-export}
  * 
  * Here is an example for exporting a #GObject:
- * [gdbus-example-export.c](https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-export.c)
+ * {@link [gdbus-example-export.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-export.c)
  */
 public class DBusConnection extends org.gtk.gobject.Object implements AsyncInitable, Initable {
 
@@ -114,19 +114,19 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Synchronously connects and sets up a D-Bus client connection for
      * exchanging D-Bus messages with an endpoint specified by @address
      * which must be in the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      * 
      * This constructor can only be used to initiate client-side
      * connections - use g_dbus_connection_new_sync() if you need to act
      * as the server. In particular, @flags cannot contain the
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS or
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER flags.
+     * <code>G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS</code> or
+     * {@link org.gtk.gio.DBusConnectionFlags#AUTHENTICATION_REQUIRE_SAME_USER} flags.
      * 
      * This is a synchronous failable constructor. See
      * g_dbus_connection_new_for_address() for the asynchronous version.
      * 
-     * If @observer is not %NULL it may be used to control the
+     * If @observer is not <code>null</code> it may be used to control the
      * authentication process.
      */
     public static DBusConnection newForAddressSync(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
@@ -153,7 +153,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * As a result, the caller should not interact with @stream after this
      * method has been called, except by calling g_object_unref() on it.
      * 
-     * If @observer is not %NULL it may be used to control the
+     * If @observer is not <code>null</code> it may be used to control the
      * authentication process.
      * 
      * This is a synchronous failable constructor. See
@@ -168,12 +168,12 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * incoming and outgoing messages, prior to standard dispatch. Filters
      * are run in the order that they were added.  The same handler can be
      * added as a filter more than once, in which case it will be run more
-     * than once.  Filters added during a filter callback won't be run on
+     * than once.  Filters added during a filter callback won&#39;t be run on
      * the message being processed. Filter functions are allowed to modify
      * and even drop messages.
      * 
      * Note that filters are run in a dedicated message handling thread so
-     * they can't block and, generally, can't do anything but signal a
+     * they can&#39;t block and, generally, can&#39;t do anything but signal a
      * worker thread. Also note that filters are rarely needed - use API
      * such as g_dbus_connection_send_message_with_reply(),
      * g_dbus_connection_signal_subscribe() or g_dbus_connection_call() instead.
@@ -185,7 +185,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * message. Similarly, if a filter consumes an outgoing message, the
      * message will not be sent to the other peer.
      * 
-     * If @user_data_free_func is non-%NULL, it will be called (in the
+     * If @user_data_free_func is non-<code>NULL,</code> it will be called (in the
      * thread-default main context of the thread you are calling this
      * method from) at some point after @user_data is no longer
      * needed. (It is not guaranteed to be called synchronously when the
@@ -214,46 +214,46 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * @object_path owned by @bus_name.
      * 
      * If @connection is closed then the operation will fail with
-     * %G_IO_ERROR_CLOSED. If @cancellable is canceled, the operation will
-     * fail with %G_IO_ERROR_CANCELLED. If @parameters contains a value
+     * <code>G_IO_ERROR_CLOSED.</code> If @cancellable is canceled, the operation will
+     * fail with <code>G_IO_ERROR_CANCELLED.</code> If @parameters contains a value
      * not compatible with the D-Bus protocol, the operation fails with
-     * %G_IO_ERROR_INVALID_ARGUMENT.
+     * <code>G_IO_ERROR_INVALID_ARGUMENT.
      * 
-     * If @reply_type is non-%NULL then the reply will be checked for having this type and an
+     * If</code> @reply_type is non-<code>null</code> then the reply will be checked for having this type and an
      * error will be raised if it does not match.  Said another way, if you give a @reply_type
-     * then any non-%NULL return value will be of this type. Unless it’s
-     * %G_VARIANT_TYPE_UNIT, the @reply_type will be a tuple containing one or more
+     * then any non-<code>null</code> return value will be of this type. Unless it&#8217;s
+     * <code>G_VARIANT_TYPE_UNIT,</code> the @reply_type will be a tuple containing one or more
      * values.
      * 
      * If the @parameters #GVariant is floating, it is consumed. This allows
-     * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[<!-- language="C" -->
+     * convenient &#39;inline&#39; use of g_variant_new(), e.g.:
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  g_dbus_connection_call (connection,
-     *                          "org.freedesktop.StringThings",
-     *                          "/org/freedesktop/StringThings",
-     *                          "org.freedesktop.StringThings",
-     *                          "TwoStrings",
-     *                          g_variant_new ("(ss)",
-     *                                         "Thing One",
-     *                                         "Thing Two"),
+     *                          &#34;org.freedesktop.StringThings&#34;,
+     *                          &#34;/org/freedesktop/StringThings&#34;,
+     *                          &#34;org.freedesktop.StringThings&#34;,
+     *                          &#34;TwoStrings&#34;,
+     *                          g_variant_new (&#34;(ss)&#34;,
+     *                                         &#34;Thing One&#34;,
+     *                                         &#34;Thing Two&#34;),
      *                          NULL,
      *                          G_DBUS_CALL_FLAGS_NONE,
      *                          -1,
      *                          NULL,
      *                          (GAsyncReadyCallback) two_strings_done,
      *                          NULL);
-     * ]|
+     * ]}|
      * 
      * This is an asynchronous method. When the operation is finished,
      * @callback will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from. You can then call
      * g_dbus_connection_call_finish() to get the result of the operation.
      * See g_dbus_connection_call_sync() for the synchronous version of this
      * function.
      * 
-     * If @callback is %NULL then the D-Bus method call message will be sent with
-     * the %G_DBUS_MESSAGE_FLAGS_NO_REPLY_EXPECTED flag set.
+     * If @callback is <code>null</code> then the D-Bus method call message will be sent with
+     * the {@link org.gtk.gio.DBusMessageFlags#NO_REPLY_EXPECTED} flag set.
      */
     public void call(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -287,33 +287,33 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * @object_path owned by @bus_name.
      * 
      * If @connection is closed then the operation will fail with
-     * %G_IO_ERROR_CLOSED. If @cancellable is canceled, the
-     * operation will fail with %G_IO_ERROR_CANCELLED. If @parameters
+     * <code>G_IO_ERROR_CLOSED.</code> If @cancellable is canceled, the
+     * operation will fail with <code>G_IO_ERROR_CANCELLED.</code> If @parameters
      * contains a value not compatible with the D-Bus protocol, the operation
-     * fails with %G_IO_ERROR_INVALID_ARGUMENT.
+     * fails with <code>G_IO_ERROR_INVALID_ARGUMENT.
      * 
-     * If @reply_type is non-%NULL then the reply will be checked for having
+     * If</code> @reply_type is non-<code>null</code> then the reply will be checked for having
      * this type and an error will be raised if it does not match.  Said
-     * another way, if you give a @reply_type then any non-%NULL return
+     * another way, if you give a @reply_type then any non-<code>null</code> return
      * value will be of this type.
      * 
      * If the @parameters #GVariant is floating, it is consumed.
-     * This allows convenient 'inline' use of g_variant_new(), e.g.:
-     * |[<!-- language="C" -->
+     * This allows convenient &#39;inline&#39; use of g_variant_new(), e.g.:
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *  g_dbus_connection_call_sync (connection,
-     *                               "org.freedesktop.StringThings",
-     *                               "/org/freedesktop/StringThings",
-     *                               "org.freedesktop.StringThings",
-     *                               "TwoStrings",
-     *                               g_variant_new ("(ss)",
-     *                                              "Thing One",
-     *                                              "Thing Two"),
+     *                               &#34;org.freedesktop.StringThings&#34;,
+     *                               &#34;/org/freedesktop/StringThings&#34;,
+     *                               &#34;org.freedesktop.StringThings&#34;,
+     *                               &#34;TwoStrings&#34;,
+     *                               g_variant_new (&#34;(ss)&#34;,
+     *                                              &#34;Thing One&#34;,
+     *                                              &#34;Thing Two&#34;),
      *                               NULL,
      *                               G_DBUS_CALL_FLAGS_NONE,
      *                               -1,
      *                               NULL,
-     *                               &error);
-     * ]|
+     *                               &#38;error);
+     * ]}|
      * 
      * The calling thread is blocked until a reply is received. See
      * g_dbus_connection_call() for the asynchronous version of
@@ -330,18 +330,17 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     /**
      * Like g_dbus_connection_call() but also takes a #GUnixFDList object.
-     * 
-     * The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
-     * values in the body of the message. For example, if a message contains
-     * two file descriptors, @fd_list would have length 2, and
-     * `g_variant_new_handle (0)` and `g_variant_new_handle (1)` would appear
+     * <p>
+     * The file descriptors normally correspond to <code>G_VARIANT_TYPE_HANDLE
+     * values</code> in the body of the message. For example, if a message contains
+     * two file descriptors, @fd_list would have length 2, and<code>g_variant_new_handle (0)</code> and <code>g_variant_new_handle (1)</code> would appear
      * somewhere in the body of the message (not necessarily in that order!)
      * to represent the file descriptors at indexes 0 and 1 respectively.
      * 
      * When designing D-Bus APIs that are intended to be interoperable,
      * please note that non-GDBus implementations of D-Bus can usually only
      * access file descriptors if they are referenced in this way by a
-     * value of type %G_VARIANT_TYPE_HANDLE in the body of the message.
+     * value of type <code>G_VARIANT_TYPE_HANDLE</code> in the body of the message.
      * 
      * This method is only available on UNIX.
      */
@@ -361,17 +360,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     /**
      * Finishes an operation started with g_dbus_connection_call_with_unix_fd_list().
-     * 
-     * The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
-     * values in the body of the message. For example,
+     * <p>
+     * The file descriptors normally correspond to <code>G_VARIANT_TYPE_HANDLE
+     * values</code> in the body of the message. For example,
      * if g_variant_get_handle() returns 5, that is intended to be a reference
-     * to the file descriptor that can be accessed by
-     * `g_unix_fd_list_get (*out_fd_list, 5, ...)`.
+     * to the file descriptor that can be accessed by<code>g_unix_fd_list_get (*out_fd_list, 5, ...)</code>.
      * 
      * When designing D-Bus APIs that are intended to be interoperable,
      * please note that non-GDBus implementations of D-Bus can usually only
      * access file descriptors if they are referenced in this way by a
-     * value of type %G_VARIANT_TYPE_HANDLE in the body of the message.
+     * value of type <code>G_VARIANT_TYPE_HANDLE</code> in the body of the message.
      */
     public org.gtk.glib.Variant callWithUnixFdListFinish(UnixFDList[] outFdList, AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -404,21 +402,21 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * bus connection disconnects, see #GDBusConnection:exit-on-close).
      * 
      * Once the connection is closed, operations such as sending a message
-     * will return with the error %G_IO_ERROR_CLOSED. Closing a connection
+     * will return with the error <code>G_IO_ERROR_CLOSED.</code> Closing a connection
      * will not automatically flush the connection so queued messages may
      * be lost. Use g_dbus_connection_flush() if you need such guarantees.
      * 
      * If @connection is already closed, this method fails with
-     * %G_IO_ERROR_CLOSED.
+     * <code>G_IO_ERROR_CLOSED.
      * 
-     * When @connection has been closed, the #GDBusConnection::closed
+     * When</code> @connection has been closed, the #GDBusConnection::closed
      * signal is emitted in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread that @connection was constructed in.
      * 
      * This is an asynchronous method. When the operation is finished,
      * @callback will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from. You can
      * then call g_dbus_connection_close_finish() to get the result of the
      * operation. See g_dbus_connection_close_sync() for the synchronous
@@ -471,7 +469,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * If the parameters GVariant is floating, it is consumed.
      * 
      * This can only fail if @parameters is not compatible with the D-Bus protocol
-     * (%G_IO_ERROR_INVALID_ARGUMENT), or if @connection has been closed
+     * (<code>G_IO_ERROR_INVALID_ARGUMENT),</code> or if @connection has been closed
+     * (or if @connection has been closed
      * (%G_IO_ERROR_CLOSED).
      */
     public boolean emitSignal(java.lang.String destinationBusName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String signalName, org.gtk.glib.Variant parameters) throws io.github.jwharm.javagi.GErrorException {
@@ -548,7 +547,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * 
      * This is an asynchronous method. When the operation is finished,
      * @callback will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from. You can
      * then call g_dbus_connection_flush_finish() to get the result of the
      * operation. See g_dbus_connection_flush_sync() for the synchronous
@@ -644,14 +643,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     /**
      * Gets the credentials of the authenticated peer. This will always
-     * return %NULL unless @connection acted as a server
-     * (e.g. %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER was passed)
+     * return <code>null</code> unless @connection acted as a server
+     * (e.g. {@link org.gtk.gio.DBusConnectionFlags#AUTHENTICATION_SERVER} was passed)
      * when set up and the client passed credentials as part of the
      * authentication process.
      * 
      * In a message bus setup, the message bus is always the server and
      * each application is a client. So this method will always return
-     * %NULL for message bus clients.
+     * <code>null</code> for message bus clients.
      */
     public Credentials getPeerCredentials() {
         var RESULT = gtk_h.g_dbus_connection_get_peer_credentials(handle());
@@ -691,21 +690,19 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     /**
      * Registers callbacks for exported objects at @object_path with the
      * D-Bus interface that is described in @interface_info.
-     * 
+     * <p>
      * Calls to functions in @vtable (and @user_data_free_func) will happen
      * in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from.
-     * 
+     * <p>
      * Note that all #GVariant values passed to functions in @vtable will match
      * the signature given in @interface_info - if a remote caller passes
-     * incorrect values, the `org.freedesktop.DBus.Error.InvalidArgs`
+     * incorrect values, the <code>org.freedesktop.DBus.Error.InvalidArgs</code>
      * is returned to the remote caller.
-     * 
+     * <p>
      * Additionally, if the remote caller attempts to invoke methods or
-     * access properties not mentioned in @interface_info the
-     * `org.freedesktop.DBus.Error.UnknownMethod` resp.
-     * `org.freedesktop.DBus.Error.InvalidArgs` errors
+     * access properties not mentioned in @interface_info the<code>org.freedesktop.DBus.Error.UnknownMethod</code> resp.<code>org.freedesktop.DBus.Error.InvalidArgs</code> errors
      * are returned to the caller.
      * 
      * It is considered a programming error if the
@@ -713,11 +710,11 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * #GVariant of incorrect type.
      * 
      * If an existing callback is already registered at @object_path and
-     * @interface_name, then @error is set to %G_IO_ERROR_EXISTS.
+     * @interface_name, then @error is set to <code>G_IO_ERROR_EXISTS.
      * 
-     * GDBus automatically implements the standard D-Bus interfaces
+     * GDBus</code> automatically implements the standard D-Bus interfaces
      * org.freedesktop.DBus.Properties, org.freedesktop.DBus.Introspectable
-     * and org.freedesktop.Peer, so you don't have to implement those for the
+     * and org.freedesktop.Peer, so you don&#39;t have to implement those for the
      * objects you export. You can implement org.freedesktop.DBus.Properties
      * yourself, e.g. to handle getting and setting of properties asynchronously.
      * 
@@ -726,7 +723,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * reference count is -1, see g_dbus_interface_info_ref()) for as long
      * as the object is exported. Also note that @vtable will be copied.
      * 
-     * See this [server][gdbus-server] for an example of how to use this method.
+     * See this {@link [server]}{@link [gdbus-server]} for an example of how to use this method.
      */
     public int registerObject(java.lang.String objectPath, DBusInterfaceInfo interfaceInfo, DBusInterfaceVTable vtable, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -760,7 +757,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * 
      * When handling remote calls into any node in the subtree, first the
      * @enumerate function is used to check if the node exists. If the node exists
-     * or the %G_DBUS_SUBTREE_FLAGS_DISPATCH_TO_UNENUMERATED_NODES flag is set
+     * or the {@link org.gtk.gio.DBusSubtreeFlags#DISPATCH_TO_UNENUMERATED_NODES} flag is set
      * the @introspection function is used to check if the node supports the
      * requested method. If so, the @dispatch function is used to determine
      * where to dispatch the call. The collected #GDBusInterfaceVTable and
@@ -768,13 +765,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * the request.
      * 
      * All calls into user-provided code will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from.
      * 
      * If an existing subtree is already registered at @object_path or
-     * then @error is set to %G_IO_ERROR_EXISTS.
+     * then @error is set to <code>G_IO_ERROR_EXISTS.
      * 
-     * Note that it is valid to register regular objects (using
+     * Note</code> that it is valid to register regular objects (using
      * g_dbus_connection_register_object()) in a subtree registered with
      * g_dbus_connection_register_subtree() - if so, the subtree handler
      * is tried as the last resort. One way to think about a subtree
@@ -784,7 +781,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Note that @vtable will be copied so you cannot change it after
      * registration.
      * 
-     * See this [server][gdbus-subtree-server] for an example of how to use
+     * See this {@link [server]}{@link [gdbus-subtree-server]} for an example of how to use
      * this method.
      */
     public int registerSubtree(java.lang.String objectPath, DBusSubtreeVTable vtable, int flags, jdk.incubator.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
@@ -816,10 +813,10 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * 
      * Note that @error is only set if a local in-process error
      * occurred. That is to say that the returned #GDBusMessage object may
-     * be of type %G_DBUS_MESSAGE_TYPE_ERROR. Use
+     * be of type <code>G_DBUS_MESSAGE_TYPE_ERROR.</code> Use
      * g_dbus_message_to_gerror() to transcode this to a #GError.
      * 
-     * See this [server][gdbus-server] and [client][gdbus-unix-fd-client]
+     * See this {@link [server]}{@link [gdbus-server]} and {@link [client]}{@link [gdbus-unix-fd-client]}
      * for an example of how to use this low-level API to send and receive
      * UNIX file descriptors.
      */
@@ -839,8 +836,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * 
      * Note that this function should be used with care. Most modern UNIX
      * desktops tie the notion of a user session with the session bus, and expect
-     * all of a user's applications to quit when their bus connection goes away.
-     * If you are setting @exit_on_close to %FALSE for the shared session
+     * all of a user&#39;s applications to quit when their bus connection goes away.
+     * If you are setting @exit_on_close to <code>false</code> for the shared session
      * bus connection, you should make sure that your application exits
      * when the user session ends.
      */
@@ -851,33 +848,33 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     /**
      * Subscribes to signals on @connection and invokes @callback with a whenever
      * the signal is received. Note that @callback will be invoked in the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread you are calling this method from.
      * 
      * If @connection is not a message bus connection, @sender must be
-     * %NULL.
+     * <code>NULL.
      * 
-     * If @sender is a well-known name note that @callback is invoked with
+     * If</code> @sender is a well-known name note that @callback is invoked with
      * the unique name for the owner of @sender, not the well-known name
      * as one would expect. This is because the message bus rewrites the
      * name. As such, to avoid certain race conditions, users should be
      * tracking the name owner of the well-known name and use that when
      * processing the received signal.
      * 
-     * If one of %G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_NAMESPACE or
-     * %G_DBUS_SIGNAL_FLAGS_MATCH_ARG0_PATH are given, @arg0 is
+     * If one of {@link org.gtk.gio.DBusSignalFlags#MATCH_ARG0_NAMESPACE} or
+     * {@link org.gtk.gio.DBusSignalFlags#MATCH_ARG0_PATH} are given, @arg0 is
      * interpreted as part of a namespace or path.  The first argument
      * of a signal is matched against that part as specified by D-Bus.
      * 
-     * If @user_data_free_func is non-%NULL, it will be called (in the
+     * If @user_data_free_func is non-<code>NULL,</code> it will be called (in the
      * thread-default main context of the thread you are calling this
      * method from) at some point after @user_data is no longer
      * needed. (It is not guaranteed to be called synchronously when the
      * signal is unsubscribed from, and may be called after @connection
      * has been destroyed.)
      * 
-     * As @callback is potentially invoked in a different thread from where it’s
-     * emitted, it’s possible for this to happen after
+     * As @callback is potentially invoked in a different thread from where it&#8217;s
+     * emitted, it&#8217;s possible for this to happen after
      * g_dbus_connection_signal_unsubscribe() has been called in another thread.
      * Due to this, @user_data should have a strong reference which is freed with
      * @user_data_free_func, rather than pointing to data whose lifecycle is tied
@@ -923,10 +920,10 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * function has returned. You should continue to iterate the #GMainContext
      * until the #GDestroyNotify function passed to
      * g_dbus_connection_signal_subscribe() is called, in order to avoid memory
-     * leaks through callbacks queued on the #GMainContext after it’s stopped being
+     * leaks through callbacks queued on the #GMainContext after it&#8217;s stopped being
      * iterated.
-     * Alternatively, any idle source with a priority lower than %G_PRIORITY_DEFAULT
-     * that was scheduled after unsubscription, also indicates that all resources
+     * Alternatively, any idle source with a priority lower than <code>G_PRIORITY_DEFAULT
+     * that</code> was scheduled after unsubscription, also indicates that all resources
      * of this subscription are released.
      */
     public void signalUnsubscribe(int subscriptionId) {
@@ -935,8 +932,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     /**
      * If @connection was created with
-     * %G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING, this method
-     * starts processing messages. Does nothing on if @connection wasn't
+     * <code>G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING,</code> this method
+     * starts processing messages. Does nothing on if @connection wasn&#39;t
      * created with this flag or if the method has already been called.
      */
     public void startMessageProcessing() {
@@ -947,7 +944,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Reverses the effect of a previous call to
      * g_dbus_connection_export_action_group().
      * 
-     * It is an error to call this function with an ID that wasn't returned
+     * It is an error to call this function with an ID that wasn&#39;t returned
      * from g_dbus_connection_export_action_group() or to call it with the
      * same ID more than once.
      */
@@ -959,7 +956,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Reverses the effect of a previous call to
      * g_dbus_connection_export_menu_model().
      * 
-     * It is an error to call this function with an ID that wasn't returned
+     * It is an error to call this function with an ID that wasn&#39;t returned
      * from g_dbus_connection_export_menu_model() or to call it with the
      * same ID more than once.
      */
@@ -994,7 +991,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * As a result, the caller should not interact with @stream after this
      * method has been called, except by calling g_object_unref() on it.
      * 
-     * If @observer is not %NULL it may be used to control the
+     * If @observer is not <code>null</code> it may be used to control the
      * authentication process.
      * 
      * When the operation is finished, @callback will be invoked. You can
@@ -1023,20 +1020,20 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Asynchronously connects and sets up a D-Bus client connection for
      * exchanging D-Bus messages with an endpoint specified by @address
      * which must be in the
-     * [D-Bus address format](https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
+     * {@link [D-Bus address format]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses).
      * 
      * This constructor can only be used to initiate client-side
      * connections - use g_dbus_connection_new() if you need to act as the
      * server. In particular, @flags cannot contain the
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS or
-     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_REQUIRE_SAME_USER flags.
+     * <code>G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
+     * %G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_ALLOW_ANONYMOUS</code> or
+     * {@link org.gtk.gio.DBusConnectionFlags#AUTHENTICATION_REQUIRE_SAME_USER} flags.
      * 
      * When the operation is finished, @callback will be invoked. You can
      * then call g_dbus_connection_new_for_address_finish() to get the result of
      * the operation.
      * 
-     * If @observer is not %NULL it may be used to control the
+     * If @observer is not <code>null</code> it may be used to control the
      * authentication process.
      * 
      * This is an asynchronous failable constructor. See
@@ -1068,13 +1065,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * The cause of this event can be
      * 
      * - If g_dbus_connection_close() is called. In this case
-     *   @remote_peer_vanished is set to %FALSE and @error is %NULL.
+     *   @remote_peer_vanished is set to <code>false</code> and @error is <code>NULL.
      * 
-     * - If the remote peer closes the connection. In this case
-     *   @remote_peer_vanished is set to %TRUE and @error is set.
+     * -</code> If the remote peer closes the connection. In this case
+     *   @remote_peer_vanished is set to <code>true</code> and @error is set.
      * 
      * - If the remote peer sends invalid or malformed data. In this
-     *   case @remote_peer_vanished is set to %FALSE and @error is set.
+     *   case @remote_peer_vanished is set to <code>false</code> and @error is set.
      * 
      * Upon receiving this signal, you should give up your reference to
      * @connection. You are guaranteed that this signal is emitted only

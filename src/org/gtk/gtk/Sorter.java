@@ -8,26 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSorter` is an object to describe sorting criteria.
- * 
- * Its primary user is [class@Gtk.SortListModel]
- * 
+ * <code>GtkSorter</code> is an object to describe sorting criteria.
+ * <p>
+ * Its primary user is {@link org.gtk.gtk.SortListModel}
+ * <p>
  * The model will use a sorter to determine the order in which
- * its items should appear by calling [method@Gtk.Sorter.compare]
+ * its items should appear by calling {@link org.gtk.gtk.Sorter#compare}
  * for pairs of items.
- * 
+ * <p>
  * Sorters may change their sorting behavior through their lifetime.
- * In that case, they will emit the [signal@Gtk.Sorter::changed] signal
+ * In that case, they will emit the {@link [signal@Gtk.Sorter::changed] (ref=signal)} signal
  * to notify that the sort order is no longer valid and should be updated
  * by calling gtk_sorter_compare() again.
- * 
+ * <p>
  * GTK provides various pre-made sorter implementations for common sorting
- * operations. [class@Gtk.ColumnView] has built-in support for sorting lists
- * via the [property@Gtk.ColumnViewColumn:sorter] property, where the user can
+ * operations. {@link org.gtk.gtk.ColumnView} has built-in support for sorting lists
+ * via the {@link [property@Gtk.ColumnViewColumn:sorter] (ref=property)} property, where the user can
  * change the sorting by clicking on list headers.
- * 
- * Of course, in particular for large lists, it is also possible to subclass
- * `GtkSorter` and provide one's own sorter.
+ * <p>
+ * Of course, in particular for large lists, it is also possible to subclass<code>GtkSorter</code> and provide one&#39;s own sorter.
  */
 public class Sorter extends org.gtk.gobject.Object {
 
@@ -42,16 +41,16 @@ public class Sorter extends org.gtk.gobject.Object {
     
     /**
      * Notifies all users of the sorter that it has changed.
-     * 
-     * This emits the [signal@Gtk.Sorter::changed] signal. Users
+     * <p>
+     * This emits the {@link [signal@Gtk.Sorter::changed] (ref=signal)} signal. Users
      * of the sorter should then update the sort order via
-     * [method@Gtk.Sorter.compare].
-     * 
+     * {@link org.gtk.gtk.Sorter#compare}.
+     * <p>
      * Depending on the @change parameter, it may be possible to
      * update the sort order without a full resorting. Refer to
-     * the [enum@Gtk.SorterChange] documentation for details.
-     * 
-     * This function is intended for implementors of `GtkSorter`
+     * the {@link [enum@Gtk.SorterChange] (ref=enum)} documentation for details.
+     * <p>
+     * This function is intended for implementors of <code>GtkSorter</code>
      * subclasses and should not be called from other functions.
      */
     public void changed(SorterChange change) {
@@ -65,12 +64,12 @@ public class Sorter extends org.gtk.gobject.Object {
      * Sorters implement a partial order:
      * 
      * * It is reflexive, ie a = a
-     * * It is antisymmetric, ie if a < b and b < a, then a = b
-     * * It is transitive, ie given any 3 items with a ≤ b and b ≤ c,
-     *   then a ≤ c
+     * * It is antisymmetric, ie if a &#60; b and b &#60; a, then a = b
+     * * It is transitive, ie given any 3 items with a &#8804; b and b &#8804; c,
+     *   then a &#8804; c
      * 
      * The sorter may signal it conforms to additional constraints
-     * via the return value of [method@Gtk.Sorter.get_order].
+     * via the return value of {@link org.gtk.gtk.Sorter#getOrder}.
      */
     public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
         var RESULT = gtk_h.gtk_sorter_compare(handle(), item1.handle(), item2.handle());
@@ -80,7 +79,7 @@ public class Sorter extends org.gtk.gobject.Object {
     /**
      * Gets the order that @self conforms to.
      * 
-     * See [enum@Gtk.SorterOrder] for details
+     * See {@link [enum@Gtk.SorterOrder] (ref=enum)} for details
      * of the possible return values.
      * 
      * This function is intended to allow optimizations.
@@ -101,11 +100,11 @@ public class Sorter extends org.gtk.gobject.Object {
      * Users of the sorter should then update the sort order
      * again via gtk_sorter_compare().
      * 
-     * [class@Gtk.SortListModel] handles this signal automatically.
+     * {@link org.gtk.gtk.SortListModel} handles this signal automatically.
      * 
      * Depending on the @change parameter, it may be possible to update
      * the sort order without a full resorting. Refer to the
-     * [enum@Gtk.SorterChange] documentation for details.
+     * {@link [enum@Gtk.SorterChange] (ref=enum)} documentation for details.
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {

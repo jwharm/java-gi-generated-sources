@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGestureSingle` is a `GtkGestures` subclass optimized for singe-touch
+ * <code>GtkGestureSingle</code> is a <code>GtkGestures</code> subclass optimized for singe-touch
  * and mouse gestures.
  * 
  * Under interaction, these gestures stick to the first interacting sequence,
- * which is accessible through [method@Gtk.GestureSingle.get_current_sequence]
+ * which is accessible through {@link org.gtk.gtk.GestureSingle#getCurrentSequence}
  * while the gesture is being interacted with.
  * 
- * By default gestures react to both %GDK_BUTTON_PRIMARY and touch events.
- * [method@Gtk.GestureSingle.set_touch_only] can be used to change the
+ * By default gestures react to both <code>GDK_BUTTON_PRIMARY</code> and touch events.
+ * {@link org.gtk.gtk.GestureSingle#setTouchOnly} can be used to change the
  * touch behavior. Callers may also specify a different mouse button number
- * to interact with through [method@Gtk.GestureSingle.set_button], or react
+ * to interact with through {@link org.gtk.gtk.GestureSingle#setButton}, or react
  * to any mouse button by setting it to 0. While the gesture is active, the
  * button being currently pressed can be known through
- * [method@Gtk.GestureSingle.get_current_button].
+ * {@link org.gtk.gtk.GestureSingle#getCurrentButton}.
  */
 public class GestureSingle extends Gesture {
 
@@ -56,7 +56,16 @@ public class GestureSingle extends Gesture {
     /**
      * Returns the event sequence currently interacting with @gesture.
      * 
-     * This is only meaningful if [method@Gtk.Gesture.is_active]
+     * This is only meaningful if {@link org.gtk.gtk.Gesture#isActive}
+     * returns 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Returns the event sequence currently interacting with @gesture.
+     * 
+     * This is only meaningful if {@link org.gtk.gtk.Gesture#isActive}
      * returns %TRUE.
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
@@ -67,7 +76,7 @@ public class GestureSingle extends Gesture {
     /**
      * Gets whether a gesture is exclusive.
      * 
-     * For more information, see [method@Gtk.GestureSingle.set_exclusive].
+     * For more information, see {@link org.gtk.gtk.GestureSingle#setExclusive}.
      */
     public boolean getExclusive() {
         var RESULT = gtk_h.gtk_gesture_single_get_exclusive(handle());
@@ -75,7 +84,7 @@ public class GestureSingle extends Gesture {
     }
     
     /**
-     * Returns %TRUE if the gesture is only triggered by touch events.
+     * Returns <code>true</code> if the gesture is only triggered by touch events.
      */
     public boolean getTouchOnly() {
         var RESULT = gtk_h.gtk_gesture_single_get_touch_only(handle());
@@ -96,7 +105,7 @@ public class GestureSingle extends Gesture {
     /**
      * Sets whether @gesture is exclusive.
      * 
-     * An exclusive gesture will only handle pointer and "pointer emulated"
+     * An exclusive gesture will only handle pointer and &#34;pointer emulated&#34;
      * touch events, so at any given time, there is only one sequence able
      * to interact with those.
      */
@@ -107,9 +116,9 @@ public class GestureSingle extends Gesture {
     /**
      * Sets whether to handle only touch events.
      * 
-     * If @touch_only is %TRUE, @gesture will only handle events of type
-     * %GDK_TOUCH_BEGIN, %GDK_TOUCH_UPDATE or %GDK_TOUCH_END. If %FALSE,
-     * mouse events will be handled too.
+     * If @touch_only is <code>TRUE,</code> @gesture will only handle events of type
+     * <code>GDK_TOUCH_BEGIN,</code> {@link org.gtk.gdk.EventType#TOUCH_UPDATE} or <code>GDK_TOUCH_END.</code> If <code>FALSE,
+     * mouse</code> events will be handled too.
      */
     public void setTouchOnly(boolean touchOnly) {
         gtk_h.gtk_gesture_single_set_touch_only(handle(), touchOnly ? 1 : 0);

@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkContentDeserializer` is used to deserialize content received via
+ * A <code>GdkContentDeserializer</code> is used to deserialize content received via
  * inter-application data transfers.
- * 
- * The `GdkContentDeserializer` transforms serialized content that is
+ * <p>
+ * The <code>GdkContentDeserializer</code> transforms serialized content that is
  * identified by a mime type into an object identified by a GType.
  * 
  * GTK provides serializers and deserializers for common data types
  * such as text, colors, images or file lists. To register your own
- * deserialization functions, use [func@content_register_deserializer].
+ * deserialization functions, use {@link [func@content_register_deserializer]}.
  * 
- * Also see [class@Gdk.ContentSerializer].
+ * Also see {@link org.gtk.gdk.ContentSerializer}.
  */
 public class ContentDeserializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
 
@@ -33,8 +33,8 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     
     /**
      * Gets the cancellable for the current operation.
-     * 
-     * This is the `GCancellable` that was passed to [func@Gdk.content_deserialize_async].
+     * <p>
+     * This is the <code>GCancellable</code> that was passed to {@link Gdk#contentDeserializeAsync}.
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = gtk_h.gdk_content_deserializer_get_cancellable(handle());
@@ -42,7 +42,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     }
     
     /**
-     * Gets the `GType` to create an instance of.
+     * Gets the <code>GType</code> to create an instance of.
      */
     public org.gtk.gobject.Type getGtype() {
         var RESULT = gtk_h.gdk_content_deserializer_get_gtype(handle());
@@ -52,7 +52,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the input stream for the current operation.
      * 
-     * This is the stream that was passed to [func@Gdk.content_deserialize_async].
+     * This is the stream that was passed to {@link Gdk#contentDeserializeAsync}.
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gdk_content_deserializer_get_input_stream(handle());
@@ -70,7 +70,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the I/O priority for the current operation.
      * 
-     * This is the priority that was passed to [func@Gdk.content_deserialize_async].
+     * This is the priority that was passed to {@link Gdk#contentDeserializeAsync}.
      */
     public int getPriority() {
         var RESULT = gtk_h.gdk_content_deserializer_get_priority(handle());
@@ -80,7 +80,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the data that was associated with the current operation.
      * 
-     * See [method@Gdk.ContentDeserializer.set_task_data].
+     * See {@link org.gtk.gdk.ContentDeserializer#setTaskData}.
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_deserializer_get_task_data(handle());
@@ -96,7 +96,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     }
     
     /**
-     * Gets the `GValue` to store the deserialized object in.
+     * Gets the <code>GValue</code> to store the deserialized object in.
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = gtk_h.gdk_content_deserializer_get_value(handle());

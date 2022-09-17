@@ -8,45 +8,45 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GTask represents and manages a cancellable "task".
- * 
- * ## Asynchronous operations
- * 
+ * A #GTask represents and manages a cancellable &#34;task&#34;.
+ * <p>
+ * <h2>Asynchronous operations</h2>
+ * <p>
  * The most common usage of #GTask is as a #GAsyncResult, to
  * manage data during an asynchronous operation. You call
- * g_task_new() in the "start" method, followed by
+ * g_task_new() in the &#34;start&#34; method, followed by
  * g_task_set_task_data() and the like if you need to keep some
  * additional data associated with the task, and then pass the
  * task object around through your asynchronous operation.
  * Eventually, you will call a method such as
  * g_task_return_pointer() or g_task_return_error(), which will
- * save the value you give it and then invoke the task's callback
+ * save the value you give it and then invoke the task&#39;s callback
  * function in the
- * [thread-default main context][g-main-context-push-thread-default]
+ * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * where it was created (waiting until the next iteration of the main
  * loop first, if necessary). The caller will pass the #GTask back to
- * the operation's finish function (as a #GAsyncResult), and you can
+ * the operation&#39;s finish function (as a #GAsyncResult), and you can
  * use g_task_propagate_pointer() or the like to extract the
  * return value.
- * 
+ * <p>
  * Using #GTask requires the thread-default #GMainContext from when the
- * #GTask was constructed to be running at least until the task has completed
+ * <h1>ask was constructed to be running at least until the task has completed</h1>
  * and its data has been freed.
- * 
+ * <p>
  * Here is an example for using GTask as a GAsyncResult:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *     typedef struct {
  *       CakeFrostingType frosting;
  *       char *message;
  *     } DecorationData;
- * 
+ * <p>
  *     static void
  *     decoration_data_free (DecorationData *decoration)
  *     {
- *       g_free (decoration->message);
+ *       g_free (decoration-&#62;message);
  *       g_slice_free (DecorationData, decoration);
  *     }
- * 
+ * <p>
  *     static void
  *     baked_cb (Cake     *cake,
  *               gpointer  user_data)
@@ -54,16 +54,16 @@ import java.lang.invoke.*;
  *       GTask *task = user_data;
  *       DecorationData *decoration = g_task_get_task_data (task);
  *       GError *error = NULL;
- * 
+ * <p>
  *       if (cake == NULL)
  *         {
  *           g_task_return_new_error (task, BAKER_ERROR, BAKER_ERROR_NO_FLOUR,
- *                                    "Go to the supermarket");
+ *                                    &#34;Go to the supermarket&#34;);
  *           g_object_unref (task);
  *           return;
  *         }
- * 
- *       if (!cake_decorate (cake, decoration->frosting, decoration->message, &error))
+ * <p>
+ *       if (!cake_decorate (cake, decoration-&#62;frosting, decoration-&#62;message, &#38;error))
  *         {
  *           g_object_unref (cake);
  *           // g_task_return_error() takes ownership of error
@@ -71,11 +71,11 @@ import java.lang.invoke.*;
  *           g_object_unref (task);
  *           return;
  *         }
- * 
+ * <p>
  *       g_task_return_pointer (task, cake, g_object_unref);
  *       g_object_unref (task);
  *     }
- * 
+ * <p>
  *     void
  *     baker_bake_cake_async (Baker               *self,
  *                            guint                radius,
@@ -89,17 +89,17 @@ import java.lang.invoke.*;
  *       GTask *task;
  *       DecorationData *decoration;
  *       Cake  *cake;
- * 
+ * <p>
  *       task = g_task_new (self, cancellable, callback, user_data);
- *       if (radius < 3)
+ *       if (radius &#60; 3)
  *         {
  *           g_task_return_new_error (task, BAKER_ERROR, BAKER_ERROR_TOO_SMALL,
- *                                    "%ucm radius cakes are silly",
+ *                                    &#34;<code>ucm</code> radius cakes are silly&#34;,
  *                                    radius);
  *           g_object_unref (task);
  *           return;
  *         }
- * 
+ * <p>
  *       cake = _baker_get_cached_cake (self, radius, flavor, frosting, message);
  *       if (cake != NULL)
  *         {
@@ -108,55 +108,55 @@ import java.lang.invoke.*;
  *           g_object_unref (task);
  *           return;
  *         }
- * 
+ * <p>
  *       decoration = g_slice_new (DecorationData);
- *       decoration->frosting = frosting;
- *       decoration->message = g_strdup (message);
+ *       decoration-&#62;frosting = frosting;
+ *       decoration-&#62;message = g_strdup (message);
  *       g_task_set_task_data (task, decoration, (GDestroyNotify) decoration_data_free);
- * 
+ * <p>
  *       _baker_begin_cake (self, radius, flavor, cancellable, baked_cb, task);
  *     }
- * 
+ * <p>
  *     Cake *
  *     baker_bake_cake_finish (Baker         *self,
  *                             GAsyncResult  *result,
  *                             GError       **error)
  *     {
  *       g_return_val_if_fail (g_task_is_valid (result, self), NULL);
- * 
+ * <p>
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
- * ]|
- * 
- * ## Chained asynchronous operations
- * 
- * #GTask also tries to simplify asynchronous operations that
+ * ]}|
+ * <p>
+ * <h2>Chained asynchronous operations</h2>
+ * <p>
+ * <h1>ask also tries to simplify asynchronous operations that</h1>
  * internally chain together several smaller asynchronous
  * operations. g_task_get_cancellable(), g_task_get_context(),
- * and g_task_get_priority() allow you to get back the task's
- * #GCancellable, #GMainContext, and [I/O priority][io-priority]
- * when starting a new subtask, so you don't have to keep track
+ * and g_task_get_priority() allow you to get back the task&#39;s
+ * <h1>ancellable, #GMainContext, and {@link [I/O priority]}{@link [io-priority]}</h1>
+ * when starting a new subtask, so you don&#39;t have to keep track
  * of them yourself. g_task_attach_source() simplifies the case
  * of waiting for a source to fire (automatically using the correct
- * #GMainContext and priority).
- * 
+ * <h1>ainContext and priority).</h1>
+ * <p>
  * Here is an example for chained asynchronous operations:
- *   |[<!-- language="C" -->
+ *   |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *     typedef struct {
  *       Cake *cake;
  *       CakeFrostingType frosting;
  *       char *message;
  *     } BakingData;
- * 
+ * <p>
  *     static void
  *     decoration_data_free (BakingData *bd)
  *     {
- *       if (bd->cake)
- *         g_object_unref (bd->cake);
- *       g_free (bd->message);
+ *       if (bd-&#62;cake)
+ *         g_object_unref (bd-&#62;cake);
+ *       g_free (bd-&#62;message);
  *       g_slice_free (BakingData, bd);
  *     }
- * 
+ * <p>
  *     static void
  *     decorated_cb (Cake         *cake,
  *                   GAsyncResult *result,
@@ -164,34 +164,34 @@ import java.lang.invoke.*;
  *     {
  *       GTask *task = user_data;
  *       GError *error = NULL;
- * 
- *       if (!cake_decorate_finish (cake, result, &error))
+ * <p>
+ *       if (!cake_decorate_finish (cake, result, &#38;error))
  *         {
  *           g_object_unref (cake);
  *           g_task_return_error (task, error);
  *           g_object_unref (task);
  *           return;
  *         }
- * 
+ * <p>
  *       // baking_data_free() will drop its ref on the cake, so we have to
  *       // take another here to give to the caller.
  *       g_task_return_pointer (task, g_object_ref (cake), g_object_unref);
  *       g_object_unref (task);
  *     }
- * 
+ * <p>
  *     static gboolean
  *     decorator_ready (gpointer user_data)
  *     {
  *       GTask *task = user_data;
  *       BakingData *bd = g_task_get_task_data (task);
- * 
- *       cake_decorate_async (bd->cake, bd->frosting, bd->message,
+ * <p>
+ *       cake_decorate_async (bd-&#62;cake, bd-&#62;frosting, bd-&#62;message,
  *                            g_task_get_cancellable (task),
  *                            decorated_cb, task);
- * 
+ * <p>
  *       return G_SOURCE_REMOVE;
  *     }
- * 
+ * <p>
  *     static void
  *     baked_cb (Cake     *cake,
  *               gpointer  user_data)
@@ -199,38 +199,38 @@ import java.lang.invoke.*;
  *       GTask *task = user_data;
  *       BakingData *bd = g_task_get_task_data (task);
  *       GError *error = NULL;
- * 
+ * <p>
  *       if (cake == NULL)
  *         {
  *           g_task_return_new_error (task, BAKER_ERROR, BAKER_ERROR_NO_FLOUR,
- *                                    "Go to the supermarket");
+ *                                    &#34;Go to the supermarket&#34;);
  *           g_object_unref (task);
  *           return;
  *         }
- * 
- *       bd->cake = cake;
- * 
+ * <p>
+ *       bd-&#62;cake = cake;
+ * <p>
  *       // Bail out now if the user has already cancelled
  *       if (g_task_return_error_if_cancelled (task))
  *         {
  *           g_object_unref (task);
  *           return;
  *         }
- * 
+ * <p>
  *       if (cake_decorator_available (cake))
  *         decorator_ready (task);
  *       else
  *         {
  *           GSource *source;
- * 
+ * <p>
  *           source = cake_decorator_wait_source_new (cake);
- *           // Attach @source to @task's GMainContext and have it call
+ *           // Attach @source to @task&#39;s GMainContext and have it call
  *           // decorator_ready() when it is ready.
  *           g_task_attach_source (task, source, decorator_ready);
  *           g_source_unref (source);
  *         }
  *     }
- * 
+ * <p>
  *     void
  *     baker_bake_cake_async (Baker               *self,
  *                            guint                radius,
@@ -244,53 +244,136 @@ import java.lang.invoke.*;
  *     {
  *       GTask *task;
  *       BakingData *bd;
- * 
+ * <p>
  *       task = g_task_new (self, cancellable, callback, user_data);
  *       g_task_set_priority (task, priority);
- * 
+ * <p>
  *       bd = g_slice_new0 (BakingData);
- *       bd->frosting = frosting;
- *       bd->message = g_strdup (message);
+ *       bd-&#62;frosting = frosting;
+ *       bd-&#62;message = g_strdup (message);
  *       g_task_set_task_data (task, bd, (GDestroyNotify) baking_data_free);
- * 
+ * <p>
  *       _baker_begin_cake (self, radius, flavor, cancellable, baked_cb, task);
  *     }
- * 
+ * <p>
  *     Cake *
  *     baker_bake_cake_finish (Baker         *self,
  *                             GAsyncResult  *result,
  *                             GError       **error)
  *     {
  *       g_return_val_if_fail (g_task_is_valid (result, self), NULL);
- * 
+ * <p>
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
- * ]|
- * 
- * ## Asynchronous operations from synchronous ones
- * 
+ * ] (ref=&#60;!-- language=&#34;C&#34; --&#62;
+ *     typedef struct {
+ *       Cake *cake;
+ *       CakeFrostingType frosting;
+ *       char *message;
+ *     } BakingData;
+ * <p>
+ *     static void
+ *     decoration_data_free (BakingData *bd)
+ *     {
+ *       if (bd-&#62;cake)
+ *         g_object_unref (bd-&#62;cake);
+ *       g_free (bd-&#62;message);
+ *       g_slice_free (BakingData, bd);
+ *     }
+ * <p>
+ *     static void
+ *     decorated_cb (Cake         *cake,
+ *                   GAsyncResult *result,
+ *                   gpointer      user_data)
+ *     {
+ *       GTask *task = user_data;
+ *       GError *error = NULL;
+ * <p>
+ *       if (!cake_decorate_finish (cake, result, &#38;error))
+ *         {
+ *           g_object_unref (cake);
+ *           g_task_return_error (task, error);
+ *           g_object_unref (task);
+ *           return;
+ *         }
+ * <p>
+ *       // baking_data_free() will drop its ref on the cake, so we have to
+ *       // take another here to give to the caller.
+ *       g_task_return_pointer (task, g_object_ref (cake), g_object_unref);
+ *       g_object_unref (task);
+ *     }
+ * <p>
+ *     static gboolean
+ *     decorator_ready (gpointer user_data)
+ *     {
+ *       GTask *task = user_data;
+ *       BakingData *bd = g_task_get_task_data (task);
+ * <p>
+ *       cake_decorate_async (bd-&#62;cake, bd-&#62;frosting, bd-&#62;message,
+ *                            g_task_get_cancellable (task),
+ *                            decorated_cb, task);
+ * <p>
+ *       return G_SOURCE_REMOVE;
+ *     }
+ * <p>
+ *     static void
+ *     baked_cb (Cake     *cake,
+ *               gpointer  user_data)
+ *     {
+ *       GTask *task = user_data;
+ *       BakingData *bd = g_task_get_task_data (task);
+ *       GError *error = NULL;
+ * <p>
+ *       if (cake == NULL)
+ *         {
+ *           g_task_return_new_error (task, BAKER_ERROR, BAKER_ERROR_NO_FLOUR,
+ *                                    &#34;Go to the supermarket&#34;);
+ *           g_object_unref (task);
+ *           return;
+ *         }
+ * <p>
+ *       bd-&#62;cake = cake;
+ * <p>
+ *       // Bail out now if the user has already cancelled
+ *       if (g_task_return_error_if_cancelled (task))
+ *         {
+ *           g_object_unref (task);
+ *           return;
+ *         }
+ * <p>
+ *       if (cake_decorator_available (cake))
+ *         decorator_ready (task);
+ *       else
+ *         {
+ *           GSource *source;
+ * <p>
+ *           source = cake_decorator_wait_source_new (cake);
+ *           // Attach )}|
+ * <p>
+ * <h2>Asynchronous operations from synchronous ones</h2>
+ * <p>
  * You can use g_task_run_in_thread() to turn a synchronous
  * operation into an asynchronous one, by running it in a thread.
  * When it completes, the result will be dispatched to the
- * [thread-default main context][g-main-context-push-thread-default]
+ * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
  * where the #GTask was created.
- * 
+ * <p>
  * Running a task in a thread:
- *   |[<!-- language="C" -->
+ *   |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *     typedef struct {
  *       guint radius;
  *       CakeFlavor flavor;
  *       CakeFrostingType frosting;
  *       char *message;
  *     } CakeData;
- * 
+ * <p>
  *     static void
  *     cake_data_free (CakeData *cake_data)
  *     {
- *       g_free (cake_data->message);
+ *       g_free (cake_data-&#62;message);
  *       g_slice_free (CakeData, cake_data);
  *     }
- * 
+ * <p>
  *     static void
  *     bake_cake_thread (GTask         *task,
  *                       gpointer       source_object,
@@ -301,16 +384,16 @@ import java.lang.invoke.*;
  *       CakeData *cake_data = task_data;
  *       Cake *cake;
  *       GError *error = NULL;
- * 
- *       cake = bake_cake (baker, cake_data->radius, cake_data->flavor,
- *                         cake_data->frosting, cake_data->message,
- *                         cancellable, &error);
+ * <p>
+ *       cake = bake_cake (baker, cake_data-&#62;radius, cake_data-&#62;flavor,
+ *                         cake_data-&#62;frosting, cake_data-&#62;message,
+ *                         cancellable, &#38;error);
  *       if (cake)
  *         g_task_return_pointer (task, cake, g_object_unref);
  *       else
  *         g_task_return_error (task, error);
  *     }
- * 
+ * <p>
  *     void
  *     baker_bake_cake_async (Baker               *self,
  *                            guint                radius,
@@ -323,45 +406,45 @@ import java.lang.invoke.*;
  *     {
  *       CakeData *cake_data;
  *       GTask *task;
- * 
+ * <p>
  *       cake_data = g_slice_new (CakeData);
- *       cake_data->radius = radius;
- *       cake_data->flavor = flavor;
- *       cake_data->frosting = frosting;
- *       cake_data->message = g_strdup (message);
+ *       cake_data-&#62;radius = radius;
+ *       cake_data-&#62;flavor = flavor;
+ *       cake_data-&#62;frosting = frosting;
+ *       cake_data-&#62;message = g_strdup (message);
  *       task = g_task_new (self, cancellable, callback, user_data);
  *       g_task_set_task_data (task, cake_data, (GDestroyNotify) cake_data_free);
  *       g_task_run_in_thread (task, bake_cake_thread);
  *       g_object_unref (task);
  *     }
- * 
+ * <p>
  *     Cake *
  *     baker_bake_cake_finish (Baker         *self,
  *                             GAsyncResult  *result,
  *                             GError       **error)
  *     {
  *       g_return_val_if_fail (g_task_is_valid (result, self), NULL);
- * 
+ * <p>
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
- * ]|
- * 
- * ## Adding cancellability to uncancellable tasks
- * 
+ * ]}|
+ * <p>
+ * <h2>Adding cancellability to uncancellable tasks</h2>
+ * <p>
  * Finally, g_task_run_in_thread() and g_task_run_in_thread_sync()
  * can be used to turn an uncancellable operation into a
  * cancellable one. If you call g_task_set_return_on_cancel(),
- * passing %TRUE, then if the task's #GCancellable is cancelled,
+ * passing <code>TRUE,</code> then if the task&#39;s #GCancellable is cancelled,
  * it will return control back to the caller immediately, while
  * allowing the task thread to continue running in the background
  * (and simply discarding its result when it finally does finish).
  * Provided that the task thread is careful about how it uses
  * locks and other externally-visible resources, this allows you
- * to make "GLib-friendly" asynchronous and cancellable
+ * to make &#34;GLib-friendly&#34; asynchronous and cancellable
  * synchronous variants of blocking APIs.
- * 
+ * <p>
  * Cancelling a task:
- *   |[<!-- language="C" -->
+ *   |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *     static void
  *     bake_cake_thread (GTask         *task,
  *                       gpointer       source_object,
@@ -372,35 +455,35 @@ import java.lang.invoke.*;
  *       CakeData *cake_data = task_data;
  *       Cake *cake;
  *       GError *error = NULL;
- * 
- *       cake = bake_cake (baker, cake_data->radius, cake_data->flavor,
- *                         cake_data->frosting, cake_data->message,
- *                         &error);
+ * <p>
+ *       cake = bake_cake (baker, cake_data-&#62;radius, cake_data-&#62;flavor,
+ *                         cake_data-&#62;frosting, cake_data-&#62;message,
+ *                         &#38;error);
  *       if (error)
  *         {
  *           g_task_return_error (task, error);
  *           return;
  *         }
- * 
- *       // If the task has already been cancelled, then we don't want to add
- *       // the cake to the cake cache. Likewise, we don't  want to have the
+ * <p>
+ *       // If the task has already been cancelled, then we don&#39;t want to add
+ *       // the cake to the cake cache. Likewise, we don&#39;t  want to have the
  *       // task get cancelled in the middle of updating the cache.
- *       // g_task_set_return_on_cancel() will return %TRUE here if it managed
- *       // to disable return-on-cancel, or %FALSE if the task was cancelled
+ *       // g_task_set_return_on_cancel() will return <code>true</code> here if it managed
+ *       // to disable return-on-cancel, or <code>false</code> if the task was cancelled
  *       // before it could.
  *       if (g_task_set_return_on_cancel (task, FALSE))
  *         {
  *           // If the caller cancels at this point, their
- *           // GAsyncReadyCallback won't be invoked until we return,
- *           // so we don't have to worry that this code will run at
+ *           // GAsyncReadyCallback won&#39;t be invoked until we return,
+ *           // so we don&#39;t have to worry that this code will run at
  *           // the same time as that code does. But if there were
  *           // other functions that might look at the cake cache,
- *           // then we'd probably need a GMutex here as well.
+ *           // then we&#39;d probably need a GMutex here as well.
  *           baker_add_cake_to_cache (baker, cake);
  *           g_task_return_pointer (task, cake, g_object_unref);
  *         }
  *     }
- * 
+ * <p>
  *     void
  *     baker_bake_cake_async (Baker               *self,
  *                            guint                radius,
@@ -413,17 +496,17 @@ import java.lang.invoke.*;
  *     {
  *       CakeData *cake_data;
  *       GTask *task;
- * 
+ * <p>
  *       cake_data = g_slice_new (CakeData);
- * 
+ * <p>
  *       ...
- * 
+ * <p>
  *       task = g_task_new (self, cancellable, callback, user_data);
  *       g_task_set_task_data (task, cake_data, (GDestroyNotify) cake_data_free);
  *       g_task_set_return_on_cancel (task, TRUE);
  *       g_task_run_in_thread (task, bake_cake_thread);
  *     }
- * 
+ * <p>
  *     Cake *
  *     baker_bake_cake_sync (Baker               *self,
  *                           guint                radius,
@@ -436,36 +519,36 @@ import java.lang.invoke.*;
  *       CakeData *cake_data;
  *       GTask *task;
  *       Cake *cake;
- * 
+ * <p>
  *       cake_data = g_slice_new (CakeData);
- * 
+ * <p>
  *       ...
- * 
+ * <p>
  *       task = g_task_new (self, cancellable, NULL, NULL);
  *       g_task_set_task_data (task, cake_data, (GDestroyNotify) cake_data_free);
  *       g_task_set_return_on_cancel (task, TRUE);
  *       g_task_run_in_thread_sync (task, bake_cake_thread);
- * 
+ * <p>
  *       cake = g_task_propagate_pointer (task, error);
  *       g_object_unref (task);
  *       return cake;
  *     }
- * ]|
- * 
- * ## Porting from GSimpleAsyncResult
- * 
- * #GTask's API attempts to be simpler than #GSimpleAsyncResult's
+ * ]}|
+ * <p>
+ * <h2>Porting from GSimpleAsyncResult</h2>
+ * <p>
+ * <h1>ask&#39;s API attempts to be simpler than #GSimpleAsyncResult&#39;s</h1>
  * in several ways:
- * - You can save task-specific data with g_task_set_task_data(), and
+ * <li>You can save task-specific data with g_task_set_task_data(), and
  *   retrieve it later with g_task_get_task_data(). This replaces the
  *   abuse of g_simple_async_result_set_op_res_gpointer() for the same
  *   purpose with #GSimpleAsyncResult.
- * - In addition to the task data, #GTask also keeps track of the
- *   [priority][io-priority], #GCancellable, and
+ * <li>In addition to the task data, #GTask also keeps track of the
+ *   {@link [priority]}{@link [io-priority]}, #GCancellable, and
  *   #GMainContext associated with the task, so tasks that consist of
  *   a chain of simpler asynchronous operations will have easy access
  *   to those values when starting each sub-task.
- * - g_task_return_error_if_cancelled() provides simplified
+ * <li>g_task_return_error_if_cancelled() provides simplified
  *   handling for cancellation. In addition, cancellation
  *   overrides any other #GTask return value by default, like
  *   #GSimpleAsyncResult does when
@@ -473,39 +556,39 @@ import java.lang.invoke.*;
  *   (You can use g_task_set_check_cancellable() to turn off that
  *   behavior.) On the other hand, g_task_run_in_thread()
  *   guarantees that it will always run your
- *   `task_func`, even if the task's #GCancellable
+ *   <code>task_func</code>, even if the task&#39;s #GCancellable
  *   is already cancelled before the task gets a chance to run;
- *   you can start your `task_func` with a
+ *   you can start your <code>task_func</code> with a
  *   g_task_return_error_if_cancelled() check if you need the
  *   old behavior.
- * - The "return" methods (eg, g_task_return_pointer())
- *   automatically cause the task to be "completed" as well, and
- *   there is no need to worry about the "complete" vs "complete
- *   in idle" distinction. (#GTask automatically figures out
- *   whether the task's callback can be invoked directly, or
+ * <li>The &#34;return&#34; methods (eg, g_task_return_pointer())
+ *   automatically cause the task to be &#34;completed&#34; as well, and
+ *   there is no need to worry about the &#34;complete&#34; vs &#34;complete
+ *   in idle&#34; distinction. (#GTask automatically figures out
+ *   whether the task&#39;s callback can be invoked directly, or
  *   if it needs to be sent to another #GMainContext, or delayed
  *   until the next iteration of the current #GMainContext.)
- * - The "finish" functions for #GTask based operations are generally
+ * <li>The &#34;finish&#34; functions for #GTask based operations are generally
  *   much simpler than #GSimpleAsyncResult ones, normally consisting
  *   of only a single call to g_task_propagate_pointer() or the like.
- *   Since g_task_propagate_pointer() "steals" the return value from
+ *   Since g_task_propagate_pointer() &#34;steals&#34; the return value from
  *   the #GTask, it is not necessary to juggle pointers around to
  *   prevent it from being freed twice.
- * - With #GSimpleAsyncResult, it was common to call
+ * <li>With #GSimpleAsyncResult, it was common to call
  *   g_simple_async_result_propagate_error() from the
- *   `_finish()` wrapper function, and have
+ *   <code>_finish()</code> wrapper function, and have
  *   virtual method implementations only deal with successful
  *   returns. This behavior is deprecated, because it makes it
- *   difficult for a subclass to chain to a parent class's async
+ *   difficult for a subclass to chain to a parent class&#39;s async
  *   methods. Instead, the wrapper function should just be a
  *   simple wrapper, and the virtual method should call an
- *   appropriate `g_task_propagate_` function.
+ *   appropriate <code>g_task_propagate_</code> function.
  *   Note that wrapper methods can now use
  *   g_async_result_legacy_propagate_error() to do old-style
  *   #GSimpleAsyncResult error-returning behavior, and
  *   g_async_result_is_tagged() to check if a result is tagged as
- *   having come from the `_async()` wrapper
- *   function (for "short-circuit" results, such as when passing
+ *   having come from the <code>_async()</code> wrapper
+ *   function (for &#34;short-circuit&#34; results, such as when passing
  *   0 to g_input_stream_read_async()).
  */
 public class Task extends org.gtk.gobject.Object implements AsyncResult {
@@ -537,15 +620,15 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Creates a #GTask acting on @source_object, which will eventually be
      * used to invoke @callback in the current
-     * [thread-default main context][g-main-context-push-thread-default].
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}.
      * 
-     * Call this in the "start" method of your asynchronous method, and
+     * Call this in the &#34;start&#34; method of your asynchronous method, and
      * pass the #GTask around throughout the asynchronous operation. You
      * can use g_task_set_task_data() to attach task-specific data to the
      * object, which you can retrieve later via g_task_get_task_data().
      * 
      * By default, if @cancellable is cancelled, then the return value of
-     * the task will always be %G_IO_ERROR_CANCELLED, even if the task had
+     * the task will always be <code>G_IO_ERROR_CANCELLED,</code> even if the task had
      * already completed before the cancellation. This allows for
      * simplified handling in cases where cancellation may imply that
      * other objects that the task depends on have been destroyed. If you
@@ -557,7 +640,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's #GCancellable
+     * Gets @task&#39;s #GCancellable
      */
     public Cancellable getCancellable() {
         var RESULT = gtk_h.g_task_get_cancellable(handle());
@@ -565,7 +648,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's check-cancellable flag. See
+     * Gets @task&#39;s check-cancellable flag. See
      * g_task_set_check_cancellable() for more details.
      */
     public boolean getCheckCancellable() {
@@ -574,8 +657,8 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets the value of #GTask:completed. This changes from %FALSE to %TRUE after
-     * the task’s callback is invoked, and will return %FALSE if called from inside
+     * Gets the value of #GTask:completed. This changes from <code>false</code> to <code>true</code> after
+     * the task&#8217;s callback is invoked, and will return <code>false</code> if called from inside
      * the callback.
      */
     public boolean getCompleted() {
@@ -586,10 +669,10 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets the #GMainContext that @task will return its result in (that
      * is, the context that was the
-     * [thread-default main context][g-main-context-push-thread-default]
+     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * at the point when @task was created).
      * 
-     * This will always return a non-%NULL value, even if the task's
+     * This will always return a non-<code>null</code> value, even if the task&#39;s
      * context is the default #GMainContext.
      */
     public org.gtk.glib.MainContext getContext() {
@@ -598,7 +681,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task’s name. See g_task_set_name().
+     * Gets @task&#8217;s name. See g_task_set_name().
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.g_task_get_name(handle());
@@ -606,7 +689,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's priority
+     * Gets @task&#39;s priority
      */
     public int getPriority() {
         var RESULT = gtk_h.g_task_get_priority(handle());
@@ -614,7 +697,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's return-on-cancel flag. See
+     * Gets @task&#39;s return-on-cancel flag. See
      * g_task_set_return_on_cancel() for more details.
      */
     public boolean getReturnOnCancel() {
@@ -632,7 +715,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's source tag. See g_task_set_source_tag().
+     * Gets @task&#39;s source tag. See g_task_set_source_tag().
      */
     public jdk.incubator.foreign.MemoryAddress getSourceTag() {
         var RESULT = gtk_h.g_task_get_source_tag(handle());
@@ -640,7 +723,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Gets @task's `task_data`.
+     * Gets @task&#39;s <code>task_data</code>.
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.g_task_get_task_data(handle());
@@ -659,7 +742,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets the result of @task as a #gboolean.
      * 
      * If the task resulted in an error, or was cancelled, then this will
-     * instead return %FALSE and set @error.
+     * instead return <code>false</code> and set @error.
      * 
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
@@ -696,7 +779,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * of that value to the caller.
      * 
      * If the task resulted in an error, or was cancelled, then this will
-     * instead return %NULL and set @error.
+     * instead return <code>null</code> and set @error.
      * 
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
@@ -717,9 +800,9 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * will usually be more useful for C code.
      * 
      * If the task resulted in an error, or was cancelled, then this will
-     * instead set @error and return %FALSE.
+     * instead set @error and return <code>FALSE.
      * 
-     * Since this method transfers ownership of the return value (or
+     * Since</code> this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
     public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
@@ -732,7 +815,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's result to @result and completes the task (see
+     * Sets @task&#39;s result to @result and completes the task (see
      * g_task_return_pointer() for more discussion of exactly what this
      * means).
      */
@@ -741,7 +824,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's result to @error (which @task assumes ownership of)
+     * Sets @task&#39;s result to @error (which @task assumes ownership of)
      * and completes the task (see g_task_return_pointer() for more
      * discussion of exactly what this means).
      * 
@@ -758,8 +841,8 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Checks if @task's #GCancellable has been cancelled, and if so, sets
-     * @task's error accordingly and completes the task (see
+     * Checks if @task&#39;s #GCancellable has been cancelled, and if so, sets
+     * @task&#39;s error accordingly and completes the task (see
      * g_task_return_pointer() for more discussion of exactly what this
      * means).
      */
@@ -769,7 +852,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's result to @result and completes the task (see
+     * Sets @task&#39;s result to @result and completes the task (see
      * g_task_return_pointer() for more discussion of exactly what this
      * means).
      */
@@ -778,10 +861,10 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's result to @result (by copying it) and completes the task.
+     * Sets @task&#39;s result to @result (by copying it) and completes the task.
      * 
-     * If @result is %NULL then a #GValue of type %G_TYPE_POINTER
-     * with a value of %NULL will be used for the result.
+     * If @result is <code>null</code> then a #GValue of type <code>G_TYPE_POINTER
+     * with</code> a value of <code>null</code> will be used for the result.
      * 
      * This is a very generic low-level method intended primarily for use
      * by language bindings; for C code, g_task_return_pointer() and the
@@ -792,16 +875,21 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets or clears @task's check-cancellable flag. If this is %TRUE
-     * (the default), then g_task_propagate_pointer(), etc, and
-     * g_task_had_error() will check the task's #GCancellable first, and
+     * Sets or clears @task&#39;s check-cancellable flag. If this is <code>TRUE
+     * (the</code> default), then g_task_propagate_pointer(), etc, and
+     * g_task_had_error() will check the task&#39;s #GCancellable first, and
      * if it has been cancelled, then they will consider the task to have
-     * returned an "Operation was cancelled" error
-     * (%G_IO_ERROR_CANCELLED), regardless of any other error or return
+     * returned an &#34;Operation was cancelled&#34; error
+     * (<code>G_IO_ERROR_CANCELLED),</code> regardless of any other error or return
      * value the task may have had.
      * 
-     * If @check_cancellable is %FALSE, then the #GTask will not check the
-     * cancellable itself, and it is up to @task's owner to do this (eg,
+     * If @check_cancellable is <code>FALSE,</code> then the #GTask will not check the
+     * cancellable itself, and it is up to @task&#39;s owner to do this (eg,
+     * via g_task_return_error_if_cancelled()).
+     * 
+     * If you are using g_task_set_return_on_cancel() as well, then
+     * you must leave check-cancellable set then the #GTask will not check the
+     * cancellable itself, and it is up to @task&#39;s owner to do this (eg,
      * via g_task_return_error_if_cancelled()).
      * 
      * If you are using g_task_set_return_on_cancel() as well, then
@@ -812,11 +900,11 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task’s name, used in debugging and profiling. The name defaults to
-     * %NULL.
+     * Sets @task&#8217;s name, used in debugging and profiling. The name defaults to
+     * <code>NULL.
      * 
-     * The task name should describe in a human readable way what the task does.
-     * For example, ‘Open file’ or ‘Connect to network host’. It is used to set the
+     * The</code> task name should describe in a human readable way what the task does.
+     * For example, &#8216;Open file&#8217; or &#8216;Connect to network host&#8217;. It is used to set the
      * name of the #GSource used for idle completion of the task.
      * 
      * This function may only be called before the @task is first used in a thread
@@ -828,10 +916,10 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's priority. If you do not call this, it will default to
-     * %G_PRIORITY_DEFAULT.
+     * Sets @task&#39;s priority. If you do not call this, it will default to
+     * <code>G_PRIORITY_DEFAULT.
      * 
-     * This will affect the priority of #GSources created with
+     * This</code> will affect the priority of #GSources created with
      * g_task_attach_source() and the scheduling of tasks run in threads,
      * and can also be explicitly retrieved later via
      * g_task_get_priority().
@@ -841,13 +929,13 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets or clears @task's return-on-cancel flag. This is only
+     * Sets or clears @task&#39;s return-on-cancel flag. This is only
      * meaningful for tasks run via g_task_run_in_thread() or
      * g_task_run_in_thread_sync().
      * 
-     * If @return_on_cancel is %TRUE, then cancelling @task's
+     * If @return_on_cancel is <code>TRUE,</code> then cancelling @task&#39;s
      * #GCancellable will immediately cause it to return, as though the
-     * task's #GTaskThreadFunc had called
+     * task&#39;s #GTaskThreadFunc had called
      * g_task_return_error_if_cancelled() and then returned.
      * 
      * This allows you to create a cancellable wrapper around an
@@ -855,17 +943,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * careful that it does not modify any externally-visible state after
      * it has been cancelled. To do that, the thread should call
      * g_task_set_return_on_cancel() again to (atomically) set
-     * return-on-cancel %FALSE before making externally-visible changes;
+     * return-on-cancel <code>false</code> before making externally-visible changes;
      * if the task gets cancelled before the return-on-cancel flag could
      * be changed, g_task_set_return_on_cancel() will indicate this by
-     * returning %FALSE.
+     * returning <code>FALSE.
      * 
-     * You can disable and re-enable this flag multiple times if you wish.
-     * If the task's #GCancellable is cancelled while return-on-cancel is
-     * %FALSE, then calling g_task_set_return_on_cancel() to set it %TRUE
-     * again will cause the task to be cancelled at that point.
+     * You</code> can disable and re-enable this flag multiple times if you wish.
+     * If the task&#39;s #GCancellable is cancelled while return-on-cancel is
+     * <code>FALSE,</code> then calling g_task_set_return_on_cancel() to set it <code>TRUE
+     * again</code> will cause the task to be cancelled at that point.
      * 
-     * If the task's #GCancellable is already cancelled before you call
+     * If the task&#39;s #GCancellable is already cancelled before you call
      * g_task_run_in_thread()/g_task_run_in_thread_sync(), then the
      * #GTaskThreadFunc will still be run (for consistency), but the task
      * will also be completed right away.
@@ -876,17 +964,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's source tag.
+     * Sets @task&#39;s source tag.
      * 
      * You can use this to tag a task return
      * value with a particular pointer (usually a pointer to the function
      * doing the tagging) and then later check it using
      * g_task_get_source_tag() (or g_async_result_is_tagged()) in the
-     * task's "finish" function, to figure out if the response came from a
+     * task&#39;s &#34;finish&#34; function, to figure out if the response came from a
      * particular place.
      * 
      * A macro wrapper around this function will automatically set the
-     * task’s name to the string form of @source_tag if it’s not already
+     * task&#8217;s name to the string form of @source_tag if it&#8217;s not already
      * set, for convenience.
      */
     public void setSourceTag(jdk.incubator.foreign.MemoryAddress sourceTag) {
@@ -894,7 +982,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     }
     
     /**
-     * Sets @task's task data (freeing the existing task data, if any).
+     * Sets @task&#39;s task data (freeing the existing task data, if any).
      */
     public void setTaskData(jdk.incubator.foreign.MemoryAddress taskData, org.gtk.glib.DestroyNotify taskDataDestroy) {
         gtk_h.g_task_set_task_data(handle(), taskData, 
@@ -903,7 +991,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     
     /**
      * Checks that @result is a #GTask, and that @source_object is its
-     * source object (or that @source_object is %NULL and @result has no
+     * source object (or that @source_object is <code>null</code> and @result has no
      * source object). This can be used in g_return_if_fail() checks.
      */
     public static boolean isValid(AsyncResult result, org.gtk.gobject.Object sourceObject) {

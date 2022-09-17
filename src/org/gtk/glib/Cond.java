@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * 
  * Here is an example for using GCond to block a thread until a condition
  * is satisfied:
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  *   gpointer current_data = NULL;
  *   GMutex data_mutex;
  *   GCond data_cond;
@@ -29,10 +29,10 @@ import java.lang.invoke.*;
  *   void
  *   push_data (gpointer data)
  *   {
- *     g_mutex_lock (&data_mutex);
+ *     g_mutex_lock (&#38;data_mutex);
  *     current_data = data;
- *     g_cond_signal (&data_cond);
- *     g_mutex_unlock (&data_mutex);
+ *     g_cond_signal (&#38;data_cond);
+ *     g_mutex_unlock (&#38;data_mutex);
  *   }
  * 
  *   gpointer
@@ -40,18 +40,18 @@ import java.lang.invoke.*;
  *   {
  *     gpointer data;
  * 
- *     g_mutex_lock (&data_mutex);
+ *     g_mutex_lock (&#38;data_mutex);
  *     while (!current_data)
- *       g_cond_wait (&data_cond, &data_mutex);
+ *       g_cond_wait (&#38;data_cond, &#38;data_mutex);
  *     data = current_data;
  *     current_data = NULL;
- *     g_mutex_unlock (&data_mutex);
+ *     g_mutex_unlock (&#38;data_mutex);
  * 
  *     return data;
  *   }
- * ]|
+ * ]}|
  * Whenever a thread calls pop_data() now, it will wait until
- * current_data is non-%NULL, i.e. until some other thread
+ * current_data is non-<code>NULL,</code> i.e. until some other thread
  * has called push_data().
  * 
  * The example shows that use of a condition variable must always be
@@ -137,7 +137,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * 
      * When using condition variables, it is possible that a spurious wakeup
      * may occur (ie: g_cond_wait() returns even though g_cond_signal() was
-     * not called).  It's also possible that a stolen wakeup may occur.
+     * not called).  It&#39;s also possible that a stolen wakeup may occur.
      * This is when g_cond_signal() is called, but another thread acquires
      * @mutex before this thread and modifies the state of the program in
      * such a way that when g_cond_wait() is able to return, the expected
@@ -157,29 +157,29 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * could occur.  For that reason, waiting on a condition variable should
      * always be in a loop, based on an explicitly-checked predicate.
      * 
-     * %TRUE is returned if the condition variable was signalled (or in the
-     * case of a spurious wakeup).  %FALSE is returned if @end_time has
+     * <code>true</code> is returned if the condition variable was signalled (or in the
+     * case of a spurious wakeup).  <code>false</code> is returned if @end_time has
      * passed.
      * 
      * The following code shows how to correctly perform a timed wait on a
      * condition variable (extending the example presented in the
      * documentation for #GCond):
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * gpointer
      * pop_data_timed (void)
      * {
      *   gint64 end_time;
      *   gpointer data;
      * 
-     *   g_mutex_lock (&data_mutex);
+     *   g_mutex_lock (&#38;data_mutex);
      * 
      *   end_time = g_get_monotonic_time () + 5 * G_TIME_SPAN_SECOND;
      *   while (!current_data)
-     *     if (!g_cond_wait_until (&data_cond, &data_mutex, end_time))
+     *     if (!g_cond_wait_until (&#38;data_cond, &#38;data_mutex, end_time))
      *       {
      *         // timeout has passed.
-     *         g_mutex_unlock (&data_mutex);
+     *         g_mutex_unlock (&#38;data_mutex);
      *         return NULL;
      *       }
      * 
@@ -187,11 +187,11 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      *   data = current_data;
      *   current_data = NULL;
      * 
-     *   g_mutex_unlock (&data_mutex);
+     *   g_mutex_unlock (&#38;data_mutex);
      * 
      *   return data;
      * }
-     * ]|
+     * ]}|
      * 
      * Notice that the end time is calculated once, before entering the
      * loop and reused.  This is the motivation behind the use of absolute

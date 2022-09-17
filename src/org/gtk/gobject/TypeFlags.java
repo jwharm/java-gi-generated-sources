@@ -13,7 +13,7 @@ public class TypeFlags {
     
     /**
      * Indicates an abstract value type, i.e. a type
-     *  that introduces a value table, but can't be used for
+     *  that introduces a value table, but can&#39;t be used for
      *  g_value_init()
      */
     public static final int VALUE_ABSTRACT = 32;

@@ -3,157 +3,157 @@ package org.gtk.glib;
 /**
  * These are the possible character classifications from the
  * Unicode specification.
- * See [Unicode Character Database](http://www.unicode.org/reports/tr44/#General_Category_Values).
+ * See {@link [Unicode Character Database]}(http://www.unicode.org/reports/tr44/#General_Category_Values).
  */
 public enum UnicodeType {
 
     /**
-     * General category "Other, Control" (Cc)
+     * General category &#34;Other, Control&#34; (Cc)
      */
     CONTROL,
     
     /**
-     * General category "Other, Format" (Cf)
+     * General category &#34;Other, Format&#34; (Cf)
      */
     FORMAT,
     
     /**
-     * General category "Other, Not Assigned" (Cn)
+     * General category &#34;Other, Not Assigned&#34; (Cn)
      */
     UNASSIGNED,
     
     /**
-     * General category "Other, Private Use" (Co)
+     * General category &#34;Other, Private Use&#34; (Co)
      */
     PRIVATE_USE,
     
     /**
-     * General category "Other, Surrogate" (Cs)
+     * General category &#34;Other, Surrogate&#34; (Cs)
      */
     SURROGATE,
     
     /**
-     * General category "Letter, Lowercase" (Ll)
+     * General category &#34;Letter, Lowercase&#34; (Ll)
      */
     LOWERCASE_LETTER,
     
     /**
-     * General category "Letter, Modifier" (Lm)
+     * General category &#34;Letter, Modifier&#34; (Lm)
      */
     MODIFIER_LETTER,
     
     /**
-     * General category "Letter, Other" (Lo)
+     * General category &#34;Letter, Other&#34; (Lo)
      */
     OTHER_LETTER,
     
     /**
-     * General category "Letter, Titlecase" (Lt)
+     * General category &#34;Letter, Titlecase&#34; (Lt)
      */
     TITLECASE_LETTER,
     
     /**
-     * General category "Letter, Uppercase" (Lu)
+     * General category &#34;Letter, Uppercase&#34; (Lu)
      */
     UPPERCASE_LETTER,
     
     /**
-     * General category "Mark, Spacing" (Mc)
+     * General category &#34;Mark, Spacing&#34; (Mc)
      */
     SPACING_MARK,
     
     /**
-     * General category "Mark, Enclosing" (Me)
+     * General category &#34;Mark, Enclosing&#34; (Me)
      */
     ENCLOSING_MARK,
     
     /**
-     * General category "Mark, Nonspacing" (Mn)
+     * General category &#34;Mark, Nonspacing&#34; (Mn)
      */
     NON_SPACING_MARK,
     
     /**
-     * General category "Number, Decimal Digit" (Nd)
+     * General category &#34;Number, Decimal Digit&#34; (Nd)
      */
     DECIMAL_NUMBER,
     
     /**
-     * General category "Number, Letter" (Nl)
+     * General category &#34;Number, Letter&#34; (Nl)
      */
     LETTER_NUMBER,
     
     /**
-     * General category "Number, Other" (No)
+     * General category &#34;Number, Other&#34; (No)
      */
     OTHER_NUMBER,
     
     /**
-     * General category "Punctuation, Connector" (Pc)
+     * General category &#34;Punctuation, Connector&#34; (Pc)
      */
     CONNECT_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Dash" (Pd)
+     * General category &#34;Punctuation, Dash&#34; (Pd)
      */
     DASH_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Close" (Pe)
+     * General category &#34;Punctuation, Close&#34; (Pe)
      */
     CLOSE_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Final quote" (Pf)
+     * General category &#34;Punctuation, Final quote&#34; (Pf)
      */
     FINAL_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Initial quote" (Pi)
+     * General category &#34;Punctuation, Initial quote&#34; (Pi)
      */
     INITIAL_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Other" (Po)
+     * General category &#34;Punctuation, Other&#34; (Po)
      */
     OTHER_PUNCTUATION,
     
     /**
-     * General category "Punctuation, Open" (Ps)
+     * General category &#34;Punctuation, Open&#34; (Ps)
      */
     OPEN_PUNCTUATION,
     
     /**
-     * General category "Symbol, Currency" (Sc)
+     * General category &#34;Symbol, Currency&#34; (Sc)
      */
     CURRENCY_SYMBOL,
     
     /**
-     * General category "Symbol, Modifier" (Sk)
+     * General category &#34;Symbol, Modifier&#34; (Sk)
      */
     MODIFIER_SYMBOL,
     
     /**
-     * General category "Symbol, Math" (Sm)
+     * General category &#34;Symbol, Math&#34; (Sm)
      */
     MATH_SYMBOL,
     
     /**
-     * General category "Symbol, Other" (So)
+     * General category &#34;Symbol, Other&#34; (So)
      */
     OTHER_SYMBOL,
     
     /**
-     * General category "Separator, Line" (Zl)
+     * General category &#34;Separator, Line&#34; (Zl)
      */
     LINE_SEPARATOR,
     
     /**
-     * General category "Separator, Paragraph" (Zp)
+     * General category &#34;Separator, Paragraph&#34; (Zp)
      */
     PARAGRAPH_SEPARATOR,
     
     /**
-     * General category "Separator, Space" (Zs)
+     * General category &#34;Separator, Space&#34; (Zs)
      */
     SPACE_SEPARATOR;
     

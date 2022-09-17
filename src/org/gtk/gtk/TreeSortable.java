@@ -9,15 +9,14 @@ import java.lang.invoke.*;
 
 /**
  * The interface for sortable models used by GtkTreeView
- * 
- * `GtkTreeSortable` is an interface to be implemented by tree models which
- * support sorting. The `GtkTreeView` uses the methods provided by this interface
+ * <p><code>GtkTreeSortable</code> is an interface to be implemented by tree models which
+ * support sorting. The <code>GtkTreeView</code> uses the methods provided by this interface
  * to sort the model.
  */
 public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Returns %TRUE if the model has a default sort function. This is used
+     * Returns <code>true</code> if the model has a default sort function. This is used
      * primarily by GtkTreeViewColumns in order to determine if a model can
      * go back to the default state, or not.
      */
@@ -29,13 +28,13 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the default comparison function used when sorting to be @sort_func.
      * If the current sort column id of @sortable is
-     * %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, then the model will sort using
+     * <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,</code> then the model will sort using
      * this function.
      * 
-     * If @sort_func is %NULL, then there will be no default comparison function.
-     * This means that once the model  has been sorted, it can’t go back to the
+     * If @sort_func is <code>NULL,</code> then there will be no default comparison function.
+     * This means that once the model  has been sorted, it can&#8217;t go back to the
      * default state. In this case, when the current sort column id of @sortable
-     * is %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, the model will be unsorted.
+     * is <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,</code> the model will be unsorted.
      */
     public default void setDefaultSortFunc(TreeIterCompareFunc sortFunc) {
         try {
@@ -54,14 +53,13 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets the current sort column to be @sort_column_id. The @sortable will
-     * resort itself to reflect this change, after emitting a
-     * `GtkTreeSortable::sort-column-changed` signal. @sort_column_id may either be
+     * resort itself to reflect this change, after emitting a<code>GtkTreeSortable::sort-column-changed</code> signal. @sort_column_id may either be
      * a regular column id, or one of the following special values:
      * 
-     * - %GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID: the default sort function
+     * - <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID:</code> the default sort function
      *   will be used, if it is set
      * 
-     * - %GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID: no sorting will occur
+     * - <code>GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID:</code> no sorting will occur
      */
     public default void setSortColumnId(int sortColumnId, SortType order) {
         gtk_h.gtk_tree_sortable_set_sort_column_id(handle(), sortColumnId, order.getValue());
@@ -88,7 +86,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emits a `GtkTreeSortable::sort-column-changed` signal on @sortable.
+     * Emits a <code>GtkTreeSortable::sort-column-changed</code> signal on @sortable.
      */
     public default void sortColumnChanged() {
         gtk_h.gtk_tree_sortable_sort_column_changed(handle());

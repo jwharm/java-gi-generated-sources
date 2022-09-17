@@ -17,6 +17,10 @@ public class HookFlagMask {
     
     /**
      * A mask covering all bits reserved for
+     *   hook flags; see 
+     *       
+     *       
+     *         A mask covering all bits reserved for
      *   hook flags; see %G_HOOK_FLAG_USER_SHIFT
      */
     public static final int MASK = 15;

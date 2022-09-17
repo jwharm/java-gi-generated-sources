@@ -8,43 +8,42 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkLockButton` is a widget to obtain and revoke authorizations
+ * <code>GtkLockButton</code> is a widget to obtain and revoke authorizations
  * needed to operate the controls.
- * 
- * ![An example GtkLockButton](lock-button.png)
- * 
+ * <p>
+ * !{@link [An example GtkLockButton]}(lock-button.png)
+ * <p>
  * It is typically used in preference dialogs or control panels.
- * 
- * The required authorization is represented by a `GPermission` object.
- * Concrete implementations of `GPermission` may use PolicyKit or some
- * other authorization framework. To obtain a PolicyKit-based
- * `GPermission`, use `polkit_permission_new()`.
+ * <p>
+ * The required authorization is represented by a <code>GPermission</code> object.
+ * Concrete implementations of <code>GPermission</code> may use PolicyKit or some
+ * other authorization framework. To obtain a PolicyKit-based<code>GPermission</code>, use <code>polkit_permission_new()</code>.
  * 
  * If the user is not currently allowed to perform the action, but can
  * obtain the permission, the widget looks like this:
  * 
- * ![](lockbutton-locked.png)
+ * !{@link []}(lockbutton-locked.png)
  * 
  * and the user can click the button to request the permission. Depending
  * on the platform, this may pop up an authentication dialog or ask the user
  * to authenticate in some other way. Once the user has obtained the permission,
  * the widget changes to this:
  * 
- * ![](lockbutton-unlocked.png)
+ * !{@link []}(lockbutton-unlocked.png)
  * 
  * and the permission can be dropped again by clicking the button. If the user
  * is not able to obtain the permission at all, the widget looks like this:
  * 
- * ![](lockbutton-sorry.png)
+ * !{@link []}(lockbutton-sorry.png)
  * 
  * If the user has the permission and cannot drop it, the button is hidden.
  * 
  * The text (and tooltips) that are shown in the various cases can be adjusted
- * with the [property@Gtk.LockButton:text-lock],
- * [property@Gtk.LockButton:text-unlock],
- * [property@Gtk.LockButton:tooltip-lock],
- * [property@Gtk.LockButton:tooltip-unlock] and
- * [property@Gtk.LockButton:tooltip-not-authorized] properties.
+ * with the {@link [property@Gtk.LockButton:text-lock] (ref=property)},
+ * {@link [property@Gtk.LockButton:text-unlock] (ref=property)},
+ * {@link [property@Gtk.LockButton:tooltip-lock] (ref=property)},
+ * {@link [property@Gtk.LockButton:tooltip-unlock] (ref=property)} and
+ * {@link [property@Gtk.LockButton:tooltip-not-authorized] (ref=property)} properties.
  */
 public class LockButton extends Button implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -70,7 +69,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Obtains the `GPermission` object that controls @button.
+     * Obtains the <code>GPermission</code> object that controls @button.
      */
     public org.gtk.gio.Permission getPermission() {
         var RESULT = gtk_h.gtk_lock_button_get_permission(handle());
@@ -78,7 +77,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
     }
     
     /**
-     * Sets the `GPermission` object that controls @button.
+     * Sets the <code>GPermission</code> object that controls @button.
      */
     public void setPermission(org.gtk.gio.Permission permission) {
         gtk_h.gtk_lock_button_set_permission(handle(), permission.handle());

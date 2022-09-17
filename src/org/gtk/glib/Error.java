@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GError` structure contains information about
+ * The <code>GError</code> structure contains information about
  * an error that has occurred.
  */
 public class Error extends io.github.jwharm.javagi.ResourceBase {
@@ -25,7 +25,7 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new #GError; unlike g_error_new(), @message is
      * not a printf()-style format string. Use this function if
-     * @message contains text you don't have control over,
+     * @message contains text you don&#39;t have control over,
      * that could include printf() escape sequences.
      */
     public static Error newLiteral(Quark domain, int code, java.lang.String message) {
@@ -61,14 +61,14 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @error matches @domain and @code, %FALSE
-     * otherwise. In particular, when @error is %NULL, %FALSE will
+     * Returns <code>true</code> if @error matches @domain and @code, <code>FALSE
+     * otherwise.</code> In particular, when @error is <code>NULL,</code> <code>false</code> will
      * be returned.
-     * 
-     * If @domain contains a `FAILED` (or otherwise generic) error code,
+     * <p>
+     * If @domain contains a <code>FAILED</code> (or otherwise generic) error code,
      * you should generally not check for it explicitly, but should
      * instead treat any not-explicitly-recognized error code as being
-     * equivalent to the `FAILED` code. This way, if the domain is
+     * equivalent to the <code>FAILED</code> code. This way, if the domain is
      * extended in the future to provide a more specific error code for
      * a certain case, your code will still work.
      */

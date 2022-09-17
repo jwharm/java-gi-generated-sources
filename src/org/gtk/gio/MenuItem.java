@@ -30,11 +30,11 @@ public class MenuItem extends org.gtk.gobject.Object {
     /**
      * Creates a new #GMenuItem.
      * 
-     * If @label is non-%NULL it is used to set the "label" attribute of the
+     * If @label is non-<code>null</code> it is used to set the &#34;label&#34; attribute of the
      * new item.
      * 
-     * If @detailed_action is non-%NULL it is used to set the "action" and
-     * possibly the "target" attribute of the new item.  See
+     * If @detailed_action is non-<code>null</code> it is used to set the &#34;action&#34; and
+     * possibly the &#34;target&#34; attribute of the new item.  See
      * g_menu_item_set_detailed_action() for more information.
      */
     public MenuItem(java.lang.String label, java.lang.String detailedAction) {
@@ -73,56 +73,56 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the menu that @menu_item is added to.
      * 
      * Visual separation is typically displayed between two non-empty
-     * sections.  If @label is non-%NULL then it will be encorporated into
+     * sections.  If @label is non-<code>null</code> then it will be encorporated into
      * this visual indication.  This allows for labeled subsections of a
      * menu.
      * 
-     * As a simple example, consider a typical "Edit" menu from a simple
-     * program.  It probably contains an "Undo" and "Redo" item, followed by
-     * a separator, followed by "Cut", "Copy" and "Paste".
+     * As a simple example, consider a typical &#34;Edit&#34; menu from a simple
+     * program.  It probably contains an &#34;Undo&#34; and &#34;Redo&#34; item, followed by
+     * a separator, followed by &#34;Cut&#34;, &#34;Copy&#34; and &#34;Paste&#34;.
      * 
      * This would be accomplished by creating three #GMenu instances.  The
-     * first would be populated with the "Undo" and "Redo" items, and the
-     * second with the "Cut", "Copy" and "Paste" items.  The first and
+     * first would be populated with the &#34;Undo&#34; and &#34;Redo&#34; items, and the
+     * second with the &#34;Cut&#34;, &#34;Copy&#34; and &#34;Paste&#34; items.  The first and
      * second menus would then be added as submenus of the third.  In XML
      * format, this would look something like the following:
-     * |[
-     * <menu id='edit-menu'>
-     *   <section>
-     *     <item label='Undo'/>
-     *     <item label='Redo'/>
-     *   </section>
-     *   <section>
-     *     <item label='Cut'/>
-     *     <item label='Copy'/>
-     *     <item label='Paste'/>
-     *   </section>
-     * </menu>
-     * ]|
+     * |{@link [
+     * &#60;menu id=&#39;edit-menu&#39;&#62;
+     *   &#60;section&#62;
+     *     &#60;item label=&#39;Undo&#39;/&#62;
+     *     &#60;item label=&#39;Redo&#39;/&#62;
+     *   &#60;/section&#62;
+     *   &#60;section&#62;
+     *     &#60;item label=&#39;Cut&#39;/&#62;
+     *     &#60;item label=&#39;Copy&#39;/&#62;
+     *     &#60;item label=&#39;Paste&#39;/&#62;
+     *   &#60;/section&#62;
+     * &#60;/menu&#62;
+     * ]}|
      * 
      * The following example is exactly equivalent.  It is more illustrative
      * of the exact relationship between the menus and items (keeping in
-     * mind that the 'link' element defines a new menu that is linked to the
+     * mind that the &#39;link&#39; element defines a new menu that is linked to the
      * containing one).  The style of the second example is more verbose and
      * difficult to read (and therefore not recommended except for the
      * purpose of understanding what is really going on).
-     * |[
-     * <menu id='edit-menu'>
-     *   <item>
-     *     <link name='section'>
-     *       <item label='Undo'/>
-     *       <item label='Redo'/>
-     *     </link>
-     *   </item>
-     *   <item>
-     *     <link name='section'>
-     *       <item label='Cut'/>
-     *       <item label='Copy'/>
-     *       <item label='Paste'/>
-     *     </link>
-     *   </item>
-     * </menu>
-     * ]|
+     * |{@link [
+     * &#60;menu id=&#39;edit-menu&#39;&#62;
+     *   &#60;item&#62;
+     *     &#60;link name=&#39;section&#39;&#62;
+     *       &#60;item label=&#39;Undo&#39;/&#62;
+     *       &#60;item label=&#39;Redo&#39;/&#62;
+     *     &#60;/link&#62;
+     *   &#60;/item&#62;
+     *   &#60;item&#62;
+     *     &#60;link name=&#39;section&#39;&#62;
+     *       &#60;item label=&#39;Cut&#39;/&#62;
+     *       &#60;item label=&#39;Copy&#39;/&#62;
+     *       &#60;item label=&#39;Paste&#39;/&#62;
+     *     &#60;/link&#62;
+     *   &#60;/item&#62;
+     * &#60;/menu&#62;
+     * ]}|
      */
     public static MenuItem newSection(java.lang.String label, MenuModel section) {
         return new MenuItem(constructNewSection(label, section));
@@ -147,7 +147,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Queries the named @attribute on @menu_item.
      * 
      * If @expected_type is specified and the attribute does not have this
-     * type, %NULL is returned.  %NULL is also returned if the attribute
+     * type, <code>null</code> is returned.  <code>null</code> is also returned if the attribute
      * simply does not exist.
      */
     public org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
@@ -164,24 +164,24 @@ public class MenuItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets or unsets the "action" and "target" attributes of @menu_item.
+     * Sets or unsets the &#34;action&#34; and &#34;target&#34; attributes of @menu_item.
      * 
-     * If @action is %NULL then both the "action" and "target" attributes
+     * If @action is <code>null</code> then both the &#34;action&#34; and &#34;target&#34; attributes
      * are unset (and @target_value is ignored).
      * 
-     * If @action is non-%NULL then the "action" attribute is set.  The
-     * "target" attribute is then set to the value of @target_value if it is
-     * non-%NULL or unset otherwise.
+     * If @action is non-<code>null</code> then the &#34;action&#34; attribute is set.  The
+     * &#34;target&#34; attribute is then set to the value of @target_value if it is
+     * non-<code>null</code> or unset otherwise.
      * 
      * Normal menu items (ie: not submenu, section or other custom item
-     * types) are expected to have the "action" attribute set to identify
+     * types) are expected to have the &#34;action&#34; attribute set to identify
      * the action that they are associated with.  The state type of the
      * action help to determine the disposition of the menu item.  See
      * #GAction and #GActionGroup for an overview of actions.
      * 
      * In general, clicking on the menu item will result in activation of
-     * the named action with the "target" attribute given as the parameter
-     * to the action invocation.  If the "target" attribute is not set then
+     * the named action with the &#34;target&#34; attribute given as the parameter
+     * to the action invocation.  If the &#34;target&#34; attribute is not set then
      * the action is invoked with no parameter.
      * 
      * If the action has no state then the menu item is usually drawn as a
@@ -189,12 +189,12 @@ public class MenuItem extends org.gtk.gobject.Object {
      * 
      * If the action has a boolean state then the menu item is usually drawn
      * as a toggle menu item (ie: with a checkmark or equivalent
-     * indication).  The item should be marked as 'toggled' or 'checked'
-     * when the boolean state is %TRUE.
+     * indication).  The item should be marked as &#39;toggled&#39; or &#39;checked&#39;
+     * when the boolean state is <code>TRUE.
      * 
-     * If the action has a string state then the menu item is usually drawn
+     * If</code> the action has a string state then the menu item is usually drawn
      * as a radio menu item (ie: with a radio bullet or equivalent
-     * indication).  The item should be marked as 'selected' when the string
+     * indication).  The item should be marked as &#39;selected&#39; when the string
      * state is equal to the value of the @target property.
      * 
      * See g_menu_item_set_action_and_target() or
@@ -209,18 +209,18 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Sets or unsets an attribute on @menu_item.
      * 
      * The attribute to set or unset is specified by @attribute. This
-     * can be one of the standard attribute names %G_MENU_ATTRIBUTE_LABEL,
-     * %G_MENU_ATTRIBUTE_ACTION, %G_MENU_ATTRIBUTE_TARGET, or a custom
+     * can be one of the standard attribute names <code>G_MENU_ATTRIBUTE_LABEL,
+     * %G_MENU_ATTRIBUTE_ACTION,</code> <code>G_MENU_ATTRIBUTE_TARGET,</code> or a custom
      * attribute name.
      * Attribute names are restricted to lowercase characters, numbers
-     * and '-'. Furthermore, the names must begin with a lowercase character,
-     * must not end with a '-', and must not contain consecutive dashes.
+     * and &#39;-&#39;. Furthermore, the names must begin with a lowercase character,
+     * must not end with a &#39;-&#39;, and must not contain consecutive dashes.
      * 
      * must consist only of lowercase
-     * ASCII characters, digits and '-'.
+     * ASCII characters, digits and &#39;-&#39;.
      * 
-     * If @value is non-%NULL then it is used as the new value for the
-     * attribute.  If @value is %NULL then the attribute is unset. If
+     * If @value is non-<code>null</code> then it is used as the new value for the
+     * attribute.  If @value is <code>null</code> then the attribute is unset. If
      * the @value #GVariant is floating, it is consumed.
      * 
      * See also g_menu_item_set_attribute() for a more convenient way to do
@@ -231,7 +231,7 @@ public class MenuItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the "action" and possibly the "target" attribute of @menu_item.
+     * Sets the &#34;action&#34; and possibly the &#34;target&#34; attribute of @menu_item.
      * 
      * The format of @detailed_action is the same format parsed by
      * g_action_parse_detailed_name().
@@ -252,47 +252,47 @@ public class MenuItem extends org.gtk.gobject.Object {
      * 
      * This call is the same as calling g_icon_serialize() and using the
      * result as the value to g_menu_item_set_attribute_value() for
-     * %G_MENU_ATTRIBUTE_ICON.
+     * <code>G_MENU_ATTRIBUTE_ICON.
      * 
-     * This API is only intended for use with "noun" menu items; things like
-     * bookmarks or applications in an "Open With" menu.  Don't use it on
-     * menu items corresponding to verbs (eg: stock icons for 'Save' or
-     * 'Quit').
+     * This</code> API is only intended for use with &#34;noun&#34; menu items; things like
+     * bookmarks or applications in an &#34;Open With&#34; menu.  Don&#39;t use it on
+     * menu items corresponding to verbs (eg: stock icons for &#39;Save&#39; or
+     * &#39;Quit&#39;).
      * 
-     * If @icon is %NULL then the icon is unset.
+     * If @icon is <code>null</code> then the icon is unset.
      */
     public void setIcon(Icon icon) {
         gtk_h.g_menu_item_set_icon(handle(), icon.handle());
     }
     
     /**
-     * Sets or unsets the "label" attribute of @menu_item.
+     * Sets or unsets the &#34;label&#34; attribute of @menu_item.
      * 
-     * If @label is non-%NULL it is used as the label for the menu item.  If
-     * it is %NULL then the label attribute is unset.
+     * If @label is non-<code>null</code> it is used as the label for the menu item.  If
+     * it is <code>null</code> then the label attribute is unset.
      */
     public void setLabel(java.lang.String label) {
         gtk_h.g_menu_item_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
-     * Creates a link from @menu_item to @model if non-%NULL, or unsets it.
+     * Creates a link from @menu_item to @model if non-<code>NULL,</code> or unsets it.
      * 
      * Links are used to establish a relationship between a particular menu
-     * item and another menu.  For example, %G_MENU_LINK_SUBMENU is used to
-     * associate a submenu with a particular menu item, and %G_MENU_LINK_SECTION
-     * is used to create a section. Other types of link can be used, but there
+     * item and another menu.  For example, <code>G_MENU_LINK_SUBMENU</code> is used to
+     * associate a submenu with a particular menu item, and <code>G_MENU_LINK_SECTION
+     * is</code> used to create a section. Other types of link can be used, but there
      * is no guarantee that clients will be able to make sense of them.
      * Link types are restricted to lowercase characters, numbers
-     * and '-'. Furthermore, the names must begin with a lowercase character,
-     * must not end with a '-', and must not contain consecutive dashes.
+     * and &#39;-&#39;. Furthermore, the names must begin with a lowercase character,
+     * must not end with a &#39;-&#39;, and must not contain consecutive dashes.
      */
     public void setLink(java.lang.String link, MenuModel model) {
         gtk_h.g_menu_item_set_link(handle(), Interop.allocateNativeString(link).handle(), model.handle());
     }
     
     /**
-     * Sets or unsets the "section" link of @menu_item to @section.
+     * Sets or unsets the &#34;section&#34; link of @menu_item to @section.
      * 
      * The effect of having one menu appear as a section of another is
      * exactly as it sounds: the items from @section become a direct part of
@@ -305,9 +305,9 @@ public class MenuItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets or unsets the "submenu" link of @menu_item to @submenu.
+     * Sets or unsets the &#34;submenu&#34; link of @menu_item to @submenu.
      * 
-     * If @submenu is non-%NULL, it is linked to.  If it is %NULL then the
+     * If @submenu is non-<code>NULL,</code> it is linked to.  If it is <code>null</code> then the
      * link is unset.
      * 
      * The effect of having one menu appear as a submenu of another is

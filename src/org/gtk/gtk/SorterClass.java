@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual table for `GtkSorter`.
+ * The virtual table for <code>GtkSorter</code>.
  */
 public class SorterClass extends io.github.jwharm.javagi.ResourceBase {
 

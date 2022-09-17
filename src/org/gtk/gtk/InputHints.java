@@ -5,10 +5,10 @@ package org.gtk.gtk;
  * or applications.
  * 
  * Note that input methods may already tailor their behaviour according
- * to the [enum@InputPurpose] of the entry.
+ * to the {@link [enum@InputPurpose] (ref=enum)} of the entry.
  * 
  * Some common sense is expected when using these flags - mixing
- * %GTK_INPUT_HINT_LOWERCASE with any of the uppercase hints makes no sense.
+ * {@link org.gtk.gtk.InputHints#LOWERCASE} with any of the uppercase hints makes no sense.
  * 
  * This enumeration may be extended in the future; input methods should
  * ignore unknown values.

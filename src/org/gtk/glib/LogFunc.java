@@ -10,7 +10,7 @@ package org.gtk.glib;
  * log handler is changed.
  * 
  * This is not used if structured logging is enabled; see
- * [Using Structured Logging][using-structured-logging].
+ * {@link [Using Structured Logging]}{@link [using-structured-logging]}.
  */
 @FunctionalInterface
 public interface LogFunc {

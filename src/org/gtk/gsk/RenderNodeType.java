@@ -16,7 +16,7 @@ public enum RenderNodeType {
     CONTAINER_NODE,
     
     /**
-     * A node drawing a `cairo_surface_t`
+     * A node drawing a <code>cairo_surface_t</code>
      */
     CAIRO_NODE,
     
@@ -56,7 +56,7 @@ public enum RenderNodeType {
     BORDER_NODE,
     
     /**
-     * A node drawing a `GdkTexture`
+     * A node drawing a <code>GdkTexture</code>
      */
     TEXTURE_NODE,
     
@@ -86,7 +86,7 @@ public enum RenderNodeType {
     COLOR_MATRIX_NODE,
     
     /**
-     * A node that repeats the child's contents
+     * A node that repeats the child&#39;s contents
      */
     REPEAT_NODE,
     

@@ -1,12 +1,12 @@
 package org.gtk.gtk;
 
 /**
- * Describes the behavior of a `GtkEventControllerScroll`.
+ * Describes the behavior of a <code>GtkEventControllerScroll</code>.
  */
 public class EventControllerScrollFlags {
 
     /**
-     * Don't emit scroll.
+     * Don&#39;t emit scroll.
      */
     public static final int NONE = 0;
     

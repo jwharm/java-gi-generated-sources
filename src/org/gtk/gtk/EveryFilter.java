@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkEveryFilter` matches an item when each of its filters matches.
- * 
- * To add filters to a `GtkEveryFilter`, use [method@Gtk.MultiFilter.append].
+ * <code>GtkEveryFilter</code> matches an item when each of its filters matches.
+ * <p>
+ * To add filters to a <code>GtkEveryFilter</code>, use {@link org.gtk.gtk.MultiFilter#append}.
  */
 public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
@@ -29,9 +29,9 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
     }
     
     /**
-     * Creates a new empty "every" filter.
+     * Creates a new empty &#34;every&#34; filter.
      * 
-     * Use [method@Gtk.MultiFilter.append] to add filters to it.
+     * Use {@link org.gtk.gtk.MultiFilter#append} to add filters to it.
      * 
      * This filter matches an item if each of the filters added to it
      * matches the item. In particular, this means that if no filter

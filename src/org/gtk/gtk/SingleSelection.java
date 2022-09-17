@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSingleSelection` is a `GtkSelectionModel` that allows selecting a single
+ * <code>GtkSingleSelection</code> is a <code>GtkSelectionModel</code> that allows selecting a single
  * item.
  * 
  * Note that the selection is *persistent* -- if the selected item is removed
- * and re-added in the same [signal@Gio.ListModel::items-changed] emission, it
+ * and re-added in the same {@link [signal@Gio.ListModel::items-changed] (ref=signal)} emission, it
  * stays selected. In particular, this means that changing the sort order of an
  * underlying sort model will preserve the selection.
  */
@@ -49,7 +49,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If %TRUE, gtk_selection_model_unselect_item() is supported and allows
+     * If <code>TRUE,</code> gtk_selection_model_unselect_item() is supported and allows
      * unselecting the selected item.
      */
     public boolean getCanUnselect() {
@@ -68,7 +68,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the position of the selected item.
      * 
-     * If no item is selected, %GTK_INVALID_LIST_POSITION is returned.
+     * If no item is selected, <code>GTK_INVALID_LIST_POSITION</code> is returned.
      */
     public int getSelected() {
         var RESULT = gtk_h.gtk_single_selection_get_selected(handle());
@@ -78,7 +78,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the selected item.
      * 
-     * If no item is selected, %NULL is returned.
+     * If no item is selected, <code>null</code> is returned.
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.gtk_single_selection_get_selected_item(handle());
@@ -88,7 +88,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Enables or disables autoselect.
      * 
-     * If @autoselect is %TRUE, @self will enforce that an item is always
+     * If @autoselect is <code>TRUE,</code> @self will enforce that an item is always
      * selected. It will select a new item when the currently selected
      * item is deleted and it will disallow unselecting the current item.
      */
@@ -97,10 +97,10 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If %TRUE, unselecting the current item via
+     * If <code>TRUE,</code> unselecting the current item via
      * gtk_selection_model_unselect_item() is supported.
      * 
-     * Note that setting [property@Gtk.SingleSelection:autoselect] will
+     * Note that setting {@link [property@Gtk.SingleSelection:autoselect] (ref=property)} will
      * cause unselecting to not work, so it practically makes no sense
      * to set both at the same time the same time.
      */
@@ -111,7 +111,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Sets the model that @self should wrap.
      * 
-     * If @model is %NULL, @self will be empty.
+     * If @model is <code>NULL,</code> @self will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_single_selection_set_model(handle(), model.handle());
@@ -121,8 +121,8 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * Selects the item at the given position.
      * 
      * If the list does not have an item at @position or
-     * %GTK_INVALID_LIST_POSITION is given, the behavior depends on the
-     * value of the [property@Gtk.SingleSelection:autoselect] property:
+     * <code>GTK_INVALID_LIST_POSITION</code> is given, the behavior depends on the
+     * value of the {@link [property@Gtk.SingleSelection:autoselect] (ref=property)} property:
      * If it is set, no change will occur and the old item will stay
      * selected. If it is unset, the selection will be unset and no item
      * will be selected.

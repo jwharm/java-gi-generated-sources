@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `PangoLayoutRun` represents a single run within a `PangoLayoutLine`.
+ * A <code>PangoLayoutRun</code> represents a single run within a <code>PangoLayoutLine</code>.
  * 
- * It is simply an alternate name for [struct@Pango.GlyphItem].
- * See the [struct@Pango.GlyphItem] docs for details on the fields.
+ * It is simply an alternate name for {@link [struct@Pango.GlyphItem] (ref=struct)}.
+ * See the {@link [struct@Pango.GlyphItem] (ref=struct)} docs for details on the fields.
  */
 public class LayoutRun extends GlyphItem {
 

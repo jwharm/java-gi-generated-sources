@@ -6,7 +6,7 @@ package org.gtk.gobject;
  * Emission hooks allow you to tie a hook to the signal type, so that it will
  * trap all emissions of that signal, from any object.
  * 
- * You may not attach these to signals created with the %G_SIGNAL_NO_HOOKS flag.
+ * You may not attach these to signals created with the {@link org.gtk.gobject.SignalFlags#NO_HOOKS} flag.
  */
 @FunctionalInterface
 public interface SignalEmissionHook {

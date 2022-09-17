@@ -8,27 +8,26 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The collection of tags in a `GtkTextBuffer`
- * 
+ * The collection of tags in a <code>GtkTextBuffer</code>
+ * <p>
  * You may wish to begin by reading the
- * [text widget conceptual overview](section-text-widget.html),
+ * {@link [text widget conceptual overview]}(section-text-widget.html),
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
- * 
- * # GtkTextTagTables as GtkBuildable
- * 
- * The `GtkTextTagTable` implementation of the `GtkBuildable` interface
- * supports adding tags by specifying “tag” as the “type” attribute
- * of a <child> element.
- * 
- * An example of a UI definition fragment specifying tags:
- * ```xml
- * <object class="GtkTextTagTable">
- *  <child type="tag">
- *    <object class="GtkTextTag"/>
- *  </child>
- * </object>
- * ```
+ * <p>
+ * <h1>tkTextTagTables as GtkBuildable</h1>
+ * <p>
+ * The <code>GtkTextTagTable</code> implementation of the <code>GtkBuildable</code> interface
+ * supports adding tags by specifying &#8220;tag&#8221; as the &#8220;type&#8221; attribute
+ * of a &#60;child&#62; element.
+ * <p>
+ * An example of a UI definition fragment specifying tags:<pre>xml
+ * &#60;object class=&#34;GtkTextTagTable&#34;&#62;
+ *  &#60;child type=&#34;tag&#34;&#62;
+ *    &#60;object class=&#34;GtkTextTag&#34;/&#62;
+ *  &#60;/child&#62;
+ * &#60;/object&#62;
+ * </pre>
  */
 public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
 
@@ -47,7 +46,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Creates a new `GtkTextTagTable`.
+     * Creates a new <code>GtkTextTagTable</code>.
      * 
      * The table contains no tags by default.
      */
@@ -72,7 +71,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Calls @func on each tag in @table, with user data @data.
      * 
      * Note that the table may not be modified while iterating
-     * over it (you can’t add/remove tags).
+     * over it (you can&#8217;t add/remove tags).
      */
     public void foreach(TextTagTableForeach func) {
         try {
@@ -106,10 +105,10 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     
     /**
      * Remove a tag from the table.
-     * 
-     * If a `GtkTextBuffer` has @table as its tag table, the tag is
-     * removed from the buffer. The table’s reference to the tag is
-     * removed, so the tag will end up destroyed if you don’t have
+     * <p>
+     * If a <code>GtkTextBuffer</code> has @table as its tag table, the tag is
+     * removed from the buffer. The table&#8217;s reference to the tag is
+     * removed, so the tag will end up destroyed if you don&#8217;t have
      * a reference to it.
      */
     public void remove(TextTag tag) {
@@ -122,7 +121,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a new tag is added in the `GtkTextTagTable`.
+     * Emitted every time a new tag is added in the <code>GtkTextTagTable</code>.
      */
     public SignalHandle onTagAdded(TagAddedHandler handler) {
         try {
@@ -145,7 +144,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a tag in the `GtkTextTagTable` changes.
+     * Emitted every time a tag in the <code>GtkTextTagTable</code> changes.
      */
     public SignalHandle onTagChanged(TagChangedHandler handler) {
         try {
@@ -168,7 +167,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a tag is removed from the `GtkTextTagTable`.
+     * Emitted every time a tag is removed from the <code>GtkTextTagTable</code>.
      * 
      * The @tag is still valid by the time the signal is emitted, but
      * it is not associated with a tag table any more.

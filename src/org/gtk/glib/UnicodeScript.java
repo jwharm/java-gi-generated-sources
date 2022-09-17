@@ -8,7 +8,7 @@ package org.gtk.glib;
  * 
  * Note that new types may be added in the future. Applications
  * should be ready to handle unknown values.
- * See [Unicode Standard Annex #24: Script names](http://www.unicode.org/reports/tr24/).
+ * See {@link [Unicode Standard Annex #24: Script names]}(http://www.unicode.org/reports/tr24/).
  */
 public enum UnicodeScript {
 
@@ -349,7 +349,7 @@ public enum UnicodeScript {
     PHAGS_PA,
     
     /**
-     * N'Ko
+     * N&#39;Ko
      */
     NKO,
     

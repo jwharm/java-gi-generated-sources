@@ -29,10 +29,10 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * Parses @xml_data and returns a #GDBusNodeInfo representing the data.
      * 
      * The introspection XML must contain exactly one top-level
-     * <node> element.
+     * &#60;node&#62; element.
      * 
      * Note that this routine is using a
-     * [GMarkup][glib-Simple-XML-Subset-Parser.description]-based
+     * {@link [GMarkup]}{@link [glib-Simple-XML-Subset-Parser.description]}-based
      * parser that only accepts a subset of valid XML documents.
      */
     public static DBusNodeInfo newForXml(java.lang.String xmlData) throws GErrorException {
@@ -41,9 +41,9 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Appends an XML representation of @info (and its children) to @string_builder.
-     * 
+     * <p>
      * This function is typically used for generating introspection XML documents at run-time for
-     * handling the `org.freedesktop.DBus.Introspectable.Introspect`  method.
+     * handling the <code>org.freedesktop.DBus.Introspectable.Introspect</code>  method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
         gtk_h.g_dbus_node_info_generate_xml(handle(), indent, stringBuilder.handle());

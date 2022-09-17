@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GNode struct represents one node in a [n-ary tree][glib-N-ary-Trees].
+ * The #GNode struct represents one node in a {@link [n-ary tree]}{@link [glib-N-ary-Trees]}.
  */
 public class Node extends io.github.jwharm.javagi.ResourceBase {
 
@@ -37,7 +37,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls a function for each of the children of a #GNode. Note that it
-     * doesn't descend beneath the child nodes. @func must not do anything
+     * doesn&#39;t descend beneath the child nodes. @func must not do anything
      * that would modify the structure of the tree.
      */
     public void childrenForeach(int flags, NodeForeachFunc func) {
@@ -84,7 +84,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the depth of a #GNode.
      * 
-     * If @node is %NULL the depth is 0. The root node has a depth of 1.
+     * If @node is <code>null</code> the depth is 0. The root node has a depth of 1.
      * For the children of the root node the depth is 2. And so on.
      */
     public int depth() {
@@ -158,7 +158,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @node is an ancestor of @descendant.
+     * Returns <code>true</code> if @node is an ancestor of @descendant.
      * This is true if node is the parent of @descendant,
      * or if node is the grandparent of @descendant etc.
      */
@@ -188,7 +188,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the maximum height of all branches beneath a #GNode.
      * This is the maximum distance from the #GNode to all leaf nodes.
      * 
-     * If @root is %NULL, 0 is returned. If @root has no children,
+     * If @root is <code>NULL,</code> 0 is returned. If @root has no children,
      * 1 is returned. If @root has children, 2 is returned. And so on.
      */
     public int maxHeight() {
@@ -215,7 +215,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets a child of a #GNode, using the given index.
      * The first child is at index 0. If the index is
-     * too big, %NULL is returned.
+     * too big, <code>null</code> is returned.
      */
     public Node nthChild(int n) {
         var RESULT = gtk_h.g_node_nth_child(handle(), n);
@@ -232,7 +232,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Reverses the order of the children of a #GNode.
-     * (It doesn't change the order of the grandchildren.)
+     * (It doesn&#39;t change the order of the grandchildren.)
      */
     public void reverseChildren() {
         gtk_h.g_node_reverse_children(handle());
@@ -241,7 +241,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Traverses a tree starting at the given root #GNode.
      * It calls the given function for each node visited.
-     * The traversal can be halted at any point by returning %TRUE from @func.
+     * The traversal can be halted at any point by returning <code>true</code> from @func.
      * @func must not do anything that would modify the structure of the tree.
      */
     public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {

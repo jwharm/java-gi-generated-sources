@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkFilterListModel` is a list model that filters the elements of
- * the underlying model according to a `GtkFilter`.
- * 
+ * <code>GtkFilterListModel</code> is a list model that filters the elements of
+ * the underlying model according to a <code>GtkFilter</code>.
+ * <p>
  * It hides some elements from the other model according to
- * criteria given by a `GtkFilter`.
+ * criteria given by a <code>GtkFilter</code>.
  * 
  * The model can be set up to do incremental searching, so that
- * filtering long lists doesn't block the UI. See
- * [method@Gtk.FilterListModel.set_incremental] for details.
+ * filtering long lists doesn&#39;t block the UI. See
+ * {@link org.gtk.gtk.FilterListModel#setIncremental} for details.
  */
 public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
@@ -35,7 +35,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Creates a new `GtkFilterListModel` that will filter @model using the given
+     * Creates a new <code>GtkFilterListModel</code> that will filter @model using the given
      * @filter.
      */
     public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
@@ -43,7 +43,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Gets the `GtkFilter` currently set on @self.
+     * Gets the <code>GtkFilter</code> currently set on @self.
      */
     public Filter getFilter() {
         var RESULT = gtk_h.gtk_filter_list_model_get_filter(handle());
@@ -53,7 +53,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Returns whether incremental filtering is enabled.
      * 
-     * See [method@Gtk.FilterListModel.set_incremental].
+     * See {@link org.gtk.gtk.FilterListModel#setIncremental}.
      */
     public boolean getIncremental() {
         var RESULT = gtk_h.gtk_filter_list_model_get_incremental(handle());
@@ -61,7 +61,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Gets the model currently filtered or %NULL if none.
+     * Gets the model currently filtered or <code>null</code> if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_filter_list_model_get_model(handle());
@@ -70,20 +70,19 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     
     /**
      * Returns the number of items that have not been filtered yet.
-     * 
+     * <p>
      * You can use this value to check if @self is busy filtering by
      * comparing the return value to 0 or you can compute the percentage
      * of the filter remaining by dividing the return value by the total
      * number of items in the underlying model:
-     * 
-     * ```c
+     * <p><pre>c
      * pending = gtk_filter_list_model_get_pending (self);
      * model = gtk_filter_list_model_get_model (self);
      * percentage = pending / (double) g_list_model_get_n_items (model);
-     * ```
+     * </pre>
      * 
      * If no filter operation is ongoing - in particular when
-     * [property@Gtk.FilterListModel:incremental] is %FALSE - this
+     * {@link [property@Gtk.FilterListModel:incremental] (ref=property)} is <code>false</code> - this
      * function returns 0.
      */
     public int getPending() {
@@ -100,8 +99,8 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     
     /**
      * Sets the filter model to do an incremental sort.
-     * 
-     * When incremental filtering is enabled, the `GtkFilterListModel` will not
+     * <p>
+     * When incremental filtering is enabled, the <code>GtkFilterListModel</code> will not
      * run filters immediately, but will instead queue an idle handler that
      * incrementally filters the items and adds them to the list. This of course
      * means that items are not instantly added to the list, but only appear
@@ -113,7 +112,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * 
      * By default, incremental filtering is disabled.
      * 
-     * See [method@Gtk.FilterListModel.get_pending] for progress information
+     * See {@link org.gtk.gtk.FilterListModel#getPending} for progress information
      * about an ongoing incremental filtering operation.
      */
     public void setIncremental(boolean incremental) {

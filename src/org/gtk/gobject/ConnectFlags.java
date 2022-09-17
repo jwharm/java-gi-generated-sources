@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The connection flags are used to specify the behaviour of a signal's
+ * The connection flags are used to specify the behaviour of a signal&#39;s
  * connection.
  */
 public class ConnectFlags {

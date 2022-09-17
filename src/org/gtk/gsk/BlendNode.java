@@ -27,7 +27,7 @@ public class BlendNode extends RenderNode {
     }
     
     /**
-     * Creates a `GskRenderNode` that will use @blend_mode to blend the @top
+     * Creates a <code>GskRenderNode</code> that will use @blend_mode to blend the @top
      * node onto the @bottom node.
      */
     public BlendNode(RenderNode bottom, RenderNode top, BlendMode blendMode) {
@@ -43,7 +43,7 @@ public class BlendNode extends RenderNode {
     }
     
     /**
-     * Retrieves the bottom `GskRenderNode` child of the @node.
+     * Retrieves the bottom <code>GskRenderNode</code> child of the @node.
      */
     public RenderNode getBottomChild() {
         var RESULT = gtk_h.gsk_blend_node_get_bottom_child(handle());
@@ -51,7 +51,7 @@ public class BlendNode extends RenderNode {
     }
     
     /**
-     * Retrieves the top `GskRenderNode` child of the @node.
+     * Retrieves the top <code>GskRenderNode</code> child of the @node.
      */
     public RenderNode getTopChild() {
         var RESULT = gtk_h.gsk_blend_node_get_top_child(handle());

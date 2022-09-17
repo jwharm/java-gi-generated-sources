@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGesturePan` is a `GtkGesture` for pan gestures.
- * 
+ * <code>GtkGesturePan</code> is a <code>GtkGesture</code> for pan gestures.
+ * <p>
  * These are drags that are locked to happen along one axis. The axis
- * that a `GtkGesturePan` handles is defined at construct time, and
- * can be changed through [method@Gtk.GesturePan.set_orientation].
- * 
- * When the gesture starts to be recognized, `GtkGesturePan` will
+ * that a <code>GtkGesturePan</code> handles is defined at construct time, and
+ * can be changed through {@link org.gtk.gtk.GesturePan#setOrientation}.
+ * <p>
+ * When the gesture starts to be recognized, <code>GtkGesturePan</code> will
  * attempt to determine as early as possible whether the sequence
  * is moving in the expected direction, and denying the sequence if
  * this does not happen.
  * 
  * Once a panning gesture along the expected axis is recognized,
- * the [signal@Gtk.GesturePan::pan] signal will be emitted as input
+ * the {@link [signal@Gtk.GesturePan::pan] (ref=signal)} signal will be emitted as input
  * events are received, containing the offset in the given axis.
  */
 public class GesturePan extends GestureDrag {
@@ -40,7 +40,7 @@ public class GesturePan extends GestureDrag {
     }
     
     /**
-     * Returns a newly created `GtkGesture` that recognizes pan gestures.
+     * Returns a newly created <code>GtkGesture</code> that recognizes pan gestures.
      */
     public GesturePan(Orientation orientation) {
         super(constructNew(orientation));

@@ -8,20 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkFontChooserDialog` widget is a dialog for selecting a font.
- * 
- * ![An example GtkFontChooserDialog](fontchooser.png)
- * 
- * `GtkFontChooserDialog` implements the [iface@Gtk.FontChooser] interface
+ * The <code>GtkFontChooserDialog</code> widget is a dialog for selecting a font.
+ * <p>
+ * !{@link [An example GtkFontChooserDialog]}(fontchooser.png)
+ * <p><code>GtkFontChooserDialog</code> implements the {@link [iface@Gtk.FontChooser] (ref=iface)} interface
  * and does not provide much API of its own.
- * 
- * To create a `GtkFontChooserDialog`, use [ctor@Gtk.FontChooserDialog.new].
- * 
- * # GtkFontChooserDialog as GtkBuildable
- * 
- * The `GtkFontChooserDialog` implementation of the `GtkBuildable`
- * interface exposes the buttons with the names “select_button”
- * and “cancel_button”.
+ * <p>
+ * To create a <code>GtkFontChooserDialog</code>, use {@link [ctor@Gtk.FontChooserDialog.new] (ref=ctor)}.
+ * <p>
+ * <h1>tkFontChooserDialog as GtkBuildable</h1>
+ * <p>
+ * The <code>GtkFontChooserDialog</code> implementation of the <code>GtkBuildable</code>
+ * interface exposes the buttons with the names &#8220;select_button&#8221;
+ * and &#8220;cancel_button&#8221;.
  */
 public class FontChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FontChooser, Native, Root, ShortcutManager {
 
@@ -40,7 +39,7 @@ public class FontChooserDialog extends Dialog implements Accessible, Buildable, 
     }
     
     /**
-     * Creates a new `GtkFontChooserDialog`.
+     * Creates a new <code>GtkFontChooserDialog</code>.
      */
     public FontChooserDialog(java.lang.String title, Window parent) {
         super(constructNew(title, parent));

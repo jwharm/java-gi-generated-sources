@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkToplevelLayout` struct contains information that
+ * The <code>GdkToplevelLayout</code> struct contains information that
  * is necessary to present a sovereign window on screen.
- * 
- * The `GdkToplevelLayout` struct is necessary for using
- * [method@Gdk.Toplevel.present].
+ * <p>
+ * The <code>GdkToplevelLayout</code> struct is necessary for using
+ * {@link org.gtk.gdk.Toplevel#present}.
  * 
  * Toplevel surfaces are sovereign windows that can be presented
  * to the user in various states (maximized, on all workspaces,
@@ -35,15 +35,15 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
      * Used together with gdk_toplevel_present() to describe
      * how a toplevel surface should be placed and behave on-screen.
      * 
-     * The size is in ”application pixels”, not
-     * ”device pixels” (see gdk_surface_get_scale_factor()).
+     * The size is in &#8221;application pixels&#8221;, not
+     * &#8221;device pixels&#8221; (see gdk_surface_get_scale_factor()).
      */
     public ToplevelLayout() {
         super(constructNew());
     }
     
     /**
-     * Create a new `GdkToplevelLayout` and copy the contents of @layout into it.
+     * Create a new <code>GdkToplevelLayout</code> and copy the contents of @layout into it.
      */
     public ToplevelLayout copy() {
         var RESULT = gtk_h.gdk_toplevel_layout_copy(handle());

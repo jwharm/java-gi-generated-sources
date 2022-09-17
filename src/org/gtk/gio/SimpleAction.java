@@ -73,10 +73,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     /**
      * Sets the state of the action.
      * 
-     * This directly updates the 'state' property to the given value.
+     * This directly updates the &#39;state&#39; property to the given value.
      * 
      * This should only be called by the implementor of the action.  Users
-     * of the action should not attempt to directly modify the 'state'
+     * of the action should not attempt to directly modify the &#39;state&#39;
      * property.  Instead, they should call g_action_change_state() to
      * request the change.
      * 
@@ -109,7 +109,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * activating the action, this signal is not emitted.
      * 
      * Since GLib 2.40, if no handler is connected to this signal then the
-     * default behaviour for boolean-stated actions with a %NULL parameter
+     * default behaviour for boolean-stated actions with a <code>null</code> parameter
      * type is to toggle them via the #GSimpleAction::change-state signal.
      * For stateful actions where the state type is equal to the parameter
      * type, the default is to forward them directly to
@@ -151,8 +151,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * default action is taken. If the state should change then you must
      * call g_simple_action_set_state() from the handler.
      * 
-     * An example of a 'change-state' handler:
-     * |[<!-- language="C" -->
+     * An example of a &#39;change-state&#39; handler:
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * static void
      * change_volume_state (GSimpleAction *action,
      *                      GVariant      *value,
@@ -163,10 +163,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      *   requested = g_variant_get_int32 (value);
      * 
      *   // Volume only goes from 0 to 10
-     *   if (0 <= requested && requested <= 10)
+     *   if (0 &#60;= requested &#38;&#38; requested &#60;= 10)
      *     g_simple_action_set_state (action, value);
      * }
-     * ]|
+     * ]}|
      * 
      * The handler need not set the state to the requested value.
      * It could set it to any value at all, or take some other action.

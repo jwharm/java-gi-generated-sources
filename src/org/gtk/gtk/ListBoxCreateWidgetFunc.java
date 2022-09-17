@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Called for list boxes that are bound to a `GListModel` with
+ * Called for list boxes that are bound to a <code>GListModel</code> with
  * gtk_list_box_bind_model() for each item that gets added to the model.
  * 
  * If the widget returned is not a #GtkListBoxRow widget, then the widget

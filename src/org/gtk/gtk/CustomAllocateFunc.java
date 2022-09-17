@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * A function to be used by `GtkCustomLayout` to allocate a widget.
+ * A function to be used by <code>GtkCustomLayout</code> to allocate a widget.
  */
 @FunctionalInterface
 public interface CustomAllocateFunc {

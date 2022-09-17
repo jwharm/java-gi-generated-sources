@@ -8,20 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkGridLayout` is a layout manager which arranges child widgets in
+ * <code>GtkGridLayout</code> is a layout manager which arranges child widgets in
  * rows and columns.
- * 
- * Children have an "attach point" defined by the horizontal and vertical
+ * <p>
+ * Children have an &#34;attach point&#34; defined by the horizontal and vertical
  * index of the cell they occupy; children can span multiple rows or columns.
  * The layout properties for setting the attach points and spans are set
- * using the [class@Gtk.GridLayoutChild] associated to each child widget.
- * 
- * The behaviour of `GtkGridLayout` when several children occupy the same
+ * using the {@link org.gtk.gtk.GridLayoutChild} associated to each child widget.
+ * <p>
+ * The behaviour of <code>GtkGridLayout</code> when several children occupy the same
  * grid cell is undefined.
- * 
- * `GtkGridLayout` can be used like a `GtkBoxLayout` if all children are
+ * <p><code>GtkGridLayout</code> can be used like a <code>GtkBoxLayout</code> if all children are
  * attached to the same row or column; however, if you only ever need a
- * single row or column, you should consider using `GtkBoxLayout`.
+ * single row or column, you should consider using <code>GtkBoxLayout</code>.
  */
 public class GridLayout extends LayoutManager {
 
@@ -40,7 +39,7 @@ public class GridLayout extends LayoutManager {
     }
     
     /**
-     * Creates a new `GtkGridLayout`.
+     * Creates a new <code>GtkGridLayout</code>.
      */
     public GridLayout() {
         super(constructNew());
@@ -74,9 +73,9 @@ public class GridLayout extends LayoutManager {
      * Returns the baseline position of @row.
      * 
      * If no value has been set with
-     * [method@Gtk.GridLayout.set_row_baseline_position],
-     * the default value of %GTK_BASELINE_POSITION_CENTER
-     * is returned.
+     * {@link org.gtk.gtk.GridLayout#setRowBaselinePosition},
+     * the default value of <code>GTK_BASELINE_POSITION_CENTER
+     * is</code> returned.
      */
     public BaselinePosition getRowBaselinePosition(int row) {
         var RESULT = gtk_h.gtk_grid_layout_get_row_baseline_position(handle(), row);

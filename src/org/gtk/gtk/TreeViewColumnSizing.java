@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * The sizing method the column uses to determine its width.  Please note
- * that %GTK_TREE_VIEW_COLUMN_AUTOSIZE are inefficient for large views, and
+ * that {@link org.gtk.gtk.TreeViewColumnSizing#AUTOSIZE} are inefficient for large views, and
  * can make columns appear choppy.
  */
 public enum TreeViewColumnSizing {

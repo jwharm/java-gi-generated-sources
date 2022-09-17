@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `PangoAttrFontFeatures` structure is used to represent OpenType
+ * The <code>PangoAttrFontFeatures</code> structure is used to represent OpenType
  * font features as an attribute.
  */
 public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {

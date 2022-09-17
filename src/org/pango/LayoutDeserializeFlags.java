@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * Flags that influence the behavior of [func@Pango.Layout.deserialize].
+ * Flags that influence the behavior of {@link Pango#Layout}.
  * 
  * New members may be added to this enumeration over time.
  */
@@ -14,7 +14,7 @@ public class LayoutDeserializeFlags {
     
     /**
      * Apply context information
-     *   from the serialization to the `PangoContext`
+     *   from the serialization to the <code>PangoContext</code>
      */
     public static final int CONTEXT = 1;
     

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkShortcutAction` that invokes a callback.
+ * A <code>GtkShortcutAction</code> that invokes a callback.
  */
 public class CallbackAction extends ShortcutAction {
 

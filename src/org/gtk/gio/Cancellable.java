@@ -52,12 +52,12 @@ public class Cancellable extends org.gtk.gobject.Object {
      * it from a thread other than the one running the operation that was
      * passed the @cancellable.
      * 
-     * If @cancellable is %NULL, this function returns immediately for convenience.
+     * If @cancellable is <code>NULL,</code> this function returns immediately for convenience.
      * 
      * The convention within GIO is that cancelling an asynchronous
      * operation causes it to complete asynchronously. That is, if you
      * cancel the operation from the same thread in which it is running,
-     * then the operation's #GAsyncReadyCallback will not be invoked until
+     * then the operation&#39;s #GAsyncReadyCallback will not be invoked until
      * the application returns to the main loop.
      */
     public void cancel() {
@@ -105,15 +105,15 @@ public class Cancellable extends org.gtk.gobject.Object {
      * g_signal_handler_disconnect().  Additionally, in the event that a
      * signal handler is currently running, this call will block until the
      * handler has finished.  Calling this function from a
-     * #GCancellable::cancelled signal handler will therefore result in a
+     * <h1>ancellable::cancelled signal handler will therefore result in a</h1>
      * deadlock.
-     * 
+     * <p>
      * This avoids a race condition where a thread cancels at the
      * same time as the cancellable operation is finished and the
      * signal handler is removed. See #GCancellable::cancelled for
      * details on how to use this.
-     * 
-     * If @cancellable is %NULL or @handler_id is `0` this function does
+     * <p>
+     * If @cancellable is <code>null</code> or @handler_id is <code>0</code> this function does
      * nothing.
      */
     public void disconnect(long handlerId) {
@@ -154,11 +154,11 @@ public class Cancellable extends org.gtk.gobject.Object {
      * for unix systems without a native poll and for portability to
      * windows.
      * 
-     * When this function returns %TRUE, you should use
+     * When this function returns <code>TRUE,</code> you should use
      * g_cancellable_release_fd() to free up resources allocated for the
-     * @pollfd. After a %FALSE return, do not call g_cancellable_release_fd().
+     * @pollfd. After a <code>false</code> return, do not call g_cancellable_release_fd().
      * 
-     * If this function returns %FALSE, either no @cancellable was given or
+     * If this function returns <code>FALSE,</code> either no @cancellable was given or
      * resource limits prevent this function from allocating the necessary
      * structures for polling. (On Linux, you will likely have reached
      * the maximum number of file descriptors.) The suggested way to handle
@@ -246,7 +246,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * primarily useful for attaching to another (non-cancellable) source
      * with g_source_add_child_source() to add cancellability to it.
      * 
-     * For convenience, you can call this with a %NULL #GCancellable,
+     * For convenience, you can call this with a <code>null</code> #GCancellable,
      * in which case the source will never trigger.
      * 
      * The new #GSource will hold a reference to the #GCancellable.
@@ -294,8 +294,8 @@ public class Cancellable extends org.gtk.gobject.Object {
      * like this.
      * 
      * An example of how to us this:
-     * |[<!-- language="C" -->
-     *     // Make sure we don't do unnecessary work if already cancelled
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     *     // Make sure we don&#39;t do unnecessary work if already cancelled
      *     if (g_cancellable_set_error_if_cancelled (cancellable, error))
      *       return;
      * 
@@ -316,7 +316,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      *     // cancelled_handler is never called after this, it is now safe
      *     // to free the data
      *     my_data_free (my_data);
-     * ]|
+     * ]}|
      * 
      * Note that the cancelled signal is emitted in the thread that
      * the user cancelled from, which may be the main thread. So, the

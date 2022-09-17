@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes limits of a [class@EventController] for handling events
+ * Describes limits of a {@link [class@EventController]} for handling events
  * targeting other widgets.
  */
 public enum PropagationLimit {
@@ -14,7 +14,7 @@ public enum PropagationLimit {
     
     /**
      * Events are only handled if their target
-     *   is in the same [iface@Native] as the event controllers widget. Note
+     *   is in the same {@link [iface@Native] (ref=iface)} as the event controllers widget. Note
      *   that some event types have two targets (origin and destination).
      */
     SAME_NATIVE;

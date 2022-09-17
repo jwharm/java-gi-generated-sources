@@ -47,9 +47,9 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * In most cases this is not the function you want.  See
      * g_memory_output_stream_new_resizable() instead.
      * 
-     * If @data is non-%NULL, the stream will use that for its internal storage.
+     * If @data is non-<code>NULL,</code> the stream will use that for its internal storage.
      * 
-     * If @realloc_fn is non-%NULL, it will be used for resizing the internal
+     * If @realloc_fn is non-<code>NULL,</code> it will be used for resizing the internal
      * storage when necessary and the stream will be considered resizable.
      * In that case, the stream will start out being (conceptually) empty.
      * @size is used only as a hint for how big @data is.  Specifically,
@@ -57,9 +57,9 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * @size.  Seeking past the end of the stream and then writing will
      * introduce a zero-filled gap.
      * 
-     * If @realloc_fn is %NULL then the stream is fixed-sized.  Seeking to
+     * If @realloc_fn is <code>null</code> then the stream is fixed-sized.  Seeking to
      * the end will seek to @size exactly.  Writing past the end will give
-     * an 'out of space' error.  Attempting to seek past the end will fail.
+     * an &#39;out of space&#39; error.  Attempting to seek past the end will fail.
      * Unlike the resizable case, seeking to an offset within the stream and
      * writing will preserve the bytes passed in as @data before that point
      * and will return them as part of g_memory_output_stream_steal_data().
@@ -68,11 +68,11 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * 
      * It is probably only meaningful to provide @data and @size in the case
      * that you want a fixed-sized stream.  Put another way: if @realloc_fn
-     * is non-%NULL then it makes most sense to give @data as %NULL and
+     * is non-<code>null</code> then it makes most sense to give @data as <code>null</code> and
      * @size as 0 (allowing #GMemoryOutputStream to do the initial
      * allocation for itself).
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      * // a stream that can grow
      * stream = g_memory_output_stream_new (NULL, 0, realloc, free);
      * 
@@ -82,7 +82,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * // a fixed-size stream
      * data = malloc (200);
      * stream3 = g_memory_output_stream_new (data, 200, NULL, free);
-     * ]|
+     * ]}|
      */
     public MemoryOutputStream(long size, ReallocFunc reallocFunction) {
         super(constructNew(size, reallocFunction));
@@ -125,7 +125,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * Gets the size of the currently allocated data area (available from
      * g_memory_output_stream_get_data()).
      * 
-     * You probably don't want to use this function on resizable streams.
+     * You probably don&#39;t want to use this function on resizable streams.
      * See g_memory_output_stream_get_data_size() instead.  For resizable
      * streams the size returned by this function is an implementation
      * detail and may be change at any time in response to operations on the
@@ -133,9 +133,9 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * 
      * If the stream is fixed-sized (ie: no realloc was passed to
      * g_memory_output_stream_new()) then this is the maximum size of the
-     * stream and further writes will return %G_IO_ERROR_NO_SPACE.
+     * stream and further writes will return <code>G_IO_ERROR_NO_SPACE.
      * 
-     * In any case, if you want the number of bytes currently written to the
+     * In</code> any case, if you want the number of bytes currently written to the
      * stream, use g_memory_output_stream_get_data_size().
      */
     public long getSize() {
@@ -155,7 +155,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
     /**
      * Gets any loaded data from the @ostream. Ownership of the data
      * is transferred to the caller; when no longer needed it must be
-     * freed using the free function set in @ostream's
+     * freed using the free function set in @ostream&#39;s
      * #GMemoryOutputStream:destroy-function property.
      * 
      * @ostream must be closed before calling this function.

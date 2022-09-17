@@ -36,13 +36,13 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     /**
      * Creates a #GTlsCertificate from the data in @file.
-     * 
-     * As of 2.72, if the filename ends in `.p12` or `.pfx` the data is loaded by
+     * <p>
+     * As of 2.72, if the filename ends in <code>.p12</code> or <code>.pfx</code> the data is loaded by
      * g_tls_certificate_new_from_pkcs12() otherwise it is loaded by
      * g_tls_certificate_new_from_pem(). See those functions for
      * exact details.
      * 
-     * If @file cannot be read or parsed, the function will return %NULL and
+     * If @file cannot be read or parsed, the function will return <code>null</code> and
      * set @error.
      */
     public static TlsCertificate newFromFile(java.lang.String file) throws GErrorException {
@@ -60,12 +60,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     /**
      * Creates a #GTlsCertificate from the data in @file.
-     * 
-     * If @file cannot be read or parsed, the function will return %NULL and
+     * <p>
+     * If @file cannot be read or parsed, the function will return <code>null</code> and
      * set @error.
-     * 
-     * Any unknown file types will error with %G_IO_ERROR_NOT_SUPPORTED.
-     * Currently only `.p12` and `.pfx` files are supported.
+     * <p>
+     * Any unknown file types will error with <code>G_IO_ERROR_NOT_SUPPORTED.
+     * Currently</code> only <code>.p12</code> and <code>.pfx</code> files are supported.
      * See g_tls_certificate_new_from_pkcs12() for more details.
      */
     public static TlsCertificate newFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
@@ -94,7 +94,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * still be returned.
      * 
      * If either file cannot be read or parsed, the function will return
-     * %NULL and set @error. Otherwise, this behaves like
+     * <code>null</code> and set @error. Otherwise, this behaves like
      * g_tls_certificate_new_from_pem().
      */
     public static TlsCertificate newFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
@@ -141,23 +141,23 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     /**
      * Creates a #GTlsCertificate from a
-     * [PKCS \\#11](https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html) URI.
+     * {@link [PKCS \\#11]}(https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html) URI.
+     * <p>
+     * An example @pkcs11_uri would be <code>pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My<code>20Client%20Certificate;id=%01</code>
      * 
-     * An example @pkcs11_uri would be `pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01`
+     * Where</code> the token&#8217;s layout is:
      * 
-     * Where the token’s layout is:
-     * 
-     * |[
+     * |{@link [
      * Object 0:
-     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=private%20key;type=private
-     *   Type: Private key (RSA-2048)
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My<code>20Client%20Certificate;id=%01;object=private%20key;type=private
+     * </code>  Type: Private key (RSA-2048)
      *   ID: 01
      * 
      * Object 1:
-     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=Certificate%20for%20Authentication;type=cert
-     *   Type: X.509 Certificate (RSA-2048)
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My<code>20Client%20Certificate;id=%01;object=Certificate%20for%20Authentication;type=cert
+     * </code>  Type: X.509 Certificate (RSA-2048)
      *   ID: 01
-     * ]|
+     * ]}|
      * 
      * In this case the certificate and private key would both be detected and used as expected.
      * @pkcs_uri may also just reference an X.509 certificate object and then optionally
@@ -189,20 +189,20 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * You can pass as single password for all of the data which will be
      * used both for the PKCS #12 container as well as encrypted
      * private keys. If decryption fails it will error with
-     * %G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD.
+     * <code>G_TLS_ERROR_BAD_CERTIFICATE_PASSWORD.
      * 
-     * This constructor requires support in the current #GTlsBackend.
+     * This</code> constructor requires support in the current #GTlsBackend.
      * If support is missing it will error with
-     * %G_IO_ERROR_NOT_SUPPORTED.
+     * <code>G_IO_ERROR_NOT_SUPPORTED.
      * 
-     * Other parsing failures will error with %G_TLS_ERROR_BAD_CERTIFICATE.
+     * Other</code> parsing failures will error with parsing failures will error with %G_TLS_ERROR_BAD_CERTIFICATE.
      */
     public static TlsCertificate newFromPkcs12(byte[] data, long length, java.lang.String password) throws GErrorException {
         return new TlsCertificate(constructNewFromPkcs12(data, length, password));
     }
     
     /**
-     * Gets the #GTlsCertificate representing @cert's issuer, if known
+     * Gets the #GTlsCertificate representing @cert&#39;s issuer, if known
      */
     public TlsCertificate getIssuer() {
         var RESULT = gtk_h.g_tls_certificate_get_issuer(handle());
@@ -260,22 +260,22 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * check a certificate against a CA that is not part of the system
      * CA database.
      * 
-     * If @identity is not %NULL, @cert's name(s) will be compared against
-     * it, and %G_TLS_CERTIFICATE_BAD_IDENTITY will be set in the return
-     * value if it does not match. If @identity is %NULL, that bit will
+     * If @identity is not <code>NULL,</code> @cert&#39;s name(s) will be compared against
+     * it, and {@link org.gtk.gio.TlsCertificateFlags#BAD_IDENTITY} will be set in the return
+     * value if it does not match. If @identity is <code>NULL,</code> that bit will
      * never be set in the return value.
      * 
-     * If @trusted_ca is not %NULL, then @cert (or one of the certificates
+     * If @trusted_ca is not <code>NULL,</code> then @cert (or one of the certificates
      * in its chain) must be signed by it, or else
-     * %G_TLS_CERTIFICATE_UNKNOWN_CA will be set in the return value. If
-     * @trusted_ca is %NULL, that bit will never be set in the return
+     * {@link org.gtk.gio.TlsCertificateFlags#UNKNOWN_CA} will be set in the return value. If
+     * @trusted_ca is <code>NULL,</code> that bit will never be set in the return
      * value.
      * 
      * GLib guarantees that if certificate verification fails, at least one
      * error will be set in the return value, but it does not guarantee
      * that all possible errors will be set. Accordingly, you may not safely
      * decide to ignore any particular type of error. For example, it would
-     * be incorrect to mask %G_TLS_CERTIFICATE_EXPIRED if you want to allow
+     * be incorrect to mask {@link org.gtk.gio.TlsCertificateFlags#EXPIRED} if you want to allow
      * expired certificates, because this could potentially be the only
      * error flag set even if other problems exist with the certificate.
      * 
@@ -294,7 +294,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     /**
      * Creates one or more #GTlsCertificates from the PEM-encoded
      * data in @file. If @file cannot be read or parsed, the function will
-     * return %NULL and set @error. If @file does not contain any
+     * return <code>null</code> and set @error. If @file does not contain any
      * PEM-encoded certificates, this will return an empty list and not
      * set @error.
      */

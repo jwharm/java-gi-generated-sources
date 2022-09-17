@@ -22,7 +22,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkTreePath`
+     * Creates a new <code>GtkTreePath</code>
      * This refers to a row.
      */
     public TreePath() {
@@ -35,9 +35,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkTreePath`.
+     * Creates a new <code>GtkTreePath</code>.
      * 
-     * The string representation of this path is “0”.
+     * The string representation of this path is &#8220;0&#8221;.
      */
     public static TreePath newFirst() {
         return new TreePath(constructNewFirst());
@@ -61,13 +61,13 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkTreePath` initialized to @path.
+     * Creates a new <code>GtkTreePath</code> initialized to @path.
      * 
      * @path is expected to be a colon separated list of numbers.
-     * For example, the string “10:4:0” would create a path of depth
+     * For example, the string &#8220;10:4:0&#8221; would create a path of depth
      * 3 pointing to the 11th child of the root node, the 5th
      * child of that 11th child, and the 1st child of that 5th child.
-     * If an invalid path string is passed in, %NULL is returned.
+     * If an invalid path string is passed in, <code>null</code> is returned.
      */
     public static TreePath newFromString(java.lang.String path) {
         return new TreePath(constructNewFromString(path));
@@ -95,7 +95,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new `GtkTreePath` as a copy of @path.
+     * Creates a new <code>GtkTreePath</code> as a copy of @path.
      */
     public TreePath copy() {
         var RESULT = gtk_h.gtk_tree_path_copy(handle());
@@ -110,7 +110,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees @path. If @path is %NULL, it simply returns.
+     * Frees @path. If @path is <code>NULL,</code> it simply returns.
      */
     public void free() {
         gtk_h.gtk_tree_path_free(handle());
@@ -125,7 +125,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @descendant is a descendant of @path.
+     * Returns <code>true</code> if @descendant is a descendant of @path.
      */
     public boolean isAncestor(TreePath descendant) {
         var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
@@ -133,7 +133,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @path is a descendant of @ancestor.
+     * Returns <code>true</code> if @path is a descendant of @ancestor.
      */
     public boolean isDescendant(TreePath ancestor) {
         var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
@@ -168,10 +168,10 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Generates a string representation of the path.
      * 
-     * This string is a “:” separated list of numbers.
-     * For example, “4:10:0:3” would be an acceptable
+     * This string is a &#8220;:&#8221; separated list of numbers.
+     * For example, &#8220;4:10:0:3&#8221; would be an acceptable
      * return value for this string. If the path has
-     * depth 0, %NULL is returned.
+     * depth 0, <code>null</code> is returned.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gtk_tree_path_to_string(handle());

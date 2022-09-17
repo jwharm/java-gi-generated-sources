@@ -8,18 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkConstraintGuide` is an invisible layout element in a
- * `GtkConstraintLayout`.
- * 
- * The `GtkConstraintLayout` treats guides like widgets. They
- * can be used as the source or target of a `GtkConstraint`.
- * 
+ * A <code>GtkConstraintGuide</code> is an invisible layout element in a<code>GtkConstraintLayout</code>.
+ * <p>
+ * The <code>GtkConstraintLayout</code> treats guides like widgets. They
+ * can be used as the source or target of a <code>GtkConstraint</code>.
+ * <p>
  * Guides have a minimum, maximum and natural size. Depending
  * on the constraints that are applied, they can act like a
  * guideline that widgets can be aligned to, or like *flexible
  * space*.
- * 
- * Unlike a `GtkWidget`, a `GtkConstraintGuide` will not be drawn.
+ * <p>
+ * Unlike a <code>GtkWidget</code>, a <code>GtkConstraintGuide</code> will not be drawn.
  */
 public class ConstraintGuide extends org.gtk.gobject.Object implements ConstraintTarget {
 
@@ -38,7 +37,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     }
     
     /**
-     * Creates a new `GtkConstraintGuide` object.
+     * Creates a new <code>GtkConstraintGuide</code> object.
      */
     public ConstraintGuide() {
         super(constructNew());
@@ -62,8 +61,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     
     /**
      * Sets the maximum size of @guide.
-     * 
-     * If @guide is attached to a `GtkConstraintLayout`,
+     * <p>
+     * If @guide is attached to a <code>GtkConstraintLayout</code>,
      * the constraints will be updated to reflect the new size.
      */
     public void setMaxSize(int width, int height) {
@@ -72,8 +71,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     
     /**
      * Sets the minimum size of @guide.
-     * 
-     * If @guide is attached to a `GtkConstraintLayout`,
+     * <p>
+     * If @guide is attached to a <code>GtkConstraintLayout</code>,
      * the constraints will be updated to reflect the new size.
      */
     public void setMinSize(int width, int height) {
@@ -81,7 +80,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     }
     
     /**
-     * Sets a name for the given `GtkConstraintGuide`.
+     * Sets a name for the given <code>GtkConstraintGuide</code>.
      * 
      * The name is useful for debugging purposes.
      */
@@ -91,8 +90,8 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     
     /**
      * Sets the natural size of @guide.
-     * 
-     * If @guide is attached to a `GtkConstraintLayout`,
+     * <p>
+     * If @guide is attached to a <code>GtkConstraintLayout</code>,
      * the constraints will be updated to reflect the new size.
      */
     public void setNatSize(int width, int height) {
@@ -101,7 +100,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     
     /**
      * Sets the strength of the constraint on the natural size of the
-     * given `GtkConstraintGuide`.
+     * given <code>GtkConstraintGuide</code>.
      */
     public void setStrength(ConstraintStrength strength) {
         gtk_h.gtk_constraint_guide_set_strength(handle(), strength.getValue());

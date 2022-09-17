@@ -49,7 +49,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * g_dbus_message_get_byte_order().
      * 
      * If the @blob cannot be parsed, contains invalid fields, or contains invalid
-     * headers, %G_IO_ERROR_INVALID_ARGUMENT will be returned.
+     * headers, {@link org.gtk.gio.IOErrorEnum#INVALID_ARGUMENT} will be returned.
      */
     public static DBusMessage newFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
         return new DBusMessage(constructNewFromBlob(blob, blobLen, capabilities));
@@ -121,7 +121,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#DESTINATION} header field.
      */
     public java.lang.String getDestination() {
         var RESULT = gtk_h.g_dbus_message_get_destination(handle());
@@ -129,7 +129,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#ERROR_NAME} header field.
      */
     public java.lang.String getErrorName() {
         var RESULT = gtk_h.g_dbus_message_get_error_name(handle());
@@ -156,7 +156,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#INTERFACE} header field.
      */
     public java.lang.String getInterface() {
         var RESULT = gtk_h.g_dbus_message_get_interface(handle());
@@ -174,7 +174,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_MEMBER header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#MEMBER} header field.
      */
     public java.lang.String getMember() {
         var RESULT = gtk_h.g_dbus_message_get_member(handle());
@@ -190,7 +190,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#NUM_UNIX_FDS} header field.
      */
     public int getNumUnixFds() {
         var RESULT = gtk_h.g_dbus_message_get_num_unix_fds(handle());
@@ -198,7 +198,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_PATH header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#PATH} header field.
      */
     public java.lang.String getPath() {
         var RESULT = gtk_h.g_dbus_message_get_path(handle());
@@ -206,7 +206,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_REPLY_SERIAL header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#REPLY_SERIAL} header field.
      */
     public int getReplySerial() {
         var RESULT = gtk_h.g_dbus_message_get_reply_serial(handle());
@@ -214,7 +214,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_SENDER header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#SENDER} header field.
      */
     public java.lang.String getSender() {
         var RESULT = gtk_h.g_dbus_message_get_sender(handle());
@@ -230,9 +230,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience getter for the %G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE header field.
+     * Convenience getter for the {@link org.gtk.gio.DBusMessageHeaderField#SIGNATURE} header field.
      * 
-     * This will always be non-%NULL, but may be an empty string.
+     * This will always be non-<code>NULL,</code> but may be an empty string.
      */
     public java.lang.String getSignature() {
         var RESULT = gtk_h.g_dbus_message_get_signature(handle());
@@ -241,14 +241,13 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     /**
      * Gets the UNIX file descriptors associated with @message, if any.
-     * 
+     * <p>
      * This method is only available on UNIX.
-     * 
-     * The file descriptors normally correspond to %G_VARIANT_TYPE_HANDLE
-     * values in the body of the message. For example,
+     * <p>
+     * The file descriptors normally correspond to <code>G_VARIANT_TYPE_HANDLE
+     * values</code> in the body of the message. For example,
      * if g_variant_get_handle() returns 5, that is intended to be a reference
-     * to the file descriptor that can be accessed by
-     * `g_unix_fd_list_get (list, 5, ...)`.
+     * to the file descriptor that can be accessed by<code>g_unix_fd_list_get (list, 5, ...)</code>.
      */
     public UnixFDList getUnixFdList() {
         var RESULT = gtk_h.g_dbus_message_get_unix_fd_list(handle());
@@ -292,33 +291,33 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * The contents of the description has no ABI guarantees, the contents
      * and formatting is subject to change at any time. Typical output
      * looks something like this:
-     * |[
+     * |{@link [
      * Flags:   none
      * Version: 0
      * Serial:  4
      * Headers:
-     *   path -> objectpath '/org/gtk/GDBus/TestObject'
-     *   interface -> 'org.gtk.GDBus.TestInterface'
-     *   member -> 'GimmeStdout'
-     *   destination -> ':1.146'
+     *   path -&#62; objectpath &#39;/org/gtk/GDBus/TestObject&#39;
+     *   interface -&#62; &#39;org.gtk.GDBus.TestInterface&#39;
+     *   member -&#62; &#39;GimmeStdout&#39;
+     *   destination -&#62; &#39;:1.146&#39;
      * Body: ()
      * UNIX File Descriptors:
      *   (none)
-     * ]|
+     * ]}|
      * or
-     * |[
+     * |{@link [
      * Flags:   no-reply-expected
      * Version: 0
      * Serial:  477
      * Headers:
-     *   reply-serial -> uint32 4
-     *   destination -> ':1.159'
-     *   sender -> ':1.146'
-     *   num-unix-fds -> uint32 1
+     *   reply-serial -&#62; uint32 4
+     *   destination -&#62; &#39;:1.159&#39;
+     *   sender -&#62; &#39;:1.146&#39;
+     *   num-unix-fds -&#62; uint32 1
      * Body: ()
      * UNIX File Descriptors:
      *   fd 12: dev=0:10,mode=020620,ino=5,uid=500,gid=5,rdev=136:2,size=0,atime=1273085037,mtime=1273085851,ctime=1272982635
-     * ]|
+     * ]}|
      */
     public java.lang.String print(int indent) {
         var RESULT = gtk_h.g_dbus_message_print(handle(), indent);
@@ -327,10 +326,10 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     /**
      * Sets the body @message. As a side-effect the
-     * %G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE header field is set to the
-     * type string of @body (or cleared if @body is %NULL).
+     * {@link org.gtk.gio.DBusMessageHeaderField#SIGNATURE} header field is set to the
+     * type string of @body (or cleared if @body is <code>NULL).
      * 
-     * If @body is floating, @message assumes ownership of @body.
+     * If</code> @body is floating, @message assumes ownership of @body.
      */
     public void setBody(org.gtk.glib.Variant body) {
         gtk_h.g_dbus_message_set_body(handle(), body.handle());
@@ -344,14 +343,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_DESTINATION header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#DESTINATION} header field.
      */
     public void setDestination(java.lang.String value) {
         gtk_h.g_dbus_message_set_destination(handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#ERROR_NAME} header field.
      */
     public void setErrorName(java.lang.String value) {
         gtk_h.g_dbus_message_set_error_name(handle(), Interop.allocateNativeString(value).handle());
@@ -374,14 +373,14 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_INTERFACE header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#INTERFACE} header field.
      */
     public void setInterface(java.lang.String value) {
         gtk_h.g_dbus_message_set_interface(handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_MEMBER header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#MEMBER} header field.
      */
     public void setMember(java.lang.String value) {
         gtk_h.g_dbus_message_set_member(handle(), Interop.allocateNativeString(value).handle());
@@ -395,28 +394,28 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#NUM_UNIX_FDS} header field.
      */
     public void setNumUnixFds(int value) {
         gtk_h.g_dbus_message_set_num_unix_fds(handle(), value);
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_PATH header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#PATH} header field.
      */
     public void setPath(java.lang.String value) {
         gtk_h.g_dbus_message_set_path(handle(), Interop.allocateNativeString(value).handle());
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_REPLY_SERIAL header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#REPLY_SERIAL} header field.
      */
     public void setReplySerial(int value) {
         gtk_h.g_dbus_message_set_reply_serial(handle(), value);
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_SENDER header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#SENDER} header field.
      */
     public void setSender(java.lang.String value) {
         gtk_h.g_dbus_message_set_sender(handle(), Interop.allocateNativeString(value).handle());
@@ -430,7 +429,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience setter for the %G_DBUS_MESSAGE_HEADER_FIELD_SIGNATURE header field.
+     * Convenience setter for the {@link org.gtk.gio.DBusMessageHeaderField#SIGNATURE} header field.
      */
     public void setSignature(java.lang.String value) {
         gtk_h.g_dbus_message_set_signature(handle(), Interop.allocateNativeString(value).handle());
@@ -438,29 +437,29 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     /**
      * Sets the UNIX file descriptors associated with @message. As a
-     * side-effect the %G_DBUS_MESSAGE_HEADER_FIELD_NUM_UNIX_FDS header
+     * side-effect the {@link org.gtk.gio.DBusMessageHeaderField#NUM_UNIX_FDS} header
      * field is set to the number of fds in @fd_list (or cleared if
-     * @fd_list is %NULL).
+     * @fd_list is <code>NULL).
      * 
-     * This method is only available on UNIX.
+     * This</code> method is only available on UNIX.
      * 
      * When designing D-Bus APIs that are intended to be interoperable,
      * please note that non-GDBus implementations of D-Bus can usually only
      * access file descriptors if they are referenced by a value of type
-     * %G_VARIANT_TYPE_HANDLE in the body of the message.
+     * <code>G_VARIANT_TYPE_HANDLE</code> in the body of the message.
      */
     public void setUnixFdList(UnixFDList fdList) {
         gtk_h.g_dbus_message_set_unix_fd_list(handle(), fdList.handle());
     }
     
     /**
-     * If @message is not of type %G_DBUS_MESSAGE_TYPE_ERROR does
-     * nothing and returns %FALSE.
+     * If @message is not of type {@link org.gtk.gio.DBusMessageType#ERROR} does
+     * nothing and returns <code>FALSE.
      * 
-     * Otherwise this method encodes the error in @message as a #GError
+     * Otherwise</code> this method encodes the error in @message as a #GError
      * using g_dbus_error_set_dbus_error() using the information in the
-     * %G_DBUS_MESSAGE_HEADER_FIELD_ERROR_NAME header field of @message as
-     * well as the first string item in @message's body.
+     * {@link org.gtk.gio.DBusMessageHeaderField#ERROR_NAME} header field of @message as
+     * well as the first string item in @message&#39;s body.
      */
     public boolean toGerror() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

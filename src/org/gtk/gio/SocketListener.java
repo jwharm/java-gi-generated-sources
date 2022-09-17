@@ -53,13 +53,13 @@ public class SocketListener extends org.gtk.gobject.Object {
      * to the listener. Returns a #GSocketConnection for the socket that was
      * accepted.
      * 
-     * If @source_object is not %NULL it will be filled out with the source
+     * If @source_object is not <code>null</code> it will be filled out with the source
      * object specified when the corresponding socket or address was added
      * to the listener.
      * 
-     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
      */
     public SocketConnection accept(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -111,13 +111,13 @@ public class SocketListener extends org.gtk.gobject.Object {
      * which is often the case, then you should use g_socket_listener_accept()
      * instead.
      * 
-     * If @source_object is not %NULL it will be filled out with the source
+     * If @source_object is not <code>null</code> it will be filled out with the source
      * object specified when the corresponding socket or address was added
      * to the listener.
      * 
-     * If @cancellable is not %NULL, then the operation can be cancelled by
+     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error %G_IO_ERROR_CANCELLED will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
      */
     public Socket acceptSocket(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -163,7 +163,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     /**
      * Creates a socket of type @type and protocol @protocol, binds
-     * it to @address and adds it to the set of sockets we're accepting
+     * it to @address and adds it to the set of sockets we&#39;re accepting
      * sockets from.
      * 
      * Note that adding an IPv6 address, depending on the platform,
@@ -173,13 +173,13 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you're listening on multiple addresses and do
+     * useful if you&#39;re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
-     * If successful and @effective_address is non-%NULL then it will
+     * If successful and @effective_address is non-<code>null</code> then it will
      * be set to the address that the binding actually occurred at.  This
      * is helpful for determining the port number that was used for when
-     * requesting a binding to port 0 (ie: "any port").  This address, if
+     * requesting a binding to port 0 (ie: &#34;any port&#34;).  This address, if
      * requested, belongs to the caller and must be freed.
      * 
      * Call g_socket_listener_close() to stop listening on @address; this will not
@@ -200,11 +200,11 @@ public class SocketListener extends org.gtk.gobject.Object {
      * IPv6 and IPv4 (if each is available).
      * 
      * This is useful if you need to have a socket for incoming connections
-     * but don't care about the specific port number.
+     * but don&#39;t care about the specific port number.
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you're listening on multiple addresses and do
+     * useful if you&#39;re listening on multiple addresses and do
      * different things depending on what address is connected to.
      */
     public short addAnyInetPort(org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
@@ -223,7 +223,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you're listening on multiple addresses and do
+     * useful if you&#39;re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
      * Call g_socket_listener_close() to stop listening on @port; this will not
@@ -246,7 +246,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you're listening on multiple addresses and do
+     * useful if you&#39;re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
      * The @socket will not be automatically closed when the @listener is finalized
@@ -287,7 +287,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @listener's activity on @socket changes state.
+     * Emitted when @listener&#39;s activity on @socket changes state.
      * Note that when @listener is used to listen on both IPv4 and
      * IPv6, a separate set of signals will be emitted for each, and
      * the order they happen in is undefined.

@@ -112,7 +112,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the #GHook with the given id, or %NULL if it is not found.
+     * Returns the #GHook with the given id, or <code>null</code> if it is not found.
      */
     public static Hook get(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_get(hookList.handle(), hookId);
@@ -130,7 +130,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      * Returns the next #GHook in a #GHookList which has not been destroyed.
      * The reference count for the #GHook is incremented, so you must call
      * g_hook_unref() to restore it when no longer needed. (Or continue to call
-     * g_hook_next_valid() until %NULL is returned.)
+     * g_hook_next_valid() until <code>null</code> is returned.)
      */
     public static Hook nextValid(HookList hookList, Hook hook, boolean mayBeInCall) {
         var RESULT = gtk_h.g_hook_next_valid(hookList.handle(), hook.handle(), mayBeInCall ? 1 : 0);

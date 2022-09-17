@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GdkSeat` object represents a collection of input devices
+ * The <code>GdkSeat</code> object represents a collection of input devices
  * that belong to a user.
  */
 public class Seat extends org.gtk.gobject.Object {
@@ -23,7 +23,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the capabilities this `GdkSeat` currently has.
+     * Returns the capabilities this <code>GdkSeat</code> currently has.
      */
     public int getCapabilities() {
         var RESULT = gtk_h.gdk_seat_get_capabilities(handle());
@@ -39,7 +39,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the `GdkDisplay` this seat belongs to.
+     * Returns the <code>GdkDisplay</code> this seat belongs to.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_seat_get_display(handle());
@@ -63,7 +63,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns all `GdkDeviceTools` that are known to the application.
+     * Returns all <code>GdkDeviceTools</code> that are known to the application.
      */
     public org.gtk.glib.List getTools() {
         var RESULT = gtk_h.gdk_seat_get_tools(handle());
@@ -126,7 +126,7 @@ public class Seat extends org.gtk.gobject.Object {
      * 
      * The tool may later be assigned to a device (i.e. on
      * proximity with a tablet). The device will emit the
-     * [signal@Gdk.Device::tool-changed] signal accordingly.
+     * {@link [signal@Gdk.Device::tool-changed] (ref=signal)} signal accordingly.
      * 
      * A same tool may be used by several devices.
      */

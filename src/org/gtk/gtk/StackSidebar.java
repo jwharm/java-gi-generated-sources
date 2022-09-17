@@ -8,19 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkStackSidebar` uses a sidebar to switch between `GtkStack` pages.
- * 
- * In order to use a `GtkStackSidebar`, you simply use a `GtkStack` to
+ * A <code>GtkStackSidebar</code> uses a sidebar to switch between <code>GtkStack</code> pages.
+ * <p>
+ * In order to use a <code>GtkStackSidebar</code>, you simply use a <code>GtkStack</code> to
  * organize your UI flow, and add the sidebar to your sidebar area. You
- * can use [method@Gtk.StackSidebar.set_stack] to connect the `GtkStackSidebar`
- * to the `GtkStack`.
- * 
- * # CSS nodes
- * 
- * `GtkStackSidebar` has a single CSS node with name stacksidebar and
+ * can use {@link org.gtk.gtk.StackSidebar#setStack} to connect the <code>GtkStackSidebar</code>
+ * to the <code>GtkStack</code>.
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><code>GtkStackSidebar</code> has a single CSS node with name stacksidebar and
  * style class .sidebar.
- * 
- * When circumstances require it, `GtkStackSidebar` adds the
+ * <p>
+ * When circumstances require it, <code>GtkStackSidebar</code> adds the
  * .needs-attention style class to the widgets representing the stack
  * pages.
  */
@@ -41,7 +40,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new `GtkStackSidebar`.
+     * Creates a new <code>GtkStackSidebar</code>.
      */
     public StackSidebar() {
         super(constructNew());
@@ -56,10 +55,10 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Set the `GtkStack` associated with this `GtkStackSidebar`.
-     * 
+     * Set the <code>GtkStack</code> associated with this <code>GtkStackSidebar</code>.
+     * <p>
      * The sidebar widget will automatically update according to
-     * the order and items within the given `GtkStack`.
+     * the order and items within the given <code>GtkStack</code>.
      */
     public void setStack(Stack stack) {
         gtk_h.gtk_stack_sidebar_set_stack(handle(), stack.handle());

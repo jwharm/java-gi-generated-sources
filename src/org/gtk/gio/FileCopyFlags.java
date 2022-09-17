@@ -21,7 +21,7 @@ public class FileCopyFlags {
     public static final int BACKUP = 2;
     
     /**
-     * Don't follow symlinks.
+     * Don&#39;t follow symlinks.
      */
     public static final int NOFOLLOW_SYMLINKS = 4;
     
@@ -31,7 +31,7 @@ public class FileCopyFlags {
     public static final int ALL_METADATA = 8;
     
     /**
-     * Don't use copy and delete fallback if native move not supported.
+     * Don&#39;t use copy and delete fallback if native move not supported.
      */
     public static final int NO_FALLBACK_FOR_MOVE = 16;
     

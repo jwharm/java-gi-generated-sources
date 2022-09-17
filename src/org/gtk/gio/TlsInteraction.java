@@ -17,16 +17,16 @@ import java.lang.invoke.*;
  * Callers should instantiate a derived class that implements the various
  * interaction methods to show the required dialogs.
  * 
- * Callers should use the 'invoke' functions like
+ * Callers should use the &#39;invoke&#39; functions like
  * g_tls_interaction_invoke_ask_password() to run interaction methods. These
  * functions make sure that the interaction is invoked in the main loop
  * and not in the current thread, if the current thread is not running the
  * main loop.
  * 
- * Derived classes can choose to implement whichever interactions methods they'd
+ * Derived classes can choose to implement whichever interactions methods they&#39;d
  * like to support by overriding those virtual methods in their class
  * initialization function. Any interactions not implemented will return
- * %G_TLS_INTERACTION_UNHANDLED. If a derived class implements an async method,
+ * <code>G_TLS_INTERACTION_UNHANDLED.</code> If a derived class implements an async method,
  * it must also implement the corresponding finish method.
  */
 public class TlsInteraction extends org.gtk.gobject.Object {
@@ -51,8 +51,8 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * abort this password request, which will usually abort the TLS connection.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
     public TlsInteractionResult askPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -75,8 +75,8 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * abort this password request, which will usually abort the TLS connection.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      * 
      * Certain implementations may not support immediate cancellation.
@@ -99,12 +99,12 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * Complete an ask password user interaction request. This should be once
      * the g_tls_interaction_ask_password_async() completion callback is called.
      * 
-     * If %G_TLS_INTERACTION_HANDLED is returned, then the #GTlsPassword passed
+     * If {@link org.gtk.gio.TlsInteractionResult#HANDLED} is returned, then the #GTlsPassword passed
      * to g_tls_interaction_ask_password() will have its password filled in.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code.
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code.
      */
     public TlsInteractionResult askPasswordFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -132,8 +132,8 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * calling which ever one correctly.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
     public TlsInteractionResult invokeAskPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -163,8 +163,8 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * calling which ever one correctly.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
     public TlsInteractionResult invokeRequestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -185,13 +185,13 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * also choose to provide a certificate from elsewhere. Alternatively the user may
      * abort this certificate request, which will usually abort the TLS connection.
      * 
-     * If %G_TLS_INTERACTION_HANDLED is returned, then the #GTlsConnection
+     * If {@link org.gtk.gio.TlsInteractionResult#HANDLED} is returned, then the #GTlsConnection
      * passed to g_tls_interaction_request_certificate() will have had its
      * #GTlsConnection:certificate filled in.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code. Certain implementations may
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
     public TlsInteractionResult requestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -231,13 +231,13 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * Complete a request certificate user interaction request. This should be once
      * the g_tls_interaction_request_certificate_async() completion callback is called.
      * 
-     * If %G_TLS_INTERACTION_HANDLED is returned, then the #GTlsConnection
+     * If {@link org.gtk.gio.TlsInteractionResult#HANDLED} is returned, then the #GTlsConnection
      * passed to g_tls_interaction_request_certificate_async() will have had its
      * #GTlsConnection:certificate filled in.
      * 
      * If the interaction is cancelled by the cancellation object, or by the
-     * user then %G_TLS_INTERACTION_FAILED will be returned with an error that
-     * contains a %G_IO_ERROR_CANCELLED error code.
+     * user then {@link org.gtk.gio.TlsInteractionResult#FAILED} will be returned with an error that
+     * contains a {@link org.gtk.gio.IOErrorEnum#CANCELLED} error code.
      */
     public TlsInteractionResult requestCertificateFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

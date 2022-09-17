@@ -11,7 +11,10 @@ public enum BorderStyle {
     NONE,
     
     /**
-     * Same as %GTK_BORDER_STYLE_NONE
+     * Same as 
+     *       
+     *       
+     *         Same as %GTK_BORDER_STYLE_NONE
      */
     HIDDEN,
     

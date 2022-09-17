@@ -8,21 +8,21 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GtkBitset` represents a set of unsigned integers.
- * 
- * Another name for this data structure is "bitmap".
- * 
- * The current implementation is based on [roaring bitmaps](https://roaringbitmap.org/).
- * 
+ * A <code>GtkBitset</code> represents a set of unsigned integers.
+ * <p>
+ * Another name for this data structure is &#34;bitmap&#34;.
+ * <p>
+ * The current implementation is based on {@link [roaring bitmaps]}(https://roaringbitmap.org/).
+ * <p>
  * A bitset allows adding a set of integers and provides support for set operations
  * like unions, intersections and checks for equality or if a value is contained
- * in the set. `GtkBitset` also contains various functions to query metadata about
+ * in the set. <code>GtkBitset</code> also contains various functions to query metadata about
  * the bitset, such as the minimum or maximum values or its size.
- * 
- * The fastest way to iterate values in a bitset is [struct@Gtk.BitsetIter].
- * 
- * The main use case for `GtkBitset` is implementing complex selections for
- * [iface@Gtk.SelectionModel].
+ * <p>
+ * The fastest way to iterate values in a bitset is {@link [struct@Gtk.BitsetIter] (ref=struct)}.
+ * <p>
+ * The main use case for <code>GtkBitset</code> is implementing complex selections for
+ * {@link [iface@Gtk.SelectionModel] (ref=iface)}.
  */
 public class Bitset extends io.github.jwharm.javagi.ResourceBase {
 
@@ -55,7 +55,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds @value to @self if it wasn't part of it before.
+     * Adds @value to @self if it wasn&#39;t part of it before.
      */
     public boolean add(int value) {
         var RESULT = gtk_h.gtk_bitset_add(handle(), value);
@@ -71,7 +71,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds the closed range [@first, @last], so @first, @last and all
+     * Adds the closed range {@link [@first, @last] (ref=)}, so @first, @last and all
      * values in between. @first must be smaller than @last.
      */
     public void addRangeClosed(int first, int last) {
@@ -117,7 +117,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns %TRUE if @self and @other contain the same values.
+     * Returns <code>true</code> if @self and @other contain the same values.
      */
     public boolean equals(Bitset other) {
         var RESULT = gtk_h.gtk_bitset_equals(handle(), other.handle());
@@ -136,8 +136,8 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the smallest value in @self.
-     * 
-     * If @self is empty, `G_MAXUINT` is returned.
+     * <p>
+     * If @self is empty, <code>G_MAXUINT</code> is returned.
      */
     public int getMinimum() {
         var RESULT = gtk_h.gtk_bitset_get_minimum(handle());
@@ -147,7 +147,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the value of the @nth item in self.
      * 
-     * If @nth is >= the size of @self, 0 is returned.
+     * If @nth is &#62;= the size of @self, 0 is returned.
      */
     public int getNth(int nth) {
         var RESULT = gtk_h.gtk_bitset_get_nth(handle(), nth);
@@ -156,12 +156,12 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the number of values that were added to the set.
-     * 
+     * <p>
      * For example, if the set is empty, 0 is returned.
-     * 
-     * Note that this function returns a `guint64`, because when all
-     * values are set, the return value is `G_MAXUINT + 1`. Unless you
-     * are sure this cannot happen (it can't with `GListModel`), be sure
+     * <p>
+     * Note that this function returns a <code>guint64</code>, because when all
+     * values are set, the return value is <code>G_MAXUINT + 1</code>. Unless you
+     * are sure this cannot happen (it can&#39;t with <code>GListModel</code>), be sure
      * to use a 64bit type.
      */
     public long getSize() {
@@ -172,10 +172,10 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the number of values that are part of the set from @first to @last
      * (inclusive).
-     * 
-     * Note that this function returns a `guint64`, because when all values are
-     * set, the return value is `G_MAXUINT + 1`. Unless you are sure this cannot
-     * happen (it can't with `GListModel`), be sure to use a 64bit type.
+     * <p>
+     * Note that this function returns a <code>guint64</code>, because when all values are
+     * set, the return value is <code>G_MAXUINT + 1</code>. Unless you are sure this cannot
+     * happen (it can&#39;t with <code>GListModel</code>), be sure to use a 64bit type.
      */
     public long getSizeInRange(int first, int last) {
         var RESULT = gtk_h.gtk_bitset_get_size_in_range(handle(), first, last);
@@ -203,7 +203,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Acquires a reference on the given `GtkBitset`.
+     * Acquires a reference on the given <code>GtkBitset</code>.
      */
     public Bitset ref() {
         var RESULT = gtk_h.gtk_bitset_ref(handle());
@@ -234,7 +234,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the closed range [@first, @last], so @first, @last and all
+     * Removes the closed range {@link [@first, @last] (ref=)}, so @first, @last and all
      * values in between. @first must be smaller than @last.
      */
     public void removeRangeClosed(int first, int last) {
@@ -268,14 +268,14 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * This is a support function for `GListModel` handling, by mirroring
-     * the `GlistModel::items-changed` signal.
+     * This is a support function for <code>GListModel</code> handling, by mirroring
+     * the <code>GlistModel::items-changed</code> signal.
      * 
-     * First, it "cuts" the values from @position to @removed from
+     * First, it &#34;cuts&#34; the values from @position to @removed from
      * the bitset. That is, it removes all those values and shifts
      * all larger values to the left by @removed places.
      * 
-     * Then, it "pastes" new room into the bitset by shifting all values
+     * Then, it &#34;pastes&#34; new room into the bitset by shifting all values
      * larger than @position by @added spaces to the right. This frees
      * up space that can then be filled.
      */
@@ -298,7 +298,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets @self to be the union of @self and @other.
      * 
-     * That is, add all values from @other into @self that weren't part of it.
+     * That is, add all values from @other into @self that weren&#39;t part of it.
      * 
      * It is allowed for @self and @other to be the same bitset. Nothing will
      * happen in that case.
@@ -308,7 +308,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Releases a reference on the given `GtkBitset`.
+     * Releases a reference on the given <code>GtkBitset</code>.
      * 
      * If the reference was the last, the resources associated to the @self are
      * freed.

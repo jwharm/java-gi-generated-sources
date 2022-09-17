@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The accessible role for a [iface@Accessible] implementation.
+ * The accessible role for a {@link [iface@Accessible] (ref=iface)} implementation.
  * 
  * Abstract roles are only used as part of the ontology; application
  * developers must not use abstract roles in their code.
@@ -43,7 +43,7 @@ public enum AccessibleRole {
     
     /**
      * A checkable input element that has
-     *   three possible values: `true`, `false`, or `mixed`
+     *   three possible values: <code>true</code>, <code>false</code>, or <code>mixed</code>
      */
     CHECKBOX,
     
@@ -108,7 +108,7 @@ public enum AccessibleRole {
     
     /**
      * An element that groups multiple widgets. GTK uses
-     *   this role for various containers, like [class@Box], [class@Viewport], and [class@HeaderBar].
+     *   this role for various containers, like {@link [class@Box]}, {@link [class@Viewport]}, and {@link [class@HeaderBar]}.
      */
     GROUP,
     

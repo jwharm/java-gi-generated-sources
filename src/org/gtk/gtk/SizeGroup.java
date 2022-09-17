@@ -8,70 +8,68 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkSizeGroup` groups widgets together so they all request the same size.
- * 
+ * <code>GtkSizeGroup</code> groups widgets together so they all request the same size.
+ * <p>
  * This is typically useful when you want a column of widgets to have the
- * same size, but you can’t use a `GtkGrid`.
- * 
- * In detail, the size requested for each widget in a `GtkSizeGroup` is
+ * same size, but you can&#8217;t use a <code>GtkGrid</code>.
+ * <p>
+ * In detail, the size requested for each widget in a <code>GtkSizeGroup</code> is
  * the maximum of the sizes that would have been requested for each
  * widget in the size group if they were not in the size group. The mode
- * of the size group (see [method@Gtk.SizeGroup.set_mode]) determines whether
+ * of the size group (see {@link org.gtk.gtk.SizeGroup#setMode}) determines whether
  * this applies to the horizontal size, the vertical size, or both sizes.
- * 
+ * <p>
  * Note that size groups only affect the amount of space requested, not
  * the size that the widgets finally receive. If you want the widgets in
- * a `GtkSizeGroup` to actually be the same size, you need to pack them in
+ * a <code>GtkSizeGroup</code> to actually be the same size, you need to pack them in
  * such a way that they get the size they request and not more.
- * 
- * `GtkSizeGroup` objects are referenced by each widget in the size group,
- * so once you have added all widgets to a `GtkSizeGroup`, you can drop
+ * <p><code>GtkSizeGroup</code> objects are referenced by each widget in the size group,
+ * so once you have added all widgets to a <code>GtkSizeGroup</code>, you can drop
  * the initial reference to the size group with g_object_unref(). If the
  * widgets in the size group are subsequently destroyed, then they will
  * be removed from the size group and drop their references on the size
  * group; when all widgets have been removed, the size group will be
  * freed.
- * 
+ * <p>
  * Widgets can be part of multiple size groups; GTK will compute the
  * horizontal size of a widget from the horizontal requisition of all
  * widgets that can be reached from the widget by a chain of size groups
- * of type %GTK_SIZE_GROUP_HORIZONTAL or %GTK_SIZE_GROUP_BOTH, and the
+ * of type {@link org.gtk.gtk.SizeGroupMode#HORIZONTAL} or <code>GTK_SIZE_GROUP_BOTH,</code> and the
  * vertical size from the vertical requisition of all widgets that can be
  * reached from the widget by a chain of size groups of type
- * %GTK_SIZE_GROUP_VERTICAL or %GTK_SIZE_GROUP_BOTH.
- * 
- * Note that only non-contextual sizes of every widget are ever consulted
+ * {@link org.gtk.gtk.SizeGroupMode#VERTICAL} or <code>GTK_SIZE_GROUP_BOTH.
+ * <p>
+ * Note</code> that only non-contextual sizes of every widget are ever consulted
  * by size groups (since size groups have no knowledge of what size a widget
  * will be allocated in one dimension, it cannot derive how much height
  * a widget will receive for a given width). When grouping widgets that
- * trade height for width in mode %GTK_SIZE_GROUP_VERTICAL or %GTK_SIZE_GROUP_BOTH:
- * the height for the minimum width will be the requested height for all
+ * trade height for width in mode {@link org.gtk.gtk.SizeGroupMode#VERTICAL} or <code>GTK_SIZE_GROUP_BOTH:
+ * the</code> height for the minimum width will be the requested height for all
  * widgets in the group. The same is of course true when horizontally grouping
  * width for height widgets.
- * 
+ * <p>
  * Widgets that trade height-for-width should set a reasonably large minimum
- * width by way of [property@Gtk.Label:width-chars] for instance. Widgets with
+ * width by way of {@link [property@Gtk.Label:width-chars] (ref=property)} for instance. Widgets with
  * static sizes as well as widgets that grow (such as ellipsizing text) need no
  * such considerations.
- * 
- * # GtkSizeGroup as GtkBuildable
- * 
- * Size groups can be specified in a UI definition by placing an <object>
- * element with `class="GtkSizeGroup"` somewhere in the UI definition. The
- * widgets that belong to the size group are specified by a <widgets> element
- * that may contain multiple <widget> elements, one for each member of the
- * size group. The ”name” attribute gives the id of the widget.
- * 
- * An example of a UI definition fragment with `GtkSizeGroup`:
- * ```xml
- * <object class="GtkSizeGroup">
- *   <property name="mode">horizontal</property>
- *   <widgets>
- *     <widget name="radio1"/>
- *     <widget name="radio2"/>
- *   </widgets>
- * </object>
- * ```
+ * <p>
+ * <h1>tkSizeGroup as GtkBuildable</h1>
+ * <p>
+ * Size groups can be specified in a UI definition by placing an &#60;object&#62;
+ * element with <code>class=&#34;GtkSizeGroup&#34;</code> somewhere in the UI definition. The
+ * widgets that belong to the size group are specified by a &#60;widgets&#62; element
+ * that may contain multiple &#60;widget&#62; elements, one for each member of the
+ * size group. The &#8221;name&#8221; attribute gives the id of the widget.
+ * <p>
+ * An example of a UI definition fragment with <code>GtkSizeGroup</code>:<pre>xml
+ * &#60;object class=&#34;GtkSizeGroup&#34;&#62;
+ *   &#60;property name=&#34;mode&#34;&#62;horizontal&#60;/property&#62;
+ *   &#60;widgets&#62;
+ *     &#60;widget name=&#34;radio1&#34;/&#62;
+ *     &#60;widget name=&#34;radio2&#34;/&#62;
+ *   &#60;/widgets&#62;
+ * &#60;/object&#62;
+ * </pre>
  */
 public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
 
@@ -90,21 +88,21 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Create a new `GtkSizeGroup`.
+     * Create a new <code>GtkSizeGroup</code>.
      */
     public SizeGroup(SizeGroupMode mode) {
         super(constructNew(mode));
     }
     
     /**
-     * Adds a widget to a `GtkSizeGroup`.
+     * Adds a widget to a <code>GtkSizeGroup</code>.
      * 
      * In the future, the requisition
      * of the widget will be determined as the maximum of its requisition
      * and the requisition of the other widgets in the size group.
      * Whether this applies horizontally, vertically, or in both directions
      * depends on the mode of the size group.
-     * See [method@Gtk.SizeGroup.set_mode].
+     * See {@link org.gtk.gtk.SizeGroup#setMode}.
      * 
      * When the widget is destroyed or no longer referenced elsewhere, it
      * will be removed from the size group.
@@ -130,19 +128,20 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Removes a widget from a `GtkSizeGroup`.
+     * Removes a widget from a <code>GtkSizeGroup</code>.
      */
     public void removeWidget(Widget widget) {
         gtk_h.gtk_size_group_remove_widget(handle(), widget.handle());
     }
     
     /**
-     * Sets the `GtkSizeGroupMode` of the size group.
+     * Sets the <code>GtkSizeGroupMode</code> of the size group.
      * 
      * The mode of the size group determines whether the widgets in the
      * size group should all have the same horizontal requisition
-     * (%GTK_SIZE_GROUP_HORIZONTAL) all have the same vertical requisition
-     * (%GTK_SIZE_GROUP_VERTICAL), or should all have the same requisition
+     * (<code>GTK_SIZE_GROUP_HORIZONTAL)</code> all have the same vertical requisition
+     * (<code>GTK_SIZE_GROUP_VERTICAL),</code> or should all have the same requisition
+     * in both directions (or should all have the same requisition
      * in both directions (%GTK_SIZE_GROUP_BOTH).
      */
     public void setMode(SizeGroupMode mode) {

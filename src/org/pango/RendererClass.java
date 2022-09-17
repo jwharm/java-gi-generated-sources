@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for `PangoRenderer`.
+ * Class structure for <code>PangoRenderer</code>.
  * 
  * The following vfuncs take user space coordinates in Pango units
  * and have default implementations:

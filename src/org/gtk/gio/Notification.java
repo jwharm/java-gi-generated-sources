@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  * #GNotification is a mechanism for creating a notification to be shown
  * to the user -- typically as a pop-up notification presented by the
  * desktop environment shell.
- * 
+ * <p>
  * The key difference between #GNotification and other similar APIs is
  * that, if supported by the desktop environment, notifications sent
  * with #GNotification will persist after the application has exited,
  * and even across system reboots.
- * 
+ * <p>
  * Since the user may click on a notification while the application is
  * not running, applications using #GNotification should be able to be
  * started as a D-Bus service, using #GApplication.
- * 
+ * <p>
  * In order for #GNotification to work, the application must have installed
- * a `.desktop` file. For example:
- * |[
- *  [Desktop Entry]
+ * a <code>.desktop</code> file. For example:
+ * |{@link [
+ *  [Desktop Entry]}
  *   Name=Test Application
  *   Comment=Description of what Test Application does
  *   Exec=gnome-test-application
@@ -36,17 +36,17 @@ import java.lang.invoke.*;
  *   DBusActivatable=true
  *   X-GNOME-UsesNotifications=true
  * ]|
- * 
- * The `X-GNOME-UsesNotifications` key indicates to GNOME Control Center
+ * <p>
+ * The <code>X-GNOME-UsesNotifications</code> key indicates to GNOME Control Center
  * that this application uses notifications, so it can be listed in the
- * Control Center’s ‘Notifications’ panel.
- * 
- * The `.desktop` file must be named as `org.gnome.TestApplication.desktop`,
- * where `org.gnome.TestApplication` is the ID passed to g_application_new().
+ * Control Center&#8217;s &#8216;Notifications&#8217; panel.
+ * <p>
+ * The <code>.desktop</code> file must be named as <code>org.gnome.TestApplication.desktop</code>,
+ * where <code>org.gnome.TestApplication</code> is the ID passed to g_application_new().
  * 
  * User interaction with a notification (either the default action, or
  * buttons) must be associated with actions on the application (ie:
- * "app." actions).  It is not possible to route user interaction
+ * &#34;app.&#34; actions).  It is not possible to route user interaction
  * through the notification itself, because the object will not exist if
  * the application is autostarted as a result of a notification being
  * clicked.
@@ -84,7 +84,7 @@ public class Notification extends org.gtk.gobject.Object {
     /**
      * Adds a button to @notification that activates the action in
      * @detailed_action when clicked. That action must be an
-     * application-wide action (starting with "app."). If @detailed_action
+     * application-wide action (starting with &#34;app.&#34;). If @detailed_action
      * contains a target, the action will be activated with that target as
      * its parameter.
      * 
@@ -97,9 +97,9 @@ public class Notification extends org.gtk.gobject.Object {
     
     /**
      * Adds a button to @notification that activates @action when clicked.
-     * @action must be an application-wide action (it must start with "app.").
+     * @action must be an application-wide action (it must start with &#34;app.&#34;).
      * 
-     * If @target is non-%NULL, @action will be activated with @target as
+     * If @target is non-<code>NULL,</code> @action will be activated with @target as
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
@@ -115,11 +115,11 @@ public class Notification extends org.gtk.gobject.Object {
     
     /**
      * Sets the type of @notification to @category. Categories have a main
-     * type like `email`, `im` or `device` and can have a detail separated
-     * by a `.`, e.g. `im.received` or `email.arrived`. Setting the category
+     * type like <code>email</code>, <code>im</code> or <code>device</code> and can have a detail separated
+     * by a <code>.</code>, e.g. <code>im.received</code> or <code>email.arrived</code>. Setting the category
      * helps the notification server to select proper feedback to the user.
      * 
-     * Standard categories are [listed in the specification](https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
+     * Standard categories are {@link [listed in the specification]}(https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html).
      */
     public void setCategory(java.lang.String category) {
         gtk_h.g_notification_set_category(handle(), Interop.allocateNativeString(category).handle());
@@ -130,7 +130,7 @@ public class Notification extends org.gtk.gobject.Object {
      * action is activated when the notification is clicked on.
      * 
      * The action in @detailed_action must be an application-wide action (it
-     * must start with "app."). If @detailed_action contains a target, the
+     * must start with &#34;app.&#34;). If @detailed_action contains a target, the
      * given action will be activated with that target as its parameter.
      * See g_action_parse_detailed_name() for a description of the format
      * for @detailed_action.
@@ -145,9 +145,9 @@ public class Notification extends org.gtk.gobject.Object {
     /**
      * Sets the default action of @notification to @action. This action is
      * activated when the notification is clicked on. It must be an
-     * application-wide action (start with "app.").
+     * application-wide action (start with &#34;app.&#34;).
      * 
-     * If @target is non-%NULL, @action will be activated with @target as
+     * If @target is non-<code>NULL,</code> @action will be activated with @target as
      * its parameter.
      * 
      * When no default action is set, the application that the notification

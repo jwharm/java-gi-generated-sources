@@ -9,14 +9,14 @@ public class PaintableFlags {
 
     /**
      * The size is immutable.
-     *   The [signal@GdkPaintable::invalidate-size] signal will never be
+     *   The {@link [signal@GdkPaintable::invalidate-size] (ref=signal)} signal will never be
      *   emitted.
      */
     public static final int SIZE = 1;
     
     /**
      * The content is immutable.
-     *   The [signal@GdkPaintable::invalidate-contents] signal will never be
+     *   The {@link [signal@GdkPaintable::invalidate-contents] (ref=signal)} signal will never be
      *   emitted.
      */
     public static final int CONTENTS = 2;

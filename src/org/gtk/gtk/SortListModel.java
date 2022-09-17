@@ -8,23 +8,21 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GListModel` that sorts the elements of an underlying model
- * according to a `GtkSorter`.
- * 
+ * A <code>GListModel</code> that sorts the elements of an underlying model
+ * according to a <code>GtkSorter</code>.
+ * <p>
  * The model is a stable sort. If two items compare equal according
  * to the sorter, the one that appears first in the original model will
  * also appear first after sorting.
  * Note that if you change the sorter, the previous order will have no
- * influence on the new order. If you want that, consider using a
- * `GtkMultiSorter` and appending the previous sorter to it.
- * 
+ * influence on the new order. If you want that, consider using a<code>GtkMultiSorter</code> and appending the previous sorter to it.
+ * <p>
  * The model can be set up to do incremental sorting, so that
- * sorting long lists doesn't block the UI. See
- * [method@Gtk.SortListModel.set_incremental] for details.
- * 
- * `GtkSortListModel` is a generic model and because of that it
+ * sorting long lists doesn&#39;t block the UI. See
+ * {@link org.gtk.gtk.SortListModel#setIncremental} for details.
+ * <p><code>GtkSortListModel</code> is a generic model and because of that it
  * cannot take advantage of any external knowledge when sorting.
- * If you run into performance issues with `GtkSortListModel`,
+ * If you run into performance issues with <code>GtkSortListModel</code>,
  * it is strongly recommended that you write your own sorting list
  * model.
  */
@@ -54,7 +52,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Returns whether incremental sorting is enabled.
      * 
-     * See [method@Gtk.SortListModel.set_incremental].
+     * See {@link org.gtk.gtk.SortListModel#setIncremental}.
      */
     public boolean getIncremental() {
         var RESULT = gtk_h.gtk_sort_list_model_get_incremental(handle());
@@ -62,7 +60,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Gets the model currently sorted or %NULL if none.
+     * Gets the model currently sorted or <code>null</code> if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_sort_list_model_get_model(handle());
@@ -71,21 +69,20 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Estimates progress of an ongoing sorting operation.
-     * 
+     * <p>
      * The estimate is the number of items that would still need to be
      * sorted to finish the sorting operation if this was a linear
      * algorithm. So this number is not related to how many items are
      * already correctly sorted.
-     * 
-     * If you want to estimate the progress, you can use code like this:
-     * ```c
+     * <p>
+     * If you want to estimate the progress, you can use code like this:<pre>c
      * pending = gtk_sort_list_model_get_pending (self);
      * model = gtk_sort_list_model_get_model (self);
      * progress = 1.0 - pending / (double) MAX (1, g_list_model_get_n_items (model));
-     * ```
+     * </pre>
      * 
      * If no sort operation is ongoing - in particular when
-     * [property@Gtk.SortListModel:incremental] is %FALSE - this
+     * {@link [property@Gtk.SortListModel:incremental] (ref=property)} is <code>false</code> - this
      * function returns 0.
      */
     public int getPending() {
@@ -103,8 +100,8 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Sets the sort model to do an incremental sort.
-     * 
-     * When incremental sorting is enabled, the `GtkSortListModel` will not do
+     * <p>
+     * When incremental sorting is enabled, the <code>GtkSortListModel</code> will not do
      * a complete sort immediately, but will instead queue an idle handler that
      * incrementally sorts the items towards their correct position. This of
      * course means that items do not instantly appear in the right place. It
@@ -116,7 +113,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * 
      * By default, incremental sorting is disabled.
      * 
-     * See [method@Gtk.SortListModel.get_pending] for progress information
+     * See {@link org.gtk.gtk.SortListModel#getPending} for progress information
      * about an ongoing incremental sorting operation.
      */
     public void setIncremental(boolean incremental) {
@@ -126,7 +123,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the model to be sorted.
      * 
-     * The @model's item type must conform to the item type of @self.
+     * The @model&#39;s item type must conform to the item type of @self.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_sort_list_model_set_model(handle(), model.handle());

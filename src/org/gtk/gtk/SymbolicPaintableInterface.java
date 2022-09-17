@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The list of virtual functions for the `GtkSymbolicPaintable` interface.
+ * The list of virtual functions for the <code>GtkSymbolicPaintable</code> interface.
  * No function must be implemented, default implementations exist for each one.
  */
 public class SymbolicPaintableInterface extends io.github.jwharm.javagi.ResourceBase {

@@ -12,42 +12,45 @@ public enum TokenType {
     EOF,
     
     /**
-     * a '(' character
+     * a &#39;(&#39; character
      */
     LEFT_PAREN,
     
     /**
-     * a ')' character
+     * a &#39;)&#39; character
      */
     RIGHT_PAREN,
     
     /**
-     * a '{' character
+     * a &#39;{&#39; character
      */
     LEFT_CURLY,
     
     /**
-     * a '}' character
+     * a &#39;}&#39; character
      */
     RIGHT_CURLY,
     
     /**
-     * a '[' character
+     * a &#39;
+     *       
+     *       
+     *         a &#39;[&#39; character
      */
     LEFT_BRACE,
     
     /**
-     * a ']' character
+     * a &#39;]&#39; character
      */
     RIGHT_BRACE,
     
     /**
-     * a '=' character
+     * a &#39;=&#39; character
      */
     EQUAL_SIGN,
     
     /**
-     * a ',' character
+     * a &#39;,&#39; character
      */
     COMMA,
     

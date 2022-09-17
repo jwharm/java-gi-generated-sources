@@ -8,23 +8,21 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The `GtkColorButton` allows to open a color chooser dialog to change
+ * The <code>GtkColorButton</code> allows to open a color chooser dialog to change
  * the color.
- * 
- * ![An example GtkColorButton](color-button.png)
- * 
+ * <p>
+ * !{@link [An example GtkColorButton]}(color-button.png)
+ * <p>
  * It is suitable widget for selecting a color in a preference dialog.
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * colorbutton
- * ╰── button.color
- *     ╰── [content]
- * ```
- * 
- * `GtkColorButton` has a single CSS node with name colorbutton which
- * contains a button node. To differentiate it from a plain `GtkButton`,
+ * &#9584;&#9472;&#9472; button.color
+ *     &#9584;&#9472;&#9472; {@link [content]}
+ * </pre>
+ * <p><code>GtkColorButton</code> has a single CSS node with name colorbutton which
+ * contains a button node. To differentiate it from a plain <code>GtkButton</code>,
  * it gets the .color style class.
  */
 public class ColorButton extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
@@ -105,8 +103,8 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     
     /**
      * Emitted to when the color button is activated.
-     * 
-     * The `::activate` signal on `GtkMenuButton` is an action signal and
+     * <p>
+     * The <code>::activate</code> signal on <code>GtkMenuButton</code> is an action signal and
      * emitting it causes the button to pop up its dialog.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -132,7 +130,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     /**
      * Emitted when the user selects a color.
      * 
-     * When handling this signal, use [method@Gtk.ColorChooser.get_rgba]
+     * When handling this signal, use {@link org.gtk.gtk.ColorChooser#getRgba}
      * to find out which color was just selected.
      * 
      * Note that this signal is only emitted when the user changes the color.

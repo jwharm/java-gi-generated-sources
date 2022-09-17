@@ -26,10 +26,10 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The coordinates of the returned point are (0, 0).
      * 
-     * It's possible to chain this function with graphene_point_init()
+     * It&#39;s possible to chain this function with graphene_point_init()
      * or graphene_point_init_from_point(), e.g.:
      * 
-     * |[<!-- language="C" -->
+     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
      *   graphene_point_t *
      *   point_new (float x, float y)
      *   {
@@ -41,7 +41,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      *   {
      *     return graphene_point_init_from_point (graphene_point_alloc (), p);
      *   }
-     * ]|
+     * ]}|
      */
     public static Point alloc() {
         return new Point(constructAlloc());
@@ -70,7 +70,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes @p to the given @x and @y coordinates.
      * 
-     * It's safe to call this function multiple times.
+     * It&#39;s safe to call this function multiple times.
      */
     public Point init(float x, float y) {
         var RESULT = gtk_h.graphene_point_init(handle(), x, y);

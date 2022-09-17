@@ -3,8 +3,8 @@ package org.gtk.gtk;
 /**
  * Specifies which features the print dialog should offer.
  * 
- * If neither %GTK_PRINT_CAPABILITY_GENERATE_PDF nor
- * %GTK_PRINT_CAPABILITY_GENERATE_PS is specified, GTK assumes that all
+ * If neither {@link org.gtk.gtk.PrintCapabilities#GENERATE_PDF} nor
+ * {@link org.gtk.gtk.PrintCapabilities#GENERATE_PS} is specified, GTK assumes that all
  * formats are supported.
  */
 public class PrintCapabilities {

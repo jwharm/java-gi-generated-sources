@@ -8,56 +8,52 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * `GtkWindowControls` shows window frame controls.
- * 
+ * <code>GtkWindowControls</code> shows window frame controls.
+ * <p>
  * Typical window frame controls are minimize, maximize and close buttons,
  * and the window icon.
- * 
- * ![An example GtkWindowControls](windowcontrols.png)
- * 
- * `GtkWindowControls` only displays start or end side of the controls (see
- * [property@Gtk.WindowControls:side]), so it's intended to be always used
- * in pair with another `GtkWindowControls` for the opposite side, for example:
- * 
- * ```xml
- * <object class="GtkBox">
- *   <child>
- *     <object class="GtkWindowControls">
- *       <property name="side">start</property>
- *     </object>
- *   </child>
- * 
+ * <p>
+ * !{@link [An example GtkWindowControls]}(windowcontrols.png)
+ * <p><code>GtkWindowControls</code> only displays start or end side of the controls (see
+ * {@link [property@Gtk.WindowControls:side] (ref=property)}), so it&#39;s intended to be always used
+ * in pair with another <code>GtkWindowControls</code> for the opposite side, for example:
+ * <p><pre>xml
+ * &#60;object class=&#34;GtkBox&#34;&#62;
+ *   &#60;child&#62;
+ *     &#60;object class=&#34;GtkWindowControls&#34;&#62;
+ *       &#60;property name=&#34;side&#34;&#62;start&#60;/property&#62;
+ *     &#60;/object&#62;
+ *   &#60;/child&#62;
+ * <p>
  *   ...
- * 
- *   <child>
- *     <object class="GtkWindowControls">
- *       <property name="side">end</property>
- *     </object>
- *   </child>
- * </object>
- * ```
- * 
- * # CSS nodes
- * 
- * ```
+ * <p>
+ *   &#60;child&#62;
+ *     &#60;object class=&#34;GtkWindowControls&#34;&#62;
+ *       &#60;property name=&#34;side&#34;&#62;end&#60;/property&#62;
+ *     &#60;/object&#62;
+ *   &#60;/child&#62;
+ * &#60;/object&#62;
+ * </pre>
+ * <p>
+ * <h1>SS nodes</h1>
+ * <p><pre>
  * windowcontrols
- * ├── [image.icon]
- * ├── [button.minimize]
- * ├── [button.maximize]
- * ╰── [button.close]
- * ```
- * 
- * A `GtkWindowControls`' CSS node is called windowcontrols. It contains
+ * &#9500;&#9472;&#9472; {@link [image.icon]}
+ * &#9500;&#9472;&#9472; {@link [button.minimize]}
+ * &#9500;&#9472;&#9472; {@link [button.maximize]}
+ * &#9584;&#9472;&#9472; {@link [button.close]}
+ * </pre>
+ * <p>
+ * A <code>GtkWindowControls</code>&#39; CSS node is called windowcontrols. It contains
  * subnodes corresponding to each title button. Which of the title buttons
  * exist and where they are placed exactly depends on the desktop environment
- * and [property@Gtk.WindowControls:decoration-layout] value.
- * 
- * When [property@Gtk.WindowControls:empty] is %TRUE, it gets the .empty
+ * and {@link [property@Gtk.WindowControls:decoration-layout] (ref=property)} value.
+ * <p>
+ * When {@link [property@Gtk.WindowControls:empty] (ref=property)} is <code>TRUE,</code> it gets the .empty
  * style class.
- * 
- * # Accessibility
- * 
- * `GtkWindowControls` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * <p>
+ * <h1>ccessibility</h1>
+ * <p><code>GtkWindowControls</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
  */
 public class WindowControls extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -76,14 +72,14 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Creates a new `GtkWindowControls`.
+     * Creates a new <code>GtkWindowControls</code>.
      */
     public WindowControls(PackType side) {
         super(constructNew(side));
     }
     
     /**
-     * Gets the decoration layout of this `GtkWindowControls`.
+     * Gets the decoration layout of this <code>GtkWindowControls</code>.
      */
     public java.lang.String getDecorationLayout() {
         var RESULT = gtk_h.gtk_window_controls_get_decoration_layout(handle());
@@ -99,7 +95,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Gets the side to which this `GtkWindowControls` instance belongs.
+     * Gets the side to which this <code>GtkWindowControls</code> instance belongs.
      */
     public PackType getSide() {
         var RESULT = gtk_h.gtk_window_controls_get_side(handle());
@@ -109,7 +105,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     /**
      * Sets the decoration layout for the title buttons.
      * 
-     * This overrides the [property@Gtk.Settings:gtk-decoration-layout]
+     * This overrides the {@link [property@Gtk.Settings:gtk-decoration-layout] (ref=property)}
      * setting.
      * 
      * The format of the string is button names, separated by commas.
@@ -117,10 +113,10 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * from those on the right. Recognized button names are minimize,
      * maximize, close and icon (the window icon).
      * 
-     * For example, “icon:minimize,maximize,close” specifies a icon
+     * For example, &#8220;icon:minimize,maximize,close&#8221; specifies a icon
      * on the left, and minimize, maximize and close buttons on the right.
      * 
-     * If [property@Gtk.WindowControls:side] value is @GTK_PACK_START, @self
+     * If {@link [property@Gtk.WindowControls:side] (ref=property)} value is @GTK_PACK_START, @self
      * will display the part before the colon, otherwise after that.
      */
     public void setDecorationLayout(java.lang.String layout) {
@@ -128,9 +124,9 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Determines which part of decoration layout the `GtkWindowControls` uses.
+     * Determines which part of decoration layout the <code>GtkWindowControls</code> uses.
      * 
-     * See [property@Gtk.WindowControls:decoration-layout].
+     * See {@link [property@Gtk.WindowControls:decoration-layout] (ref=property)}.
      */
     public void setSide(PackType side) {
         gtk_h.gtk_window_controls_set_side(handle(), side.getValue());

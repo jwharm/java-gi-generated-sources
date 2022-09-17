@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * having an emblem, which is an icon with additional properties.
  * It can than be added to a #GEmblemedIcon.
  * 
- * Currently, only metainformation about the emblem's origin is
+ * Currently, only metainformation about the emblem&#39;s origin is
  * supported. More may be added in the future.
  */
 public class Emblem extends org.gtk.gobject.Object implements Icon {

@@ -18,12 +18,12 @@ import java.lang.invoke.*;
  * method directly; instead it will be used automatically in various ways.
  * For C applications you generally just call g_async_initable_new_async()
  * directly, or indirectly via a foo_thing_new_async() wrapper. This will call
- * g_async_initable_init_async() under the cover, calling back with %NULL and
- * a set %GError on failure.
+ * g_async_initable_init_async() under the cover, calling back with <code>null</code> and
+ * a set <code>GError</code> on failure.
  * 
  * A typical implementation might look something like this:
  * 
- * |[<!-- language="C" -->
+ * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
  * enum {
  *    NOT_INITIALIZED,
  *    INITIALIZING,
@@ -35,21 +35,21 @@ import java.lang.invoke.*;
  * {
  *   GList *l;
  * 
- *   self->priv->state = INITIALIZED;
+ *   self-&#62;priv-&#62;state = INITIALIZED;
  * 
- *   for (l = self->priv->init_results; l != NULL; l = l->next)
+ *   for (l = self-&#62;priv-&#62;init_results; l != NULL; l = l-&#62;next)
  *     {
- *       GTask *task = l->data;
+ *       GTask *task = l-&#62;data;
  * 
- *       if (self->priv->success)
+ *       if (self-&#62;priv-&#62;success)
  *         g_task_return_boolean (task, TRUE);
  *       else
  *         g_task_return_new_error (task, ...);
  *       g_object_unref (task);
  *     }
  * 
- *   g_list_free (self->priv->init_results);
- *   self->priv->init_results = NULL;
+ *   g_list_free (self-&#62;priv-&#62;init_results);
+ *   self-&#62;priv-&#62;init_results = NULL;
  * }
  * 
  * static void
@@ -65,20 +65,20 @@ import java.lang.invoke.*;
  *   task = g_task_new (initable, cancellable, callback, user_data);
  *   g_task_set_name (task, G_STRFUNC);
  * 
- *   switch (self->priv->state)
+ *   switch (self-&#62;priv-&#62;state)
  *     {
  *       case NOT_INITIALIZED:
  *         _foo_get_ready (self);
- *         self->priv->init_results = g_list_append (self->priv->init_results,
+ *         self-&#62;priv-&#62;init_results = g_list_append (self-&#62;priv-&#62;init_results,
  *                                                   task);
- *         self->priv->state = INITIALIZING;
+ *         self-&#62;priv-&#62;state = INITIALIZING;
  *         break;
  *       case INITIALIZING:
- *         self->priv->init_results = g_list_append (self->priv->init_results,
+ *         self-&#62;priv-&#62;init_results = g_list_append (self-&#62;priv-&#62;init_results,
  *                                                   task);
  *         break;
  *       case INITIALIZED:
- *         if (!self->priv->success)
+ *         if (!self-&#62;priv-&#62;success)
  *           g_task_return_new_error (task, ...);
  *         else
  *           g_task_return_boolean (task, TRUE);
@@ -103,10 +103,10 @@ import java.lang.invoke.*;
  * {
  *   GAsyncInitableIface *iface = g_iface;
  * 
- *   iface->init_async = foo_init_async;
- *   iface->init_finish = foo_init_finish;
+ *   iface-&#62;init_async = foo_init_async;
+ *   iface-&#62;init_finish = foo_init_finish;
  * }
- * ]|
+ * ]}|
  */
 public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
 
@@ -124,11 +124,11 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
      * initialization.
      * 
      * Implementations may also support cancellation. If @cancellable is not
-     * %NULL, then initialization can be cancelled by triggering the cancellable
+     * <code>NULL,</code> then initialization can be cancelled by triggering the cancellable
      * object from another thread. If the operation was cancelled, the error
-     * %G_IO_ERROR_CANCELLED will be returned. If @cancellable is not %NULL, and
-     * the object doesn't support cancellable initialization, the error
-     * %G_IO_ERROR_NOT_SUPPORTED will be returned.
+     * {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If @cancellable is not <code>NULL,</code> and
+     * the object doesn&#39;t support cancellable initialization, the error
+     * {@link org.gtk.gio.IOErrorEnum#NOT_SUPPORTED} will be returned.
      * 
      * As with #GInitable, if the object is not initialized, or initialization
      * returns with an error, then all operations on the object except

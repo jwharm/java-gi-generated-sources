@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A `GdkKeymapKey` is a hardware key that can be mapped to a keyval.
+ * A <code>GdkKeymapKey</code> is a hardware key that can be mapped to a keyval.
  */
 public class KeymapKey extends io.github.jwharm.javagi.ResourceBase {
 

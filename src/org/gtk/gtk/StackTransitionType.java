@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Possible transitions between pages in a `GtkStack` widget.
+ * Possible transitions between pages in a <code>GtkStack</code> widget.
  * 
  * New values may be added to this enumeration over time.
  */

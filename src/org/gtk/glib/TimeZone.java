@@ -24,67 +24,62 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a #GTimeZone corresponding to @identifier. If @identifier cannot be
-     * parsed or loaded, %NULL is returned.
-     * 
+     * parsed or loaded, <code>null</code> is returned.
+     * <p>
      * @identifier can either be an RFC3339/ISO 8601 time offset or
-     * something that would pass as a valid value for the `TZ` environment
-     * variable (including %NULL).
-     * 
-     * In Windows, @identifier can also be the unlocalized name of a time
-     * zone for standard time, for example "Pacific Standard Time".
-     * 
-     * Valid RFC3339 time offsets are `"Z"` (for UTC) or
-     * `"±hh:mm"`.  ISO 8601 additionally specifies
-     * `"±hhmm"` and `"±hh"`.  Offsets are
+     * something that would pass as a valid value for the <code>TZ</code> environment
+     * variable (including <code>NULL).
+     * <p>
+     * In</code> Windows, @identifier can also be the unlocalized name of a time
+     * zone for standard time, for example &#34;Pacific Standard Time&#34;.
+     * <p>
+     * Valid RFC3339 time offsets are <code>&#34;Z&#34;</code> (for UTC) or<code>&#34;&#177;hh:mm&#34;</code>.  ISO 8601 additionally specifies<code>&#34;&#177;hhmm&#34;</code> and <code>&#34;&#177;hh&#34;</code>.  Offsets are
      * time values to be added to Coordinated Universal Time (UTC) to get
      * the local time.
-     * 
-     * In UNIX, the `TZ` environment variable typically corresponds
+     * <p>
+     * In UNIX, the <code>TZ</code> environment variable typically corresponds
      * to the name of a file in the zoneinfo database, an absolute path to a file
      * somewhere else, or a string in
-     * "std offset [dst [offset],start[/time],end[/time]]" (POSIX) format.
+     * &#34;std offset {@link [dst [offset]},start{@link [/time]},end{@link [/time]}]&#34; (POSIX) format.
      * There  are  no spaces in the specification. The name of standard
      * and daylight savings time zone must be three or more alphabetic
      * characters. Offsets are time values to be added to local time to
-     * get Coordinated Universal Time (UTC) and should be
-     * `"[±]hh[[:]mm[:ss]]"`.  Dates are either
-     * `"Jn"` (Julian day with n between 1 and 365, leap
-     * years not counted), `"n"` (zero-based Julian day
-     * with n between 0 and 365) or `"Mm.w.d"` (day d
-     * (0 <= d <= 6) of week w (1 <= w <= 5) of month m (1 <= m <= 12), day
+     * get Coordinated Universal Time (UTC) and should be<code>&#34;{@link [&#177;]}hh{@link [[:]}mm{@link [:ss]}]&#34;</code>.  Dates are either<code>&#34;Jn&#34;</code> (Julian day with n between 1 and 365, leap
+     * years not counted), <code>&#34;n&#34;</code> (zero-based Julian day
+     * with n between 0 and 365) or <code>&#34;Mm.w.d&#34;</code> (day d
+     * (0 &#60;= d &#60;= 6) of week w (1 &#60;= w &#60;= 5) of month m (1 &#60;= m &#60;= 12), day
      * 0 is a Sunday).  Times are in local wall clock time, the default is
      * 02:00:00.
-     * 
-     * In Windows, the "tzn[+|–]hh[:mm[:ss]][dzn]" format is used, but also
+     * <p>
+     * In Windows, the &#34;tzn{@link [+|&#8211;]}hh{@link [:mm[:ss]}]{@link [dzn]}&#34; format is used, but also
      * accepts POSIX format.  The Windows format uses US rules for all time
      * zones; daylight savings time is 60 minutes behind the standard time
      * with date and time of change taken from Pacific Standard Time.
      * Offsets are time values to be added to the local time to get
      * Coordinated Universal Time (UTC).
-     * 
-     * g_time_zone_new_local() calls this function with the value of the
-     * `TZ` environment variable. This function itself is independent of
-     * the value of `TZ`, but if @identifier is %NULL then `/etc/localtime`
+     * <p>
+     * g_time_zone_new_local() calls this function with the value of the<code>TZ</code> environment variable. This function itself is independent of
+     * the value of <code>TZ</code>, but if @identifier is <code>null</code> then <code>/etc/localtime</code>
      * will be consulted to discover the correct time zone on UNIX and the
      * registry will be consulted or GetTimeZoneInformation() will be used
      * to get the local time zone on Windows.
-     * 
-     * If intervals are not available, only time zone rules from `TZ`
+     * <p>
+     * If intervals are not available, only time zone rules from <code>TZ</code>
      * environment variable or other means, then they will be computed
      * from year 1900 to 2037.  If the maximum year for the rules is
      * available and it is greater than 2037, then it will followed
      * instead.
-     * 
+     * <p>
      * See
-     * [RFC3339 §5.6](http://tools.ietf.org/html/rfc3339#section-5.6)
+     * {@link [RFC3339 &#167;5.6]}(http://tools.ietf.org/html/rfc3339#section-5.6)
      * for a precise definition of valid RFC3339 time offsets
-     * (the `time-offset` expansion) and ISO 8601 for the
+     * (the <code>time-offset</code> expansion) and ISO 8601 for the
      * full list of valid time offsets.  See
-     * [The GNU C Library manual](http://www.gnu.org/s/libc/manual/html_node/TZ-Variable.html)
+     * {@link [The GNU C Library manual]}(http://www.gnu.org/s/libc/manual/html_node/TZ-Variable.html)
      * for an explanation of the possible
-     * values of the `TZ` environment variable. See
-     * [Microsoft Time Zone Index Values](http://msdn.microsoft.com/en-us/library/ms912391%28v=winembedded.11%29.aspx)
-     * for the list of time zones on Windows.
+     * values of the <code>TZ</code> environment variable. See
+     * {@link [Microsoft Time Zone Index Values]}(http://msdn.microsoft.com/en-us/library/ms912391<code>28v=winembedded.11%29.aspx)
+     * for</code> the list of time zones on Windows.
      * 
      * You should release the return value by calling g_time_zone_unref()
      * when you are done with it.
@@ -102,11 +97,11 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * Creates a #GTimeZone corresponding to local time.  The local time
      * zone may change between invocations to this function; for example,
      * if the system administrator changes it.
-     * 
+     * <p>
      * This is equivalent to calling g_time_zone_new() with the value of
-     * the `TZ` environment variable (including the possibility of %NULL).
+     * the <code>TZ</code> environment variable (including the possibility of <code>NULL).
      * 
-     * You should release the return value by calling g_time_zone_unref()
+     * You</code> should release the return value by calling g_time_zone_unref()
      * when you are done with it.
      */
     public static TimeZone newLocal() {
@@ -121,9 +116,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a #GTimeZone corresponding to the given constant offset from UTC,
      * in seconds.
-     * 
-     * This is equivalent to calling g_time_zone_new() with a string in the form
-     * `[+|-]hh[:mm[:ss]]`.
+     * <p>
+     * This is equivalent to calling g_time_zone_new() with a string in the form<code>{@link [+|-]}hh{@link [:mm[:ss]}]</code>.
      */
     public static TimeZone newOffset(int seconds) {
         return new TimeZone(constructNewOffset(seconds));
@@ -138,7 +132,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * Creates a #GTimeZone corresponding to UTC.
      * 
      * This is equivalent to calling g_time_zone_new() with a value like
-     * "Z", "UTC", "+00", etc.
+     * &#34;Z&#34;, &#34;UTC&#34;, &#34;+00&#34;, etc.
      * 
      * You should release the return value by calling g_time_zone_unref()
      * when you are done with it.
@@ -151,11 +145,11 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * Finds an interval within @tz that corresponds to the given @time_.
      * The meaning of @time_ depends on @type.
      * 
-     * If @type is %G_TIME_TYPE_UNIVERSAL then this function will always
+     * If @type is {@link org.gtk.glib.TimeType#UNIVERSAL} then this function will always
      * succeed (since universal time is monotonic and continuous).
      * 
      * Otherwise @time_ is treated as local time.  The distinction between
-     * %G_TIME_TYPE_STANDARD and %G_TIME_TYPE_DAYLIGHT is ignored except in
+     * {@link org.gtk.glib.TimeType#STANDARD} and {@link org.gtk.glib.TimeType#DAYLIGHT} is ignored except in
      * the case that the given @time_ is ambiguous.  In Toronto, for example,
      * 01:30 on November 7th 2010 occurred twice (once inside of daylight
      * savings time and the next, an hour later, outside of daylight savings
@@ -176,8 +170,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * Determines the time zone abbreviation to be used during a particular
      * @interval of time in the time zone @tz.
      * 
-     * For example, in Toronto this is currently "EST" during the winter
-     * months and "EDT" during the summer months when daylight savings time
+     * For example, in Toronto this is currently &#34;EST&#34; during the winter
+     * months and &#34;EDT&#34; during the summer months when daylight savings time
      * is in effect.
      */
     public java.lang.String getAbbreviation(int interval) {
@@ -187,8 +181,8 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Get the identifier of this #GTimeZone, as passed to g_time_zone_new().
-     * If the identifier passed at construction time was not recognised, `UTC` will
-     * be returned. If it was %NULL, the identifier of the local timezone at
+     * If the identifier passed at construction time was not recognised, <code>UTC</code> will
+     * be returned. If it was <code>NULL,</code> the identifier of the local timezone at
      * construction time will be returned.
      * 
      * The identifier will be returned in the same format as provided at
